@@ -1,9 +1,9 @@
-[![Build Status](https://travis-ci.org/jpg0/ohj.svg?branch=master)](https://travis-ci.org/jpg0/ohj)
+[![Build Status](https://travis-ci.org/openhab/openhab-js.svg?branch=master)](https://travis-ci.org/openhab/openhab-js)
 # Openhab Javascript Library
 
 This library aims to be a fairly high-level ES6 library to support automation in Openhab.
 
-[API Documentation](https://jpg0.github.io/ohj/ohj/0.1.1/)
+[API Documentation](https://openhab.github.io/openhab-js/oh/0.1.1/)
 
 ## Requirements
 
@@ -16,20 +16,20 @@ This library aims to be a fairly high-level ES6 library to support automation in
 - Install the [GraalJS bundle](https://openhab.jfrog.io/openhab/libs-pullrequest-local/org/openhab/addons/bundles/org.openhab.automation.module.script.graaljs/2.5.0-SNAPSHOT/org.openhab.automation.module.script.graaljs-2.5.0-SNAPSHOT.jar) to upgrade JS runtime to ES6
 - Ensure that you have created the automation scripting directories
 - Go to the javascript community lib directory: `cd $OPENHAB_CONF/automation/lib/javascript/community`
-- `npm i ohj` (you may need to install npm)
+- `npm i @oh` (you may need to install npm)
 
 ## Usage
 
 You should create scripts in $OPENHAB_CONF/automation/jsr223/javascript/personal.
 
-The API can be imported as a standard CommonJS module: `require('ohj')`. The ohj module itself has various sections that
+The API can be imported as a standard CommonJS module: `require('@oh')`. The @oh module itself has various sections that
 can be imported as properties of the primary import, e.g.
 
 ```
 //use destructing
-const { rules, triggers } = require('ohj');
+const { rules, triggers } = require('@oh');
 //or simply
-const rules = require('ohj').rules;
+const rules = require('@oh').rules;
 ```
 
 ## Fluent API
@@ -38,7 +38,7 @@ The fluent section of the API can be used to write rules in a high-level, readab
 
 The cleanest way to use the API is with a `with` statement. This is so that it's possible to use the exported functions
 without a prefix. An alternative approach (to allow `'use strict'`) would be to explicitly import the functions that you
-use, such as `const {when, then} = require('ohj').fluent`. The following examples will use the `with` style of importing.
+use, such as `const {when, then} = require('@oh').fluent`. The following examples will use the `with` style of importing.
 
 Note that for the `timeOfDay` API, you must create a `vTimeOfDay` String item, which is updated like in [the Openhab pattern](https://community.openhab.org/t/design-pattern-time-of-day/15407). A future release will check this.
 
@@ -46,7 +46,7 @@ Note that for the `timeOfDay` API, you must create a `vTimeOfDay` String item, w
 ## Fluent Examples
 
 ```
-with(require('ohj').fluent){
+with(require('@oh').fluent){
 
     //turn on the kitchen light at SUNSET
     when(timeOfDay("SUNSET")).then(sendOn().toItem("KitchenLight"));
@@ -66,7 +66,7 @@ with(require('ohj').fluent){
 
 //and some rules which can be toggled by the items created in the 'gRules' Group:
 
-with(require('ohj').fluent.withToggle) {
+with(require('@oh').fluent.withToggle) {
 
     //when the HallLight receives a command, send the same command to the KitchenLight
     when(item('HallLight').receivedCommand()).then(sendIt().toItem('KitchenLight'));

@@ -4,11 +4,11 @@
  * object (via their simple class name).
  * 
  * @example <caption>Sends a broadcast notification</caption>
- * let { actions } = require('ohj');
+ * let { actions } = require('@oh');
  * actions.NotificationAction.sendBroadcastNotification("Hello World!")
  * 
  * @example <caption>Sends a PushSafer notification</caption>
- * let { actions } = require('ohj');
+ * let { actions } = require('@oh');
  *  actions.Pushsafer.pushsafer("<your pushsafer api key>", "<message>", "<message title>", "", "", "", "")
  * 
  * @namespace actions
