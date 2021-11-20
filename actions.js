@@ -40,8 +40,9 @@ let Exec = utils.typeWithFallback('org.openhab.core.model.script.actions.Exec', 
 let HTTP = utils.typeWithFallback('org.openhab.core.model.script.actions.HTTP', 'org.eclipse.smarthome.model.script.actions.HTTP');
 let LogAction = utils.typeWithFallback('org.openhab.core.model.script.actions.Log', 'org.eclipse.smarthome.model.script.actions.LogAction');
 let Ping = utils.typeWithFallback('org.openhab.core.model.script.actions.Ping', 'org.eclipse.smarthome.model.script.actions.Ping');
+let ScriptExecution = Java.type('org.openhab.core.model.script.actions.ScriptExecution');
 
-[Exec, HTTP, LogAction, Ping].forEach(function (item) {
+[Exec, HTTP, LogAction, Ping, ScriptExecution].forEach(function (item) {
     exports[item.class.getSimpleName()] = item.class.static;
 });
 
