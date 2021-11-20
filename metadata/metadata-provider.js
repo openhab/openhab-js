@@ -1,6 +1,6 @@
 const { AbstractProvider } = require('../provider');
 
-const METADATA_PROVIDER_CLASS = "org.eclipse.smarthome.core.items.MetadataProvider";
+const METADATA_PROVIDER_CLASS = "org.openhab.core.items.MetadataProvider";
 
 class StaticCallbackMetadataProvider extends AbstractProvider {
     constructor(){

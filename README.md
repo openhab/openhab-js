@@ -1,7 +1,7 @@
-[![Build Status](https://travis-ci.org/openhab/openhab-js.svg?branch=master)](https://travis-ci.org/openhab/openhab-js)
-# Openhab Javascript Library
+[![Build Status](https://api.travis-ci.com/openhab/openhab-js.svg?branch=main)](https://travis-ci.com/openhab/openhab-js)
+# openHAB Javascript Library
 
-This library aims to be a fairly high-level ES6 library to support automation in Openhab.
+This library aims to be a fairly high-level ES6 library to support automation in openHAB.
 
 [API Documentation](https://openhab.github.io/openhab-js/oh/0.1.1/)
 
@@ -12,7 +12,7 @@ This library aims to be a fairly high-level ES6 library to support automation in
 
 ## Installation
 
-- Install the Openhab 'Experimental Rule Engine' in Paper UI
+- Install the openHAB 'Experimental Rule Engine' in Paper UI
 - Install the [GraalJS bundle](https://openhab.jfrog.io/openhab/libs-pullrequest-local/org/openhab/addons/bundles/org.openhab.automation.module.script.graaljs/2.5.0-SNAPSHOT/org.openhab.automation.module.script.graaljs-2.5.0-SNAPSHOT.jar) to upgrade JS runtime to ES6
 - Ensure that you have created the automation scripting directories
 - Go to the javascript community lib directory: `cd $OPENHAB_CONF/automation/lib/javascript/community`
@@ -40,7 +40,7 @@ The cleanest way to use the API is with a `with` statement. This is so that it's
 without a prefix. An alternative approach (to allow `'use strict'`) would be to explicitly import the functions that you
 use, such as `const {when, then} = require('@openhab/automation').fluent`. The following examples will use the `with` style of importing.
 
-Note that for the `timeOfDay` API, you must create a `vTimeOfDay` String item, which is updated like in [the Openhab pattern](https://community.openhab.org/t/design-pattern-time-of-day/15407). A future release will check this.
+Note that for the `timeOfDay` API, you must create a `vTimeOfDay` String item, which is updated like in [the openHAB pattern](https://community.openhab.org/t/design-pattern-time-of-day/15407). A future release will check this.
 
 
 ## Fluent Examples
