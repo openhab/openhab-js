@@ -246,28 +246,23 @@ class SystemTriggerConfig {
     }
 
     rulesLoaded() {
-        this.level = 40;
-        return this;
+        return this.startLevel(40);
     }
 
     ruleEngineStarted() {
-        this.level = 50;
-        return this;
+        return this.startLevel(50);
     }
 
     userInterfacesStarted() {
-        this.level = 70;
-        return this;
+        return this.startLevel(70);
     }
 
     thingsInitialized() {
-        this.level = 80;
-        return this;
+        return this.startLevel(80);
     }
 
     startupComplete() {
-        this.level = 100;
-        return this;
+        return this.startLevel(100);
     }
 
     startLevel(level) {
