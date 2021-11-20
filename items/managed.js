@@ -407,7 +407,7 @@ const replaceItem = function (/* same args as addItem */) {
  * @param {String} name the name of the item
  * @param {String} nullIfMissing whether to return null if the item cannot be found (default is to throw an exception)
  * @return {OHItem} the item
- * @alias module:ohj/items.getItem
+ * @alias module:@openhab/automation/items.getItem
  */
 const getItem = (name, nullIfMissing = false) => {
     try {
@@ -427,7 +427,7 @@ const getItem = (name, nullIfMissing = false) => {
  * Gets all Openhab Items with a specific tag.
  * @param {String[]} tagNames an array of tags to match against
  * @return {OHItem[]} the items with a tag that is included in the passed tags
- * @alias module:ohj/items.getItemsByTag
+ * @alias module:@openhab/automation/items.getItemsByTag
  */
 const getItemsByTag = (...tagNames) => {
     return utils.javaSetToJsArray(itemRegistry.getItemsByTag(tagNames)).map(i => new OHItem(i));
@@ -454,7 +454,7 @@ module.exports = {
     /**
      * Custom indexer, to allow static item lookup.
      * @example
-     * let { my_object_name } = require('ohj').items.objects;
+     * let { my_object_name } = require('@openhab/automation').items.objects;
      * ...
      * let my_state = my_object_name.state; //my_object_name is an OHItem
      * 

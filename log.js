@@ -3,7 +3,7 @@
  * This namespace provides loggers to log messages to the Openhab Log.
  * 
  * @example <caption>Basic logging</caption>
- * let log = require('ohj').log('my_logger');
+ * let log = require('@openhab/automation').log('my_logger');
  * log.info("Hello World!")
  * 
  * @namespace log
@@ -209,11 +209,11 @@ let getAppenderForLevel = function(){
     if(appenderForLevel === null) {
         appenderForLevel = () => null;
 
-        try {
-            appenderForLevel = require('log_appenders').forLevel;
-        } catch(e) {
-            new Logger("log", () => null).debug("No appenders found for log", e);
-        }
+        // try {
+        //     appenderForLevel = require('log_appenders').forLevel;
+        // } catch(e) {
+        //     new Logger("log", () => null).debug("No appenders found for log", e);
+        // }
     }
 
     return appenderForLevel;
