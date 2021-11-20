@@ -8,15 +8,9 @@ const itemhistory = require('../itemhistory');
 
 const { UnDefType, events, itemRegistry } = require('@runtime');
 
-const itemBuilderFactory = osgi.getService(
-    "org.openhab.core.items.ItemBuilderFactory",
-    "org.eclipse.smarthome.core.items.ItemBuilderFactory"
-);
+const itemBuilderFactory = osgi.getService("org.openhab.core.items.ItemBuilderFactory");
 
-const managedItemProvider = osgi.getService(
-    "org.openhab.core.items.ManagedItemProvider",
-    "org.eclipse.smarthome.core.items.ManagedItemProvider"
-);
+const managedItemProvider = osgi.getService("org.openhab.core.items.ManagedItemProvider");
 
 /**
  * Tag value to be attached to all dynamically created items.
@@ -25,12 +19,12 @@ const managedItemProvider = osgi.getService(
 const DYNAMIC_ITEM_TAG = "_DYNAMIC_";
 
 /**
- * Class representing an Openhab Item
+ * Class representing an openHAB Item
  * @memberOf items
  */
 class OHItem {
     /**
-     * Create an OHItem, wrapping a native Java Openhab Item. Don't use this constructor, instead call {@link getItem}.
+     * Create an OHItem, wrapping a native Java openHAB Item. Don't use this constructor, instead call {@link getItem}.
      * @param {HostItem} rawItem Java Item from Host
      * @hideconstructor
      */
@@ -403,7 +397,7 @@ const replaceItem = function (/* same args as addItem */) {
 }
 
 /**
- * Gets an Openhab Item.
+ * Gets an openHAB Item.
  * @param {String} name the name of the item
  * @param {String} nullIfMissing whether to return null if the item cannot be found (default is to throw an exception)
  * @return {OHItem} the item
@@ -424,7 +418,7 @@ const getItem = (name, nullIfMissing = false) => {
 }
 
 /**
- * Gets all Openhab Items with a specific tag.
+ * Gets all openHAB Items with a specific tag.
  * @param {String[]} tagNames an array of tags to match against
  * @return {OHItem[]} the items with a tag that is included in the passed tags
  * @alias module:@openhab/automation/items.getItemsByTag

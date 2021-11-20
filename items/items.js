@@ -1,6 +1,6 @@
 /**
  * Items namespace.
- * This namespace handles querying and updating Openhab Items.
+ * This namespace handles querying and updating openHAB Items.
  * @namespace items
  */
 

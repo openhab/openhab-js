@@ -1,6 +1,6 @@
 /**
  * Log namespace.
- * This namespace provides loggers to log messages to the Openhab Log.
+ * This namespace provides loggers to log messages to the openHAB Log.
  * 
  * @example <caption>Basic logging</caption>
  * let log = require('@openhab/automation').log('my_logger');
@@ -181,13 +181,6 @@ class Logger {
         let formatted = MessageFormatter.arrayFormat(message, objects).getMessage();
 
         this._logger[level](formatted);
-
-        if (this.appenderProvider) {
-            let appender = this.appenderProvider(level);
-            if(appender != null) {
-                appender.logAt(level, formatted)
-            }
-        }
     }
 
     /**
@@ -203,22 +196,6 @@ class Logger {
     get name() { return this._name }
 }
 
-let appenderForLevel = null
-//attempt to load & cache appender as module
-let getAppenderForLevel = function(){
-    if(appenderForLevel === null) {
-        appenderForLevel = () => null;
-
-        // try {
-        //     appenderForLevel = require('log_appenders').forLevel;
-        // } catch(e) {
-        //     new Logger("log", () => null).debug("No appenders found for log", e);
-        // }
-    }
-
-    return appenderForLevel;
-}
-
 /**
  * Creates a logger.
  * @see Logger
@@ -227,6 +204,6 @@ let getAppenderForLevel = function(){
  * @param {*} [_listener] an optional listener to process log events.
  * @memberof log
  */
-module.exports = function (_name, appenderProvider = getAppenderForLevel()) {
-    return new Logger(_name, appenderProvider);
+module.exports = function (_name) {
+    return new Logger(_name);
 }

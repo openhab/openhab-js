@@ -1,6 +1,6 @@
 /**
  * Rules namespace.
- * This namespace allows creation of Openhab rules.
+ * This namespace allows creation of openHAB rules.
  *
  * @namespace rules
  */
@@ -15,7 +15,7 @@ const osgi = require('./osgi');
 const triggers = require('./triggers');
 const { automationManager } = require('@runtime/RuleSupport');
 
-let RuleManager = osgi.getService("org.openhab.core.automation.RuleManager","org.eclipse.smarthome.automation.RuleManager");
+let RuleManager = osgi.getService("org.openhab.core.automation.RuleManager");
 let factory = require('@runtime/rules').factory;
 
 /**
@@ -159,7 +159,7 @@ let withNewRuleProvider = function(fn) {
     try {
         fn();
         let provider = factory.newRuleProvider(cachedRules);
-        osgi.registerService(provider, utils.typeBySuffix('core.automation.RuleProvider').class.getName())
+        osgi.registerService(provider, Java.type('org.openhab.core.automation.RuleProvider').class.getName())
     } finally {
         currentProvider = automationManager;
     }
@@ -227,7 +227,7 @@ let SwitchableJSRule = function (ruleConfig) {
 const getTriggeredData = function (input) {
     let event = input.get('event');
 
-    if(event && Java.typeName(event.class) === 'org.eclipse.smarthome.core.items.events.ItemCommandEvent') {
+    if (event && Java.typeName(event.class) === 'org.openhab.core.items.events.ItemCommandEvent') {
         return {
             eventType: "command",
             triggerType: "ItemCommandTrigger",

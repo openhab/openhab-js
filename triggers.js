@@ -1,17 +1,14 @@
 
 /**
  * Triggers namespace.
- * This namespace allows creation of Openhab rule triggers.
+ * This namespace allows creation of openHAB rule triggers.
  * 
  * @namespace triggers
  */
 
 const utils = require('./utils');
 
-const ModuleBuilder = utils.typeWithFallback(
-    "org.eclipse.smarthome.automation.core.util.ModuleBuilder",
-    "org.openhab.core.automation.util.ModuleBuilder");
-
+const ModuleBuilder = Java.type("org.openhab.core.automation.util.ModuleBuilder");
 const Configuration = Java.type("org.openhab.core.config.core.Configuration");
 
 /**

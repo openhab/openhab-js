@@ -65,7 +65,7 @@ class CallbackProvider extends AbstractProvider {
 
 class ItemProvider extends CallbackProvider {
     constructor(ctxName = "JSAPI") {
-        super(utils.typeBySuffix('core.items.ItemProvider'))
+        super(Java.type('org.openhab.core.items.ItemProvider'))
         this.ctxName = ctxName;
     }
 
@@ -76,7 +76,7 @@ class ItemProvider extends CallbackProvider {
 
 class StateDescriptionFragmentProvider extends AbstractProvider {
     constructor() {
-        super(utils.typeBySuffix('core.types.StateDescriptionFragmentProvider'));
+        super(Java.type('org.openhab.core.types.StateDescriptionFragmentProvider'));
         this.callbacks = [];
     }
 
@@ -101,9 +101,9 @@ class StateDescriptionFragmentProvider extends AbstractProvider {
 
 }
 
-let ItemChannelLinkProviderClass = utils.typeBySuffix('core.thing.link.ItemChannelLinkProvider');
-let MetadataProviderClass = utils.typeBySuffix('core.items.MetadataProvider');
-let ThingProviderClass = utils.typeBySuffix('core.thing.ThingProvider');
+let ItemChannelLinkProviderClass = Java.type('org.openhab.core.thing.link.ItemChannelLinkProvider');
+let MetadataProviderClass = Java.type('org.openhab.core.items.MetadataProvider');
+let ThingProviderClass = Java.type('org.openhab.core.thing.ThingProvider');
 
 module.exports = {
     AbstractProvider,

@@ -10,9 +10,9 @@ const osgi = require('../osgi');
 const utils = require('../utils');
 const log = require('../log')('metadata');
 
-let MetadataRegistry = osgi.getService("org.openhab.core.items.MetadataRegistry", "org.eclipse.smarthome.core.items.MetadataRegistry");
-let Metadata = utils.typeWithFallback("org.openhab.core.items.Metadata", "org.eclipse.smarthome.core.items.Metadata");
-let MetadataKey = utils.typeWithFallback("org.openhab.core.items.MetadataKey", "org.eclipse.smarthome.core.items.MetadataKey");
+let MetadataRegistry = Java.type("org.openhab.core.items.MetadataRegistry");
+let Metadata = Java.type("org.openhab.core.items.Metadata");
+let MetadataKey = Java.type("org.openhab.core.items.MetadataKey");
 
 
 /**

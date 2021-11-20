@@ -10,7 +10,7 @@ const osgi = require('./osgi');
 const utils = require('./utils');
 const log = require('./log')('itemchannellink');
 
-let ItemChannelLink = utils.typeWithFallback("org.openhab.core.thing.link.ItemChannelLink", "org.eclipse.smarthome.core.thing.link.ItemChannelLink");
+let ItemChannelLink = Java.type("org.openhab.core.thing.link.ItemChannelLink");
 
 let createItemChannelLink = function(itemName, channel) {
     log.debug("Creating item channel link {} -> {}", itemName, channel.uid);
