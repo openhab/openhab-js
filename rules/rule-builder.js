@@ -22,7 +22,7 @@ class RuleBuilder {
     }
 
     when() {
-        return new triggers.Trigger(this);
+        return new triggers.TriggerBuilder(this);
     }
 
     addTrigger(triggerConf) {

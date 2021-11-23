@@ -2,7 +2,7 @@ const parse_duration = require('parse-duration');
 const log = require('../log')('operation-conf');
 const items = require('../items/items');
 
-class Operation {
+class OperationBuilder {
     constructor(builder, fn) {
         this.builder = builder;
         this.fn = fn;
@@ -406,5 +406,5 @@ module.exports = {
     TimingItemStateOperation,
     ToggleOperation,
     CopyStateOperation,
-    Operation
+    OperationBuilder
 }

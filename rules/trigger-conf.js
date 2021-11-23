@@ -4,7 +4,7 @@ const conditions = require('./condition-conf');
 
 const log = require('../log')('trigger-conf');
 
-class Trigger {
+class TriggerBuilder {
     constructor(builder) {
         this.builder = builder;
     }
@@ -21,12 +21,12 @@ class Trigger {
 
     _then(fn) {
         this._or();
-        return new operations.Operation(this.builder, fn);
+        return new operations.OperationBuilder(this.builder, fn);
     }
 
     _if(fn) {
         this._or();
-        return new conditions.Condition(this.builder, fn);
+        return new conditions.ConditionBuilder(this.builder, fn);
     }
 
     /**
@@ -416,5 +416,5 @@ module.exports = {
     ItemTriggerConfig,
     ThingTriggerConfig,
     SystemTriggerConfig,
-    Trigger
+    TriggerBuilder
 }

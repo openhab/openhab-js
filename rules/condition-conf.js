@@ -2,7 +2,7 @@ const log = require('../log')('condition-conf')
 const operations = require('./operation-conf');
 const items = require('../items/items')
 
-class Condition {
+class ConditionBuilder {
     constructor(builder, fn) {
         this.builder = builder
         this.fn = fn;
@@ -13,14 +13,14 @@ class Condition {
 
     _then(condition) {
         this.builder.setCondition(condition);
-        return new operations.Operation(this.builder, fn);
+        return new operations.OperationBuilder(this.builder, fn);
     }
 
     then(fn) {
         if (!this.fn) {
             throw new Error("'then' can only be called when 'if' is passed a function")
         }
-        return new operations.Operation(this.builder, fn);
+        return new operations.OperationBuilder(this.builder, fn);
     }
 
     /**
@@ -102,13 +102,5 @@ class ItemStateConditionConf extends ConditionConf {
 module.exports = {
     FunctionConditionConf,
     ItemStateConditionConf,
-    Condition,
-    /**
-     * Condition of an item in determining whether to process rule.
-     * 
-     * @memberof fluent
-     * @param {String} itemName the name of the item to assess the state
-     * @returns {ItemStateConditionConf} the operation config
-     */
-    stateOfItem: s => new conditions.ItemStateConditionConf(s),
+    ConditionBuilder
 }
