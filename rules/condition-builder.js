@@ -56,8 +56,8 @@ class FunctionConditionConf extends ConditionConf {
      * 
      * @param {*} fn callback which determines whether the condition passes
      */
-    constructor(fn, condition) {
-        super(condition);
+    constructor(fn, conditionBuilder) {
+        super(conditionBuilder);
         this.fn = fn;
     }
 
@@ -75,8 +75,8 @@ class FunctionConditionConf extends ConditionConf {
 }
 
 class ItemStateConditionConf extends ConditionConf {
-    constructor(item_name, condition) {
-        super(condition)
+    constructor(item_name, conditionBuilder) {
+        super(conditionBuilder)
         this.item_name = item_name;
     }
 

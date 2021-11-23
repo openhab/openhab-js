@@ -137,8 +137,8 @@ class TriggerConf {
 }
 
 class ChannelTriggerConfig extends TriggerConf {
-    constructor(channelName, trigger) {
-        super(trigger);
+    constructor(channelName, triggerBuilder) {
+        super(triggerBuilder);
         this.channelName = channelName;
         this._toOHTriggers = () => [triggers.ChannelEventTrigger(this.channelName, this.eventName)]
     }
@@ -166,8 +166,8 @@ class ChannelTriggerConfig extends TriggerConf {
 };
 
 class CronTriggerConfig extends TriggerConf {
-    constructor(timeStr, trigger) {
-        super(trigger);
+    constructor(timeStr, triggerBuilder) {
+        super(triggerBuilder);
         this.timeStr = timeStr;
         this._complete = () => true
         this._toOHTriggers = () => [triggers.GenericCronTrigger(this.timeStr)]
@@ -176,8 +176,8 @@ class CronTriggerConfig extends TriggerConf {
 };
 
 class ItemTriggerConfig extends TriggerConf {
-    constructor(itemOrName, isGroup, trigger) {
-        super(trigger);
+    constructor(itemOrName, isGroup, triggerBuilder) {
+        super(triggerBuilder);
         this.type = isGroup ? 'memberOf' : 'item';
         if (typeof itemOrName !== 'string') {
             itemOrName = itemOrName.name;
@@ -309,8 +309,8 @@ class ItemTriggerConfig extends TriggerConf {
 }
 
 class ThingTriggerConfig extends TriggerConf {
-    constructor(thingUID, trigger) {
-        super(trigger);
+    constructor(thingUID, triggerBuilder) {
+        super(triggerBuilder);
         this.thingUID = thingUID;
     }
 
@@ -375,8 +375,8 @@ class ThingTriggerConfig extends TriggerConf {
 };
 
 class SystemTriggerConfig extends TriggerConf {
-    constructor(trigger) {
-        super(trigger);
+    constructor(triggerBuilder) {
+        super(triggerBuilder);
         this._toOHTriggers = () => [triggers.SystemStartlevelTrigger(this.level)]
         this.describe = (compact) => compact ? `system:${this.level}` : `system level "${this.level}"`
     }

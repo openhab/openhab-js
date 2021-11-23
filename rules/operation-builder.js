@@ -168,8 +168,8 @@ class CopyStateOperation extends OperationConfig {
      * 
      * @param {Boolean} send whether to send (or post update) the state
      */
-    constructor(operation, send) {
-        super(operation);
+    constructor(operationBuilder, send) {
+        super(operationBuilder);
         this.send = send;
     }
 
@@ -261,8 +261,8 @@ class CopyStateOperation extends OperationConfig {
 }
 
 class SendCommandOrUpdateOperation extends OperationConfig {
-    constructor(operation, dataOrSupplier, isCommand = true, optionalDesc) {
-        super(operation);
+    constructor(operationBuilder, dataOrSupplier, isCommand = true, optionalDesc) {
+        super(operationBuilder);
         this.isCommand = isCommand;
         if (typeof dataOrSupplier === 'function') {
             this.dataFn = dataOrSupplier;
@@ -316,8 +316,8 @@ class SendCommandOrUpdateOperation extends OperationConfig {
 }
 
 class ToggleOperation extends OperationConfig {
-    constructor(operation) {
-        super(operation);
+    constructor(operationBuilder) {
+        super(operationBuilder);
         this.next = null;
         this.toItem = function (itemName) {
             this.itemName = itemName;
@@ -353,8 +353,8 @@ class ToggleOperation extends OperationConfig {
 }
 
 class TimingItemStateOperation extends OperationConfig {
-    constructor(operation, item_changed_trigger_config, duration) {
-        super(operation);
+    constructor(operationBuilder, item_changed_trigger_config, duration) {
+        super(operationBuilder);
         if (typeof item_changed_trigger_config.to_value === 'undefined') {
             throw error("Must specify item state value to wait for!");
         }
