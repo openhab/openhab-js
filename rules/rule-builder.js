@@ -9,8 +9,8 @@ const log = require('../log')('fluent');
 const items = require('../items/items');
 
 const rules = require('./rules');
-const triggers = require('./trigger-conf');
-const conditions = require('./condition-conf');
+const triggers = require('./trigger-builder');
+const conditions = require('./condition-builder');
 
 /**
  * Creates rules in a fluent style.

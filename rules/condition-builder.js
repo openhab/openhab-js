@@ -1,5 +1,5 @@
-const log = require('../log')('condition-conf')
-const operations = require('./operation-conf');
+const log = require('../log')('condition-builder')
+const operations = require('./operation-builder');
 const items = require('../items/items')
 
 class ConditionBuilder {

@@ -1,8 +1,8 @@
 const triggers = require('../triggers');
-const operations = require('./operation-conf');
-const conditions = require('./condition-conf');
+const operations = require('./operation-builder');
+const conditions = require('./condition-builder');
 
-const log = require('../log')('trigger-conf');
+const log = require('../log')('trigger-builder');
 
 class TriggerBuilder {
     constructor(builder) {
