@@ -30,29 +30,6 @@ class TriggerBuilder {
     }
 
     /**
-     * Specifies a cron schedule for the rule to fire.
-     * 
-     * @memberof fluent
-     * @param {String} cronExpression the cron expression
-     * @returns {ItemTriggerConfig} the trigger config
-     */
-    cron(s) {
-        return this._setTrigger(new CronTriggerConfig(s, this));
-    }
-
-    /**
-   * Specifies a period of day for the rule to fire. Note that this functionality depends on a 'vTimeOfDay' String item
-   * existing and being updated.
-   * 
-   * @memberof fluent
-   * @param {String} period the period, such as 'SUNSET'
-   * @returns {ItemTriggerConfig} the trigger config
-   */
-    timeOfDay(s) {
-        return this._setTrigger(new ItemTriggerConfig('vTimeOfDay', this).changed().to(s));
-    }
-
-    /**
      * Specifies a channel event as a source for the rule to fire.
      * 
      * @memberof fluent
@@ -105,6 +82,18 @@ class TriggerBuilder {
      */
     thing(s) {
         return this._setTrigger(new ThingTriggerConfig(s, this));
+    }
+
+    /**
+    * Specifies a period of day for the rule to fire. Note that this functionality depends on a 'vTimeOfDay' String item
+    * existing and being updated.
+    * 
+    * @memberof fluent
+    * @param {String} period the period, such as 'SUNSET'
+    * @returns {ItemTriggerConfig} the trigger config
+    */
+    timeOfDay(s) {
+        return this._setTrigger(new ItemTriggerConfig('vTimeOfDay', this).changed().to(s));
     }
 
     /**
