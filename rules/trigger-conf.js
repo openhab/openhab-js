@@ -119,20 +119,20 @@ class TriggerBuilder {
 }
 
 class TriggerConf {
-    constructor(trigger) {
-        this.trigger = trigger;
+    constructor(triggerBuilder) {
+        this.triggerBuilder = triggerBuilder;
     }
 
     or() {
-        return this.trigger._or();
+        return this.triggerBuilder._or();
     }
 
     then(fn) {
-        return this.trigger._then(fn);
+        return this.triggerBuilder._then(fn);
     }
 
     if(fn) {
-        return this.trigger._if(fn)
+        return this.triggerBuilder._if(fn)
     }
 }
 

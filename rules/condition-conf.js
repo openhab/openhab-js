@@ -37,12 +37,12 @@ class ConditionBuilder {
 }
 
 class ConditionConf {
-    constructor(condition) {
-        this.condition = condition;
+    constructor(conditionBuilder) {
+        this.conditionBuilder = conditionBuilder;
     }
 
     then(fn) {
-        return this.condition._then(fn);
+        return this.conditionBuilder._then(fn);
     }
 }
 /**

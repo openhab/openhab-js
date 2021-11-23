@@ -142,8 +142,8 @@ class OperationBuilder {
 }
 
 class OperationConfig {
-    constructor(operation) {
-        this.operation = operation;
+    constructor(operationBuilder) {
+        this.operationBuilder = operationBuilder;
     }
 
     inGroup(group) {
@@ -152,7 +152,7 @@ class OperationConfig {
     }
 
     build(name, description) {
-        this.operation._then(this, this.group, name, description);
+        this.operationBuilder._then(this, this.group, name, description);
     }
 }
 /**
