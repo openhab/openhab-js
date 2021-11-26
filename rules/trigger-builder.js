@@ -4,6 +4,11 @@ const conditions = require('./condition-builder');
 
 const log = require('../log')('trigger-builder');
 
+/**
+ * Builder for rule Triggers
+ * 
+ * @hideconstructor
+ */
 class TriggerBuilder {
     constructor(builder) {
         this.builder = builder;
@@ -32,9 +37,8 @@ class TriggerBuilder {
     /**
      * Specifies a channel event as a source for the rule to fire.
      * 
-     * @memberof fluent
      * @param {String} channelName the name of the channel
-     * @returns {ItemTriggerConfig} the trigger config
+     * @returns {TriggerBuilder.ChannelTriggerConfig} the trigger config
      */
     channel(s) {
         return this._setTrigger(new ChannelTriggerConfig(s, this));
@@ -43,9 +47,8 @@ class TriggerBuilder {
     /**
      * Specifies a cron schedule for the rule to fire.
      * 
-     * @memberof fluent
      * @param {String} cronExpression the cron expression
-     * @returns {ItemTriggerConfig} the trigger config
+     * @returns {TriggerBuilder.CronTriggerConfig} the trigger config
      */
     cron(s) {
         return this._setTrigger(new CronTriggerConfig(s, this));
@@ -54,9 +57,8 @@ class TriggerBuilder {
     /**
      * Specifies an item as the source of changes to trigger a rule.
      * 
-     * @memberof fluent
      * @param {String} itemName the name of the item
-     * @returns {ItemTriggerConfig} the trigger config
+     * @returns {TriggerBuilder.ItemTriggerConfig} the trigger config
      */
     item(s) {
         return this._setTrigger(new ItemTriggerConfig(s, false, this));
@@ -65,9 +67,8 @@ class TriggerBuilder {
     /**
      * Specifies an group member as the source of changes to trigger a rule.
      * 
-     * @memberof fluent
      * @param {String} groupName the name of the group
-     * @returns {ItemTriggerConfig} the trigger config
+     * @returns {TriggerBuilder.ItemTriggerConfig} the trigger config
      */
     memberOf(s) {
         return this._setTrigger(new ItemTriggerConfig(s, true, this));
@@ -76,9 +77,8 @@ class TriggerBuilder {
     /**
      * Specifies a Thing status event as a source for the rule to fire.
      * 
-     * @memberof fluent
      * @param {String} thingUID the UID of the Thing
-     * @returns {ThingTriggerConfig} the trigger config
+     * @returns {TriggerBuilder.ThingTriggerConfig} the trigger config
      */
     thing(s) {
         return this._setTrigger(new ThingTriggerConfig(s, this));
@@ -88,9 +88,9 @@ class TriggerBuilder {
     * Specifies a period of day for the rule to fire. Note that this functionality depends on a 'vTimeOfDay' String item
     * existing and being updated.
     * 
-    * @memberof fluent
+    *
     * @param {String} period the period, such as 'SUNSET'
-    * @returns {ItemTriggerConfig} the trigger config
+    * @returns {TriggerBuilder.ItemTriggerConfig} the trigger config
     */
     timeOfDay(s) {
         return this._setTrigger(new ItemTriggerConfig('vTimeOfDay', this).changed().to(s));
@@ -99,32 +99,58 @@ class TriggerBuilder {
     /**
      * Specifies a system event as a source for the rule to fire.
      * 
-     * @memberof fluent
-     * @returns {SystemTriggerConfig} the trigger config
+     * @memberof TriggerBuilder
+     * @returns {TriggerBuilder.SystemTriggerConfig} the trigger config
      */
     system() {
         return this._setTrigger(new SystemTriggerConfig(this));
     }
 }
 
+/**
+ * {RuleBuilder} RuleBuilder triggers
+ * @memberof TriggerBuilder
+ */
 class TriggerConf {
     constructor(triggerBuilder) {
         this.triggerBuilder = triggerBuilder;
     }
 
+    /**
+     * Add an additional Trigger
+     *
+     * @returns {TriggerBuilder}
+     */
     or() {
         return this.triggerBuilder._or();
     }
 
+    /**
+     * Move to the rule operations
+     *
+     * @param {*} function the optional function to execute 
+     * @returns {OperationBuilder} 
+     */
     then(fn) {
         return this.triggerBuilder._then(fn);
     }
 
+    /**
+     * Move to the rule condition
+     *
+     * @param {*} function the optional function to execute
+     * @returns {ConditionBuilder} 
+     */
     if(fn) {
         return this.triggerBuilder._if(fn)
     }
 }
 
+/**
+ * @memberof TriggerBuilder
+ * @extends TriggerBuilder.TriggerConf
+ * @hideconstructor
+ */
 class ChannelTriggerConfig extends TriggerConf {
     constructor(channelName, triggerBuilder) {
         super(triggerBuilder);
@@ -140,10 +166,22 @@ class ChannelTriggerConfig extends TriggerConf {
         }
     }
 
+    /**
+     * trigger a specific event name
+     * 
+     * @param {string} eventName 
+     * @returns {TriggerBuilder.ChannelTriggerConfig}
+     */
     to(eventName) {
         return this.triggered(eventName);
     }
 
+    /**
+     * trigger a specific event name
+     * 
+     * @param {string} eventName 
+     * @returns {TriggerBuilder.ChannelTriggerConfig}
+     */
     triggered(eventName) {
         this.eventName = eventName || "";
         return this;
@@ -154,6 +192,13 @@ class ChannelTriggerConfig extends TriggerConf {
     }
 };
 
+/**
+ * Cron based trigger
+ * 
+ * @memberof TriggerBuilder
+ * @extends TriggerBuilder.TriggerConf
+ * @hideconstructor
+ */
 class CronTriggerConfig extends TriggerConf {
     constructor(timeStr, triggerBuilder) {
         super(triggerBuilder);
@@ -164,6 +209,13 @@ class CronTriggerConfig extends TriggerConf {
     }
 };
 
+/**
+ * item based trigger
+ * 
+ * @memberof TriggerBuilder
+ * @extends TriggerBuilder.TriggerConf
+ * @hideconstructor
+ */
 class ItemTriggerConfig extends TriggerConf {
     constructor(itemOrName, isGroup, triggerBuilder) {
         super(triggerBuilder);
@@ -177,11 +229,22 @@ class ItemTriggerConfig extends TriggerConf {
         this.of = this.to; //receivedCommand().of(..)
     }
 
+    /**
+     * Item to 
+     * 
+     * @param {*} value this item should be triggered to
+     * @returns {TriggerBuilder.ItemTriggerConfig}
+     */
     to(value) {
         this.to_value = value;
         return this;
     }
 
+    /**
+     * Item from
+     * @param {*} value this items should be triggered from
+     * @returns {TriggerBuilder.ItemTriggerConfig}
+     */
     from(value) {
         if (this.op_type != 'changed') {
             throw ".from(..) only available for .changed()";
@@ -190,27 +253,61 @@ class ItemTriggerConfig extends TriggerConf {
         return this;
     }
 
+    /**
+     * item changed to OFF
+     *
+     * @returns {TriggerBuilder.ItemTriggerConfig}
+     */
     toOff() {
         return this.to('OFF');
     }
 
+    /**
+     * item changed to ON
+     *
+     * @returns {TriggerBuilder.ItemTriggerConfig}
+     */
     toOn() {
         return this.to('ON');
     }
 
+    /**
+     * item recieved command
+     *
+     * @returns {TriggerBuilder.ItemTriggerConfig}
+     */
     receivedCommand() {
         this.op_type = 'receivedCommand';
         return this;
     }
 
+    /**
+     * item recieved update
+     *
+     * @returns {TriggerBuilder.ItemTriggerConfig}
+     */
     receivedUpdate() {
         this.op_type = 'receivedUpdate';
         return this;
     }
 
+    /**
+     * item changed state
+     *
+     * @returns {TriggerBuilder.ItemTriggerConfig}
+     */
     changed() {
         this.op_type = 'changed';
         return this;
+    }
+
+    /**
+     * For timespan
+     * @param {*} timespan 
+     * @returns {TriggerBuilder.ItemTriggerConfig}
+     */
+    for(timespan) {
+        return new TimingItemStateOperation(this, timespan);
     }
 
     _complete() {
@@ -246,10 +343,6 @@ class ItemTriggerConfig extends TriggerConf {
             default:
                 throw error("Unknown operation type: " + this.op_type);
         }
-    }
-
-    for(timespan) {
-        return new TimingItemStateOperation(this, timespan);
     }
 
     _toOHTriggers() {
@@ -297,6 +390,13 @@ class ItemTriggerConfig extends TriggerConf {
     }
 }
 
+/**
+ * Thing based trigger
+ * 
+ * @memberof TriggerBuilder
+ * @extends TriggerBuilder.TriggerConf
+ * @hideconstructor
+ */
 class ThingTriggerConfig extends TriggerConf {
     constructor(thingUID, triggerBuilder) {
         super(triggerBuilder);
@@ -328,16 +428,31 @@ class ThingTriggerConfig extends TriggerConf {
         }
     }
 
+    /**
+     * thing changed
+     *
+     * @returns {TriggerBuilder.ThingTriggerConfig}
+     */
     changed() {
         this.op_type = 'changed';
         return this;
     }
 
+    /**
+     * thing updates
+     *
+     * @returns {TriggerBuilder.ThingTriggerConfig}
+     */
     updated() {
         this.op_type = 'updated';
         return this;
     }
 
+    /**
+     * thing status changed from
+     *
+     * @returns {TriggerBuilder.ThingTriggerConfig}
+     */
     from(value) {
         if (this.op_type != 'changed') {
             throw ".from(..) only available for .changed()";
@@ -346,6 +461,11 @@ class ThingTriggerConfig extends TriggerConf {
         return this;
     }
 
+    /**
+     * thing status changed to
+     *
+     * @returns {TriggerBuilder.ThingTriggerConfig}
+     */
     to(value) {
         this.to_value = value;
         return this;
@@ -363,6 +483,13 @@ class ThingTriggerConfig extends TriggerConf {
     }
 };
 
+/**
+ * System based trigger
+ * 
+ * @memberof TriggerBuilder
+ * @extends TriggerBuilder.TriggerConf
+ * @hideconstructor
+ */
 class SystemTriggerConfig extends TriggerConf {
     constructor(triggerBuilder) {
         super(triggerBuilder);
@@ -373,27 +500,60 @@ class SystemTriggerConfig extends TriggerConf {
         return typeof (this.level) !== 'undefined';
     }
 
+    /**
+     * System trigger
+     *
+     * @returns {TriggerBuilder.SystemTriggerConfig}
+     */
     rulesLoaded() {
         return this.startLevel(40);
     }
 
+     /**
+     * System trigger
+     *
+     * @returns {TriggerBuilder.SystemTriggerConfig}
+     */
     ruleEngineStarted() {
         return this.startLevel(50);
     }
 
+     /**
+     * System trigger
+     *
+     * @returns {TriggerBuilder.SystemTriggerConfig}
+     */
     userInterfacesStarted() {
         return this.startLevel(70);
     }
 
+     /**
+     * System trigger
+     *
+     * @returns {TriggerBuilder.SystemTriggerConfig}
+     */
     thingsInitialized() {
         return this.startLevel(80);
     }
 
+     /**
+     * System trigger
+     *
+     * @returns {TriggerBuilder.SystemTriggerConfig}
+     */
     startupComplete() {
         return this.startLevel(100);
     }
 
+     /**
+     * System trigger
+     *
+     * @returns {TriggerBuilder.SystemTriggerConfig}
+     */
     startLevel(level) {
+        if(typeof (this.level) !== 'undefined' ){
+            throw Error("Level already set");
+        }
         this.level = level;
         return this;
     }

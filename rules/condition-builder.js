@@ -2,6 +2,11 @@ const log = require('../log')('condition-builder')
 const operations = require('./operation-builder');
 const items = require('../items/items')
 
+/**
+ * Condition that wraps a function to determine whether if passes
+ * 
+ * @hideconstructor
+ */
 class ConditionBuilder {
     constructor(builder, fn) {
         this.builder = builder
@@ -16,6 +21,13 @@ class ConditionBuilder {
         return new operations.OperationBuilder(this.builder, fn);
     }
 
+    
+    /**
+     * Move to the rule operations
+     *
+     * @param {*} function the optional function to execute 
+     * @returns {OperationBuilder} 
+     */
     then(fn) {
         if (!this.fn) {
             throw new Error("'then' can only be called when 'if' is passed a function")
@@ -26,7 +38,7 @@ class ConditionBuilder {
     /**
     * Condition of an item in determining whether to process rule.
     * 
-    * @memberof fluent
+    * @memberof ConditionBuilder
     * @param {String} itemName the name of the item to assess the state
     * @returns {ItemStateConditionConf} the operation config
     */
@@ -36,18 +48,29 @@ class ConditionBuilder {
     }
 }
 
+/**
+ * {RuleBuilder} RuleBuilder conditions
+ * @memberof ConditionBuilder
+ */
 class ConditionConf {
     constructor(conditionBuilder) {
         this.conditionBuilder = conditionBuilder;
     }
-
+    /**
+     * 
+     * @param {*} function an optional function  
+     * @returns ConditionBuilder
+     */
     then(fn) {
         return this.conditionBuilder._then(fn);
     }
 }
+
 /**
  * Condition that wraps a function to determine whether if passes
- * @memberof fluent
+ * 
+ * @memberof ConditionBuilder
+ * @extends ConditionBuilder.ConditionConf
  * @hideconstructor
  */
 class FunctionConditionConf extends ConditionConf {
@@ -74,17 +97,34 @@ class FunctionConditionConf extends ConditionConf {
     }
 }
 
+/**
+ * Condition that wraps a function to determine whether if passes
+ * 
+ * @memberof ConditionBuilder
+ * @extends ConditionBuilder.ConditionConf
+ * @hideconstructor
+ */
 class ItemStateConditionConf extends ConditionConf {
     constructor(item_name, conditionBuilder) {
         super(conditionBuilder)
         this.item_name = item_name;
     }
 
+    /**
+     * Checks if item state is equal to vlaue
+     * @param {*} value 
+     * @returns {this}
+     */
     is(value) {
         this.values = [value];
         return this;
     }
 
+    /**
+     * Checks if item state matches any array of values
+     * @param  {...any} values 
+     * @returns {this}
+     */
     in(...values) {
         this.values = values;
         return this;

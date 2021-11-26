@@ -1,26 +1,24 @@
-/**  
- * Allows creation of rules in a fluent, human-readable style.
- * 
- * @namespace fluent
- */
-
-const log = require('../log')('fluent');
-
+const log = require('../log')('rule-builder');
 const items = require('../items/items');
-
 const rules = require('./rules');
 const triggers = require('./trigger-builder');
 const conditions = require('./condition-builder');
 
 /**
  * Creates rules in a fluent style.
+ * @param {boolean} toggleable if this builder is toggleable
  */
 class RuleBuilder {
     constructor(toggleable) {
         this._triggerConfs = [];
-        this.toggleable = toggleable;
+        this.toggleable = toggleable || false;
     }
 
+    /**
+     * Specifies when the rule should occur. Will create a standard rule.
+     * 
+     * @returns {TriggerBuilder} rule builder
+     */
     when() {
         return new triggers.TriggerBuilder(this);
     }
@@ -111,29 +109,19 @@ class RuleBuilder {
 module.exports = {
     RuleBuilder,
     /**
-     * Specifies when the rule should occur. Will create a standard rule.
+     * Create a new {RuleBuiler} chain for easily creating rules.
      * 
-     * @memberof fluent
-     * @param {ItemTriggerConfig|CronTriggerConfig} config specifies the rule triggers
-     * @returns {FluentRule} the fluent rule builder
-     */
-    when: () => new RuleBuilder(false).when()
-};
-
-/**
- * Switches on toggle-able rules for all items created in this namespace.
- * 
- * @memberof fluent
- * @name withToggle
- */
-module.exports.withToggle = {
-    RuleBuilder,
-    /**
-     * Specifies when the rule should occur. Will create a toggle-able rule.
+     * @example <caption>Basic rule</caption>
+     * rules.when().item("F1_Light").changed().then().send("changed").toItem("F2_Light").build("My Rule", "My First Rule");
      * 
-     * @memberof fluent
-     * @param {ItemTriggerConfig|CronTriggerConfig} config specifies the rule triggers
-     * @returns {FluentRule} the fluent rule builder
+     * @example <caption>Rule with function</caption>
+     * rules.when().item("F1_light").changed().to("100").then(event => {
+     *   console.log(event)
+     *  }).build("Test Rule", "My Test Rule");
+     * 
+     * @memberof rules
+     * @param {boolean} withToggle rule can be toggled on or off (optional)
+     * @returns {TriggerBuilder} rule builder
      */
-    when: () => new RuleBuilder(true).when()
+    when: withToggle => new RuleBuilder(withToggle).when()
 };

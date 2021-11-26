@@ -367,6 +367,7 @@ const removeItem = function (itemOrItemName) {
  * periodically, during startup or even during development of the script. Using fixed item names will ensure
  * that the items remain up-to-date, but won't fail with issues related to duplicate items.
  * 
+ * @memberOf items
  * @param {String} itemName Item name for the Item to create
  * @param {String} [itemType] the type of the Item
  * @param {String} [category] the category (icon) for the Item
@@ -376,7 +377,6 @@ const removeItem = function (itemOrItemName) {
  * @param {HostItem} [giBaseType] the group Item base type for the Item
  * @param {HostGroupFunction} [groupFunction] the group function used by the Item
  */
-/* above params copied from addItem */
 const replaceItem = function (/* same args as addItem */) {
     var itemName = arguments[0];
     try {
@@ -398,10 +398,10 @@ const replaceItem = function (/* same args as addItem */) {
 
 /**
  * Gets an openHAB Item.
+ * @memberOf items
  * @param {String} name the name of the item
  * @param {String} nullIfMissing whether to return null if the item cannot be found (default is to throw an exception)
  * @return {OHItem} the item
- * @alias module:@openhab/automation/items.getItem
  */
 const getItem = (name, nullIfMissing = false) => {
     try {
@@ -419,19 +419,21 @@ const getItem = (name, nullIfMissing = false) => {
 
 /**
  * Gets all openHAB Items with a specific tag.
+ * 
+ * @memberOf items
  * @param {String[]} tagNames an array of tags to match against
  * @return {OHItem[]} the items with a tag that is included in the passed tags
- * @alias module:@openhab/automation/items.getItemsByTag
  */
 const getItemsByTag = (...tagNames) => {
     return utils.javaSetToJsArray(itemRegistry.getItemsByTag(tagNames)).map(i => new OHItem(i));
 }
 
-    /**
-     * Helper function to ensure an item name is valid. All invalid characters are replaced with an underscore.
-     * @param {String} s the name to make value
-     * @returns {String} a valid item name
-     */
+/**
+ * Helper function to ensure an item name is valid. All invalid characters are replaced with an underscore.
+ * @memberOf items
+ * @param {String} s the name to make value
+ * @returns {String} a valid item name
+ */
 const safeItemName = s => s.
         replace(/[\"\']/g, ''). //delete
         replace(/[^a-zA-Z0-9]/g, '_'); //replace with underscore

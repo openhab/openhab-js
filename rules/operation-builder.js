@@ -2,6 +2,10 @@ const parse_duration = require('parse-duration');
 const log = require('../log')('operation-builder');
 const items = require('../items/items');
 
+/**
+ * Operation to execute as part of a rule
+ * @hideconstructor
+ */
 class OperationBuilder {
     constructor(builder, fn) {
         this.builder = builder;
@@ -20,6 +24,12 @@ class OperationBuilder {
         this.builder.setOperation(operation, group);
     }
 
+    /**
+     * Build this rule
+     *
+     * @param {string} name of the rules
+     * @param {string} description of the rule
+     */
     build(name, description) {
         if (!this.fn) {
             throw new Error("Cannot call build without function")
@@ -27,6 +37,12 @@ class OperationBuilder {
         this._then(this.fn, this.group, name, description);
     }
 
+    /**
+     * Specify the rule group for this rule
+     * 
+     * @param {string} group the group this rule belongs to.
+     * @returns {OperationBuilder} this
+     */
     inGroup(group) {
         this.group = group;
         return this;
@@ -35,9 +51,8 @@ class OperationBuilder {
     /**
     * Specifies that a command should be sent as a result of this rule firing.
     * 
-    * @memberof fluent
     * @param {String} command the command to send
-    * @returns {SendCommandOrUpdateOperation} the operation
+    * @returns {OperationBuilder.SendCommandOrUpdateOperation} the operation
     */
     send(c) {
         this._finishErr()
@@ -47,9 +62,8 @@ class OperationBuilder {
     /**
      * Specifies that an update should be posted as a result of this rule firing.
      * 
-     * @memberof fluent
      * @param {String} update the update to send
-     * @returns {SendCommandOrUpdateOperation} the operation
+     * @returns {OperationBuilder.SendCommandOrUpdateOperation} the operation
      */
     postUpdate(c) {
         this._finishErr()
@@ -59,8 +73,7 @@ class OperationBuilder {
     /**
      * Specifies the a command 'ON' should be sent as a result of this rule firing.
      * 
-     * @memberof fluent
-     * @returns {SendCommandOrUpdateOperation} the operation
+     * @returns {OperationBuilder.SendCommandOrUpdateOperation} the operation
      */
     sendOn() {
         this._finishErr()
@@ -70,8 +83,7 @@ class OperationBuilder {
     /**
      * Specifies the a command 'OFF' should be sent as a result of this rule firing.
      * 
-     * @memberof fluent
-     * @returns {SendCommandOrUpdateOperation} the operation
+     * @returns {OperationBuilder.SendCommandOrUpdateOperation} the operation
      */
     sendOff() {
         this._finishErr()
@@ -82,8 +94,7 @@ class OperationBuilder {
      * Specifies a command should be sent to toggle the state of the target object
      * as a result of this rule firing.
      * 
-     * @memberof fluent
-     * @returns {ToggleOperation} the operation
+     * @returns {OperationBuilder.ToggleOperation} the operation
      */
     sendToggle() {
         this._finishErr()
@@ -95,8 +106,7 @@ class OperationBuilder {
      * as a result of this rule firing. This relies on the trigger being the result
      * of a command itself.
      * 
-     * @memberof fluent
-     * @returns {SendCommandOrUpdateOperation} the operation
+     * @returns {OperationBuilder.SendCommandOrUpdateOperation} the operation
      */
     sendIt() {
         this._finishErr()
@@ -108,8 +118,7 @@ class OperationBuilder {
      * as a result of this rule firing. This relies on the trigger being the result
      * of a command itself.
      * 
-     * @memberof fluent
-     * @returns {SendCommandOrUpdateOperation} the operation
+     * @returns {OperationBuilder.SendCommandOrUpdateOperation} the operation
      */
     postIt() {
         this._finishErr()
@@ -120,8 +129,7 @@ class OperationBuilder {
      * Copies the state from one item to another. Can be used to proxy item state. State is updated, not
      * sent as a command.
      * 
-     * @memberof fluent
-     * @returns {CopyStateOperation} the operation config
+     * @returns {OperationBuilder.CopyStateOperation} the operation config
      */
     copyState() {
         this._finishErr()
@@ -132,8 +140,7 @@ class OperationBuilder {
      * Sends the state from one item to another. Can be used to proxy item state. State is
      * sent as a command.
      * 
-     * @memberof fluent
-     * @returns {CopyStateOperation} the operation config
+     * @returns {OperationBuilder.CopyStateOperation} the operation config
      */
     copyAndSendState() {
         this._finishErr()
@@ -141,16 +148,33 @@ class OperationBuilder {
     };
 }
 
+/**
+ * {RuleBuilder} RuleBuilder triggers
+ * @memberof OperationBuilder
+ */
 class OperationConfig {
     constructor(operationBuilder) {
         this.operationBuilder = operationBuilder;
     }
 
+    
+     /**
+     * Specify the rule group for this rule
+     * 
+     * @param {string} group the group this rule belongs to.
+     * @returns {OperationBuilder} this
+     */
     inGroup(group) {
         this.group = group;
         return this;
     }
 
+    /**
+     * Build this rule
+     *
+     * @param {string} name of the rules
+     * @param {string} description of the rule
+     */
     build(name, description) {
         this.operationBuilder._then(this, this.group, name, description);
     }
@@ -158,7 +182,8 @@ class OperationConfig {
 /**
  * Copies state from one item to another item
  * 
- * @memberof fluent
+ * @memberof OperationBuilder
+ * @extends OperationBuilder.OperationConfig
  * @hideconstructor
  */
 class CopyStateOperation extends OperationConfig {
@@ -167,6 +192,7 @@ class CopyStateOperation extends OperationConfig {
      * Creates a new operation. Don't use constructor directly.
      * 
      * @param {Boolean} send whether to send (or post update) the state
+     * @hideconstructor
      */
     constructor(operationBuilder, send) {
         super(operationBuilder);
@@ -175,8 +201,9 @@ class CopyStateOperation extends OperationConfig {
 
     /**
      * Sets the item to copy the state from
+     * 
      * @param {String} item_name the item to copy state from
-     * @returns {CopyStateOperation} this
+     * @returns {OperationBuilder.CopyStateOperation} this
      */
     fromItem(item_name) {
         this.from_item = item_name;
@@ -185,8 +212,9 @@ class CopyStateOperation extends OperationConfig {
 
     /**
      * Sets the item to copy the state to
+     * 
      * @param {String} item_name the item to copy state to
-     * @returns {CopyStateOperation} this
+     * @returns {OperationBuilder.CopyStateOperation} this
      */
     toItem(item_name) {
         this.to_item = item_name;
@@ -195,12 +223,13 @@ class CopyStateOperation extends OperationConfig {
 
     /**
      * Appends another operation to execute when the rule fires
-     * @param {CopyStateOperation|SendCommandOperation|ToggleOperation} next 
-     * @returns {CopyStateOperation} this
+     * 
+     * @returns {OperationBuilder.CopyStateOperation} this
      */
-    and(next) {
+    and() {
+        let next = new OperationBuilder(this.operationBuilder.builder, fn);
         this.next = next;
-        return this;
+        return next;
     }
 
     /**
@@ -260,6 +289,13 @@ class CopyStateOperation extends OperationConfig {
     }
 }
 
+/**
+ * Sends a command or update to an item
+ * 
+ * @memberof OperationBuilder
+ * @extends OperationBuilder.OperationConfig
+ * @hideconstructor
+ */
 class SendCommandOrUpdateOperation extends OperationConfig {
     constructor(operationBuilder, dataOrSupplier, isCommand = true, optionalDesc) {
         super(operationBuilder);
@@ -273,16 +309,33 @@ class SendCommandOrUpdateOperation extends OperationConfig {
         }
     }
 
+    /**
+     * Send command to multiple items
+     * 
+     * @param {*} itemsOrNames the items to send a command to
+     * @returns {OperationBuilder.SendCommandOrUpdateOperation} this
+     */
     toItems(itemsOrNames) {
         this.toItemNames = itemsOrNames.map(i => (typeof i === 'string') ? i : i.name)
         return this;
     }
 
+    /**
+     * Send command to an item
+     * 
+     * @param {*} itemOrName the item to send a command to
+     * @returns {OperationBuilder.SendCommandOrUpdateOperation} this
+     */
     toItem(itemOrName) {
         this.toItemNames = [(typeof itemOrName === 'string') ? itemOrName : itemOrName.name];
         return this;
     }
 
+    /**
+     * Send another command
+     * @param {*} next 
+     * @returns {OperationBuilder.SendCommandOrUpdateOperation} this
+     */
     and(next) {
         this.next = next;
         return this;
@@ -315,6 +368,13 @@ class SendCommandOrUpdateOperation extends OperationConfig {
     }
 }
 
+/**
+ * Toggles the state of an item
+ * 
+ * @memberof OperationBuilder
+ * @extends OperationBuilder.OperationConfig
+ * @hideconstructor
+ */
 class ToggleOperation extends OperationConfig {
     constructor(operationBuilder) {
         super(operationBuilder);
@@ -332,6 +392,11 @@ class ToggleOperation extends OperationConfig {
         this.describe = () => `toggle ${this.itemName}` + (this.next ? ` and ${this.next.describe()}` : "")
     }
 
+     /**
+     * Toggle the state of an item
+     * 
+     * @returns {OperationBuilder.SendCommandOrUpdateOperation} this
+     */
     doToggle() {
         let item = items.getItem(this.itemName);
 
@@ -352,6 +417,13 @@ class ToggleOperation extends OperationConfig {
     }
 }
 
+/**
+ * Timing Item state
+ * 
+ * @memberof OperationBuilder
+ * @extends OperationBuilder.OperationConfig
+ * @hideconstructor
+ */
 class TimingItemStateOperation extends OperationConfig {
     constructor(operationBuilder, item_changed_trigger_config, duration) {
         super(operationBuilder);
