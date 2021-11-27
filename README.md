@@ -81,7 +81,7 @@ See [API](#api) for a complete list of functionality
 
 Scripting may be done via the openHAB UI or by creating scripts in $OPENHAB_CONF/automation/jsr223/javascript/personal.
 
-For file based scripts this API provides two ways of writing rules, a fluent [Rule Builder API](#rule-builder-api) and a declarative syntax using [JSRule](#rules#jsrule).
+For file based scripts this API provides two ways of writing rules, a fluent [Rule Builder API](#rule-builder-api) and a declarative syntax using [JSRule](#rulesjsrule).
 
 By default the JS Scripting binding will export objects in the current scope, so no additional importing is necessary. This behavior can be configured on or off in the binding's configuration options.
 
