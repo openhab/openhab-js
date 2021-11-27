@@ -36,21 +36,27 @@ This library is included by default in the openHAB [JavaScript binding](https://
 - openHAB [JavaScript binding](https://www.openhab.org/addons/automation/jsscripting/) 
 
 ## Installation
-
 ### Default Installation
 
-- Install the openHAB [JavaScript binding](https://www.openhab.org/addons/automation/jsscripting/) 
+- Install the openHAB [JavaScript binding](https://www.openhab.org/addons/automation/jsscripting/), a version of this library will be automatically installed and available to all javascript rules by default.
 
 ### Custom Installation
 
 - Ensure you have the correct path created `mkdir -p $OPENHAB_CONF/automation/lib/javascript/personal/node_modules`
-- Go to the javascript community lib directory: `cd $OPENHAB_CONF/automation/lib/javascript/personal/node_modules`
+- Go to the javascript personal lib directory: `cd $OPENHAB_CONF/automation/lib/javascript/personal/node_modules`
 - Run `npm i @openhab/automation` (you may need to install npm)
 
 ## Usage
 This library provides an easy to use API for common automation activities that interact with items, things, activities and other openHAB concepts.
 
 ### Basic Usage
+Using the openHAB UI, first create a new rule and set a trigger condition
+![OpenHAB Rule Configuration](/images/rule-config.png)
+
+Then select "Add Action" and then select "ECMAScript".  This will bring up a empty script editor where you can enter your javascript. 
+![OpenHAB Rule Script](/images/rule-script.png)
+
+This library is automatically imported, so you can directly access items, actions and more in your logic.
 
 For example, turning a light on:
 ```javascript
@@ -69,18 +75,15 @@ const thingStatusInfo = actions.Things.getThingStatusInfo("zwave:serial_zstick:5
 console.log("Thing status",thingStatusInfo.getStatus());
 ```
 
-Scripting may be done via the openHAB UI or by creating scripts in $OPENHAB_CONF/automation/jsr223/javascript/personal.
+See [API](#api) for a complete list of functionality
 
 ### Advanced Usage
+
+Scripting may be done via the openHAB UI or by creating scripts in $OPENHAB_CONF/automation/jsr223/javascript/personal.
+
 For file based scripts this API provides two ways of writing rules, a fluent [Rule Builder API](#rule-builder-api) and a declarative syntax using [JSRule](#rules#jsrule).
 
-Rule Builder Example:
-```javascript
-//turn off the kitchen light at 9PM
-rules.when().cron("0 0 21 * * ?").then().sendOff().toItem("KitchenLight").build("9PM Rule", "turn off the kitchen light at 9PM");
-```
-
-By default the JS Scripting binding will bind the exported variables of this library to `this`, so no additional importing is necessary. This behavior can be configured on or off in the binding's configuration options.
+By default the JS Scripting binding will export objects in the current scope, so no additional importing is necessary. This behavior can be configured on or off in the binding's configuration options.
 
 The injected import is roughly equivalent to:
 ```javascript
@@ -93,7 +96,7 @@ The Rule Builder provides a convenient API to write rules in a high-level, reada
 
 For a declarative style creation of rules, see using [JSRule](#rulesjsrule).
 
-Rules are started using `rules.when()` and can chain together rule [triggers](#rule-builder-triggers), [conditions](#rule-builder-conditions) and [operations](#rule-builder-operations) in the following pattern:
+Rules are started by calling `rules.when()` and can chain together [triggers](#rule-builder-triggers), [conditions](#rule-builder-conditions) and [operations](#rule-builder-operations) in the following pattern:
 
 ```javascript
 rules.when().triggerType()...if().conditionType().then().operationType()...build(name,description);
@@ -105,7 +108,7 @@ A simple example of this would look like:
 rules.when().item("F1_Light").changed().then().send("changed").toItem("F2_Light").build("My Rule", "My First Rule");
 ```
 
-Operations and Conditions can also optionally take functions:
+Operations and conditions can also optionally take functions:
 
 ```javascript
 rules.when().item("F1_light").changed().then(event => {
@@ -258,50 +261,12 @@ Creates switchable rule, uses the same syntax as [rules.JSRule](#rules.JSRule)
 ## Items
 <a name="items"></a>
 
-## items : <code>object</code>
-**Kind**: global namespace  
-
-* [items](#items) : <code>object</code>
-    * [.OHItem](#items.OHItem)
-        * [new OHItem(rawItem)](#new_items.OHItem_new)
-        * [.type](#items.OHItem+type) ⇒ <code>String</code>
-        * [.name](#items.OHItem+name) ⇒ <code>String</code>
-        * [.label](#items.OHItem+label) ⇒ <code>String</code>
-        * [.state](#items.OHItem+state) ⇒ <code>String</code>
-        * [.rawState](#items.OHItem+rawState) ⇒ <code>HostState</code>
-        * [.members](#items.OHItem+members) ⇒ <code>Array.&lt;OHItem&gt;</code>
-        * [.descendents](#items.OHItem+descendents) ⇒ <code>Array.&lt;OHItem&gt;</code>
-        * [.isUninitialized](#items.OHItem+isUninitialized) ⇒
-        * [.tags](#items.OHItem+tags)
-        * [.getMetadataValue(namespace)](#items.OHItem+getMetadataValue) ⇒ <code>String</code>
-        * [.updateMetadataValue(namespace, value)](#items.OHItem+updateMetadataValue) ⇒ <code>String</code>
-        * [.upsertMetadataValue(namespace, value)](#items.OHItem+upsertMetadataValue) ⇒ <code>Boolean</code>
-        * [.updateMetadataValues(namespaceToValues)](#items.OHItem+updateMetadataValues)
-        * [.sendCommand(value)](#items.OHItem+sendCommand)
-        * [.sendCommandIfDifferent(value)](#items.OHItem+sendCommandIfDifferent) ⇒ <code>Boolean</code>
-        * [.postUpdate(value)](#items.OHItem+postUpdate)
-        * [.addGroups(...groupNamesOrItems)](#items.OHItem+addGroups)
-        * [.removeGroups(...groupNamesOrItems)](#items.OHItem+removeGroups)
-        * [.addTags(...tagNames)](#items.OHItem+addTags)
-        * [.removeTags(...tagNames)](#items.OHItem+removeTags)
-    * [.DYNAMIC_ITEM_TAG](#items.DYNAMIC_ITEM_TAG)
-    * [.createItem(itemName, [itemType], [category], [groups], [label], [tags], [giBaseType], [groupFunction], [itemMetadata])](#items.createItem)
-    * [.addItem(itemName, [itemType], [category], [groups], [label], [tags], [giBaseType], [groupFunction])](#items.addItem)
-    * [.removeItem(itemOrItemName)](#items.removeItem) ⇒ <code>Boolean</code>
-    * [.replaceItem(itemName, [itemType], [category], [groups], [label], [tags], [giBaseType], [groupFunction])](#items.replaceItem)
-    * [.getItem(name, nullIfMissing)](#items.getItem) ⇒ <code>OHItem</code>
-    * [.getItemsByTag(...tagNames)](#items.getItemsByTag) ⇒ <code>Array.&lt;OHItem&gt;</code>
-    * [.safeItemName(s)](#items.safeItemName) ⇒ <code>String</code>
-
-<a name="items.OHItem"></a>
-
 ### items.OHItem
 Class representing an openHAB Item
 
 **Kind**: static class of [<code>items</code>](#items)  
 
 * [.OHItem](#items.OHItem)
-    * [new OHItem(rawItem)](#new_items.OHItem_new)
     * [.type](#items.OHItem+type) ⇒ <code>String</code>
     * [.name](#items.OHItem+name) ⇒ <code>String</code>
     * [.label](#items.OHItem+label) ⇒ <code>String</code>
@@ -322,16 +287,6 @@ Class representing an openHAB Item
     * [.removeGroups(...groupNamesOrItems)](#items.OHItem+removeGroups)
     * [.addTags(...tagNames)](#items.OHItem+addTags)
     * [.removeTags(...tagNames)](#items.OHItem+removeTags)
-
-<a name="new_items.OHItem_new"></a>
-
-#### new OHItem(rawItem)
-Create an OHItem, wrapping a native Java openHAB Item. Don't use this constructor, instead call [getItem](getItem).
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| rawItem | <code>HostItem</code> | Java Item from Host |
 
 <a name="items.OHItem+type"></a>
 
