@@ -13,6 +13,10 @@ const itemBuilderFactory = osgi.getService("org.openhab.core.items.ItemBuilderFa
 const managedItemProvider = osgi.getService("org.openhab.core.items.ManagedItemProvider");
 
 /**
+ * @namespace items
+ */
+
+/**
  * Tag value to be attached to all dynamically created items.
  * @memberOf items
  */

@@ -12,6 +12,8 @@ This library is included by default in the openHAB [JavaScript binding](https://
   - [Default Installation](#default-installation)
   - [Custom Installation](#custom-installation)
 - [Usage](#usage)
+  - [Basic Usage](#basic-usage)
+  - [Advanced Usage](#advanced-usage)
 - [Rule Builder API](#rule-builder-api)
   - [Rule Builder Triggers](#rule-builder-triggers)
   - [Rule Builder Conditions](#rule-builder-conditions)
