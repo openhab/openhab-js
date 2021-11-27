@@ -256,37 +256,402 @@ See the [Rule Builder API](#rule-builder-api) section for more details.
 Creates switchable rule, uses the same syntax as [rules.JSRule](#rules.JSRule)
 
 ## Items
+<a name="items"></a>
 
-### OHItem
-### items.addItem()
+## items : <code>object</code>
+**Kind**: global namespace  
 
-Creates a new item within OpenHab. This item will persist regardless of the lifecycle of the script creating it.
+* [items](#items) : <code>object</code>
+    * [.OHItem](#items.OHItem)
+        * [new OHItem(rawItem)](#new_items.OHItem_new)
+        * [.type](#items.OHItem+type) ⇒ <code>String</code>
+        * [.name](#items.OHItem+name) ⇒ <code>String</code>
+        * [.label](#items.OHItem+label) ⇒ <code>String</code>
+        * [.state](#items.OHItem+state) ⇒ <code>String</code>
+        * [.rawState](#items.OHItem+rawState) ⇒ <code>HostState</code>
+        * [.members](#items.OHItem+members) ⇒ <code>Array.&lt;OHItem&gt;</code>
+        * [.descendents](#items.OHItem+descendents) ⇒ <code>Array.&lt;OHItem&gt;</code>
+        * [.isUninitialized](#items.OHItem+isUninitialized) ⇒
+        * [.tags](#items.OHItem+tags)
+        * [.getMetadataValue(namespace)](#items.OHItem+getMetadataValue) ⇒ <code>String</code>
+        * [.updateMetadataValue(namespace, value)](#items.OHItem+updateMetadataValue) ⇒ <code>String</code>
+        * [.upsertMetadataValue(namespace, value)](#items.OHItem+upsertMetadataValue) ⇒ <code>Boolean</code>
+        * [.updateMetadataValues(namespaceToValues)](#items.OHItem+updateMetadataValues)
+        * [.sendCommand(value)](#items.OHItem+sendCommand)
+        * [.sendCommandIfDifferent(value)](#items.OHItem+sendCommandIfDifferent) ⇒ <code>Boolean</code>
+        * [.postUpdate(value)](#items.OHItem+postUpdate)
+        * [.addGroups(...groupNamesOrItems)](#items.OHItem+addGroups)
+        * [.removeGroups(...groupNamesOrItems)](#items.OHItem+removeGroups)
+        * [.addTags(...tagNames)](#items.OHItem+addTags)
+        * [.removeTags(...tagNames)](#items.OHItem+removeTags)
+    * [.DYNAMIC_ITEM_TAG](#items.DYNAMIC_ITEM_TAG)
+    * [.createItem(itemName, [itemType], [category], [groups], [label], [tags], [giBaseType], [groupFunction], [itemMetadata])](#items.createItem)
+    * [.addItem(itemName, [itemType], [category], [groups], [label], [tags], [giBaseType], [groupFunction])](#items.addItem)
+    * [.removeItem(itemOrItemName)](#items.removeItem) ⇒ <code>Boolean</code>
+    * [.replaceItem(itemName, [itemType], [category], [groups], [label], [tags], [giBaseType], [groupFunction])](#items.replaceItem)
+    * [.getItem(name, nullIfMissing)](#items.getItem) ⇒ <code>OHItem</code>
+    * [.getItemsByTag(...tagNames)](#items.getItemsByTag) ⇒ <code>Array.&lt;OHItem&gt;</code>
+    * [.safeItemName(s)](#items.safeItemName) ⇒ <code>String</code>
 
-### items.createItem()
+<a name="items.OHItem"></a>
 
+### items.OHItem
+Class representing an openHAB Item
+
+**Kind**: static class of [<code>items</code>](#items)  
+
+* [.OHItem](#items.OHItem)
+    * [new OHItem(rawItem)](#new_items.OHItem_new)
+    * [.type](#items.OHItem+type) ⇒ <code>String</code>
+    * [.name](#items.OHItem+name) ⇒ <code>String</code>
+    * [.label](#items.OHItem+label) ⇒ <code>String</code>
+    * [.state](#items.OHItem+state) ⇒ <code>String</code>
+    * [.rawState](#items.OHItem+rawState) ⇒ <code>HostState</code>
+    * [.members](#items.OHItem+members) ⇒ <code>Array.&lt;OHItem&gt;</code>
+    * [.descendents](#items.OHItem+descendents) ⇒ <code>Array.&lt;OHItem&gt;</code>
+    * [.isUninitialized](#items.OHItem+isUninitialized) ⇒
+    * [.tags](#items.OHItem+tags)
+    * [.getMetadataValue(namespace)](#items.OHItem+getMetadataValue) ⇒ <code>String</code>
+    * [.updateMetadataValue(namespace, value)](#items.OHItem+updateMetadataValue) ⇒ <code>String</code>
+    * [.upsertMetadataValue(namespace, value)](#items.OHItem+upsertMetadataValue) ⇒ <code>Boolean</code>
+    * [.updateMetadataValues(namespaceToValues)](#items.OHItem+updateMetadataValues)
+    * [.sendCommand(value)](#items.OHItem+sendCommand)
+    * [.sendCommandIfDifferent(value)](#items.OHItem+sendCommandIfDifferent) ⇒ <code>Boolean</code>
+    * [.postUpdate(value)](#items.OHItem+postUpdate)
+    * [.addGroups(...groupNamesOrItems)](#items.OHItem+addGroups)
+    * [.removeGroups(...groupNamesOrItems)](#items.OHItem+removeGroups)
+    * [.addTags(...tagNames)](#items.OHItem+addTags)
+    * [.removeTags(...tagNames)](#items.OHItem+removeTags)
+
+<a name="new_items.OHItem_new"></a>
+
+#### new OHItem(rawItem)
+Create an OHItem, wrapping a native Java openHAB Item. Don't use this constructor, instead call [getItem](getItem).
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| rawItem | <code>HostItem</code> | Java Item from Host |
+
+<a name="items.OHItem+type"></a>
+
+#### ohItem.type ⇒ <code>String</code>
+The type of the item: the Simple (without package) name of the Java item type, such as 'Switch'.
+
+**Kind**: instance property of [<code>OHItem</code>](#items.OHItem)  
+**Returns**: <code>String</code> - the type  
+<a name="items.OHItem+name"></a>
+
+#### ohItem.name ⇒ <code>String</code>
+The name of the item.
+
+**Kind**: instance property of [<code>OHItem</code>](#items.OHItem)  
+**Returns**: <code>String</code> - the name  
+<a name="items.OHItem+label"></a>
+
+#### ohItem.label ⇒ <code>String</code>
+The label attached to the item
+
+**Kind**: instance property of [<code>OHItem</code>](#items.OHItem)  
+**Returns**: <code>String</code> - the label  
+<a name="items.OHItem+state"></a>
+
+#### ohItem.state ⇒ <code>String</code>
+The state of the item, as a string.
+
+**Kind**: instance property of [<code>OHItem</code>](#items.OHItem)  
+**Returns**: <code>String</code> - the item's state  
+<a name="items.OHItem+rawState"></a>
+
+#### ohItem.rawState ⇒ <code>HostState</code>
+The raw state of the item, as a java object.
+
+**Kind**: instance property of [<code>OHItem</code>](#items.OHItem)  
+**Returns**: <code>HostState</code> - the item's state  
+<a name="items.OHItem+members"></a>
+
+#### ohItem.members ⇒ <code>Array.&lt;OHItem&gt;</code>
+Members / children / direct descendents of the current group item (as returned by 'getMembers()'). Must be a group item.
+
+**Kind**: instance property of [<code>OHItem</code>](#items.OHItem)  
+**Returns**: <code>Array.&lt;OHItem&gt;</code> - member items  
+<a name="items.OHItem+descendents"></a>
+
+#### ohItem.descendents ⇒ <code>Array.&lt;OHItem&gt;</code>
+All descendents of the current group item (as returned by 'getAllMembers()'). Must be a group item.
+
+**Kind**: instance property of [<code>OHItem</code>](#items.OHItem)  
+**Returns**: <code>Array.&lt;OHItem&gt;</code> - all descendent items  
+<a name="items.OHItem+isUninitialized"></a>
+
+#### ohItem.isUninitialized ⇒
+Whether this item is initialized.
+
+**Kind**: instance property of [<code>OHItem</code>](#items.OHItem)  
+**Returns**: true iff the item has not been initialized  
+<a name="items.OHItem+tags"></a>
+
+#### ohItem.tags
+Gets the tags from this item
+
+**Kind**: instance property of [<code>OHItem</code>](#items.OHItem)  
+<a name="items.OHItem+getMetadataValue"></a>
+
+#### ohItem.getMetadataValue(namespace) ⇒ <code>String</code>
+Gets metadata values for this item.
+
+**Kind**: instance method of [<code>OHItem</code>](#items.OHItem)  
+**Returns**: <code>String</code> - the metadata associated with this item and namespace  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| namespace | <code>String</code> | The namespace for the metadata to retreive |
+
+<a name="items.OHItem+updateMetadataValue"></a>
+
+#### ohItem.updateMetadataValue(namespace, value) ⇒ <code>String</code>
+Updates metadata values for this item.
+
+**Kind**: instance method of [<code>OHItem</code>](#items.OHItem)  
+**Returns**: <code>String</code> - the updated value  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| namespace | <code>String</code> | The namespace for the metadata to update |
+| value | <code>String</code> | the value to update the metadata to |
+
+<a name="items.OHItem+upsertMetadataValue"></a>
+
+#### ohItem.upsertMetadataValue(namespace, value) ⇒ <code>Boolean</code>
+Inserts or updates metadata values for this item.
+
+**Kind**: instance method of [<code>OHItem</code>](#items.OHItem)  
+**Returns**: <code>Boolean</code> - true iff a new value was inserted  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| namespace | <code>String</code> | The namespace for the metadata to update |
+| value | <code>String</code> | the value to update the metadata to |
+
+<a name="items.OHItem+updateMetadataValues"></a>
+
+#### ohItem.updateMetadataValues(namespaceToValues)
+Updates metadata values for this item.
+
+**Kind**: instance method of [<code>OHItem</code>](#items.OHItem)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| namespaceToValues | <code>Map</code> | A map of namespaces to values to update |
+
+<a name="items.OHItem+sendCommand"></a>
+
+#### ohItem.sendCommand(value)
+Sends a command to the item
+
+**Kind**: instance method of [<code>OHItem</code>](#items.OHItem)  
+**See**
+
+- sendCommandIfDifferent
+- postUpdate
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| value | <code>String</code> \| <code>HostState</code> | the value of the command to send, such as 'ON' |
+
+<a name="items.OHItem+sendCommandIfDifferent"></a>
+
+#### ohItem.sendCommandIfDifferent(value) ⇒ <code>Boolean</code>
+Sends a command to the item, but only if the current state is not what is being sent.
+Note
+
+**Kind**: instance method of [<code>OHItem</code>](#items.OHItem)  
+**Returns**: <code>Boolean</code> - true if the command was sent, false otherwise  
+**See**: sendCommand  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| value | <code>String</code> \| <code>HostState</code> | the value of the command to send, such as 'ON' |
+
+<a name="items.OHItem+postUpdate"></a>
+
+#### ohItem.postUpdate(value)
+Posts an update to the item
+
+**Kind**: instance method of [<code>OHItem</code>](#items.OHItem)  
+**See**: sendCommand  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| value | <code>String</code> \| <code>HostState</code> | the value of the command to send, such as 'ON' |
+
+<a name="items.OHItem+addGroups"></a>
+
+#### ohItem.addGroups(...groupNamesOrItems)
+Adds groups to this item
+
+**Kind**: instance method of [<code>OHItem</code>](#items.OHItem)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| ...groupNamesOrItems | <code>Array.&lt;(String\|OHItem)&gt;</code> | names of the groups (or the group items themselves) |
+
+<a name="items.OHItem+removeGroups"></a>
+
+#### ohItem.removeGroups(...groupNamesOrItems)
+Removes groups from this item
+
+**Kind**: instance method of [<code>OHItem</code>](#items.OHItem)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| ...groupNamesOrItems | <code>Array.&lt;(String\|OHItem)&gt;</code> | names of the groups (or the group items themselves) |
+
+<a name="items.OHItem+addTags"></a>
+
+#### ohItem.addTags(...tagNames)
+Adds tags to this item
+
+**Kind**: instance method of [<code>OHItem</code>](#items.OHItem)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| ...tagNames | <code>Array.&lt;String&gt;</code> | names of the tags to add |
+
+<a name="items.OHItem+removeTags"></a>
+
+#### ohItem.removeTags(...tagNames)
+Removes tags from this item
+
+**Kind**: instance method of [<code>OHItem</code>](#items.OHItem)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| ...tagNames | <code>Array.&lt;String&gt;</code> | names of the tags to remove |
+
+<a name="items.DYNAMIC_ITEM_TAG"></a>
+
+### items.DYNAMIC\_ITEM\_TAG
+Tag value to be attached to all dynamically created items.
+
+**Kind**: static constant of [<code>items</code>](#items)  
+<a name="items.createItem"></a>
+
+### items.createItem(itemName, [itemType], [category], [groups], [label], [tags], [giBaseType], [groupFunction], [itemMetadata])
 Creates a new item within OpenHab. This item is not registered with any provider.
 
-### items.getItem()
+Note that all items created this way have an additional tag attached, for simpler retrieval later. This tag is
+created with the value [DYNAMIC_ITEM_TAG](DYNAMIC_ITEM_TAG).
 
+**Kind**: static method of [<code>items</code>](#items)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| itemName | <code>String</code> | Item name for the Item to create |
+| [itemType] | <code>String</code> | the type of the Item |
+| [category] | <code>String</code> | the category (icon) for the Item |
+| [groups] | <code>Array.&lt;String&gt;</code> | an array of groups the Item is a member of |
+| [label] | <code>String</code> | the label for the Item |
+| [tags] | <code>Array.&lt;String&gt;</code> | an array of tags for the Item |
+| [giBaseType] | <code>HostItem</code> | the group Item base type for the Item |
+| [groupFunction] | <code>HostGroupFunction</code> | the group function used by the Item |
+| [itemMetadata] | <code>Map</code> | a map of metadata to set on the item |
+
+<a name="items.addItem"></a>
+
+### items.addItem(itemName, [itemType], [category], [groups], [label], [tags], [giBaseType], [groupFunction])
+Creates a new item within OpenHab. This item will persist regardless of the lifecycle of the script creating it.
+
+Note that all items created this way have an additional tag attached, for simpler retrieval later. This tag is
+created with the value [DYNAMIC_ITEM_TAG](DYNAMIC_ITEM_TAG).
+
+**Kind**: static method of [<code>items</code>](#items)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| itemName | <code>String</code> | Item name for the Item to create |
+| [itemType] | <code>String</code> | the type of the Item |
+| [category] | <code>String</code> | the category (icon) for the Item |
+| [groups] | <code>Array.&lt;String&gt;</code> | an array of groups the Item is a member of |
+| [label] | <code>String</code> | the label for the Item |
+| [tags] | <code>Array.&lt;String&gt;</code> | an array of tags for the Item |
+| [giBaseType] | <code>HostItem</code> | the group Item base type for the Item |
+| [groupFunction] | <code>HostGroupFunction</code> | the group function used by the Item |
+
+<a name="items.removeItem"></a>
+
+### items.removeItem(itemOrItemName) ⇒ <code>Boolean</code>
+Removes an item from OpenHab. The item is removed immediately and cannot be recoved.
+
+**Kind**: static method of [<code>items</code>](#items)  
+**Returns**: <code>Boolean</code> - true iff the item is actually removed  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| itemOrItemName | <code>String</code> \| <code>HostItem</code> | the item to remove |
+
+<a name="items.replaceItem"></a>
+
+### items.replaceItem(itemName, [itemType], [category], [groups], [label], [tags], [giBaseType], [groupFunction])
+Replaces (upserts) an item. If an item exists with the same name, it will be removed and a new item with
+the supplied parameters will be created in it's place. If an item does not exist with this name, a new
+item will be created with the supplied parameters.
+
+This function can be useful in scripts which create a static set of items which may need updating either
+periodically, during startup or even during development of the script. Using fixed item names will ensure
+that the items remain up-to-date, but won't fail with issues related to duplicate items.
+
+**Kind**: static method of [<code>items</code>](#items)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| itemName | <code>String</code> | Item name for the Item to create |
+| [itemType] | <code>String</code> | the type of the Item |
+| [category] | <code>String</code> | the category (icon) for the Item |
+| [groups] | <code>Array.&lt;String&gt;</code> | an array of groups the Item is a member of |
+| [label] | <code>String</code> | the label for the Item |
+| [tags] | <code>Array.&lt;String&gt;</code> | an array of tags for the Item |
+| [giBaseType] | <code>HostItem</code> | the group Item base type for the Item |
+| [groupFunction] | <code>HostGroupFunction</code> | the group function used by the Item |
+
+<a name="items.getItem"></a>
+
+### items.getItem(name, nullIfMissing) ⇒ <code>OHItem</code>
 Gets an openHAB Item.
 
-### items.getItemsByTag()
+**Kind**: static method of [<code>items</code>](#items)  
+**Returns**: <code>OHItem</code> - the item  
 
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| name | <code>String</code> |  | the name of the item |
+| nullIfMissing | <code>String</code> | <code>false</code> | whether to return null if the item cannot be found (default is to throw an exception) |
+
+<a name="items.getItemsByTag"></a>
+
+### items.getItemsByTag(...tagNames) ⇒ <code>Array.&lt;OHItem&gt;</code>
 Gets all openHAB Items with a specific tag.
 
-### items.removeItem()
+**Kind**: static method of [<code>items</code>](#items)  
+**Returns**: <code>Array.&lt;OHItem&gt;</code> - the items with a tag that is included in the passed tags  
 
-Removes an item from OpenHab. The item is removed immediately and cannot be recovered.
+| Param | Type | Description |
+| --- | --- | --- |
+| ...tagNames | <code>Array.&lt;String&gt;</code> | an array of tags to match against |
 
-### items.replaceItem()
+<a name="items.safeItemName"></a>
 
-Replaces (upserts) an item. If an item exists with the same name, it will be removed and a new item with the supplied parameters will be created in it's place. If an item does not exist with this name, a new item will be created with the supplied parameters.
-
-This function can be useful in scripts which create a static set of items which may need updating either periodically, during startup or even during development of the script. Using fixed item names will ensure that the items remain up-to-date, but won't fail with issues related to duplicate items.
-
-### items.safeItemName()
-
+### items.safeItemName(s) ⇒ <code>String</code>
 Helper function to ensure an item name is valid. All invalid characters are replaced with an underscore.
+
+**Kind**: static method of [<code>items</code>](#items)  
+**Returns**: <code>String</code> - a valid item name  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| s | <code>String</code> | the name to make value |
+
 
 ## things
 
