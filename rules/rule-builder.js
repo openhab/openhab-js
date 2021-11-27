@@ -1,4 +1,3 @@
-const log = require('../log')('rule-builder');
 const items = require('../items/items');
 const rules = require('./rules');
 const triggers = require('./trigger-builder');
@@ -35,8 +34,6 @@ class RuleBuilder {
         if (typeof condition === 'function') {
             condition = new conditions.FunctionConditionConf(condition);
         }
-
-        log.debug("Setting condition on rule: {}", condition);
 
         this.condition = condition;
         return this;
@@ -81,7 +78,6 @@ class RuleBuilder {
         }
 
         if (typeof this.condition !== 'undefined') { //if conditional, check it first
-            log.debug("Adding condition to rule: {}", this.condition);
             let fnWithoutCheck = fnToExecute;
             fnToExecute = (x) => this.condition.check(x) && fnWithoutCheck(x)
         }

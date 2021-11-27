@@ -3,7 +3,6 @@
     "version": "0.0.1",
     "description": "Rules API for openHAB",
     "main": "index.js",
-    "private": true,
     "dependencies": {
         "cronstrue": "^1.84.0",
         "mocha": "^6.2.3",

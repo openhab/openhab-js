@@ -1,4 +1,3 @@
-const log = require('../log')('condition-builder')
 const operations = require('./operation-builder');
 const items = require('../items/items')
 

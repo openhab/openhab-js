@@ -1,5 +1,4 @@
 const parse_duration = require('parse-duration');
-const log = require('../log')('operation-builder');
 const items = require('../items/items');
 
 /**

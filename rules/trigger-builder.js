@@ -2,8 +2,6 @@ const triggers = require('../triggers');
 const operations = require('./operation-builder');
 const conditions = require('./condition-builder');
 
-const log = require('../log')('trigger-builder');
-
 /**
  * Builder for rule Triggers
  * 
@@ -82,18 +80,6 @@ class TriggerBuilder {
      */
     thing(s) {
         return this._setTrigger(new ThingTriggerConfig(s, this));
-    }
-
-    /**
-    * Specifies a period of day for the rule to fire. Note that this functionality depends on a 'vTimeOfDay' String item
-    * existing and being updated.
-    * 
-    *
-    * @param {String} period the period, such as 'SUNSET'
-    * @returns {TriggerBuilder.ItemTriggerConfig} the trigger config
-    */
-    timeOfDay(s) {
-        return this._setTrigger(new ItemTriggerConfig('vTimeOfDay', this).changed().to(s));
     }
 
     /**
@@ -307,7 +293,7 @@ class ItemTriggerConfig extends TriggerConf {
      * @returns {TriggerBuilder.ItemTriggerConfig}
      */
     for(timespan) {
-        return new TimingItemStateOperation(this, timespan);
+        return new operations.TimingItemStateOperation(this, timespan);
     }
 
     _complete() {
