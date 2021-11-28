@@ -40,7 +40,7 @@ library will be automatically installed and available to all javascript rules by
 
 - Ensure you have the correct path created `mkdir -p $OPENHAB_CONF/automation/lib/javascript/personal/node_modules`
 - Go to the javascript personal lib directory: `cd $OPENHAB_CONF/automation/lib/javascript/personal/node_modules`
-- Run `npm i @openhab/automation` (you may need to install npm)
+- Run `npm i openhab` (you may need to install npm)
 
 ## Usage
 This library provides an easy to use API for common automation activities that interact with items, things, activities
@@ -87,7 +87,7 @@ This behavior can be configured on or off in the binding's configuration options
 
 The injected import is roughly equivalent to:
 ```javascript
-const {rules, items, things, log, triggers, actions, metadata, osgi} = require('@openhab/automation')
+const {rules, items, things, log, triggers, actions, metadata, osgi} = require('openhab')
 ```
 
 ## Rule Builder API
@@ -235,7 +235,7 @@ default log. Additionally scripts may create their own native openHAB logs using
 
 ```javascript
 //this is imported by default, shown here for clarity only
-let log = require('@openhab/automation');
+let log = require('openhab');
 
 let logger = log('my_logger');
 
@@ -1442,7 +1442,7 @@ This namespace allows creation of openHAB rules.</p>
 
 **Example** *(Basic logging)*  
 ```js
-let log = require('@openhab/automation').log('my_logger');
+let log = require('openhab').log('my_logger');
 log.info("Hello World!")
 ```
 
@@ -1983,12 +1983,12 @@ log.atLevel('INFO', 'The widget was created as {}', widget);
 
 **Example** *(Sends a broadcast notification)*  
 ```js
-let { actions } = require('@openhab/automation');
+let { actions } = require('openhab');
 actions.NotificationAction.sendBroadcastNotification("Hello World!")
 ```
 **Example** *(Sends a PushSafer notification)*  
 ```js
-let { actions } = require('@openhab/automation');
+let { actions } = require('openhab');
  actions.Pushsafer.pushsafer("<your pushsafer api key>", "<message>", "<message title>", "", "", "", "")
 ```
 
@@ -2254,7 +2254,7 @@ TimeOfDayTrigger('19:00')
 
 **Example**  
 ```js
-import { rules, triggers } = require('@openhab/automation');
+import { rules, triggers } = require('openhab');
 
 rules.JSRule({
  name: "my_new_rule",

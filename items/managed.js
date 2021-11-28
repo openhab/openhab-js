@@ -454,7 +454,7 @@ module.exports = {
     /**
      * Custom indexer, to allow static item lookup.
      * @example
-     * let { my_object_name } = require('@openhab/automation').items.objects;
+     * let { my_object_name } = require('openhab').items.objects;
      * ...
      * let my_state = my_object_name.state; //my_object_name is an OHItem
      * 
