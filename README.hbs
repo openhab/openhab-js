@@ -123,37 +123,36 @@ see [Examples](#rule-builder-examples) for further patterns
 ### Rule Builder Triggers
 
 * `channel(channelName)` Specifies a channel event as a source for the rule to fire.
-* `.triggered(event)` Trigger on a specific event name
+  * `.triggered(event)` Trigger on a specific event name
 * `cron(cronExpression)` Specifies a cron schedule for the rule to fire.
 * `item(itemName)` Specifies an item as the source of changes to trigger a rule.
-* `.for(duration)`
-* `.from(state)`
-* `.to(state)`
-* `.fromOff()`
-* `.toOn()`
-* `.receivedCommand()`
-* `.receivedUpdate()`
+  * `.for(duration)`
+  * `.from(state)`
+  * `.to(state)`
+  * `.fromOff()`
+  * `.toOn()`
+  * `.receivedCommand()`
+  * `.receivedUpdate()`
 * `memberOf(groupName)`
-* `.for(duration)`
-* `.from(state)`
-* `.to(state)`
-* `.fromOff()`
-* `.toOn()`
-* `.receivedCommand()`
-* `.receivedUpdate()`
+  * `.for(duration)`
+  * `.from(state)`
+  * `.to(state)`
+  * `.fromOff()`
+  * `.toOn()`
+  * `.receivedCommand()`
+  * `.receivedUpdate()`
 * `system()`
-* `.ruleEngineStarted()`
-* `.rulesLoaded()`
-* `.startupComplete()`
-* `.thingsInitialized()`
-* `.userInterfacesStarted()`
-* `.startLevel(level)`
-* `thing`
-* `changed()`
-* `updated()`
-* `from(state)`
-* `to(state)`
-
+  * `.ruleEngineStarted()`
+  * `.rulesLoaded()`
+  * `.startupComplete()`
+  * `.thingsInitialized()`
+  * `.userInterfacesStarted()`
+  * `.startLevel(level)`
+* `thing(thingName)`
+  * `changed()`
+  * `updated()`
+  * `from(state)`
+  * `to(state)`
 
 Additionally all the above triggers have the following functions:
 * `.if()` or `.if(fn)` -> a [rule condition](#rule-builder-conditions)
@@ -176,7 +175,7 @@ Additionally all the above triggers have the following functions:
 * `sendIt()`
 * `sendOff()`
 * `sendOn()`
-* `sendToggle`
+* `sendToggle()`
 
 ### Rule Builder Examples
 
