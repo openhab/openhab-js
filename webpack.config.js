@@ -45,9 +45,9 @@ module.exports = {
   ],
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '@openhab/automation.js',
+    filename: 'openhab.js',
     library: {
-      name: "@openhab/automation",
+      name: "openhab",
       type: "umd"
     },
     globalObject: 'this',
