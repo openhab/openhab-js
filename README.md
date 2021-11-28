@@ -96,7 +96,7 @@ The Rule Builder provides a convenient API to write rules in a high-level, reada
 is particularly useful when writing rules using files as opposed to using the UI which provides its own rule creation
 interface.
 
-For a declarative style creation of rules, see using [JSRule](#rulesjsrule).
+For a declarative style creation of rules, see using the [JSRule API](#jsrule-api).
 
 Rules are started by calling `rules.when()` and can chain together [triggers](#rule-builder-triggers),
 [conditions](#rule-builder-conditions) and [operations](#rule-builder-operations) in the following pattern:
