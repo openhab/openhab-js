@@ -82,7 +82,7 @@ const getGroupsForItem = function (ruleConfig) {
  * Creates a rule. The rule will be created and immediately available.
  *
  * @example
- * import { rules, triggers } = require('@openhab/automation');
+ * import { rules, triggers } = require('openhab');
  *
  * rules.JSRule({
  *  name: "my_new_rule",

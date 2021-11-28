@@ -3,7 +3,7 @@
  * This namespace provides loggers to log messages to the openHAB Log.
  * 
  * @example <caption>Basic logging</caption>
- * let log = require('@openhab/automation').log('my_logger');
+ * let log = require('openhab').log('my_logger');
  * log.info("Hello World!")
  * 
  * @namespace log
