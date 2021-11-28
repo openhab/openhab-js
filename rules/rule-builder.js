@@ -105,7 +105,7 @@ class RuleBuilder {
 module.exports = {
     RuleBuilder,
     /**
-     * Create a new {RuleBuiler} chain for easily creating rules.
+     * Create a new {RuleBuilder} chain for easily creating rules.
      * 
      * @example <caption>Basic rule</caption>
      * rules.when().item("F1_Light").changed().then().send("changed").toItem("F2_Light").build("My Rule", "My First Rule");

@@ -16,8 +16,8 @@ module.exports = {
     get metadata() { return require('./metadata') },
     get triggers() { return require('./triggers') },
     get actions() { return require('./actions') },
-    get utils() { return require('./utils') },
+    //get utils() { return require('./utils') },
     get osgi() { return require('./osgi') },
-    get provider() { return require('./provider') },
-    get itemchannellink() { return require('./itemchannellink') }
+    //get provider() { return require('./provider') },
+    //get itemchannellink() { return require('./itemchannellink') }
 }
