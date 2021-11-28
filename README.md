@@ -1,5 +1,5 @@
 [![Build
-Status](https://api.travis-ci.com/openhab/openhab-js.svg?branch=main)](https://travis-ci.com/openhab/openhab-js)
+Status](https://github.com/openhab/openhab-js/actions/workflows/build.yaml/badge.svg)](https://github.com/openhab/openhab-js/actions/workflows/build.yaml)
 # openHAB Javascript Library
 
 This library aims to be a fairly high-level ES6 library to support automation in openHAB. It provides convenient access
