@@ -1,5 +1,5 @@
 {
-    "name": "@openhab/automation",
+    "name": "openhab",
     "version": "0.0.1-beta.0",
     "description": "JavaScript Library for openHAB Automation",
     "private": false,
