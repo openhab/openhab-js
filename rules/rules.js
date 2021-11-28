@@ -7,12 +7,12 @@
 
 const GENERATED_RULE_ITEM_TAG = "GENERATED_RULE_ITEM";
 
-const items = require('./items');
-const utils = require('./utils');
-const log = require('./log')('rules');
-const itemhistory = require('./itemhistory');
-const osgi = require('./osgi');
-const triggers = require('./triggers');
+const items = require('../items');
+const utils = require('../utils');
+const log = require('../log')('rules');
+const itemhistory = require('../itemhistory');
+const osgi = require('../osgi');
+const triggers = require('../triggers');
 const { automationManager } = require('@runtime/RuleSupport');
 
 let RuleManager = osgi.getService("org.openhab.core.automation.RuleManager");
@@ -145,10 +145,10 @@ let JSRule = function (ruleConfig) {
 
 let currentProvider = automationManager;
 
-let withNewRuleProvider = function(fn) {
+let withNewRuleProvider = function (fn) {
     let cachedRules = [];
     currentProvider = {
-        addRule:r => {
+        addRule: r => {
             //r = factory.processRule(r);
             // r.setConfigurationDescriptions(null);
             // r.setConfiguration(null);
@@ -166,7 +166,7 @@ let withNewRuleProvider = function(fn) {
 
 }
 
-let withManagedProvider = function(fn) {
+let withManagedProvider = function (fn) {
     let previousProvider = currentProvider;
     currentProvider = automationManager;
 
@@ -177,7 +177,7 @@ let withManagedProvider = function(fn) {
     }
 }
 
-let registerRule = function(rule) {
+let registerRule = function (rule) {
     return currentProvider.addRule(rule);
 }
 
