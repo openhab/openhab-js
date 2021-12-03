@@ -17,7 +17,6 @@
 
 
 const osgi = require('./osgi');
-const utils = require('./utils');
 const { actions } = require('@runtime/Defaults');
 const log = require('./log')('actions');
 
@@ -33,13 +32,19 @@ actionServices.forEach(function (item) {
     }
 });
 
+let Audio = Java.type('org.openhab.core.model.script.actions.Audio');
+let BusEvent = Java.type('org.openhab.core.model.script.actions.BusEvent');
+let Ephemeris = Java.type('org.openhab.core.model.script.actions.Ephemeris');
 let Exec = Java.type('org.openhab.core.model.script.actions.Exec');
 let HTTP = Java.type('org.openhab.core.model.script.actions.HTTP');
 let LogAction = Java.type('org.openhab.core.model.script.actions.Log');
 let Ping = Java.type('org.openhab.core.model.script.actions.Ping');
 let ScriptExecution = Java.type('org.openhab.core.model.script.actions.ScriptExecution');
+let Semantics = Java.type('org.openhab.core.model.script.actions.Semantics');
+let ThingsAction = Java.type('org.openhab.core.model.script.actions.Things');
+let Voice = Java.type('org.openhab.core.model.script.actions.Voice');
 
-[Exec, HTTP, LogAction, Ping, ScriptExecution].forEach(function (item) {
+[Audio, BusEvent, Ephemeris, Exec, HTTP, LogAction, Ping, ScriptExecution, Semantics, ThingsAction, Voice].forEach(function (item) {
     exports[item.class.getSimpleName()] = item.class.static;
 });
 
