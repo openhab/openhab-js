@@ -9,7 +9,6 @@
 // lazy getters to avoid any reference loading all submodules
 module.exports = {
     get log() { return require('./log') },
-    get fluent() { return require('./fluent') },
     get rules() { return require('./rules') },
     get items() { return require('./items') },
     get things() { return require('./things') },
@@ -18,6 +17,5 @@ module.exports = {
     get actions() { return require('./actions') },
     get utils() { return require('./utils') },
     get osgi() { return require('./osgi') },
-    get provider() { return require('./provider') },
-    get itemchannellink() { return require('./itemchannellink') }
+    get cache() { return require("@runtime").sharedcache },
 }

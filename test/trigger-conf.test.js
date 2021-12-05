@@ -23,7 +23,7 @@ describe('Triggers', function () {
     describe('Item Triggers', function () {
         it('Should create correct item trigger', function (done) {
 
-            const trigger_conf = proxyquire('../fluent/trigger-conf', {
+            const trigger_conf = proxyquire('../rules/trigger-builder', {
                 '../log': createLogMock().mock,
                 '../triggers': {
                     ItemStateChangeTrigger: (name, from, to) => {
@@ -32,7 +32,9 @@ describe('Triggers', function () {
                         assert.strictEqual(to, 'state1');
                         done();
                     }
-                }
+                },
+                './operation-builder': {},
+                './condition-builder': {}
             });
 
             new trigger_conf.ItemTriggerConfig('item1').changed().to('state1')._toOHTriggers();

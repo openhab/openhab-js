@@ -283,6 +283,10 @@ This namespace allows creation of openHAB rule triggers.</p>
 <dd><p>Rules namespace.
 This namespace allows creation of openHAB rules.</p>
 </dd>
+<dt><a href="#cache">cache</a> : <code>object</code></dt>
+<dd><p>Shared cache namespace.
+This namespace provides a default cache that can be use to set and retrieve objects that will be persisted between reloads of scripts.</p>
+</dd>
 </dl>
 
 
@@ -2303,3 +2307,68 @@ rules.when().item("F1_light").changed().to("100").then(event => {
   console.log(event)
  }).build("Test Rule", "My Test Rule");
 ```
+
+<br><a name="cache"></a>
+
+## cache : <code>object</code>
+> Shared cache namespace.
+> This namespace provides a default cache that can be use to set and retrieve objects that will be persisted between reloads of scripts.
+
+
+* [cache](#cache) : <code>object</code>
+    * [.get(key, [defaultSupplier])](#cache.get) ⇒ <code>\*</code> \| <code>null</code>
+    * [.put(key, value)](#cache.put) ⇒ <code>\*</code> \| <code>null</code>
+    * [.remove(key)](#cache.remove) ⇒ <code>\*</code> \| <code>null</code>
+
+
+<br><a name="cache.get"></a>
+
+### cache.get(key, [defaultSupplier]) ⇒ <code>\*</code> \| <code>null</code>
+> Returns the value to which the specified key is mapped
+
+**Returns**: <code>\*</code> \| <code>null</code> - the current object for the supplied key, a default value if defaultSupplier is provided, or null  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| key | <code>string</code> | the key whose associated value is to be returned |
+| [defaultSupplier] | <code>function</code> | if the specified key is not already associated with a value, this function will return a default value |
+
+**Example** *(Get a previously set value with a default value (times &#x3D; 0))*  
+```js
+let counter = cache.get("counter", () => ({ "times": 0 }));
+console.log("Count",counter.times++);
+```
+**Example** *(Get a previously set object)*  
+```js
+let counter = cache.get("counter");
+if(counter == null){
+     counter = {times: 0};
+     cache.put("counter", counter);
+}
+console.log("Count",counter.times++);
+```
+
+<br><a name="cache.put"></a>
+
+### cache.put(key, value) ⇒ <code>\*</code> \| <code>null</code>
+> Associates the specified value with the specified key
+
+**Returns**: <code>\*</code> \| <code>null</code> - the previous value associated with null, or null if there was no mapping for key  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| key | <code>string</code> | key with which the specified value is to be associated |
+| value | <code>\*</code> | value value to be associated with the specified key |
+
+
+<br><a name="cache.remove"></a>
+
+### cache.remove(key) ⇒ <code>\*</code> \| <code>null</code>
+> Removes the mapping for a key from this map if it is present
+
+**Returns**: <code>\*</code> \| <code>null</code> - the previous value associated with key or null if there was no mapping for key  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| key | <code>string</code> | key whose mapping is to be removed from the map |
+

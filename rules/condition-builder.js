@@ -1,5 +1,5 @@
 const operations = require('./operation-builder');
-const items = require('../items/items')
+const items = require('../items')
 
 /**
  * Condition that wraps a function to determine whether if passes

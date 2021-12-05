@@ -1,5 +1,5 @@
 const parse_duration = require('parse-duration');
-const items = require('../items/items');
+const items = require('../items');
 
 /**
  * Operation to execute as part of a rule

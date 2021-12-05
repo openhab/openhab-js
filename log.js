@@ -13,9 +13,7 @@
  * Logger prefix
  * @memberOf log
  */
-const LOGGER_PREFIX = "script.js";
-
-//const RuntimeExceptionEx = require('@runtime/osgi').classutil.extend(Java.type('java.lang.RuntimeException'));
+const LOGGER_PREFIX = "org.openhab.automation.script";
 
 const MessageFormatter = Java.type("org.slf4j.helpers.MessageFormatter");
 
