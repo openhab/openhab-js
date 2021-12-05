@@ -27,9 +27,10 @@ describe('Conditionals', function () {
     describe('Function Conditions', function () {
         it('Should pass when the function returns true', function () {
 
-            const condition_conf = proxyquire('../fluent/condition-conf', {
+            const condition_conf = proxyquire('../rules/condition-builder', {
                 '../log': createLogMock().mock,
-                '../items': itemMock()
+                '../items': itemMock(),
+                './operation-builder': {}
               });
 
             let conf = new condition_conf.FunctionConditionConf(() => true);
@@ -38,9 +39,10 @@ describe('Conditionals', function () {
 
         it('Should not pass when the function returns false', function () {
 
-            const condition_conf = proxyquire('../fluent/condition-conf', {
+            const condition_conf = proxyquire('../rules/condition-builder', {
                 '../log': createLogMock().mock,
-                '../items': itemMock()
+                '../items': itemMock(),
+                './operation-builder': {}
               });
 
             let conf = new condition_conf.FunctionConditionConf(() => false);
@@ -51,14 +53,15 @@ describe('Conditionals', function () {
     describe('Item Conditions', function () {
         it('Should pass when the item state matches', function () {
 
-            const condition_conf = proxyquire('../fluent/condition-conf', {
+            const condition_conf = proxyquire('../rules/condition-builder', {
                 '../log': createLogMock().mock,
                 '../items': itemMock((name) => {
                     assert.strictEqual(name, 'myitem');
                       return {
                           state: "mystate"
                       }
-                })
+                }),
+                './operation-builder': {}
               });
 
             let conf = new condition_conf.ItemStateConditionConf('myitem');
@@ -68,14 +71,15 @@ describe('Conditionals', function () {
 
         it('Should not pass when the item state doesnt matches', function () {
             
-            const condition_conf = proxyquire('../fluent/condition-conf', {
+            const condition_conf = proxyquire('../rules/condition-builder', {
                 '../log': createLogMock().mock,
                 '../items': itemMock((name) => {
                     assert.strictEqual(name, 'myitem');
                       return {
                           state: "mystate2"
                       }
-                })
+                }),
+                './operation-builder': {}
               });
 
             let conf = new condition_conf.ItemStateConditionConf('myitem');
@@ -85,12 +89,13 @@ describe('Conditionals', function () {
 
         it('Should not pass when the item doesnt exist', function () {
             
-            const condition_conf = proxyquire('../fluent/condition-conf', {
+            const condition_conf = proxyquire('../rules/condition-builder', {
                 '../log': createLogMock().mock,
                 '../items': itemMock((name) => {
                     assert.strictEqual(name, 'myitem');
                     return undefined;
-                })
+                }),
+                './operation-builder': {}
               });
 
             let conf = new condition_conf.ItemStateConditionConf('myitem');
@@ -100,12 +105,13 @@ describe('Conditionals', function () {
 
         it('Should not pass when the item is null', function () {
 
-            const condition_conf = proxyquire('../fluent/condition-conf', {
+            const condition_conf = proxyquire('../rules/condition-builder', {
                 '../log': createLogMock().mock,
                 '../items': itemMock((name) => {
                     assert.strictEqual(name, 'myitem');
                     return null;
-                })
+                }),
+                './operation-builder': {}
               });
 
             let conf = new condition_conf.ItemStateConditionConf('myitem');

@@ -6,8 +6,6 @@
  * @namespace metadata
  */
 
-const osgi = require('./osgi');
-const utils = require('./utils');
 const log = require('./log')('itemchannellink');
 
 let ItemChannelLink = Java.type("org.openhab.core.thing.link.ItemChannelLink");
