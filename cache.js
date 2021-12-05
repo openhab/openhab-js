@@ -40,7 +40,7 @@ let get = function (key, defaultSupplier) {
  * 
  * @memberof cache
  * @param {string} key key with which the specified value is to be associated
- * @param {*} value value value to be associated with the specified key
+ * @param {*} value value to be associated with the specified key
  * @returns {(*|null)} the previous value associated with null, or null if there was no mapping for key
  */
 let put = function (key, value) {
