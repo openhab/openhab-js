@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>index.js - Documentation</title>
+    <title>cache.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -32,7 +32,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">index.js</h1>
+    <h1 class="page-title">cache.js</h1>
     
 
     
@@ -43,26 +43,71 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * @typedef {Object} HostState Native Java openHAB State (instance of org.openhab.core.types.State)
- * @typedef {Object} HostItem Native Java openHAB Item (instance of org.openhab.core.items.Item)
- * @typedef {Object} HostClass Native Java Class Object (instance of java.lang.Class)
- * @typedef {Object} HostRule Native Jave openHAB Rule (instance of org.openhab.core.automation.Rule)
- * @typedef {Object} HostTrigger Native Jave openHAB Trigger (instance of org.openhab.core.automation.Trigger)
+ * Shared cache namespace.
+ * This namespace provides a default cache that can be use to set and retrieve objects that will be persisted between reloads of scripts.
+ * 
+ * @namespace cache
  */
 
-// lazy getters to avoid any reference loading all submodules
+const cache = require("@runtime").sharedcache
+
+/**
+ * Returns the value to which the specified key is mapped
+ * 
+ * @example &lt;caption>Get a previously set value with a default value (times = 0)&lt;/caption>
+ * let counter = cache.get("counter", () => ({ "times": 0 }));
+ * console.log("Count",counter.times++);
+ * 
+ * @example &lt;caption>Get a previously set object&lt;/caption>
+ * let counter = cache.get("counter");
+ * if(counter == null){
+ *      counter = {times: 0};
+ *      cache.put("counter", counter);
+ * }
+ * console.log("Count",counter.times++);
+ * 
+ * @memberof cache
+ * @param {string} key the key whose associated value is to be returned
+ * @param {function} [defaultSupplier] if the specified key is not already associated with a value, this function will return a default value
+ * @returns {(*|null)} the current object for the supplied key, a default value if defaultSupplier is provided, or null
+ */
+let get = function (key, defaultSupplier) {
+    if (typeof defaultSupplier === 'function') {
+        return cache.get(key, defaultSupplier);
+    } else {
+        return cache.get(key);
+    }
+}
+
+/**
+ * Associates the specified value with the specified key
+ * 
+ * @memberof cache
+ * @param {string} key key with which the specified value is to be associated
+ * @param {*} value value to be associated with the specified key
+ * @returns {(*|null)} the previous value associated with null, or null if there was no mapping for key
+ */
+let put = function (key, value) {
+    return cache.put(key, value);
+}
+
+/**
+ * Removes the mapping for a key from this map if it is present
+ * 
+ * @memberof cache
+ * @param {string} key key whose mapping is to be removed from the map
+ * @returns {(*|null)} the previous value associated with key or null if there was no mapping for key
+ */
+let remove = function (key) {
+    return cache.remove(key);
+}
+
 module.exports = {
-    get log() { return require('./log') },
-    get rules() { return require('./rules') },
-    get items() { return require('./items') },
-    get things() { return require('./things') },
-    get metadata() { return require('./metadata') },
-    get triggers() { return require('./triggers') },
-    get actions() { return require('./actions') },
-    get utils() { return require('./utils') },
-    get osgi() { return require('./osgi') },
-    get cache() { return require("@runtime").sharedcache },
-}</code></pre>
+    get,
+    put,
+    remove
+}
+</code></pre>
         </article>
     </section>
 
