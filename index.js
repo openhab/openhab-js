@@ -17,5 +17,5 @@ module.exports = {
     get actions() { return require('./actions') },
     get utils() { return require('./utils') },
     get osgi() { return require('./osgi') },
-    get cache() { return require("@runtime").sharedcache },
+    get cache() { return require('./cache') },
 }
