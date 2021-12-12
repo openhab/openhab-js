@@ -10,7 +10,6 @@ const GENERATED_RULE_ITEM_TAG = "GENERATED_RULE_ITEM";
 const items = require('../items');
 const utils = require('../utils');
 const log = require('../log')('rules');
-const itemhistory = require('../itemhistory');
 const osgi = require('../osgi');
 const triggers = require('../triggers');
 const { automationManager } = require('@runtime/RuleSupport');
@@ -214,7 +213,7 @@ let SwitchableJSRule = function (ruleConfig) {
 
     if (item.isUninitialized) {
         //possibly load item's prior state
-        let historicState = itemhistory.latestState(item);
+        let historicState = item.latestState();
 
         if (historicState !== null) {
             item.postUpdate(historicState);

@@ -4,7 +4,7 @@ const osgi = require('../osgi');
 const utils = require('../utils');
 const log = require('../log')('items');
 const metadata = require('../metadata');
-const itemhistory = require('../itemhistory');
+const ItemHistory = require('./item-history');
 
 const { UnDefType, events, itemRegistry } = require('@runtime');
 
@@ -24,15 +24,18 @@ const DYNAMIC_ITEM_TAG = "_DYNAMIC_";
 
 /**
  * Class representing an openHAB Item
+ * 
  * @memberOf items
+ * @extends ItemHistory
  */
-class OHItem {
+class OHItem extends ItemHistory {
     /**
      * Create an OHItem, wrapping a native Java openHAB Item. Don't use this constructor, instead call {@link getItem}.
      * @param {HostItem} rawItem Java Item from Host
      * @hideconstructor
      */
     constructor(rawItem) {
+        super(rawItem);
         if (typeof rawItem === 'undefined') {
             throw Error("Supplied item is undefined");
         }
@@ -69,10 +72,6 @@ class OHItem {
      */
     get state() {
         return this.rawState.toString();
-    }
-
-    get previousState() {
-        return itemhistory.previousState(this).toString();
     }
 
     /**

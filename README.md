@@ -1586,7 +1586,7 @@ log.atLevel('INFO', 'The widget was created as {}', widget);
 ## items : <code>object</code>
 
 * [items](#items) : <code>object</code>
-    * [.OHItem](#items.OHItem)
+    * [.OHItem](#items.OHItem) ⇐ <code>ItemHistory</code>
         * [new OHItem(rawItem)](#new_items.OHItem_new)
         * [.type](#items.OHItem+type) ⇒ <code>String</code>
         * [.name](#items.OHItem+name) ⇒ <code>String</code>
@@ -1620,11 +1620,12 @@ log.atLevel('INFO', 'The widget was created as {}', widget);
 
 <br><a name="items.OHItem"></a>
 
-### items.OHItem
+### items.OHItem ⇐ <code>ItemHistory</code>
 > Class representing an openHAB Item
 
+**Extends**: <code>ItemHistory</code>  
 
-* [.OHItem](#items.OHItem)
+* [.OHItem](#items.OHItem) ⇐ <code>ItemHistory</code>
     * [new OHItem(rawItem)](#new_items.OHItem_new)
     * [.type](#items.OHItem+type) ⇒ <code>String</code>
     * [.name](#items.OHItem+name) ⇒ <code>String</code>
@@ -2358,7 +2359,7 @@ console.log("Count",counter.times++);
 | Param | Type | Description |
 | --- | --- | --- |
 | key | <code>string</code> | key with which the specified value is to be associated |
-| value | <code>\*</code> | value value to be associated with the specified key |
+| value | <code>\*</code> | value to be associated with the specified key |
 
 
 <br><a name="cache.remove"></a>
