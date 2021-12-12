@@ -167,17 +167,14 @@ class ItemHistory {
     }
 
     _stateOrNull(result) {
-        console.log("Result", result)
         return result === null ? null : result.state;
     }
 
     _dateOrNull(result) {
-        console.log("Result", result)
         return result === null ? null : new Date(result.toInstant().toEpochMilli());
     }
 
     _decimalOrNull(result) {
-        console.log("Result", result)
         return result === null ? null : result.toBigDecimal();
     }
 }
