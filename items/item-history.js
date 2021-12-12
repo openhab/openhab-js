@@ -68,7 +68,7 @@ class ItemHistory {
      * @returns {*} state
      */
     historicState(timestamp, serviceId) {
-        return this._stateOrNull(PersistenceExtensions.evolutionRate(this.item, ...arguments));
+        return this._stateOrNull(PersistenceExtensions.historicState(this.item, ...arguments));
     }
 
     /**
