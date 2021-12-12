@@ -13,7 +13,7 @@ class ItemHistory {
      * @returns {(Number | null)}
      */
     averageSince(timestamp, serviceId) {
-        return _decimalOrNull(PersistenceExtensions.averageSince(this.item, ...arguments));
+        return this._decimalOrNull(PersistenceExtensions.averageSince(this.item, ...arguments));
     }
 
     /**
@@ -35,7 +35,7 @@ class ItemHistory {
      * @returns {(Number | null)}
      */
     deltaSince(timestamp, serviceId) {
-        return _decimalOrNull(PersistenceExtensions.deltaSince(this.item, ...arguments));
+        return this._decimalOrNull(PersistenceExtensions.deltaSince(this.item, ...arguments));
     }
 
     /**
@@ -46,7 +46,7 @@ class ItemHistory {
      * @returns {(Number | null)}
      */
     deviationSince(timestamp, serviceId) {
-        return _decimalOrNull(PersistenceExtensions.deviationSince(this.item, ...arguments));
+        return this._decimalOrNull(PersistenceExtensions.deviationSince(this.item, ...arguments));
     }
 
     /**
@@ -57,7 +57,7 @@ class ItemHistory {
      * @returns {(Number | null)}
      */
     evolutionRate(timestamp, serviceId) {
-        return _decimalOrNull(PersistenceExtensions.previousState(this.item, ...arguments));
+        return this._decimalOrNull(PersistenceExtensions.evolutionRate(this.item, ...arguments));
     }
 
     /**
@@ -132,7 +132,7 @@ class ItemHistory {
      * @returns {(Number | null)}
      */
     sumSince(timestamp, serviceId) {
-        return _decimalOrNull(PersistenceExtensions.sumSince(this.item, ...arguments));
+        return this._decimalOrNull(PersistenceExtensions.sumSince(this.item, ...arguments));
     }
 
     /**
@@ -167,6 +167,7 @@ class ItemHistory {
     }
 
     _stateOrNull(result) {
+        console.log("_stateOrNull", result)
         return result === null ? null : result.state;
     }
 
