@@ -87,7 +87,7 @@ class Logger {
      * @param {String} [prefix=log] the prefix type, such as none, level, short or log.
      * @returns {Error} message with 'message' String property
      */
-    _formatLogMessage(msg, levelString, ignoreStackDepth, prefix = "log") {
+    _formatLogMessage(msg, levelString, ignoreStackDepth, prefix = "none") {
 
         let clazz = this;
         let msgData = {
