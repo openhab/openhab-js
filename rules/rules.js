@@ -35,7 +35,7 @@ const itemNameForRule = function (ruleConfig) {
  * @memberOf rules
  * @private
  * @param {HostRule} rule The rule to link to the item.
- * @param {OHItem} item the item to link to the rule.
+ * @param {Item} item the item to link to the rule.
  */
 const linkItemToRule = function (rule, item) {
     JSRule({

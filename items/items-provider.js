@@ -42,7 +42,7 @@ class ManagedItemProvider extends AbstractProvider {
     }
 
     add(item) {
-        if (item instanceof items.OHItem) {
+        if (item instanceof items.Item) {
             item = item.rawItem;
         }
 
@@ -58,7 +58,7 @@ class ManagedItemProvider extends AbstractProvider {
         if (typeof itemOrName === 'string') {
             this.items.forEach(i => { if (i.name === itemOrName) this.remove(i) });
         } else {
-            if (itemOrName instanceof items.OHItem) {
+            if (itemOrName instanceof items.Item) {
                 itemOrName = itemOrName.rawItem;
             }
 
@@ -73,7 +73,7 @@ class ManagedItemProvider extends AbstractProvider {
     }
 
     update(item) {
-        if (item instanceof items.OHItem) {
+        if (item instanceof items.Item) {
             item = item.rawItem;
         }
 
