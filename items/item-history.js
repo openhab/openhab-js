@@ -1,6 +1,14 @@
+/**
+ * @namespace items
+ */
 const PersistenceExtensions = Java.type("org.openhab.core.persistence.extensions.PersistenceExtensions");
 const DateTime = Java.type('java.time.ZonedDateTime');
 
+/**
+ * Class representing the historic state of an openHAB Item
+ * 
+ * @memberOf items
+ */
 class ItemHistory {
     constructor(item) {
         this.item = item;

@@ -26,20 +26,24 @@ const DYNAMIC_ITEM_TAG = "_DYNAMIC_";
  * Class representing an openHAB Item
  * 
  * @memberOf items
- * @extends ItemHistory
  */
-class OHItem extends ItemHistory {
+class OHItem {
     /**
      * Create an OHItem, wrapping a native Java openHAB Item. Don't use this constructor, instead call {@link getItem}.
      * @param {HostItem} rawItem Java Item from Host
      * @hideconstructor
      */
     constructor(rawItem) {
-        super(rawItem);
         if (typeof rawItem === 'undefined') {
             throw Error("Supplied item is undefined");
         }
         this.rawItem = rawItem;
+
+        /**
+         * Access historical states for this item
+         * @type {ItemHistory}
+         */
+        this.history = new ItemHistory(rawItem);
     }
 
     /**

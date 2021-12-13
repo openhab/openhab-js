@@ -1586,8 +1586,9 @@ log.atLevel('INFO', 'The widget was created as {}', widget);
 ## items : <code>object</code>
 
 * [items](#items) : <code>object</code>
-    * [.OHItem](#items.OHItem) ⇐ <code>ItemHistory</code>
+    * [.OHItem](#items.OHItem)
         * [new OHItem(rawItem)](#new_items.OHItem_new)
+        * [.history](#items.OHItem+history) : <code>ItemHistory</code>
         * [.type](#items.OHItem+type) ⇒ <code>String</code>
         * [.name](#items.OHItem+name) ⇒ <code>String</code>
         * [.label](#items.OHItem+label) ⇒ <code>String</code>
@@ -1620,13 +1621,13 @@ log.atLevel('INFO', 'The widget was created as {}', widget);
 
 <br><a name="items.OHItem"></a>
 
-### items.OHItem ⇐ <code>ItemHistory</code>
+### items.OHItem
 > Class representing an openHAB Item
 
-**Extends**: <code>ItemHistory</code>  
 
-* [.OHItem](#items.OHItem) ⇐ <code>ItemHistory</code>
+* [.OHItem](#items.OHItem)
     * [new OHItem(rawItem)](#new_items.OHItem_new)
+    * [.history](#items.OHItem+history) : <code>ItemHistory</code>
     * [.type](#items.OHItem+type) ⇒ <code>String</code>
     * [.name](#items.OHItem+name) ⇒ <code>String</code>
     * [.label](#items.OHItem+label) ⇒ <code>String</code>
@@ -1658,6 +1659,12 @@ log.atLevel('INFO', 'The widget was created as {}', widget);
 | Param | Type | Description |
 | --- | --- | --- |
 | rawItem | <code>HostItem</code> | Java Item from Host |
+
+
+<br><a name="items.OHItem+history"></a>
+
+#### ohItem.history : <code>ItemHistory</code>
+> Access historical states for this item
 
 
 <br><a name="items.OHItem+type"></a>
