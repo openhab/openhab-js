@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>osgi.js - Documentation</title>
+    <title>items/item-history.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -32,7 +32,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">osgi.js</h1>
+    <h1 class="page-title">items/item-history.js</h1>
     
 
     
@@ -43,143 +43,196 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * OSGi module.
- * This module provides access to OSGi services.
- * 
- * @namespace osgi
+ * @namespace items
  */
- 
-const log = require('./log')('osgi');
-const bundleContext = require('@runtime/osgi').bundleContext;
-const lifecycle = require('@runtime/osgi').lifecycle;
-const Hashtable = Java.type('java.util.Hashtable');
+const PersistenceExtensions = Java.type("org.openhab.core.persistence.extensions.PersistenceExtensions");
+const DateTime = Java.type('java.time.ZonedDateTime');
 
 /**
- * Map of interface names to sets of services registered (by this module)
- */
-let registeredServices = {};
-
-
-let jsObjectToHashtable = function(obj) {
-    if(obj === null) {
-        return null;
-    }
-
-    let rv = new Hashtable();
-    for(let k in obj) {
-        rv.put(k, obj[k]);
-    }
-    return rv;
-}
-
-/**
- * Gets a service registered with OSGi.
+ * Class representing the historic state of an openHAB Item
  * 
- * @private
- * @param {String|HostClass} classOrName the class of the service to get
- * @returns an instance of the service, or null if it cannot be found
- * @memberOf osgi
+ * @memberOf items
  */
-let lookupService = function (classOrName) {
-    var bc = bundleContext;
-    if(bundleContext === undefined) {    
-        log.warn("bundleContext is undefined");
-        var FrameworkUtil = Java.type("org.osgi.framework.FrameworkUtil");
-        var _bundle = FrameworkUtil.getBundle(scriptExtension.class);
-        bc = (_bundle !== null) ? _bundle.getBundleContext() : null;
+class ItemHistory {
+    constructor(item) {
+        this.item = item;
     }
-    if (bc !== null) {
-        var classname = (typeof classOrName === "object") ? classOrName.getName() : classOrName;
-        var ref = bc.getServiceReference(classname);
-        return (ref !== null) ? bc.getService(ref) : null;
-    }
-}
-
-/**
- * Gets a service registered with OSGi. Allows providing multiple classes/names to try for lookup.
- * 
- * @param {Array&lt;String|HostClass>} classOrNames the class of the service to get
- * 
- * @returns an instance of the service, or null if it cannot be found
- * @throws {Error} if no services of the requested type(s) can be found
- * @memberOf osgi
- */
-let getService = function (...classOrNames) {
-    let rv = null;
-
-    for(let classOrName of classOrNames) {
-        try {
-            rv = lookupService(classOrName)
-        } catch(e) {
-	    log.warn(`Failed to get service ${classOrName}: {}`, e);
-	}
-
-        if(typeof rv !== 'undefined' &amp;&amp; rv !== null) {
-            return rv;
-        }
+    /**
+     * Gets the average value of the state of a given Item since a certain point in time.
+     * 
+     * @param {(Date | ZoneDateTime)} timestamp
+     * @param {string} [serviceId] optional persistance service ID 
+     * @returns {(Number | null)}
+     */
+    averageSince(timestamp, serviceId) {
+        return this._decimalOrNull(PersistenceExtensions.averageSince(this.item, ...arguments));
     }
 
-    throw Error(`Failed to get any services of type(s): ${classOrNames}`);
-}
+    /**
+     * Checks if the state of a given item has changed since a certain point in time.
+     * 
+     * @param {(Date | ZoneDateTime)} timestamp 
+     * @param {string} [serviceId] optional persistance service ID 
+     * @returns {boolean}
+     */
+    changedSince(timestamp, serviceId) {
+        return PersistenceExtensions.changedSince(this.item, ...arguments);
+    }
 
-/**
- * Finds services registered with OSGi.
- * 
- * @param {String} className the class of the service to get
- * @param {*} [filter] an optional filter used to filter the returned services
- * @returns {Object[]} any instances of the service that can be found
- * @memberOf osgi
- */
-let findServices = function (className, filter) {
-    if (bundleContext !== null) {
-        var refs = bundleContext.getAllServiceReferences(className, filter);
-        return refs != null ? [...refs].map(ref => bundleContext.getService(ref)) : [];
+    /**
+     * Gets the difference value of the state of a given item since a certain point in time.
+     * 
+     * @param {(Date | ZoneDateTime)} timestamp 
+     * @param {string} [serviceId] optional persistance service ID 
+     * @returns {(Number | null)}
+     */
+    deltaSince(timestamp, serviceId) {
+        return this._decimalOrNull(PersistenceExtensions.deltaSince(this.item, ...arguments));
+    }
+
+    /**
+     * Gets the standard deviation of the state of the given Item since a certain point in time.
+     * 
+     * @param {(Date | ZoneDateTime)} timestamp 
+     * @param {string} [serviceId] optional persistance service ID 
+     * @returns {(Number | null)}
+     */
+    deviationSince(timestamp, serviceId) {
+        return this._decimalOrNull(PersistenceExtensions.deviationSince(this.item, ...arguments));
+    }
+
+    /**
+     * Gets the evolution rate of the state of a given Item since a certain point in time.
+     * 
+     * @param {(Date | ZoneDateTime)} timestamp 
+     * @param {string} [serviceId] optional persistance service ID 
+     * @returns {(Number | null)}
+     */
+    evolutionRate(timestamp, serviceId) {
+        return this._decimalOrNull(PersistenceExtensions.evolutionRate(this.item, ...arguments));
+    }
+
+    /**
+     * Retrieves the historic item state for a given item at a certain point in time.
+     * 
+     * @param {(Date | ZoneDateTime)} timestamp 
+     * @param {string} [serviceId] optional persistance service ID 
+     * @returns {*} state
+     */
+    historicState(timestamp, serviceId) {
+        return this._stateOrNull(PersistenceExtensions.historicState(this.item, ...arguments));
+    }
+
+    /**
+     * Query the last update time of a given item.
+     * 
+     * @param {string} [serviceId] optional persistance service ID 
+     * @returns {(Date | null)}
+     */
+    lastUpdate(serviceId) {
+        console.log("Last Update", ...arguments);
+        return this._dateOrNull(PersistenceExtensions.lastUpdate(this.item, ...arguments));
+    }
+
+    /**
+     * Gets the historic item with the maximum value of the state of a given item since a certain point in time.
+     * 
+     * @param {(Date | ZoneDateTime)} timestamp 
+     * @param {string} [serviceId] optional persistance service ID 
+     * @returns {*} state
+     */
+    maximumSince(timestamp, serviceId) {
+        return this._stateOrNull(PersistenceExtensions.maximumSince(this.item, ...arguments));
+    }
+
+    /**
+     * Gets the historic item with the minimum value of the state of a given item since a certain point in time.
+     * 
+     * @param {(Date | ZoneDateTime)} timestamp 
+     * @param {string} [serviceId] optional persistance service ID 
+     * @returns {*} state
+     */
+    minimumSince(timestamp, serviceId) {
+        return this._stateOrNull(PersistenceExtensions.minimumSince(this.item, ...arguments));
+    }
+
+    /**
+     * Persists the state of a given item
+     * 
+     * @param {string} [serviceId] optional persistance service ID 
+     */
+    persist(serviceId) {
+        PersistenceExtensions.persist(this.item, ...arguments);
+    }
+
+    /**
+     * Returns the previous state of a given item.
+     * 
+     * @param {boolean} [skipEqual] optional, if true, skips equal state values and searches the first state not equal the current state
+     * @param {string} [serviceId] optional persistance service ID 
+     * @returns {*} state
+     */
+    previousState(skipEqual, serviceId) {
+        return this._stateOrNull(PersistenceExtensions.previousState(this.item, ...arguments));
+    }
+
+    /**
+     * Gets the sum of the state of a given item since a certain point in time.
+     * 
+     * @param {(Date | ZoneDateTime)} timestamp 
+     * @param {string} [serviceId] optional persistance service ID 
+     * @returns {(Number | null)}
+     */
+    sumSince(timestamp, serviceId) {
+        return this._decimalOrNull(PersistenceExtensions.sumSince(this.item, ...arguments));
+    }
+
+    /**
+     * Checks if the state of a given item has been updated since a certain point in time.
+     * 
+     * @param {(Date | ZoneDateTime)} timestamp 
+     * @param {string} [serviceId] optional persistance service ID 
+     * @returns {boolean}
+     */
+    updatedSince(timestamp, serviceId) {
+        return PersistenceExtensions.updatedSince(this.item, ...arguments);
+    }
+
+    /**
+     * Gets the variance of the state of the given Item since a certain point in time.
+     * 
+     * @param {(Date | ZoneDateTime)} timestamp 
+     * @param {string} [serviceId] optional persistance service ID 
+     * @returns {*} state
+     */
+    varianceSince(timestamp, serviceId) {
+        return this._stateOrNull(PersistenceExtensions.varianceSince(this.item, ...arguments));
+    }
+
+    /**
+     * Retrieves the historic item state for a given item at the current point in time.
+     * @param {string} [serviceId] optional persistance service ID 
+     * @returns {*} state
+     */
+    latestState(serviceId) {
+        return this.historicState(DateTime.now(), ...arguments);
+    }
+
+    _stateOrNull(result) {
+        console.log("_stateOrNull", result)
+        return result === null ? null : result.state;
+    }
+
+    _dateOrNull(result) {
+        return result === null ? null : new Date(result.toInstant().toEpochMilli());
+    }
+
+    _decimalOrNull(result) {
+        return result === null ? null : result.toBigDecimal();
     }
 }
 
-let registerService = function(service, ...interfaceNames) {
-    lifecycle.addDisposeHook(() => unregisterService(service));
-    registerPermanentService(service, interfaceNames, null);
-}
-
-let registerPermanentService = function(service, interfaceNames, properties = null) {
-    
-    let registration = bundleContext.registerService(interfaceNames, service, jsObjectToHashtable(properties));
-
-    for (let interfaceName of interfaceNames) {
-        if(typeof registeredServices[interfaceName] === 'undefined') {
-            registeredServices[interfaceName] = new Set();
-        }
-        registeredServices[interfaceName].add({service, registration});
-        log.debug("Registered service {} of as {}", service, interfaceName)
-    }
-    return registration;
-}
-
-let unregisterService = function(serviceToUnregister) {
-
-    log.debug("Unregistering service {}", serviceToUnregister);
-
-    for(let interfaceName in registeredServices) {
-        let servicesForInterface = registeredServices[interfaceName];
-
-        servicesForInterface.forEach(({service, registration}) => {
-            if (service == serviceToUnregister) {
-                servicesForInterface.delete({service, registration});
-                registration.unregister();
-                log.debug("Unregistered service: {}", service);
-            }
-        });
-    }
-}
-
-module.exports = {
-    getService,
-    findServices,
-    registerService,
-    registerPermanentService,
-    unregisterService
-}
+module.exports = ItemHistory;
 </code></pre>
         </article>
     </section>

@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>OHItem - Documentation</title>
+    <title>ItemHistory - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -32,7 +32,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">OHItem</h1>
+    <h1 class="page-title">ItemHistory</h1>
     
 
     
@@ -47,15 +47,104 @@
         <h2>
             <span class="ancestors"><a href="items.html">items</a>.</span>
         
-        OHItem
+        ItemHistory
         </h2>
         
-            <div class="class-description usertext"><p>Class representing an openHAB Item</p></div>
+            <div class="class-description usertext"><p>Class representing the historic state of an openHAB Item</p></div>
         
     
 </header>
 
 <article>
+    
+        <div class="container-overview">
+        
+            
+
+    
+    <h2>Constructor</h2>
+    
+
+    <h4 class="name" id="ItemHistory"><span class="type-signature"></span>new ItemHistory<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="items_item-history.js.html">items/item-history.js</a>, <a href="items_item-history.js.html#line12">line 12</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+        </div>
     
 
     
@@ -71,660 +160,6 @@
     
 
     
-        <h3 class="subsection-title">Members</h3>
-
-        
-            
-<h4 class="name" id="descendents"><span class="type-signature"></span>descendents<span class="type-signature"></span></h4>
-
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_managed.js.html">items/managed.js</a>, <a href="items_managed.js.html#line101">line 101</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
-    <p>All descendents of the current group item (as returned by 'getAllMembers()'). Must be a group item.</p>
-</div>
-
-
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="history"><span class="type-signature"></span>history<span class="type-signature"> :ItemHistory</span></h4>
-
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_managed.js.html">items/managed.js</a>, <a href="items_managed.js.html#line46">line 46</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
-    <p>Access historical states for this item</p>
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">ItemHistory</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="isUninitialized"><span class="type-signature"></span>isUninitialized<span class="type-signature"> :Boolean</span></h4>
-
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_managed.js.html">items/managed.js</a>, <a href="items_managed.js.html#line110">line 110</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
-    <p>Whether this item is initialized.</p>
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">Boolean</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="label"><span class="type-signature"></span>label<span class="type-signature"></span></h4>
-
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_managed.js.html">items/managed.js</a>, <a href="items_managed.js.html#line69">line 69</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
-    <p>The label attached to the item</p>
-</div>
-
-
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="members"><span class="type-signature"></span>members<span class="type-signature"></span></h4>
-
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_managed.js.html">items/managed.js</a>, <a href="items_managed.js.html#line93">line 93</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
-    <p>Members / children / direct descendents of the current group item (as returned by 'getMembers()'). Must be a group item.</p>
-</div>
-
-
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="name"><span class="type-signature"></span>name<span class="type-signature"></span></h4>
-
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_managed.js.html">items/managed.js</a>, <a href="items_managed.js.html#line61">line 61</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
-    <p>The name of the item.</p>
-</div>
-
-
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="rawState"><span class="type-signature"></span>rawState<span class="type-signature"></span></h4>
-
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_managed.js.html">items/managed.js</a>, <a href="items_managed.js.html#line85">line 85</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
-    <p>The raw state of the item, as a java object.</p>
-</div>
-
-
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="state"><span class="type-signature"></span>state<span class="type-signature"></span></h4>
-
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_managed.js.html">items/managed.js</a>, <a href="items_managed.js.html#line77">line 77</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
-    <p>The state of the item, as a string.</p>
-</div>
-
-
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="tags"><span class="type-signature"></span>tags<span class="type-signature"></span></h4>
-
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_managed.js.html">items/managed.js</a>, <a href="items_managed.js.html#line222">line 222</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
-    <p>Gets the tags from this item</p>
-</div>
-
-
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="type"><span class="type-signature"></span>type<span class="type-signature"></span></h4>
-
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_managed.js.html">items/managed.js</a>, <a href="items_managed.js.html#line53">line 53</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
-    <p>The type of the item: the Simple (without package) name of the Java item type, such as 'Switch'.</p>
-</div>
-
-
-
-
-
-
-
-
-        
-    
 
     
         <h3 class="subsection-title">Methods</h3>
@@ -734,7 +169,7 @@
 
     
 
-    <h4 class="name" id="addGroups"><span class="type-signature"></span>addGroups<span class="signature">(&hellip;groupNamesOrItems)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="averageSince"><span class="type-signature"></span>averageSince<span class="signature">(timestamp, serviceId<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Number|null}</span></h4>
 
     
 
@@ -746,7 +181,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_managed.js.html">items/managed.js</a>, <a href="items_managed.js.html#line201">line 201</a>
+        <a href="items_item-history.js.html">items/item-history.js</a>, <a href="items_item-history.js.html#line23">line 23</a>
     </li></ul></dd>
     
 
@@ -786,7 +221,7 @@
 
 
 <div class="description usertext">
-    <p>Adds groups to this item</p>
+    <p>Gets the average value of the state of a given Item since a certain point in time.</p>
 </div>
 
 
@@ -826,485 +261,67 @@
 
         <tr>
             
-                <td class="name"><code>groupNamesOrItems</code></td>
+                <td class="name"><code>timestamp</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Array.&lt;(String|OHItem)></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                    &lt;repeatable><br>
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>names of the groups (or the group items themselves)</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="addTags"><span class="type-signature"></span>addTags<span class="signature">(&hellip;tagNames)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_managed.js.html">items/managed.js</a>, <a href="items_managed.js.html#line230">line 230</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
-    <p>Adds tags to this item</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>tagNames</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array.&lt;String></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                    &lt;repeatable><br>
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>names of the tags to add</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="getMetadataValue"><span class="type-signature"></span>getMetadataValue<span class="signature">(namespace)</span><span class="type-signature"> &rarr; {String}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_managed.js.html">items/managed.js</a>, <a href="items_managed.js.html#line126">line 126</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
-    <p>Gets metadata values for this item.</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>namespace</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The namespace for the metadata to retreive</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>the metadata associated with this item and namespace</p>
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">String</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="postUpdate"><span class="type-signature"></span>postUpdate<span class="signature">(value)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_managed.js.html">items/managed.js</a>, <a href="items_managed.js.html#line192">line 192</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li>sendCommand</li>
-        </ul>
-    </dd>
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
-    <p>Posts an update to the item</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>value</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
+<span class="param-type">Date</span>
 |
 
-<span class="param-type">HostState</span>
+<span class="param-type">ZoneDateTime</span>
 
 
             
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last"><p>the value of the command to send, such as 'ON'</p></td>
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>serviceId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>optional persistance service ID</p></td>
         </tr>
 
     
@@ -1326,6 +343,27 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+|
+
+<span class="param-type">null</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -1334,7 +372,7 @@
 
     
 
-    <h4 class="name" id="removeGroups"><span class="type-signature"></span>removeGroups<span class="signature">(&hellip;groupNamesOrItems)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="changedSince"><span class="type-signature"></span>changedSince<span class="signature">(timestamp, serviceId<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -1346,7 +384,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_managed.js.html">items/managed.js</a>, <a href="items_managed.js.html#line211">line 211</a>
+        <a href="items_item-history.js.html">items/item-history.js</a>, <a href="items_item-history.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -1386,7 +424,7 @@
 
 
 <div class="description usertext">
-    <p>Removes groups from this item</p>
+    <p>Checks if the state of a given item has changed since a certain point in time.</p>
 </div>
 
 
@@ -1426,13 +464,16 @@
 
         <tr>
             
-                <td class="name"><code>groupNamesOrItems</code></td>
+                <td class="name"><code>timestamp</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Array.&lt;(String|OHItem)></span>
+<span class="param-type">Date</span>
+|
+
+<span class="param-type">ZoneDateTime</span>
 
 
             
@@ -1445,14 +486,45 @@
                 
 
                 
-                    &lt;repeatable><br>
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>serviceId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
                 
                 </td>
             
 
             
 
-            <td class="description last"><p>names of the groups (or the group items themselves)</p></td>
+            <td class="description last"><p>optional persistance service ID</p></td>
         </tr>
 
     
@@ -1474,6 +546,24 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -1482,7 +572,7 @@
 
     
 
-    <h4 class="name" id="removeTags"><span class="type-signature"></span>removeTags<span class="signature">(&hellip;tagNames)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="deltaSince"><span class="type-signature"></span>deltaSince<span class="signature">(timestamp, serviceId<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Number|null}</span></h4>
 
     
 
@@ -1494,7 +584,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_managed.js.html">items/managed.js</a>, <a href="items_managed.js.html#line239">line 239</a>
+        <a href="items_item-history.js.html">items/item-history.js</a>, <a href="items_item-history.js.html#line45">line 45</a>
     </li></ul></dd>
     
 
@@ -1534,7 +624,7 @@
 
 
 <div class="description usertext">
-    <p>Removes tags from this item</p>
+    <p>Gets the difference value of the state of a given item since a certain point in time.</p>
 </div>
 
 
@@ -1574,13 +664,16 @@
 
         <tr>
             
-                <td class="name"><code>tagNames</code></td>
+                <td class="name"><code>timestamp</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Array.&lt;String></span>
+<span class="param-type">Date</span>
+|
+
+<span class="param-type">ZoneDateTime</span>
 
 
             
@@ -1593,14 +686,45 @@
                 
 
                 
-                    &lt;repeatable><br>
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>serviceId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
                 
                 </td>
             
 
             
 
-            <td class="description last"><p>names of the tags to remove</p></td>
+            <td class="description last"><p>optional persistance service ID</p></td>
         </tr>
 
     
@@ -1622,154 +746,27 @@
 
 
 
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="sendCommand"><span class="type-signature"></span>sendCommand<span class="signature">(value)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_managed.js.html">items/managed.js</a>, <a href="items_managed.js.html#line166">line 166</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li>sendCommandIfDifferent</li>
-        
-            <li>postUpdate</li>
-        </ul>
-    </dd>
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
-    <p>Sends a command to the item</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
+<h5>Returns:</h5>
 
         
 
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
         
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>value</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
+<span class="param-type">Number</span>
 |
 
-<span class="param-type">HostState</span>
+<span class="param-type">null</span>
 
 
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>the value of the command to send, such as 'ON'</p></td>
-        </tr>
+    </dd>
+</dl>
 
     
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1778,7 +775,7 @@
 
     
 
-    <h4 class="name" id="sendCommandIfDifferent"><span class="type-signature"></span>sendCommandIfDifferent<span class="signature">(value)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id="deviationSince"><span class="type-signature"></span>deviationSince<span class="signature">(timestamp, serviceId<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Number|null}</span></h4>
 
     
 
@@ -1790,7 +787,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_managed.js.html">items/managed.js</a>, <a href="items_managed.js.html#line178">line 178</a>
+        <a href="items_item-history.js.html">items/item-history.js</a>, <a href="items_item-history.js.html#line56">line 56</a>
     </li></ul></dd>
     
 
@@ -1821,13 +818,6 @@
     
 
     
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li>sendCommand</li>
-        </ul>
-    </dd>
-    
 
     
 </dl>
@@ -1837,8 +827,7 @@
 
 
 <div class="description usertext">
-    <p>Sends a command to the item, but only if the current state is not what is being sent.
-Note</p>
+    <p>Gets the standard deviation of the state of the given Item since a certain point in time.</p>
 </div>
 
 
@@ -1864,6 +853,8 @@ Note</p>
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -1876,26 +867,67 @@ Note</p>
 
         <tr>
             
-                <td class="name"><code>value</code></td>
+                <td class="name"><code>timestamp</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type">Date</span>
 |
 
-<span class="param-type">HostState</span>
+<span class="param-type">ZoneDateTime</span>
 
 
             
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last"><p>the value of the command to send, such as 'ON'</p></td>
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>serviceId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>optional persistance service ID</p></td>
         </tr>
 
     
@@ -1920,10 +952,6 @@ Note</p>
 <h5>Returns:</h5>
 
         
-<div class="param-desc">
-    <p>true if the command was sent, false otherwise</p>
-</div>
-
 
 
 <dl class="param-type">
@@ -1932,7 +960,10 @@ Note</p>
     </dt>
     <dd>
         
-<span class="param-type">Boolean</span>
+<span class="param-type">Number</span>
+|
+
+<span class="param-type">null</span>
 
 
     </dd>
@@ -1947,7 +978,7 @@ Note</p>
 
     
 
-    <h4 class="name" id="updateMetadataValue"><span class="type-signature"></span>updateMetadataValue<span class="signature">(namespace, value)</span><span class="type-signature"> &rarr; {String}</span></h4>
+    <h4 class="name" id="evolutionRate"><span class="type-signature"></span>evolutionRate<span class="signature">(timestamp, serviceId<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Number|null}</span></h4>
 
     
 
@@ -1959,7 +990,7 @@ Note</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_managed.js.html">items/managed.js</a>, <a href="items_managed.js.html#line136">line 136</a>
+        <a href="items_item-history.js.html">items/item-history.js</a>, <a href="items_item-history.js.html#line67">line 67</a>
     </li></ul></dd>
     
 
@@ -1999,7 +1030,7 @@ Note</p>
 
 
 <div class="description usertext">
-    <p>Updates metadata values for this item.</p>
+    <p>Gets the evolution rate of the state of a given Item since a certain point in time.</p>
 </div>
 
 
@@ -2025,6 +1056,8 @@ Note</p>
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -2037,46 +1070,67 @@ Note</p>
 
         <tr>
             
-                <td class="name"><code>namespace</code></td>
+                <td class="name"><code>timestamp</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type">Date</span>
+|
+
+<span class="param-type">ZoneDateTime</span>
 
 
             
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last"><p>The namespace for the metadata to update</p></td>
+            <td class="description last"></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>value</code></td>
+                <td class="name"><code>serviceId</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type">string</span>
 
 
             
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last"><p>the value to update the metadata to</p></td>
+            <td class="description last"><p>optional persistance service ID</p></td>
         </tr>
 
     
@@ -2101,10 +1155,6 @@ Note</p>
 <h5>Returns:</h5>
 
         
-<div class="param-desc">
-    <p>the updated value</p>
-</div>
-
 
 
 <dl class="param-type">
@@ -2113,7 +1163,10 @@ Note</p>
     </dt>
     <dd>
         
-<span class="param-type">String</span>
+<span class="param-type">Number</span>
+|
+
+<span class="param-type">null</span>
 
 
     </dd>
@@ -2128,7 +1181,7 @@ Note</p>
 
     
 
-    <h4 class="name" id="updateMetadataValues"><span class="type-signature"></span>updateMetadataValues<span class="signature">(namespaceToValues)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="historicState"><span class="type-signature"></span>historicState<span class="signature">(timestamp, serviceId<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {*}</span></h4>
 
     
 
@@ -2140,7 +1193,7 @@ Note</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_managed.js.html">items/managed.js</a>, <a href="items_managed.js.html#line154">line 154</a>
+        <a href="items_item-history.js.html">items/item-history.js</a>, <a href="items_item-history.js.html#line78">line 78</a>
     </li></ul></dd>
     
 
@@ -2180,7 +1233,7 @@ Note</p>
 
 
 <div class="description usertext">
-    <p>Updates metadata values for this item.</p>
+    <p>Retrieves the historic item state for a given item at a certain point in time.</p>
 </div>
 
 
@@ -2206,141 +1259,7 @@ Note</p>
         <th>Type</th>
 
         
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>namespaceToValues</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Map</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>A map of namespaces to values to update</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="upsertMetadataValue"><span class="type-signature"></span>upsertMetadataValue<span class="signature">(namespace, value)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_managed.js.html">items/managed.js</a>, <a href="items_managed.js.html#line146">line 146</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
-    <p>Inserts or updates metadata values for this item.</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
+        <th>Attributes</th>
         
 
         
@@ -2354,46 +1273,67 @@ Note</p>
 
         <tr>
             
-                <td class="name"><code>namespace</code></td>
+                <td class="name"><code>timestamp</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type">Date</span>
+|
+
+<span class="param-type">ZoneDateTime</span>
 
 
             
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last"><p>The namespace for the metadata to update</p></td>
+            <td class="description last"></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>value</code></td>
+                <td class="name"><code>serviceId</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type">string</span>
 
 
             
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last"><p>the value to update the metadata to</p></td>
+            <td class="description last"><p>optional persistance service ID</p></td>
         </tr>
 
     
@@ -2419,7 +1359,7 @@ Note</p>
 
         
 <div class="param-desc">
-    <p>true iff a new value was inserted</p>
+    <p>state</p>
 </div>
 
 
@@ -2430,7 +1370,1712 @@ Note</p>
     </dt>
     <dd>
         
-<span class="param-type">Boolean</span>
+<span class="param-type">*</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="lastUpdate"><span class="type-signature"></span>lastUpdate<span class="signature">(serviceId<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Date|null}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="items_item-history.js.html">items/item-history.js</a>, <a href="items_item-history.js.html#line88">line 88</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Query the last update time of a given item.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>serviceId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>optional persistance service ID</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Date</span>
+|
+
+<span class="param-type">null</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="latestState"><span class="type-signature"></span>latestState<span class="signature">(serviceId<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {*}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="items_item-history.js.html">items/item-history.js</a>, <a href="items_item-history.js.html#line173">line 173</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Retrieves the historic item state for a given item at the current point in time.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>serviceId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>optional persistance service ID</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>state</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">*</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="maximumSince"><span class="type-signature"></span>maximumSince<span class="signature">(timestamp, serviceId<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {*}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="items_item-history.js.html">items/item-history.js</a>, <a href="items_item-history.js.html#line100">line 100</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Gets the historic item with the maximum value of the state of a given item since a certain point in time.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>timestamp</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Date</span>
+|
+
+<span class="param-type">ZoneDateTime</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>serviceId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>optional persistance service ID</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>state</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">*</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="minimumSince"><span class="type-signature"></span>minimumSince<span class="signature">(timestamp, serviceId<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {*}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="items_item-history.js.html">items/item-history.js</a>, <a href="items_item-history.js.html#line111">line 111</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Gets the historic item with the minimum value of the state of a given item since a certain point in time.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>timestamp</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Date</span>
+|
+
+<span class="param-type">ZoneDateTime</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>serviceId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>optional persistance service ID</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>state</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">*</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="persist"><span class="type-signature"></span>persist<span class="signature">(serviceId<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="items_item-history.js.html">items/item-history.js</a>, <a href="items_item-history.js.html#line120">line 120</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Persists the state of a given item</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>serviceId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>optional persistance service ID</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="previousState"><span class="type-signature"></span>previousState<span class="signature">(skipEqual<span class="signature-attributes">opt</span>, serviceId<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {*}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="items_item-history.js.html">items/item-history.js</a>, <a href="items_item-history.js.html#line131">line 131</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Returns the previous state of a given item.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>skipEqual</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>optional, if true, skips equal state values and searches the first state not equal the current state</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>serviceId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>optional persistance service ID</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>state</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">*</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="sumSince"><span class="type-signature"></span>sumSince<span class="signature">(timestamp, serviceId<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Number|null}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="items_item-history.js.html">items/item-history.js</a>, <a href="items_item-history.js.html#line142">line 142</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Gets the sum of the state of a given item since a certain point in time.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>timestamp</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Date</span>
+|
+
+<span class="param-type">ZoneDateTime</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>serviceId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>optional persistance service ID</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+|
+
+<span class="param-type">null</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="updatedSince"><span class="type-signature"></span>updatedSince<span class="signature">(timestamp, serviceId<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="items_item-history.js.html">items/item-history.js</a>, <a href="items_item-history.js.html#line153">line 153</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Checks if the state of a given item has been updated since a certain point in time.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>timestamp</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Date</span>
+|
+
+<span class="param-type">ZoneDateTime</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>serviceId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>optional persistance service ID</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="varianceSince"><span class="type-signature"></span>varianceSince<span class="signature">(timestamp, serviceId<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {*}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="items_item-history.js.html">items/item-history.js</a>, <a href="items_item-history.js.html#line164">line 164</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Gets the variance of the state of the given Item since a certain point in time.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>timestamp</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Date</span>
+|
+
+<span class="param-type">ZoneDateTime</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>serviceId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>optional persistance service ID</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>state</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">*</span>
 
 
     </dd>
