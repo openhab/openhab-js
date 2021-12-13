@@ -27,9 +27,9 @@ const DYNAMIC_ITEM_TAG = "_DYNAMIC_";
  * 
  * @memberOf items
  */
-class OHItem {
+class Item {
     /**
-     * Create an OHItem, wrapping a native Java openHAB Item. Don't use this constructor, instead call {@link getItem}.
+     * Create an Item, wrapping a native Java openHAB Item. Don't use this constructor, instead call {@link getItem}.
      * @param {HostItem} rawItem Java Item from Host
      * @hideconstructor
      */
@@ -88,18 +88,18 @@ class OHItem {
 
     /**
      * Members / children / direct descendents of the current group item (as returned by 'getMembers()'). Must be a group item.
-     * @returns {OHItem[]} member items
+     * @returns {Item[]} member items
      */
     get members() {
-        return utils.javaSetToJsArray(this.rawItem.getMembers()).map(raw => new OHItem(raw));
+        return utils.javaSetToJsArray(this.rawItem.getMembers()).map(raw => new Item(raw));
     }
 
     /**
      * All descendents of the current group item (as returned by 'getAllMembers()'). Must be a group item.
-     * @returns {OHItem[]} all descendent items
+     * @returns {Item[]} all descendent items
      */
     get descendents() {
-        return utils.javaSetToJsArray(this.rawItem.getAllMembers()).map(raw => new OHItem(raw));
+        return utils.javaSetToJsArray(this.rawItem.getAllMembers()).map(raw => new Item(raw));
     }
 
     /**
@@ -196,7 +196,7 @@ class OHItem {
 
     /**
      * Adds groups to this item
-     * @param {Array<String|OHItem>} groupNamesOrItems names of the groups (or the group items themselves)
+     * @param {Array<String|Item>} groupNamesOrItems names of the groups (or the group items themselves)
      */
     addGroups(...groupNamesOrItems) {
         let groupNames = groupNamesOrItems.map((x) => (typeof x === 'string') ? x : x.name);
@@ -206,7 +206,7 @@ class OHItem {
 
     /**
      * Removes groups from this item
-     * @param {Array<String|OHItem>} groupNamesOrItems names of the groups (or the group items themselves)
+     * @param {Array<String|Item>} groupNamesOrItems names of the groups (or the group items themselves)
      */
     removeGroups(...groupNamesOrItems) {
         let groupNames = groupNamesOrItems.map((x) => (typeof x === 'string') ? x : x.name);
@@ -299,7 +299,7 @@ const createItem = function (itemName, itemType, category, groups, label, tags, 
 
         var item = builder.build();
 
-        return new OHItem(item);
+        return new Item(item);
     } catch (e) {
         log.error("Failed to create item: " + e);
         throw e;
@@ -408,12 +408,12 @@ const replaceItem = function (/* same args as addItem */) {
  * @memberOf items
  * @param {String} name the name of the item
  * @param {String} nullIfMissing whether to return null if the item cannot be found (default is to throw an exception)
- * @return {OHItem} the item
+ * @return {Item} the item
  */
 const getItem = (name, nullIfMissing = false) => {
     try {
         if (typeof name === 'string' || name instanceof String) {
-            return new OHItem(itemRegistry.getItem(name));
+            return new Item(itemRegistry.getItem(name));
         }
     } catch(e) {
         if(nullIfMissing) {
@@ -429,10 +429,10 @@ const getItem = (name, nullIfMissing = false) => {
  * 
  * @memberOf items
  * @param {String[]} tagNames an array of tags to match against
- * @return {OHItem[]} the items with a tag that is included in the passed tags
+ * @return {Item[]} the items with a tag that is included in the passed tags
  */
 const getItemsByTag = (...tagNames) => {
-    return utils.javaSetToJsArray(itemRegistry.getItemsByTag(tagNames)).map(i => new OHItem(i));
+    return utils.javaSetToJsArray(itemRegistry.getItemsByTag(tagNames)).map(i => new Item(i));
 }
 
 /**
@@ -453,13 +453,13 @@ module.exports = {
     replaceItem,
     createItem,
     removeItem,
-    OHItem,
+    Item,
     /**
      * Custom indexer, to allow static item lookup.
      * @example
      * let { my_object_name } = require('openhab').items.objects;
      * ...
-     * let my_state = my_object_name.state; //my_object_name is an OHItem
+     * let my_state = my_object_name.state; //my_object_name is an Item
      * 
      * @returns {Object} a collection of items allowing indexing by item name
      */

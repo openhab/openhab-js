@@ -1586,74 +1586,74 @@ log.atLevel('INFO', 'The widget was created as {}', widget);
 ## items : <code>object</code>
 
 * [items](#items) : <code>object</code>
-    * [.OHItem](#items.OHItem)
-        * [new OHItem(rawItem)](#new_items.OHItem_new)
-        * [.history](#items.OHItem+history) : <code>ItemHistory</code>
-        * [.type](#items.OHItem+type) ⇒ <code>String</code>
-        * [.name](#items.OHItem+name) ⇒ <code>String</code>
-        * [.label](#items.OHItem+label) ⇒ <code>String</code>
-        * [.state](#items.OHItem+state) ⇒ <code>String</code>
-        * [.rawState](#items.OHItem+rawState) ⇒ <code>HostState</code>
-        * [.members](#items.OHItem+members) ⇒ <code>Array.&lt;OHItem&gt;</code>
-        * [.descendents](#items.OHItem+descendents) ⇒ <code>Array.&lt;OHItem&gt;</code>
-        * [.isUninitialized](#items.OHItem+isUninitialized) ⇒
-        * [.tags](#items.OHItem+tags)
-        * [.getMetadataValue(namespace)](#items.OHItem+getMetadataValue) ⇒ <code>String</code>
-        * [.updateMetadataValue(namespace, value)](#items.OHItem+updateMetadataValue) ⇒ <code>String</code>
-        * [.upsertMetadataValue(namespace, value)](#items.OHItem+upsertMetadataValue) ⇒ <code>Boolean</code>
-        * [.updateMetadataValues(namespaceToValues)](#items.OHItem+updateMetadataValues)
-        * [.sendCommand(value)](#items.OHItem+sendCommand)
-        * [.sendCommandIfDifferent(value)](#items.OHItem+sendCommandIfDifferent) ⇒ <code>Boolean</code>
-        * [.postUpdate(value)](#items.OHItem+postUpdate)
-        * [.addGroups(...groupNamesOrItems)](#items.OHItem+addGroups)
-        * [.removeGroups(...groupNamesOrItems)](#items.OHItem+removeGroups)
-        * [.addTags(...tagNames)](#items.OHItem+addTags)
-        * [.removeTags(...tagNames)](#items.OHItem+removeTags)
+    * [.Item](#items.Item)
+        * [new Item(rawItem)](#new_items.Item_new)
+        * [.history](#items.Item+history) : <code>ItemHistory</code>
+        * [.type](#items.Item+type) ⇒ <code>String</code>
+        * [.name](#items.Item+name) ⇒ <code>String</code>
+        * [.label](#items.Item+label) ⇒ <code>String</code>
+        * [.state](#items.Item+state) ⇒ <code>String</code>
+        * [.rawState](#items.Item+rawState) ⇒ <code>HostState</code>
+        * [.members](#items.Item+members) ⇒ <code>Array.&lt;Item&gt;</code>
+        * [.descendents](#items.Item+descendents) ⇒ <code>Array.&lt;Item&gt;</code>
+        * [.isUninitialized](#items.Item+isUninitialized) ⇒
+        * [.tags](#items.Item+tags)
+        * [.getMetadataValue(namespace)](#items.Item+getMetadataValue) ⇒ <code>String</code>
+        * [.updateMetadataValue(namespace, value)](#items.Item+updateMetadataValue) ⇒ <code>String</code>
+        * [.upsertMetadataValue(namespace, value)](#items.Item+upsertMetadataValue) ⇒ <code>Boolean</code>
+        * [.updateMetadataValues(namespaceToValues)](#items.Item+updateMetadataValues)
+        * [.sendCommand(value)](#items.Item+sendCommand)
+        * [.sendCommandIfDifferent(value)](#items.Item+sendCommandIfDifferent) ⇒ <code>Boolean</code>
+        * [.postUpdate(value)](#items.Item+postUpdate)
+        * [.addGroups(...groupNamesOrItems)](#items.Item+addGroups)
+        * [.removeGroups(...groupNamesOrItems)](#items.Item+removeGroups)
+        * [.addTags(...tagNames)](#items.Item+addTags)
+        * [.removeTags(...tagNames)](#items.Item+removeTags)
     * [.DYNAMIC_ITEM_TAG](#items.DYNAMIC_ITEM_TAG)
     * [.createItem(itemName, [itemType], [category], [groups], [label], [tags], [giBaseType], [groupFunction], [itemMetadata])](#items.createItem)
     * [.addItem(itemName, [itemType], [category], [groups], [label], [tags], [giBaseType], [groupFunction])](#items.addItem)
     * [.removeItem(itemOrItemName)](#items.removeItem) ⇒ <code>Boolean</code>
     * [.replaceItem(itemName, [itemType], [category], [groups], [label], [tags], [giBaseType], [groupFunction])](#items.replaceItem)
-    * [.getItem(name, nullIfMissing)](#items.getItem) ⇒ <code>OHItem</code>
-    * [.getItemsByTag(...tagNames)](#items.getItemsByTag) ⇒ <code>Array.&lt;OHItem&gt;</code>
+    * [.getItem(name, nullIfMissing)](#items.getItem) ⇒ <code>Item</code>
+    * [.getItemsByTag(...tagNames)](#items.getItemsByTag) ⇒ <code>Array.&lt;Item&gt;</code>
     * [.safeItemName(s)](#items.safeItemName) ⇒ <code>String</code>
 
 
-<br><a name="items.OHItem"></a>
+<br><a name="items.Item"></a>
 
-### items.OHItem
+### items.Item
 > Class representing an openHAB Item
 
 
-* [.OHItem](#items.OHItem)
-    * [new OHItem(rawItem)](#new_items.OHItem_new)
-    * [.history](#items.OHItem+history) : <code>ItemHistory</code>
-    * [.type](#items.OHItem+type) ⇒ <code>String</code>
-    * [.name](#items.OHItem+name) ⇒ <code>String</code>
-    * [.label](#items.OHItem+label) ⇒ <code>String</code>
-    * [.state](#items.OHItem+state) ⇒ <code>String</code>
-    * [.rawState](#items.OHItem+rawState) ⇒ <code>HostState</code>
-    * [.members](#items.OHItem+members) ⇒ <code>Array.&lt;OHItem&gt;</code>
-    * [.descendents](#items.OHItem+descendents) ⇒ <code>Array.&lt;OHItem&gt;</code>
-    * [.isUninitialized](#items.OHItem+isUninitialized) ⇒
-    * [.tags](#items.OHItem+tags)
-    * [.getMetadataValue(namespace)](#items.OHItem+getMetadataValue) ⇒ <code>String</code>
-    * [.updateMetadataValue(namespace, value)](#items.OHItem+updateMetadataValue) ⇒ <code>String</code>
-    * [.upsertMetadataValue(namespace, value)](#items.OHItem+upsertMetadataValue) ⇒ <code>Boolean</code>
-    * [.updateMetadataValues(namespaceToValues)](#items.OHItem+updateMetadataValues)
-    * [.sendCommand(value)](#items.OHItem+sendCommand)
-    * [.sendCommandIfDifferent(value)](#items.OHItem+sendCommandIfDifferent) ⇒ <code>Boolean</code>
-    * [.postUpdate(value)](#items.OHItem+postUpdate)
-    * [.addGroups(...groupNamesOrItems)](#items.OHItem+addGroups)
-    * [.removeGroups(...groupNamesOrItems)](#items.OHItem+removeGroups)
-    * [.addTags(...tagNames)](#items.OHItem+addTags)
-    * [.removeTags(...tagNames)](#items.OHItem+removeTags)
+* [.Item](#items.Item)
+    * [new Item(rawItem)](#new_items.Item_new)
+    * [.history](#items.Item+history) : <code>ItemHistory</code>
+    * [.type](#items.Item+type) ⇒ <code>String</code>
+    * [.name](#items.Item+name) ⇒ <code>String</code>
+    * [.label](#items.Item+label) ⇒ <code>String</code>
+    * [.state](#items.Item+state) ⇒ <code>String</code>
+    * [.rawState](#items.Item+rawState) ⇒ <code>HostState</code>
+    * [.members](#items.Item+members) ⇒ <code>Array.&lt;Item&gt;</code>
+    * [.descendents](#items.Item+descendents) ⇒ <code>Array.&lt;Item&gt;</code>
+    * [.isUninitialized](#items.Item+isUninitialized) ⇒
+    * [.tags](#items.Item+tags)
+    * [.getMetadataValue(namespace)](#items.Item+getMetadataValue) ⇒ <code>String</code>
+    * [.updateMetadataValue(namespace, value)](#items.Item+updateMetadataValue) ⇒ <code>String</code>
+    * [.upsertMetadataValue(namespace, value)](#items.Item+upsertMetadataValue) ⇒ <code>Boolean</code>
+    * [.updateMetadataValues(namespaceToValues)](#items.Item+updateMetadataValues)
+    * [.sendCommand(value)](#items.Item+sendCommand)
+    * [.sendCommandIfDifferent(value)](#items.Item+sendCommandIfDifferent) ⇒ <code>Boolean</code>
+    * [.postUpdate(value)](#items.Item+postUpdate)
+    * [.addGroups(...groupNamesOrItems)](#items.Item+addGroups)
+    * [.removeGroups(...groupNamesOrItems)](#items.Item+removeGroups)
+    * [.addTags(...tagNames)](#items.Item+addTags)
+    * [.removeTags(...tagNames)](#items.Item+removeTags)
 
 
-<br><a name="new_items.OHItem_new"></a>
+<br><a name="new_items.Item_new"></a>
 
-#### new OHItem(rawItem)
-> Create an OHItem, wrapping a native Java openHAB Item. Don't use this constructor, instead call [getItem](getItem).
+#### new Item(rawItem)
+> Create an Item, wrapping a native Java openHAB Item. Don't use this constructor, instead call [getItem](getItem).
 
 
 | Param | Type | Description |
@@ -1661,77 +1661,77 @@ log.atLevel('INFO', 'The widget was created as {}', widget);
 | rawItem | <code>HostItem</code> | Java Item from Host |
 
 
-<br><a name="items.OHItem+history"></a>
+<br><a name="items.Item+history"></a>
 
-#### ohItem.history : <code>ItemHistory</code>
+#### item.history : <code>ItemHistory</code>
 > Access historical states for this item
 
 
-<br><a name="items.OHItem+type"></a>
+<br><a name="items.Item+type"></a>
 
-#### ohItem.type ⇒ <code>String</code>
+#### item.type ⇒ <code>String</code>
 > The type of the item: the Simple (without package) name of the Java item type, such as 'Switch'.
 
 **Returns**: <code>String</code> - the type  
 
-<br><a name="items.OHItem+name"></a>
+<br><a name="items.Item+name"></a>
 
-#### ohItem.name ⇒ <code>String</code>
+#### item.name ⇒ <code>String</code>
 > The name of the item.
 
 **Returns**: <code>String</code> - the name  
 
-<br><a name="items.OHItem+label"></a>
+<br><a name="items.Item+label"></a>
 
-#### ohItem.label ⇒ <code>String</code>
+#### item.label ⇒ <code>String</code>
 > The label attached to the item
 
 **Returns**: <code>String</code> - the label  
 
-<br><a name="items.OHItem+state"></a>
+<br><a name="items.Item+state"></a>
 
-#### ohItem.state ⇒ <code>String</code>
+#### item.state ⇒ <code>String</code>
 > The state of the item, as a string.
 
 **Returns**: <code>String</code> - the item's state  
 
-<br><a name="items.OHItem+rawState"></a>
+<br><a name="items.Item+rawState"></a>
 
-#### ohItem.rawState ⇒ <code>HostState</code>
+#### item.rawState ⇒ <code>HostState</code>
 > The raw state of the item, as a java object.
 
 **Returns**: <code>HostState</code> - the item's state  
 
-<br><a name="items.OHItem+members"></a>
+<br><a name="items.Item+members"></a>
 
-#### ohItem.members ⇒ <code>Array.&lt;OHItem&gt;</code>
+#### item.members ⇒ <code>Array.&lt;Item&gt;</code>
 > Members / children / direct descendents of the current group item (as returned by 'getMembers()'). Must be a group item.
 
-**Returns**: <code>Array.&lt;OHItem&gt;</code> - member items  
+**Returns**: <code>Array.&lt;Item&gt;</code> - member items  
 
-<br><a name="items.OHItem+descendents"></a>
+<br><a name="items.Item+descendents"></a>
 
-#### ohItem.descendents ⇒ <code>Array.&lt;OHItem&gt;</code>
+#### item.descendents ⇒ <code>Array.&lt;Item&gt;</code>
 > All descendents of the current group item (as returned by 'getAllMembers()'). Must be a group item.
 
-**Returns**: <code>Array.&lt;OHItem&gt;</code> - all descendent items  
+**Returns**: <code>Array.&lt;Item&gt;</code> - all descendent items  
 
-<br><a name="items.OHItem+isUninitialized"></a>
+<br><a name="items.Item+isUninitialized"></a>
 
-#### ohItem.isUninitialized ⇒
+#### item.isUninitialized ⇒
 > Whether this item is initialized.
 
 **Returns**: true iff the item has not been initialized  
 
-<br><a name="items.OHItem+tags"></a>
+<br><a name="items.Item+tags"></a>
 
-#### ohItem.tags
+#### item.tags
 > Gets the tags from this item
 
 
-<br><a name="items.OHItem+getMetadataValue"></a>
+<br><a name="items.Item+getMetadataValue"></a>
 
-#### ohItem.getMetadataValue(namespace) ⇒ <code>String</code>
+#### item.getMetadataValue(namespace) ⇒ <code>String</code>
 > Gets metadata values for this item.
 
 **Returns**: <code>String</code> - the metadata associated with this item and namespace  
@@ -1741,9 +1741,9 @@ log.atLevel('INFO', 'The widget was created as {}', widget);
 | namespace | <code>String</code> | The namespace for the metadata to retreive |
 
 
-<br><a name="items.OHItem+updateMetadataValue"></a>
+<br><a name="items.Item+updateMetadataValue"></a>
 
-#### ohItem.updateMetadataValue(namespace, value) ⇒ <code>String</code>
+#### item.updateMetadataValue(namespace, value) ⇒ <code>String</code>
 > Updates metadata values for this item.
 
 **Returns**: <code>String</code> - the updated value  
@@ -1754,9 +1754,9 @@ log.atLevel('INFO', 'The widget was created as {}', widget);
 | value | <code>String</code> | the value to update the metadata to |
 
 
-<br><a name="items.OHItem+upsertMetadataValue"></a>
+<br><a name="items.Item+upsertMetadataValue"></a>
 
-#### ohItem.upsertMetadataValue(namespace, value) ⇒ <code>Boolean</code>
+#### item.upsertMetadataValue(namespace, value) ⇒ <code>Boolean</code>
 > Inserts or updates metadata values for this item.
 
 **Returns**: <code>Boolean</code> - true iff a new value was inserted  
@@ -1767,9 +1767,9 @@ log.atLevel('INFO', 'The widget was created as {}', widget);
 | value | <code>String</code> | the value to update the metadata to |
 
 
-<br><a name="items.OHItem+updateMetadataValues"></a>
+<br><a name="items.Item+updateMetadataValues"></a>
 
-#### ohItem.updateMetadataValues(namespaceToValues)
+#### item.updateMetadataValues(namespaceToValues)
 > Updates metadata values for this item.
 
 
@@ -1778,9 +1778,9 @@ log.atLevel('INFO', 'The widget was created as {}', widget);
 | namespaceToValues | <code>Map</code> | A map of namespaces to values to update |
 
 
-<br><a name="items.OHItem+sendCommand"></a>
+<br><a name="items.Item+sendCommand"></a>
 
-#### ohItem.sendCommand(value)
+#### item.sendCommand(value)
 > Sends a command to the item
 
 **See**
@@ -1794,9 +1794,9 @@ log.atLevel('INFO', 'The widget was created as {}', widget);
 | value | <code>String</code>, <code>HostState</code> | the value of the command to send, such as 'ON' |
 
 
-<br><a name="items.OHItem+sendCommandIfDifferent"></a>
+<br><a name="items.Item+sendCommandIfDifferent"></a>
 
-#### ohItem.sendCommandIfDifferent(value) ⇒ <code>Boolean</code>
+#### item.sendCommandIfDifferent(value) ⇒ <code>Boolean</code>
 > Sends a command to the item, but only if the current state is not what is being sent.
 > Note
 
@@ -1808,9 +1808,9 @@ log.atLevel('INFO', 'The widget was created as {}', widget);
 | value | <code>String</code>, <code>HostState</code> | the value of the command to send, such as 'ON' |
 
 
-<br><a name="items.OHItem+postUpdate"></a>
+<br><a name="items.Item+postUpdate"></a>
 
-#### ohItem.postUpdate(value)
+#### item.postUpdate(value)
 > Posts an update to the item
 
 **See**: sendCommand  
@@ -1820,31 +1820,31 @@ log.atLevel('INFO', 'The widget was created as {}', widget);
 | value | <code>String</code>, <code>HostState</code> | the value of the command to send, such as 'ON' |
 
 
-<br><a name="items.OHItem+addGroups"></a>
+<br><a name="items.Item+addGroups"></a>
 
-#### ohItem.addGroups(...groupNamesOrItems)
+#### item.addGroups(...groupNamesOrItems)
 > Adds groups to this item
 
 
 | Param | Type | Description |
 | --- | --- | --- |
-| ...groupNamesOrItems | <code>Array.&lt;(String\|OHItem)&gt;</code> | names of the groups (or the group items themselves) |
+| ...groupNamesOrItems | <code>Array.&lt;(String\|Item)&gt;</code> | names of the groups (or the group items themselves) |
 
 
-<br><a name="items.OHItem+removeGroups"></a>
+<br><a name="items.Item+removeGroups"></a>
 
-#### ohItem.removeGroups(...groupNamesOrItems)
+#### item.removeGroups(...groupNamesOrItems)
 > Removes groups from this item
 
 
 | Param | Type | Description |
 | --- | --- | --- |
-| ...groupNamesOrItems | <code>Array.&lt;(String\|OHItem)&gt;</code> | names of the groups (or the group items themselves) |
+| ...groupNamesOrItems | <code>Array.&lt;(String\|Item)&gt;</code> | names of the groups (or the group items themselves) |
 
 
-<br><a name="items.OHItem+addTags"></a>
+<br><a name="items.Item+addTags"></a>
 
-#### ohItem.addTags(...tagNames)
+#### item.addTags(...tagNames)
 > Adds tags to this item
 
 
@@ -1853,9 +1853,9 @@ log.atLevel('INFO', 'The widget was created as {}', widget);
 | ...tagNames | <code>Array.&lt;String&gt;</code> | names of the tags to add |
 
 
-<br><a name="items.OHItem+removeTags"></a>
+<br><a name="items.Item+removeTags"></a>
 
-#### ohItem.removeTags(...tagNames)
+#### item.removeTags(...tagNames)
 > Removes tags from this item
 
 
@@ -1951,10 +1951,10 @@ log.atLevel('INFO', 'The widget was created as {}', widget);
 
 <br><a name="items.getItem"></a>
 
-### items.getItem(name, nullIfMissing) ⇒ <code>OHItem</code>
+### items.getItem(name, nullIfMissing) ⇒ <code>Item</code>
 > Gets an openHAB Item.
 
-**Returns**: <code>OHItem</code> - the item  
+**Returns**: <code>Item</code> - the item  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -1964,10 +1964,10 @@ log.atLevel('INFO', 'The widget was created as {}', widget);
 
 <br><a name="items.getItemsByTag"></a>
 
-### items.getItemsByTag(...tagNames) ⇒ <code>Array.&lt;OHItem&gt;</code>
+### items.getItemsByTag(...tagNames) ⇒ <code>Array.&lt;Item&gt;</code>
 > Gets all openHAB Items with a specific tag.
 
-**Returns**: <code>Array.&lt;OHItem&gt;</code> - the items with a tag that is included in the passed tags  
+**Returns**: <code>Array.&lt;Item&gt;</code> - the items with a tag that is included in the passed tags  
 
 | Param | Type | Description |
 | --- | --- | --- |
