@@ -4,7 +4,7 @@ const osgi = require('../osgi');
 const utils = require('../utils');
 const log = require('../log')('items');
 const metadata = require('../metadata');
-const itemhistory = require('../itemhistory');
+const ItemHistory = require('./item-history');
 
 const { UnDefType, events, itemRegistry } = require('@runtime');
 
@@ -24,6 +24,7 @@ const DYNAMIC_ITEM_TAG = "_DYNAMIC_";
 
 /**
  * Class representing an openHAB Item
+ * 
  * @memberOf items
  */
 class OHItem {
@@ -37,6 +38,12 @@ class OHItem {
             throw Error("Supplied item is undefined");
         }
         this.rawItem = rawItem;
+
+        /**
+         * Access historical states for this item
+         * @type {ItemHistory}
+         */
+        this.history = new ItemHistory(rawItem);
     }
 
     /**
@@ -69,10 +76,6 @@ class OHItem {
      */
     get state() {
         return this.rawState.toString();
-    }
-
-    get previousState() {
-        return itemhistory.previousState(this).toString();
     }
 
     /**

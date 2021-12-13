@@ -1588,6 +1588,7 @@ log.atLevel('INFO', 'The widget was created as {}', widget);
 * [items](#items) : <code>object</code>
     * [.OHItem](#items.OHItem)
         * [new OHItem(rawItem)](#new_items.OHItem_new)
+        * [.history](#items.OHItem+history) : <code>ItemHistory</code>
         * [.type](#items.OHItem+type) ⇒ <code>String</code>
         * [.name](#items.OHItem+name) ⇒ <code>String</code>
         * [.label](#items.OHItem+label) ⇒ <code>String</code>
@@ -1626,6 +1627,7 @@ log.atLevel('INFO', 'The widget was created as {}', widget);
 
 * [.OHItem](#items.OHItem)
     * [new OHItem(rawItem)](#new_items.OHItem_new)
+    * [.history](#items.OHItem+history) : <code>ItemHistory</code>
     * [.type](#items.OHItem+type) ⇒ <code>String</code>
     * [.name](#items.OHItem+name) ⇒ <code>String</code>
     * [.label](#items.OHItem+label) ⇒ <code>String</code>
@@ -1657,6 +1659,12 @@ log.atLevel('INFO', 'The widget was created as {}', widget);
 | Param | Type | Description |
 | --- | --- | --- |
 | rawItem | <code>HostItem</code> | Java Item from Host |
+
+
+<br><a name="items.OHItem+history"></a>
+
+#### ohItem.history : <code>ItemHistory</code>
+> Access historical states for this item
 
 
 <br><a name="items.OHItem+type"></a>
@@ -2358,7 +2366,7 @@ console.log("Count",counter.times++);
 | Param | Type | Description |
 | --- | --- | --- |
 | key | <code>string</code> | key with which the specified value is to be associated |
-| value | <code>\*</code> | value value to be associated with the specified key |
+| value | <code>\*</code> | value to be associated with the specified key |
 
 
 <br><a name="cache.remove"></a>
