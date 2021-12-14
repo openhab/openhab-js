@@ -16,7 +16,7 @@
     },
     "scripts": {
         "test": "mocha",
-        "docs": "./node_modules/.bin/jsdoc --configure docs_config.json && ./node_modules/.bin/jsdoc2md log.js items/managed.js actions.js triggers.js rules/rules.js rules/rule-builder.js rules/trigger-builder.js rules/condition-builder.js rules/operation-builder.js  things/things.js cache.js --template README.hbs --plugin dmd-readable > README.md",
+        "docs": "./node_modules/.bin/jsdoc --configure docs_config.json && ./node_modules/.bin/jsdoc2md log.js items/managed.js items/item-history.js actions.js triggers.js rules/rules.js rules/rule-builder.js rules/trigger-builder.js rules/condition-builder.js rules/operation-builder.js  things/things.js cache.js --template README.hbs --plugin dmd-readable > README.md",
         "deploy": "npm test && npm run docs",
         "webpack": "webpack"
     },
