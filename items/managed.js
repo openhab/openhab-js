@@ -18,7 +18,6 @@ const managedItemProvider = osgi.getService("org.openhab.core.items.ManagedItemP
 
 /**
  * Tag value to be attached to all dynamically created items.
- * @memberOf items
  */
 const DYNAMIC_ITEM_TAG = "_DYNAMIC_";
 

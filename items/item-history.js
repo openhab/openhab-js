@@ -1,13 +1,12 @@
-/**
- * @namespace items
- */
 const PersistenceExtensions = Java.type("org.openhab.core.persistence.extensions.PersistenceExtensions");
 const DateTime = Java.type('java.time.ZonedDateTime');
 
 /**
  * Class representing the historic state of an openHAB Item
  * 
+ * 
  * @memberOf items
+ * @hideconstructor
  */
 class ItemHistory {
     constructor(item) {
@@ -15,6 +14,10 @@ class ItemHistory {
     }
     /**
      * Gets the average value of the state of a given Item since a certain point in time.
+     * 
+     * @example
+     * var item = items.getItem("KitchenDimmer");
+     * console.log("KitchenDimmer averageSince", item.history.averageSince(yesterday)); 
      * 
      * @param {(Date | ZoneDateTime)} timestamp
      * @param {string} [serviceId] optional persistance service ID 
