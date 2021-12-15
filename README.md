@@ -485,6 +485,8 @@ Rules are started by calling `rules.when()` and can chain together [triggers](#r
 rules.when().triggerType()...if().conditionType().then().operationType()...build(name,description);
 ```
 
+Rule are completed by calling `.build(name,description)` , if name or description are omitted, a generated value will be used.
+
 A simple example of this would look like:
 
 ```javascript
@@ -495,7 +497,7 @@ Operations and conditions can also optionally take functions:
 
 ```javascript
 rules.when().item("F1_light").changed().then(event => {
-console.log(event);
+    console.log(event);
 }).build("Test Rule", "My Test Rule");
 ```
 see [Examples](#rule-builder-examples) for further patterns
@@ -563,6 +565,11 @@ Additionally all the above triggers have the following functions:
 #### Rule Builder Examples
 
 ```javascript
+//Basic rule, when the BedroomLight1 is changed, run a custom function
+rules.when(true).item('BedroomLight1').changed().then(e => {
+    console.log("BedroomLight1 state", e.newState)
+}.build();
+
 //turn on the kitchen light at SUNSET
 rules.when().timeOfDay("SUNSET").then().sendOn().toItem("KitchenLight").build("Sunset Rule","turn on the kitchen light
 at SUNSET");
@@ -589,8 +596,4 @@ rules.when(true).item('HallLight').receivedCommand().then().sendIt().toItem('Kit
 //when the HallLight is updated to ON, make sure that BedroomLight1 is set to the same state as the BedroomLight2
 rules.when(true).item('HallLight').receivedUpdate().then().copyState().fromItem('BedroomLight1').toItem('BedroomLight2').build();
 
-//when the BedroomLight1 is changed, run a custom function
-rules.when(true).item('BedroomLight1').changed().then(() => {
-// do stuff
-}.build();
 ```
