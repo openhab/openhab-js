@@ -257,7 +257,7 @@ console.log("KitchenDimmer averageSince", item.history.averageSince(yesterday));
 
 ### Actions
 
-The item namespace allows interactions with openHAB actions. The following are a list of standard actions. 
+The actions namespace allows interactions with openHAB actions. The following are a list of standard actions. 
 
 Additional actions provided by user installed addons can be accessed using their common name on the actions name space
 (example:  `actions.Pushsafer.pushsafer(...)`)
