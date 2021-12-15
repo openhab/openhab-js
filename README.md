@@ -1,7 +1,7 @@
 # openHAB Javascript Library
 
 This library aims to be a fairly high-level ES6 library to support automation in openHAB. It provides convenient access
-to common openHAB functionality within rules including items, things, action, logging and more.
+to common openHAB functionality within rules including items, things, actions, logging and more.
 
 This library is included by default in the openHAB [JavaScript
 binding](https://www.openhab.org/addons/automation/jsscripting/)
@@ -46,12 +46,12 @@ NPM will create a `node_modules` directory containing the latest version of this
 
 ## UI Based Rules
 
-Rules can be added through the openHAB default web UI.  Adavanced users may want to use [File Based Rules](#file-based-rules) for managing rules using files. 
+The quickest way to add rules is through the openHAB Web UI.
+
+Advanced users, or users migrating scripts from existing systems may want to use [File Based Rules](#file-based-rules) for managing rules using files in the user configuration directory.
 
 ### Adding Triggers
 Using the openHAB UI, first create a new rule and set a trigger condition
-
-Before a rule starts working, it has to be triggered.
 
 ![OpenHAB Rule Configuration](/images/rule-config.png)
 
@@ -84,9 +84,11 @@ See [openhab-js](https://openhab.github.io/openhab-js) for a complete list of fu
 
 ## Scripting Basics
 
+The openHAB JSScripting runtime attempts to provide a familiar environment to Javascript developers.
+
 ### Require
 
-Scripts may include any standard NPM based library by using CommonJS require.  The library search path will look in `automation/js/node_modules` in the user configuration directory.
+Scripts may include standard NPM based libraries by using CommonJS require.  The library search path will look in `automation/js/node_modules` in the user configuration directory.
 
 ### Console
 
@@ -98,12 +100,14 @@ log:set DEBUG org.openhab.automation.script
 ```
 
 Supported logging functions include:
-- console.log(...)
-- console.info(...)
-- console.warn(...)
-- console.error(...)
-- console.debug(...)
-- console.trace(...)
+- `console.log(obj1 [, obj2, ..., objN])`
+- `console.info(obj1 [, obj2, ..., objN])`
+- `console.warn(obj1 [, obj2, ..., objN])`
+- `console.error(obj1 [, obj2, ..., objN])`
+- `console.debug(obj1 [, obj2, ..., objN])`
+- `console.trace(obj1 [, obj2, ..., objN])`
+
+where `obj1 ... objN` is a list of JavaScript objects to output. The string representations of each of these objects are appended together in the order listed and output.
 
 see https://developer.mozilla.org/en-US/docs/Web/API/console for more information about console logging.
 
@@ -117,6 +121,8 @@ var timeoutID = setTimeout(function[, delay]);
 
 The global `clearTimeout()` method cancels a timeout previously established by calling `setTimeout()`.
 
+see https://developer.mozilla.org/en-US/docs/Web/API/setTimeout for more information about setTimeout.
+
 ### setInterval
 
 The setInterval() method repeatedly calls a function or executes a code snippet, with a fixed time delay between each call.
@@ -127,6 +133,8 @@ var intervalID = setInterval(function[, delay]);
 ```
 
 The global `clearInterval()` method cancels a timed, repeating action which was previously established by a call to `setInterval()`.
+
+see https://developer.mozilla.org/en-US/docs/Web/API/setInterval for more information about setInterval.
 
 ### ScriptLoaded
 
@@ -153,7 +161,7 @@ scriptUnloaded = function () {
 
 ### Paths
 
-for rules, scripts will be loaded from `automation/js` in the user configuration directory.
+For [file based rules](#file-based-rules), scripts will be loaded from `automation/js` in the user configuration directory.
 
 NPM libraries will be loaded from `automation/js/node_modules` in the user configuration directory.
 
@@ -212,6 +220,35 @@ const item = items.getItem("KitchenLight");
 item.sendCommand("ON");
 //Post an update
 item.postUpdate("OFF");
+//Get state
+console.log("KitchenLight state", item.state)
+```
+
+calling `item.history...` returns a ItemHistory object with the following functions:
+
+Note `serviceId` is optional, if omitted, the default persistance service will be used.
+
+* ItemHistory : <code>object</code>
+    * .averageSince(timestamp, serviceId) ⇒ <code>Number</code>
+    * .changedSince(timestamp, serviceId) ⇒ <code>Number</code>
+    * .deltaSince(timestamp, serviceId) ⇒ <code>Number</code>
+    * .deviationSince(timestamp, serviceId) ⇒ <code>Number</code>
+    * .evolutionRate(timestamp, serviceId) ⇒ <code>Number</code>
+    * .historicState(timestamp, serviceId) ⇒ <code>state</code>
+    * .lastUpdate(serviceId) ⇒ <code>Date</code>
+    * .latestState(serviceId) ⇒ <code>state</code>
+    * .maximumSince(timestamp,serviceId) ⇒ <code>state</code>
+    * .minimumSince(timestamp,serviceId) ⇒ <code>state</code>
+    * .persist(serviceId)
+    * .previousState(skipEqual,serviceId) ⇒ <code>state</code>
+    * .sumSince(timestamp, serviceId) ⇒ <code>Number</code>
+    * .updatedSince(timestamp, serviceId) ⇒ <code>Boolean</code>
+    * .varianceSince(timestamp,serviceId) ⇒ <code>state</code>
+
+```javascript
+var yesterday = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
+var item = items.getItem("KitchenDimmer");
+console.log("KitchenDimmer averageSince", item.history.averageSince(yesterday));
 ```
 
 ### Actions
@@ -237,9 +274,7 @@ See [openhab-js : actions.Ephemeris ](https://openhab.github.io/openhab-js/actio
 
 Ephemeris is a way to determine what type of day today or a number of days before or after today is. For example, a way to determine if today is a weekend, a bank holiday, someone’s birthday, trash day, etc.
 
-For available actions, have a look at the [Ephemeris Actions Docs](https://www.openhab.org/docs/configuration/actions.html#ephemeris).
-
-For deeper information have a look at the [Ephemeris JavaDoc](https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/ephemeris).
+Additional information can be found on the  [Ephemeris Actions Docs](https://www.openhab.org/docs/configuration/actions.html#ephemeris) as well as the [Ephemeris JavaDoc](https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/ephemeris). 
 
 ```javascript
 // Example
@@ -376,33 +411,72 @@ logger.debug("Hello {}!", "world");
 
 ## File Based Rules
 
-File based rules can be created in 2 different ways: [JSRule](#jsrule) or the [Rule Builder](#rule-builder).
+The JSScripting binding  will load scripts from `automation/js` in the user configuration directory. The system will automatically reload scripts when changes are detected to files.  Local variable state is not persisted among reloads, see using the [cache](#cache) for a connivent way to persist objects.
+
+File based rules can be created in 2 different ways: using [JSRule](#jsrule) or the [Rule Builder](#rule-builder).
 
 See [openhab-js : rules ](https://openhab.github.io/openhab-js/rules.html) for full API documentation
 
 ### JSRule
 
-JSRules provides a simple, declarative syntax for defining rules
+JSRules provides a simple, declarative syntax for defining rules that will be executed based on a trigger condition
+
 ```javascript
+const email = "juliet@capulet.org"
+
 rules.JSRule({
-  name: "Lights ON at 5pm",
+  name: "Balcony Lights ON at 5pm",
   description: "Light will turn on when it's 5:00pm",
   triggers: [triggers.GenericCronTrigger("0 0 17 * * ?")],
   execute: data => {
-    items.getItem("AllLights").sendCommand("ON");
+    items.getItem("BalconyLights").sendCommand("ON");
+    actions.NotificationAction.sendNotification(email, "Balcony lights are ON");
   }
 });
+```
+
+Multiple triggers can be added,  some example triggers include:
+
+```javascript
+triggers.ChannelEventTrigger('astro:sun:local:rise#event', 'START')
+
+triggers.ItemStateChangeTrigger('my_item', 'OFF', 'ON')
+
+triggers.ItemStateUpdateTrigger('my_item', 'OFF')
+
+triggers.ItemCommandTrigger('my_item', 'OFF')
+
+triggers.GroupStateChangeTrigger('my_group', 'OFF', 'ON')
+
+triggers.GroupStateUpdateTrigger('my_group', 'OFF')
+
+triggers.GroupCommandTrigger('my_group', 'OFF')
+
+triggers.ThingStatusUpdateTrigger('some:thing:uuid','OFFLINE')
+
+triggers.ThingStatusChangeTrigger('some:thing:uuid','ONLINE','OFFLINE')
+
+triggers.SystemStartlevelTrigger(40)  //Rules loaded
+
+triggers.SystemStartlevelTrigger(50)  //Rule engine started
+
+triggers.SystemStartlevelTrigger(70)  //User interfaces started
+
+triggers.SystemStartlevelTrigger(80)  //Things initialized
+
+triggers.SystemStartlevelTrigger(100) //Startup Complete
+
+triggers.GenericCronTrigger('0 30 16 * * ? *')
+
+triggers.TimeOfDayTrigger('19:00')
+
 ```
 
 See [openhab-js : triggers ](https://openhab.github.io/openhab-js/triggers.html) in the API documentation for a full list of all triggers.
 
 ### Rule Builder
 
-The Rule Builder provides a convenient API to write rules in a high-level, readable style using a builder pattern. This
-is particularly useful when writing rules using files as opposed to using the UI which provides its own rule creation
-interface.
-
-For a declarative style creation of rules, see using the [JSRule API](#jsrule-api).
+The Rule Builder provides a convenient API to write rules in a high-level, readable style using a builder pattern.
 
 Rules are started by calling `rules.when()` and can chain together [triggers](#rule-builder-triggers),
 [conditions](#rule-builder-conditions) and [operations](#rule-builder-operations) in the following pattern:
@@ -428,37 +502,39 @@ see [Examples](#rule-builder-examples) for further patterns
 
 #### Rule Builder Triggers
 
-* `channel(channelName)` Specifies a channel event as a source for the rule to fire.
-  * `.triggered(event)` Trigger on a specific event name
-* `cron(cronExpression)` Specifies a cron schedule for the rule to fire.
-* `item(itemName)` Specifies an item as the source of changes to trigger a rule.
-  * `.for(duration)`
-  * `.from(state)`
-  * `.to(state)`
-  * `.fromOff()`
-  * `.toOn()`
-  * `.receivedCommand()`
-  * `.receivedUpdate()`
-* `memberOf(groupName)`
-  * `.for(duration)`
-  * `.from(state)`
-  * `.to(state)`
-  * `.fromOff()`
-  * `.toOn()`
-  * `.receivedCommand()`
-  * `.receivedUpdate()`
-* `system()`
-  * `.ruleEngineStarted()`
-  * `.rulesLoaded()`
-  * `.startupComplete()`
-  * `.thingsInitialized()`
-  * `.userInterfacesStarted()`
-  * `.startLevel(level)`
-* `thing(thingName)`
-  * `changed()`
-  * `updated()`
-  * `from(state)`
-  * `to(state)`
+* `when()`
+* `or()`
+    * `.channel(channelName)` Specifies a channel event as a source for the rule to fire.
+        * `.triggered(event)` Trigger on a specific event name
+    * `.cron(cronExpression)` Specifies a cron schedule for the rule to fire.
+    * `.item(itemName)` Specifies an item as the source of changes to trigger a rule.
+        * `.for(duration)`
+        * `.from(state)`
+        * `.to(state)`
+        * `.fromOff()`
+        * `.toOn()`
+        * `.receivedCommand()`
+        * `.receivedUpdate()`
+    * `.memberOf(groupName)`
+        * `.for(duration)`
+        * `.from(state)`
+        * `.to(state)`
+        * `.fromOff()`
+        * `.toOn()`
+        * `.receivedCommand()`
+        * `.receivedUpdate()`
+    * `.system()`
+        * `.ruleEngineStarted()`
+        * `.rulesLoaded()`
+        * `.startupComplete()`
+        * `.thingsInitialized()`
+        * `.userInterfacesStarted()`
+        * `.startLevel(level)`
+    * `.thing(thingName)`
+        * `changed()`
+        * `updated()`
+        * `from(state)`
+        * `to(state)`
 
 Additionally all the above triggers have the following functions:
 * `.if()` or `.if(fn)` -> a [rule condition](#rule-builder-conditions)
@@ -467,21 +543,22 @@ Additionally all the above triggers have the following functions:
 
 #### Rule Builder Conditions
 
-* `stateOfItem(state)`
+* `if(optionalFunction)`
+    * `.stateOfItem(state)`
 
 #### Rule Builder Operations
-
-* `build(name, description)`
-* `copyAndSendState()`
-* `copyState()`
-* `inGroup(groupName)`
-* `postIt()`
-* `postUpdate(state)`
-* `send(command)`
-* `sendIt()`
-* `sendOff()`
-* `sendOn()`
-* `sendToggle()`
+* `then(optionalFunction)`
+    * `.build(name, description)`
+    * `.copyAndSendState()`
+    * `.copyState()`
+    * `.inGroup(groupName)`
+    * `.postIt()`
+    * `.postUpdate(state)`
+    * `.send(command)`
+    * `.sendIt()`
+    * `.sendOff()`
+    * `.sendOn()`
+    * `.sendToggle()`
 
 #### Rule Builder Examples
 
