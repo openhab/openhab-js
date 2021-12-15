@@ -11,7 +11,6 @@
 
 /**
  * Logger prefix
- * @memberOf log
  */
 const LOGGER_PREFIX = "org.openhab.automation.script";
 

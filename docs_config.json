@@ -1,10 +1,16 @@
 {
     "tags": {
         "allowUnknownTags": true,
-        "dictionaries": ["jsdoc"]
+        "dictionaries": [
+            "jsdoc"
+        ]
     },
     "source": {
-        "include": [".", "package.json", "README.md"],
+        "include": [
+            ".",
+            "package.json",
+            "README.md"
+        ],
         "includePattern": ".js$",
         "excludePattern": "(node_modules/|docs|dist)"
     },
@@ -22,5 +28,23 @@
         "private": false,
         "recurse": true,
         "template": "./node_modules/docdash"
+    },
+    "docdash": {
+        "sort": false,
+        "static": true,
+        "sectionOrder": [
+            "Namespaces",
+            "Classes",
+            "Modules",
+            "Externals",
+            "Events",
+            "Mixins",
+            "Tutorials",
+            "Interfaces"
+        ],
+        "search": true,
+        "scopeInOutputPath": false,
+        "nameInOutputPath": false,
+        "versionInOutputPath": false
     }
 }
