@@ -1,6 +1,6 @@
 # openHAB Javascript Library
 [![Build
-Status](https://github.com/openhab/openhab-js/actions/workflows/build.yaml/badge.svg)](https://github.com/openhab/openhab-js/actions/workflows/build.yaml)
+Status](https://github.com/openhab/openhab-js/actions/workflows/build.yaml/badge.svg)](https://github.com/openhab/openhab-js/actions/workflows/build.yaml) [![npm version](https://badge.fury.io/js/openhab.svg)](https://badge.fury.io/js/openhab)
 
 This library aims to be a fairly high-level ES6 library to support automation in openHAB. It provides convenient access
 to common openHAB functionality within rules including items, things, actions, logging and more.
