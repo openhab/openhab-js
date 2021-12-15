@@ -566,7 +566,7 @@ Additionally all the above triggers have the following functions:
 
 ```javascript
 //Basic rule, when the BedroomLight1 is changed, run a custom function
-rules.when(true).item('BedroomLight1').changed().then(e => {
+rules.when().item('BedroomLight1').changed().then(e => {
     console.log("BedroomLight1 state", e.newState)
 }.build();
 
@@ -591,9 +591,9 @@ rules.when().item('HallLight').changed().to("300,100,100").if(fn).then().sendTog
 //and some rules which can be toggled by the items created in the 'gRules' Group:
 
 //when the HallLight receives a command, send the same command to the KitchenLight
-rules.when(true).item('HallLight').receivedCommand().then().sendIt().toItem('KitchenLight').build("Hall Light", "");
+rules.when().item('HallLight').receivedCommand().then().sendIt().toItem('KitchenLight').build("Hall Light", "");
 
 //when the HallLight is updated to ON, make sure that BedroomLight1 is set to the same state as the BedroomLight2
-rules.when(true).item('HallLight').receivedUpdate().then().copyState().fromItem('BedroomLight1').toItem('BedroomLight2').build();
+rules.when().item('HallLight').receivedUpdate().then().copyState().fromItem('BedroomLight1').toItem('BedroomLight2').build();
 
 ```
