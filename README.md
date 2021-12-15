@@ -1,4 +1,6 @@
 # openHAB Javascript Library
+[![Build
+Status](https://github.com/openhab/openhab-js/actions/workflows/build.yaml/badge.svg)](https://github.com/openhab/openhab-js/actions/workflows/build.yaml)
 
 This library aims to be a fairly high-level ES6 library to support automation in openHAB. It provides convenient access
 to common openHAB functionality within rules including items, things, actions, logging and more.
@@ -133,6 +135,8 @@ var intervalID = setInterval(function[, delay]);
 ```
 
 The global `clearInterval()` method cancels a timed, repeating action which was previously established by a call to `setInterval()`.
+
+NOTE: Timers will not be canceled if a script is deleted or modified, it is up to the user to manage timers.  See using the [cache](#cache) namespace as well as [ScriptLoaded](#scriptloaded) and [ScriptUnLoaded](#scriptunloaded) for a convenient way of managing persisted objects, such as timers between reloads or deletions of scripts. 
 
 see https://developer.mozilla.org/en-US/docs/Web/API/setInterval for more information about setInterval.
 
