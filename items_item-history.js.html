@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>items/item-history.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="actions.html">actions</a><ul class='members'><li data-type='member'><a href="actions.html#.Audio">Audio</a></li><li data-type='member'><a href="actions.html#.BusEvent">BusEvent</a></li><li data-type='member'><a href="actions.html#.Ephemeris">Ephemeris</a></li><li data-type='member'><a href="actions.html#.Exec">Exec</a></li><li data-type='member'><a href="actions.html#.HTTP">HTTP</a></li><li data-type='member'><a href="actions.html#.Log">Log</a></li><li data-type='member'><a href="actions.html#.Ping">Ping</a></li><li data-type='member'><a href="actions.html#.ScriptExecution">ScriptExecution</a></li><li data-type='member'><a href="actions.html#.Semantics">Semantics</a></li><li data-type='member'><a href="actions.html#.Things">Things</a></li><li data-type='member'><a href="actions.html#.Voice">Voice</a></li></ul></li><li><a href="cache.html">cache</a><ul class='methods'><li data-type='method'><a href="cache.html#.get">get</a></li><li data-type='method'><a href="cache.html#.put">put</a></li><li data-type='method'><a href="cache.html#.remove">remove</a></li></ul></li><li><a href="items.html">items</a><ul class='methods'><li data-type='method'><a href="items.html#.createItem">createItem</a></li><li data-type='method'><a href="items.html#.addItem">addItem</a></li><li data-type='method'><a href="items.html#.removeItem">removeItem</a></li><li data-type='method'><a href="items.html#.replaceItem">replaceItem</a></li><li data-type='method'><a href="items.html#.getItem">getItem</a></li><li data-type='method'><a href="items.html#.getItemsByTag">getItemsByTag</a></li><li data-type='method'><a href="items.html#.safeItemName">safeItemName</a></li></ul></li><li></li><li><a href="global.html#log">log</a><ul class='members'><li data-type='member'><a href="log.html#.default">default</a></li></ul></li><li><a href="rules.html">rules</a><ul class='methods'><li data-type='method'><a href="rules.html#.when">when</a></li><li data-type='method'><a href="rules.html#.JSRule">JSRule</a></li><li data-type='method'><a href="rules.html#.SwitchableJSRule">SwitchableJSRule</a></li></ul></li><li><a href="triggers.html">triggers</a><ul class='members'><li data-type='member'><a href="triggers.html#.ChannelEventTrigger">ChannelEventTrigger</a></li><li data-type='member'><a href="triggers.html#.ItemStateChangeTrigger">ItemStateChangeTrigger</a></li><li data-type='member'><a href="triggers.html#.ItemStateUpdateTrigger">ItemStateUpdateTrigger</a></li><li data-type='member'><a href="triggers.html#.ItemCommandTrigger">ItemCommandTrigger</a></li><li data-type='member'><a href="triggers.html#.GroupStateChangeTrigger">GroupStateChangeTrigger</a></li><li data-type='member'><a href="triggers.html#.GroupStateUpdateTrigger">GroupStateUpdateTrigger</a></li><li data-type='member'><a href="triggers.html#.GroupCommandTrigger">GroupCommandTrigger</a></li><li data-type='member'><a href="triggers.html#.ThingStatusUpdateTrigger">ThingStatusUpdateTrigger</a></li><li data-type='member'><a href="triggers.html#.ThingStatusChangeTrigger">ThingStatusChangeTrigger</a></li><li data-type='member'><a href="triggers.html#.SystemStartlevelTrigger">SystemStartlevelTrigger</a></li><li data-type='member'><a href="triggers.html#.GenericCronTrigger">GenericCronTrigger</a></li><li data-type='member'><a href="triggers.html#.TimeOfDayTrigger">TimeOfDayTrigger</a></li></ul></li></ul><h3>Classes</h3><ul><li><a href="items.ItemHistory.html">ItemHistory</a><ul class='methods'><li data-type='method'><a href="items.ItemHistory.html#averageSince">averageSince</a></li><li data-type='method'><a href="items.ItemHistory.html#changedSince">changedSince</a></li><li data-type='method'><a href="items.ItemHistory.html#deltaSince">deltaSince</a></li><li data-type='method'><a href="items.ItemHistory.html#deviationSince">deviationSince</a></li><li data-type='method'><a href="items.ItemHistory.html#evolutionRate">evolutionRate</a></li><li data-type='method'><a href="items.ItemHistory.html#historicState">historicState</a></li><li data-type='method'><a href="items.ItemHistory.html#lastUpdate">lastUpdate</a></li><li data-type='method'><a href="items.ItemHistory.html#maximumSince">maximumSince</a></li><li data-type='method'><a href="items.ItemHistory.html#minimumSince">minimumSince</a></li><li data-type='method'><a href="items.ItemHistory.html#persist">persist</a></li><li data-type='method'><a href="items.ItemHistory.html#previousState">previousState</a></li><li data-type='method'><a href="items.ItemHistory.html#sumSince">sumSince</a></li><li data-type='method'><a href="items.ItemHistory.html#updatedSince">updatedSince</a></li><li data-type='method'><a href="items.ItemHistory.html#varianceSince">varianceSince</a></li><li data-type='method'><a href="items.ItemHistory.html#latestState">latestState</a></li></ul></li><li><a href="items.Item.html">Item</a><ul class='methods'><li data-type='method'><a href="items.Item.html#getMetadataValue">getMetadataValue</a></li><li data-type='method'><a href="items.Item.html#updateMetadataValue">updateMetadataValue</a></li><li data-type='method'><a href="items.Item.html#upsertMetadataValue">upsertMetadataValue</a></li><li data-type='method'><a href="items.Item.html#updateMetadataValues">updateMetadataValues</a></li><li data-type='method'><a href="items.Item.html#sendCommand">sendCommand</a></li><li data-type='method'><a href="items.Item.html#sendCommandIfDifferent">sendCommandIfDifferent</a></li><li data-type='method'><a href="items.Item.html#postUpdate">postUpdate</a></li><li data-type='method'><a href="items.Item.html#addGroups">addGroups</a></li><li data-type='method'><a href="items.Item.html#removeGroups">removeGroups</a></li><li data-type='method'><a href="items.Item.html#addTags">addTags</a></li><li data-type='method'><a href="items.Item.html#removeTags">removeTags</a></li></ul></li><li><a href="log.Logger.html">Logger</a><ul class='methods'><li data-type='method'><a href="log.Logger.html#error">error</a></li><li data-type='method'><a href="log.Logger.html#warn">warn</a></li><li data-type='method'><a href="log.Logger.html#info">info</a></li><li data-type='method'><a href="log.Logger.html#debug">debug</a></li><li data-type='method'><a href="log.Logger.html#trace">trace</a></li><li data-type='method'><a href="log.Logger.html#atLevel">atLevel</a></li></ul></li><li><a href="ConditionBuilder.html">ConditionBuilder</a><ul class='methods'><li data-type='method'><a href="ConditionBuilder.html#then">then</a></li><li data-type='method'><a href="ConditionBuilder.html#stateOfItem">stateOfItem</a></li></ul></li><li><a href="ConditionBuilder.ConditionConf.html">ConditionConf</a><ul class='methods'><li data-type='method'><a href="ConditionBuilder.ConditionConf.html#then">then</a></li></ul></li><li><a href="ConditionBuilder.FunctionConditionConf.html">FunctionConditionConf</a><ul class='methods'><li data-type='method'><a href="ConditionBuilder.FunctionConditionConf.html#then">then</a></li></ul></li><li><a href="ConditionBuilder.ItemStateConditionConf.html">ItemStateConditionConf</a><ul class='methods'><li data-type='method'><a href="ConditionBuilder.ItemStateConditionConf.html#is">is</a></li><li data-type='method'><a href="ConditionBuilder.ItemStateConditionConf.html#in">in</a></li><li data-type='method'><a href="ConditionBuilder.ItemStateConditionConf.html#then">then</a></li></ul></li><li><a href="OperationBuilder.html">OperationBuilder</a><ul class='methods'><li data-type='method'><a href="OperationBuilder.html#build">build</a></li><li data-type='method'><a href="OperationBuilder.html#inGroup">inGroup</a></li><li data-type='method'><a href="OperationBuilder.html#send">send</a></li><li data-type='method'><a href="OperationBuilder.html#postUpdate">postUpdate</a></li><li data-type='method'><a href="OperationBuilder.html#sendOn">sendOn</a></li><li data-type='method'><a href="OperationBuilder.html#sendOff">sendOff</a></li><li data-type='method'><a href="OperationBuilder.html#sendToggle">sendToggle</a></li><li data-type='method'><a href="OperationBuilder.html#sendIt">sendIt</a></li><li data-type='method'><a href="OperationBuilder.html#postIt">postIt</a></li><li data-type='method'><a href="OperationBuilder.html#copyState">copyState</a></li><li data-type='method'><a href="OperationBuilder.html#copyAndSendState">copyAndSendState</a></li></ul></li><li><a href="OperationBuilder.OperationConfig.html">OperationConfig</a><ul class='methods'><li data-type='method'><a href="OperationBuilder.OperationConfig.html#inGroup">inGroup</a></li><li data-type='method'><a href="OperationBuilder.OperationConfig.html#build">build</a></li></ul></li><li><a href="OperationBuilder.CopyStateOperation.html">CopyStateOperation</a><ul class='methods'><li data-type='method'><a href="OperationBuilder.CopyStateOperation.html#fromItem">fromItem</a></li><li data-type='method'><a href="OperationBuilder.CopyStateOperation.html#toItem">toItem</a></li><li data-type='method'><a href="OperationBuilder.CopyStateOperation.html#and">and</a></li><li data-type='method'><a href="OperationBuilder.CopyStateOperation.html#inGroup">inGroup</a></li><li data-type='method'><a href="OperationBuilder.CopyStateOperation.html#build">build</a></li></ul></li><li><a href="OperationBuilder.SendCommandOrUpdateOperation.html">SendCommandOrUpdateOperation</a><ul class='methods'><li data-type='method'><a href="OperationBuilder.SendCommandOrUpdateOperation.html#toItems">toItems</a></li><li data-type='method'><a href="OperationBuilder.SendCommandOrUpdateOperation.html#toItem">toItem</a></li><li data-type='method'><a href="OperationBuilder.SendCommandOrUpdateOperation.html#and">and</a></li><li data-type='method'><a href="OperationBuilder.SendCommandOrUpdateOperation.html#inGroup">inGroup</a></li><li data-type='method'><a href="OperationBuilder.SendCommandOrUpdateOperation.html#build">build</a></li></ul></li><li><a href="OperationBuilder.ToggleOperation.html">ToggleOperation</a><ul class='methods'><li data-type='method'><a href="OperationBuilder.ToggleOperation.html#doToggle">doToggle</a></li><li data-type='method'><a href="OperationBuilder.ToggleOperation.html#inGroup">inGroup</a></li><li data-type='method'><a href="OperationBuilder.ToggleOperation.html#build">build</a></li></ul></li><li><a href="OperationBuilder.TimingItemStateOperation.html">TimingItemStateOperation</a><ul class='methods'><li data-type='method'><a href="OperationBuilder.TimingItemStateOperation.html#inGroup">inGroup</a></li><li data-type='method'><a href="OperationBuilder.TimingItemStateOperation.html#build">build</a></li></ul></li><li><a href="RuleBuilder.html">RuleBuilder</a><ul class='methods'><li data-type='method'><a href="RuleBuilder.html#when">when</a></li></ul></li><li><a href="TriggerBuilder.html">TriggerBuilder</a><ul class='methods'><li data-type='method'><a href="TriggerBuilder.html#channel">channel</a></li><li data-type='method'><a href="TriggerBuilder.html#cron">cron</a></li><li data-type='method'><a href="TriggerBuilder.html#item">item</a></li><li data-type='method'><a href="TriggerBuilder.html#memberOf">memberOf</a></li><li data-type='method'><a href="TriggerBuilder.html#thing">thing</a></li><li data-type='method'><a href="TriggerBuilder.html#system">system</a></li></ul></li><li><a href="TriggerBuilder.TriggerConf.html">TriggerConf</a><ul class='methods'><li data-type='method'><a href="TriggerBuilder.TriggerConf.html#or">or</a></li><li data-type='method'><a href="TriggerBuilder.TriggerConf.html#then">then</a></li><li data-type='method'><a href="TriggerBuilder.TriggerConf.html#if">if</a></li></ul></li><li><a href="TriggerBuilder.ChannelTriggerConfig.html">ChannelTriggerConfig</a><ul class='methods'><li data-type='method'><a href="TriggerBuilder.ChannelTriggerConfig.html#to">to</a></li><li data-type='method'><a href="TriggerBuilder.ChannelTriggerConfig.html#triggered">triggered</a></li><li data-type='method'><a href="TriggerBuilder.ChannelTriggerConfig.html#or">or</a></li><li data-type='method'><a href="TriggerBuilder.ChannelTriggerConfig.html#then">then</a></li><li data-type='method'><a href="TriggerBuilder.ChannelTriggerConfig.html#if">if</a></li></ul></li><li><a href="TriggerBuilder.CronTriggerConfig.html">CronTriggerConfig</a><ul class='methods'><li data-type='method'><a href="TriggerBuilder.CronTriggerConfig.html#or">or</a></li><li data-type='method'><a href="TriggerBuilder.CronTriggerConfig.html#then">then</a></li><li data-type='method'><a href="TriggerBuilder.CronTriggerConfig.html#if">if</a></li></ul></li><li><a href="TriggerBuilder.ItemTriggerConfig.html">ItemTriggerConfig</a><ul class='methods'><li data-type='method'><a href="TriggerBuilder.ItemTriggerConfig.html#to">to</a></li><li data-type='method'><a href="TriggerBuilder.ItemTriggerConfig.html#from">from</a></li><li data-type='method'><a href="TriggerBuilder.ItemTriggerConfig.html#toOff">toOff</a></li><li data-type='method'><a href="TriggerBuilder.ItemTriggerConfig.html#toOn">toOn</a></li><li data-type='method'><a href="TriggerBuilder.ItemTriggerConfig.html#receivedCommand">receivedCommand</a></li><li data-type='method'><a href="TriggerBuilder.ItemTriggerConfig.html#receivedUpdate">receivedUpdate</a></li><li data-type='method'><a href="TriggerBuilder.ItemTriggerConfig.html#changed">changed</a></li><li data-type='method'><a href="TriggerBuilder.ItemTriggerConfig.html#for">for</a></li><li data-type='method'><a href="TriggerBuilder.ItemTriggerConfig.html#or">or</a></li><li data-type='method'><a href="TriggerBuilder.ItemTriggerConfig.html#then">then</a></li><li data-type='method'><a href="TriggerBuilder.ItemTriggerConfig.html#if">if</a></li></ul></li><li><a href="TriggerBuilder.ThingTriggerConfig.html">ThingTriggerConfig</a><ul class='methods'><li data-type='method'><a href="TriggerBuilder.ThingTriggerConfig.html#changed">changed</a></li><li data-type='method'><a href="TriggerBuilder.ThingTriggerConfig.html#updated">updated</a></li><li data-type='method'><a href="TriggerBuilder.ThingTriggerConfig.html#from">from</a></li><li data-type='method'><a href="TriggerBuilder.ThingTriggerConfig.html#to">to</a></li><li data-type='method'><a href="TriggerBuilder.ThingTriggerConfig.html#or">or</a></li><li data-type='method'><a href="TriggerBuilder.ThingTriggerConfig.html#then">then</a></li><li data-type='method'><a href="TriggerBuilder.ThingTriggerConfig.html#if">if</a></li></ul></li><li><a href="TriggerBuilder.SystemTriggerConfig.html">SystemTriggerConfig</a><ul class='methods'><li data-type='method'><a href="TriggerBuilder.SystemTriggerConfig.html#rulesLoaded">rulesLoaded</a></li><li data-type='method'><a href="TriggerBuilder.SystemTriggerConfig.html#ruleEngineStarted">ruleEngineStarted</a></li><li data-type='method'><a href="TriggerBuilder.SystemTriggerConfig.html#userInterfacesStarted">userInterfacesStarted</a></li><li data-type='method'><a href="TriggerBuilder.SystemTriggerConfig.html#thingsInitialized">thingsInitialized</a></li><li data-type='method'><a href="TriggerBuilder.SystemTriggerConfig.html#startupComplete">startupComplete</a></li><li data-type='method'><a href="TriggerBuilder.SystemTriggerConfig.html#startLevel">startLevel</a></li><li data-type='method'><a href="TriggerBuilder.SystemTriggerConfig.html#or">or</a></li><li data-type='method'><a href="TriggerBuilder.SystemTriggerConfig.html#then">then</a></li><li data-type='method'><a href="TriggerBuilder.SystemTriggerConfig.html#if">if</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#DYNAMIC_ITEM_TAG">DYNAMIC_ITEM_TAG</a></li><li><a href="global.html#LOGGER_PREFIX">LOGGER_PREFIX</a></li><li><a href="global.html#upsertValue">upsertValue</a></li><li><a href="global.html#registeredServices">registeredServices</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">items/item-history.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const PersistenceExtensions = Java.type("org.openhab.core.persistence.extensions.PersistenceExtensions");
+const DateTime = Java.type('java.time.ZonedDateTime');
+
+/**
+ * Class representing the historic state of an openHAB Item
+ * 
+ * 
+ * @memberOf items
+ * @hideconstructor
+ */
+class ItemHistory {
+    constructor(item) {
+        this.item = item;
+    }
+    /**
+     * Gets the average value of the state of a given Item since a certain point in time.
+     * 
+     * @example
+     * var item = items.getItem("KitchenDimmer");
+     * console.log("KitchenDimmer averageSince", item.history.averageSince(yesterday)); 
+     * 
+     * @param {(Date | ZoneDateTime)} timestamp
+     * @param {string} [serviceId] optional persistance service ID 
+     * @returns {(Number | null)}
+     */
+    averageSince(timestamp, serviceId) {
+        return this._decimalOrNull(PersistenceExtensions.averageSince(this.item, ...arguments));
+    }
+
+    /**
+     * Checks if the state of a given item has changed since a certain point in time.
+     * 
+     * @param {(Date | ZoneDateTime)} timestamp 
+     * @param {string} [serviceId] optional persistance service ID 
+     * @returns {boolean}
+     */
+    changedSince(timestamp, serviceId) {
+        return PersistenceExtensions.changedSince(this.item, ...arguments);
+    }
+
+    /**
+     * Gets the difference value of the state of a given item since a certain point in time.
+     * 
+     * @param {(Date | ZoneDateTime)} timestamp 
+     * @param {string} [serviceId] optional persistance service ID 
+     * @returns {(Number | null)}
+     */
+    deltaSince(timestamp, serviceId) {
+        return this._decimalOrNull(PersistenceExtensions.deltaSince(this.item, ...arguments));
+    }
+
+    /**
+     * Gets the standard deviation of the state of the given Item since a certain point in time.
+     * 
+     * @param {(Date | ZoneDateTime)} timestamp 
+     * @param {string} [serviceId] optional persistance service ID 
+     * @returns {(Number | null)}
+     */
+    deviationSince(timestamp, serviceId) {
+        return this._decimalOrNull(PersistenceExtensions.deviationSince(this.item, ...arguments));
+    }
+
+    /**
+     * Gets the evolution rate of the state of a given Item since a certain point in time.
+     * 
+     * @param {(Date | ZoneDateTime)} timestamp 
+     * @param {string} [serviceId] optional persistance service ID 
+     * @returns {(Number | null)}
+     */
+    evolutionRate(timestamp, serviceId) {
+        return this._decimalOrNull(PersistenceExtensions.evolutionRate(this.item, ...arguments));
+    }
+
+    /**
+     * Retrieves the historic item state for a given item at a certain point in time.
+     * 
+     * @param {(Date | ZoneDateTime)} timestamp 
+     * @param {string} [serviceId] optional persistance service ID 
+     * @returns {*} state
+     */
+    historicState(timestamp, serviceId) {
+        return this._stateOrNull(PersistenceExtensions.historicState(this.item, ...arguments));
+    }
+
+    /**
+     * Query the last update time of a given item.
+     * 
+     * @param {string} [serviceId] optional persistance service ID 
+     * @returns {(Date | null)}
+     */
+    lastUpdate(serviceId) {
+        console.log("Last Update", ...arguments);
+        return this._dateOrNull(PersistenceExtensions.lastUpdate(this.item, ...arguments));
+    }
+
+    /**
+     * Gets the historic item with the maximum value of the state of a given item since a certain point in time.
+     * 
+     * @param {(Date | ZoneDateTime)} timestamp 
+     * @param {string} [serviceId] optional persistance service ID 
+     * @returns {*} state
+     */
+    maximumSince(timestamp, serviceId) {
+        return this._stateOrNull(PersistenceExtensions.maximumSince(this.item, ...arguments));
+    }
+
+    /**
+     * Gets the historic item with the minimum value of the state of a given item since a certain point in time.
+     * 
+     * @param {(Date | ZoneDateTime)} timestamp 
+     * @param {string} [serviceId] optional persistance service ID 
+     * @returns {*} state
+     */
+    minimumSince(timestamp, serviceId) {
+        return this._stateOrNull(PersistenceExtensions.minimumSince(this.item, ...arguments));
+    }
+
+    /**
+     * Persists the state of a given item
+     * 
+     * @param {string} [serviceId] optional persistance service ID 
+     */
+    persist(serviceId) {
+        PersistenceExtensions.persist(this.item, ...arguments);
+    }
+
+    /**
+     * Returns the previous state of a given item.
+     * 
+     * @param {boolean} [skipEqual] optional, if true, skips equal state values and searches the first state not equal the current state
+     * @param {string} [serviceId] optional persistance service ID 
+     * @returns {*} state
+     */
+    previousState(skipEqual, serviceId) {
+        return this._stateOrNull(PersistenceExtensions.previousState(this.item, ...arguments));
+    }
+
+    /**
+     * Gets the sum of the state of a given item since a certain point in time.
+     * 
+     * @param {(Date | ZoneDateTime)} timestamp 
+     * @param {string} [serviceId] optional persistance service ID 
+     * @returns {(Number | null)}
+     */
+    sumSince(timestamp, serviceId) {
+        return this._decimalOrNull(PersistenceExtensions.sumSince(this.item, ...arguments));
+    }
+
+    /**
+     * Checks if the state of a given item has been updated since a certain point in time.
+     * 
+     * @param {(Date | ZoneDateTime)} timestamp 
+     * @param {string} [serviceId] optional persistance service ID 
+     * @returns {boolean}
+     */
+    updatedSince(timestamp, serviceId) {
+        return PersistenceExtensions.updatedSince(this.item, ...arguments);
+    }
+
+    /**
+     * Gets the variance of the state of the given Item since a certain point in time.
+     * 
+     * @param {(Date | ZoneDateTime)} timestamp 
+     * @param {string} [serviceId] optional persistance service ID 
+     * @returns {*} state
+     */
+    varianceSince(timestamp, serviceId) {
+        return this._stateOrNull(PersistenceExtensions.varianceSince(this.item, ...arguments));
+    }
+
+    /**
+     * Retrieves the historic item state for a given item at the current point in time.
+     * @param {string} [serviceId] optional persistance service ID 
+     * @returns {*} state
+     */
+    latestState(serviceId) {
+        return this.historicState(DateTime.now(), ...arguments);
+    }
+
+    _stateOrNull(result) {
+        console.log("_stateOrNull", result)
+        return result === null ? null : result.state;
+    }
+
+    _dateOrNull(result) {
+        return result === null ? null : new Date(result.toInstant().toEpochMilli());
+    }
+
+    _decimalOrNull(result) {
+        return result === null ? null : result.toBigDecimal();
+    }
+}
+
+module.exports = ItemHistory;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Wed Dec 15 2021 05:09:28 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+</body>
+</html>
