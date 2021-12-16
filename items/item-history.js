@@ -178,7 +178,6 @@ class ItemHistory {
     }
 
     _stateOrNull(result) {
-        console.log("_stateOrNull", result)
         return result === null ? null : result.state;
     }
 
