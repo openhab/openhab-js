@@ -1,6 +1,6 @@
 {
     "name": "openhab",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "description": "JavaScript Library for openHAB Automation",
     "private": false,
     "license": "EPL-2.0",
