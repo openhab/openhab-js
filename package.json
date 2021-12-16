@@ -9,8 +9,7 @@
         "url": "git://github.com/openhab/openhab-js.git"
     },
     "dependencies": {
-        "cronstrue": "^1.84.0",
-        "minimist": "^1.2.5",
+        "@js-joda/core": "^4.3.1",
         "parse-duration": "^0.1.1"
     },
     "scripts": {
@@ -20,6 +19,7 @@
         "webpack": "webpack"
     },
     "devDependencies": {
+        "acorn": "^8.6.0",
         "dmd-readable": "^1.2.4",
         "docdash": "^1.2.0",
         "jsdoc": "^3.6.3",

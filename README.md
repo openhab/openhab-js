@@ -21,10 +21,11 @@ binding](https://www.openhab.org/addons/automation/jsscripting/)
     - [scriptUnLoaded](#scriptunloaded)
     - [Paths](#paths)
 - [Standard Library](#standard-library)
-    - [Items](#items)
-    - [Actions](#actions)
-    - [Cache](#cache)
-    - [Log](#log)
+    - [items](#items)
+    - [actions](#actions)
+    - [cache](#cache)
+    - [log](#log)
+    - [time](#time)
 - [File Based Rules](#file-based-rules)
   - [JSRule](#jsrule)
   - [Rule Builder](#rule-builder)
@@ -61,9 +62,11 @@ Using the openHAB UI, first create a new rule and set a trigger condition
 ### Adding Actions
 Select "Add Action" and then select "ECMAScript 262 Edition 11".  Its important this is "Edition 11" or higher, earlier versions will not work. This will bring up a empty script editor where you can enter your javascript.
 
-![OpenHAB Rule Script](/images/rule-script.png)
+![OpenHAB Rule Engines](/images/rule-engines.png)
 
 You can now write rules using standard ES6 Javascript along with the included openHAB [standard library](#standard-library).
+
+![OpenHAB Rule Script](/images/rule-script.png)
 
 For example, turning a light on:
 ```javascript
@@ -412,6 +415,25 @@ let logger = log('my_logger');
 //prints "Hello World!"
 logger.debug("Hello {}!", "world");
 ```
+
+### Time
+
+openHAB internally makes extensive use of the `java.time` package.  openHAB-JS exports the excellent [JS-Joda](#https://js-joda.github.io/js-joda/) library via the `time` namespace, which is a native Javascript port of the same API standard used in Java for `java.time`.  Anywhere that a native Java `ZonedDateTime` or `Duration` is required, the runtime will automatically convert a JS-Joda `ZonedDateTime` or `Duration` to its Java counterpart. 
+
+Examples:
+```javascript
+var now = time.ZonedDateTime.now();
+var yesterday = time.ZonedDateTime.now().minusHours(24);
+
+var item = items.getItem("Kitchen");
+console.log("averageSince", item.history.averageSince(yesterday));
+```
+
+```javascript
+actions.Exec.executeCommandLine(time.Duration.ofSeconds(20), 'echo', 'Hello World!');
+```
+
+See [JS-Joda](#https://js-joda.github.io/js-joda/) for more examples and complete API usage.
 
 ## File Based Rules
 
