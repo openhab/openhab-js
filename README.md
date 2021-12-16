@@ -21,10 +21,11 @@ binding](https://www.openhab.org/addons/automation/jsscripting/)
     - [scriptUnLoaded](#scriptunloaded)
     - [Paths](#paths)
 - [Standard Library](#standard-library)
-    - [Items](#items)
-    - [Actions](#actions)
-    - [Cache](#cache)
-    - [Log](#log)
+    - [items](#items)
+    - [actions](#actions)
+    - [cache](#cache)
+    - [log](#log)
+    - [time](#time)
 - [File Based Rules](#file-based-rules)
   - [JSRule](#jsrule)
   - [Rule Builder](#rule-builder)
@@ -412,6 +413,25 @@ let logger = log('my_logger');
 //prints "Hello World!"
 logger.debug("Hello {}!", "world");
 ```
+
+### Time
+
+openHAB internally makes extensive use of the `java.time` package.  openHAB-JS exports the excellent [JS-Joda](#https://js-joda.github.io/js-joda/) library via the `time` namespace, which is a native Javascript port of the same API standard used in Java for `java.time`.  Anywhere that a native Java `ZonedDateTime` or `Duration` is required, the runtime will automatically convert a JS-Joda `ZonedDateTime` or `Duration` to its Java counterpart. 
+
+Examples:
+```javascript
+var now = time.ZonedDateTime.now();
+var yesterday = time.ZonedDateTime.now().minusHours(24);
+
+var item = items.getItem("Kitchen");
+console.log("averageSince", item.history.averageSince(yesterday));
+```
+
+```javascript
+actions.Exec.executeCommandLine(time.Duration.ofSeconds(20), 'echo', 'Hello World!');
+```
+
+See [JS-Joda](#https://js-joda.github.io/js-joda/) for more examples and complete API usage.
 
 ## File Based Rules
 
