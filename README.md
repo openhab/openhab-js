@@ -62,9 +62,11 @@ Using the openHAB UI, first create a new rule and set a trigger condition
 ### Adding Actions
 Select "Add Action" and then select "ECMAScript 262 Edition 11".  Its important this is "Edition 11" or higher, earlier versions will not work. This will bring up a empty script editor where you can enter your javascript.
 
-![OpenHAB Rule Script](/images/rule-script.png)
+![OpenHAB Rule Engines](/images/rule-engines.png)
 
 You can now write rules using standard ES6 Javascript along with the included openHAB [standard library](#standard-library).
+
+![OpenHAB Rule Script](/images/rule-script.png)
 
 For example, turning a light on:
 ```javascript
