@@ -26,7 +26,7 @@ const DYNAMIC_ITEM_TAG = "_DYNAMIC_";
  * 
  * @memberOf items
  */
- class Item {
+class Item {
     /**
      * Create an Item, wrapping a native Java openHAB Item. Don't use this constructor, instead call {@link getItem}.
      * @param {HostItem} rawItem Java Item from Host
@@ -55,7 +55,7 @@ const DYNAMIC_ITEM_TAG = "_DYNAMIC_";
 
     /**
      * The name of the item.
-     * @return {String} the name
+     * @returns {String} the name
      */
     get name() {
         return this.rawItem.getName();
@@ -63,7 +63,7 @@ const DYNAMIC_ITEM_TAG = "_DYNAMIC_";
 
     /**
      * The label attached to the item
-     * @return {String} the label
+     * @returns {String} the label
      */
     get label() {
         return this.rawItem.getLabel();
@@ -71,7 +71,7 @@ const DYNAMIC_ITEM_TAG = "_DYNAMIC_";
 
     /**
      * The state of the item, as a string.
-     * @return {String} the item's state
+     * @returns {String} the item's state
      */
     get state() {
         return this.rawState.toString();
@@ -79,7 +79,7 @@ const DYNAMIC_ITEM_TAG = "_DYNAMIC_";
 
     /**
      * The raw state of the item, as a java object.
-     * @return {HostState} the item's state
+     * @returns {HostState} the item's state
      */
     get rawState() {
         return this.rawItem.state;
@@ -87,12 +87,10 @@ const DYNAMIC_ITEM_TAG = "_DYNAMIC_";
 
     /**
      * Members / children / direct descendents of the current group item (as returned by 'getMembers()'). Must be a group item.
-     * 
+     * @returns {Item[]} member items
      * @example
      * const group = items.getItem('test_group').members;
      * for (let i = 0; i < group.length; i++) console.log(group[i].label);
-     * 
-     * @returns {Item[]} member items
      */
     get members() {
         return utils.javaSetToJsArray(this.rawItem.getMembers()).map(raw => new Item(raw));
@@ -116,7 +114,6 @@ const DYNAMIC_ITEM_TAG = "_DYNAMIC_";
 
     /**
      * Minimum state item of members / children / direct descendents of the current group item (as returned by 'getMembers()'). Must be a group item.
-     * 
      * @returns {Item} item with the minimum state
      */
     get membersMin() {
@@ -125,7 +122,6 @@ const DYNAMIC_ITEM_TAG = "_DYNAMIC_";
 
     /**
      * Maximum state item of members / children / direct descendents of the current group item (as returned by 'getMembers()'). Must be a group item.
-     * 
      * @returns {Item} item with the maximum state
      */
     get membersMax() {
@@ -135,7 +131,6 @@ const DYNAMIC_ITEM_TAG = "_DYNAMIC_";
     /**
      * Summarized value of members / children / direct descendents of the current group item (as returned by 'getMembers()'). Must be a group item.
      * Only includes items of type Number, Dimmer & Rollershutter in calculation.
-     * 
      * @returns {Number} sum of states
      */
     get membersSum() {
@@ -145,7 +140,6 @@ const DYNAMIC_ITEM_TAG = "_DYNAMIC_";
     /**
      * Average value of members / children / direct descendents of the current group item (as returned by 'getMembers()'). Must be a group item.
      * Only includes items of type Number, Dimmer & Rollershutter in calculation.
-     * 
      * @returns {Number} average of states
      */
     get membersAvg() {
@@ -180,7 +174,6 @@ const DYNAMIC_ITEM_TAG = "_DYNAMIC_";
 
     /**
      * Minimum state item of all descendents of the current group item (as returned by 'getAllMembers()'). Must be a group item.
-     * 
      * @returns {Item} item with the minimum state
      */
     get descendentsMin() {
@@ -189,7 +182,6 @@ const DYNAMIC_ITEM_TAG = "_DYNAMIC_";
 
     /**
      * Maximum state item of all descendents of the current group item (as returned by 'getAllMembers()'). Must be a group item.
-     * 
      * @returns {Item} item with the maximum state
      */
     get descendents() {
@@ -199,7 +191,6 @@ const DYNAMIC_ITEM_TAG = "_DYNAMIC_";
     /**
      * Summarized value of all descendents of the current group item (as returned by 'getAllMembers()'). Must be a group item.
      * Only includes items of type Number, Dimmer & Rollershutter in calculation.
-     * 
      * @returns {Number} sum of states
      */
     get descendentsSum() {
@@ -209,7 +200,6 @@ const DYNAMIC_ITEM_TAG = "_DYNAMIC_";
     /**
      * Average value of all descendents of the current group item (as returned by 'getAllMembers()'). Must be a group item.
      * Only includes items of type Number, Dimmer & Rollershutter in calculation.
-     * 
      * @returns {Number} average of states
      */
     get descendentsAvg() {
