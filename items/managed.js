@@ -367,6 +367,7 @@ class Item {
         managedItemProvider.update(this.rawItem);
     }
 }
+
 /**
  * Creates a new item within OpenHab. This item is not registered with any provider.
  * 
@@ -384,7 +385,7 @@ class Item {
  * @param {HostGroupFunction} [groupFunction] the group function used by the Item
  * @param {Map} [itemMetadata] a map of metadata to set on the item
  */
- const createItem = function (itemName, itemType, category, groups, label, tags, giBaseType, groupFunction, itemMetadata) {
+const createItem = function (itemName, itemType, category, groups, label, tags, giBaseType, groupFunction, itemMetadata) {
     itemName = safeItemName(itemName);
     
     let baseItem;
