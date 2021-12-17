@@ -103,7 +103,7 @@ class Item {
      * @returns {Array} names of member items
      */
     get membersNames() {
-        return this.members.map(raw => raw.name);
+        return this.members.map(item => item.name);
     }
 
     /**
@@ -111,24 +111,48 @@ class Item {
      * @returns {String} states of member items as concatenated string
      */
     get membersLabelsString() {
-        return this.members.map(raw => raw.label).join(', ');
+        return this.members.map(item => item.label).join(', ');
     }
 
     /**
-     * States of members / children / direct descendents of the current group item (as returned by 'getMembers()'). Must be a group item.
-     * @returns {Array} states of member items
+     * Minimum state item of members / children / direct descendents of the current group item (as returned by 'getMembers()'). Must be a group item.
+     * 
+     * @returns {Item} item with the minimum state
      */
-    getMembersStates() {
-        return utils.javaSetToJsArray(this.rawItem.getMembers()).map(raw => new Item(raw).state);
+    get membersMin() {
+        return this.members.reduce((min, item) => parseFloat(item.state) < parseFloat(min.state) ? item : min);
     }
 
     /**
-     * Labels of members / children / direct descendents of the current group item (as returned by 'getMembers()') as a concatenated string. Must be a group item.
-     * @returns {String} states of member items as concatenated string
+     * Maximum state item of members / children / direct descendents of the current group item (as returned by 'getMembers()'). Must be a group item.
+     * 
+     * @returns {Item} item with the maximum state
      */
-     getMembersLabelsString() {
-        return utils.javaSetToJsArray(this.rawItem.getMembers()).map(raw => new Item(raw).label).join(', ');
+    get membersMax() {
+        return this.members.reduce((min, item) => parseFloat(item.state) > parseFloat(min.state) ? item : min);
     }
+
+    /**
+     * Summarized value of members / children / direct descendents of the current group item (as returned by 'getMembers()'). Must be a group item.
+     * Only includes items of type Number, Dimmer & Rollershutter in calculation.
+     * 
+     * @returns {Number} sum of states
+     */
+    get membersSum() {
+        return this.members.filter(item => item.type === 'NumberItem' || item.type === 'DimmerItem' || item.type === 'RollershutterItem').reduce((sum, item) => sum + parseFloat(item.state), 0);
+    }
+
+    /**
+     * Average value of members / children / direct descendents of the current group item (as returned by 'getMembers()'). Must be a group item.
+     * Only includes items of type Number, Dimmer & Rollershutter in calculation.
+     * 
+     * @returns {Number} average of states
+     */
+    get membersAvg() {
+        const numbers = this.members.filter(item => item.type === 'NumberItem' || item.type === 'DimmerItem' || item.type === 'RollershutterItem');
+        return numbers.reduce((avg, item) => { return avg + parseFloat(item.state)/numbers.length; }, 0);
+    }
+
 
     /**
      * All descendents of the current group item (as returned by 'getAllMembers()'). Must be a group item.
