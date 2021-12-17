@@ -26,7 +26,7 @@ const DYNAMIC_ITEM_TAG = "_DYNAMIC_";
  * 
  * @memberOf items
  */
-class Item {
+ class Item {
     /**
      * Create an Item, wrapping a native Java openHAB Item. Don't use this constructor, instead call {@link getItem}.
      * @param {HostItem} rawItem Java Item from Host
@@ -160,6 +160,61 @@ class Item {
      */
     get descendents() {
         return utils.javaSetToJsArray(this.rawItem.getAllMembers()).map(raw => new Item(raw));
+    }
+
+    /**
+     * Names of all descendents of the current group item (as returned by 'getAllMembers()'). Must be a group item.
+     * @returns {Array} names of descendent items
+     */
+     get descendentsNames() {
+        return this.descendents.map(item => item.name);
+    }
+
+    /**
+     * Labels of all descendents of the current group item (as returned by 'getAllMembers()'). Must be a group item.
+     * @returns {String} states of descendent items as concatenated string
+     */
+    get descendentsLabelsString() {
+        return this.descendents.map(item => item.label).join(', ');
+    }
+
+    /**
+     * Minimum state item of all descendents of the current group item (as returned by 'getAllMembers()'). Must be a group item.
+     * 
+     * @returns {Item} item with the minimum state
+     */
+    get descendentsMin() {
+        return this.descendents.reduce((min, item) => parseFloat(item.state) < parseFloat(min.state) ? item : min);
+    }
+
+    /**
+     * Maximum state item of all descendents of the current group item (as returned by 'getAllMembers()'). Must be a group item.
+     * 
+     * @returns {Item} item with the maximum state
+     */
+    get descendents() {
+        return this.descendents.reduce((min, item) => parseFloat(item.state) > parseFloat(min.state) ? item : min);
+    }
+
+    /**
+     * Summarized value of all descendents of the current group item (as returned by 'getAllMembers()'). Must be a group item.
+     * Only includes items of type Number, Dimmer & Rollershutter in calculation.
+     * 
+     * @returns {Number} sum of states
+     */
+    get descendentsSum() {
+        return this.descendents.filter(item => item.type === 'NumberItem' || item.type === 'DimmerItem' || item.type === 'RollershutterItem').reduce((sum, item) => sum + parseFloat(item.state), 0);
+    }
+
+    /**
+     * Average value of all descendents of the current group item (as returned by 'getAllMembers()'). Must be a group item.
+     * Only includes items of type Number, Dimmer & Rollershutter in calculation.
+     * 
+     * @returns {Number} average of states
+     */
+    get descendentsAvg() {
+        const numbers = this.descendents.filter(item => item.type === 'NumberItem' || item.type === 'DimmerItem' || item.type === 'RollershutterItem');
+        return numbers.reduce((avg, item) => { return avg + parseFloat(item.state)/numbers.length; }, 0);
     }
 
     /**
