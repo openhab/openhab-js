@@ -47,7 +47,7 @@ class Item {
 
     /**
      * The type of the item: the Simple (without package) name of the Java item type, such as 'Switch'.
-     * @return {String} the type
+     * @returns {String} the type
      */
     get type() {
         return this.rawItem.getClass().getSimpleName();
@@ -532,7 +532,7 @@ const replaceItem = function (/* same args as addItem */) {
  * @memberOf items
  * @param {String} name the name of the item
  * @param {String} nullIfMissing whether to return null if the item cannot be found (default is to throw an exception)
- * @return {items.Item} the item
+ * @returns {items.Item} the item
  */
 const getItem = (name, nullIfMissing = false) => {
     try {
@@ -553,7 +553,7 @@ const getItem = (name, nullIfMissing = false) => {
  * 
  * @memberOf items
  * @param {String[]} tagNames an array of tags to match against
- * @return {items.Item[]} the items with a tag that is included in the passed tags
+ * @returns {items.Item[]} the items with a tag that is included in the passed tags
  */
 const getItemsByTag = (...tagNames) => {
     return utils.javaSetToJsArray(itemRegistry.getItemsByTag(tagNames)).map(i => new Item(i));
