@@ -88,9 +88,6 @@ class Item {
     /**
      * Members / children / direct descendents of the current group item (as returned by 'getMembers()'). Must be a group item.
      * @returns {Item[]} member items
-     * @example
-     * const group = items.getItem('test_group').members;
-     * for (let i = 0; i < group.length; i++) console.log(group[i].label);
      */
     get members() {
         return utils.javaSetToJsArray(this.rawItem.getMembers()).map(raw => new Item(raw));
@@ -130,20 +127,20 @@ class Item {
 
     /**
      * Summarized value of members / children / direct descendents of the current group item (as returned by 'getMembers()'). Must be a group item.
-     * Only includes items of type Number, Dimmer & Rollershutter in calculation.
+     * Only includes items of type Number, Dimmer & Rollershutter in calculation and not {@link isUninitialized}.
      * @returns {Number} sum of states
      */
     get membersSum() {
-        return this.members.filter(item => item.type === 'NumberItem' || item.type === 'DimmerItem' || item.type === 'RollershutterItem').reduce((sum, item) => sum + parseFloat(item.state), 0);
+        return this.members.filter(item => (item.type === 'NumberItem' || item.type === 'DimmerItem' || item.type === 'RollershutterItem') && !item.isUninitialized).reduce((sum, item) => sum + parseFloat(item.state), 0);
     }
 
     /**
      * Average value of members / children / direct descendents of the current group item (as returned by 'getMembers()'). Must be a group item.
-     * Only includes items of type Number, Dimmer & Rollershutter in calculation.
+     * Only includes items of type Number, Dimmer & Rollershutter in calculation and not {@link isUninitialized}.
      * @returns {Number} average of states
      */
     get membersAvg() {
-        const numbers = this.members.filter(item => item.type === 'NumberItem' || item.type === 'DimmerItem' || item.type === 'RollershutterItem');
+        const numbers = this.members.filter(item => (item.type === 'NumberItem' || item.type === 'DimmerItem' || item.type === 'RollershutterItem') && !item.isUninitialized);
         return numbers.reduce((avg, item) => { return avg + parseFloat(item.state)/numbers.length; }, 0);
     }
 
@@ -190,20 +187,20 @@ class Item {
 
     /**
      * Summarized value of all descendents of the current group item (as returned by 'getAllMembers()'). Must be a group item.
-     * Only includes items of type Number, Dimmer & Rollershutter in calculation.
+     * Only includes items of type Number, Dimmer & Rollershutter in calculation and not {@link isUninitialized}.
      * @returns {Number} sum of states
      */
     get descendentsSum() {
-        return this.descendents.filter(item => item.type === 'NumberItem' || item.type === 'DimmerItem' || item.type === 'RollershutterItem').reduce((sum, item) => sum + parseFloat(item.state), 0);
+        return this.descendents.filter(item => (item.type === 'NumberItem' || item.type === 'DimmerItem' || item.type === 'RollershutterItem') && !item.isUninitialized).reduce((sum, item) => sum + parseFloat(item.state), 0);
     }
 
     /**
      * Average value of all descendents of the current group item (as returned by 'getAllMembers()'). Must be a group item.
-     * Only includes items of type Number, Dimmer & Rollershutter in calculation.
+     * Only includes items of type Number, Dimmer & Rollershutter in calculation and not {@link isUninitialized}.
      * @returns {Number} average of states
      */
     get descendentsAvg() {
-        const numbers = this.descendents.filter(item => item.type === 'NumberItem' || item.type === 'DimmerItem' || item.type === 'RollershutterItem');
+        const numbers = this.descendents.filter(item => (item.type === 'NumberItem' || item.type === 'DimmerItem' || item.type === 'RollershutterItem') && !item.isUninitialized);
         return numbers.reduce((avg, item) => { return avg + parseFloat(item.state)/numbers.length; }, 0);
     }
 
@@ -221,6 +218,28 @@ class Item {
         } else {
             return false;
         }
+    }
+
+    /**
+     * Count the number of members / children / direct descendents of the current group item (as returned by 'getMembers()') matching a comparison. Must be a group item.
+     * @param {String} compareFunc comparison function
+     * @returns {Number} number of matches
+     * @example
+     * items.getItem('group').membersCount(item => item.state === 'ON');
+     */
+    membersCount(compareFunc) {
+        return this.members.filter(compareFunc).length;
+    }
+
+    /**
+     * Count the number of all descendents of the current group item (as returned by 'getAllMembers()') matching a comparison. Must be a group item.
+     * @param {String} compareFunc comparison function
+     * @returns {Number} number of matches
+     * @example
+     * items.getItem('group').descendentsCount(item => item.state === 'ON');
+     */
+    descendentsCount(compareFunc) {
+        return this.descendents.filter(compareFunc).length;
     }
 
     /**
