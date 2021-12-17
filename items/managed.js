@@ -102,16 +102,16 @@ class Item {
      * Names of members / children / direct descendents of the current group item (as returned by 'getMembers()'). Must be a group item.
      * @returns {Array} names of member items
      */
-    getMembersNames() {
-        return utils.javaSetToJsArray(this.rawItem.getMembers()).map(raw => new Item(raw).name);
+    get membersNames() {
+        return this.members.map(raw => raw.name);
     }
 
     /**
-     * Labels of members / children / direct descendents of the current group item (as returned by 'getMembers()'). Must be a group item.
-     * @returns {Array} labels of member items
+     * Labels of members / children / direct descendents of the current group item (as returned by 'getMembers()') as a concatenated string. Must be a group item.
+     * @returns {String} states of member items as concatenated string
      */
-    getMembersLabels() {
-        return utils.javaSetToJsArray(this.rawItem.getMembers()).map(raw => new Item(raw).label);
+    get membersLabelsString() {
+        return this.members.map(raw => raw.label).join(', ');
     }
 
     /**
