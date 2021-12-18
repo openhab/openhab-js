@@ -111,23 +111,25 @@ class Item {
 
     /**
      * Minimum state item of members / children / direct descendents of the current group item (as returned by 'getMembers()'). Must be a group item.
+     * Filters for items not {@link isUninitialized}.
      * @returns {Item} item with the minimum state
      */
     get membersMin() {
-        return this.members.reduce((min, item) => parseFloat(item.state) < parseFloat(min.state) ? item : min);
+        return this.members.filter(item => !item.isUninitialized).reduce((min, item) => parseFloat(item.state) < parseFloat(min.state) ? item : min);
     }
 
     /**
      * Maximum state item of members / children / direct descendents of the current group item (as returned by 'getMembers()'). Must be a group item.
+     * Filters for items not {@link isUninitialized}.
      * @returns {Item} item with the maximum state
      */
     get membersMax() {
-        return this.members.reduce((min, item) => parseFloat(item.state) > parseFloat(min.state) ? item : min);
+        return this.members.filter(item => !item.isUninitialized).reduce((min, item) => parseFloat(item.state) > parseFloat(min.state) ? item : min);
     }
 
     /**
      * Summarized value of members / children / direct descendents of the current group item (as returned by 'getMembers()'). Must be a group item.
-     * Only includes items of type Number, Dimmer & Rollershutter in calculation and not {@link isUninitialized}.
+     * Filters for items of type Number, Dimmer & Rollershutter in calculation and not {@link isUninitialized}.
      * @returns {Number} sum of states
      */
     get membersSum() {
@@ -136,7 +138,7 @@ class Item {
 
     /**
      * Average value of members / children / direct descendents of the current group item (as returned by 'getMembers()'). Must be a group item.
-     * Only includes items of type Number, Dimmer & Rollershutter in calculation and not {@link isUninitialized}.
+     * Filters for items of type Number, Dimmer & Rollershutter in calculation and not {@link isUninitialized}.
      * @returns {Number} average of states
      */
     get membersAvg() {
@@ -171,23 +173,25 @@ class Item {
 
     /**
      * Minimum state item of all descendents of the current group item (as returned by 'getAllMembers()'). Must be a group item.
+     * Filters for items not {@link isUninitialized}.
      * @returns {Item} item with the minimum state
      */
     get descendentsMin() {
-        return this.descendents.reduce((min, item) => parseFloat(item.state) < parseFloat(min.state) ? item : min);
+        return this.descendents.filter(item => !item.isUninitialized).reduce((min, item) => parseFloat(item.state) < parseFloat(min.state) ? item : min);
     }
 
     /**
      * Maximum state item of all descendents of the current group item (as returned by 'getAllMembers()'). Must be a group item.
+     * Filters for items not {@link isUninitialized}.
      * @returns {Item} item with the maximum state
      */
     get descendents() {
-        return this.descendents.reduce((min, item) => parseFloat(item.state) > parseFloat(min.state) ? item : min);
+        return this.descendents.filter(item => !item.isUninitialized).reduce((min, item) => parseFloat(item.state) > parseFloat(min.state) ? item : min);
     }
 
     /**
      * Summarized value of all descendents of the current group item (as returned by 'getAllMembers()'). Must be a group item.
-     * Only includes items of type Number, Dimmer & Rollershutter in calculation and not {@link isUninitialized}.
+     * Filters for items of type Number, Dimmer & Rollershutter in calculation and not {@link isUninitialized}.
      * @returns {Number} sum of states
      */
     get descendentsSum() {
@@ -196,7 +200,7 @@ class Item {
 
     /**
      * Average value of all descendents of the current group item (as returned by 'getAllMembers()'). Must be a group item.
-     * Only includes items of type Number, Dimmer & Rollershutter in calculation and not {@link isUninitialized}.
+     * Filters for items of type Number, Dimmer & Rollershutter in calculation and not {@link isUninitialized}.
      * @returns {Number} average of states
      */
     get descendentsAvg() {
