@@ -22,11 +22,12 @@ let MetadataKey = Java.type("org.openhab.core.items.MetadataKey");
  * @memberof metadata
  * @param {String} name of the Item
  * @param {String} namespace name of the namespace
+ * @param {String} key configuration key of the namespace
  * @returns {String|null} the metadata as a string, or null
  */
-let getValue = function(itemName, namespace) {
+let getValue = function(itemName, namespace, key) {
     let result = MetadataRegistry.get(new MetadataKey(namespace, itemName));
-    return result ? result.value : null;
+    return result ? (key ? (result.configuration.containsKey(key) ? result.configuration[key] : null) : item.value) : null;
 };
 
 let addValue = function(itemName, namespace, value) {

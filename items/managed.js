@@ -120,10 +120,11 @@ class Item {
     /**
      * Gets metadata values for this item.
      * @param {String} namespace The namespace for the metadata to retreive
+     * @param {String} key The configuration key of the given namespace to retrieve
      * @returns {String} the metadata associated with this item and namespace
      */
-    getMetadataValue(namespace) {
-        return metadata.getValue(this.name, namespace);
+    getMetadataValue(namespace, key) {
+        return metadata.getValue(this.name, namespace, key);
     }
 
     /**
