@@ -103,7 +103,6 @@ class RuleBuilder {
 }
 
 module.exports = {
-    RuleBuilder,
     /**
      * Create a new {RuleBuilder} chain for easily creating rules.
      * 
@@ -121,3 +120,6 @@ module.exports = {
      */
     when: withToggle => new RuleBuilder(withToggle).when()
 };
+
+// export classes to create clean d.ts file with TypeScript
+module.exports.RuleBuilder = RuleBuilder;

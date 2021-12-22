@@ -1,3 +1,9 @@
+/**
+ * @typedef { import("../index").HostItem } HostItem
+ * @typedef { import("../index").HostGroupFunction } HostGroupFunction
+ * @typedef { import("@js-joda").ZoneDateTime } ZoneDateTime
+ * 
+ */
 const PersistenceExtensions = Java.type("org.openhab.core.persistence.extensions.PersistenceExtensions");
 const DateTime = Java.type('java.time.ZonedDateTime');
 

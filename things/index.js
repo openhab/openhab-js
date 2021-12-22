@@ -96,7 +96,28 @@ class ChannelBuilder {
     }
 }
 
+/**
+ * sdsdsd
+ */
 module.exports = {
+    /**
+     * abc
+     * @param {*} thingTypeUID 
+     * @param {*} id 
+     * @param {*} bridgeUID 
+     * @returns 
+     */
     newThingBuilder: (thingTypeUID, id, bridgeUID) => new ThingBuilder(thingTypeUID, id, bridgeUID),
+
+    /**
+     * cdef
+     * @param {*} thingUID 
+     * @param {*} channelId 
+     * @param {*} acceptedItemType 
+     * @returns 
+     */
     newChannelBuilder: (thingUID, channelId, acceptedItemType) => new ChannelBuilder(thingUID, channelId, acceptedItemType)
 }
+
+module.exports.ThingBuilder = ThingBuilder;
+module.exports.ChannelBuilder = ChannelBuilder;

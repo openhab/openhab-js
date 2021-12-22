@@ -204,3 +204,5 @@ class Logger {
 module.exports = function (_name) {
     return new Logger(_name);
 }
+
+module.exports.Logger = Logger;

@@ -71,6 +71,5 @@ module.exports = {
     addValue,
     updateValue,
     upsertValue,
-    createMetadata,
-    provider: require('./metadata-provider')
+    createMetadata
 };

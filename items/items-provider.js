@@ -113,4 +113,8 @@ module.exports = {
     managedItemProvider: () => new ManagedItemProvider(),
     staticCallbackItemProvider: () => new StaticCallbackItemProvider()
 }
-    
+
+// export classes to create clean d.ts file with TypeScript
+module.exports.StaticItemProvider = StaticItemProvider;
+module.exports.ManagedItemProvider = ManagedItemProvider;
+module.exports.StaticCallbackItemProvider = StaticCallbackItemProvider;

@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * OSGi module.
  * This module provides access to OSGi services.

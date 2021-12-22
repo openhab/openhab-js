@@ -34,3 +34,6 @@ module.exports = {
     staticCallbackMetadataProvider: () => new StaticCallbackMetadataProvider()
     
 }
+
+// seperate export class for just for TypeScript
+module.exports.StaticCallbackMetadataProvider = StaticCallbackMetadataProvider;

@@ -51,7 +51,7 @@ class OperationBuilder {
     * Specifies that a command should be sent as a result of this rule firing.
     * 
     * @param {String} command the command to send
-    * @returns {OperationBuilder.SendCommandOrUpdateOperation} the operation
+    * @returns {SendCommandOrUpdateOperation} the operation
     */
     send(c) {
         this._finishErr()
@@ -62,7 +62,7 @@ class OperationBuilder {
      * Specifies that an update should be posted as a result of this rule firing.
      * 
      * @param {String} update the update to send
-     * @returns {OperationBuilder.SendCommandOrUpdateOperation} the operation
+     * @returns {SendCommandOrUpdateOperation} the operation
      */
     postUpdate(c) {
         this._finishErr()
@@ -72,7 +72,7 @@ class OperationBuilder {
     /**
      * Specifies the a command 'ON' should be sent as a result of this rule firing.
      * 
-     * @returns {OperationBuilder.SendCommandOrUpdateOperation} the operation
+     * @returns {SendCommandOrUpdateOperation} the operation
      */
     sendOn() {
         this._finishErr()
@@ -82,7 +82,7 @@ class OperationBuilder {
     /**
      * Specifies the a command 'OFF' should be sent as a result of this rule firing.
      * 
-     * @returns {OperationBuilder.SendCommandOrUpdateOperation} the operation
+     * @returns {SendCommandOrUpdateOperation} the operation
      */
     sendOff() {
         this._finishErr()
@@ -93,7 +93,7 @@ class OperationBuilder {
      * Specifies a command should be sent to toggle the state of the target object
      * as a result of this rule firing.
      * 
-     * @returns {OperationBuilder.ToggleOperation} the operation
+     * @returns {ToggleOperation} the operation
      */
     sendToggle() {
         this._finishErr()
@@ -105,7 +105,7 @@ class OperationBuilder {
      * as a result of this rule firing. This relies on the trigger being the result
      * of a command itself.
      * 
-     * @returns {OperationBuilder.SendCommandOrUpdateOperation} the operation
+     * @returns {SendCommandOrUpdateOperation} the operation
      */
     sendIt() {
         this._finishErr()
@@ -117,7 +117,7 @@ class OperationBuilder {
      * as a result of this rule firing. This relies on the trigger being the result
      * of a command itself.
      * 
-     * @returns {OperationBuilder.SendCommandOrUpdateOperation} the operation
+     * @returns {SendCommandOrUpdateOperation} the operation
      */
     postIt() {
         this._finishErr()
@@ -128,7 +128,7 @@ class OperationBuilder {
      * Copies the state from one item to another. Can be used to proxy item state. State is updated, not
      * sent as a command.
      * 
-     * @returns {OperationBuilder.CopyStateOperation} the operation config
+     * @returns {CopyStateOperation} the operation config
      */
     copyState() {
         this._finishErr()
@@ -139,7 +139,7 @@ class OperationBuilder {
      * Sends the state from one item to another. Can be used to proxy item state. State is
      * sent as a command.
      * 
-     * @returns {OperationBuilder.CopyStateOperation} the operation config
+     * @returns {CopyStateOperation} the operation config
      */
     copyAndSendState() {
         this._finishErr()
@@ -202,7 +202,7 @@ class CopyStateOperation extends OperationConfig {
      * Sets the item to copy the state from
      * 
      * @param {String} item_name the item to copy state from
-     * @returns {OperationBuilder.CopyStateOperation} this
+     * @returns {CopyStateOperation} this
      */
     fromItem(item_name) {
         this.from_item = item_name;
@@ -213,7 +213,7 @@ class CopyStateOperation extends OperationConfig {
      * Sets the item to copy the state to
      * 
      * @param {String} item_name the item to copy state to
-     * @returns {OperationBuilder.CopyStateOperation} this
+     * @returns {CopyStateOperation} this
      */
     toItem(item_name) {
         this.to_item = item_name;
@@ -223,7 +223,7 @@ class CopyStateOperation extends OperationConfig {
     /**
      * Appends another operation to execute when the rule fires
      * 
-     * @returns {OperationBuilder.CopyStateOperation} this
+     * @returns {CopyStateOperation} this
      */
     and() {
         let next = new OperationBuilder(this.operationBuilder.builder, fn);
@@ -312,7 +312,7 @@ class SendCommandOrUpdateOperation extends OperationConfig {
      * Send command to multiple items
      * 
      * @param {*} itemsOrNames the items to send a command to
-     * @returns {OperationBuilder.SendCommandOrUpdateOperation} this
+     * @returns {SendCommandOrUpdateOperation} this
      */
     toItems(itemsOrNames) {
         this.toItemNames = itemsOrNames.map(i => (typeof i === 'string') ? i : i.name)
@@ -323,7 +323,7 @@ class SendCommandOrUpdateOperation extends OperationConfig {
      * Send command to an item
      * 
      * @param {*} itemOrName the item to send a command to
-     * @returns {OperationBuilder.SendCommandOrUpdateOperation} this
+     * @returns {SendCommandOrUpdateOperation} this
      */
     toItem(itemOrName) {
         this.toItemNames = [(typeof itemOrName === 'string') ? itemOrName : itemOrName.name];
@@ -333,7 +333,7 @@ class SendCommandOrUpdateOperation extends OperationConfig {
     /**
      * Send another command
      * @param {*} next 
-     * @returns {OperationBuilder.SendCommandOrUpdateOperation} this
+     * @returns {SendCommandOrUpdateOperation} this
      */
     and(next) {
         this.next = next;
@@ -378,14 +378,27 @@ class ToggleOperation extends OperationConfig {
     constructor(operationBuilder) {
         super(operationBuilder);
         this.next = null;
+
+        /**
+         * @private
+         * @param {*} itemName 
+         * @returns {ToggleOperation} this
+         */
         this.toItem = function (itemName) {
             this.itemName = itemName;
             return this;
         };
+
+        /**
+         * @private
+         * @param {*} next 
+         * @returns {ToggleOperation} this
+         */
         this.and = function (next) {
             this.next = next;
             return this;
         };
+
         this._run = () => this.doToggle() && (this.next && this.next.execute())
         this._complete = () => true;
         this.describe = () => `toggle ${this.itemName}` + (this.next ? ` and ${this.next.describe()}` : "")
@@ -394,7 +407,7 @@ class ToggleOperation extends OperationConfig {
      /**
      * Toggle the state of an item
      * 
-     * @returns {OperationBuilder.SendCommandOrUpdateOperation} this
+     * @returns {SendCommandOrUpdateOperation} this
      */
     doToggle() {
         let item = items.getItem(this.itemName);
@@ -479,3 +492,9 @@ module.exports = {
     CopyStateOperation,
     OperationBuilder
 }
+
+module.exports.CopyStateOperation = CopyStateOperation;
+module.exports.OperationBuilder = OperationBuilder;
+module.exports.SendCommandOrUpdateOperation = SendCommandOrUpdateOperation;
+module.exports.TimingItemStateOperation = TimingItemStateOperation;
+module.exports.ToggleOperation = ToggleOperation;

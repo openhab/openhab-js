@@ -19,6 +19,7 @@ const Configuration = Java.type("org.openhab.core.config.core.Configuration");
  * @param {String} typeString the type of trigger to create
  * @param {String} [name] the name of the trigger
  * @param {Configuration} config the trigger configuration
+ * @returns {any} the trigger
  */
 let createTrigger = function(typeString, name, config) {
     if(typeof name === 'undefined' || name === null) {
@@ -32,7 +33,6 @@ let createTrigger = function(typeString, name, config) {
         .build();
 }
 
-module.exports = {
 
     /**
      * Creates a trigger that fires upon specific events in a channel.
@@ -41,16 +41,49 @@ module.exports = {
      * ChannelEventTrigger('astro:sun:local:rise#event', 'START')
      * 
      * @name ChannelEventTrigger
-     * @memberof triggers
+     * memberof triggers
      * @param {String} channel the name of the channel
      * @param {String} event the name of the event to listen for
      * @param {String} [triggerName] the name of the trigger to create
+     * @returns {any | null} trigger
      * 
      */
-    ChannelEventTrigger: (channel, event, triggerName) => createTrigger("core.ChannelEventTrigger", triggerName, {
+     const ChannelEventTrigger = (channel, event, triggerName) => createTrigger("core.ChannelEventTrigger", triggerName, {
         "channelUID": channel,
         "event": event
-    }),
+    });
+
+    /**
+     * sadsdfsdfs
+     */
+    const XXX = function() {
+
+    }
+
+
+module.exports = {
+
+    ChannelEventTrigger,
+    XXX,
+
+    // /**
+    //  * Creates a trigger that fires upon specific events in a channel.
+    //  * 
+    //  * @example
+    //  * ChannelEventTrigger('astro:sun:local:rise#event', 'START')
+    //  * 
+    //  * @name ChannelEventTrigger
+    //  * @memberof triggers
+    //  * @param {String} channel the name of the channel
+    //  * @param {String} event the name of the event to listen for
+    //  * @param {String} [triggerName] the name of the trigger to create
+    //  * @returns {any | null} trigger
+    //  * 
+    //  */
+    // ChannelEventTrigger: (channel, event, triggerName) => createTrigger("core.ChannelEventTrigger", triggerName, {
+    //     "channelUID": channel,
+    //     "event": event
+    // }),
 
     /**
      * Creates a trigger that fires upon an item changing state.
