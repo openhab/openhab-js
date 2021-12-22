@@ -3,7 +3,7 @@
 const osgi = require('../osgi');
 const utils = require('../utils');
 const log = require('../log')('items');
-const metadata = require('../metadata');
+const Metadata = require('../metadata');
 const ItemHistory = require('./item-history');
 
 const { UnDefType, events, itemRegistry } = require('@runtime');
@@ -11,10 +11,6 @@ const { UnDefType, events, itemRegistry } = require('@runtime');
 const itemBuilderFactory = osgi.getService("org.openhab.core.items.ItemBuilderFactory");
 
 const managedItemProvider = osgi.getService("org.openhab.core.items.ManagedItemProvider");
-
-/**
- * @namespace items
- */
 
 /**
  * Tag value to be attached to all dynamically created items.
@@ -43,6 +39,12 @@ class Item {
          * @type {items.ItemHistory}
          */
         this.history = new ItemHistory(rawItem);
+
+        /**
+         * Access Item Metadata for this item
+         * @type {metadata.ItemMetadata}
+         */
+        this.metadata = new Metadata.ItemMetadata(this.name);
     }
 
     /**
@@ -119,41 +121,12 @@ class Item {
 
     /**
      * Gets metadata values for this item.
+     * @deprecated use item.metadata.getValue(namespace)
      * @param {String} namespace The namespace for the metadata to retreive
      * @returns {String} the metadata associated with this item and namespace
      */
     getMetadataValue(namespace) {
-        return metadata.getValue(this.name, namespace);
-    }
-
-    /**
-     * Updates metadata values for this item.
-     * @param {String} namespace The namespace for the metadata to update
-     * @param {String} value the value to update the metadata to
-     * @returns {String} the updated value
-     */
-    updateMetadataValue(namespace, value) {
-        return metadata.updateValue(this.name, namespace, value);
-    }
-
-    /**
-     * Inserts or updates metadata values for this item.
-     * @param {String} namespace The namespace for the metadata to update
-     * @param {String} value the value to update the metadata to
-     * @returns {Boolean} true iff a new value was inserted
-     */
-    upsertMetadataValue(namespace, value) {
-        return metadata.upsertValue(this.name, namespace, value);
-    }
-
-    /**
-     * Updates metadata values for this item.
-     * @param {Map} namespaceToValues A map of namespaces to values to update
-     */
-    updateMetadataValues(namespaceToValues) {
-        for(let k in namespaceToValues) {
-            metadata.updateValue(this.name, k, namespaceToValues[k]);
-        }
+        return this.metadata.getValue(namespace);
     }
 
     /**
@@ -258,9 +231,8 @@ class Item {
  * @param {String[]} [tags] an array of tags for the Item
  * @param {HostItem} [giBaseType] the group Item base type for the Item
  * @param {HostGroupFunction} [groupFunction] the group function used by the Item
- * @param {Map} [itemMetadata] a map of metadata to set on the item
  */
-const createItem = function (itemName, itemType, category, groups, label, tags, giBaseType, groupFunction, itemMetadata) {
+const createItem = function (itemName, itemType, category, groups, label, tags, giBaseType, groupFunction) {
     itemName = safeItemName(itemName);
     
     let baseItem;
