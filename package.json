@@ -8,7 +8,7 @@
         "type": "git",
         "url": "git://github.com/openhab/openhab-js.git"
     },
-    "types": "dist/index.d.ts",
+    "types": "types/index.d.ts",
     "dependencies": {
         "@js-joda/core": "^4.3.1",
         "parse-duration": "^1.0.2"

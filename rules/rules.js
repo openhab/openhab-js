@@ -7,11 +7,11 @@
 
 const GENERATED_RULE_ITEM_TAG = "GENERATED_RULE_ITEM";
 
-const items = require('../items');
-const utils = require('../utils');
-const log = require('../log')('rules');
-const osgi = require('../osgi');
-const triggers = require('../triggers');
+const items = require('openhab/items');
+const utils = require('openhab/utils');
+const log = require('openhab/log')('rules');
+const osgi = require('openhab/osgi');
+const triggers = require('openhab/triggers');
 const { automationManager } = require('@runtime/RuleSupport');
 
 let RuleManager = osgi.getService("org.openhab.core.automation.RuleManager");

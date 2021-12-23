@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Items' metadata namespace.
  * This namespace provides access to metadata on items.

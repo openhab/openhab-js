@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Log namespace.
  * This namespace provides loggers to log messages to the openHAB Log.

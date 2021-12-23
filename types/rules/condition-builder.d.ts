@@ -45,7 +45,7 @@ export class ItemStateConditionConf {
      * @returns {this}
      */
     in(...values: any[]): this;
-    check(...args: any[]): boolean;
+    check(...args: any[]): any;
 }
 /**
  * Condition that wraps a function to determine whether if passes
@@ -61,9 +61,9 @@ export class ConditionBuilder {
      * Move to the rule operations
      *
      * @param {*} function the optional function to execute
-     * @returns {OperationBuilder}
+     * @returns {operations.OperationBuilder}
      */
-    then(fn: any): OperationBuilder;
+    then(fn: any): operations.OperationBuilder;
     /**
     * Condition of an item in determining whether to process rule.
     *

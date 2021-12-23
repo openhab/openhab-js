@@ -46,12 +46,12 @@ declare class Item {
      * Members / children / direct descendents of the current group item (as returned by 'getMembers()'). Must be a group item.
      * @returns {Item[]} member items
      */
-    get members(): Item[];
+    get members(): import("openhab/items/item")[];
     /**
      * All descendents of the current group item (as returned by 'getAllMembers()'). Must be a group item.
      * @returns {Item[]} all descendent items
      */
-    get descendents(): Item[];
+    get descendents(): import("openhab/items/item")[];
     /**
      * Whether this item is initialized.
      * @type {Boolean}

@@ -52,7 +52,7 @@ export class TimingItemStateOperation {
     _toOHTriggers(): any[];
     _executeHook(next: any): void;
     _start_wait(next: any): void;
-    current_wait: NodeJS.Timeout;
+    current_wait: number;
     _cancel_wait(): void;
 }
 /**

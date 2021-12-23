@@ -6,8 +6,8 @@ export class StaticItemProvider extends AbstractProvider {
 }
 export class ManagedItemProvider extends AbstractProvider {
     constructor();
-    items: Set<any>;
-    listeners: Set<any>;
+    items: any;
+    listeners: any;
     addProviderChangeListener(listener: any): void;
     removeProviderChangeListener(listener: any): void;
     add(item: any): void;

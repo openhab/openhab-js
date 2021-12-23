@@ -13,10 +13,10 @@ export function safeItemName(s: string): string;
  * Gets an openHAB Item.
  * @memberOf items
  * @param {String} name the name of the item
- * @param {String} nullIfMissing whether to return null if the item cannot be found (default is to throw an exception)
+ * @param {Boolean} nullIfMissing whether to return null if the item cannot be found (default is to throw an exception)
  * @return {Item} the item
  */
-export function getItem(name: string, nullIfMissing?: string): Item;
+export function getItem(name: string, nullIfMissing?: boolean): Item;
 /**
  * Creates a new item within OpenHab. This item will persist regardless of the lifecycle of the script creating it.
  *

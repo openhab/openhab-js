@@ -2,6 +2,6 @@
  * @namespace rules
  */
 module.exports = {
-    ...require('./rulesx'),
+    ...require('./rules'),
     ...require('./rule-builder')
 }

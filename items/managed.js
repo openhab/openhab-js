@@ -1,7 +1,7 @@
 /**
- * @typedef { import("../index").HostItem } HostItem
- * @typedef { import("../index").HostGroupFunction } HostGroupFunction
- * @typedef { import("../index").HostState } HostState
+ * @typedef { import("../global").HostItem } HostItem
+ * @typedef { import("../global").HostGroupFunction } HostGroupFunction
+ * @typedef { import("../global").HostState } HostState
  * @typedef { import("./item") } Item
  * 
 */
@@ -190,7 +190,7 @@ const replaceItem = function (/* same args as addItem */) {
  * Gets an openHAB Item.
  * @memberOf items
  * @param {String} name the name of the item
- * @param {String} nullIfMissing whether to return null if the item cannot be found (default is to throw an exception)
+ * @param {Boolean} nullIfMissing whether to return null if the item cannot be found (default is to throw an exception)
  * @return {Item} the item
  */
 const getItem = (name, nullIfMissing = false) => {
@@ -202,7 +202,7 @@ const getItem = (name, nullIfMissing = false) => {
         if (nullIfMissing) {
             return null;
         } else {
-            throw e;
+            throw e + " [itemName: " + name + "]";
         }
     }
 }

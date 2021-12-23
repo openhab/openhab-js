@@ -1,7 +1,7 @@
 /**
- * @typedef { import("../index").HostItem } HostItem
- * @typedef { import("../index").HostGroupFunction } HostGroupFunction
- * @typedef { import("../index").HostState } HostState
+ * @typedef { import("../global").HostItem } HostItem
+ * @typedef { import("../global").HostGroupFunction } HostGroupFunction
+ * @typedef { import("../global").HostState } HostState
  * 
  */
 

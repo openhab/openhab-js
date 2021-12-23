@@ -25,7 +25,7 @@ class ConditionBuilder {
      * Move to the rule operations
      *
      * @param {*} function the optional function to execute 
-     * @returns {OperationBuilder} 
+     * @returns {operations.OperationBuilder} 
      */
     then(fn) {
         if (!this.fn) {

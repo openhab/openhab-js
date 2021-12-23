@@ -1,6 +1,6 @@
 /**
- * @typedef { import("../index").HostItem } HostItem
- * @typedef { import("../index").HostGroupFunction } HostGroupFunction
+ * @typedef { import("../global").HostItem } HostItem
+ * @typedef { import("../global").HostGroupFunction } HostGroupFunction
  * @typedef { import("@js-joda").ZoneDateTime } ZoneDateTime
  * 
  */

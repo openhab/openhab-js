@@ -7,25 +7,34 @@ const ChannelKind = Java.type('org.openhab.core.thing.type.ChannelKind');
 const ChannelTypeUID = Java.type('org.openhab.core.thing.type.ChannelTypeUID');
 const Configuration = Java.type('org.openhab.core.config.core.Configuration');
 
+/**
+ * 
+ */
 class OHThing {
     constructor(rawThing) {
         this.rawThing = rawThing;
     }
 }
 
+/**
+ * 
+ */
 class OHChannel {
     constructor(rawChannel) {
         this.rawChannel = rawChannel;
     }
 
-    get uid(){
+    get uid() {
         return this.rawChannel.getUID().toString();
     }
 }
 
+/**
+ * 
+ */
 class ThingBuilder {
     constructor(thingTypeUID, thingId, bridgeUID) {
-        if(typeof thingTypeUID === 'string') {
+        if (typeof thingTypeUID === 'string') {
             thingTypeUID = new ThingTypeUID(...thingTypeUID.split(':'));
         }
 
@@ -33,8 +42,8 @@ class ThingBuilder {
         this.thingId = thingId;
 
 
-        if(typeof bridgeUID !== 'undefined') {
-            if(typeof bridgeUID === 'string') {
+        if (typeof bridgeUID !== 'undefined') {
+            if (typeof bridgeUID === 'string') {
                 let [bridgeBindingId, bridgeThingTypeId, bringThingId] = bridgeUID.split(':');
                 bridgeUID = new ThingUID(new ThingTypeUID(bridgeBindingId, bridgeThingTypeId), bringThingId);
             }
@@ -62,61 +71,65 @@ class ThingBuilder {
     }
 }
 
+/**
+ * 
+ */
 class ChannelBuilder {
     constructor(thingUID, channelId, acceptedItemType) {
         let channelUID = new ChannelUID(thingUID, channelId);
         this.rawBuilder = JavaChannelBuilder.create(channelUID, acceptedItemType);
     }
 
-    withConfiguration(config){
+    withConfiguration(config) {
         this.rawBuilder.withConfiguration(new Configuration(config));
         return this;
     }
 
-    withKind(stateOrTrigger){
+    withKind(stateOrTrigger) {
         this.rawBuilder.withKind(ChannelKind.parse(stateOrTrigger));
         return this;
     }
 
-    withLabel(label){
+    withLabel(label) {
         this.rawBuilder.withLabel(label);
         return this;
     }
 
-    withType(channelType){
-        if(typeof channelType === 'string') {
+    withType(channelType) {
+        if (typeof channelType === 'string') {
             channelType = new ChannelTypeUID(channelType);
         }
         this.rawBuilder.withType(channelType);
         return this;
     }
 
-    build(){
+    build() {
         return new OHChannel(this.rawBuilder.build());
     }
 }
 
 /**
- * sdsdsd
+ * 
+ * @param {String} thingTypeUID 
+ * @param {String} id 
+ * @param {String} bridgeUID 
+ * @returns 
  */
-module.exports = {
-    /**
-     * abc
-     * @param {*} thingTypeUID 
-     * @param {*} id 
-     * @param {*} bridgeUID 
-     * @returns 
-     */
-    newThingBuilder: (thingTypeUID, id, bridgeUID) => new ThingBuilder(thingTypeUID, id, bridgeUID),
+const newThingBuilder = (thingTypeUID, id, bridgeUID) => new ThingBuilder(thingTypeUID, id, bridgeUID);
 
-    /**
-     * cdef
-     * @param {*} thingUID 
-     * @param {*} channelId 
-     * @param {*} acceptedItemType 
-     * @returns 
-     */
-    newChannelBuilder: (thingUID, channelId, acceptedItemType) => new ChannelBuilder(thingUID, channelId, acceptedItemType)
+
+/**
+ * 
+ * @param {String} thingUID 
+ * @param {String} channelId 
+ * @param {String} acceptedItemType 
+ * @returns 
+ */
+const newChannelBuilder = (thingUID, channelId, acceptedItemType) => new ChannelBuilder(thingUID, channelId, acceptedItemType);
+
+module.exports = {
+    newThingBuilder,
+    newChannelBuilder
 }
 
 module.exports.ThingBuilder = ThingBuilder;

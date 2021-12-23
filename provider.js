@@ -1,6 +1,6 @@
+'use strict';
+
 const osgi = require('./osgi');
-const log = require('./log')('provider');
-const utils = require('./utils');
 
 function getAllFunctionNames(obj) {
     var props = [];

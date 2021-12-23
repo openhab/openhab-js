@@ -1,3 +1,7 @@
+/**
+ * @typedef { import("./trigger-builder").TriggerBuilder } TriggerBuilder
+ */
+
 const items = require('../items');
 const rules = require('./rules');
 const triggers = require('./trigger-builder');
@@ -102,23 +106,25 @@ class RuleBuilder {
     }
 }
 
+/**
+* Create a new {RuleBuilder} chain for easily creating rules.
+* 
+* @example <caption>Basic rule</caption>
+* rules.when().item("F1_Light").changed().then().send("changed").toItem("F2_Light").build("My Rule", "My First Rule");
+* 
+* @example <caption>Rule with function</caption>
+* rules.when().item("F1_light").changed().to("100").then(event => {
+*   console.log(event)
+*  }).build("Test Rule", "My Test Rule");
+* 
+* @memberof rules
+* @param {boolean} withToggle rule can be toggled on or off (optional)
+* @returns {TriggerBuilder} rule builder
+*/
+const when = withToggle => new RuleBuilder(withToggle).when();
+
 module.exports = {
-    /**
-     * Create a new {RuleBuilder} chain for easily creating rules.
-     * 
-     * @example <caption>Basic rule</caption>
-     * rules.when().item("F1_Light").changed().then().send("changed").toItem("F2_Light").build("My Rule", "My First Rule");
-     * 
-     * @example <caption>Rule with function</caption>
-     * rules.when().item("F1_light").changed().to("100").then(event => {
-     *   console.log(event)
-     *  }).build("Test Rule", "My Test Rule");
-     * 
-     * @memberof rules
-     * @param {boolean} withToggle rule can be toggled on or off (optional)
-     * @returns {TriggerBuilder} rule builder
-     */
-    when: withToggle => new RuleBuilder(withToggle).when()
+    when
 };
 
 // export classes to create clean d.ts file with TypeScript
