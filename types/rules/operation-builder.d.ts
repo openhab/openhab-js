@@ -2,10 +2,10 @@
  * Sends a command or update to an item
  *
  * @memberof OperationBuilder
- * @extends OperationBuilder.OperationConfig
+ * @extends OperationConfig
  * @hideconstructor
  */
-export class SendCommandOrUpdateOperation {
+export class SendCommandOrUpdateOperation extends OperationConfig {
     constructor(operationBuilder: any, dataOrSupplier: any, isCommand: boolean, optionalDesc: any);
     isCommand: boolean;
     dataFn: any;
@@ -40,10 +40,10 @@ export class SendCommandOrUpdateOperation {
  * Timing Item state
  *
  * @memberof OperationBuilder
- * @extends OperationBuilder.OperationConfig
+ * @extends OperationConfig
  * @hideconstructor
  */
-export class TimingItemStateOperation {
+export class TimingItemStateOperation extends OperationConfig {
     constructor(operationBuilder: any, item_changed_trigger_config: any, duration: any);
     item_changed_trigger_config: any;
     duration_ms: any;
@@ -59,11 +59,10 @@ export class TimingItemStateOperation {
  * Toggles the state of an item
  *
  * @memberof OperationBuilder
- * @extends OperationBuilder.OperationConfig
+ * @extends OperationConfig
  * @hideconstructor
  */
-export class ToggleOperation {
-    constructor(operationBuilder: any);
+export class ToggleOperation extends OperationConfig {
     next: any;
     /**
      * @private
@@ -91,10 +90,10 @@ export class ToggleOperation {
  * Copies state from one item to another item
  *
  * @memberof OperationBuilder
- * @extends OperationBuilder.OperationConfig
+ * @extends OperationConfig
  * @hideconstructor
  */
-export class CopyStateOperation {
+export class CopyStateOperation extends OperationConfig {
     /**
      * Creates a new operation. Don't use constructor directly.
      *
@@ -237,3 +236,27 @@ export class OperationBuilder {
      */
     copyAndSendState(): CopyStateOperation;
 }
+/**
+ * {RuleBuilder} RuleBuilder triggers
+ * @memberof OperationBuilder
+ */
+declare class OperationConfig {
+    constructor(operationBuilder: any);
+    operationBuilder: any;
+    /**
+    * Specify the rule group for this rule
+    *
+    * @param {string} group the group this rule belongs to.
+    * @returns {OperationBuilder} this
+    */
+    inGroup(group: string): OperationBuilder;
+    group: string;
+    /**
+     * Build this rule
+     *
+     * @param {string} name of the rules
+     * @param {string} description of the rule
+     */
+    build(name: string, description: string): void;
+}
+export {};

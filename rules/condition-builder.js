@@ -1,5 +1,5 @@
-const operations = require('./operation-builder');
-const items = require('../items')
+const { OperationBuilder } = require('./operation-builder');
+const { getItem } = require('../items')
 
 /**
  * Condition that wraps a function to determine whether if passes
@@ -17,7 +17,7 @@ class ConditionBuilder {
 
     _then(condition) {
         this.builder.setCondition(condition);
-        return new operations.OperationBuilder(this.builder, fn);
+        return new OperationBuilder(this.builder, fn);
     }
 
     
@@ -25,13 +25,13 @@ class ConditionBuilder {
      * Move to the rule operations
      *
      * @param {*} function the optional function to execute 
-     * @returns {operations.OperationBuilder} 
+     * @returns {OperationBuilder} 
      */
     then(fn) {
         if (!this.fn) {
             throw new Error("'then' can only be called when 'if' is passed a function")
         }
-        return new operations.OperationBuilder(this.builder, fn);
+        return new OperationBuilder(this.builder, fn);
     }
 
     /**
@@ -130,7 +130,7 @@ class ItemStateConditionConf extends ConditionConf {
     }
 
     check(...args) {
-        let item = items.getItem(this.item_name);
+        let item = getItem(this.item_name);
         if (typeof item === 'undefined' || item === null) {
             throw Error(`Cannot find item: ${this.item_name}`);
         }

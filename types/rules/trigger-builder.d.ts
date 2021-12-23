@@ -1,6 +1,3 @@
-/**
- * *
- */
 export type OperationBuilder = import("./operation-builder").OperationBuilder;
 export type ConditionBuilder = import("./condition-builder").ConditionBuilder;
 /**

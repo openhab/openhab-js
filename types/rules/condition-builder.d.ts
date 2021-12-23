@@ -56,14 +56,14 @@ export class ConditionBuilder {
     constructor(builder: any, fn: any);
     builder: any;
     fn: any;
-    _then(condition: any): operations.OperationBuilder;
+    _then(condition: any): OperationBuilder;
     /**
      * Move to the rule operations
      *
      * @param {*} function the optional function to execute
-     * @returns {operations.OperationBuilder}
+     * @returns {OperationBuilder}
      */
-    then(fn: any): operations.OperationBuilder;
+    then(fn: any): OperationBuilder;
     /**
     * Condition of an item in determining whether to process rule.
     *
@@ -74,4 +74,4 @@ export class ConditionBuilder {
     stateOfItem(s: any): ItemStateConditionConf;
     condition: any;
 }
-import operations = require("openhab/rules/operation-builder");
+import { OperationBuilder } from "openhab/rules/operation-builder";

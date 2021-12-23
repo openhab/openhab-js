@@ -1,6 +1,6 @@
 /**
  * @typedef { import("./operation-builder").OperationBuilder } OperationBuilder
- *  * @typedef { import("./condition-builder").ConditionBuilder } ConditionBuilder
+ * @typedef { import("./condition-builder").ConditionBuilder } ConditionBuilder
  */
 
 const triggers = require('../triggers');

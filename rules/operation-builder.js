@@ -1,5 +1,5 @@
 const parse_duration = require('parse-duration');
-const items = require('../items');
+const { getItem } = require('../items');
 
 /**
  * Operation to execute as part of a rule
@@ -182,7 +182,7 @@ class OperationConfig {
  * Copies state from one item to another item
  * 
  * @memberof OperationBuilder
- * @extends OperationBuilder.OperationConfig
+ * @extends OperationConfig
  * @hideconstructor
  */
 class CopyStateOperation extends OperationConfig {
@@ -247,12 +247,12 @@ class CopyStateOperation extends OperationConfig {
             throw Error("To item not set");
         }
 
-        let from = items.getItem(this.from_item);
+        let from = getItem(this.from_item);
         if (typeof from === 'undefined' || from === null) {
             throw Error(`Cannot find (from) item ${this.from_item}`);
         }
 
-        let to = items.getItem(this.to_item);
+        let to = getItem(this.to_item);
         if (typeof to === 'undefined' || to === null) {
             throw Error(`Cannot find (to) item ${this.to_item}`);
         }
@@ -292,7 +292,7 @@ class CopyStateOperation extends OperationConfig {
  * Sends a command or update to an item
  * 
  * @memberof OperationBuilder
- * @extends OperationBuilder.OperationConfig
+ * @extends OperationConfig
  * @hideconstructor
  */
 class SendCommandOrUpdateOperation extends OperationConfig {
@@ -371,7 +371,7 @@ class SendCommandOrUpdateOperation extends OperationConfig {
  * Toggles the state of an item
  * 
  * @memberof OperationBuilder
- * @extends OperationBuilder.OperationConfig
+ * @extends OperationConfig
  * @hideconstructor
  */
 class ToggleOperation extends OperationConfig {
@@ -433,7 +433,7 @@ class ToggleOperation extends OperationConfig {
  * Timing Item state
  * 
  * @memberof OperationBuilder
- * @extends OperationBuilder.OperationConfig
+ * @extends OperationConfig
  * @hideconstructor
  */
 class TimingItemStateOperation extends OperationConfig {
