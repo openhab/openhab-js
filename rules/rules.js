@@ -12,7 +12,7 @@ const utils = require('../utils');
 const log = require('../log')('rules');
 const osgi = require('../osgi');
 const triggers = require('../triggers');
-const { automationManager } = require('@runtime/RuleSupport');
+const { automationManager, ruleRegistry } = require('@runtime/RuleSupport');
 
 let RuleManager = osgi.getService("org.openhab.core.automation.RuleManager");
 let factory = require('@runtime/rules').factory;
@@ -78,6 +78,37 @@ const getGroupsForItem = function (ruleConfig) {
 }
 
 /**
+ * Check whether a rule exists.
+ * Only works for rules created in the same file.
+ *
+ * @memberOf rules
+ * @private
+ * @param {String} uid the UID of the rule
+ * @returns {Boolean} whether the rule exists
+ */
+const ruleExists = function (uid) {
+    return !(ruleRegistry.get(uid) == null);
+};
+
+/**
+ * Remove a rule when it exists. The rule will be immediately removed.
+ * Only works for rules created in the same file.
+ *
+ * @memberOf rules
+ * @param {String} uid the UID of the rule
+ * @returns {Boolean} whether the rule was actually removed
+ */
+const removeRule = function (uid) {
+    if (ruleExists(uid)) {
+        log.info('Removing rule: {}', ruleRegistry.get(uid).name ? ruleRegistry.get(uid).name : uid);
+        ruleRegistry.remove(uid);
+        return !ruleExists(uid);
+    } else {
+        return false;
+    }
+};
+
+/**
  * Creates a rule. The rule will be created and immediately available.
  *
  * @example
@@ -85,7 +116,7 @@ const getGroupsForItem = function (ruleConfig) {
  *
  * rules.JSRule({
  *  name: "my_new_rule",
- *  description": "this rule swizzles the swallows",
+ *  description: "this rule swizzles the swallows",
  *  triggers: triggers.GenericCronTrigger("0 30 16 * * ? *"),
  *  execute: triggerConfig => { //do stuff }
  * });
@@ -93,13 +124,22 @@ const getGroupsForItem = function (ruleConfig) {
  * @memberOf rules
  * @param {Object} ruleConfig The rule config describing the rule
  * @param {String} ruleConfig.name the name of the rule
- * @param {String} ruleConfig.description a description of the rule
+ * @param {String} [ruleConfig.description] a description of the rule
  * @param {*} ruleConfig.execute callback that will be called when the rule fires
  * @param {HostTrigger|HostTrigger[]} ruleConfig.triggers triggers which will define when to fire the rule
+ * @param {String} [ruleConfig.id] the UID of the rule
+ * @param {String} [ruleConfig.ruleGroup] the name of the rule group to use
+ * @param {Boolean} [ruleConfig.overwrite=false] overwrite an existing rule with the same UID
  * @returns {HostRule} the created rule
  */
 let JSRule = function (ruleConfig) {
     let ruid = ruleConfig.id || ruleConfig.name.replace(/[^\w]/g, "-") + "-" + utils.randomUUID();
+    if (ruleConfig.overwrite === true) {
+        removeRule(ruid);
+    }
+    if (ruleExists(ruid)) {
+        throw Error(`Failed to add rule: ${ruleConfig.name ? ruleConfig.name : ruid}, a rule with same UID [${ruid}] already exists!`);
+    }
     let ruTemplateid = ruleConfig.name.replace(/[^\w]/g, "-") + "-" + utils.randomUUID();
     log.info("Adding rule: {}", ruleConfig.name ? ruleConfig.name : ruid);
 
@@ -187,10 +227,12 @@ let registerRule = function (rule) {
  * @memberOf rules
  * @param {Object} ruleConfig The rule config describing the rule
  * @param {String} ruleConfig.name the name of the rule
- * @param {String} ruleConfig.description a description of the rule
+ * @param {String} [ruleConfig.description] a description of the rule
  * @param {*} ruleConfig.execute callback that will be called when the rule fires
- * @param {HostTrigger[]} ruleConfig.triggers triggers which will define when to fire the rule
- * @param {String} ruleConfig.ruleGroup the name of the rule group to use.
+ * @param {HostTrigger|HostTrigger[]} ruleConfig.triggers triggers which will define when to fire the rule
+ * @param {String} [ruleConfig.id] the UID of the rule
+ * @param {String} [ruleConfig.ruleGroup] the name of the rule group to use
+ * @param {Boolean} [ruleConfig.overwrite=false] overwrite an existing rule with the same UID
  * @returns {HostRule} the created rule
  */
 let SwitchableJSRule = function (ruleConfig) {
@@ -304,6 +346,7 @@ const getTriggeredData = function (input) {
 
 module.exports = {
     withNewRuleProvider,
+    removeRule,
     JSRule,
     SwitchableJSRule
 }
