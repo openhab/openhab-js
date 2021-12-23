@@ -253,10 +253,26 @@ let ThingsAction = Java.type('org.openhab.core.model.script.actions.Things');
  */
 let Voice = Java.type('org.openhab.core.model.script.actions.Voice');
 
+/**
+ * 
+ * @param {String} bindingId 
+ * @param {String} thingUid 
+ * @returns 
+ */
+ let thingActions = (bindingId, thingUid) => Things.getActions(bindingId, thingUid);
+
+/**
+ * 
+ * @param  {...any} args 
+ * @returns 
+ */
+ let get = (...args) => actions.get(...args)
+
 [Audio, BusEvent, Ephemeris, Exec, HTTP, LogAction, Ping, ScriptExecution, Semantics, ThingsAction, Voice].forEach(function (item) {
-    exports[item.class.getSimpleName()] = item.class.static;
+    module.exports[item.class.getSimpleName()] = item.class.static;
 });
 
-exports.get = (...args) => actions.get(...args)
-
-exports.thingActions = (bindingId, thingUid) => Things.getActions(bindingId, thingUid)
+module.exports = {
+    thingActions,
+    get
+};
