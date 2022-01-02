@@ -5,7 +5,6 @@ const time = require('@js-joda/core');
 const rfcFormatter = time.DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ss.SSS[xxxx][xxxxx]");
 const targetParse = time.ZonedDateTime.prototype.parse;
 time.ZonedDateTime.prototype.parse = function (text, formatter = rfcFormatter) {
-    console.log("ZonedDateTime.prototype.parse")
     return targetParse(text, formatter);
 }
 
