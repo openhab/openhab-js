@@ -9,8 +9,8 @@ description: "Fairly high-level ES6 library to support automation in openHAB. It
 [![Build
 Status](https://github.com/openhab/openhab-js/actions/workflows/build.yaml/badge.svg)](https://github.com/openhab/openhab-js/actions/workflows/build.yaml) [![npm version](https://badge.fury.io/js/openhab.svg)](https://badge.fury.io/js/openhab)
 
-This library aims to be a fairly high-level ES6 library to support automation in openHAB. It provides convenient access
-to common openHAB functionality within rules including items, things, actions, logging and more.
+This library aims to be a fairly high-level ES6 library to support automation in openHAB.
+It provides convenient access to common openHAB functionality within rules including items, things, actions, logging and more.
 
 This library is included by default in the openHAB [JavaScript
 binding](https://www.openhab.org/addons/automation/jsscripting/)
@@ -49,7 +49,8 @@ library will be automatically installed and available to all javascript rules by
 - Go to the javascript user scripts directory: `cd $OPENHAB_CONF/automation/js`
 - Run `npm i openhab` (you may need to install npm)
 
-NPM will create a `node_modules` directory containing the latest version of this library.  This will be used instead of the binding provided version.
+NPM will create a `node_modules` directory containing the latest version of this library.
+This will be used instead of the binding provided version.
 
 ### Configuration
 
@@ -67,7 +68,9 @@ Using the openHAB UI, first create a new rule and set a trigger condition
 
 
 ### Adding Actions
-Select "Add Action" and then select "ECMAScript 262 Edition 11".  Its important this is "Edition 11" or higher, earlier versions will not work. This will bring up a empty script editor where you can enter your javascript.
+Select "Add Action" and then select "ECMAScript 262 Edition 11".
+Its important this is "Edition 11" or higher, earlier versions will not work.
+This will bring up a empty script editor where you can enter your javascript.
 
 ![OpenHAB Rule Engines](/images/rule-engines.png)
 
@@ -100,7 +103,8 @@ The openHAB JSScripting runtime attempts to provide a familiar environment to Ja
 
 ### Require
 
-Scripts may include standard NPM based libraries by using CommonJS require.  The library search path will look in `automation/js/node_modules` in the user configuration directory.
+Scripts may include standard NPM based libraries by using CommonJS require.
+The library search path will look in `automation/js/node_modules` in the user configuration directory.
 
 ### Console
 
@@ -119,7 +123,8 @@ Supported logging functions include:
 - `console.debug(obj1 [, obj2, ..., objN])`
 - `console.trace(obj1 [, obj2, ..., objN])`
 
-where `obj1 ... objN` is a list of JavaScript objects to output. The string representations of each of these objects are appended together in the order listed and output.
+where `obj1 ... objN` is a list of JavaScript objects to output.
+The string representations of each of these objects are appended together in the order listed and output.
 
 see https://developer.mozilla.org/en-US/docs/Web/API/console for more information about console logging.
 
@@ -146,7 +151,7 @@ var intervalID = setInterval(function[, delay]);
 
 The global `clearInterval()` method cancels a timed, repeating action which was previously established by a call to `setInterval()`.
 
-NOTE: Timers will not be canceled if a script is deleted or modified, it is up to the user to manage timers.  See using the [cache](#cache) namespace as well as [ScriptLoaded](#scriptloaded) and [ScriptUnLoaded](#scriptunloaded) for a convenient way of managing persisted objects, such as timers between reloads or deletions of scripts. 
+NOTE: Timers will not be canceled if a script is deleted or modified, it is up to the user to manage timers.  See using the [cache](#cache) namespace as well as [ScriptLoaded](#scriptloaded) and [ScriptUnLoaded](#scriptunloaded) for a convenient way of managing persisted objects, such as timers between reloads or deletions of scripts.
 
 see https://developer.mozilla.org/en-US/docs/Web/API/setInterval for more information about setInterval.
 
@@ -185,7 +190,7 @@ Full documentation for the openHAB JavaScript library can be found at [openhab-j
 
 ### Items
 
-The items namespace allows interactions with openHAB items.  
+The items namespace allows interactions with openHAB items.
 
 See [openhab-js : items ](https://openhab.github.io/openhab-js/items.html) for full API documentation
 
@@ -267,7 +272,8 @@ console.log("KitchenDimmer averageSince", item.history.averageSince(yesterday));
 
 ### Actions
 
-The actions namespace allows interactions with openHAB actions. The following are a list of standard actions. 
+The actions namespace allows interactions with openHAB actions.
+The following are a list of standard actions.
 
 Additional actions provided by user installed addons can be accessed using their common name on the actions name space
 (example:  `actions.Pushsafer.pushsafer(...)`)
@@ -288,7 +294,7 @@ See [openhab-js : actions.Ephemeris ](https://openhab.github.io/openhab-js/actio
 
 Ephemeris is a way to determine what type of day today or a number of days before or after today is. For example, a way to determine if today is a weekend, a bank holiday, someone’s birthday, trash day, etc.
 
-Additional information can be found on the  [Ephemeris Actions Docs](https://www.openhab.org/docs/configuration/actions.html#ephemeris) as well as the [Ephemeris JavaDoc](https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/ephemeris). 
+Additional information can be found on the  [Ephemeris Actions Docs](https://www.openhab.org/docs/configuration/actions.html#ephemeris) as well as the [Ephemeris JavaDoc](https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/ephemeris).
 
 ```javascript
 // Example
@@ -395,13 +401,13 @@ See [openhab-js : cache ](https://openhab.github.io/openhab-js/cache.html) for f
 
 The `defaultSupplier` provided function will return a default value if a specified key is not already associated with a value
 
-**Example** *(Get a previously set value with a default value (times &#x3D; 0))*  
+**Example** *(Get a previously set value with a default value (times &#x3D; 0))*
 ```js
 let counter = cache.get("counter", () => ({ "times": 0 }));
 console.log("Count",counter.times++);
 ```
 
-**Example** *(Get a previously set object)*  
+**Example** *(Get a previously set object)*
 ```js
 let counter = cache.get("counter");
 if(counter == null){
@@ -412,8 +418,8 @@ console.log("Count",counter.times++);
 ```
 ### Log
 
-By default the JS Scripting binding supports console logging like `console.log()` and `console.debug()` to the openHAB
-default log. Additionally scripts may create their own native openHAB logs using the log namespace
+By default the JS Scripting binding supports console logging like `console.log()` and `console.debug()` to the openHAB default log.
+Additionally scripts may create their own native openHAB logs using the log namespace.
 
 ```javascript
 let logger = log('my_logger');
@@ -424,7 +430,9 @@ logger.debug("Hello {}!", "world");
 
 ### Time
 
-openHAB internally makes extensive use of the `java.time` package.  openHAB-JS exports the excellent [JS-Joda](#https://js-joda.github.io/js-joda/) library via the `time` namespace, which is a native Javascript port of the same API standard used in Java for `java.time`.  Anywhere that a native Java `ZonedDateTime` or `Duration` is required, the runtime will automatically convert a JS-Joda `ZonedDateTime` or `Duration` to its Java counterpart. 
+openHAB internally makes extensive use of the `java.time` package.
+openHAB-JS exports the excellent [JS-Joda](#https://js-joda.github.io/js-joda/) library via the `time` namespace, which is a native Javascript port of the same API standard used in Java for `java.time`.
+Anywhere that a native Java `ZonedDateTime` or `Duration` is required, the runtime will automatically convert a JS-Joda `ZonedDateTime` or `Duration` to its Java counterpart.
 
 Examples:
 ```javascript
@@ -443,7 +451,9 @@ See [JS-Joda](#https://js-joda.github.io/js-joda/) for more examples and complet
 
 ## File Based Rules
 
-The JSScripting binding  will load scripts from `automation/js` in the user configuration directory. The system will automatically reload scripts when changes are detected to files.  Local variable state is not persisted among reloads, see using the [cache](#cache) for a connivent way to persist objects.
+The JSScripting binding  will load scripts from `automation/js` in the user configuration directory.
+The system will automatically reload scripts when changes are detected to files.
+Local variable state is not persisted among reloads, see using the [cache](#cache) for a connivent way to persist objects.
 
 File based rules can be created in 2 different ways: using [JSRule](#jsrule) or the [Rule Builder](#rule-builder).
 
@@ -578,7 +588,9 @@ Additionally all the above triggers have the following functions:
 #### Rule Builder Conditions
 
 * `if(optionalFunction)`
-    * `.stateOfItem(state)`
+    * `.stateOfItem(itemName)`
+        * `is(state)`
+        * `in(state...)`
 
 #### Rule Builder Operations
 * `then(optionalFunction)`
