@@ -68,7 +68,7 @@ module.exports = {
     ItemStateChangeTrigger: (itemName, oldState, newState, triggerName) => createTrigger("core.ItemStateChangeTrigger", triggerName, {
         "itemName": itemName,
         "state": newState,
-        "oldState": oldState
+        "previousState": oldState
     }),
 
     /**
@@ -84,8 +84,8 @@ module.exports = {
      * @param {String} [triggerName] the name of the trigger to create
      */
     ItemStateUpdateTrigger: (itemName, state, triggerName) => createTrigger("core.ItemStateUpdateTrigger", triggerName, {
-            "itemName": itemName,
-            "state": state
+        "itemName": itemName,
+        "state": state
     }),    
 
     /**
@@ -121,7 +121,7 @@ module.exports = {
     GroupStateChangeTrigger: (groupName, oldState, newState, triggerName) => createTrigger("core.GroupStateChangeTrigger", triggerName, {
         "groupName": groupName,
         "state": newState,
-        "oldState": oldState
+        "previousState": oldState
     }),
 
     /**
