@@ -89,7 +89,6 @@ class ItemHistory {
      * @returns {(Date | null)}
      */
     lastUpdate(serviceId) {
-        console.log("Last Update", ...arguments);
         return this._dateOrNull(PersistenceExtensions.lastUpdate(this.item, ...arguments));
     }
 
