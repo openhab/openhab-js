@@ -128,6 +128,7 @@ const removeRule = function (uid) {
  * @param {*} ruleConfig.execute callback that will be called when the rule fires
  * @param {HostTrigger|HostTrigger[]} ruleConfig.triggers triggers which will define when to fire the rule
  * @param {String} [ruleConfig.id] the UID of the rule
+ * @param {Array<String>} [ruleConfig.tags] the tags for the rule
  * @param {String} [ruleConfig.ruleGroup] the name of the rule group to use
  * @param {Boolean} [ruleConfig.overwrite=false] overwrite an existing rule with the same UID
  * @returns {HostRule} the created rule
@@ -171,6 +172,9 @@ let JSRule = function (ruleConfig) {
     }
     if (ruleConfig.name) {
         rule.setName(ruleConfig.name);
+    }
+    if (ruleConfig.tags) {
+        rule.setTags(utils.jsArrayToJavaSet(ruleConfig.tags));
     }
 
     //Register rule here
@@ -231,6 +235,7 @@ let registerRule = function (rule) {
  * @param {*} ruleConfig.execute callback that will be called when the rule fires
  * @param {HostTrigger|HostTrigger[]} ruleConfig.triggers triggers which will define when to fire the rule
  * @param {String} [ruleConfig.id] the UID of the rule
+ * @param {Array<String>} [ruleConfig.tags] the tags for the rule
  * @param {String} [ruleConfig.ruleGroup] the name of the rule group to use
  * @param {Boolean} [ruleConfig.overwrite=false] overwrite an existing rule with the same UID
  * @returns {HostRule} the created rule
