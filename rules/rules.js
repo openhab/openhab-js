@@ -336,6 +336,7 @@ const getTriggeredData = function (input) {
                 d.eventType = "time";
                 d.triggerType = "GenericCronTrigger";
                 d.triggerTypeOld = "TimerTrigger";
+                d.module = "CRON";
             } else {
                 d.eventType = "";
                 d.triggerType = "";
