@@ -275,7 +275,8 @@ const getTriggeredData = function (input) {
             receivedCommand: event.getItemCommand(),
             oldState: input.get("oldState") + "",
             newState: input.get("newState") + "",
-            itemName: event.getItemName()
+            itemName: event.getItemName(),
+            module: input.get("module")
         }
     }
 
@@ -297,7 +298,8 @@ const getTriggeredData = function (input) {
         receivedCommand: null,
         receivedState: null,
         receivedTrigger: null,
-        itemName: evArr[0]
+        itemName: evArr[0],
+        module: input.get("module")
     };
 
     try {
