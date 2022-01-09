@@ -15,24 +15,28 @@ to common openHAB functionality within rules including items, things, actions, l
 This library is included by default in the openHAB [JavaScript
 binding](https://www.openhab.org/addons/automation/jsscripting/)
 
-- [Installation](#installtion)
-    - [Default Installation](#default-installation)
-    - [Custom Installation](#custom-installation)
+- [Installation](#installation)
+  - [Default Installation](#default-installation)
+  - [Custom Installation](#custom-installation)
+  - [Configuration](#configuration)
 - [UI Based Rules](#ui-based-rules)
+  - [Adding Triggers](#adding-triggers)
+  - [Adding Actions](#adding-actions)
 - [Scripting Basics](#scripting-basics)
-    - [require](#require)
-    - [console](#console)
-    - [setInterval](#setinterval)
-    - [setTimeout](#settimeout)
-    - [scriptLoaded](#scriptloaded)
-    - [scriptUnLoaded](#scriptunloaded)
-    - [Paths](#paths)
+  - [Require](#require)
+  - [Console](#console)
+  - [SetTimeout](#settimeout)
+  - [SetInterval](#setinterval)
+  - [ScriptLoaded](#scriptloaded)
+  - [ScriptUnLoaded](#scriptunloaded)
+  - [Paths](#paths)
 - [Standard Library](#standard-library)
-    - [items](#items)
-    - [actions](#actions)
-    - [cache](#cache)
-    - [log](#log)
-    - [time](#time)
+  - [Items](#items)
+  - [Actions](#actions)
+  - [Semantics Actions](#semantics-actions)
+  - [Cache](#cache)
+  - [Log](#log)
+  - [Time](#time)
 - [File Based Rules](#file-based-rules)
   - [JSRule](#jsrule)
   - [Rule Builder](#rule-builder)
@@ -123,7 +127,7 @@ where `obj1 ... objN` is a list of JavaScript objects to output. The string repr
 
 see https://developer.mozilla.org/en-US/docs/Web/API/console for more information about console logging.
 
-### setTimeout
+### SetTimeout
 
 The global setTimeout() method sets a timer which executes a function or specified piece of code once the timer expires.
 ```javascript
@@ -135,7 +139,7 @@ The global `clearTimeout()` method cancels a timeout previously established by c
 
 see https://developer.mozilla.org/en-US/docs/Web/API/setTimeout for more information about setTimeout.
 
-### setInterval
+### SetInterval
 
 The setInterval() method repeatedly calls a function or executes a code snippet, with a fixed time delay between each call.
 
@@ -278,11 +282,11 @@ See [openhab-js : actions ](https://openhab.github.io/openhab-js/actions.html) f
 
 See [openhab-js : actions.Audio ](https://openhab.github.io/openhab-js/actions.html#.Audio) for complete documentation
 
-### BusEvent
+#### BusEvent
 
 See [openhab-js : actions.BusEvent ](https://openhab.github.io/openhab-js/actions.html#.BusEvent) for complete documentation
 
-## Ephemeris Actions
+#### Ephemeris Actions
 
 See [openhab-js : actions.Ephemeris ](https://openhab.github.io/openhab-js/actions.html#.Ephemeris) for complete documentation
 
@@ -317,7 +321,7 @@ let response = actions.Exec.executeCommandLine('echo', 'Hello World!');
 response = actions.Exec.executeCommandLine(Duration.ofSeconds(20), 'echo', 'Hello World!');
 ```
 
-### HTTP Actions
+#### HTTP Actions
 
 See [openhab-js : actions.HTTP ](https://openhab.github.io/openhab-js/actions.html#.HTTP) for complete documentation
 
@@ -328,7 +332,7 @@ var response = actions.HTTP.sendHttpGetRequest('<url>');
 
 Replace `<url>` with the request url.
 
-### ScriptExecution Actions
+#### ScriptExecution Actions
 
 See [openhab-js : actions.ScriptExecution ](https://openhab.github.io/openhab-js/actions.html#.ScriptExecution) for complete documentation
 
@@ -357,15 +361,15 @@ this.myTimer.reschedule(now.plusSeconds(5));
 
 See [openhab-js : actions.Semantics ](https://openhab.github.io/openhab-js/actions.html#.Semantics) for complete documentation
 
-### Things Actions
+#### Things Actions
 
 See [openhab-js : actions.Things ](https://openhab.github.io/openhab-js/actions.html#.Things) for complete documentation
 
-### Voice Actions
+#### Voice Actions
 
 See [openhab-js : actions.Voice ](https://openhab.github.io/openhab-js/actions.html#.Voice) for complete documentation
 
-### Cloud Notification Actions
+#### Cloud Notification Actions
 
 (optional action if openhab-cloud is installed)
 
@@ -439,7 +443,7 @@ console.log("averageSince", item.history.averageSince(yesterday));
 actions.Exec.executeCommandLine(time.Duration.ofSeconds(20), 'echo', 'Hello World!');
 ```
 
-See [JS-Joda](#https://js-joda.github.io/js-joda/) for more examples and complete API usage.
+See [JS-Joda](https://js-joda.github.io/js-joda/) for more examples and complete API usage.
 
 ## File Based Rules
 
@@ -463,7 +467,8 @@ rules.JSRule({
   execute: data => {
     items.getItem("BalconyLights").sendCommand("ON");
     actions.NotificationAction.sendNotification(email, "Balcony lights are ON");
-  }
+  },
+  tags: ["Balcony", "Lights"]
 });
 ```
 
@@ -514,15 +519,16 @@ Rules are started by calling `rules.when()` and can chain together [triggers](#r
 [conditions](#rule-builder-conditions) and [operations](#rule-builder-operations) in the following pattern:
 
 ```javascript
-rules.when().triggerType()...if().conditionType().then().operationType()...build(name,description);
+rules.when().triggerType()...if().conditionType().then().operationType()...build(name, description, tags);
 ```
 
-Rule are completed by calling `.build(name,description)` , if name or description are omitted, a generated value will be used.
+Rule are completed by calling `.build(name, description, tags)` , if name or description are omitted, a generated value will be used.
+If tags is used, it must be an Array of strings.
 
 A simple example of this would look like:
 
 ```javascript
-rules.when().item("F1_Light").changed().then().send("changed").toItem("F2_Light").build("My Rule", "My First Rule");
+rules.when().item("F1_Light").changed().then().send("changed").toItem("F2_Light").build("My Rule", "My First Rule", ["My First Tag"]);
 ```
 
 Operations and conditions can also optionally take functions:
@@ -530,7 +536,7 @@ Operations and conditions can also optionally take functions:
 ```javascript
 rules.when().item("F1_light").changed().then(event => {
     console.log(event);
-}).build("Test Rule", "My Test Rule");
+}).build("Test Rule", "My Test Rule", ["My First Tag"]);
 ```
 see [Examples](#rule-builder-examples) for further patterns
 
