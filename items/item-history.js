@@ -1,3 +1,4 @@
+const time = require('../time');
 const PersistenceExtensions = Java.type("org.openhab.core.persistence.extensions.PersistenceExtensions");
 const DateTime = Java.type('java.time.ZonedDateTime');
 
@@ -181,7 +182,7 @@ class ItemHistory {
     }
 
     _dateOrNull(result) {
-        return result === null ? null : new Date(result.toInstant().toEpochMilli());
+        return result === null ? null : time.ZonedDateTime.parse(result.toString());
     }
 
     _decimalOrNull(result) {

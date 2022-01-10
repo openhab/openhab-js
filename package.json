@@ -10,6 +10,7 @@
     },
     "dependencies": {
         "@js-joda/core": "^4.3.1",
+        "@js-joda/timezone": "^2.11.1",
         "parse-duration": "^0.1.1"
     },
     "scripts": {
