@@ -190,7 +190,6 @@ class Item {
      */
     postUpdate(value) {
         events.postUpdate(this.rawItem, value);
-        log.debug("Posted update {} to {}", value, this.name);
     }
 
     /**
