@@ -1,3 +1,4 @@
+const { ZonedDateTime } = require('@js-joda/core');
 const time = require('../time');
 const PersistenceExtensions = Java.type("org.openhab.core.persistence.extensions.PersistenceExtensions");
 const DateTime = Java.type('java.time.ZonedDateTime');
@@ -87,7 +88,7 @@ class ItemHistory {
      * Query the last update time of a given item.
      * 
      * @param {string} [serviceId] optional persistance service ID 
-     * @returns {(Date | null)}
+     * @returns {(ZonedDateTime | null)}
      */
     lastUpdate(serviceId) {
         return this._dateOrNull(PersistenceExtensions.lastUpdate(this.item, ...arguments));
