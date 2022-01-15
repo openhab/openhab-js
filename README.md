@@ -200,6 +200,7 @@ See [openhab-js : items ](https://openhab.github.io/openhab-js/items.html) for f
 
 * items : <code>object</code>
     * .getItem(name, nullIfMissing) ⇒ <code>Item</code>
+    * .getItems() ⇒ <code>Array.&lt;Item&gt;</code>
     * .getItemsByTag(...tagNames) ⇒ <code>Array.&lt;Item&gt;</code>
     * .createItem(itemName, [itemType], [category], [groups], [label], [tags], [giBaseType], [groupFunction], [itemMetadata])
     * .addItem(itemName, [itemType], [category], [groups], [label], [tags], [giBaseType], [groupFunction])
