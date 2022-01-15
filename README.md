@@ -478,9 +478,12 @@ rules.JSRule({
     items.getItem("BalconyLights").sendCommand("ON");
     actions.NotificationAction.sendNotification(email, "Balcony lights are ON");
   },
-  tags: ["Balcony", "Lights"]
+  tags: ["Balcony", "Lights"],
+  id: "BalconyLightsOn"
 });
 ```
+
+Note: `description`, `tags` and `id` are optional.
 
 Multiple triggers can be added,  some example triggers include:
 
@@ -600,7 +603,7 @@ Additionally all the above triggers have the following functions:
 
 #### Rule Builder Operations
 * `then(optionalFunction)`
-    * `.build(name, description)`
+    * `.build(name, description, tags, id)`
     * `.copyAndSendState()`
     * `.copyState()`
     * `.inGroup(groupName)`
@@ -626,11 +629,11 @@ at SUNSET");
 
 //turn off the kitchen light at 9PM
 rules.when().cron("0 0 21 * * ?").then().sendOff().toItem("KitchenLight").build("9PM Rule", "turn off the kitchen light
-at 9PM");
+at 9PM", ["Tag1", "Tag2"]);
 
 //set the colour of the hall light to pink at 9PM
 rules.when().cron("0 0 21 * * ?").then().send("300,100,100").toItem("HallLight").build("Pink Rule", "set the colour of
-the hall light to pink at 9PM");
+the hall light to pink at 9PM", ["Tag1", "Tag2"], "MyCustomID");
 
 //when the switch S1 status changes to ON, then turn on the HallLight
 rules.when().item('S1').changed().toOn().then(sendOn().toItem('HallLight')).build("S1 Rule");

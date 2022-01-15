@@ -90,7 +90,8 @@ class RuleBuilder {
             execute: function (data) {
                 fnToExecute(data);
             },
-            tags: this.tags || []
+            tags: this.tags || [],
+            id: this.id
         });
     }
 
