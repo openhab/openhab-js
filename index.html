@@ -71,31 +71,38 @@ It provides convenient access to common openHAB functionality within rules inclu
 <p>This library is included by default in the openHAB <a href="https://www.openhab.org/addons/automation/jsscripting/">JavaScript
 binding</a></p>
 <ul>
-<li><a href="#installtion">Installation</a>
+<li><a href="#installation">Installation</a>
 <ul>
 <li><a href="#default-installation">Default Installation</a></li>
 <li><a href="#custom-installation">Custom Installation</a></li>
+<li><a href="#configuration">Configuration</a></li>
 </ul>
 </li>
-<li><a href="#ui-based-rules">UI Based Rules</a></li>
+<li><a href="#ui-based-rules">UI Based Rules</a>
+<ul>
+<li><a href="#adding-triggers">Adding Triggers</a></li>
+<li><a href="#adding-actions">Adding Actions</a></li>
+</ul>
+</li>
 <li><a href="#scripting-basics">Scripting Basics</a>
 <ul>
-<li><a href="#require">require</a></li>
-<li><a href="#console">console</a></li>
-<li><a href="#setinterval">setInterval</a></li>
-<li><a href="#settimeout">setTimeout</a></li>
-<li><a href="#scriptloaded">scriptLoaded</a></li>
-<li><a href="#scriptunloaded">scriptUnLoaded</a></li>
+<li><a href="#require">Require</a></li>
+<li><a href="#console">Console</a></li>
+<li><a href="#settimeout">SetTimeout</a></li>
+<li><a href="#setinterval">SetInterval</a></li>
+<li><a href="#scriptloaded">ScriptLoaded</a></li>
+<li><a href="#scriptunloaded">ScriptUnLoaded</a></li>
 <li><a href="#paths">Paths</a></li>
 </ul>
 </li>
 <li><a href="#standard-library">Standard Library</a>
 <ul>
-<li><a href="#items">items</a></li>
-<li><a href="#actions">actions</a></li>
-<li><a href="#cache">cache</a></li>
-<li><a href="#log">log</a></li>
-<li><a href="#time">time</a></li>
+<li><a href="#items">Items</a></li>
+<li><a href="#actions">Actions</a></li>
+<li><a href="#semantics-actions">Semantics Actions</a></li>
+<li><a href="#cache">Cache</a></li>
+<li><a href="#log">Log</a></li>
+<li><a href="#time">Time</a></li>
 </ul>
 </li>
 <li><a href="#file-based-rules">File Based Rules</a>
@@ -166,14 +173,14 @@ Script debug logging is enabled by default at the <code>TRACE</code> level, but 
 <p>where <code>obj1 ... objN</code> is a list of JavaScript objects to output.
 The string representations of each of these objects are appended together in the order listed and output.</p>
 <p>see https://developer.mozilla.org/en-US/docs/Web/API/console for more information about console logging.</p>
-<h3>setTimeout</h3>
+<h3>SetTimeout</h3>
 <p>The global setTimeout() method sets a timer which executes a function or specified piece of code once the timer expires.</p>
 <pre class="prettyprint source lang-javascript"><code>var timeoutID = setTimeout(function[, delay, arg1, arg2, ...]);
 var timeoutID = setTimeout(function[, delay]);
 </code></pre>
 <p>The global <code>clearTimeout()</code> method cancels a timeout previously established by calling <code>setTimeout()</code>.</p>
 <p>see https://developer.mozilla.org/en-US/docs/Web/API/setTimeout for more information about setTimeout.</p>
-<h3>setInterval</h3>
+<h3>SetInterval</h3>
 <p>The setInterval() method repeatedly calls a function or executes a code snippet, with a fixed time delay between each call.</p>
 <pre class="prettyprint source lang-javascript"><code>var intervalID = setInterval(func, [delay, arg1, arg2, ...]);
 var intervalID = setInterval(function[, delay]);
@@ -291,9 +298,9 @@ The following are a list of standard actions.</p>
 <p>See <a href="https://openhab.github.io/openhab-js/actions.html">openhab-js : actions </a> for full API documentation and additional actions.</p>
 <h4>Audio Actions</h4>
 <p>See <a href="https://openhab.github.io/openhab-js/actions.html#.Audio">openhab-js : actions.Audio </a> for complete documentation</p>
-<h3>BusEvent</h3>
+<h4>BusEvent</h4>
 <p>See <a href="https://openhab.github.io/openhab-js/actions.html#.BusEvent">openhab-js : actions.BusEvent </a> for complete documentation</p>
-<h2>Ephemeris Actions</h2>
+<h4>Ephemeris Actions</h4>
 <p>See <a href="https://openhab.github.io/openhab-js/actions.html#.Ephemeris">openhab-js : actions.Ephemeris </a> for complete documentation</p>
 <p>Ephemeris is a way to determine what type of day today or a number of days before or after today is. For example, a way to determine if today is a weekend, a bank holiday, someone’s birthday, trash day, etc.</p>
 <p>Additional information can be found on the  <a href="https://www.openhab.org/docs/configuration/actions.html#ephemeris">Ephemeris Actions Docs</a> as well as the <a href="https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/ephemeris">Ephemeris JavaDoc</a>.</p>
@@ -317,13 +324,13 @@ let response = actions.Exec.executeCommandLine('echo', 'Hello World!');
 // Get response from command line with timeout.
 response = actions.Exec.executeCommandLine(Duration.ofSeconds(20), 'echo', 'Hello World!');
 </code></pre>
-<h3>HTTP Actions</h3>
+<h4>HTTP Actions</h4>
 <p>See <a href="https://openhab.github.io/openhab-js/actions.html#.HTTP">openhab-js : actions.HTTP </a> for complete documentation</p>
 <pre class="prettyprint source lang-javascript"><code>// Example GET Request
 var response = actions.HTTP.sendHttpGetRequest('&lt;url>');
 </code></pre>
 <p>Replace <code>&lt;url&gt;</code> with the request url.</p>
-<h3>ScriptExecution Actions</h3>
+<h4>ScriptExecution Actions</h4>
 <p>See <a href="https://openhab.github.io/openhab-js/actions.html#.ScriptExecution">openhab-js : actions.ScriptExecution </a> for complete documentation</p>
 <pre class="prettyprint source lang-javascript"><code>let now = time.ZonedDateTime.now();
 
@@ -346,11 +353,11 @@ this.myTimer.reschedule(now.plusSeconds(5));
 </code></pre>
 <h3>Semantics Actions</h3>
 <p>See <a href="https://openhab.github.io/openhab-js/actions.html#.Semantics">openhab-js : actions.Semantics </a> for complete documentation</p>
-<h3>Things Actions</h3>
+<h4>Things Actions</h4>
 <p>See <a href="https://openhab.github.io/openhab-js/actions.html#.Things">openhab-js : actions.Things </a> for complete documentation</p>
-<h3>Voice Actions</h3>
+<h4>Voice Actions</h4>
 <p>See <a href="https://openhab.github.io/openhab-js/actions.html#.Voice">openhab-js : actions.Voice </a> for complete documentation</p>
-<h3>Cloud Notification Actions</h3>
+<h4>Cloud Notification Actions</h4>
 <p>(optional action if openhab-cloud is installed)</p>
 <p>Notification actions may be placed in Rules to send alerts to mobile devices registered with an <a href="https://github.com/openhab/openhab-cloud">openHAB Cloud instance</a> such as <a href="https://myopenhab.org/">myopenHAB.org</a>.</p>
 <p>For available actions have a look at the <a href="https://www.openhab.org/docs/configuration/actions.html#cloud-notification-actions">Cloud Notification Actions Docs</a>.</p>
@@ -406,7 +413,7 @@ console.log(&quot;averageSince&quot;, item.history.averageSince(yesterday));
 </code></pre>
 <pre class="prettyprint source lang-javascript"><code>actions.Exec.executeCommandLine(time.Duration.ofSeconds(20), 'echo', 'Hello World!');
 </code></pre>
-<p>See <a href="#https://js-joda.github.io/js-joda/">JS-Joda</a> for more examples and complete API usage.</p>
+<p>See <a href="https://js-joda.github.io/js-joda/">JS-Joda</a> for more examples and complete API usage.</p>
 <h2>File Based Rules</h2>
 <p>The JSScripting binding  will load scripts from <code>automation/js</code> in the user configuration directory.
 The system will automatically reload scripts when changes are detected to files.
@@ -424,7 +431,8 @@ rules.JSRule({
   execute: data => {
     items.getItem(&quot;BalconyLights&quot;).sendCommand(&quot;ON&quot;);
     actions.NotificationAction.sendNotification(email, &quot;Balcony lights are ON&quot;);
-  }
+  },
+  tags: [&quot;Balcony&quot;, &quot;Lights&quot;]
 });
 </code></pre>
 <p>Multiple triggers can be added,  some example triggers include:</p>
@@ -466,16 +474,17 @@ triggers.TimeOfDayTrigger('19:00')
 <p>The Rule Builder provides a convenient API to write rules in a high-level, readable style using a builder pattern.</p>
 <p>Rules are started by calling <code>rules.when()</code> and can chain together <a href="#rule-builder-triggers">triggers</a>,
 <a href="#rule-builder-conditions">conditions</a> and <a href="#rule-builder-operations">operations</a> in the following pattern:</p>
-<pre class="prettyprint source lang-javascript"><code>rules.when().triggerType()...if().conditionType().then().operationType()...build(name,description);
+<pre class="prettyprint source lang-javascript"><code>rules.when().triggerType()...if().conditionType().then().operationType()...build(name, description, tags);
 </code></pre>
-<p>Rule are completed by calling <code>.build(name,description)</code> , if name or description are omitted, a generated value will be used.</p>
+<p>Rule are completed by calling <code>.build(name, description, tags)</code> , if name or description are omitted, a generated value will be used.
+If tags is used, it must be an Array of strings.</p>
 <p>A simple example of this would look like:</p>
-<pre class="prettyprint source lang-javascript"><code>rules.when().item(&quot;F1_Light&quot;).changed().then().send(&quot;changed&quot;).toItem(&quot;F2_Light&quot;).build(&quot;My Rule&quot;, &quot;My First Rule&quot;);
+<pre class="prettyprint source lang-javascript"><code>rules.when().item(&quot;F1_Light&quot;).changed().then().send(&quot;changed&quot;).toItem(&quot;F2_Light&quot;).build(&quot;My Rule&quot;, &quot;My First Rule&quot;, [&quot;My First Tag&quot;]);
 </code></pre>
 <p>Operations and conditions can also optionally take functions:</p>
 <pre class="prettyprint source lang-javascript"><code>rules.when().item(&quot;F1_light&quot;).changed().then(event => {
     console.log(event);
-}).build(&quot;Test Rule&quot;, &quot;My Test Rule&quot;);
+}).build(&quot;Test Rule&quot;, &quot;My Test Rule&quot;, [&quot;My First Tag&quot;]);
 </code></pre>
 <p>see <a href="#rule-builder-examples">Examples</a> for further patterns</p>
 <h4>Rule Builder Triggers</h4>
@@ -616,7 +625,7 @@ rules.when().item('HallLight').receivedUpdate().then().copyState().fromItem('Bed
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Wed Jan 12 2022 15:30:16 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Sat Jan 15 2022 00:44:46 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
