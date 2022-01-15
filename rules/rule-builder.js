@@ -89,7 +89,8 @@ class RuleBuilder {
             ruleGroup: optionalRuleGroup,
             execute: function (data) {
                 fnToExecute(data);
-            }
+            },
+            tags: this.tags || []
         });
     }
 
