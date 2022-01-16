@@ -535,10 +535,12 @@ Rules are started by calling `rules.when()` and can chain together [triggers](#r
 rules.when().triggerType()...if().conditionType().then().operationType()...build(name, description, tags, id);
 ```
 
-Note: `name`, `description`, `tags` and `id` are optional and reasonable defaults will be used if omitted.
+Rule are completed by calling `.build(name, description, tags, id)` , all parameters are optional and reasonable defaults will be used if omitted.  
 
-Rule are completed by calling `.build(name, description, tags)` , if name or description are omitted, a generated value will be used.
-If tags is used, it must be an Array of strings.
+- `name` String rule name - defaults generated name
+- `description` String Rule description - defaults generated description
+- `tags` Array of string tag names - defaults empty array
+- `id` String id - defaults random UUID  
 
 A simple example of this would look like:
 
