@@ -485,9 +485,12 @@ rules.JSRule({
     items.getItem("BalconyLights").sendCommand("ON");
     actions.NotificationAction.sendNotification(email, "Balcony lights are ON");
   },
-  tags: ["Balcony", "Lights"]
+  tags: ["Balcony", "Lights"],
+  id: "BalconyLightsOn"
 });
 ```
+
+Note: `description`, `tags` and `id` are optional.
 
 Multiple triggers can be added,  some example triggers include:
 
@@ -536,16 +539,20 @@ Rules are started by calling `rules.when()` and can chain together [triggers](#r
 [conditions](#rule-builder-conditions) and [operations](#rule-builder-operations) in the following pattern:
 
 ```javascript
-rules.when().triggerType()...if().conditionType().then().operationType()...build(name, description, tags);
+rules.when().triggerType()...if().conditionType().then().operationType()...build(name, description, tags, id);
 ```
 
-Rule are completed by calling `.build(name, description, tags)` , if name or description are omitted, a generated value will be used.
-If tags is used, it must be an Array of strings.
+Rule are completed by calling `.build(name, description, tags, id)` , all parameters are optional and reasonable defaults will be used if omitted.  
+
+- `name` String rule name - defaults generated name
+- `description` String Rule description - defaults generated description
+- `tags` Array of string tag names - defaults empty array
+- `id` String id - defaults random UUID  
 
 A simple example of this would look like:
 
 ```javascript
-rules.when().item("F1_Light").changed().then().send("changed").toItem("F2_Light").build("My Rule", "My First Rule", ["My First Tag"]);
+rules.when().item("F1_Light").changed().then().send("changed").toItem("F2_Light").build("My Rule", "My First Rule");
 ```
 
 Operations and conditions can also optionally take functions:
@@ -553,7 +560,7 @@ Operations and conditions can also optionally take functions:
 ```javascript
 rules.when().item("F1_light").changed().then(event => {
     console.log(event);
-}).build("Test Rule", "My Test Rule", ["My First Tag"]);
+}).build("Test Rule", "My Test Rule");
 ```
 see [Examples](#rule-builder-examples) for further patterns
 
@@ -607,7 +614,7 @@ Additionally all the above triggers have the following functions:
 
 #### Rule Builder Operations
 * `then(optionalFunction)`
-    * `.build(name, description)`
+    * `.build(name, description, tags, id)`
     * `.copyAndSendState()`
     * `.copyState()`
     * `.inGroup(groupName)`
@@ -631,13 +638,13 @@ rules.when().item('BedroomLight1').changed().then(e => {
 rules.when().timeOfDay("SUNSET").then().sendOn().toItem("KitchenLight").build("Sunset Rule","turn on the kitchen light
 at SUNSET");
 
-//turn off the kitchen light at 9PM
+//turn off the kitchen light at 9PM and tag rule
 rules.when().cron("0 0 21 * * ?").then().sendOff().toItem("KitchenLight").build("9PM Rule", "turn off the kitchen light
-at 9PM");
+at 9PM", ["Tag1", "Tag2"]);
 
-//set the colour of the hall light to pink at 9PM
+//set the colour of the hall light to pink at 9PM, tag rule and use a custom ID
 rules.when().cron("0 0 21 * * ?").then().send("300,100,100").toItem("HallLight").build("Pink Rule", "set the colour of
-the hall light to pink at 9PM");
+the hall light to pink at 9PM", ["Tag1", "Tag2"], "MyCustomID");
 
 //when the switch S1 status changes to ON, then turn on the HallLight
 rules.when().item('S1').changed().toOn().then(sendOn().toItem('HallLight')).build("S1 Rule");

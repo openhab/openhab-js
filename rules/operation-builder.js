@@ -17,10 +17,11 @@ class OperationBuilder {
         }
     }
 
-    _then(operation, group, name, description, tags) {
+    _then(operation, group, name, description, tags, id) {
         this.builder.name = name;
         this.builder.description = description;
         this.builder.tags = tags;
+        this.builder.id = id;
         this.builder.setOperation(operation, group);
     }
 
@@ -30,12 +31,13 @@ class OperationBuilder {
      * @param {string} [name] of the rule
      * @param {string} [description] of the rule
      * @param {Array<String>} [tags] of the rule
+     * @param {string} [id] of the rule
      */
-    build(name, description, tags) {
+    build(name, description, tags, id) {
         if (!this.fn) {
             throw new Error("Cannot call build without function")
         }
-        this._then(this.fn, this.group, name, description, tags);
+        this._then(this.fn, this.group, name, description, tags, id);
     }
 
     /**
@@ -176,9 +178,10 @@ class OperationConfig {
      * @param {string} [name] of the rule
      * @param {string} [description] of the rule
      * @param {Array<String>} [tags] of the rule
+     * @param {string} [id] of the rule
      */
-    build(name, description, tags) {
-        this.operationBuilder._then(this, this.group, name, description, tags);
+    build(name, description, tags, id) {
+        this.operationBuilder._then(this, this.group, name, description, tags, id);
     }
 }
 /**
