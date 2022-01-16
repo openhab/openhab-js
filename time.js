@@ -1,4 +1,5 @@
 
+require('@js-joda/timezone');
 const time = require('@js-joda/core');
 
 //openHAB uses a RFC DateTime string, js-joda defaults to the ISO version, this defaults RFC instead

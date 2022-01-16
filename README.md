@@ -19,6 +19,8 @@ binding](https://www.openhab.org/addons/automation/jsscripting/)
   - [Default Installation](#default-installation)
   - [Custom Installation](#custom-installation)
   - [Configuration](#configuration)
+- [Latest Changes](#latest-changes)
+  - [Breaking Changes](#breaking-changes)
 - [UI Based Rules](#ui-based-rules)
   - [Adding Triggers](#adding-triggers)
   - [Adding Actions](#adding-actions)
@@ -58,6 +60,10 @@ This will be used instead of the binding provided version.
 
 ### Configuration
 
+## Latest Changes
+
+### Breaking changes
+- item.history.lastUpdate() returns `ZonedDateTime` instead of `Date`
 
 ## UI Based Rules
 
