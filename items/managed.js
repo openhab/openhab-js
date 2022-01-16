@@ -423,6 +423,16 @@ const getItem = (name, nullIfMissing = false) => {
 }
 
 /**
+ * Gets all openHAB Items.
+ * 
+ * @memberOf items
+ * @return {items.Item[]} all items
+ */
+const getItems = () => {
+    return utils.javaSetToJsArray(itemRegistry.getItems()).map(i => new Item(i));
+}
+
+/**
  * Gets all openHAB Items with a specific tag.
  * 
  * @memberOf items
@@ -446,6 +456,7 @@ const safeItemName = s => s.
 module.exports = {
     safeItemName,
     getItem,
+    getItems,
     addItem,
     getItemsByTag,
     replaceItem,
