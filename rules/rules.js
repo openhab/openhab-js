@@ -332,7 +332,6 @@ const getTriggeredData = function (input) {
             d.receivedTrigger = evArr[2];
             break;
         default:
-            d.module = "";
             if (input.size() == 0) {
                 d.eventType = "time";
                 d.triggerType = "GenericCronTrigger";
