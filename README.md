@@ -369,7 +369,7 @@ let active = this.myTimer.isActive();
 // Reschedule the timer.
 this.myTimer.reschedule(now.plusSeconds(5));
 ```
-### Semantics Actions
+#### Semantics Actions
 
 See [openhab-js : actions.Semantics ](https://openhab.github.io/openhab-js/actions.html#.Semantics) for complete documentation
 
