@@ -163,7 +163,6 @@ class Item {
      * @see postUpdate
      */
     sendCommand(value) {
-        log.debug("Sending command {} to {}", value, this.name);
         events.sendCommand(this.rawItem, value);
     }
 
@@ -323,7 +322,6 @@ const createItem = function (itemName, itemType, category, groups, label, tags, 
 const addItem = function (itemName, itemType, category, groups, label, tags, giBaseType, groupFunction) {
     let item = createItem(...arguments);
     managedItemProvider.add(item.rawItem);
-    log.debug("Item added: {}", item.name);
     return item;
 }
 
@@ -355,7 +353,6 @@ const removeItem = function (itemOrItemName) {
     managedItemProvider.remove(itemName);
 
     if (typeof itemRegistry.getItem(itemName) === 'undefined') {
-        log.debug("Item removed: " + itemName);
         return true;
     } else {
         log.warn("Failed to remove item: " + itemName);
@@ -387,7 +384,6 @@ const replaceItem = function (/* same args as addItem */) {
     try {
         var item = getItem(itemName);
         if (typeof item !== 'undefined') {
-            log.debug("Removing existing item " + itemName + "[" + item + "] to replace with updated one");
             removeItem(itemName);
         }
     } catch (e) {
