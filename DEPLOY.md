@@ -31,5 +31,5 @@ git checkout main
 git pull origin
 npm version $OHJS 
 git push origin  #push changes
-git push origin $OHJS #push tag
+git push origin v${OHJS} #push tag
 ```
