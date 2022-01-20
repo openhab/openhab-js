@@ -327,7 +327,7 @@ class ItemTriggerConfig extends TriggerConf {
             case "receivedUpdate":
                 return compact ? `${this.item_name}/↻` : `${this.type} ${this.item_name} received update`;
             default:
-                throw error("Unknown operation type: " + this.op_type);
+                throw Error("Unknown operation type: " + this.op_type);
         }
     }
 
@@ -341,7 +341,7 @@ class ItemTriggerConfig extends TriggerConf {
                 case 'receivedUpdate':
                     return [triggers.GroupStateUpdateTrigger(this.item_name, this.to_value)]
                 default:
-                    throw error("Unknown operation type: " + this.op_type);
+                    throw Error("Unknown operation type: " + this.op_type);
             }
         } else {
             switch (this.op_type) {
@@ -352,7 +352,7 @@ class ItemTriggerConfig extends TriggerConf {
                 case 'receivedUpdate':
                     return [triggers.ItemStateUpdateTrigger(this.item_name, this.to_value)]
                 default:
-                    throw error("Unknown operation type: " + this.op_type);
+                    throw Error("Unknown operation type: " + this.op_type);
             }
         }
     }
@@ -410,7 +410,7 @@ class ThingTriggerConfig extends TriggerConf {
             case "updated":
                 return compact ? `${this.thingUID}/updated` : `Thing ${this.thingUID} received update`;
             default:
-                throw error("Unknown operation type: " + this.op_type);
+                throw Error("Unknown operation type: " + this.op_type);
         }
     }
 
@@ -464,7 +464,7 @@ class ThingTriggerConfig extends TriggerConf {
             case 'updated':
                 return [triggers.ThingStatusUpdateTrigger(this.thingUID, this.to_value)]
             default:
-                throw error("Unknown operation type: " + this.op_type);
+                throw Error("Unknown operation type: " + this.op_type);
         }
     }
 };

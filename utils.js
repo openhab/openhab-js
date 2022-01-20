@@ -87,7 +87,7 @@ let dumpObject = function (obj) {
 
 let isJsInstanceOfJava = function(instance, type) {
     if(!Java.isType(type)) {
-        throw error("type is not a java class");
+        throw Error("type is not a java class");
     }
 
     if(instance === null || instance === undefined || instance.class === null || instance.class === undefined) {
