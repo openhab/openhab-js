@@ -2,7 +2,6 @@
  * OSGi module.
  * This module provides access to OSGi services.
  * 
- * @namespace osgi
  */
  
 const log = require('./log')('osgi');

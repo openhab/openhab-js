@@ -10,10 +10,9 @@ const GENERATED_RULE_ITEM_TAG = "GENERATED_RULE_ITEM";
 const items = require('../items');
 const utils = require('../utils');
 const log = require('../log')('rules');
-const itemhistory = require('../itemhistory');
 const osgi = require('../osgi');
 const triggers = require('../triggers');
-const { automationManager } = require('@runtime/RuleSupport');
+const { automationManager, ruleRegistry } = require('@runtime/RuleSupport');
 
 let RuleManager = osgi.getService("org.openhab.core.automation.RuleManager");
 let factory = require('@runtime/rules').factory;
@@ -36,7 +35,7 @@ const itemNameForRule = function (ruleConfig) {
  * @memberOf rules
  * @private
  * @param {HostRule} rule The rule to link to the item.
- * @param {OHItem} item the item to link to the rule.
+ * @param {Item} item the item to link to the rule.
  */
 const linkItemToRule = function (rule, item) {
     JSRule({
@@ -79,6 +78,37 @@ const getGroupsForItem = function (ruleConfig) {
 }
 
 /**
+ * Check whether a rule exists.
+ * Only works for rules created in the same file.
+ *
+ * @memberOf rules
+ * @private
+ * @param {String} uid the UID of the rule
+ * @returns {Boolean} whether the rule exists
+ */
+const ruleExists = function (uid) {
+    return !(ruleRegistry.get(uid) == null);
+};
+
+/**
+ * Remove a rule when it exists. The rule will be immediately removed.
+ * Only works for rules created in the same file.
+ *
+ * @memberOf rules
+ * @param {String} uid the UID of the rule
+ * @returns {Boolean} whether the rule was actually removed
+ */
+const removeRule = function (uid) {
+    if (ruleExists(uid)) {
+        log.info('Removing rule: {}', ruleRegistry.get(uid).name ? ruleRegistry.get(uid).name : uid);
+        ruleRegistry.remove(uid);
+        return !ruleExists(uid);
+    } else {
+        return false;
+    }
+};
+
+/**
  * Creates a rule. The rule will be created and immediately available.
  *
  * @example
@@ -86,7 +116,7 @@ const getGroupsForItem = function (ruleConfig) {
  *
  * rules.JSRule({
  *  name: "my_new_rule",
- *  description": "this rule swizzles the swallows",
+ *  description: "this rule swizzles the swallows",
  *  triggers: triggers.GenericCronTrigger("0 30 16 * * ? *"),
  *  execute: triggerConfig => { //do stuff }
  * });
@@ -94,13 +124,23 @@ const getGroupsForItem = function (ruleConfig) {
  * @memberOf rules
  * @param {Object} ruleConfig The rule config describing the rule
  * @param {String} ruleConfig.name the name of the rule
- * @param {String} ruleConfig.description a description of the rule
+ * @param {String} [ruleConfig.description] a description of the rule
  * @param {*} ruleConfig.execute callback that will be called when the rule fires
  * @param {HostTrigger|HostTrigger[]} ruleConfig.triggers triggers which will define when to fire the rule
+ * @param {String} [ruleConfig.id] the UID of the rule
+ * @param {Array<String>} [ruleConfig.tags] the tags for the rule
+ * @param {String} [ruleConfig.ruleGroup] the name of the rule group to use
+ * @param {Boolean} [ruleConfig.overwrite=false] overwrite an existing rule with the same UID
  * @returns {HostRule} the created rule
  */
 let JSRule = function (ruleConfig) {
     let ruid = ruleConfig.id || ruleConfig.name.replace(/[^\w]/g, "-") + "-" + utils.randomUUID();
+    if (ruleConfig.overwrite === true) {
+        removeRule(ruid);
+    }
+    if (ruleExists(ruid)) {
+        throw Error(`Failed to add rule: ${ruleConfig.name ? ruleConfig.name : ruid}, a rule with same UID [${ruid}] already exists!`);
+    }
     let ruTemplateid = ruleConfig.name.replace(/[^\w]/g, "-") + "-" + utils.randomUUID();
     log.info("Adding rule: {}", ruleConfig.name ? ruleConfig.name : ruid);
 
@@ -132,6 +172,9 @@ let JSRule = function (ruleConfig) {
     }
     if (ruleConfig.name) {
         rule.setName(ruleConfig.name);
+    }
+    if (ruleConfig.tags) {
+        rule.setTags(utils.jsArrayToJavaSet(ruleConfig.tags));
     }
 
     //Register rule here
@@ -188,10 +231,13 @@ let registerRule = function (rule) {
  * @memberOf rules
  * @param {Object} ruleConfig The rule config describing the rule
  * @param {String} ruleConfig.name the name of the rule
- * @param {String} ruleConfig.description a description of the rule
+ * @param {String} [ruleConfig.description] a description of the rule
  * @param {*} ruleConfig.execute callback that will be called when the rule fires
- * @param {HostTrigger[]} ruleConfig.triggers triggers which will define when to fire the rule
- * @param {String} ruleConfig.ruleGroup the name of the rule group to use.
+ * @param {HostTrigger|HostTrigger[]} ruleConfig.triggers triggers which will define when to fire the rule
+ * @param {String} [ruleConfig.id] the UID of the rule
+ * @param {Array<String>} [ruleConfig.tags] the tags for the rule
+ * @param {String} [ruleConfig.ruleGroup] the name of the rule group to use
+ * @param {Boolean} [ruleConfig.overwrite=false] overwrite an existing rule with the same UID
  * @returns {HostRule} the created rule
  */
 let SwitchableJSRule = function (ruleConfig) {
@@ -214,7 +260,7 @@ let SwitchableJSRule = function (ruleConfig) {
 
     if (item.isUninitialized) {
         //possibly load item's prior state
-        let historicState = itemhistory.latestState(item);
+        let historicState = item.history.latestState();
 
         if (historicState !== null) {
             item.postUpdate(historicState);
@@ -234,7 +280,8 @@ const getTriggeredData = function (input) {
             receivedCommand: event.getItemCommand(),
             oldState: input.get("oldState") + "",
             newState: input.get("newState") + "",
-            itemName: event.getItemName()
+            itemName: event.getItemName(),
+            module: input.get("module")
         }
     }
 
@@ -256,7 +303,8 @@ const getTriggeredData = function (input) {
         receivedCommand: null,
         receivedState: null,
         receivedTrigger: null,
-        itemName: evArr[0]
+        itemName: evArr[0],
+        module: input.get("module")
     };
 
     try {
@@ -305,6 +353,7 @@ const getTriggeredData = function (input) {
 
 module.exports = {
     withNewRuleProvider,
+    removeRule,
     JSRule,
     SwitchableJSRule
 }

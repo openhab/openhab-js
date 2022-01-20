@@ -10,7 +10,7 @@ const osgi = require('../osgi');
 const utils = require('../utils');
 const log = require('../log')('metadata');
 
-let MetadataRegistry = Java.type("org.openhab.core.items.MetadataRegistry");
+let MetadataRegistry = osgi.getService("org.openhab.core.items.MetadataRegistry");
 let Metadata = Java.type("org.openhab.core.items.Metadata");
 let MetadataKey = Java.type("org.openhab.core.items.MetadataKey");
 
