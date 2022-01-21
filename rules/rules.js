@@ -115,8 +115,8 @@ const removeRule = function (uid) {
  * 
  * @memberOf rules
  * @param {String} uid the UID of the rule to run
- * @param {Map<Object>} args optional dict of data to pass to the called rule
- * @param {Boolean} cond when true, the called rule will only run if it's conditions are met
+ * @param {Map<Object>} [args={}] args optional dict of data to pass to the called rule
+ * @param {Boolean} [cond=true] when true, the called rule will only run if it's conditions are met
  */
  const runRule = function (uid, args = {}, cond = true) {
     const status = RuleManager.getStatus(uid);
