@@ -110,7 +110,7 @@ const removeRule = function (uid) {
 
 /**
  * Runs the rule with the given UID. Throws errors when the rule doesn't exist
- * or is unable to run (e.g. it's disabled);
+ * or is unable to run (e.g. it's disabled).
  * 
  * @memberOf rules
  * @param {String} uid the UID of the rule to run
