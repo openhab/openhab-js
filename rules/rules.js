@@ -87,7 +87,7 @@ const getGroupsForItem = function (ruleConfig) {
  * @returns {Boolean} whether the rule exists
  */
 const ruleExists = function (uid) {
-    return !(ruleRegistry.get(uid) == null);
+    return !(RuleManager.getStatusInfo(uid) == null);
 };
 
 /**
@@ -106,6 +106,56 @@ const removeRule = function (uid) {
     } else {
         return false;
     }
+};
+
+
+/**
+ * Runs the rule with the given UID. Throws errors when the rule doesn't exist
+ * or is unable to run (e.g. it's disabled).
+ * 
+ * @memberOf rules
+ * @param {String} uid the UID of the rule to run
+ * @param {Map<Object>} args optional dict of data to pass to the called rule
+ * @param {Boolean} cond when true, the called rule will only run if it's conditions are met
+ */
+ const runRule = function (uid, args = {}, cond = true) {
+    const status = RuleManager.getStatus(uid);
+    if(!status) {
+        throw Error('There is no rule with UID ' + uid);
+    }
+    if(status.toString() == 'UNINITIALIZED') {
+        throw Error('Rule ' + uid + ' is UNINITIALIZED');
+    }
+
+    RuleManager.runNow(uid, cond, args);
+};
+
+/**
+ * Tests to see if the rule with the given UID is enabled or disabled. Throws
+ * and error if the rule doesn't exist.
+ * 
+ * @param {String} uid 
+ * @returns {Boolean} whether or not the rule is enabled
+ */
+const isEnabled = function (uid) {
+    if(!ruleExists(uid)) {
+        throw Error('There is no rule with UID ' + uid);
+    }
+    return RuleManager.isEnabled(uid);
+};
+
+/**
+ * Enables or disables the rule iwth the given UID. Throws an error if the
+ * rule doesn't exist.
+ * 
+ * @param {String} uid UID of the rule
+ * @param {Boolean} isEnabled when true, the rule is enabled, otherwise the rule is disabled
+ */
+const setEnabled = function (uid, isEnabled) {
+    if(!ruleExists(uid)) {
+        throw Error('There is no rule with UID ' + uid);
+    }
+    RuleManager.setEnabled(uid, isEnabled);
 };
 
 /**
@@ -354,6 +404,9 @@ const getTriggeredData = function (input) {
 module.exports = {
     withNewRuleProvider,
     removeRule,
+    runRule,
+    isEnabled,
+    setEnabled,   
     JSRule,
     SwitchableJSRule
 }
