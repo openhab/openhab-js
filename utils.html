@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>actions - Documentation</title>
+    <title>utils - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -34,7 +34,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">actions</h1>
+    <h1 class="page-title">utils</h1>
     
 
     
@@ -47,7 +47,7 @@
 <header>
     
         <h2>
-        actions
+        utils
         </h2>
         
     
@@ -64,7 +64,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions.js.html">actions.js</a>, <a href="actions.js.html#line1">line 1</a>
+        <a href="utils.js.html">utils.js</a>, <a href="utils.js.html#line7">line 7</a>
     </li></ul></dd>
     
 
@@ -103,23 +103,9 @@
 
 
             
-                <div class="description usertext"><p>Actions namespace.
-This namespace provides access to openHAB actions. All available actions can be accessed as direct properties of this
-object (via their simple class name).</p></div>
+                <div class="description usertext"><p>Utils namespace.
+This namespace handles utilities, especially for conversion from and to Java data types.</p></div>
             
-
-            
-                <h3>Examples</h3>
-                
-        <p class="code-caption">Sends a broadcast notification</p>
-    
-    <pre class="prettyprint"><code>let { actions } = require('openhab');
-actions.NotificationAction.sendBroadcastNotification("Hello World!")</code></pre>
-
-        <p class="code-caption">Sends a PushSafer notification</p>
-    
-    <pre class="prettyprint"><code>let { actions } = require('openhab');
- actions.Pushsafer.pushsafer("&lt;your pushsafer api key>", "&lt;message>", "&lt;message title>", "", "", "", "")</code></pre>
 
             
         
@@ -139,12 +125,18 @@ actions.NotificationAction.sendBroadcastNotification("Hello World!")</code></pre
     
 
     
-        <h3 class="subsection-title">Members</h3>
+
+    
+        <h3 class="subsection-title">Methods</h3>
 
         
             
-<h4 class="name" id=".Audio"><span class="type-signature">(static) </span>Audio<span class="type-signature"></span></h4>
 
+    
+
+    <h4 class="name" id=".jsSetToJavaSet"><span class="type-signature">(static) </span>jsSetToJavaSet<span class="signature">(set)</span><span class="type-signature"> &rarr; {java.util.Set}</span></h4>
+
+    
 
 
 
@@ -154,7 +146,7 @@ actions.NotificationAction.sendBroadcastNotification("Hello World!")</code></pre
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions.js.html">actions.js</a>, <a href="actions.js.html#line35">line 35</a>
+        <a href="utils.js.html">utils.js</a>, <a href="utils.js.html#line27">line 27</a>
     </li></ul></dd>
     
 
@@ -194,8 +186,7 @@ actions.NotificationAction.sendBroadcastNotification("Hello World!")</code></pre
 
 
 <div class="description usertext">
-    <p>Audio Actions</p>
-<p>The static methods of this class are made available as functions in the scripts. This allows a script to use audio features.</p>
+    <p>Convert JavaScript Set to Java Set.</p>
 </div>
 
 
@@ -204,28 +195,106 @@ actions.NotificationAction.sendBroadcastNotification("Hello World!")</code></pre
 
 
 
-    <h5>Examples</h5>
-    
-    <pre class="prettyprint"><code>Audio.decreaseMasterVolume​(float percent)	 
-Audio.getMasterVolume()	 
-Audio.increaseMasterVolume​(float percent)	 
-Audio.playSound​(String filename)	 
-Audio.playSound​(String sink, String filename)	 
-Audio.playSound​(String sink, String filename, PercentType volume)	 
-Audio.playSound​(String filename, PercentType volume)	 
-Audio.playStream​(String url)	 
-Audio.playStream​(String sink, String url)	 
-Audio.setMasterVolume​(float volume)	 
-Audio.setMasterVolume​(PercentType percent)</code></pre>
 
-    <pre class="prettyprint"><code>Audio.decreaseMasterVolume​(1.0)</code></pre>
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>set</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Set</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>JavaScript Set Object (<a href="https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Set">https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Set</a>)</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>Java Set (<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html">https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html</a>)</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">java.util.Set</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
         
             
-<h4 class="name" id=".BusEvent"><span class="type-signature">(static) </span>BusEvent<span class="type-signature"></span></h4>
 
+    
+
+    <h4 class="name" id=".jsArrayToJavaSet"><span class="type-signature">(static) </span>jsArrayToJavaSet<span class="signature">(arr)</span><span class="type-signature"> &rarr; {java.util.Set}</span></h4>
+
+    
 
 
 
@@ -235,7 +304,7 @@ Audio.setMasterVolume​(PercentType percent)</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions.js.html">actions.js</a>, <a href="actions.js.html#line60">line 60</a>
+        <a href="utils.js.html">utils.js</a>, <a href="utils.js.html#line42">line 42</a>
     </li></ul></dd>
     
 
@@ -275,8 +344,7 @@ Audio.setMasterVolume​(PercentType percent)</code></pre>
 
 
 <div class="description usertext">
-    <p>BusEvent Actions</p>
-<p>The static methods of this class are made available as functions in the scripts. This gives direct write access to the openHAB event bus from within scripts. Items should not be updated directly (setting the state property), but updates should be sent to the bus, so that all interested bundles are notified.</p>
+    <p>Convert JavaScript Array to Java Set.</p>
 </div>
 
 
@@ -285,25 +353,106 @@ Audio.setMasterVolume​(PercentType percent)</code></pre>
 
 
 
-    <h5>Example</h5>
+
+
+
+
+    <h5>Parameters:</h5>
     
-    <pre class="prettyprint"><code>BusEvent.postUpdate​(String itemName, String stateString)
-BusEvent.postUpdate​(Item item, Number state)
-BusEvent.postUpdate​(Item item, String stateAsString)
-BusEvent.postUpdate​(Item item, State state)
-BusEvent.restoreStates​(Map&lt;Item,​State> statesMap)
-BusEvent.sendCommand​(String itemName, String commandString)
-BusEvent.sendCommand​(Item item, Number number)
-BusEvent.sendCommand​(Item item, String commandString)
-BusEvent.sendCommand​(Item item, Command command)
-BusEvent.storeStates​(Item... items)</code></pre>
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>arr</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>JavaScript Array</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>Java Set (<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html">https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html</a>)</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">java.util.Set</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
         
             
-<h4 class="name" id=".Ephemeris"><span class="type-signature">(static) </span>Ephemeris<span class="type-signature"></span></h4>
 
+    
+
+    <h4 class="name" id=".jsArrayToJavaList"><span class="type-signature">(static) </span>jsArrayToJavaList<span class="signature">(arr)</span><span class="type-signature"> &rarr; {java.util.List}</span></h4>
+
+    
 
 
 
@@ -313,7 +462,7 @@ BusEvent.storeStates​(Item... items)</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions.js.html">actions.js</a>, <a href="actions.js.html#line81">line 81</a>
+        <a href="utils.js.html">utils.js</a>, <a href="utils.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -353,8 +502,7 @@ BusEvent.storeStates​(Item... items)</code></pre>
 
 
 <div class="description usertext">
-    <p>Ephemeris Actions</p>
-<p>The static methods of this class are made available as functions in the scripts. This allows a script to use ephemeris features.</p>
+    <p>Convert JavaScript Array to Java List.</p>
 </div>
 
 
@@ -363,44 +511,106 @@ BusEvent.storeStates​(Item... items)</code></pre>
 
 
 
-    <h5>Example</h5>
+
+
+
+
+    <h5>Parameters:</h5>
     
-    <pre class="prettyprint"><code>Ephemeris.getBankHolidayName()
-Ephemeris.getBankHolidayName​(int offset)
-Ephemeris.getBankHolidayName​(int offset, String filename)
-Ephemeris.getBankHolidayName​(String filename)
-Ephemeris.getBankHolidayName​(ZonedDateTime day)
-Ephemeris.getBankHolidayName​(ZonedDateTime day, String filename)
-Ephemeris.getDaysUntil​(String searchedHoliday)
-Ephemeris.getDaysUntil​(String searchedHoliday, String filename)
-Ephemeris.getDaysUntil​(ZonedDateTime day, String searchedHoliday)
-Ephemeris.getDaysUntil​(ZonedDateTime day, String searchedHoliday, String filename)
-Ephemeris.getHolidayDescription​(@Nullable String holiday)
-Ephemeris.getNextBankHoliday()
-Ephemeris.getNextBankHoliday​(int offset)
-Ephemeris.getNextBankHoliday​(int offset, String filename)
-Ephemeris.getNextBankHoliday​(String filename)
-Ephemeris.getNextBankHoliday​(ZonedDateTime day)
-Ephemeris.getNextBankHoliday​(ZonedDateTime day, String filename)
-Ephemeris.isBankHoliday()
-Ephemeris.isBankHoliday​(int offset)
-Ephemeris.isBankHoliday​(int offset, String filename)
-Ephemeris.isBankHoliday​(String filename)
-Ephemeris.isBankHoliday​(ZonedDateTime day)
-Ephemeris.isBankHoliday​(ZonedDateTime day, String filename)
-Ephemeris.isInDayset​(String daysetName)
-Ephemeris.isInDayset​(String daysetName, int offset)
-Ephemeris.isInDayset​(String daysetName, ZonedDateTime day)
-Ephemeris.isWeekend()
-Ephemeris.isWeekend​(int offset)
-Ephemeris.isWeekend​(ZonedDateTime day) </code></pre>
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>arr</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>JavaScript Array</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>Java List (<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/List.html">https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/List.html</a>)</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">java.util.List</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
         
             
-<h4 class="name" id=".Exec"><span class="type-signature">(static) </span>Exec<span class="type-signature"></span></h4>
 
+    
+
+    <h4 class="name" id=".javaSetToJsArray"><span class="type-signature">(static) </span>javaSetToJsArray<span class="signature">(set)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+
+    
 
 
 
@@ -410,7 +620,7 @@ Ephemeris.isWeekend​(ZonedDateTime day) </code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions.js.html">actions.js</a>, <a href="actions.js.html#line120">line 120</a>
+        <a href="utils.js.html">utils.js</a>, <a href="utils.js.html#line76">line 76</a>
     </li></ul></dd>
     
 
@@ -450,8 +660,7 @@ Ephemeris.isWeekend​(ZonedDateTime day) </code></pre>
 
 
 <div class="description usertext">
-    <p>Exec Actions</p>
-<p>This class provides static methods that can be used in automation rules for executing commands on command line.</p>
+    <p>Convert Java Set to JavaScript Array.</p>
 </div>
 
 
@@ -460,17 +669,106 @@ Ephemeris.isWeekend​(ZonedDateTime day) </code></pre>
 
 
 
-    <h5>Example</h5>
+
+
+
+
+    <h5>Parameters:</h5>
     
-    <pre class="prettyprint"><code>Exec.executeCommandLine​(String... commandLine)
-Exec.executeCommandLine​(Duration timeout, String... commandLine)</code></pre>
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>set</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">java.util.Set</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Java Set (<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html">https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html</a>)</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>JavaScript Array</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
         
             
-<h4 class="name" id=".HTTP"><span class="type-signature">(static) </span>HTTP<span class="type-signature"></span></h4>
 
+    
+
+    <h4 class="name" id=".javaSetToJsSet"><span class="type-signature">(static) </span>javaSetToJsSet<span class="signature">(set)</span><span class="type-signature"> &rarr; {Set}</span></h4>
+
+    
 
 
 
@@ -480,7 +778,7 @@ Exec.executeCommandLine​(Duration timeout, String... commandLine)</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions.js.html">actions.js</a>, <a href="actions.js.html#line133">line 133</a>
+        <a href="utils.js.html">utils.js</a>, <a href="utils.js.html#line87">line 87</a>
     </li></ul></dd>
     
 
@@ -520,8 +818,7 @@ Exec.executeCommandLine​(Duration timeout, String... commandLine)</code></pre>
 
 
 <div class="description usertext">
-    <p>HTTP Actions</p>
-<p>This class provides static methods that can be used in automation rules for sending HTTP requests</p>
+    <p>Convert Java Set to JavaScript Set.</p>
 </div>
 
 
@@ -530,31 +827,106 @@ Exec.executeCommandLine​(Duration timeout, String... commandLine)</code></pre>
 
 
 
-    <h5>Example</h5>
+
+
+
+
+    <h5>Parameters:</h5>
     
-    <pre class="prettyprint"><code>HTTP.sendHttpDeleteRequest​(String url)
-HTTP.sendHttpDeleteRequest​(String url, int timeout)
-HTTP.sendHttpDeleteRequest​(String url, Map&lt;String,​String> headers, int timeout)
-HTTP.sendHttpGetRequest​(String url)
-HTTP.sendHttpGetRequest​(String url, int timeout)
-HTTP.sendHttpGetRequest​(String url, Map&lt;String,​String> headers, int timeout)
-HTTP.sendHttpPostRequest​(String url)
-HTTP.sendHttpPostRequest​(String url, int timeout)
-HTTP.sendHttpPostRequest​(String url, String contentType, String content)
-HTTP.sendHttpPostRequest​(String url, String contentType, String content, int timeout)
-HTTP.sendHttpPostRequest​(String url, String contentType, String content, Map&lt;String,​String> headers, int timeout)
-HTTP.sendHttpPutRequest​(String url)
-HTTP.sendHttpPutRequest​(String url, int timeout)
-HTTP.sendHttpPutRequest​(String url, String contentType, String content)
-HTTP.sendHttpPutRequest​(String url, String contentType, String content, int timeout)
-HTTP.sendHttpPutRequest​(String url, String contentType, String content, Map&lt;String,​String> headers, int timeout) </code></pre>
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>set</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">java.util.Set</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Java Set (<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html">https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html</a>)</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>JavaScript Set Object (<a href="https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Set">https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Set</a>)</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Set</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
         
             
-<h4 class="name" id=".Log"><span class="type-signature">(static) </span>Log<span class="type-signature"></span></h4>
 
+    
+
+    <h4 class="name" id=".randomUUID"><span class="type-signature">(static) </span>randomUUID<span class="signature">()</span><span class="type-signature"> &rarr; {String}</span></h4>
+
+    
 
 
 
@@ -564,7 +936,7 @@ HTTP.sendHttpPutRequest​(String url, String contentType, String content, Map&l
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions.js.html">actions.js</a>, <a href="actions.js.html#line160">line 160</a>
+        <a href="utils.js.html">utils.js</a>, <a href="utils.js.html#line97">line 97</a>
     </li></ul></dd>
     
 
@@ -604,8 +976,7 @@ HTTP.sendHttpPutRequest​(String url, String contentType, String content, Map&l
 
 
 <div class="description usertext">
-    <p>Log Actions</p>
-<p>The static methods of this class are made available as functions in the scripts. This allows a script to log to the SLF4J-Log.</p>
+    <p>Generate a random UUID.</p>
 </div>
 
 
@@ -614,20 +985,57 @@ HTTP.sendHttpPutRequest​(String url, String contentType, String content, Map&l
 
 
 
-    <h5>Example</h5>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>random UUID</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+
+
+    </dd>
+</dl>
+
     
-    <pre class="prettyprint"><code>Log.logDebug​(String loggerName, String format, Object... args)
-Log.logError​(String loggerName, String format, Object... args)
-Log.logInfo​(String loggerName, String format, Object... args)
-Log.logWarn​(String loggerName, String format, Object... args)
- </code></pre>
 
 
 
         
             
-<h4 class="name" id=".Ping"><span class="type-signature">(static) </span>Ping<span class="type-signature"></span></h4>
 
+    
+
+    <h4 class="name" id=".dumpObject"><span class="type-signature">(static) </span>dumpObject<span class="signature">(obj)</span><span class="type-signature"></span></h4>
+
+    
 
 
 
@@ -637,7 +1045,7 @@ Log.logWarn​(String loggerName, String format, Object... args)
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions.js.html">actions.js</a>, <a href="actions.js.html#line175">line 175</a>
+        <a href="utils.js.html">utils.js</a>, <a href="utils.js.html#line105">line 105</a>
     </li></ul></dd>
     
 
@@ -677,8 +1085,7 @@ Log.logWarn​(String loggerName, String format, Object... args)
 
 
 <div class="description usertext">
-    <p>Ping Actions</p>
-<p>This Action checks the vitality of the given host.</p>
+    <p>Outputs all members and properties of an object and whether it is a JS or a Java Object to the log.</p>
 </div>
 
 
@@ -687,17 +1094,84 @@ Log.logWarn​(String loggerName, String format, Object... args)
 
 
 
-    <h5>Example</h5>
+
+
+
+
+    <h5>Parameters:</h5>
     
-    <pre class="prettyprint"><code>Ping.checkVitality​(String host, int port, int timeout)
- </code></pre>
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>object</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
         
             
-<h4 class="name" id=".ScriptExecution"><span class="type-signature">(static) </span>ScriptExecution<span class="type-signature"></span></h4>
 
+    
+
+    <h4 class="name" id=".isJsInstanceOfJava"><span class="type-signature">(static) </span>isJsInstanceOfJava<span class="signature">(instance, type)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
 
 
 
@@ -707,7 +1181,7 @@ Log.logWarn​(String loggerName, String format, Object... args)
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions.js.html">actions.js</a>, <a href="actions.js.html#line187">line 187</a>
+        <a href="utils.js.html">utils.js</a>, <a href="utils.js.html#line151">line 151</a>
     </li></ul></dd>
     
 
@@ -747,8 +1221,7 @@ Log.logWarn​(String loggerName, String format, Object... args)
 
 
 <div class="description usertext">
-    <p>ScriptExecution Actions</p>
-<p>The static methods of this class are made available as functions in the scripts. This allows a script to call another script, which is available as a file.</p>
+    <p>Checks whether an object is instance of a Java class.</p>
 </div>
 
 
@@ -757,245 +1230,134 @@ Log.logWarn​(String loggerName, String format, Object... args)
 
 
 
-    <h5>Example</h5>
+
+
+
+
+    <h5>Parameters:</h5>
     
-    <pre class="prettyprint"><code>ScriptExecution.callScript​(String scriptName)
-ScriptExecution.createTimer​(ZonedDateTime instant, org.eclipse.xtext.xbase.lib.Procedures.Procedure0 closure)
-ScriptExecution.createTimerWithArgument​(ZonedDateTime instant, Object arg1, org.eclipse.xtext.xbase.lib.Procedures.Procedure1&lt;Object> closure)</code></pre>
 
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
 
+        <th>Type</th>
 
         
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
             
-<h4 class="name" id=".Semantics"><span class="type-signature">(static) </span>Semantics<span class="type-signature"></span></h4>
+                <td class="name"><code>instance</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
 
 
+            
+            </td>
 
+            
 
+            
 
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions.js.html">actions.js</a>, <a href="actions.js.html#line201">line 201</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
+            <td class="description last"><p>object</p></td>
+        </tr>
 
     
 
+        <tr>
+            
+                <td class="name"><code>type</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">java.lang.Class</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Java class (<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Class.html">https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Class.html</a>)</p></td>
+        </tr>
+
     
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Throws:</h5>
+
+        
+
+    <div class="param-desc usertext">
+    
+        <p>error if type is not a java class</p>
+    
+    </div>
+
 
     
 
-    
 
-    
+<h5>Returns:</h5>
 
-    
+        
+<div class="param-desc">
+    <p>whether it is an instance of a Java class</p>
+</div>
 
-    
 
-    
 
-    
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
 
-    
 
-    
-
-    
+    </dd>
 </dl>
 
-
-
-
-
-<div class="description usertext">
-    <p>Semantics Actions</p>
-<p>The static methods of this class are made available as functions in the scripts. This allows a script to use Semantics features.</p>
-</div>
-
-
-
-
-
-
-
-    <h5>Example</h5>
     
-    <pre class="prettyprint"><code>Semantics.getEquipment​(Item item)
-Semantics.getEquipmentType​(Item item)
-Semantics.getLocation​(Item item)
-Semantics.getLocationType​(Item item)
-Semantics.getPointType​(Item item)
-Semantics.getPropertyType​(Item item)
-Semantics.getSemanticType​(Item item)
-Semantics.isEquipment​(Item item)
-Semantics.isLocation​(Item item)
-Semantics.isPoint​(Item item)
- </code></pre>
 
 
 
         
-            
-<h4 class="name" id=".Things"><span class="type-signature">(static) </span>Things<span class="type-signature"></span></h4>
-
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions.js.html">actions.js</a>, <a href="actions.js.html#line222">line 222</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
-    <p>Things Actions</p>
-<p>This class provides static methods that can be used in automation rules for getting thing's status info.</p>
-</div>
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>Things.getActions​(String scope, String thingUid)
-Things.getThingStatusInfo​(String thingUid)
- </code></pre>
-
-
-
-        
-            
-<h4 class="name" id=".Voice"><span class="type-signature">(static) </span>Voice<span class="type-signature"></span></h4>
-
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions.js.html">actions.js</a>, <a href="actions.js.html#line235">line 235</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
-    <p>Voice Actions</p>
-<p>The static methods of this class are made available as functions in the scripts. This allows a script to use voice features.</p>
-</div>
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>Voice.interpret​(Object text)
-Voice.interpret​(Object text, String interpreter)
-Voice.interpret​(Object text, String interpreter, String sink)
-Voice.say​(Object text)
-Voice.say​(Object text, String voice)
-Voice.say​(Object text, String voice, String sink)
-Voice.say​(Object text, String voice, String sink, PercentType volume)
-Voice.say​(Object text, String voice, PercentType volume)
-Voice.say​(Object text, PercentType volume)
- </code></pre>
-
-
-
-        
-    
-
     
 
     
@@ -1015,7 +1377,7 @@ Voice.say​(Object text, PercentType volume)
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Sat Jan 22 2022 17:22:21 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Sat Jan 22 2022 17:22:22 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
