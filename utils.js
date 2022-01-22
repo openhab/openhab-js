@@ -4,12 +4,26 @@ const log = require('./log')('utils');
 const HashSet = Java.type("java.util.HashSet");
 const ArrayList = Java.type("java.util.ArrayList");
 
+/**
+ * Utils namespace.
+ * This namespace handles utilities, especially for conversion from and to Java data types.
+ *
+ * @namespace utils 
+ */
+
 function getAllPropertyNames (obj) {
     const proto     = Object.getPrototypeOf(obj);
     const inherited = (proto) ? getAllPropertyNames(proto) : [];
     return [...new Set(Object.getOwnPropertyNames(obj).concat(inherited))];
 }
 
+/**
+ * Convert JavaScript Set to Java Set.
+ *
+ * @memberOf utils
+ * @param {Set} set JavaScript Set Object ({@link https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Set})
+ * @returns {java.util.Set} Java Set ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html})
+ */
 let jsSetToJavaSet = function(set) {
     let rv = new HashSet();
 
@@ -18,6 +32,13 @@ let jsSetToJavaSet = function(set) {
     return rv;
 }
 
+/**
+ * Convert JavaScript Array to Java Set.
+ *
+ * @memberOf utils
+ * @param {Array} arr JavaScript Array
+ * @returns {java.util.Set} Java Set ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html})
+ */
 let jsArrayToJavaSet = function (arr) {
     let set = new HashSet();
 
@@ -28,6 +49,13 @@ let jsArrayToJavaSet = function (arr) {
     return set;
 };
 
+/**
+ * Convert JavaScript Array to Java List.
+ *
+ * @memberOf utils
+ * @param {Array} arr JavaScript Array 
+ * @returns {java.util.List} Java List ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/List.html})
+ */
 let jsArrayToJavaList = function (arr) {
     let list = new ArrayList();
 
@@ -38,16 +66,42 @@ let jsArrayToJavaList = function (arr) {
     return list;
 }
 
+/**
+ * Convert Java Set to JavaScript Array.
+ *
+ * @memberOf utils
+ * @param {java.util.Set} set Java Set ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html})
+ * @returns {Array} JavaScript Array
+ */
 let javaSetToJsArray = function(set) {
     return Java.from(new ArrayList(set));
 }
 
+/**
+ * Convert Java Set to JavaScript Set.
+ *
+ * @memberOf utils
+ * @param {java.util.Set} set Java Set ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html})
+ * @returns {Set} JavaScript Set Object ({@link https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Set})
+ */
 let javaSetToJsSet = function(set) {
     return new Set(exports.javaSetToJsArray(set));
 }
 
+/**
+ * Generate a random UUID.
+ * 
+ * @memberOf utils
+ * @returns {String} random UUID
+ */
 let randomUUID = () => Java.type("java.util.UUID").randomUUID();
 
+/**
+ * Outputs all members and properties of an object and whether it is a JS or a Java Object to the log.
+ *
+ * @memberOf utils
+ * @param {*} obj object
+ */
 let dumpObject = function (obj) {
     try {
         log.info("Dumping object...");
@@ -85,9 +139,18 @@ let dumpObject = function (obj) {
     }
 }
 
+/**
+ * Checks whether an object is instance of a Java class.
+ *
+ * @memberOf utils
+ * @param {*} instance object
+ * @param {java.lang.Class} type Java class ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Class.html})
+ * @returns {boolean} whether it is an instance of a Java class
+ * @throws error if type is not a java class
+ */
 let isJsInstanceOfJava = function(instance, type) {
     if(!Java.isType(type)) {
-        throw error("type is not a java class");
+        throw Error("type is not a java class");
     }
 
     if(instance === null || instance === undefined || instance.class === null || instance.class === undefined) {

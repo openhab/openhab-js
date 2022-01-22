@@ -38,6 +38,7 @@ binding](https://www.openhab.org/addons/automation/jsscripting/)
   - [Cache](#cache)
   - [Log](#log)
   - [Time](#time)
+  - [Utils](#utils)
 - [File Based Rules](#file-based-rules)
   - [JSRule](#jsrule)
   - [Rule Builder](#rule-builder)
@@ -61,7 +62,7 @@ This will be used instead of the binding provided version.
 
 ## Latest Changes
 
-### Breaking changes
+### Breaking Changes
 - item.history.lastUpdate() returns `ZonedDateTime` instead of `Date`
 
 ## UI Based Rules
@@ -201,7 +202,7 @@ Full documentation for the openHAB JavaScript library can be found at [openhab-j
 
 The items namespace allows interactions with openHAB items.
 
-See [openhab-js : items ](https://openhab.github.io/openhab-js/items.html) for full API documentation
+See [openhab-js : items](https://openhab.github.io/openhab-js/items.html) for full API documentation
 
 * items : <code>object</code>
     * .getItem(name, nullIfMissing) ⇒ <code>Item</code>
@@ -288,19 +289,19 @@ The following are a list of standard actions.
 Additional actions provided by user installed addons can be accessed using their common name on the actions name space
 (example:  `actions.Pushsafer.pushsafer(...)`)
 
-See [openhab-js : actions ](https://openhab.github.io/openhab-js/actions.html) for full API documentation and additional actions.
+See [openhab-js : actions](https://openhab.github.io/openhab-js/actions.html) for full API documentation and additional actions.
 
 #### Audio Actions
 
-See [openhab-js : actions.Audio ](https://openhab.github.io/openhab-js/actions.html#.Audio) for complete documentation
+See [openhab-js : actions.Audio](https://openhab.github.io/openhab-js/actions.html#.Audio) for complete documentation
 
 #### BusEvent
 
-See [openhab-js : actions.BusEvent ](https://openhab.github.io/openhab-js/actions.html#.BusEvent) for complete documentation
+See [openhab-js : actions.BusEvent](https://openhab.github.io/openhab-js/actions.html#.BusEvent) for complete documentation
 
 #### Ephemeris Actions
 
-See [openhab-js : actions.Ephemeris ](https://openhab.github.io/openhab-js/actions.html#.Ephemeris) for complete documentation
+See [openhab-js : actions.Ephemeris](https://openhab.github.io/openhab-js/actions.html#.Ephemeris) for complete documentation
 
 Ephemeris is a way to determine what type of day today or a number of days before or after today is. For example, a way to determine if today is a weekend, a bank holiday, someone’s birthday, trash day, etc.
 
@@ -313,7 +314,7 @@ let weekend = actions.Ephemeris.isWeekend();
 
 #### Exec Actions
 
-See [openhab-js : actions.Exec ](https://openhab.github.io/openhab-js/actions.html#.Exec) for complete documentation
+See [openhab-js : actions.Exec](https://openhab.github.io/openhab-js/actions.html#.Exec) for complete documentation
 
 Execute a command line.
 
@@ -335,7 +336,7 @@ response = actions.Exec.executeCommandLine(Duration.ofSeconds(20), 'echo', 'Hell
 
 #### HTTP Actions
 
-See [openhab-js : actions.HTTP ](https://openhab.github.io/openhab-js/actions.html#.HTTP) for complete documentation
+See [openhab-js : actions.HTTP](https://openhab.github.io/openhab-js/actions.html#.HTTP) for complete documentation
 
 ```javascript
 // Example GET Request
@@ -346,7 +347,7 @@ Replace `<url>` with the request url.
 
 #### ScriptExecution Actions
 
-See [openhab-js : actions.ScriptExecution ](https://openhab.github.io/openhab-js/actions.html#.ScriptExecution) for complete documentation
+See [openhab-js : actions.ScriptExecution](https://openhab.github.io/openhab-js/actions.html#.ScriptExecution) for complete documentation
 
 
 ```javascript
@@ -371,15 +372,15 @@ this.myTimer.reschedule(now.plusSeconds(5));
 ```
 #### Semantics Actions
 
-See [openhab-js : actions.Semantics ](https://openhab.github.io/openhab-js/actions.html#.Semantics) for complete documentation
+See [openhab-js : actions.Semantics](https://openhab.github.io/openhab-js/actions.html#.Semantics) for complete documentation
 
 #### Things Actions
 
-See [openhab-js : actions.Things ](https://openhab.github.io/openhab-js/actions.html#.Things) for complete documentation
+See [openhab-js : actions.Things](https://openhab.github.io/openhab-js/actions.html#.Things) for complete documentation
 
 #### Voice Actions
 
-See [openhab-js : actions.Voice ](https://openhab.github.io/openhab-js/actions.html#.Voice) for complete documentation
+See [openhab-js : actions.Voice](https://openhab.github.io/openhab-js/actions.html#.Voice) for complete documentation
 
 #### Cloud Notification Actions
 
@@ -402,7 +403,7 @@ Replace `<message>` with the notification text.
 
 The cache namespace provides a default cache that can be use to set and retrieve objects that will be persisted between reloads of scripts.
 
-See [openhab-js : cache ](https://openhab.github.io/openhab-js/cache.html) for full API documentation
+See [openhab-js : cache](https://openhab.github.io/openhab-js/cache.html) for full API documentation
 
 * cache : <code>object</code>
     * .get(key, defaultSupplier) ⇒ <code>Object | null</code>
@@ -458,6 +459,14 @@ actions.Exec.executeCommandLine(time.Duration.ofSeconds(20), 'echo', 'Hello Worl
 ```
 
 See [JS-Joda](https://js-joda.github.io/js-joda/) for more examples and complete API usage.
+
+### Utils
+
+openHAB internally is a Java program. 
+openHAB-JS converts between Java and JavaScript data types and reverse.
+
+See [openhab-js : utils](https://openhab.github.io/openhab-js/utils.html) for full API documentation
+
 
 ## File Based Rules
 
