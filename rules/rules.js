@@ -150,8 +150,7 @@ let JSRule = function (ruleConfig) {
         try {
             return ruleConfig.execute(getTriggeredData(input));
         } catch (error) {
-            log.error(`Failed to execute rule ${ruid}: ${error}: ${error.stack}`);
-            throw error;
+            throw Error(`Failed to execute rule ${ruid}: ${error}: ${error.stack}`);
         }
     };
 

@@ -417,7 +417,7 @@ class ToggleOperation extends OperationConfig {
                 break;
             }
             default:
-                throw error(`Toggle not supported for items of type ${item.type}`);
+                throw Error(`Toggle not supported for items of type ${item.type}`);
         }
     }
 }
@@ -433,7 +433,7 @@ class TimingItemStateOperation extends OperationConfig {
     constructor(operationBuilder, item_changed_trigger_config, duration) {
         super(operationBuilder);
         if (typeof item_changed_trigger_config.to_value === 'undefined') {
-            throw error("Must specify item state value to wait for!");
+            throw Error("Must specify item state value to wait for!");
         }
 
         this.item_changed_trigger_config = item_changed_trigger_config;
@@ -453,7 +453,7 @@ class TimingItemStateOperation extends OperationConfig {
             case "changed":
                 return [triggers.ChangedEventTrigger(this.item_name)];
             default:
-                throw error("Unknown operation type: " + this.op_type);
+                throw Error("Unknown operation type: " + this.op_type);
         }
     }
 
