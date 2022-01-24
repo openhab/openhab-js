@@ -117,6 +117,7 @@ const removeRule = function (uid) {
  * @param {String} uid the UID of the rule to run
  * @param {Map<Object>} [args={}] args optional dict of data to pass to the called rule
  * @param {Boolean} [cond=true] when true, the called rule will only run if it's conditions are met
+ * @throws Will throw an error if the rule does not exist or is not initialized.
  */
  const runRule = function (uid, args = {}, cond = true) {
     const status = RuleManager.getStatus(uid);
@@ -136,6 +137,7 @@ const removeRule = function (uid) {
  * 
  * @param {String} uid 
  * @returns {Boolean} whether or not the rule is enabled
+ * @throws Will throw an error when the rule is not found.
  */
 const isEnabled = function (uid) {
     if(!ruleExists(uid)) {
@@ -150,6 +152,7 @@ const isEnabled = function (uid) {
  * 
  * @param {String} uid UID of the rule
  * @param {Boolean} isEnabled when true, the rule is enabled, otherwise the rule is disabled
+ * @throws Will throw an error when the rule is not found.
  */
 const setEnabled = function (uid, isEnabled) {
     if(!ruleExists(uid)) {
@@ -182,6 +185,7 @@ const setEnabled = function (uid, isEnabled) {
  * @param {String} [ruleConfig.ruleGroup] the name of the rule group to use
  * @param {Boolean} [ruleConfig.overwrite=false] overwrite an existing rule with the same UID
  * @returns {HostRule} the created rule
+ * @throws Will throw an error if the rule with the passed in uid already exists
  */
 let JSRule = function (ruleConfig) {
     let ruid = ruleConfig.id || ruleConfig.name.replace(/[^\w]/g, "-") + "-" + utils.randomUUID();
@@ -289,6 +293,7 @@ let registerRule = function (rule) {
  * @param {String} [ruleConfig.ruleGroup] the name of the rule group to use
  * @param {Boolean} [ruleConfig.overwrite=false] overwrite an existing rule with the same UID
  * @returns {HostRule} the created rule
+ * @throws Will throw an error is a rule with the given UID already exists.
  */
 let SwitchableJSRule = function (ruleConfig) {
 
