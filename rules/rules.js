@@ -87,7 +87,7 @@ const getGroupsForItem = function (ruleConfig) {
  * @returns {Boolean} whether the rule exists
  */
 const ruleExists = function (uid) {
-    return !(ruleRegistry.get(uid) == null);
+    return !(RuleManager.getStatusInfo(uid) == null);
 };
 
 /**
@@ -106,6 +106,59 @@ const removeRule = function (uid) {
     } else {
         return false;
     }
+};
+
+
+/**
+ * Runs the rule with the given UID. Throws errors when the rule doesn't exist
+ * or is unable to run (e.g. it's disabled).
+ * 
+ * @memberOf rules
+ * @param {String} uid the UID of the rule to run
+ * @param {Map<Object>} [args={}] args optional dict of data to pass to the called rule
+ * @param {Boolean} [cond=true] when true, the called rule will only run if it's conditions are met
+ * @throws Will throw an error if the rule does not exist or is not initialized.
+ */
+ const runRule = function (uid, args = {}, cond = true) {
+    const status = RuleManager.getStatus(uid);
+    if(!status) {
+        throw Error('There is no rule with UID ' + uid);
+    }
+    if(status.toString() == 'UNINITIALIZED') {
+        throw Error('Rule ' + uid + ' is UNINITIALIZED');
+    }
+
+    RuleManager.runNow(uid, cond, args);
+};
+
+/**
+ * Tests to see if the rule with the given UID is enabled or disabled. Throws
+ * and error if the rule doesn't exist.
+ * 
+ * @param {String} uid 
+ * @returns {Boolean} whether or not the rule is enabled
+ * @throws Will throw an error when the rule is not found.
+ */
+const isEnabled = function (uid) {
+    if(!ruleExists(uid)) {
+        throw Error('There is no rule with UID ' + uid);
+    }
+    return RuleManager.isEnabled(uid);
+};
+
+/**
+ * Enables or disables the rule iwth the given UID. Throws an error if the
+ * rule doesn't exist.
+ * 
+ * @param {String} uid UID of the rule
+ * @param {Boolean} isEnabled when true, the rule is enabled, otherwise the rule is disabled
+ * @throws Will throw an error when the rule is not found.
+ */
+const setEnabled = function (uid, isEnabled) {
+    if(!ruleExists(uid)) {
+        throw Error('There is no rule with UID ' + uid);
+    }
+    RuleManager.setEnabled(uid, isEnabled);
 };
 
 /**
@@ -132,6 +185,7 @@ const removeRule = function (uid) {
  * @param {String} [ruleConfig.ruleGroup] the name of the rule group to use
  * @param {Boolean} [ruleConfig.overwrite=false] overwrite an existing rule with the same UID
  * @returns {HostRule} the created rule
+ * @throws Will throw an error if the rule with the passed in uid already exists
  */
 let JSRule = function (ruleConfig) {
     let ruid = ruleConfig.id || ruleConfig.name.replace(/[^\w]/g, "-") + "-" + utils.randomUUID();
@@ -238,6 +292,7 @@ let registerRule = function (rule) {
  * @param {String} [ruleConfig.ruleGroup] the name of the rule group to use
  * @param {Boolean} [ruleConfig.overwrite=false] overwrite an existing rule with the same UID
  * @returns {HostRule} the created rule
+ * @throws Will throw an error is a rule with the given UID already exists.
  */
 let SwitchableJSRule = function (ruleConfig) {
 
@@ -353,6 +408,9 @@ const getTriggeredData = function (input) {
 module.exports = {
     withNewRuleProvider,
     removeRule,
+    runRule,
+    isEnabled,
+    setEnabled,   
     JSRule,
     SwitchableJSRule
 }
