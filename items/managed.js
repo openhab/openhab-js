@@ -151,7 +151,7 @@ class Item {
      * @param {Map} namespaceToValues A map of namespaces to values to update
      */
     updateMetadataValues(namespaceToValues) {
-        for(let k in namespaceToValues) {
+        for (let k in namespaceToValues) {
             metadata.updateValue(this.name, k, namespaceToValues[k]);
         }
     }
@@ -192,8 +192,16 @@ class Item {
     }
 
     /**
+     * Gets the tags from this item
+     * @returns {Array<String>} array of group names
+     */
+    get groupNames() {
+        return utils.javaListToJsArray(this.rawItem.getGroupNames());
+    }
+
+    /**
      * Adds groups to this item
-     * @param {Array<String|Item>} groupNamesOrItems names of the groups (or the group items themselves)
+     * @param {...String|...Item} groupNamesOrItems one or more names of the groups (or the group items themselves)
      */
     addGroups(...groupNamesOrItems) {
         let groupNames = groupNamesOrItems.map((x) => (typeof x === 'string') ? x : x.name);
@@ -203,11 +211,11 @@ class Item {
 
     /**
      * Removes groups from this item
-     * @param {Array<String|Item>} groupNamesOrItems names of the groups (or the group items themselves)
+     * @param {...String|...Item} groupNamesOrItems one or more names of the groups (or the group items themselves)
      */
     removeGroups(...groupNamesOrItems) {
         let groupNames = groupNamesOrItems.map((x) => (typeof x === 'string') ? x : x.name);
-        for(let groupName of groupNames) {
+        for (let groupName of groupNames) {
             this.rawItem.removeGroupName(groupName);
         }
         managedItemProvider.update(this.rawItem);
@@ -215,6 +223,7 @@ class Item {
 
     /**
      * Gets the tags from this item
+     * @returns {Array<String>} array of tags
      */
     get tags() {
         return utils.javaSetToJsArray(this.rawItem.getTags());
@@ -222,7 +231,7 @@ class Item {
 
     /**
      * Adds tags to this item
-     * @param {Array<String>} tagNames names of the tags to add
+     * @param {...String} tagNames names of the tags to add
      */
     addTags(...tagNames) {
         this.rawItem.addTags(tagNames);
@@ -231,10 +240,10 @@ class Item {
 
     /**
      * Removes tags from this item
-     * @param {Array<String>} tagNames names of the tags to remove
+     * @param {...String} tagNames names of the tags to remove
      */
     removeTags(...tagNames) {
-        for(let tagName of tagNames) {
+        for (let tagName of tagNames) {
             this.rawItem.removeTag(tagName);
         }
         managedItemProvider.update(this.rawItem);
@@ -260,12 +269,12 @@ class Item {
  */
 const createItem = function (itemName, itemType, category, groups, label, tags, giBaseType, groupFunction, itemMetadata) {
     itemName = safeItemName(itemName);
-    
+
     let baseItem;
     if (itemType === 'Group' && typeof giBaseType !== 'undefined') {
         baseItem = itemBuilderFactory.newItemBuilder(giBaseType, itemName + "_baseItem").build()
     }
-    
+
     if (itemType !== 'Group') {
         groupFunction = undefined;
     }
@@ -409,8 +418,8 @@ const getItem = (name, nullIfMissing = false) => {
         if (typeof name === 'string' || name instanceof String) {
             return new Item(itemRegistry.getItem(name));
         }
-    } catch(e) {
-        if(nullIfMissing) {
+    } catch (e) {
+        if (nullIfMissing) {
             return null;
         } else {
             throw e;
@@ -432,7 +441,7 @@ const getItems = () => {
  * Gets all openHAB Items with a specific tag.
  * 
  * @memberOf items
- * @param {String[]} tagNames an array of tags to match against
+ * @param {...String} tagNames an array of tags to match against
  * @return {items.Item[]} the items with a tag that is included in the passed tags
  */
 const getItemsByTag = (...tagNames) => {
@@ -446,8 +455,8 @@ const getItemsByTag = (...tagNames) => {
  * @returns {String} a valid item name
  */
 const safeItemName = s => s.
-        replace(/[\"\']/g, ''). //delete
-        replace(/[^a-zA-Z0-9]/g, '_'); //replace with underscore
+    replace(/[\"\']/g, ''). //delete
+    replace(/[^a-zA-Z0-9]/g, '_'); //replace with underscore
 
 module.exports = {
     safeItemName,
