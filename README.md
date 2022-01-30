@@ -231,6 +231,7 @@ Calling `getItem(...)` returns an `Item` object with the following properties:
     * .members ⇒ <code>Array.&lt;Item&gt;</code>
     * .descendents ⇒ <code>Array.&lt;Item&gt;</code>
     * .isUninitialized ⇒ <code>Boolean</code>
+    * .groupNames ⇒ <code>Array.&lt;String&gt;</code>
     * .tags ⇒ <code>Array.&lt;String&gt;</code>
     * .getMetadataValue(namespace) ⇒ <code>String</code>
     * .updateMetadataValue(namespace, value) ⇒ <code>String</code>

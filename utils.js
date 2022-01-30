@@ -67,6 +67,17 @@ let jsArrayToJavaList = function (arr) {
 }
 
 /**
+ * Convert Java List to JavaScript Array.
+ *
+ * @memberOf utils
+ * @param {java.util.List} set Java Set ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/List.html})
+ * @returns {Array} JavaScript Array
+ */
+ let javaListToJsArray = function(list) {
+    return Java.from(list);
+}
+
+/**
  * Convert Java Set to JavaScript Array.
  *
  * @memberOf utils
@@ -164,6 +175,7 @@ module.exports = {
     jsSetToJavaSet,
     jsArrayToJavaSet,
     jsArrayToJavaList,
+    javaListToJsArray,
     javaSetToJsArray,
     javaSetToJsSet,
     randomUUID,
