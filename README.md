@@ -119,10 +119,16 @@ The library search path will look in `automation/js/node_modules` in the user co
 ### Console
 
 The JSScripting binding supports the standard `console` object for logging.
-Script debug logging is enabled by default at the `INFO` level, but can be configured using the [console logging]({{base}}/administration/logging.html) commands.
+Script debug logging is enabled by default at the `INFO` level, but can be configured using the [console logging]({{base}}/administration/logging.html) commands. 
 
 ```text
 log:set DEBUG org.openhab.automation.script
+```
+
+The default logger name prefix is `org.openhab.automation.script`, this can be changed by assigning a new prefix to the `loggerName` property of the console.
+
+```javascript
+console.loggerName = "custom"
 ```
 
 Supported logging functions include:
