@@ -15,5 +15,6 @@
  */
 
 module.exports = {
-    ...require('./actions')
+    ...require('./actions'),
+    get timerMgr () { return require('./timerMgr'); }
 };
