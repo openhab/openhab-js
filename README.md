@@ -410,6 +410,7 @@ See [openhab-js : cache](https://openhab.github.io/openhab-js/cache.html) for fu
     * .get(key, defaultSupplier) ⇒ <code>Object | null</code>
     * .put(key, value) ⇒ <code>Previous Object | null</code>
     * .remove(key) ⇒ <code>Previous Object | null</code>
+    * .exists(key) ⇒ <code>boolean</code>
 
 The `defaultSupplier` provided function will return a default value if a specified key is not already associated with a value
 
