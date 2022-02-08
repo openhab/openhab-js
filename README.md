@@ -154,7 +154,9 @@ var timeoutID = setTimeout(function[, delay]);
 
 The global `clearTimeout()` method cancels a timeout previously established by calling `setTimeout()`.
 
-see https://developer.mozilla.org/en-US/docs/Web/API/setTimeout for more information about setTimeout.
+See https://developer.mozilla.org/en-US/docs/Web/API/setTimeout for more information about setTimeout.
+
+openHAB additionally allows you to reschedule the timer, see [`updateTimeout`](#updatetimeout).
 
 ### SetInterval
 
@@ -169,7 +171,7 @@ The global `clearInterval()` method cancels a timed, repeating action which was 
 
 NOTE: Timers will not be canceled if a script is deleted or modified, it is up to the user to manage timers.  See using the [cache](#cache) namespace as well as [ScriptLoaded](#scriptloaded) and [ScriptUnLoaded](#scriptunloaded) for a convenient way of managing persisted objects, such as timers between reloads or deletions of scripts.
 
-see https://developer.mozilla.org/en-US/docs/Web/API/setInterval for more information about setInterval.
+See https://developer.mozilla.org/en-US/docs/Web/API/setInterval for more information about setInterval.
 
 ### ScriptLoaded
 
@@ -453,6 +455,8 @@ openHAB internally makes extensive use of the `java.time` package.
 openHAB-JS exports the excellent [JS-Joda](#https://js-joda.github.io/js-joda/) library via the `time` namespace, which is a native Javascript port of the same API standard used in Java for `java.time`.
 Anywhere that a native Java `ZonedDateTime` or `Duration` is required, the runtime will automatically convert a JS-Joda `ZonedDateTime` or `Duration` to its Java counterpart.
 
+This namespace also provides additional functionality.
+
 Examples:
 ```javascript
 var now = time.ZonedDateTime.now();
@@ -466,7 +470,38 @@ console.log("averageSince", item.history.averageSince(yesterday));
 actions.Exec.executeCommandLine(time.Duration.ofSeconds(20), 'echo', 'Hello World!');
 ```
 
-See [JS-Joda](https://js-joda.github.io/js-joda/) for more examples and complete API usage.
+#### updateTimeout
+
+The `updateTimeout()` reschedules a timer created by [`setTimeout`](#settimeout) to expire at a new time.
+
+It takes two arguments:
+- `timeoutID` the timer returned by `setTimeout`
+- `delay` the time in milliseconds until the timer expires
+
+```javascript
+time.updateTimeout(timeoutID, delay);
+```
+Example:
+```javascript
+var timeoutID = setTimeout({ console.log('Info'); }, 1000);
+time.updateTimeout(timeoutID, 2000);
+time.updateTimeout(timeoutID, time.Duration.ofSeconds(2).toMillis());
+```
+
+#### ZDTtoMillisFromNow
+
+Parses a ZonedDateTime to milliseconds from now until the ZonedDateTime.
+
+```javascript
+time.ZDTtoMillisFromNow(ZonedDateTime);
+```
+Example:
+```javascript
+time.ZDTtoMillisFromNow(time.ZonedDateTime.now().plusSeconds(1)); // returns (about) 1000
+```
+
+See [openhab-js : time](https://openhab.github.io/openhab-js/time.html) for full API documentation (for the additions).
+See [JS-Joda](https://js-joda.github.io/js-joda/) for more examples and complete API usage (of JS-Joda).
 
 ### Utils
 
