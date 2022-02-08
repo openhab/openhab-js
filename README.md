@@ -453,6 +453,16 @@ openHAB internally makes extensive use of the `java.time` package.
 openHAB-JS exports the excellent [JS-Joda](#https://js-joda.github.io/js-joda/) library via the `time` namespace, which is a native Javascript port of the same API standard used in Java for `java.time`.
 Anywhere that a native Java `ZonedDateTime` or `Duration` is required, the runtime will automatically convert a JS-Joda `ZonedDateTime` or `Duration` to its Java counterpart.
 
+You can access the locales for JS-Joda using `time.Locale.<locale>`.
+
+See [openhab-js : time Locales](https://openhab.github.io/openhab-js/time.html#.Locales) for full list of Locales available.
+
+Examples:
+```javascript
+time.Locale.ENGLISH
+time.Locale.US
+```
+
 Examples:
 ```javascript
 var now = time.ZonedDateTime.now();
