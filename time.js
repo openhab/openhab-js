@@ -66,8 +66,8 @@ time.ZonedDateTime.prototype.toYesterday = function () {
  * Compares this ZDT to see if it falls between start and end times,
  * accounting for times that span midnight. start and end can be any type
  * that has a `toZonedDateTime()` method.
- * @param {*.toZonedDateTime()} start the starting time
- * @param {*.toZonedDateTime()} end the ending time
+ * @param {*} start the starting time, anything that has a toZonedDateTime method
+ * @param {*} end the ending time, anything that has a toZonedDateTime method
  * @returns {Boolean} true if this is between start and end
  */
 time.ZonedDateTime.prototype.betweenTimes = function(start, end) {
