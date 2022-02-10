@@ -5,8 +5,9 @@ const utils = require('../utils');
 const log = require('../log')('items');
 const metadata = require('../metadata');
 const ItemHistory = require('./item-history');
+const time = require('../time');
 
-const { UnDefType, events, itemRegistry } = require('@runtime');
+const { UnDefType, DateTimeType, QuantityType, DecimalType, PercentType, StringType, events, itemRegistry } = require('@runtime');
 
 const itemBuilderFactory = osgi.getService("org.openhab.core.items.ItemBuilderFactory");
 
@@ -247,6 +248,48 @@ class Item {
             this.rawItem.removeTag(tagName);
         }
         managedItemProvider.update(this.rawItem);
+    }
+
+    /**
+     * Converts the Item's state to a time.ZonedDateTime if possible.
+     * - PercentType: treated as a number of seconds added to now
+     * - DecimalType: rounded to the nearest integer and added as milliseconds to now
+     * - QuantityType<Time>: rounded to the nearest second and added to now
+     * - StringType:
+     *   - HH:mm:ss: 24hr time, date time at the given time with today's date
+     *   - hh:mm:ss aa: 12hr time, date time at the given time with today's date
+     *   - duration string: see the docs for time.Duration:
+     * - DateTimeType: see time.js monkeypatch of java.time.ZonedDateTime
+     * @returns {time.ZonedDateTime} the state converted to a date time
+     * @throws will throw an error if the state cannot be converted to a date time
+     */
+    toZonedDateTime() {
+        if(this.rawItem.state instanceof PercentType) {
+            return time.ZonedDateTime.now().plusSeconds(this.rawItem.state.longValue());
+        }
+        else if(this.rawItem.state instanceof DecimalType) {
+            return time.ZonedDateTime.now().plus(this.rawItem.state.longValue(), time.ChronoUnit.MILLIS);
+        }
+        else if(this.rawItem.state instanceof QuantityType) {
+            const secs = this.rawItem.state.toUnit('s');
+            if(secs) {
+                return time.ZonedDateTime.now().plusSeconds(secs.longValue());
+            }
+            else {
+                throw Error(rawState().toString() + ' cannot be converted to seconds');
+            }
+        }
+        else if(this.rawItem.state instanceof StringType) {
+            console.log('String Type');
+            return this.state.toZonedDateTime();
+        }
+        else if(this.rawItem.state instanceof DateTimeType) {
+            console.log('DateTime Type');
+            return this.state.getZonedDateTime();
+        }
+        else {
+            throw Error(this.state + ' cannot be converted to a time.ZonedDateTime');
+        }
     }
 }
 
