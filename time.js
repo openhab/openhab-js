@@ -6,7 +6,7 @@ const rfcFormatter = time.DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ss.SSS
 const targetParse = time.ZonedDateTime.prototype.parse;
 
 /**
- * When not supplied, uses an RFC DateTimeFormatter that can parse the format
+ * When formatter is not supplied, uses an RFC DateTimeFormatter that can parse the format
  * of java.time.ZonedDateTime.toString()
  * @param {String} text 
  * @param {time.DateTimeFormatter} formatter 
@@ -21,7 +21,6 @@ time.ZonedDateTime.prototype.parse = function (text, formatter = rfcFormatter) {
  * A passthrough function that can allow users to call `toZonedDateTime` on
  * almost anything that can be converted to a time.ZonedDateTime without first
  * checking to see if it's already a time.ZonedDateTime. 
- * If you have a java.time.ZonedDateTime, String, or Number it will be converted.
  * @returns {time.ZonedDateTime} this
  */
 time.ZonedDateTime.prototype.toZonedDateTime = function () {
@@ -43,6 +42,7 @@ const changeDate = function (dt, date) {
 
 /**
  * Moves the date portion of the date time to today, accounting for DST
+ * @returns {time.ZonedDateTime} this ZDT with today's date
  */
 time.ZonedDateTime.prototype.toToday = function () {
     return changeDate(this, time.ZonedDateTime.now());
@@ -50,6 +50,7 @@ time.ZonedDateTime.prototype.toToday = function () {
 
 /**
  * Moves the date portion of the date time to tomorrow, accounting for DST
+ * @returns {time.ZonedDateTime} this ZDT with tomorrow's date
  */
 time.ZonedDateTime.prototype.toTomorrow = function () {
     return changeDate(this, time.ZonedDateTime.now().plusDays(1));
@@ -57,6 +58,7 @@ time.ZonedDateTime.prototype.toTomorrow = function () {
 
 /**
  * Moves the date portion of the date time to yesterday, accounting for DST
+ * @returns {time.ZonedDateTime} this ZDT with yesterday's date
  */
 time.ZonedDateTime.prototype.toYesterday = function () {
     return changeDate(this, time.ZonedDateTime.now().minusDays(1));
@@ -65,7 +67,7 @@ time.ZonedDateTime.prototype.toYesterday = function () {
 /**
  * Compares this ZDT to see if it falls between start and end times,
  * accounting for times that span midnight. start and end can be any type
- * that has a `toZonedDateTime()` method.
+ * that has a `toZonedDateTime()` method but only the time portion is used.
  * @param {*} start the starting time, anything that has a toZonedDateTime method
  * @param {*} end the ending time, anything that has a toZonedDateTime method
  * @returns {Boolean} true if this is between start and end
@@ -85,7 +87,8 @@ time.ZonedDateTime.prototype.betweenTimes = function(start, end) {
 }
 
 /**
- * Adds the Duration to now, returning it as a ZonedDateTime
+ * Adds this Duration to now, returning it as a ZonedDateTime
+ * @returns {time.ZonedDateTime} 
  */
  time.Duration.prototype.toZonedDateTime = function () {
     return time.ZonedDateTime.now().plus(this);
@@ -121,11 +124,10 @@ const is12Hr = function (dtStr) {
 
 /**
  * Converts strings of various formats to a time.ZonedDateTime
- * - ISO 8601 format
  * - java.time.ZonedDateTime.toString() format-
  * - HH:MM:SS: 24 hour time converted to ZonedDateTime with that time and today's date
  * - hh:mm:ss aa:  12 hour time converted to a ZonedDateTime with that time and today's date
- * - duration string: see the docs for js-joda.Duration
+ * - duration string: see the docs for js-joda Duration, will add that duration to now
  * - Number string: parsed to a Number and added to now as milliseconds 
  * @returns {time.ZonedDateTime}
  * @throws error is thrown when the String is not of a recognized format that can be converted to a date time
@@ -163,7 +165,5 @@ String.prototype.toZonedDateTime = function () {
       }
   }
 }
-
-
 
 module.exports = time;

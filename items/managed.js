@@ -258,8 +258,8 @@ class Item {
      * - StringType:
      *   - HH:mm:ss: 24hr time, date time at the given time with today's date
      *   - hh:mm:ss aa: 12hr time, date time at the given time with today's date
-     *   - duration string: see the docs for time.Duration:
-     * - DateTimeType: see time.js monkeypatch of java.time.ZonedDateTime
+     *   - duration string: see the docs for js-joda Duration:
+     * - DateTimeType: converted to a time.ZonedDateTime
      * @returns {time.ZonedDateTime} the state converted to a date time
      * @throws will throw an error if the state cannot be converted to a date time
      */
@@ -284,8 +284,11 @@ class Item {
             return this.state.toZonedDateTime();
         }
         else if(this.rawItem.state instanceof DateTimeType) {
-            console.log('DateTime Type');
-            return this.state.getZonedDateTime();
+            const jzdt = this.rawItem.state.getZonedDateTime();
+            const epoch = jzdt.toInstant().toEpochMilli();
+            const instant = time.Instant.ofEpochMilli(epoch);
+            const zone = time.ZoneId.of(jzdt.getZone().toString());
+            return time.ZonedDateTime.ofInstant(instant, zone);
         }
         else {
             throw Error(this.state + ' cannot be converted to a time.ZonedDateTime');
