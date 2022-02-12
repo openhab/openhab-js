@@ -31,18 +31,16 @@ const updateTimeout = function (timer, delay) {
 
 /**
  * Parses a ZonedDateTime to milliseconds from now until the ZonedDateTime.
+ * This is a monkey-patched function on JS-Joda's ZonedDateTime.
  *
- * @memberOf time
- * @param {ZonedDateTime} zdt ZonedDateTime representation to parse
  * @returns {number} duration from now to the ZonedDateTime in milliseconds
  */
-const ZDTtoMillisFromNow = function (zdt) {
-  const duration = time.Duration.between(time.ZonedDateTime.now(), zdt);
+time.ZonedDateTime.prototype.millisFromNow = function () {
+  const duration = time.Duration.between(time.ZonedDateTime.now(), this);
   return duration.toMillis();
 };
 
 module.exports = {
   ...time,
-  updateTimeout: updateTimeout,
-  ZDTtoMillisFromNow: ZDTtoMillisFromNow
+  updateTimeout: updateTimeout
 };
