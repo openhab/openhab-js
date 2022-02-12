@@ -16,20 +16,6 @@ time.ZonedDateTime.prototype.parse = function (text, formatter = rfcFormatter) {
 };
 
 /**
- * Reschedule a timeout.
- * This can also be called after a timer has terminated, which will result in another execution of the code.
- *
- * @memberOf time
- * @param {*} timer the timer returned by {@link https://github.com/openhab/openhab-js#settimeout setTimeout}
- * @param {number} delay the time in milliseconds that the timer should wait before it expires and executes the function
- */
-const updateTimeout = function (timer, delay) {
-  if (timer !== undefined) {
-    timer.reschedule(time.ZonedDateTime.now().plusNanos(delay * 1000000));
-  }
-};
-
-/**
  * Parses a ZonedDateTime to milliseconds from now until the ZonedDateTime.
  * This is a monkey-patched function on JS-Joda's ZonedDateTime.
  *
@@ -40,7 +26,4 @@ time.ZonedDateTime.prototype.millisFromNow = function () {
   return duration.toMillis();
 };
 
-module.exports = {
-  ...time,
-  updateTimeout: updateTimeout
-};
+module.exports = time;

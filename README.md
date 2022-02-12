@@ -156,7 +156,17 @@ The global `clearTimeout()` method cancels a timeout previously established by c
 
 See https://developer.mozilla.org/en-US/docs/Web/API/setTimeout for more information about setTimeout.
 
-openHAB additionally allows you to reschedule the timer, see [`updateTimeout`](#updatetimeout).
+openHAB does not return the integer timeout id as standard JS does, instead it returns an openHAB Timer.
+This allows you to execute all methods described in [openHAB JavaDoc - Timer](https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/timer).
+
+You can reschedule a timer by running the `reschedule(ZonedDateTime)` method on the return of `setTimeout()`.
+`reschedule(ZonedDateTime)` can also be called after a timer has terminated, which will result in another execution of the code.
+
+Example:
+```javascript
+var timeoutID = setTimeout(function, 1000); // Expire in 1 second.
+timeoutID.reschedule(time.ZonedDateTime.now().plusSeconds(5)); // Reschedule timer to expire in 5 seconds.
+```
 
 ### SetInterval
 
