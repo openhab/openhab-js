@@ -453,15 +453,30 @@ openHAB internally makes extensive use of the `java.time` package.
 openHAB-JS exports the excellent [JS-Joda](#https://js-joda.github.io/js-joda/) library via the `time` namespace, which is a native Javascript port of the same API standard used in Java for `java.time`.
 Anywhere that a native Java `ZonedDateTime` or `Duration` is required, the runtime will automatically convert a JS-Joda `ZonedDateTime` or `Duration` to its Java counterpart.
 
-You can access the locales for JS-Joda using `time.Locale.<locale>`.
+You can access some Locales for JS-Joda using `time.Locale.<locale>`.
+To keep the library lightweight, the developers decided to not include all Locales by default.
 
-See [openhab-js : time Locales](https://openhab.github.io/openhab-js/time.html#.Locales) for full list of Locales available.
+Included locales:
+Access with | Language | Identifier
+-|-|-
+time.Locale.ENGLISH | english | en
+time.Locale.US | english as spoken in United States | en-US
+time.Locale.UK | english as spoken in United Kingdom | en-GB
+time.Locale.CANADA | english as spoken in Canada | en-CA
+time.Locale.FRENCH | french | fr
+time.Locale.FRANCE | french as spoken in France | fr-FR
+time.Locale.GERMAN | german | de
+time.Locale.GERMANY | german as spoken in Germany | de-DE
 
-Examples:
-```javascript
-time.Locale.ENGLISH
-time.Locale.US
-```
+If you need a Locale not included, visit [JS-Joda Locales](https://github.com/js-joda/js-joda/tree/master/packages/locale#use-prebuilt-locale-packages) and install one of the prebuild Locales listed there.
+You can access the locale by using ``const Locale = require('@js-joda/locale_``*identifier*``').Locale.``*locale-name*.
+
+Example for Svedish Locale:
+- Install the Locale by excuting ``npm install @js-joda/locale_sv-se`` in *$OPENHAB_CONF/automation/js*.
+- Use the Locale in your script:
+  ```javascript
+  const Locale = require('@js-joda/locale_sv-se').Locale.SVEDISH;
+  ```
 
 Examples:
 ```javascript
