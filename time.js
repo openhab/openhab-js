@@ -17,13 +17,12 @@ time.ZonedDateTime.prototype.parse = function (text, formatter = rfcFormatter) {
 
 /**
  * Parses a ZonedDateTime to milliseconds from now until the ZonedDateTime.
- * This is a monkey-patched function on JS-Joda's ZonedDateTime.
  *
+ * @memberof time
  * @returns {number} duration from now to the ZonedDateTime in milliseconds
  */
 time.ZonedDateTime.prototype.millisFromNow = function () {
-  const duration = time.Duration.between(time.ZonedDateTime.now(), this);
-  return duration.toMillis();
+  return time.Duration.between(time.ZonedDateTime.now(), this).toMillis();
 };
 
 module.exports = time;
