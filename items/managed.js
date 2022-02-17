@@ -187,7 +187,7 @@ class Item {
      * does not support OnOffType commands/updates or OpenClosedType updates
      * an error is thrown. To toggle Contacts, update must be true or an error
      * is thrown (Contacts cannot be commanded).
-     * @param {Boolean=false} update when true the toggle will be sent as an update instead of a command
+     * @param {Boolean} [update=false] when true the toggle will be sent as an update instead of a command
      * @throws error if the Item cannot be toggled
      */
     toggle(update=false) {
