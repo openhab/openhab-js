@@ -27,8 +27,7 @@ binding](https://www.openhab.org/addons/automation/jsscripting/)
 - [Scripting Basics](#scripting-basics)
   - [Require](#require)
   - [Console](#console)
-  - [SetTimeout](#settimeout)
-  - [SetInterval](#setinterval)
+  - [Timers](#timers)
   - [ScriptLoaded](#scriptloaded)
   - [ScriptUnLoaded](#scriptunloaded)
   - [Paths](#paths)
@@ -144,9 +143,11 @@ The string representations of each of these objects are appended together in the
 
 see https://developer.mozilla.org/en-US/docs/Web/API/console for more information about console logging.
 
-### SetTimeout
+### Timers
 
-The global setTimeout() method sets a timer which executes a function or specified piece of code once the timer expires.
+#### SetTimeout
+
+The global `setTimeout()` method sets a timer which executes a function or specified piece of code once the timer expires.
 ```javascript
 var timeoutID = setTimeout(function[, delay, arg1, arg2, ...]);
 var timeoutID = setTimeout(function[, delay]);
@@ -154,9 +155,11 @@ var timeoutID = setTimeout(function[, delay]);
 
 The global `clearTimeout()` method cancels a timeout previously established by calling `setTimeout()`.
 
-see https://developer.mozilla.org/en-US/docs/Web/API/setTimeout for more information about setTimeout.
+See https://developer.mozilla.org/en-US/docs/Web/API/setTimeout for more information about setTimeout.
 
-### SetInterval
+openHAB does not return the integer timeoutID as standard JS does, instead it returns an instance of [openHAB Timer](#openhab-timer).
+
+#### SetInterval
 
 The setInterval() method repeatedly calls a function or executes a code snippet, with a fixed time delay between each call.
 
@@ -169,7 +172,31 @@ The global `clearInterval()` method cancels a timed, repeating action which was 
 
 NOTE: Timers will not be canceled if a script is deleted or modified, it is up to the user to manage timers.  See using the [cache](#cache) namespace as well as [ScriptLoaded](#scriptloaded) and [ScriptUnLoaded](#scriptunloaded) for a convenient way of managing persisted objects, such as timers between reloads or deletions of scripts.
 
-see https://developer.mozilla.org/en-US/docs/Web/API/setInterval for more information about setInterval.
+See https://developer.mozilla.org/en-US/docs/Web/API/setInterval for more information about setInterval.
+
+openHAB does not return the integer timeoutID as standard JS does, instead it returns an instance of [openHAB Timer](#openhab-timer).
+
+#### openHAB Timer
+
+A native openHAB Timer instance has the following methods:
+* `cancel()`: Cancels the timer. ⇒ `boolean`: true, if cancellation was successful
+* `getExecutionTime()`: The scheduled execution time or null if timer was cancelled. ⇒ `time.ZonedDateTime` or `null`
+* `isActive()`: Whether the scheduled execution is yet to happen. ⇒ `boolean`
+* `isCancelled()`: Whether the timer has been cancelled. ⇒ `boolean`
+* `isRunning()`: Whether the scheduled code is currently executed. ⇒ `boolean`
+* `hasTerminated()`: Whether the scheduled execution has already terminated. ⇒ `boolean`
+* `reschedule(time.ZonedDateTime)`: Reschedules a timer to a new starting time. This can also be called after a timer has terminated, which will result in another execution of the same code. ⇒ `boolean`: true, if rescheduling was successful
+
+Examples:
+```javascript
+var timer = setTimeout(() => { console.log('Timer expired.'); }, 10000); // Would log 'Timer expired.' in 10s.
+if (timer.isActive()) console.log('Timer is waiting to execute.');
+timer.cancel();
+if (timer.isCancelled()) console.log('Timer has been cancelled.');
+timer.reschedule(time.ZonedDateTime.now().plusSeconds(2)); // Logs 'Timer expired.' in 2s.
+```
+
+See [openHAB JavaDoc - Timer](https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/timer) for full API documentation.
 
 ### ScriptLoaded
 
@@ -300,11 +327,11 @@ See [openhab-js : actions](https://openhab.github.io/openhab-js/actions.html) fo
 
 #### Audio Actions
 
-See [openhab-js : actions.Audio](https://openhab.github.io/openhab-js/actions.html#.Audio) for complete documentation
+See [openhab-js : actions.Audio](https://openhab.github.io/openhab-js/actions.html#.Audio) for complete documentation.
 
 #### BusEvent
 
-See [openhab-js : actions.BusEvent](https://openhab.github.io/openhab-js/actions.html#.BusEvent) for complete documentation
+See [openhab-js : actions.BusEvent](https://openhab.github.io/openhab-js/actions.html#.BusEvent) for complete documentation.
 
 #### Ephemeris Actions
 
@@ -321,7 +348,7 @@ let weekend = actions.Ephemeris.isWeekend();
 
 #### Exec Actions
 
-See [openhab-js : actions.Exec](https://openhab.github.io/openhab-js/actions.html#.Exec) for complete documentation
+See [openhab-js : actions.Exec](https://openhab.github.io/openhab-js/actions.html#.Exec) for complete documentation.
 
 Execute a command line.
 
@@ -410,7 +437,7 @@ Replace `<message>` with the notification text.
 
 The cache namespace provides a default cache that can be use to set and retrieve objects that will be persisted between reloads of scripts.
 
-See [openhab-js : cache](https://openhab.github.io/openhab-js/cache.html) for full API documentation
+See [openhab-js : cache](https://openhab.github.io/openhab-js/cache.html) for full API documentation.
 
 * cache : <code>object</code>
     * .get(key, defaultSupplier) ⇒ <code>Object | null</code>
@@ -453,13 +480,21 @@ openHAB internally makes extensive use of the `java.time` package.
 openHAB-JS exports the excellent [JS-Joda](#https://js-joda.github.io/js-joda/) library via the `time` namespace, which is a native Javascript port of the same API standard used in Java for `java.time`.
 Anywhere that a native Java `ZonedDateTime` or `Duration` is required, the runtime will automatically convert a JS-Joda `ZonedDateTime` or `Duration` to its Java counterpart.
 
+#### openHAB-JS extensions to JS-Joda
+The  exported [JS-Joda](#https://js-joda.github.io/js-joda/) library is also extended with convenient functions relevant to openHAB usage. 
+
+* `ZonedDateTime`
+  * `millisFromNow()` ⇒ `number`: Milliseconds from now until the `time.ZonedDateTime` representation.
+
 Examples:
 ```javascript
 var now = time.ZonedDateTime.now();
 var yesterday = time.ZonedDateTime.now().minusHours(24);
+var millis = now.plusSeconds(5).millisFromNow();
 
 var item = items.getItem("Kitchen");
 console.log("averageSince", item.history.averageSince(yesterday));
+console.log("5 seconds in the future is " + millis + " milliseconds.");
 ```
 
 ```javascript
