@@ -1,0 +1,10 @@
+# WARNING: Please keep in mind that npm disregards .gitignore when there is a .npmignore file!
+
+.github
+.vscode
+docs
+dist
+images
+openhab-*.tgz
+out
+test

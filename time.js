@@ -16,6 +16,16 @@ time.ZonedDateTime.prototype.parse = function (text, formatter = rfcFormatter) {
 };
 
 /**
+ * Parses a ZonedDateTime to milliseconds from now until the ZonedDateTime.
+ *
+ * @memberof time
+ * @returns {number} duration from now to the ZonedDateTime in milliseconds
+ */
+time.ZonedDateTime.prototype.millisFromNow = function () {
+  return time.Duration.between(time.ZonedDateTime.now(), this).toMillis();
+};
+
+/**
  * Provides access to some {@link https://github.com/js-joda/js-joda/tree/master/packages/locale JS-Joda Locales}.
  *
  * @memberOf time

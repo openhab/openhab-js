@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 🤔 Support/Usage Question
+    url: https://community.openhab.org
+    about: Feel free to ask anything
+  - name: 📖 JS Scripting Documentation
+    url: https://www.openhab.org/addons/automation/jsscripting/
+    about: Official documentation
+  - name: 📖 openHAB JavaScript Library advanced documentation (JSDoc)
+    url: https://openhab.github.io/openhab-js/
+    about: JSDoc library documentation
