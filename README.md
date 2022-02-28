@@ -477,24 +477,16 @@ logger.debug("Hello {}!", "world");
 ### Time
 
 openHAB internally makes extensive use of the `java.time` package.
-openHAB-JS exports the excellent [JS-Joda](#https://js-joda.github.io/js-joda/) library via the `time` namespace, which is a native Javascript port of the same API standard used in Java for `java.time`.
+openHAB-JS exports the excellent [JS-Joda](#https://js-joda.github.io/js-joda/) library via the `time` namespace, which is a native JavaScript port of the same API standard used in Java for `java.time`.
 Anywhere that a native Java `ZonedDateTime` or `Duration` is required, the runtime will automatically convert a JS-Joda `ZonedDateTime` or `Duration` to its Java counterpart.
-
-#### openHAB-JS extensions to JS-Joda
-The  exported [JS-Joda](#https://js-joda.github.io/js-joda/) library is also extended with convenient functions relevant to openHAB usage. 
-
-* `ZonedDateTime`
-  * `millisFromNow()` ⇒ `number`: Milliseconds from now until the `time.ZonedDateTime` representation.
 
 Examples:
 ```javascript
 var now = time.ZonedDateTime.now();
 var yesterday = time.ZonedDateTime.now().minusHours(24);
-var millis = now.plusSeconds(5).millisFromNow();
 
 var item = items.getItem("Kitchen");
 console.log("averageSince", item.history.averageSince(yesterday));
-console.log("5 seconds in the future is " + millis + " milliseconds.");
 ```
 
 ```javascript
@@ -502,6 +494,63 @@ actions.Exec.executeCommandLine(time.Duration.ofSeconds(20), 'echo', 'Hello Worl
 ```
 
 See [JS-Joda](https://js-joda.github.io/js-joda/) for more examples and complete API usage.
+
+#### `time.toZDT()`
+
+There will be times where this automatic conversion is not available (for example when working with date times within a single rule).
+To ease having to deal with these cases a `toZDT()` function was added that will accept almost any type that can be converted to a `time.ZonedDateTime`.
+The following rules are used during the conversion:
+
+Argument Type | Rule | Examples
+-|-|-
+`null` or `undefined` | `time.ZonedDateTime.now()` | `time.toZDT();`
+`time.ZonedDateTime` | passed through unmodified |
+`java.time.ZonedDateTime` | converted to the `time.ZonedDateTime` equivalent
+JavaScript native `Date` | converted to the equivalent `time.ZonedDateTime` using `SYSTEM` as the timezone
+`number`, `bingint`, `java.lang.Number`, `DecimalType` | rounded to the nearest integer and added to `now` as milliseconds | `time.toZDT(1000);`
+`QuantityType` | if the units are `Time`, that time is added to `now` | `time.toZDT(item.getItem('MyTimeItem').rawState);`
+`items.Item` or `org.openhab.core.types.Item` | if the state is supported (see the `xType` rules in this table), the state is converted | `time.toZDT(items.getItem('MyItem'));
+`String`, `java.lang.String`, `StringType` | parsed based on the following rules |
+RFC String (output from a Java ZonedDateTime.toString()) | parsed | `time.toZDT(new DateTimeType().getZonedDateTime().toString());`
+"HH:MM[:ss]" (24 hour time) | today's date with the time indicated, seconds is optional | `time.toZDT('13:45:12');
+"kk:mm[:ss][ ]a" (12 hour time) | today's date with the time indicated, the space between the time and am/pm and seconds are optional | `time.toZDT('1:23:45 PM');
+Duration String | any duration string supported by `time.Duration0` added to `now()`, see [the docs](https://js-joda.github.io/js-joda/class/packages/core/src/Duration.js~Duration.html#static-method-parse) for details | `time.toZDT('PT1H4M6.789S');`
+
+When a type or string that cannot be handled is encountered, an error is thrown.
+
+#### `toToday()`
+
+When you have a `time.ZonedDateTime`, a new `toToday()` method was added which will return a new `time.ZonedDateTime` with today's date but the original's time, accounting for DST changes.
+For example, if the time was 13:45 and today was a DST changeover, the time will still be 13:45 instead of one hour off.
+
+```javascript
+const alarm = items.getItem('Alarm');
+alarm.postUpdate(time.toZDT(alarm).toToday());
+```
+
+#### `betweenTimes(start, end)`
+
+Tests whether this `time.ZonedDateTime` is between the passed in `start` and `end`.
+However, the function only compares the time portion of the the three, ignoring the date portion.
+The function takes into account times that span midnight.
+`start` and `end` can be anything supported by `time.toZDT()`.
+
+Examples:
+
+```javascript
+time.toZDT().beteenTimes('22:00', '05:00') // currently between 11:00 pm and 5:00 am
+time.toZDT().betweenTimes(items.getItem('Sunset'), '11:30 PM') // is now between sunset and 11:30 PM?
+time.toZDT(items.getItem('StartTime')).bewteenTimes(time.toZDT(), 'PT1H'); // is the state of StartTime between now and one hour from now
+```
+
+#### `isClose(zdt, maxDur)`
+
+Tests to see if the delta between `this` and the passed in `time.ZonedDateTime` is within the passed in `time.Duration`.
+
+```javascript
+const timestamp = time.toZDT();
+// do some stuff
+if(timestamp.isClose(time.toZDT(), time.Duration.ofMillis(100))) { // did "do some stuff" take longer than 100 msecs to run?
 
 ### Utils
 
