@@ -181,28 +181,55 @@ class Item {
 
         return false;
     }
+   
+    /**
+     * Calculates the toggled state of this Item. For Items like Color and 
+     * Dimmer, getStateAs(OnOffType) is used and the toggle calculated off 
+     * of that.
+     * @returns the toggled state (e.g. 'OFF' if the Item is 'ON')
+     * @throws error if the Item is uninitialized or is a type that doesn't make sense to toggle
+     */
+     #getToggleState() {
+        if(this.isUninitialized) {
+            throw Error('Cannot toggle uninitialized Items');
+        }
+        switch (this.type) {
+            case 'PlayerItem' :
+                return this.state == 'PAUSE' ? 'PLAY' : 'PAUSE';
+            case 'ContactItem' :
+                return this.state == 'OPEN' ? 'CLOSED' : 'OPEN';
+            default: {
+                const oldState = this.rawItem.getStateAs(OnOffType);
+                if(oldState) {
+                    return oldState.toString() == 'ON' ? 'OFF' : 'ON';
+                }
+                else {
+                    throw Error('Toggle not supported for items of type ' + this.type);
+                }
+            }
+        }
+    }
 
     /**
-     * Toggles the state of the Item. If the Item is undefined or the Item type
-     * does not support OnOffType commands/updates or OpenClosedType updates
-     * an error is thrown. To toggle Contacts, update must be true or an error
-     * is thrown (Contacts cannot be commanded).
-     * @param {Boolean} [update=false] when true the toggle will be sent as an update instead of a command
-     * @throws error if the Item cannot be toggled
+     * Sends a command to flip the Item's state (e.g. if it is 'ON' an 'OFF' 
+     * command is sent).
+     * @throws error if the Item is uninitialized or a type that cannot be toggled or commanded
      */
-    toggle(update=false) {
-        var newState = null;
-        var oldState = this.rawItem.getStateAs(OnOffType);
-        if(oldState) {
-            newState = (oldState.toString() == 'OFF') ? 'ON' : 'OFF';
+    toggleCommand() {
+        if(this.type == 'ContactItem'){
+            throw Error('Cannot command Contact Items');
         }
-        else if(update && this.rawItem.getStateAs(OpenClosedType)) {
-            newState = (this.rawItem.getStateAs(OpenClosedType).toString() == 'CLOSED' ? 'OPEN' : 'CLOSED');
-        }
-        if(newState && update) this.postUpdate(newState);
-        else if(newState && !update) this.sendCommand(newState);
-        else throw Error('Items of type ' + this.rawItem.getType() + ' cannot be toggled via ' + ((update) ? 'an update' : 'a command'));
-    } 
+        this.sendCommand(this.#getToggleState());
+    }
+
+    /**
+     * Posts an update to flip the Item's state (e.g. if it is 'ON' an 'OFF'
+     * update is posted).
+     * @throws error if the Item is uninitialized or a type that cannot be toggled
+     */
+    toggleUpdate() {
+        this.postUpdate(this.#getToggleState());
+    }
 
     /**
      * Posts an update to the item
