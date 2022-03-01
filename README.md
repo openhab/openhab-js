@@ -497,11 +497,11 @@ See [JS-Joda](https://js-joda.github.io/js-joda/) for more examples and complete
 
 #### `time.toZDT()`
 
-There will be times where this automatic conversion is not available (for example when working with date times within a single rule).
-To ease having to deal with these cases a `toZDT()` function was added that will accept almost any type that can be converted to a `time.ZonedDateTime`.
+There will be times where this automatic conversion is not available (for example when working with date times within a rule).
+To ease having to deal with these cases a `time.toZDT()` function will accept almost any type that can be converted to a `time.ZonedDateTime`.
 The following rules are used during the conversion:
 
-Argument Type | Rule | Examples
+Argumen Type | Rule | Examples
 -|-|-
 `null` or `undefined` | `time.ZonedDateTime.now()` | `time.toZDT();`
 `time.ZonedDateTime` | passed through unmodified |
@@ -509,12 +509,12 @@ Argument Type | Rule | Examples
 JavaScript native `Date` | converted to the equivalent `time.ZonedDateTime` using `SYSTEM` as the timezone
 `number`, `bingint`, `java.lang.Number`, `DecimalType` | rounded to the nearest integer and added to `now` as milliseconds | `time.toZDT(1000);`
 `QuantityType` | if the units are `Time`, that time is added to `now` | `time.toZDT(item.getItem('MyTimeItem').rawState);`
-`items.Item` or `org.openhab.core.types.Item` | if the state is supported (see the `xType` rules in this table), the state is converted | `time.toZDT(items.getItem('MyItem'));
+`items.Item` or `org.openhab.core.types.Item` | if the state is supported (see the `Type` rules in this table, e.g. `DecimalType`), the state is converted | `time.toZDT(items.getItem('MyItem'));`
 `String`, `java.lang.String`, `StringType` | parsed based on the following rules |
-RFC String (output from a Java ZonedDateTime.toString()) | parsed | `time.toZDT(new DateTimeType().getZonedDateTime().toString());`
-"HH:MM[:ss]" (24 hour time) | today's date with the time indicated, seconds is optional | `time.toZDT('13:45:12');
-"kk:mm[:ss][ ]a" (12 hour time) | today's date with the time indicated, the space between the time and am/pm and seconds are optional | `time.toZDT('1:23:45 PM');
-Duration String | any duration string supported by `time.Duration0` added to `now()`, see [the docs](https://js-joda.github.io/js-joda/class/packages/core/src/Duration.js~Duration.html#static-method-parse) for details | `time.toZDT('PT1H4M6.789S');`
+RFC String (output from a Java `ZonedDateTime.toString()`) | parsed | `time.toZDT(new DateTimeType().getZonedDateTime().toString());`
+`"HH:MM[:ss]"` (24 hour time) | today's date with the time indicated, seconds is optional | `time.toZDT('13:45:12');`
+`"kk:mm[:ss][ ]a"` (12 hour time) | today's date with the time indicated, the space between the time and am/pm and seconds are optional | `time.toZDT('1:23:45 PM');`
+Duration String | any duration string supported by `time.Duration` added to `now()`, see [the docs](https://js-joda.github.io/js-joda/class/packages/core/src/Duration.js~Duration.html#static-method-parse) for details | `time.toZDT('PT1H4M6.789S');`
 
 When a type or string that cannot be handled is encountered, an error is thrown.
 
@@ -551,6 +551,7 @@ Tests to see if the delta between `this` and the passed in `time.ZonedDateTime` 
 const timestamp = time.toZDT();
 // do some stuff
 if(timestamp.isClose(time.toZDT(), time.Duration.ofMillis(100))) { // did "do some stuff" take longer than 100 msecs to run?
+```
 
 ### Utils
 
