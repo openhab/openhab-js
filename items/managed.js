@@ -232,28 +232,6 @@ class Item {
     }
 
     /**
-     * Toggles the state of the Item. If the Item is undefined or the Item type
-     * does not support OnOffType commands/updates or OpenClosedType updates
-     * an error is thrown. To toggle Contacts, update must be true or an error
-     * is thrown (Contacts cannot be commanded).
-     * @param {Boolean} [update=false] when true the toggle will be sent as an update instead of a command
-     * @throws error if the Item cannot be toggled
-     */
-    toggle(update=false) {
-        var newState = null;
-        var oldState = this.rawItem.getStateAs(OnOffType);
-        if(oldState) {
-            newState = (oldState.toString() == 'OFF') ? 'ON' : 'OFF';
-        }
-        else if(update && this.rawItem.getStateAs(OpenClosedType)) {
-            newState = (this.rawItem.getStateAs(OpenClosedType).toString() == 'CLOSED' ? 'OPEN' : 'CLOSED');
-        }
-        if(newState && update) this.postUpdate(newState);
-        else if(newState && !update) this.sendCommand(newState);
-        else throw Error('Items of type ' + this.rawItem.getType() + ' cannot be toggled via ' + ((update) ? 'an update' : 'a command'));
-    } 
-
-    /**
      * Posts an update to the item
      * @param {String|HostState} value the value of the command to send, such as 'ON'
      * @see sendCommand
