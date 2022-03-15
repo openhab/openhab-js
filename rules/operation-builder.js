@@ -403,8 +403,7 @@ class ToggleOperation extends OperationConfig {
      * @returns {OperationBuilder.SendCommandOrUpdateOperation} this
      */
     doToggle() {
-        let item = items.getItem(this.itemName);
-        item.toggleCommand();
+        items.getItem(this.itemName).toggleCommand();
     }
 }
 
