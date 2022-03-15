@@ -146,7 +146,7 @@ see https://developer.mozilla.org/en-US/docs/Web/API/console for more informatio
 
 ### SetTimeout
 
-The global `setTimeout()` method sets a timer which executes a function or specified piece of code once the timer expires.
+The global setTimeout() method sets a timer which executes a function or specified piece of code once the timer expires.
 ```javascript
 var timeoutID = setTimeout(function[, delay, arg1, arg2, ...]);
 var timeoutID = setTimeout(function[, delay]);
@@ -154,7 +154,7 @@ var timeoutID = setTimeout(function[, delay]);
 
 The global `clearTimeout()` method cancels a timeout previously established by calling `setTimeout()`.
 
-See https://developer.mozilla.org/en-US/docs/Web/API/setTimeout for more information about setTimeout.
+see https://developer.mozilla.org/en-US/docs/Web/API/setTimeout for more information about setTimeout.
 
 ### SetInterval
 
@@ -304,7 +304,7 @@ See [openhab-js : actions.Audio](https://openhab.github.io/openhab-js/actions.ht
 
 #### BusEvent
 
-See [openhab-js : actions.BusEvent](https://openhab.github.io/openhab-js/actions.html#.BusEvent) for complete documentation.
+See [openhab-js : actions.BusEvent](https://openhab.github.io/openhab-js/actions.html#.BusEvent) for complete documentation
 
 #### Ephemeris Actions
 

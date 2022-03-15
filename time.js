@@ -7,6 +7,6 @@ const rfcFormatter = time.DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ss.SSS
 const targetParse = time.ZonedDateTime.prototype.parse;
 time.ZonedDateTime.prototype.parse = function (text, formatter = rfcFormatter) {
   return targetParse(text, formatter);
-};
+}
 
 module.exports = time;
