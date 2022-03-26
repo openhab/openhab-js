@@ -147,7 +147,7 @@ const isEnabled = function (uid) {
 };
 
 /**
- * Enables or disables the rule iwth the given UID. Throws an error if the
+ * Enables or disables the rule with the given UID. Throws an error if the
  * rule doesn't exist.
  * 
  * @param {String} uid UID of the rule
