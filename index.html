@@ -113,6 +113,7 @@ binding</a></p>
 <ul>
 <li><a href="#jsrule">JSRule</a></li>
 <li><a href="#rule-builder">Rule Builder</a></li>
+<li><a href="#event-object">Event Object</a></li>
 </ul>
 </li>
 </ul>
@@ -142,11 +143,11 @@ This will be used instead of the binding provided version.</p>
 <p>Using the openHAB UI, first create a new rule and set a trigger condition</p>
 <p><img src="/images/rule-config.png" alt="openHAB Rule Configuration"></p>
 <h3>Adding Actions</h3>
-<p>Select &quot;Add Action&quot; and then select &quot;ECMAScript 262 Edition 11&quot;.
+<p>Select &quot;Add Action&quot; and then select &quot;Run Script&quot; with &quot;ECMAScript 262 Edition 11&quot;.
 Its important this is &quot;Edition 11&quot; or higher, earlier versions will not work.
-This will bring up a empty script editor where you can enter your javascript.</p>
+This will bring up a empty script editor where you can enter your JavaScript.</p>
 <p><img src="/images/rule-engines.png" alt="openHAB Rule Engines"></p>
-<p>You can now write rules using standard ES6 Javascript along with the included openHAB <a href="#standard-library">standard library</a>.</p>
+<p>You can now write rules using standard ES6 JavaScript along with the included openHAB <a href="#standard-library">standard library</a>.</p>
 <p><img src="/images/rule-script.png" alt="openHAB Rule Script"></p>
 <p>For example, turning a light on:</p>
 <pre class="prettyprint source lang-javascript"><code>items.getItem(&quot;KitchenLight&quot;).sendCommand(&quot;ON&quot;);
@@ -480,7 +481,7 @@ rules.JSRule({
   name: &quot;Balcony Lights ON at 5pm&quot;,
   description: &quot;Light will turn on when it's 5:00pm&quot;,
   triggers: [triggers.GenericCronTrigger(&quot;0 0 17 * * ?&quot;)],
-  execute: data => {
+  execute: (event) => {
     items.getItem(&quot;BalconyLights&quot;).sendCommand(&quot;ON&quot;);
     actions.NotificationAction.sendNotification(email, &quot;Balcony lights are ON&quot;);
   },
@@ -489,7 +490,9 @@ rules.JSRule({
 });
 </code></pre>
 <p>Note: <code>description</code>, <code>tags</code> and <code>id</code> are optional.</p>
-<p>Multiple triggers can be added,  some example triggers include:</p>
+<p>Note: You can use the passed <code>event</code> object to get information about the trigger that triggered the rule.
+See <a href="#event-object">Event Object</a> for documentation.</p>
+<p>Multiple triggers can be added, some example triggers include:</p>
 <pre class="prettyprint source lang-javascript"><code>triggers.ChannelEventTrigger('astro:sun:local:rise#event', 'START')
 
 triggers.ItemStateChangeTrigger('my_item', 'OFF', 'ON')
@@ -669,7 +672,83 @@ rules.when().item('HallLight').receivedCommand().then().sendIt().toItem('Kitchen
 //when the HallLight is updated to ON, make sure that BedroomLight1 is set to the same state as the BedroomLight2
 rules.when().item('HallLight').receivedUpdate().then().copyState().fromItem('BedroomLight1').toItem('BedroomLight2').build();
 
-</code></pre></article>
+</code></pre>
+<h3>Event Object</h3>
+<p>When a rule is triggered, the script is provided the event instance that triggered it.
+The specific data depends on the event type.
+The <code>event</code> object provides several information about that trigger.</p>
+<p>This tables gives an overview over the <code>event</code> object:</p>
+<table>
+<thead>
+<tr>
+<th>Property Name</th>
+<th>Trigger Types</th>
+<th>Description</th>
+<th>Rules DSL Equivalent</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>oldState</code></td>
+<td><code>ItemStateChangeTrigger</code>, <code>GroupStateChangeTrigger</code></td>
+<td>Previous state of Item or Group that triggered event</td>
+<td><code>previousState</code></td>
+</tr>
+<tr>
+<td><code>newState</code></td>
+<td><code>ItemStateChangeTrigger</code>, <code>GroupStateChangeTrigger</code></td>
+<td>New state of Item or Group that triggered event</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>state</code></td>
+<td><code>ItemStateUpdateTrigger</code>, <code>GroupStateUpdateTrigger</code></td>
+<td>State of Item that triggered event</td>
+<td><code>triggeringItem.state</code></td>
+</tr>
+<tr>
+<td><code>receivedCommand</code></td>
+<td><code>ItemCommandTrigger</code>, <code>GroupCommandTrigger</code></td>
+<td>Command that triggered event</td>
+<td><code>receivedCommand</code></td>
+</tr>
+<tr>
+<td><code>receivedState</code></td>
+<td><code>ItemStateUpdateTrigger</code>, <code>GroupStateUpdateTrigger</code></td>
+<td>State that triggered event</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>receivedTrigger</code></td>
+<td><code>ChannelEventTrigger</code></td>
+<td>Trigger that triggered event</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>itemName</code></td>
+<td>all</td>
+<td>Name of Item that triggered event</td>
+<td><code>triggeringItem.name</code></td>
+</tr>
+<tr>
+<td><code>eventType</code></td>
+<td>all except <code>ThingStatus****Trigger</code>s</td>
+<td>Type of event that triggered event (change, command, time, triggered, update)</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>triggerType</code></td>
+<td>all except <code>ThingStatus****Trigger</code>s</td>
+<td>Type of trigger that triggered event (for <code>TimeOfDayTrigger</code>: <code>GenericCronTrigger</code>)</td>
+<td>N/A</td>
+</tr>
+</tbody>
+</table>
+<p>All properties are type of String.</p>
+<p><strong>NOTE:</strong>
+<code>ThingStatusUpdateTrigger</code>, <code>ThingStatusChangeTrigger</code> use <em>Thing</em> and <code>ChannelEventTrigger</code> uses the the trigger channel name as value for <code>itemName</code>.
+<code>Group****Trigger</code>s use the equivalent <code>Item****Trigger</code> as trigger for each member.</p>
+<p>You may use <a href="https://openhab.github.io/openhab-js/utils.html#.dumpObject">utils.dumpObject(event)</a> to get all properties of an <code>event</code> object.</p></article>
     </section>
 
 
@@ -684,7 +763,7 @@ rules.when().item('HallLight').receivedUpdate().then().copyState().fromItem('Bed
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Sun Apr 10 2022 15:53:31 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Sun Apr 10 2022 15:58:28 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
