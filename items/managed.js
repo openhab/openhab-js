@@ -1,5 +1,3 @@
-
-
 const osgi = require('../osgi');
 const utils = require('../utils');
 const log = require('../log')('items');
@@ -255,19 +253,20 @@ class Item {
  * 
  * Note that all items created this way have an additional tag attached, for simpler retrieval later. This tag is
  * created with the value {@link DYNAMIC_ITEM_TAG}.
- * 
- * @memberOf items
+ *
+ * @private
+ * @memberof items
  * @param {String} itemName Item name for the Item to create
- * @param {String} [itemType] the type of the Item
+ * @param {String} itemType the type of the Item
+ * @param {String} [label] the label for the Item
  * @param {String} [category] the category (icon) for the Item
  * @param {String[]} [groups] an array of groups the Item is a member of
- * @param {String} [label] the label for the Item
  * @param {String[]} [tags] an array of tags for the Item
+ * @param {Map} [itemMetadata] a map of metadata to set on the item 
  * @param {HostItem} [giBaseType] the group Item base type for the Item
  * @param {HostGroupFunction} [groupFunction] the group function used by the Item
- * @param {Map} [itemMetadata] a map of metadata to set on the item
  */
-const createItem = function (itemName, itemType, category, groups, label, tags, giBaseType, groupFunction, itemMetadata) {
+const createItem = function (itemName, itemType, label, category, groups, tags, itemMetadata, giBaseType, groupFunction) {
     itemName = safeItemName(itemName);
 
     let baseItem;
@@ -282,15 +281,13 @@ const createItem = function (itemName, itemType, category, groups, label, tags, 
     if (typeof tags === 'undefined') {
         tags = [];
     }
-
     tags.push(DYNAMIC_ITEM_TAG);
 
     try {
         var builder = itemBuilderFactory.newItemBuilder(itemType, itemName).
             withCategory(category).
-            withLabel(label);
-
-        builder = builder.withTags(utils.jsArrayToJavaSet(tags));
+            withLabel(label)
+            .withTags(utils.jsArrayToJavaSet(tags));
 
         if (typeof groups !== 'undefined') {
             builder = builder.withGroups(utils.jsArrayToJavaList(groups));
@@ -320,18 +317,22 @@ const createItem = function (itemName, itemType, category, groups, label, tags, 
  * 
  * @memberOf items
  * @param {String} itemName Item name for the Item to create
- * @param {String} [itemType] the type of the Item
+ * @param {String} itemType the type of the Item
+ * @param {String} [label] the label for the Item
  * @param {String} [category] the category (icon) for the Item
  * @param {String[]} [groups] an array of groups the Item is a member of
- * @param {String} [label] the label for the Item
  * @param {String[]} [tags] an array of tags for the Item
+ * @param {Map} [itemMetadata] a map of metadata to set on the item 
  * @param {HostItem} [giBaseType] the group Item base type for the Item
  * @param {HostGroupFunction} [groupFunction] the group function used by the Item
  */
-const addItem = function (itemName, itemType, category, groups, label, tags, giBaseType, groupFunction) {
+const addItem = function (itemName, itemType, label, category, groups, tags, itemMetadata, giBaseType, groupFunction) {
     let item = createItem(...arguments);
     managedItemProvider.add(item.rawItem);
-    return item;
+    if (typeof itemMetadata === 'object') {
+      for (const [key, value] of itemMetadata) metadata.upsertValue(itemName, key, value);
+    }
+    return getItem(itemName);
 }
 
 /**
@@ -343,7 +344,7 @@ const addItem = function (itemName, itemType, category, groups, label, tags, giB
  */
 const removeItem = function (itemOrItemName) {
 
-    var itemName;
+    let itemName;
 
     if (typeof itemOrItemName === 'string') {
         itemName = itemOrItemName;
@@ -380,15 +381,16 @@ const removeItem = function (itemOrItemName) {
  * 
  * @memberOf items
  * @param {String} itemName Item name for the Item to create
- * @param {String} [itemType] the type of the Item
+ * @param {String} itemType the type of the Item
+ * @param {String} [label] the label for the Item
  * @param {String} [category] the category (icon) for the Item
  * @param {String[]} [groups] an array of groups the Item is a member of
- * @param {String} [label] the label for the Item
  * @param {String[]} [tags] an array of tags for the Item
+ * @param {Map} [itemMetadata] a map of metadata to set on the item 
  * @param {HostItem} [giBaseType] the group Item base type for the Item
  * @param {HostGroupFunction} [groupFunction] the group function used by the Item
  */
-const replaceItem = function (/* same args as addItem */) {
+const replaceItem = function (itemName, itemType, label, category, groups, tags, itemMetadata, giBaseType, groupFunction /* same args as addItem */) {
     var itemName = arguments[0];
     try {
         var item = getItem(itemName);
