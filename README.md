@@ -41,6 +41,7 @@ binding](https://www.openhab.org/addons/automation/jsscripting/)
 - [File Based Rules](#file-based-rules)
   - [JSRule](#jsrule)
   - [Rule Builder](#rule-builder)
+  - [Event Object](#event-object)
 
 ## Installation
 
@@ -77,13 +78,13 @@ Using the openHAB UI, first create a new rule and set a trigger condition
 
 
 ### Adding Actions
-Select "Add Action" and then select "ECMAScript 262 Edition 11".
+Select "Add Action" and then select "Run Script" with "ECMAScript 262 Edition 11".
 Its important this is "Edition 11" or higher, earlier versions will not work.
-This will bring up a empty script editor where you can enter your javascript.
+This will bring up a empty script editor where you can enter your JavaScript.
 
 ![openHAB Rule Engines](/images/rule-engines.png)
 
-You can now write rules using standard ES6 Javascript along with the included openHAB [standard library](#standard-library).
+You can now write rules using standard ES6 JavaScript along with the included openHAB [standard library](#standard-library).
 
 ![openHAB Rule Script](/images/rule-script.png)
 
@@ -532,7 +533,7 @@ rules.JSRule({
   name: "Balcony Lights ON at 5pm",
   description: "Light will turn on when it's 5:00pm",
   triggers: [triggers.GenericCronTrigger("0 0 17 * * ?")],
-  execute: data => {
+  execute: (event) => {
     items.getItem("BalconyLights").sendCommand("ON");
     actions.NotificationAction.sendNotification(email, "Balcony lights are ON");
   },
@@ -543,7 +544,10 @@ rules.JSRule({
 
 Note: `description`, `tags` and `id` are optional.
 
-Multiple triggers can be added,  some example triggers include:
+Note: You can use the passed `event` object to get information about the trigger that triggered the rule.
+See [Event Object](#event-object) for documentation.
+
+Multiple triggers can be added, some example triggers include:
 
 ```javascript
 triggers.ChannelEventTrigger('astro:sun:local:rise#event', 'START')
@@ -712,3 +716,29 @@ rules.when().item('HallLight').receivedCommand().then().sendIt().toItem('Kitchen
 rules.when().item('HallLight').receivedUpdate().then().copyState().fromItem('BedroomLight1').toItem('BedroomLight2').build();
 
 ```
+
+### Event Object
+When a rule is triggered, the script is provided the event instance that triggered it.
+The specific data depends on the event type.
+The `event` object provides several information about that trigger.
+
+This tables gives an overview over the `event` object:
+| Property Name     | Trigger Types                                       | Description                                                                         | Rules DSL Equivalent   |
+|-------------------|-----------------------------------------------------|-------------------------------------------------------------------------------------|------------------------|
+| `oldState`        | `ItemStateChangeTrigger`, `GroupStateChangeTrigger` | Previous state of Item or Group that triggered event                                | `previousState`        |
+| `newState`        | `ItemStateChangeTrigger`, `GroupStateChangeTrigger` | New state of Item or Group that triggered event                                     | N/A                    |
+| `state`           | `ItemStateUpdateTrigger`, `GroupStateUpdateTrigger` | State of Item that triggered event                                                  | `triggeringItem.state` |
+| `receivedCommand` | `ItemCommandTrigger`, `GroupCommandTrigger`         | Command that triggered event                                                        | `receivedCommand`      |
+| `receivedState`   | `ItemStateUpdateTrigger`, `GroupStateUpdateTrigger` | State that triggered event                                                          | N/A                    |
+| `receivedTrigger` | `ChannelEventTrigger`                               | Trigger that triggered event                                                        | N/A                    |
+| `itemName`        | all                                                 | Name of Item that triggered event                                                   | `triggeringItem.name`  |
+| `eventType`       | all except `ThingStatus****Trigger`s                | Type of event that triggered event (change, command, time, triggered, update)       | N/A                    |
+| `triggerType`     | all except `ThingStatus****Trigger`s                | Type of trigger that triggered event (for `TimeOfDayTrigger`: `GenericCronTrigger`) | N/A                    |
+
+All properties are type of String.
+
+**NOTE:**
+`ThingStatusUpdateTrigger`, `ThingStatusChangeTrigger` use *Thing* and `ChannelEventTrigger` uses the the trigger channel name as value for `itemName`.
+`Group****Trigger`s use the equivalent `Item****Trigger` as trigger for each member.
+
+You may use [utils.dumpObject(event)](https://openhab.github.io/openhab-js/utils.html#.dumpObject) to get all properties of an `event` object.
