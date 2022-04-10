@@ -142,7 +142,8 @@ let dumpObject = function (obj) {
             log.info("String value = " + obj);
         }
 
-        log.info("getAllPropertyNames(obj) = {}", getAllPropertyNames(obj));
+        log.info("  getOwnPropertyNames(obj) = {}", Object.keys(obj).toString());
+        log.info("  getAllPropertyNames(obj) = {}", getAllPropertyNames(obj).toString());
         // log.info("obj.toString() = {}", obj.toString());
         // log.info("JSON.stringify(obj) = {}", JSON.stringify(obj));
     } catch(e) {
