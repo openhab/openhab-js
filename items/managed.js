@@ -249,164 +249,176 @@ class Item {
 }
 
 /**
- * Creates a new item within OpenHab. This item is not registered with any provider.
- * 
+ * Creates a new Item object. This Item is not registered with any provider and therefore can not be accessed.
+ *
+ * Note that all Items created this way have an additional tag attached, for simpler retrieval later. This tag is
+ * created with the value {@link DYNAMIC_ITEM_TAG}.
+ *
+ * @memberof items
+ * @private
+ * @param {Object} itemConfig the Item config describing the Item
+ * @param {String} itemConfig.type the type of the Item
+ * @param {String} itemConfig.name Item name for the Item to create
+ * @param {String} [itemConfig.label] the label for the Item
+ * @param {String} [itemConfig.category] the category (icon) for the Item
+ * @param {String[]} [itemConfig.groups] an array of groups the Item is a member of
+ * @param {String[]} [itemConfig.tags] an array of tags for the Item
+ * @param {String[]} [itemConfig.channels] an array of channel links for the Item
+ * @param {HostItem} [itemConfig.giBaseType] the group Item base type for the Item
+ * @param {HostGroupFunction} [itemConfig.groupFunction] the group function used by the Item
+ * @returns {Item} an {@link items.Item} object
+ * @throws itemConfig.name or itemConfig.type not set
+ * @throws failed to create Item
+ */
+const createItem = function (itemConfig) {
+  if (typeof itemConfig.name !== 'string' || typeof itemConfig.type !== 'string') throw Error('itemConfig.name or itemConfig.type not set');
+
+  itemConfig.name = safeItemName(itemConfig.name);
+
+  let baseItem;
+  if (itemConfig.type === 'Group' && typeof itemConfig.giBaseType !== 'undefined') {
+    baseItem = itemBuilderFactory.newItemBuilder(itemConfig.giBaseType, itemConfig.name + "_baseItem").build()
+  }
+  if (itemConfig.type !== 'Group') {
+    itemConfig.groupFunction = undefined;
+  }
+
+  if (typeof itemConfig.tags === 'undefined') {
+    itemConfig.tags = [];
+  }
+  itemConfig.tags.push(DYNAMIC_ITEM_TAG);
+
+  try {
+    let builder = itemBuilderFactory.newItemBuilder(itemConfig.type, itemConfig.name)
+      .withCategory(itemConfig.category)
+      .withLabel(itemConfig.label)
+      .withTags(utils.jsArrayToJavaSet(itemConfig.tags));
+
+    if (typeof itemConfig.groups !== 'undefined') {
+      builder = builder.withGroups(utils.jsArrayToJavaList(itemConfig.groups));
+    }
+
+    if (typeof baseItem !== 'undefined') {
+      builder = builder.withBaseItem(baseItem);
+    }
+    if (typeof itemConfig.groupFunction !== 'undefined') {
+      builder = builder.withGroupFunction(itemConfig.groupFunction);
+    }
+
+    const item = builder.build();
+    return new Item(item);
+  } catch (e) {
+    log.error('Failed to create item: ' + e);
+    throw e;
+  }
+};
+
+/**
+ * Creates a new item within OpenHab. This Item will persist to the provider regardless of the lifecycle of the script creating it.
+ *
  * Note that all items created this way have an additional tag attached, for simpler retrieval later. This tag is
  * created with the value {@link DYNAMIC_ITEM_TAG}.
  *
- * @private
- * @memberof items
- * @param {String} itemName Item name for the Item to create
- * @param {String} itemType the type of the Item
- * @param {String} [label] the label for the Item
- * @param {String} [category] the category (icon) for the Item
- * @param {String[]} [groups] an array of groups the Item is a member of
- * @param {String[]} [tags] an array of tags for the Item
- * @param {Map} [itemMetadata] a map of metadata to set on the item 
- * @param {HostItem} [giBaseType] the group Item base type for the Item
- * @param {HostGroupFunction} [groupFunction] the group function used by the Item
- */
-const createItem = function (itemName, itemType, label, category, groups, tags, itemMetadata, giBaseType, groupFunction) {
-    itemName = safeItemName(itemName);
-
-    let baseItem;
-    if (itemType === 'Group' && typeof giBaseType !== 'undefined') {
-        baseItem = itemBuilderFactory.newItemBuilder(giBaseType, itemName + "_baseItem").build()
-    }
-
-    if (itemType !== 'Group') {
-        groupFunction = undefined;
-    }
-
-    if (typeof tags === 'undefined') {
-        tags = [];
-    }
-    tags.push(DYNAMIC_ITEM_TAG);
-
-    try {
-        var builder = itemBuilderFactory.newItemBuilder(itemType, itemName).
-            withCategory(category).
-            withLabel(label)
-            .withTags(utils.jsArrayToJavaSet(tags));
-
-        if (typeof groups !== 'undefined') {
-            builder = builder.withGroups(utils.jsArrayToJavaList(groups));
-        }
-
-        if (typeof baseItem !== 'undefined') {
-            builder = builder.withBaseItem(baseItem);
-        }
-        if (typeof groupFunction !== 'undefined') {
-            builder = builder.withGroupFunction(groupFunction);
-        }
-
-        var item = builder.build();
-
-        return new Item(item);
-    } catch (e) {
-        log.error("Failed to create item: " + e);
-        throw e;
-    }
-}
-
-/**
- * Creates a new item within OpenHab. This item will persist regardless of the lifecycle of the script creating it.
- * 
- * Note that all items created this way have an additional tag attached, for simpler retrieval later. This tag is
- * created with the value {@link DYNAMIC_ITEM_TAG}.
- * 
  * @memberOf items
- * @param {String} itemName Item name for the Item to create
- * @param {String} itemType the type of the Item
- * @param {String} [label] the label for the Item
- * @param {String} [category] the category (icon) for the Item
- * @param {String[]} [groups] an array of groups the Item is a member of
- * @param {String[]} [tags] an array of tags for the Item
- * @param {Map} [itemMetadata] a map of metadata to set on the item 
- * @param {HostItem} [giBaseType] the group Item base type for the Item
- * @param {HostGroupFunction} [groupFunction] the group function used by the Item
+ * @param {Object} itemConfig the Item config describing the Item
+ * @param {String} itemConfig.type the type of the Item
+ * @param {String} itemConfig.name Item name for the Item to create
+ * @param {String} [itemConfig.label] the label for the Item
+ * @param {String} [itemConfig.category] the category (icon) for the Item
+ * @param {String[]} [itemConfig.groups] an array of groups the Item is a member of
+ * @param {String[]} [itemConfig.tags] an array of tags for the Item
+ * @param {String[]} [itemConfig.channels] an array of channel links for the Item
+ * @param {Map} [itemConfig.metadata] a map of metadata to set on the item 
+ * @param {HostItem} [itemConfig.giBaseType] the group Item base type for the Item
+ * @param {HostGroupFunction} [itemConfig.groupFunction] the group function used by the Item
+ * @returns {Item} an {@link items.Item} object
+ * @throws itemConfig.name or itemConfig.type not set
+ * @throws failed to create Item
  */
-const addItem = function (itemName, itemType, label, category, groups, tags, itemMetadata, giBaseType, groupFunction) {
-    let item = createItem(...arguments);
-    managedItemProvider.add(item.rawItem);
-    if (typeof itemMetadata === 'object') {
-      for (const [key, value] of itemMetadata) metadata.upsertValue(itemName, key, value);
-    }
-    return getItem(itemName);
-}
+const addItem = function (itemConfig) {
+  const item = createItem(itemConfig);
+  managedItemProvider.add(item.rawItem);
+  if (typeof itemConfig.itemMetadata === 'object') {
+    for (const [key, value] of itemConfig.metadata) metadata.upsertValue(itemConfig.name, key, value);
+  }
+  return getItem(itemConfig.name);
+};
 
 /**
  * Removes an item from OpenHab. The item is removed immediately and cannot be recoved.
- * 
+ *
  * @memberOf items
  * @param {String|HostItem} itemOrItemName the item to remove
  * @returns {Boolean} true iff the item is actually removed
  */
 const removeItem = function (itemOrItemName) {
+  let itemName;
 
-    let itemName;
+  if (typeof itemOrItemName === 'string') {
+    itemName = itemOrItemName;
+  } else if (itemOrItemName.hasOwnProperty('name')) {
+    itemName = itemOrItemName.name;
+  } else {
+    log.warn('Item not registered (or supplied name is not a string) so cannot be removed');
+    return false;
+  }
 
-    if (typeof itemOrItemName === 'string') {
-        itemName = itemOrItemName;
-    } else if (itemOrItemName.hasOwnProperty('name')) {
-        itemName = itemOrItemName.name;
-    } else {
-        log.warn('Item not registered (or supplied name is not a string) so cannot be removed');
-        return false;
-    }
+  if (typeof getItem(itemName) === 'undefined') {
+    log.warn('Item not registered so cannot be removed');
+    return false;
+  }
 
-    if (typeof getItem(itemName) === 'undefined') {
-        log.warn('Item not registered so cannot be removed');
-        return false;
-    }
+  managedItemProvider.remove(itemName);
 
-    managedItemProvider.remove(itemName);
-
-    if (typeof itemRegistry.getItem(itemName) === 'undefined') {
-        return true;
-    } else {
-        log.warn("Failed to remove item: " + itemName);
-        return false;
-    }
-}
+  if (typeof itemRegistry.getItem(itemName) === 'undefined') {
+    return true;
+  } else {
+    log.warn('Failed to remove item: ' + itemName);
+    return false;
+  }
+};
 
 /**
  * Replaces (upserts) an item. If an item exists with the same name, it will be removed and a new item with
  * the supplied parameters will be created in it's place. If an item does not exist with this name, a new
  * item will be created with the supplied parameters.
- * 
+ *
  * This function can be useful in scripts which create a static set of items which may need updating either
  * periodically, during startup or even during development of the script. Using fixed item names will ensure
  * that the items remain up-to-date, but won't fail with issues related to duplicate items.
- * 
+ *
  * @memberOf items
- * @param {String} itemName Item name for the Item to create
- * @param {String} itemType the type of the Item
- * @param {String} [label] the label for the Item
- * @param {String} [category] the category (icon) for the Item
- * @param {String[]} [groups] an array of groups the Item is a member of
- * @param {String[]} [tags] an array of tags for the Item
- * @param {Map} [itemMetadata] a map of metadata to set on the item 
- * @param {HostItem} [giBaseType] the group Item base type for the Item
- * @param {HostGroupFunction} [groupFunction] the group function used by the Item
+ * @param {Object} itemConfig the Item config describing the Item
+ * @param {String} itemConfig.type the type of the Item
+ * @param {String} itemConfig.name Item name for the Item to create
+ * @param {String} [itemConfig.label] the label for the Item
+ * @param {String} [itemConfig.category] the category (icon) for the Item
+ * @param {String[]} [itemConfig.groups] an array of groups the Item is a member of
+ * @param {String[]} [itemConfig.tags] an array of tags for the Item
+ * @param {String[]} [itemConfig.channels] an array of channel links for the Item
+ * @param {Map} [itemConfig.metadata] a map of metadata to set on the item 
+ * @param {HostItem} [itemConfig.giBaseType] the group Item base type for the Item
+ * @param {HostGroupFunction} [itemConfig.groupFunction] the group function used by the Item
+ * @returns {Item} an {@link items.Item} object
+ * @throws itemConfig.name or itemConfig.type not set
+ * @throws failed to create Item
  */
-const replaceItem = function (itemName, itemType, label, category, groups, tags, itemMetadata, giBaseType, groupFunction /* same args as addItem */) {
-    var itemName = arguments[0];
-    try {
-        var item = getItem(itemName);
-        if (typeof item !== 'undefined') {
-            removeItem(itemName);
-        }
-    } catch (e) {
-        if (("" + e).startsWith("org.openhab.core.items.ItemNotFoundException")) {
-            // item not present
-        } else {
-            throw e;
-        }
+const replaceItem = function (itemConfig) {
+  try {
+    const item = getItem(itemConfig.name);
+    if (typeof item !== 'undefined') {
+      removeItem(itemConfig.name);
     }
+  } catch (e) {
+    if (('' + e).startsWith('org.openhab.core.items.ItemNotFoundException')) {
+      // item not present
+    } else {
+      throw e;
+    }
+  }
 
-    return addItem.apply(this, arguments);
-}
+  return addItem.apply(this, arguments);
+};
 
 /**
  * Gets an openHAB Item.
