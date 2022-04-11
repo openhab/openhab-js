@@ -64,6 +64,7 @@ This will be used instead of the binding provided version.
 
 ### Breaking Changes
 - item.history.lastUpdate() returns `ZonedDateTime` instead of `Date`
+- `addItem(...)` and `updateItem(...)` use [`itemConfig`](#itemconfig) as parameter
 
 ## UI Based Rules
 
@@ -242,10 +243,9 @@ See [openhab-js : items](https://openhab.github.io/openhab-js/items.html) for fu
     * .getItem(name, nullIfMissing) ⇒ <code>Item</code>
     * .getItems() ⇒ <code>Array.&lt;Item&gt;</code>
     * .getItemsByTag(...tagNames) ⇒ <code>Array.&lt;Item&gt;</code>
-    * .createItem(itemName, [itemType], [category], [groups], [label], [tags], [giBaseType], [groupFunction], [itemMetadata])
-    * .addItem(itemName, [itemType], [category], [groups], [label], [tags], [giBaseType], [groupFunction])
+    * .addItem([itemConfig](#itemconfig))
     * .removeItem(itemOrItemName) ⇒ <code>Boolean</code>
-    * .replaceItem(itemName, [itemType], [category], [groups], [label], [tags], [giBaseType], [groupFunction])
+    * .replaceItem([itemConfig](#itemconfig))
     * .safeItemName(s) ⇒ <code>String</code>
 
 ```javascript
@@ -289,7 +289,43 @@ item.postUpdate("OFF");
 console.log("KitchenLight state", item.state)
 ```
 
-calling `item.history...` returns a ItemHistory object with the following functions:
+#### `itemConfig`
+Calling `addItem(itemConfig)` or `replaceItem(itemConfig)` requires the `itemConfig` object with the following properties:
+
+* itemConfig : <code>object</code>
+    * .type ⇒ <code>String</code>
+    * .name ⇒ <code>String</code>
+    * .label ⇒ <code>String</code>
+    * .category (icon) ⇒ <code>String</code>
+    * .groups ⇒ <code>Array.&lt;String&gt;</code>
+    * .tags ⇒ <code>Array.&lt;String&gt;</code>
+    * .channellink ⇒ <code>String|Array.&lt;String&gt;</code>
+    * .metadata ⇒ <code>Map</code>
+    * .giBaseType ⇒ <code>String</code>
+    * .groupFunction ⇒ <code>String</code>
+
+Note: `.type` and `.name` are required.
+
+Example:
+```javascript
+var metadata = new Map();
+metadata.set('expire', '10m,state=OFF');
+
+items.replaceItem({
+  type: 'Switch',
+  name: 'Hallway_Light',
+  label: 'Hallway Light',
+  category: 'light',
+  groups: ['Hallway', 'Light'],
+  tags: ['Lightbulb'],
+  channellink: 'binding:thing:device:hallway:light',
+  metadata: metadata
+});
+```
+
+See [openhab-js : items](https://openhab.github.io/openhab-js/items.html) for full API documentation.
+#### `item.history`
+Calling `item.history` returns a ItemHistory object with the following functions:
 
 Note `serviceId` is optional, if omitted, the default persistance service will be used.
 
