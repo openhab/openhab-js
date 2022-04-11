@@ -263,7 +263,6 @@ class Item {
  * @param {String} [itemConfig.category] the category (icon) for the Item
  * @param {String[]} [itemConfig.groups] an array of groups the Item is a member of
  * @param {String[]} [itemConfig.tags] an array of tags for the Item
- * @param {String[]} [itemConfig.channels] an array of channel links for the Item
  * @param {HostItem} [itemConfig.giBaseType] the group Item base type for the Item
  * @param {HostGroupFunction} [itemConfig.groupFunction] the group function used by the Item
  * @returns {Item} an {@link items.Item} object
@@ -327,8 +326,8 @@ const createItem = function (itemConfig) {
  * @param {String} [itemConfig.category] the category (icon) for the Item
  * @param {String[]} [itemConfig.groups] an array of groups the Item is a member of
  * @param {String[]} [itemConfig.tags] an array of tags for the Item
- * @param {String[]} [itemConfig.channels] an array of channel links for the Item
- * @param {Map} [itemConfig.metadata] a map of metadata to set on the item 
+ * @param {String|String[]} [itemConfig.channellink] a String of one channel link or an array of channel links for the Item
+ * @param {Map} [itemConfig.metadata] a map of metadata to set on the item
  * @param {HostItem} [itemConfig.giBaseType] the group Item base type for the Item
  * @param {HostGroupFunction} [itemConfig.groupFunction] the group function used by the Item
  * @returns {Item} an {@link items.Item} object
@@ -338,8 +337,14 @@ const createItem = function (itemConfig) {
 const addItem = function (itemConfig) {
   const item = createItem(itemConfig);
   managedItemProvider.add(item.rawItem);
-  if (typeof itemConfig.itemMetadata === 'object') {
+  if (typeof itemConfig.metadata === 'object') {
     for (const [key, value] of itemConfig.metadata) metadata.upsertValue(itemConfig.name, key, value);
+  }
+  if (typeof itemConfig.channellink === 'object') {
+    for (const i in itemConfig.channels) metadata.itemchannellink.addItemChannelLink(itemConfig.name, itemConfig.channels[i]);
+  }
+  if (typeof itemConfig.channellink === 'string') {
+    metadata.itemchannellink.addItemChannelLink(itemConfig.name, itemConfig.channellink);
   }
   return getItem(itemConfig.name);
 };
@@ -395,8 +400,8 @@ const removeItem = function (itemOrItemName) {
  * @param {String} [itemConfig.category] the category (icon) for the Item
  * @param {String[]} [itemConfig.groups] an array of groups the Item is a member of
  * @param {String[]} [itemConfig.tags] an array of tags for the Item
- * @param {String[]} [itemConfig.channels] an array of channel links for the Item
- * @param {Map} [itemConfig.metadata] a map of metadata to set on the item 
+ * @param {String|String[]} [itemConfig.channellink] a String of one channel link or an array of channel links for the Item
+ * @param {Map} [itemConfig.metadata] a map of metadata to set on the item
  * @param {HostItem} [itemConfig.giBaseType] the group Item base type for the Item
  * @param {HostGroupFunction} [itemConfig.groupFunction] the group function used by the Item
  * @returns {Item} an {@link items.Item} object
