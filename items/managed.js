@@ -276,7 +276,7 @@ const createItem = function (itemConfig) {
 
   let baseItem;
   if (itemConfig.type === 'Group' && typeof itemConfig.giBaseType !== 'undefined') {
-    baseItem = itemBuilderFactory.newItemBuilder(itemConfig.giBaseType, itemConfig.name + "_baseItem").build()
+    baseItem = itemBuilderFactory.newItemBuilder(itemConfig.giBaseType, itemConfig.name + '_baseItem').build();
   }
   if (itemConfig.type !== 'Group') {
     itemConfig.groupFunction = undefined;
@@ -326,8 +326,8 @@ const createItem = function (itemConfig) {
  * @param {String} [itemConfig.category] the category (icon) for the Item
  * @param {String[]} [itemConfig.groups] an array of groups the Item is a member of
  * @param {String[]} [itemConfig.tags] an array of tags for the Item
- * @param {String|String[]} [itemConfig.channellink] a String of one channel link or an array of channel links for the Item
- * @param {Map} [itemConfig.metadata] a map of metadata to set on the item
+ * @param {String|Object} [itemConfig.channels] for single channel link a string or for multiple an object { channeluid: configuration }; configuration is an object
+ * @param {Object} [itemConfig.metadata] either object { namespace: value } or { namespace: { value: value, config: {} } }
  * @param {HostItem} [itemConfig.giBaseType] the group Item base type for the Item
  * @param {HostGroupFunction} [itemConfig.groupFunction] the group function used by the Item
  * @returns {Item} an {@link items.Item} object
@@ -337,15 +337,29 @@ const createItem = function (itemConfig) {
 const addItem = function (itemConfig) {
   const item = createItem(itemConfig);
   managedItemProvider.add(item.rawItem);
+
   if (typeof itemConfig.metadata === 'object') {
-    for (const [key, value] of itemConfig.metadata) metadata.upsertValue(itemConfig.name, key, value);
+    const namespace = Object.keys(itemConfig.metadata);
+    for (const i in namespace) {
+      const namespaceValue = itemConfig.metadata[namespace[i]];
+      log.debug('addItem: Processing metadata namespace {}', namespace[i]);
+      if (typeof namespaceValue === 'string') { // namespace as key and it's value as value
+        metadata.upsertValue(itemConfig.name, namespace[i], namespaceValue);
+      } else if (typeof namespaceValue === 'object') { // namespace as key and { value: 'string', configuration: object } as value
+        metadata.upsertValue(itemConfig.name, namespace[i], namespaceValue.value, namespaceValue.config);
+      }
+    }
   }
-  if (typeof itemConfig.channellink === 'object') {
-    for (const i in itemConfig.channels) metadata.itemchannellink.addItemChannelLink(itemConfig.name, itemConfig.channels[i]);
+
+  if (itemConfig.type !== 'Group') {
+    if (typeof itemConfig.channels === 'string') { // single channel link with string
+      metadata.itemchannellink.upsertItemChannelLink(itemConfig.name, itemConfig.channels);
+    } else if (typeof itemConfig.channels === 'object') { // multiple/complex channel links with channel as key and config object as value
+      const channels = Object.keys(itemConfig.channels);
+      for (const i in channels) metadata.itemchannellink.upsertItemChannelLink(itemConfig.name, channels[i], itemConfig.channels[channels[i]]);
+    }
   }
-  if (typeof itemConfig.channellink === 'string') {
-    metadata.itemchannellink.addItemChannelLink(itemConfig.name, itemConfig.channellink);
-  }
+
   return getItem(itemConfig.name);
 };
 
@@ -361,7 +375,7 @@ const removeItem = function (itemOrItemName) {
 
   if (typeof itemOrItemName === 'string') {
     itemName = itemOrItemName;
-  } else if (itemOrItemName.hasOwnProperty('name')) {
+  } else if (itemOrItemName.hasOwnProperty('name')) { // eslint-disable-line no-prototype-builtins
     itemName = itemOrItemName.name;
   } else {
     log.warn('Item not registered (or supplied name is not a string) so cannot be removed');
@@ -400,8 +414,8 @@ const removeItem = function (itemOrItemName) {
  * @param {String} [itemConfig.category] the category (icon) for the Item
  * @param {String[]} [itemConfig.groups] an array of groups the Item is a member of
  * @param {String[]} [itemConfig.tags] an array of tags for the Item
- * @param {String|String[]} [itemConfig.channellink] a String of one channel link or an array of channel links for the Item
- * @param {Map} [itemConfig.metadata] a map of metadata to set on the item
+ * @param {String|Object} [itemConfig.channels] for single channel link a string or for multiple an object { channeluid: configuration }; configuration is an object
+ * @param {Object} [itemConfig.metadata] either object { namespace: value } or { namespace: { value: value, config: {} } }
  * @param {HostItem} [itemConfig.giBaseType] the group Item base type for the Item
  * @param {HostGroupFunction} [itemConfig.groupFunction] the group function used by the Item
  * @returns {Item} an {@link items.Item} object

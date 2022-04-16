@@ -26,13 +26,13 @@ const getValue = function (itemName, namespace) {
   return result ? result.value : null;
 };
 
-const addValue = function (itemName, namespace, value) {
+const addValue = function (itemName, namespace, value, config) {
   const key = new MetadataKey(namespace, itemName);
-  MetadataRegistry.add(new Metadata(key, value, {}));
+  MetadataRegistry.add(new Metadata(key, value, config));
 };
 
-const updateValue = function (itemName, namespace, value) {
-  const metadata = createMetadata(itemName, namespace, value);
+const updateValue = function (itemName, namespace, value, config) {
+  const metadata = createMetadata(itemName, namespace, value, config);
   const result = MetadataRegistry.update(metadata);
   return result ? result.value : null;
 };
@@ -44,16 +44,17 @@ const updateValue = function (itemName, namespace, value) {
  * @param {String} itemName the name of the Item
  * @param {String} namespace the name of the namespace
  * @param {String} value the value to insert or update
+ * @param {Map<String, String>} [config] configuration of namespace
  * @returns {Boolean} true if the value was added, false if it was updated
  */
-const upsertValue = function (itemName, namespace, value) {
+const upsertValue = function (itemName, namespace, value, config) {
   const existing = getValue(itemName, namespace);
 
   if (existing === null) {
-    addValue(itemName, namespace, value);
+    addValue(itemName, namespace, value, config);
     return true;
   } else {
-    updateValue(itemName, namespace, value);
+    updateValue(itemName, namespace, value, config);
     return false;
   }
 };

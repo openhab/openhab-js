@@ -299,8 +299,8 @@ Calling `addItem(itemConfig)` or `replaceItem(itemConfig)` requires the `itemCon
     * .category (icon) ⇒ <code>String</code>
     * .groups ⇒ <code>Array.&lt;String&gt;</code>
     * .tags ⇒ <code>Array.&lt;String&gt;</code>
-    * .channellink ⇒ <code>String|Array.&lt;String&gt;</code>
-    * .metadata ⇒ <code>Map</code>
+    * .channels ⇒ <code>String|Object { channeluid: { config } }</code>
+    * .metadata ⇒ <code>Object { namespace: value }|Object { namespace: { value: value , config: { config } } }</code>
     * .giBaseType ⇒ <code>String</code>
     * .groupFunction ⇒ <code>String</code>
 
@@ -308,9 +308,6 @@ Note: `.type` and `.name` are required.
 
 Example:
 ```javascript
-var metadata = new Map();
-metadata.set('expire', '10m,state=OFF');
-
 items.replaceItem({
   type: 'Switch',
   name: 'Hallway_Light',
@@ -318,8 +315,24 @@ items.replaceItem({
   category: 'light',
   groups: ['Hallway', 'Light'],
   tags: ['Lightbulb'],
-  channellink: 'binding:thing:device:hallway:light',
-  metadata: metadata
+  channels: {
+    'binding:thing:device:hallway#light': {},
+    'binding:thing:device:livingroom#light': { 
+      profile: 'system:follow' 
+    }
+  },
+  metadata: {
+    expire: '10m,command=OFF',
+    stateDescription: {
+      config: {
+        pattern: '%d%%',
+        min: 0,
+        max: 100,
+        step: 1,
+        options: '1=Red, 2=Green, 3=Blue'
+      }
+    }
+  }
 });
 ```
 
