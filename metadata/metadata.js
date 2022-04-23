@@ -6,7 +6,7 @@
  */
 
 const osgi = require('../osgi');
-const utils = require('../utils');
+// const utils = require('../utils');
 const log = require('../log')('metadata');
 
 const MetadataRegistry = osgi.getService('org.openhab.core.items.MetadataRegistry');

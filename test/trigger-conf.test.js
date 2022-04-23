@@ -1,45 +1,42 @@
+/* eslint-env mocha */
 const assert = require('assert');
-var proxyquire = require('proxyquire').noCallThru();
+const proxyquire = require('proxyquire').noCallThru();
 
 describe('Triggers', function () {
+  const createLogMock = () => {
+    const messages = [];
 
-    const createLogMock = () => {
-        let messages = [];
-    
-        return { 
-            messages, 
-            mock:function(name){
-                return {
-                    error: a => messages.push(a)
-                }
-            }
+    return {
+      messages,
+      mock: function (name) {
+        return {
+          error: a => messages.push(a)
         };
-    }
+      }
+    };
+  };
 
-    function triggersMock(lookup) {
-        return x => lookup(x);
-    }
+  function triggersMock (lookup) { // eslint-disable-line no-unused-vars
+    return x => lookup(x);
+  }
 
-    describe('Item Triggers', function () {
-        it('Should create correct item trigger', function (done) {
+  describe('Item Triggers', function () {
+    it('Should create correct item trigger', function (done) {
+      const triggerConf = proxyquire('../rules/trigger-builder', {
+        '../log': createLogMock().mock,
+        '../triggers': {
+          ItemStateChangeTrigger: (name, from, to) => {
+            assert.strictEqual(name, 'item1');
+            assert.strictEqual(from, undefined);
+            assert.strictEqual(to, 'state1');
+            done();
+          }
+        },
+        './operation-builder': {},
+        './condition-builder': {}
+      });
 
-            const trigger_conf = proxyquire('../rules/trigger-builder', {
-                '../log': createLogMock().mock,
-                '../triggers': {
-                    ItemStateChangeTrigger: (name, from, to) => {
-                        assert.strictEqual(name, 'item1');
-                        assert.strictEqual(from, undefined);
-                        assert.strictEqual(to, 'state1');
-                        done();
-                    }
-                },
-                './operation-builder': {},
-                './condition-builder': {}
-            });
-
-            new trigger_conf.ItemTriggerConfig('item1').changed().to('state1')._toOHTriggers();
-        });
-
+      new triggerConf.ItemTriggerConfig('item1').changed().to('state1')._toOHTriggers();
     });
-
+  });
 });
