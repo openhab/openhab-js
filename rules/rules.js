@@ -70,7 +70,13 @@ const getGroupsForItem = function (ruleConfig) {
     if (ruleConfig.ruleGroup) {
         var groupName = "gRules" + items.safeItemName(ruleConfig.ruleGroup);
         log.debug("Creating rule group " + ruleConfig.ruleGroup);
-        items.replaceItem(groupName, "Group", null, ["gRules"], ruleConfig.ruleGroup, [GENERATED_RULE_ITEM_TAG]);
+        items.replaceItem({
+          name: groupName,
+          type: 'Group',
+          groups: ['gRules'],
+          label: ruleConfig.ruleGroup,
+          tags: [GENERATED_RULE_ITEM_TAG]
+        });
         return [groupName];
     }
 
@@ -304,7 +310,13 @@ let SwitchableJSRule = function (ruleConfig) {
     var itemName = itemNameForRule(ruleConfig);
 
     //then add the item
-    var item = items.replaceItem(itemName, "Switch", null, getGroupsForItem(ruleConfig), ruleConfig.description, [GENERATED_RULE_ITEM_TAG]);
+    var item = items.replaceItem({
+      name: itemName,
+      type: 'Switch',
+      groups: getGroupsForItem(ruleConfig),
+      label: ruleConfig.description,
+      tags: [GENERATED_RULE_ITEM_TAG]
+    });
 
     //create the real rule
     var rule = JSRule(ruleConfig);

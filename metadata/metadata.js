@@ -1,8 +1,7 @@
 /**
  * Items' metadata namespace.
  * This namespace provides access to metadata on items.
- * 
- * @private
+ *
  * @namespace metadata
  */
 
@@ -10,67 +9,67 @@ const osgi = require('../osgi');
 const utils = require('../utils');
 const log = require('../log')('metadata');
 
-let MetadataRegistry = osgi.getService("org.openhab.core.items.MetadataRegistry");
-let Metadata = Java.type("org.openhab.core.items.Metadata");
-let MetadataKey = Java.type("org.openhab.core.items.MetadataKey");
-
+const MetadataRegistry = osgi.getService('org.openhab.core.items.MetadataRegistry');
+const Metadata = Java.type('org.openhab.core.items.Metadata');
+const MetadataKey = Java.type('org.openhab.core.items.MetadataKey');
 
 /**
- * This function will return the Metadata object associated with the
- * specified Item.
- * 
+ * This function will return the Metadata object associated with the specified Item.
+ *
  * @memberof metadata
- * @param {String} name of the Item
+ * @param {String} itemName name of the Item
  * @param {String} namespace name of the namespace
  * @returns {String|null} the metadata as a string, or null
  */
-let getValue = function(itemName, namespace) {
-    let result = MetadataRegistry.get(new MetadataKey(namespace, itemName));
-    return result ? result.value : null;
+const getValue = function (itemName, namespace) {
+  const result = MetadataRegistry.get(new MetadataKey(namespace, itemName));
+  return result ? result.value : null;
 };
 
-let addValue = function(itemName, namespace, value) {
-    let key = new MetadataKey(namespace, itemName);
-    MetadataRegistry.add(new Metadata(key, value, {}));
-}
+const addValue = function (itemName, namespace, value, config) {
+  const key = new MetadataKey(namespace, itemName);
+  MetadataRegistry.add(new Metadata(key, value, config));
+};
 
-let updateValue = function(itemName, namespace, value) {
-    let metadata = createMetadata(itemName, namespace, value);
-    let result = MetadataRegistry.update(metadata);
-    return result ? result.value : null;
-}
+const updateValue = function (itemName, namespace, value, config) {
+  const metadata = createMetadata(itemName, namespace, value, config);
+  const result = MetadataRegistry.update(metadata);
+  return result ? result.value : null;
+};
 
 /**
  * Adds (inserts) or updates a metadata value.
- * 
- * @param {String} itemName the name of the item
+ *
+ * @memberof metadata
+ * @param {String} itemName the name of the Item
  * @param {String} namespace the name of the namespace
  * @param {String} value the value to insert or update
+ * @param {Map<String, String>} [config] configuration of namespace
  * @returns {Boolean} true if the value was added, false if it was updated
  */
-let upsertValue = function(itemName, namespace, value) {
-    let existing = getValue(itemName, namespace);
+const upsertValue = function (itemName, namespace, value, config) {
+  const existing = getValue(itemName, namespace);
 
-    if (existing === null) {
-        addValue(itemName, namespace, value);
-        return true;
-    } else {
-        updateValue(itemName, namespace, value);
-        return false;
-    }
-}
+  if (existing === null) {
+    addValue(itemName, namespace, value, config);
+    return true;
+  } else {
+    updateValue(itemName, namespace, value, config);
+    return false;
+  }
+};
 
-let createMetadata = function(itemName, namespace, value) {
-    log.debug("Creating metadata {}:{} = {}", namespace, itemName, value);
-    let key = new MetadataKey(namespace, itemName);
-    return new Metadata(key, value, {});
-}
+const createMetadata = function (itemName, namespace, value) {
+  log.debug('Creating metadata {}:{} = {}', namespace, itemName, value);
+  const key = new MetadataKey(namespace, itemName);
+  return new Metadata(key, value, {});
+};
 
 module.exports = {
-    getValue,
-    addValue,
-    updateValue,
-    upsertValue,
-    createMetadata,
-    provider: require('./metadata-provider')
+  getValue,
+  addValue,
+  updateValue,
+  upsertValue,
+  provider: require('./metadata-provider'),
+  itemchannellink: require('./itemchannellink')
 };
