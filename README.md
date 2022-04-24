@@ -129,14 +129,22 @@ This tables gives an overview over the `event` object for most common trigger ty
 | `itemName`     | string                                                                                                               | all                                    | Name of Item that triggered event                                                                             | `triggeringItem.name`  |     |
 | `type`         | string                                                                                                               | all                                    | Type of event that triggered event (`"ItemStateEvent"`, `"ItemStateChangedEvent"`, `"ItemCommandEvent"`, ...) | N/A                    |     |
 
-Note that `event.itemState`, `event.oldItemState`, and `event.itemCommand` care must be taken when comparing with these values since they are java types:
+Note that in UI based rules `event.itemState`, `event.oldItemState`, and `event.itemCommand` are java types (not javascript), and care must be taken when comparing these with javascript types:
 
 ```javascript
 var { ON } = require("@runtime")
 
-event.itemState == "ON"  // WRONG. Java type does not equal with string, not even with "relaxed" equals (==) comparison
-event.itemState.toString() == "ON"  // OK. Comparing strings
-event.itemState == ON  // OK. Comparing java types
+console.log(event.itemState == "ON")  // WRONG. Java type does not equal with string, not even with "relaxed" equals (==) comparison
+console.log(event.itemState.toString() == "ON")  // OK. Comparing strings
+console.log(event.itemState == ON)  // OK. Comparing java types
+```
+
+**NOTE**: Even with `String` items, simple comparison with `==` is not working as one would expect! See below example:
+
+```javascript
+// Example assumes String item trigger
+console.log(event.itemState == "test") // WRONG. Will always log "false"
+console.log(event.itemState.toString() == "test") // OK
 ```
 
 ## Scripting Basics
