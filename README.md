@@ -55,7 +55,7 @@ By default, openHAB has fairly old JavaScript runtime (in MainUI `ECMA - 262 Edi
 
 This library is not compatible with this old runtime.
 
-Instead, this library is meant to be used with ECMAScript 2021+ rules (also known as `ECMAScript 262 Edition 11` or `application/javascript;version=ECMAScript-2021`). These rules created using files ([File Based Rules](#file-based-rules)) or MainUI ([UI Based Rules](#ui-based-rules)). 
+Instead, this library is meant to be used with ECMAScript 2021+ engine (also known as `ECMAScript 262 Edition 11`, `application/javascript;version=ECMAScript-2021` or `jsscripting` addon). Rules can be created using files ([File Based Rules](#file-based-rules)) or MainUI ([UI Based Rules](#ui-based-rules)). 
 
 By installing the openHAB [JavaScript binding](https://www.openhab.org/addons/automation/jsscripting/), a version of this library will be automatically installed and available to ECMAScript 2021+ rules by default.
 ### Custom Installation
