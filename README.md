@@ -24,11 +24,14 @@ binding](https://www.openhab.org/addons/automation/jsscripting/)
 - [UI Based Rules](#ui-based-rules)
   - [Adding Triggers](#adding-triggers)
   - [Adding Actions](#adding-actions)
+  - [Event Object](#event-object)
 - [Scripting Basics](#scripting-basics)
   - [Require](#require)
+  - [@runtime](#runtime)
   - [Console](#console)
   - [SetTimeout](#settimeout)
   - [SetInterval](#setinterval)
+  - [openHAB Timer](#openhab-timer)
   - [ScriptLoaded](#scriptloaded)
   - [ScriptUnLoaded](#scriptunloaded)
   - [Paths](#paths)
@@ -42,7 +45,7 @@ binding](https://www.openhab.org/addons/automation/jsscripting/)
 - [File Based Rules](#file-based-rules)
   - [JSRule](#jsrule)
   - [Rule Builder](#rule-builder)
-  - [Event Object](#event-object)
+  - [Event Object](#event-object-1)
 
 ## Installation
 
@@ -259,6 +262,7 @@ where `obj1 ... objN` is a list of JavaScript objects to output.
 The string representations of each of these objects are appended together in the order listed and output.
 
 see https://developer.mozilla.org/en-US/docs/Web/API/console for more information about console logging.
+
 
 ### SetTimeout
 
