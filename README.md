@@ -118,7 +118,7 @@ See [openhab-js](https://openhab.github.io/openhab-js) for a complete list of fu
 
 ### Event Object
 
-**NOTE**: Note that `event` object is different in UI based rules and File based rules! This section is only valid for UI based rules.
+**NOTE**: Note that `event` object is different in UI based rules and file based rules! This section is only valid for UI based rules. If you use file based rules, refer to [file based rules event object documentation](#event-object-1).
 
 When you use "Item event" as trigger (i.e. "[item] received a command", "[item] was updated", "[item] changed"), there is additional context available for the action in a variable called `event`.
 
@@ -885,7 +885,7 @@ rules.when().item('HallLight').receivedUpdate().then().copyState().fromItem('Bed
 
 ### Event Object
 
-**NOTE**: This section is only valid for File Based Rules. If you are using MainUI with jsscripting
+**NOTE**: Note that `event` object is different in UI based rules and file based rules! This section is only valid for file based rules. If you use UI based rules, refer to [UI based rules event object documentation](#event-object).
 
 When a rule is triggered, the script is provided the event instance that triggered it.
 The specific data depends on the event type.
