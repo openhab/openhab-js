@@ -51,7 +51,7 @@ binding](https://www.openhab.org/addons/automation/jsscripting/)
 
 ### Default Installation
 
-By default, openHAB has fairly old javascript runtime (in MainUI `ECMA - 262 Edition 5.1` or `application/javascript`). In [community forum](https://community.openhab.org) many people also call this as "Nashorn engine".
+By default, openHAB has fairly old JavaScript runtime (in MainUI `ECMA - 262 Edition 5.1` or `application/javascript`). In [community forum](https://community.openhab.org) many people also call this as "Nashorn engine".
 
 This library is not compatible with this old runtime.
 
@@ -132,14 +132,14 @@ This tables gives an overview over the `event` object for most common trigger ty
 | `itemName`     | string                                                                                                               | all                                    | Name of Item that triggered event                                                                             | `triggeringItem.name`  |     |
 | `type`         | string                                                                                                               | all                                    | Type of event that triggered event (`"ItemStateEvent"`, `"ItemStateChangedEvent"`, `"ItemCommandEvent"`, ...) | N/A                    |     |
 
-Note that in UI based rules `event.itemState`, `event.oldItemState`, and `event.itemCommand` are java types (not javascript), and care must be taken when comparing these with javascript types:
+Note that in UI based rules `event.itemState`, `event.oldItemState`, and `event.itemCommand` are Java types (not JavaScript), and care must be taken when comparing these with JavaScript types:
 
 ```javascript
 var { ON } = require("@runtime")
 
 console.log(event.itemState == "ON")  // WRONG. Java type does not equal with string, not even with "relaxed" equals (==) comparison
 console.log(event.itemState.toString() == "ON")  // OK. Comparing strings
-console.log(event.itemState == ON)  // OK. Comparing java types
+console.log(event.itemState == ON)  // OK. Comparing Java types
 ```
 
 **NOTE**: Even with `String` items, simple comparison with `==` is not working as one would expect! See below example:
