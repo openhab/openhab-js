@@ -215,7 +215,7 @@ class Item {
      * command is sent).
      * @throws error if the Item is uninitialized or a type that cannot be toggled or commanded
      */
-    toggleCommand() {
+    sendToggleCommand() {
         if(this.type == 'ContactItem'){
             throw Error('Cannot command Contact Items');
         }
@@ -227,7 +227,7 @@ class Item {
      * update is posted).
      * @throws error if the Item is uninitialized or a type that cannot be toggled
      */
-    toggleUpdate() {
+    postToggleUpdate() {
         this.postUpdate(this.#getToggleState());
     }
 
