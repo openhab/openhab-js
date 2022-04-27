@@ -94,12 +94,12 @@ const parseString = function(str) {
     }
 
     // ISO8601
-    else if(isISO8601(str)) {
+    if(isISO8601(str)) {
         throw Error('ISO 8601 strings are not yet supported');
     }
 
     // 24 hour time string
-    else if(is24Hr(str)) {
+    if(is24Hr(str)) {
         const parts = str.split(':');
         return time.ZonedDateTime.now().withHour(parts[0])
                                        .withMinute(parts[1])
@@ -108,7 +108,7 @@ const parseString = function(str) {
     }
 
     // 12 hour time string
-    else if(is12Hr(str)) {
+    if(is12Hr(str)) {
         const parts = str.split(':');
         let hr = parseInt(parts[0]);
         hr = (str.contains('p') || str.contains('P')) ? hr + 12 : hr;
@@ -118,23 +118,20 @@ const parseString = function(str) {
                                        .withNano(0);
     }
 
-    else {
+    // Java ZonedDateTime's toString format (see monkey patched parse function)
+    try {
+        return time.ZonedDateTime.parse(str);
+    }
 
-        // Java ZonedDateTime's toString format (see monkey patched parse function)
+    // Duration string
+    catch(e) {
         try {
-            return time.ZonedDateTime.parse(str);
+            return time.ZonedDateTime.now().plus(time.Duration.parse(str));
         }
 
-        // Duration string
+        // Unsupported
         catch(e) {
-            try {
-                return time.ZonedDateTime.now().plus(time.Duration.parse(str));
-            }
-
-            // Unsupported
-            catch(e) {
-                throw Error('"' + str + '" cannot be parsed into a format that can be converted to a ZonedDateTime');
-            }
+            throw Error('"' + str + '" cannot be parsed into a format that can be converted to a ZonedDateTime');
         }
     }
 
@@ -208,59 +205,59 @@ time.toZDT = function(when) {
     }
 
     // Pass through if already a time.ZonedDateTime
-    else if(when instanceof time.ZonedDateTime) {
+    if(when instanceof time.ZonedDateTime) {
         return when;
     }
 
     // Java ZDT
-    else if(when instanceof javaZDT) {
+    if(when instanceof javaZDT) {
         return javaZDTtoZDT(when);
     }
 
     // DateTimeType, extract the javaZDT and convert to time.ZDT
-    else if(when instanceof DateTimeType) {
+    if(when instanceof DateTimeType) {
         return javaZDTtoZDT(when.getZonedDateTime());
     }
 
     // JavaScript Native Date, use the SYSTEM timezone
-    else if(when instanceof Date) {
+    if(when instanceof Date) {
         const native = time.nativeJs(when);
         const instant = time.Instant.from(native);
         return time.ZonedDateTime.ofInstant(instant, time.ZoneId.SYSTEM);
     }
 
     // Duration, add to now
-    else if(when instanceof time.Duration || when instanceof javaDuration) {
+    if(when instanceof time.Duration || when instanceof javaDuration) {
         return time.ZonedDateTime.now().plus(time.Duration.parse(when.toString()));
     }
 
     // JavaScript number of bigint, add as millisecs to now
-    else if(typeof when === 'number' || typeof when === 'bigint') {
+    if(typeof when === 'number' || typeof when === 'bigint') {
         return addMillisToNow(when);
     }
 
     // QuantityType<Time>, add to now
-    else if(when instanceof QuantityType) {
+    if(when instanceof QuantityType) {
         return addQuantityType(when);
     }
 
     // Java Number of DecimalType, add as millisecs to now
-    else if(when instanceof javaNumber || when instanceof DecimalType) {
+    if(when instanceof javaNumber || when instanceof DecimalType) {
         return addMillisToNow(when.floatValue());
     }
 
     // String or StringType
-    else if(typeof when === 'string' || when instanceof javaString || when instanceof StringType) {
+    if(typeof when === 'string' || when instanceof javaString || when instanceof StringType) {
         return parseString(when.toString());
     }
 
     // GenericItem
-    else if(when instanceof ohItem) {
+    if(when instanceof ohItem) {
         return convertItem(items.getItem(when.name));
     }
 
     // items.Item
-    else if(when.constructor.name === 'Item') {
+    if(when.constructor.name === 'Item') {
         return convertItem(when);
     }
 
@@ -299,7 +296,7 @@ time.ZonedDateTime.prototype.parse = function (text, formatter = rfcFormatter) {
  * @param {*} end the ending time
  * @returns {Boolean} true if this is between start and end
  */
- time.ZonedDateTime.prototype.betweenTimes = function(start, end) {
+ time.ZonedDateTime.prototype.isBetweenTimes = function(start, end) {
     startTime = time.toZDT(start).toLocalTime();
     endTime = time.toZDT(end).toLocalTime();
     currTime = this.toLocalTime();
@@ -314,9 +311,9 @@ time.ZonedDateTime.prototype.parse = function (text, formatter = rfcFormatter) {
 } 
  
 /**
- * Tests to see if the difference betwee this and the passed in ZoneDateTime is
+ * Tests to see if the difference between this and the passed in ZoneDateTime is
  * within the passed in maxDur.
- * @param {time.ZonedDateTime} zdt the date tiem to compare to this
+ * @param {time.ZonedDateTime} zdt the date time to compare to this
  * @param {time.Duration} maxDur the duration to test that the difference between this and zdt is within
  * @returns {Boolean} true if the delta between this and zdt is within maxDur
  */
