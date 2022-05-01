@@ -51,13 +51,11 @@ binding](https://www.openhab.org/addons/automation/jsscripting/)
 
 ### Default Installation
 
-By default, openHAB has fairly old JavaScript runtime (in MainUI `ECMA - 262 Edition 5.1` or `application/javascript`). In [community forum](https://community.openhab.org) many people also call this as "Nashorn engine".
+Install the openHAB [JavaScript binding](https://www.openhab.org/addons/automation/jsscripting/), a version of this library will be automatically installed and available to ECMAScript 2021+ rules created using [File Based Rules](#file-based-rules) or [UI Based Rules](#ui-based-rules). 
 
-This library is not compatible with this old runtime.
+By default, openHAB ships with an older JavaScript runtime based on the Nashorn JavaScript engine which is part of the standard JDK.  This is referred to as `ECMA - 262 Edition 5.1` or `application/javascript` in the Main UI.
 
-Instead, this library is meant to be used with ECMAScript 2021+ engine (also known as `ECMAScript 262 Edition 11`, `application/javascript;version=ECMAScript-2021` or `jsscripting` addon). Rules can be created using files ([File Based Rules](#file-based-rules)) or MainUI ([UI Based Rules](#ui-based-rules)). 
-
-By installing the openHAB [JavaScript binding](https://www.openhab.org/addons/automation/jsscripting/), a version of this library will be automatically installed and available to ECMAScript 2021+ rules by default.
+*This library is not compatible with this older runtime.* 
 ### Custom Installation
 
 - Go to the javascript user scripts directory: `cd $OPENHAB_CONF/automation/js`
