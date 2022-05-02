@@ -480,6 +480,8 @@ openHAB internally makes extensive use of the `java.time` package.
 openHAB-JS exports the excellent [JS-Joda](#https://js-joda.github.io/js-joda/) library via the `time` namespace, which is a native JavaScript port of the same API standard used in Java for `java.time`.
 Anywhere that a native Java `ZonedDateTime` or `Duration` is required, the runtime will automatically convert a JS-Joda `ZonedDateTime` or `Duration` to its Java counterpart.
 
+The exported JS-Joda library is also extended with convenient functions relevant to openHAB usage.
+
 Examples:
 ```javascript
 var now = time.ZonedDateTime.now();
@@ -532,21 +534,21 @@ alarm.postUpdate(time.toZDT(alarm).toToday());
 #### `betweenTimes(start, end)`
 
 Tests whether this `time.ZonedDateTime` is between the passed in `start` and `end`.
-However, the function only compares the time portion of the the three, ignoring the date portion.
+However, the function only compares the time portion of the three, ignoring the date portion.
 The function takes into account times that span midnight.
 `start` and `end` can be anything supported by `time.toZDT()`.
 
 Examples:
 
 ```javascript
-time.toZDT().beteenTimes('22:00', '05:00') // currently between 11:00 pm and 5:00 am
+time.toZDT().betweenTimes('22:00', '05:00') // currently between 11:00 pm and 5:00 am
 time.toZDT().betweenTimes(items.getItem('Sunset'), '11:30 PM') // is now between sunset and 11:30 PM?
-time.toZDT(items.getItem('StartTime')).bewteenTimes(time.toZDT(), 'PT1H'); // is the state of StartTime between now and one hour from now
+time.toZDT(items.getItem('StartTime')).betweenTimes(time.toZDT(), 'PT1H'); // is the state of StartTime between now and one hour from now
 ```
 
 #### `isClose(zdt, maxDur)`
 
-Tests to see if the delta between `this` and the passed in `time.ZonedDateTime` is within the passed in `time.Duration`.
+Tests to see if the delta between the `time.ZonedDateTime` and the passed in `time.ZonedDateTime` is within the passed in `time.Duration`.
 
 ```javascript
 const timestamp = time.toZDT();
