@@ -18,7 +18,6 @@ const ohItem = Java.type('org.openhab.core.items.Item');
 /**
  * Converts the Java ZonedDateTime to a time.ZonedDateTime
  * @private
- * @memberof time
  * @param {java.time.ZonedDateTime} zdt date time to convert to a time.ZonedDateTime
  * @returns {time.ZonedDateTime}
  */
@@ -33,7 +32,6 @@ const javaZDTtoZDT = function(zdt) {
  * Adds millis to the passed in ZDT as milliseconds. The millis is rounded 
  * first. If millis is negative they will be subtracted.
  * @private
- * @memberof time
  * @param {number|bigint} millis number of milliseconds to add
  */
 const addMillisToNow = function(millis) {
@@ -43,7 +41,6 @@ const addMillisToNow = function(millis) {
 /**
  * Adds the passed in QuantityType<Time> to now.
  * @private
- * @memberof time
  * @param {QuantityType} quantityType an Item's QuantityType
  * @returns now plus the time length in the quantityType
  * @throws error when the units for the quantity type are not one of the Time units
@@ -60,7 +57,6 @@ const addQuantityType = function(quantityType) {
 /**
  * Tests the passed in string to see if it conforms to the ISO8601 standard
  * @private
- * @memberof time
  * @param {String} dtStr potential ISO8601 string
  * @returns {boolean} true if ISO8601 format
  */
@@ -72,7 +68,6 @@ const isISO8601 = (dtStr) => {
 /**
  * Tests the string to see if it matches a 24 hour clock time
  * @private
- * @memberof time
  * @param {String} dtStr potential HH:MM String
  * @returns {boolean} true if it matches HH:MM
  */
@@ -84,7 +79,6 @@ const isISO8601 = (dtStr) => {
 /**
  * Tests the string to see if it matches a 12 hour clock time
  * @private
- * @memberof time
  * @param {String} dtStr potential hh:MM aa string
  * @returns {boolean} true if it matches hh:mm aa 
  */
@@ -96,7 +90,6 @@ const is12Hr = function (dtStr) {
 /**
  * Parses the passed in string based on it's format and converted to a ZonedDateTime.
  * @private
- * @memberof time
  * @param {String} str string number to try and parse and convert
  * @throws Error when the string cannot be parsed
  */
@@ -154,7 +147,6 @@ const parseString = function(str) {
 /**
  * Converts the state of the passed in Item to a time.ZonedDateTime
  * @private
- * @memberof time
  * @param {items.Item} item 
  * @returns {time.ZonedDateTime}
  * @throws error if the Item's state is not supported or the Item itself is not supported
