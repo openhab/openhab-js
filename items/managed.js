@@ -4,7 +4,7 @@ const log = require('../log')('items');
 const metadata = require('../metadata');
 const ItemHistory = require('./item-history');
 
-const { UnDefType, events, itemRegistry } = require('@runtime');
+const { UnDefType, OnOffType, OpenClosedType, events, itemRegistry } = require('@runtime');
 
 const itemBuilderFactory = osgi.getService("org.openhab.core.items.ItemBuilderFactory");
 
@@ -178,6 +178,55 @@ class Item {
         }
 
         return false;
+    }
+   
+    /**
+     * Calculates the toggled state of this Item. For Items like Color and 
+     * Dimmer, getStateAs(OnOffType) is used and the toggle calculated off 
+     * of that.
+     * @returns the toggled state (e.g. 'OFF' if the Item is 'ON')
+     * @throws error if the Item is uninitialized or is a type that doesn't make sense to toggle
+     */
+     #getToggleState() {
+        if(this.isUninitialized) {
+            throw Error('Cannot toggle uninitialized Items');
+        }
+        switch (this.type) {
+            case 'PlayerItem' :
+                return this.state == 'PAUSE' ? 'PLAY' : 'PAUSE';
+            case 'ContactItem' :
+                return this.state == 'OPEN' ? 'CLOSED' : 'OPEN';
+            default: {
+                const oldState = this.rawItem.getStateAs(OnOffType);
+                if(oldState) {
+                    return oldState.toString() == 'ON' ? 'OFF' : 'ON';
+                }
+                else {
+                    throw Error('Toggle not supported for items of type ' + this.type);
+                }
+            }
+        }
+    }
+
+    /**
+     * Sends a command to flip the Item's state (e.g. if it is 'ON' an 'OFF' 
+     * command is sent).
+     * @throws error if the Item is uninitialized or a type that cannot be toggled or commanded
+     */
+    sendToggleCommand() {
+        if(this.type == 'ContactItem'){
+            throw Error('Cannot command Contact Items');
+        }
+        this.sendCommand(this.#getToggleState());
+    }
+
+    /**
+     * Posts an update to flip the Item's state (e.g. if it is 'ON' an 'OFF'
+     * update is posted).
+     * @throws error if the Item is uninitialized or a type that cannot be toggled
+     */
+    postToggleUpdate() {
+        this.postUpdate(this.#getToggleState());
     }
 
     /**

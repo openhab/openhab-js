@@ -403,22 +403,7 @@ class ToggleOperation extends OperationConfig {
      * @returns {OperationBuilder.SendCommandOrUpdateOperation} this
      */
     doToggle() {
-        let item = items.getItem(this.itemName);
-
-        switch (item.type) {
-            case "SwitchItem": {
-                let toSend = ('ON' == item.state) ? 'OFF' : 'ON';
-                item.sendCommand(toSend);
-                break;
-            }
-            case "ColorItem": {
-                let toSend = ('0' != item.rawState.getBrightness().toString()) ? 'OFF' : 'ON';
-                item.sendCommand(toSend);
-                break;
-            }
-            default:
-                throw Error(`Toggle not supported for items of type ${item.type}`);
-        }
+        items.getItem(this.itemName).sendToggleCommand();
     }
 }
 
