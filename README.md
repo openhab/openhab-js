@@ -31,8 +31,6 @@ binding](https://www.openhab.org/addons/automation/jsscripting/)
   - [SetTimeout](#settimeout)
   - [SetInterval](#setinterval)
   - [openHAB Timer](#openhab-timer)
-  - [ScriptLoaded](#scriptloaded)
-  - [ScriptUnLoaded](#scriptunloaded)
   - [Paths](#paths)
 - [Standard Library](#standard-library)
   - [Items](#items)
@@ -45,6 +43,8 @@ binding](https://www.openhab.org/addons/automation/jsscripting/)
   - [JSRule](#jsrule)
   - [Rule Builder](#rule-builder)
   - [Event Object](#event-object-1)
+  - [Initialization hook: scriptLoaded](#initialization-hook-scriptloaded)
+  - [Deinitialization hook: scriptUnloaded](#deinitialization-hook-scriptunloaded)
 - [Advanced Scripting](#advanced-scripting)
   - [@runtime](#runtime)
 
@@ -239,29 +239,6 @@ timer.reschedule(time.ZonedDateTime.now().plusSeconds(2)); // Logs 'Timer expire
 ```
 
 See [openHAB JavaDoc - Timer](https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/timer) for full API documentation.
-
-### ScriptLoaded
-
-For file based scripts, this function will be called if found when the script is loaded.
-
-```javascript
-scriptLoaded = function () {
-    console.log("script loaded");
-    loadedDate = Date.now();
-}
-```
-
-### ScriptUnLoaded
-
-For file based scripts, this function will be called if found when the script is unloaded.
-
-```javascript
-scriptUnloaded = function () {
-    console.log("script unloaded");
-    //clean up rouge timers
-    clearInterval(timer);
-}
-```
 
 ### Paths
 
@@ -835,7 +812,31 @@ All properties are type of String.
 
 You may use [utils.dumpObject(event)](https://openhab.github.io/openhab-js/utils.html#.dumpObject) to get all properties of an `event` object.
 
+### Initialization hook: scriptLoaded
+
+For file based scripts, this function will be called if found when the script is loaded.
+
+```javascript
+scriptLoaded = function () {
+    console.log("script loaded");
+    loadedDate = Date.now();
+}
+```
+
+### Deinitialization hook: scriptUnloaded
+
+For file based scripts, this function will be called if found when the script is unloaded.
+
+```javascript
+scriptUnloaded = function () {
+    console.log("script unloaded");
+    //clean up rouge timers
+    clearInterval(timer);
+}
+```
+
 ## Advanced Scripting
+
 ### @runtime
 
 One can access many useful utilities and types using `require("@runtime")`, e.g.
