@@ -27,7 +27,6 @@ binding](https://www.openhab.org/addons/automation/jsscripting/)
   - [Event Object](#event-object)
 - [Scripting Basics](#scripting-basics)
   - [Require](#require)
-  - [@runtime](#runtime)
   - [Console](#console)
   - [SetTimeout](#settimeout)
   - [SetInterval](#setinterval)
@@ -46,6 +45,8 @@ binding](https://www.openhab.org/addons/automation/jsscripting/)
   - [JSRule](#jsrule)
   - [Rule Builder](#rule-builder)
   - [Event Object](#event-object-1)
+- [Advanced Scripting](#advanced-scripting)
+  - [@runtime](#runtime)
 
 ## Installation
 
@@ -156,82 +157,6 @@ The openHAB JSScripting runtime attempts to provide a familiar environment to Ja
 
 Scripts may include standard NPM based libraries by using CommonJS require.
 The library search path will look in `automation/js/node_modules` in the user configuration directory.
-
-### @runtime
-
-One can access many useful utilities and types using `require("@runtime")`, e.g.
-
-```javascript
-var { ON, OFF, QuantityType } = require("@runtime")
-// Alternative, more verbose way to achieve the same:
-//
-// var runtime = require("@runtime")
-//
-// var ON = runtime.ON
-// var OFF = runtime.OFF
-// var QuantityType = runtime.QuantityType
-```
-
-| Variable                | Description                                                                                                                                           |
-| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `State`                 | [`org.openhab.core.types.State`](https://www.openhab.org/javadoc/latest/org/openhab/core/types/state)                                                 |
-| `Command`               | [`org.openhab.core.types.Command`](https://www.openhab.org/javadoc/latest/org/openhab/core/types/command)                                             |
-| `URLEncoder`            | [`java.net.URLEncoder`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/net/URLEncoder.html)                                        |
-| `File`                  | [`java.io.File`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/io/File.html)                                                      |
-| `Files`                 | [`java.nio.file.Files`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/nio/file/Files.html)                                        |
-| `Path`                  | [`java.nio.file.Path`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/nio/file/Path.html)                                          |
-| `Paths`                 | [`java.nio.file.Paths`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/nio/file/Paths.html)                                        |
-| `IncreaseDecreaseType`  | [`org.openhab.core.library.types.IncreaseDecreaseType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/increasedecreasetype)   |
-| `DECREASE`              | `IncreaseDecreaseType` enum item                                                                                                                      |
-| `INCREASE`              | `IncreaseDecreaseType` enum item                                                                                                                      |
-| `OnOffType`             | [`org.openhab.core.library.types.OnOffType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/onofftype)                         |
-| `ON`                    | `OnOffType` enum item                                                                                                                                 |
-| `OFF`                   | `OnOffType` enum item                                                                                                                                 |
-| `OpenClosedType`        | [`org.openhab.core.library.types.OpenClosedType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/openclosedtype)               |
-| `OPEN`                  | `OpenClosedType` enum item                                                                                                                            |
-| `CLOSED`                | `OpenClosedType` enum item                                                                                                                            |
-| `StopMoveType`          | [`org.openhab.core.library.types.StopMoveType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/stopmovetype)                   |
-| `STOP`                  | `StopMoveType` enum item                                                                                                                              |
-| `MOVE`                  | `StopMoveType` enum item                                                                                                                              |
-| `UpDownType`            | [`org.openhab.core.library.types.UpDownType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/updowntype)                       |
-| `UP`                    | `UpDownType` enum item                                                                                                                                |
-| `DOWN`                  | `UpDownType` enum item                                                                                                                                |
-| `UnDefType`             | [`org.openhab.core.library.types.UnDefType`](https://www.openhab.org/javadoc/latest/org/openhab/core/types/undeftype)                                 |
-| `NULL`                  | `UnDefType` enum item                                                                                                                                 |
-| `UNDEF`                 | `UnDefType` enum item                                                                                                                                 |
-| `RefreshType`           | [`org.openhab.core.library.types.RefreshType`](https://www.openhab.org/javadoc/latest/org/openhab/core/types/refreshtype)                             |
-| `REFRESH`               | `RefreshType` enum item                                                                                                                               |
-| `NextPreviousType`      | [`org.openhab.core.library.types.NextPreviusType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/nextprevioustype)            |
-| `NEXT`                  | `NextPreviousType` enum item                                                                                                                          |
-| `PREVIOUS`              | `NextPreviousType` enum item                                                                                                                          |
-| `PlayPauseType`         | [`org.openhab.core.library.types.PlayPauseType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/playpausetype)                 |
-| `PLAY`                  | `PlayPauseType` enum item                                                                                                                             |
-| `PAUSE`                 | `PlayPauseType` enum item                                                                                                                             |
-| `RewindFastforwardType` | [`org.openhab.core.library.types.RewindFastforwardType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/rewindfastforwardtype) |
-| `REWIND`                | `RewindFastforwardType` enum item                                                                                                                     |
-| `FASTFORWARD`           | `RewindFastforwardType` enum item                                                                                                                     |
-| `QuantityType`          | [`org.openhab.core.library.types.QuantityType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/quantitytype)                   |
-| `StringListType`        | [`org.openhab.core.library.types.StringListType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/stringlisttype)               |
-| `RawType`               | [`org.openhab.core.library.types.RawType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/rawtype)                             |
-| `DateTimeType`          | [`org.openhab.core.library.types.DateTimeType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/datetimetype)                   |
-| `DecimalType`           | [`org.openhab.core.library.types.DecimalType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/decimaltype)                     |
-| `HSBType`               | [`org.openhab.core.library.types.HSBType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/hsbtype)                             |
-| `PercentType`           | [`org.openhab.core.library.types.PercentType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/percenttype)                     |
-| `PointType`             | [`org.openhab.core.library.types.PointType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/pointtype)                         |
-| `StringType`            | [`org.openhab.core.library.types.StringType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/stringtype)                       |
-| `SIUnits`               | [`org.openhab.core.library.unit.SIUnits`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/unit/siunits)                               |
-| `ImperialUnits`         | [`org.openhab.core.library.unit.ImperialUnits`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/unit/imperialunits)                   |
-| `MetricPrefix`          | [`org.openhab.core.library.unit.MetricPrefix`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/unit/metricprefix)                     |
-| `Units`                 | [`org.openhab.core.library.unit.Units`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/unit/units)                                   |
-| `BinaryPrefix`          | [`org.openhab.core.library.unit.BinaryPrefix`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/unit/binaryprefix)                     |
-| `ChronoUnit`            | [`java.time.temporal.ChronoUnit`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/temporal/ChronoUnit.html)                    |
-| `Duration`              | [`java.time.Duration`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/Duration.html)                                          |
-| `ZoneId`                | [`java.time.ZoneId`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/ZoneId.html)                                              |
-| `ZonedDateTime`         | [`java.time.ZonedDateTime`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/ZonedDateTime.html)                                |
-
-`require("@runtime")` also defines "services" such as `items`, `things`, `rules`, `events`, `actions`, `ir`, `itemRegistry`.
-You can use these services for backwards compatibility purposes or ease migration from JSR223 scripts.
-Generally speaking, you should prefer to use [Standard Library](#standard-library) provided by this library instead.
 
 ### Console
 
@@ -909,3 +834,80 @@ All properties are type of String.
 `Group****Trigger`s use the equivalent `Item****Trigger` as trigger for each member.
 
 You may use [utils.dumpObject(event)](https://openhab.github.io/openhab-js/utils.html#.dumpObject) to get all properties of an `event` object.
+
+## Advanced Scripting
+### @runtime
+
+One can access many useful utilities and types using `require("@runtime")`, e.g.
+
+```javascript
+var { ON, OFF, QuantityType } = require("@runtime")
+// Alternative, more verbose way to achieve the same:
+//
+// var runtime = require("@runtime")
+//
+// var ON = runtime.ON
+// var OFF = runtime.OFF
+// var QuantityType = runtime.QuantityType
+```
+
+| Variable                | Description                                                                                                                                           |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `State`                 | [`org.openhab.core.types.State`](https://www.openhab.org/javadoc/latest/org/openhab/core/types/state)                                                 |
+| `Command`               | [`org.openhab.core.types.Command`](https://www.openhab.org/javadoc/latest/org/openhab/core/types/command)                                             |
+| `URLEncoder`            | [`java.net.URLEncoder`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/net/URLEncoder.html)                                        |
+| `File`                  | [`java.io.File`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/io/File.html)                                                      |
+| `Files`                 | [`java.nio.file.Files`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/nio/file/Files.html)                                        |
+| `Path`                  | [`java.nio.file.Path`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/nio/file/Path.html)                                          |
+| `Paths`                 | [`java.nio.file.Paths`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/nio/file/Paths.html)                                        |
+| `IncreaseDecreaseType`  | [`org.openhab.core.library.types.IncreaseDecreaseType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/increasedecreasetype)   |
+| `DECREASE`              | `IncreaseDecreaseType` enum item                                                                                                                      |
+| `INCREASE`              | `IncreaseDecreaseType` enum item                                                                                                                      |
+| `OnOffType`             | [`org.openhab.core.library.types.OnOffType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/onofftype)                         |
+| `ON`                    | `OnOffType` enum item                                                                                                                                 |
+| `OFF`                   | `OnOffType` enum item                                                                                                                                 |
+| `OpenClosedType`        | [`org.openhab.core.library.types.OpenClosedType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/openclosedtype)               |
+| `OPEN`                  | `OpenClosedType` enum item                                                                                                                            |
+| `CLOSED`                | `OpenClosedType` enum item                                                                                                                            |
+| `StopMoveType`          | [`org.openhab.core.library.types.StopMoveType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/stopmovetype)                   |
+| `STOP`                  | `StopMoveType` enum item                                                                                                                              |
+| `MOVE`                  | `StopMoveType` enum item                                                                                                                              |
+| `UpDownType`            | [`org.openhab.core.library.types.UpDownType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/updowntype)                       |
+| `UP`                    | `UpDownType` enum item                                                                                                                                |
+| `DOWN`                  | `UpDownType` enum item                                                                                                                                |
+| `UnDefType`             | [`org.openhab.core.library.types.UnDefType`](https://www.openhab.org/javadoc/latest/org/openhab/core/types/undeftype)                                 |
+| `NULL`                  | `UnDefType` enum item                                                                                                                                 |
+| `UNDEF`                 | `UnDefType` enum item                                                                                                                                 |
+| `RefreshType`           | [`org.openhab.core.library.types.RefreshType`](https://www.openhab.org/javadoc/latest/org/openhab/core/types/refreshtype)                             |
+| `REFRESH`               | `RefreshType` enum item                                                                                                                               |
+| `NextPreviousType`      | [`org.openhab.core.library.types.NextPreviusType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/nextprevioustype)            |
+| `NEXT`                  | `NextPreviousType` enum item                                                                                                                          |
+| `PREVIOUS`              | `NextPreviousType` enum item                                                                                                                          |
+| `PlayPauseType`         | [`org.openhab.core.library.types.PlayPauseType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/playpausetype)                 |
+| `PLAY`                  | `PlayPauseType` enum item                                                                                                                             |
+| `PAUSE`                 | `PlayPauseType` enum item                                                                                                                             |
+| `RewindFastforwardType` | [`org.openhab.core.library.types.RewindFastforwardType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/rewindfastforwardtype) |
+| `REWIND`                | `RewindFastforwardType` enum item                                                                                                                     |
+| `FASTFORWARD`           | `RewindFastforwardType` enum item                                                                                                                     |
+| `QuantityType`          | [`org.openhab.core.library.types.QuantityType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/quantitytype)                   |
+| `StringListType`        | [`org.openhab.core.library.types.StringListType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/stringlisttype)               |
+| `RawType`               | [`org.openhab.core.library.types.RawType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/rawtype)                             |
+| `DateTimeType`          | [`org.openhab.core.library.types.DateTimeType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/datetimetype)                   |
+| `DecimalType`           | [`org.openhab.core.library.types.DecimalType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/decimaltype)                     |
+| `HSBType`               | [`org.openhab.core.library.types.HSBType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/hsbtype)                             |
+| `PercentType`           | [`org.openhab.core.library.types.PercentType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/percenttype)                     |
+| `PointType`             | [`org.openhab.core.library.types.PointType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/pointtype)                         |
+| `StringType`            | [`org.openhab.core.library.types.StringType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/stringtype)                       |
+| `SIUnits`               | [`org.openhab.core.library.unit.SIUnits`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/unit/siunits)                               |
+| `ImperialUnits`         | [`org.openhab.core.library.unit.ImperialUnits`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/unit/imperialunits)                   |
+| `MetricPrefix`          | [`org.openhab.core.library.unit.MetricPrefix`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/unit/metricprefix)                     |
+| `Units`                 | [`org.openhab.core.library.unit.Units`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/unit/units)                                   |
+| `BinaryPrefix`          | [`org.openhab.core.library.unit.BinaryPrefix`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/unit/binaryprefix)                     |
+| `ChronoUnit`            | [`java.time.temporal.ChronoUnit`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/temporal/ChronoUnit.html)                    |
+| `Duration`              | [`java.time.Duration`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/Duration.html)                                          |
+| `ZoneId`                | [`java.time.ZoneId`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/ZoneId.html)                                              |
+| `ZonedDateTime`         | [`java.time.ZonedDateTime`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/ZonedDateTime.html)                                |
+
+`require("@runtime")` also defines "services" such as `items`, `things`, `rules`, `events`, `actions`, `ir`, `itemRegistry`.
+You can use these services for backwards compatibility purposes or ease migration from JSR223 scripts.
+Generally speaking, you should prefer to use [Standard Library](#standard-library) provided by this library instead.
