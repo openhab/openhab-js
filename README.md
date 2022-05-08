@@ -30,7 +30,6 @@ binding](https://www.openhab.org/addons/automation/jsscripting/)
   - [Console](#console)
   - [SetTimeout](#settimeout)
   - [SetInterval](#setinterval)
-  - [openHAB Timer](#openhab-timer)
   - [Paths](#paths)
 - [Standard Library](#standard-library)
   - [Items](#items)
@@ -215,30 +214,6 @@ The global `clearInterval()` method cancels a timed, repeating action which was 
 NOTE: Timers will not be canceled if a script is deleted or modified, it is up to the user to manage timers.  See using the [cache](#cache) namespace as well as [ScriptLoaded](#scriptloaded) and [ScriptUnLoaded](#scriptunloaded) for a convenient way of managing persisted objects, such as timers between reloads or deletions of scripts.
 
 See https://developer.mozilla.org/en-US/docs/Web/API/setInterval for more information about `setInterval`.
-
-openHAB does not return the integer timeoutID as standard JS does, instead it returns an instance of [openHAB Timer](#openhab-timer).
-
-#### openHAB Timer
-
-A native openHAB Timer instance has the following methods:
-* `cancel()`: Cancels the timer. ⇒ `boolean`: true, if cancellation was successful
-* `getExecutionTime()`: The scheduled execution time or null if timer was cancelled. ⇒ `time.ZonedDateTime` or `null`
-* `isActive()`: Whether the scheduled execution is yet to happen. ⇒ `boolean`
-* `isCancelled()`: Whether the timer has been cancelled. ⇒ `boolean`
-* `isRunning()`: Whether the scheduled code is currently executed. ⇒ `boolean`
-* `hasTerminated()`: Whether the scheduled execution has already terminated. ⇒ `boolean`
-* `reschedule(time.ZonedDateTime)`: Reschedules a timer to a new starting time. This can also be called after a timer has terminated, which will result in another execution of the same code. ⇒ `boolean`: true, if rescheduling was successful
-
-Examples:
-```javascript
-var timer = setTimeout(() => { console.log('Timer expired.'); }, 10000); // Would log 'Timer expired.' in 10s.
-if (timer.isActive()) console.log('Timer is waiting to execute.');
-timer.cancel();
-if (timer.isCancelled()) console.log('Timer has been cancelled.');
-timer.reschedule(time.ZonedDateTime.now().plusSeconds(2)); // Logs 'Timer expired.' in 2s.
-```
-
-See [openHAB JavaDoc - Timer](https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/timer) for full API documentation.
 
 ### Paths
 
