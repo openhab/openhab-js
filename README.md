@@ -198,8 +198,6 @@ The global `clearTimeout()` method cancels a timeout previously established by c
 
 See https://developer.mozilla.org/en-US/docs/Web/API/setTimeout for more information about `setTimeout`.
 
-openHAB does not return the integer timeoutID as standard JS does, instead it returns an instance of [openHAB Timer](#openhab-timer).
-
 ### SetInterval
 
 The setInterval() method repeatedly calls a function or executes a code snippet, with a fixed time delay between each call.
@@ -369,11 +367,11 @@ See [openhab-js : actions](https://openhab.github.io/openhab-js/actions.html) fo
 
 #### Audio Actions
 
-See [openhab-js : actions.Audio](https://openhab.github.io/openhab-js/actions.html#.Audio) for complete documentation.
+See [openhab-js : actions.Audio](https://openhab.github.io/openhab-js/actions.html#.Audio) for complete documentation
 
 #### BusEvent
 
-See [openhab-js : actions.BusEvent](https://openhab.github.io/openhab-js/actions.html#.BusEvent) for complete documentation.
+See [openhab-js : actions.BusEvent](https://openhab.github.io/openhab-js/actions.html#.BusEvent) for complete documentation
 
 #### Ephemeris Actions
 
@@ -390,7 +388,7 @@ let weekend = actions.Ephemeris.isWeekend();
 
 #### Exec Actions
 
-See [openhab-js : actions.Exec](https://openhab.github.io/openhab-js/actions.html#.Exec) for complete documentation.
+See [openhab-js : actions.Exec](https://openhab.github.io/openhab-js/actions.html#.Exec) for complete documentation
 
 Execute a command line.
 
@@ -479,7 +477,7 @@ Replace `<message>` with the notification text.
 
 The cache namespace provides a default cache that can be use to set and retrieve objects that will be persisted between reloads of scripts.
 
-See [openhab-js : cache](https://openhab.github.io/openhab-js/cache.html) for full API documentation.
+See [openhab-js : cache](https://openhab.github.io/openhab-js/cache.html) for full API documentation
 
 * cache : <code>object</code>
     * .get(key, defaultSupplier) ⇒ <code>Object | null</code>
@@ -522,27 +520,16 @@ openHAB internally makes extensive use of the `java.time` package.
 openHAB-JS exports the excellent [JS-Joda](#https://js-joda.github.io/js-joda/) library via the `time` namespace, which is a native Javascript port of the same API standard used in Java for `java.time`.
 Anywhere that a native Java `ZonedDateTime` or `Duration` is required, the runtime will automatically convert a JS-Joda `ZonedDateTime` or `Duration` to its Java counterpart.
 
-#### openHAB-JS extensions to JS-Joda
-The  exported [JS-Joda](#https://js-joda.github.io/js-joda/) library is also extended with convenient functions relevant to openHAB usage. 
-
-* `ZonedDateTime`
-  * `millisFromNow()` ⇒ `number`: Milliseconds from now until the `time.ZonedDateTime` representation.
-
 Examples:
 ```javascript
 var now = time.ZonedDateTime.now();
 var yesterday = time.ZonedDateTime.now().minusHours(24);
-var millis = now.plusSeconds(5).millisFromNow();
-
 var item = items.getItem("Kitchen");
 console.log("averageSince", item.history.averageSince(yesterday));
-console.log("5 seconds in the future is " + millis + " milliseconds.");
 ```
-
 ```javascript
 actions.Exec.executeCommandLine(time.Duration.ofSeconds(20), 'echo', 'Hello World!');
 ```
-
 See [JS-Joda](https://js-joda.github.io/js-joda/) for more examples and complete API usage.
 
 ### Utils
