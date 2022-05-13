@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>metadata - Documentation</title>
+    <title>time - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -34,7 +34,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">metadata</h1>
+    <h1 class="page-title">time</h1>
     
 
     
@@ -47,7 +47,7 @@
 <header>
     
         <h2>
-        metadata
+        time
         </h2>
         
     
@@ -64,7 +64,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="metadata_metadata.js.html">metadata/metadata.js</a>, <a href="metadata_metadata.js.html#line1">line 1</a>
+        <a href="time.js.html">time.js</a>, <a href="time.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -103,8 +103,8 @@
 
 
             
-                <div class="description usertext"><p>Items' metadata namespace.
-This namespace provides access to metadata on items.</p></div>
+                <div class="description usertext"><p>Time namespace.
+This namespace exports the <a href="https://js-joda.github.io/js-joda/">JS-Joda library</a>, but also provides additional functionality.</p></div>
             
 
             
@@ -134,7 +134,7 @@ This namespace provides access to metadata on items.</p></div>
 
     
 
-    <h4 class="name" id=".upsertItemChannelLink"><span class="type-signature">(static) </span>upsertItemChannelLink<span class="signature">(itemName, channel, conf<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".toZDT"><span class="type-signature">(static) </span>toZDT<span class="signature">(when)</span><span class="type-signature"></span></h4>
 
     
 
@@ -146,7 +146,7 @@ This namespace provides access to metadata on items.</p></div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="metadata_itemchannellink.js.html">metadata/itemchannellink.js</a>, <a href="metadata_itemchannellink.js.html#line86">line 86</a>
+        <a href="time.js.html">time.js</a>, <a href="time.js.html#line209">line 209</a>
     </li></ul></dd>
     
 
@@ -186,227 +186,26 @@ This namespace provides access to metadata on items.</p></div>
 
 
 <div class="description usertext">
-    <p>Adds (inserts) or updates an Item channel link.</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>itemName</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>the name of the Item</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>channel</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>channelUID as string</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>conf</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Map:<a href="items.Item.html"></a>.&lt;String:<a href="items.Item.html"></a>, String:<a href="items.Item.html"></a>></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>Map of channel configuration</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>true if the channel link was added, false if it was updated</p>
-</div>
-
-
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".removeItemChannelLink"><span class="type-signature">(static) </span>removeItemChannelLink<span class="signature">(itemName, channel)</span><span class="type-signature"> &rarr; {ItemChannelLink}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="metadata_itemchannellink.js.html">metadata/itemchannellink.js</a>, <a href="metadata_itemchannellink.js.html#line105">line 105</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
-    <p>Removes an ItemChannelLink from the provider. Therefore, the channel link is removed from the Item.</p>
+    <p>Converts the passed in when to a time.ZonedDateTime based on the following
+set of rules.</p>
+<ul>
+<li>null, undefined: time.ZonedDateTime.now()</li>
+<li>time.ZonedDateTime: unmodified</li>
+<li>Java ZonedDateTime, DateTimeType: converted to time.ZonedDateTime equivalnet</li>
+<li>JavaScript native Date: converted to a time.ZonedDateTime using SYSTEM as the timezone</li>
+<li>number, bigint, Java Number, DecimalType: rounded and added to time.ZonedDateTime.now() as milliseconds</li>
+<li>QuantityType: if the units are Time, added to now</li>
+<li>Item: converts the state of the Item based on the *Type rules described here</li>
+<li>String, Java String, StringType: Parsed based on the following rules
+<ul>
+<li>ISO 8601: Not yet implemented</li>
+<li>RFC (output from a Java ZonedDateTime.toString()): parsed to time.ZonedDateTime</li>
+<li>HH:mm[:ss] (i.e. 24 hour time): that time with today's date (seconds are optional)</li>
+<li>KK:mm[:ss][ ][aa] (i.e. 12 hour time): that time with today's date (seconds and space between time and am/pm are optional)</li>
+<li>Duration: any duration string supported by time.Duration (e.g. 'PT5H4M3.210S'), see https://js-joda.github.io/js-joda/class/packages/core/src/Duration.js~Duration.html#static-method-parse</li>
+</ul>
+</li>
+</ul>
 </div>
 
 
@@ -444,13 +243,13 @@ This namespace provides access to metadata on items.</p></div>
 
         <tr>
             
-                <td class="name"><code>itemName</code></td>
+                <td class="name"><code>when</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type">*</span>
 
 
             
@@ -460,30 +259,7 @@ This namespace provides access to metadata on items.</p></div>
 
             
 
-            <td class="description last"><p>the name of the Item</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>channel</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>channelUID as string</p></td>
+            <td class="description last"><p>any of the types discussed above</p></td>
         </tr>
 
     
@@ -503,475 +279,28 @@ This namespace provides access to metadata on items.</p></div>
 
 
 
+<h5>Throws:</h5>
+
+        
+
+    <div class="param-desc usertext">
+    
+        <p>error if the type, format, or contents of when are not supported</p>
+    
+    </div>
+
+
+    
 
 
 <h5>Returns:</h5>
 
         
 <div class="param-desc">
-    <p>the removed ItemChannelLink</p>
+    <p>time.ZonedDateTime</p>
 </div>
 
 
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">ItemChannelLink</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".getValue"><span class="type-signature">(static) </span>getValue<span class="signature">(itemName, namespace)</span><span class="type-signature"> &rarr; {String|null}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="metadata_metadata.js.html">metadata/metadata.js</a>, <a href="metadata_metadata.js.html#line24">line 24</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
-    <p>This function will return the Metadata object associated with the specified Item.</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>itemName</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>name of the Item</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>namespace</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>name of the namespace</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>the metadata as a string, or null</p>
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">String</span>
-|
-
-<span class="param-type">null</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".upsertValue"><span class="type-signature">(static) </span>upsertValue<span class="signature">(itemName, namespace, value, config<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="metadata_metadata.js.html">metadata/metadata.js</a>, <a href="metadata_metadata.js.html#line50">line 50</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
-    <p>Adds (inserts) or updates a metadata value.</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>itemName</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>the name of the Item</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>namespace</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>the name of the namespace</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>value</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>the value to insert or update</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>config</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Map:<a href="items.Item.html"></a>.&lt;String:<a href="items.Item.html"></a>, String:<a href="items.Item.html"></a>></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>configuration of namespace</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>true if the value was added, false if it was updated</p>
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Boolean</span>
-
-
-    </dd>
-</dl>
 
     
 
