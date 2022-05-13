@@ -24,12 +24,11 @@ binding](https://www.openhab.org/addons/automation/jsscripting/)
 - [UI Based Rules](#ui-based-rules)
   - [Adding Triggers](#adding-triggers)
   - [Adding Actions](#adding-actions)
+  - [Event Object](#event-object)
 - [Scripting Basics](#scripting-basics)
   - [Require](#require)
   - [Console](#console)
   - [Timers](#timers)
-  - [ScriptLoaded](#scriptloaded)
-  - [ScriptUnLoaded](#scriptunloaded)
   - [Paths](#paths)
 - [Standard Library](#standard-library)
   - [Items](#items)
@@ -41,15 +40,21 @@ binding](https://www.openhab.org/addons/automation/jsscripting/)
 - [File Based Rules](#file-based-rules)
   - [JSRule](#jsrule)
   - [Rule Builder](#rule-builder)
-  - [Event Object](#event-object)
+  - [Event Object](#event-object-1)
+  - [Initialization hook: scriptLoaded](#initialization-hook-scriptloaded)
+  - [Deinitialization hook: scriptUnloaded](#deinitialization-hook-scriptunloaded)
+- [Advanced Scripting](#advanced-scripting)
+  - [@runtime](#runtime)
 
 ## Installation
 
 ### Default Installation
 
-- Install the openHAB [JavaScript binding](https://www.openhab.org/addons/automation/jsscripting/), a version of this
-library will be automatically installed and available to all javascript rules by default.
+Install the openHAB [JavaScript binding](https://www.openhab.org/addons/automation/jsscripting/), a version of this library will be automatically installed and available to ECMAScript 2021+ rules created using [File Based Rules](#file-based-rules) or [UI Based Rules](#ui-based-rules). 
 
+By default, openHAB ships with an older JavaScript runtime based on the Nashorn JavaScript engine which is part of the standard JDK.  This is referred to as `ECMA - 262 Edition 5.1` or `application/javascript` in the Main UI.
+
+*This library is not compatible with this older runtime.* 
 ### Custom Installation
 
 - Go to the javascript user scripts directory: `cd $OPENHAB_CONF/automation/js`
@@ -108,6 +113,40 @@ console.log("Thing status",thingStatusInfo.getStatus());
 
 See [openhab-js](https://openhab.github.io/openhab-js) for a complete list of functionality
 
+### Event Object
+
+**NOTE**: Note that `event` object is different in UI based rules and file based rules! This section is only valid for UI based rules. If you use file based rules, refer to [file based rules event object documentation](#event-object-1).
+
+When you use "Item event" as trigger (i.e. "[item] received a command", "[item] was updated", "[item] changed"), there is additional context available for the action in a variable called `event`.
+
+This tables gives an overview over the `event` object for most common trigger types:
+
+| Property Name  | Type                                                                                                                 | Trigger Types                          | Description                                                                                                   |                        |
+| -------------- | -------------------------------------------------------------------------------------------------------------------- | -------------------------------------- | ------------------------------------------------------------------------------------------------------------- | ---------------------- |
+| `itemState`    | sub-class of [org.openhab.core.types.State](https://www.openhab.org/javadoc/latest/org/openhab/core/types/state)     | `[item] changed`, `[item] was updated` | State that triggered event                                                                                    | `triggeringItem.state` |
+| `oldItemState` | sub-class of [org.openhab.core.types.State](https://www.openhab.org/javadoc/latest/org/openhab/core/types/state)     | `[item] changed`                       | Previous state of Item or Group that triggered event                                                          | `previousState`        |
+| `itemCommand`  | sub-class of [org.openhab.core.types.Command](https://www.openhab.org/javadoc/latest/org/openhab/core/types/command) | `[item] received a command`            | Command that triggered event                                                                                  | `receivedCommand`      |
+| `itemName`     | string                                                                                                               | all                                    | Name of Item that triggered event                                                                             | `triggeringItem.name`  |
+| `type`         | string                                                                                                               | all                                    | Type of event that triggered event (`"ItemStateEvent"`, `"ItemStateChangedEvent"`, `"ItemCommandEvent"`, ...) | N/A                    |
+
+Note that in UI based rules `event.itemState`, `event.oldItemState`, and `event.itemCommand` are Java types (not JavaScript), and care must be taken when comparing these with JavaScript types:
+
+```javascript
+var { ON } = require("@runtime")
+
+console.log(event.itemState == "ON")  // WRONG. Java type does not equal with string, not even with "relaxed" equals (==) comparison
+console.log(event.itemState.toString() == "ON")  // OK. Comparing strings
+console.log(event.itemState == ON)  // OK. Comparing Java types
+```
+
+**NOTE**: Even with `String` items, simple comparison with `==` is not working as one would expect! See below example:
+
+```javascript
+// Example assumes String item trigger
+console.log(event.itemState == "test") // WRONG. Will always log "false"
+console.log(event.itemState.toString() == "test") // OK
+```
+
 ## Scripting Basics
 
 The openHAB JSScripting runtime attempts to provide a familiar environment to Javascript developers.
@@ -143,7 +182,7 @@ Supported logging functions include:
 where `obj1 ... objN` is a list of JavaScript objects to output.
 The string representations of each of these objects are appended together in the order listed and output.
 
-see https://developer.mozilla.org/en-US/docs/Web/API/console for more information about console logging.
+See https://developer.mozilla.org/en-US/docs/Web/API/console for more information about console logging.
 
 ### Timers
 
@@ -159,7 +198,7 @@ The global `clearTimeout()` method cancels a timeout previously established by c
 
 See https://developer.mozilla.org/en-US/docs/Web/API/setTimeout for more information about setTimeout.
 
-openHAB does not return the integer timeoutID as standard JS does, instead it returns an instance of [openHAB Timer](#openhab-timer).
+ openHAB does not return the integer timeoutID as standard JS does, instead it returns an instance of [openHAB Timer](#openhab-timer).
 
 #### SetInterval
 
@@ -199,29 +238,6 @@ timer.reschedule(time.ZonedDateTime.now().plusSeconds(2)); // Logs 'Timer expire
 ```
 
 See [openHAB JavaDoc - Timer](https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/timer) for full API documentation.
-
-### ScriptLoaded
-
-For file based scripts, this function will be called if found when the script is loaded.
-
-```javascript
-scriptLoaded = function () {
-    console.log("script loaded");
-    loadedDate = Date.now();
-}
-```
-
-### ScriptUnLoaded
-
-For file based scripts, this function will be called if found when the script is unloaded.
-
-```javascript
-scriptUnloaded = function () {
-    console.log("script unloaded");
-    //clean up rouge timers
-    clearInterval(timer);
-}
-```
 
 ### Paths
 
@@ -385,7 +401,7 @@ See [openhab-js : actions.BusEvent](https://openhab.github.io/openhab-js/actions
 
 #### Ephemeris Actions
 
-See [openhab-js : actions.Ephemeris](https://openhab.github.io/openhab-js/actions.html#.Ephemeris) for complete documentation
+See [openhab-js : actions.Ephemeris](https://openhab.github.io/openhab-js/actions.html#.Ephemeris) for complete documentation.
 
 Ephemeris is a way to determine what type of day today or a number of days before or after today is. For example, a way to determine if today is a weekend, a bank holiday, someone’s birthday, trash day, etc.
 
@@ -420,7 +436,7 @@ response = actions.Exec.executeCommandLine(Duration.ofSeconds(20), 'echo', 'Hell
 
 #### HTTP Actions
 
-See [openhab-js : actions.HTTP](https://openhab.github.io/openhab-js/actions.html#.HTTP) for complete documentation
+See [openhab-js : actions.HTTP](https://openhab.github.io/openhab-js/actions.html#.HTTP) for complete documentation.
 
 ```javascript
 // Example GET Request
@@ -431,7 +447,7 @@ Replace `<url>` with the request url.
 
 #### ScriptExecution Actions
 
-See [openhab-js : actions.ScriptExecution](https://openhab.github.io/openhab-js/actions.html#.ScriptExecution) for complete documentation
+See [openhab-js : actions.ScriptExecution](https://openhab.github.io/openhab-js/actions.html#.ScriptExecution) for complete documentation.
 
 
 ```javascript
@@ -456,15 +472,15 @@ this.myTimer.reschedule(now.plusSeconds(5));
 ```
 #### Semantics Actions
 
-See [openhab-js : actions.Semantics](https://openhab.github.io/openhab-js/actions.html#.Semantics) for complete documentation
+See [openhab-js : actions.Semantics](https://openhab.github.io/openhab-js/actions.html#.Semantics) for complete documentation.
 
 #### Things Actions
 
-See [openhab-js : actions.Things](https://openhab.github.io/openhab-js/actions.html#.Things) for complete documentation
+See [openhab-js : actions.Things](https://openhab.github.io/openhab-js/actions.html#.Things) for complete documentation.
 
 #### Voice Actions
 
-See [openhab-js : actions.Voice](https://openhab.github.io/openhab-js/actions.html#.Voice) for complete documentation
+See [openhab-js : actions.Voice](https://openhab.github.io/openhab-js/actions.html#.Voice) for complete documentation.
 
 #### Cloud Notification Actions
 
@@ -495,7 +511,7 @@ See [openhab-js : cache](https://openhab.github.io/openhab-js/cache.html) for fu
     * .remove(key) ⇒ <code>Previous Object | null</code>
     * .exists(key) ⇒ <code>boolean</code>
 
-The `defaultSupplier` provided function will return a default value if a specified key is not already associated with a value
+The `defaultSupplier` provided function will return a default value if a specified key is not already associated with a value.
 
 **Example** *(Get a previously set value with a default value (times &#x3D; 0))*
 ```js
@@ -527,31 +543,90 @@ logger.debug("Hello {}!", "world");
 ### Time
 
 openHAB internally makes extensive use of the `java.time` package.
-openHAB-JS exports the excellent [JS-Joda](#https://js-joda.github.io/js-joda/) library via the `time` namespace, which is a native Javascript port of the same API standard used in Java for `java.time`.
+openHAB-JS exports the excellent [JS-Joda](#https://js-joda.github.io/js-joda/) library via the `time` namespace, which is a native JavaScript port of the same API standard used in Java for `java.time`.
 Anywhere that a native Java `ZonedDateTime` or `Duration` is required, the runtime will automatically convert a JS-Joda `ZonedDateTime` or `Duration` to its Java counterpart.
 
-#### openHAB-JS extensions to JS-Joda
-The  exported [JS-Joda](#https://js-joda.github.io/js-joda/) library is also extended with convenient functions relevant to openHAB usage. 
-
-* `ZonedDateTime`
-  * `millisFromNow()` ⇒ `number`: Milliseconds from now until the `time.ZonedDateTime` representation.
+The exported JS-Joda library is also extended with convenient functions relevant to openHAB usage.
 
 Examples:
 ```javascript
 var now = time.ZonedDateTime.now();
 var yesterday = time.ZonedDateTime.now().minusHours(24);
-var millis = now.plusSeconds(5).millisFromNow();
-
 var item = items.getItem("Kitchen");
 console.log("averageSince", item.history.averageSince(yesterday));
-console.log("5 seconds in the future is " + millis + " milliseconds.");
 ```
-
 ```javascript
 actions.Exec.executeCommandLine(time.Duration.ofSeconds(20), 'echo', 'Hello World!');
 ```
-
 See [JS-Joda](https://js-joda.github.io/js-joda/) for more examples and complete API usage.
+
+#### `time.toZDT()`
+
+There will be times where this automatic conversion is not available (for example when working with date times within a rule).
+To ease having to deal with these cases a `time.toZDT()` function will accept almost any type that can be converted to a `time.ZonedDateTime`.
+The following rules are used during the conversion:
+
+| Argument Type                                              | Rule                                                                                                                                                                                                   | Examples                                                        |
+|------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------|
+| `null` or `undefined`                                      | `time.ZonedDateTime.now()`                                                                                                                                                                             | `time.toZDT();`                                                 |
+| `time.ZonedDateTime`                                       | passed through unmodified                                                                                                                                                                              |                                                                 |
+| `java.time.ZonedDateTime`                                  | converted to the `time.ZonedDateTime` equivalent                                                                                                                                                       |                                                                 |
+| JavaScript native `Date`                                   | converted to the equivalent `time.ZonedDateTime` using `SYSTEM` as the timezone                                                                                                                        |                                                                 |
+| `number`, `bingint`, `java.lang.Number`, `DecimalType`     | rounded to the nearest integer and added to `now` as milliseconds                                                                                                                                      | `time.toZDT(1000);`                                             |
+| `QuantityType`                                             | if the units are `Time`, that time is added to `now`                                                                                                                                                   | `time.toZDT(item.getItem('MyTimeItem').rawState);`              |
+| `items.Item` or `org.openhab.core.types.Item`              | if the state is supported (see the `Type` rules in this table, e.g. `DecimalType`), the state is converted                                                                                             | `time.toZDT(items.getItem('MyItem'));`                          |
+| `String`, `java.lang.String`, `StringType`                 | parsed based on the following rules                                                                                                                                                                    |                                                                 |
+| RFC String (output from a Java `ZonedDateTime.toString()`) | parsed                                                                                                                                                                                                 | `time.toZDT(new DateTimeType().getZonedDateTime().toString());` |
+| `"HH:MM[:ss]"` (24 hour time)                              | today's date with the time indicated, seconds is optional                                                                                                                                              | `time.toZDT('13:45:12');`                                       |
+| `"kk:mm[:ss][ ]a"` (12 hour time)                          | today's date with the time indicated, the space between the time and am/pm and seconds are optional                                                                                                    | `time.toZDT('1:23:45 PM');`                                     |
+| Duration String                                            | any duration string supported by `time.Duration` added to `now()`, see [the docs](https://js-joda.github.io/js-joda/class/packages/core/src/Duration.js~Duration.html#static-method-parse) for details | `time.toZDT('PT1H4M6.789S');`                                   |
+
+
+When a type or string that cannot be handled is encountered, an error is thrown.
+
+#### `toToday()`
+
+When you have a `time.ZonedDateTime`, a new `toToday()` method was added which will return a new `time.ZonedDateTime` with today's date but the original's time, accounting for DST changes.
+For example, if the time was 13:45 and today was a DST changeover, the time will still be 13:45 instead of one hour off.
+
+```javascript
+const alarm = items.getItem('Alarm');
+alarm.postUpdate(time.toZDT(alarm).toToday());
+```
+
+#### `betweenTimes(start, end)`
+
+Tests whether this `time.ZonedDateTime` is between the passed in `start` and `end`.
+However, the function only compares the time portion of the three, ignoring the date portion.
+The function takes into account times that span midnight.
+`start` and `end` can be anything supported by `time.toZDT()`.
+
+Examples:
+
+```javascript
+time.toZDT().betweenTimes('22:00', '05:00') // currently between 11:00 pm and 5:00 am
+time.toZDT().betweenTimes(items.getItem('Sunset'), '11:30 PM') // is now between sunset and 11:30 PM?
+time.toZDT(items.getItem('StartTime')).betweenTimes(time.toZDT(), 'PT1H'); // is the state of StartTime between now and one hour from now
+```
+
+#### `isClose(zdt, maxDur)`
+
+Tests to see if the delta between the `time.ZonedDateTime` and the passed in `time.ZonedDateTime` is within the passed in `time.Duration`.
+
+```javascript
+const timestamp = time.toZDT();
+// do some stuff
+if(timestamp.isClose(time.toZDT(), time.Duration.ofMillis(100))) { // did "do some stuff" take longer than 100 msecs to run?
+```
+
+#### `getMillisFromNow`
+
+This method on `time.ZonedDateTime` returns the milliseconds from now to the `time.ZonedDateTime`.
+
+```javascript
+const timestamp = time.ZonedDateTime.now().plusMinutes(5);
+console.log(timestamp.getMillisFromNow());
+```
 
 ### Utils
 
@@ -767,6 +842,9 @@ rules.when().item('HallLight').receivedUpdate().then().copyState().fromItem('Bed
 ```
 
 ### Event Object
+
+**NOTE**: Note that `event` object is different in UI based rules and file based rules! This section is only valid for file based rules. If you use UI based rules, refer to [UI based rules event object documentation](#event-object).
+
 When a rule is triggered, the script is provided the event instance that triggered it.
 The specific data depends on the event type.
 The `event` object provides several information about that trigger.
@@ -791,3 +869,104 @@ All properties are type of String.
 `Group****Trigger`s use the equivalent `Item****Trigger` as trigger for each member.
 
 You may use [utils.dumpObject(event)](https://openhab.github.io/openhab-js/utils.html#.dumpObject) to get all properties of an `event` object.
+
+### Initialization hook: scriptLoaded
+
+For file based scripts, this function will be called if found when the script is loaded.
+
+```javascript
+scriptLoaded = function () {
+    console.log("script loaded");
+    loadedDate = Date.now();
+}
+```
+
+### Deinitialization hook: scriptUnloaded
+
+For file based scripts, this function will be called if found when the script is unloaded.
+
+```javascript
+scriptUnloaded = function () {
+    console.log("script unloaded");
+    //clean up rouge timers
+    clearInterval(timer);
+}
+```
+
+## Advanced Scripting
+
+### @runtime
+
+One can access many useful utilities and types using `require("@runtime")`, e.g.
+
+```javascript
+var { ON, OFF, QuantityType } = require("@runtime")
+// Alternative, more verbose way to achieve the same:
+//
+// var runtime = require("@runtime")
+//
+// var ON = runtime.ON
+// var OFF = runtime.OFF
+// var QuantityType = runtime.QuantityType
+```
+
+| Variable                | Description                                                                                                                                           |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `State`                 | [`org.openhab.core.types.State`](https://www.openhab.org/javadoc/latest/org/openhab/core/types/state)                                                 |
+| `Command`               | [`org.openhab.core.types.Command`](https://www.openhab.org/javadoc/latest/org/openhab/core/types/command)                                             |
+| `URLEncoder`            | [`java.net.URLEncoder`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/net/URLEncoder.html)                                        |
+| `File`                  | [`java.io.File`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/io/File.html)                                                      |
+| `Files`                 | [`java.nio.file.Files`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/nio/file/Files.html)                                        |
+| `Path`                  | [`java.nio.file.Path`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/nio/file/Path.html)                                          |
+| `Paths`                 | [`java.nio.file.Paths`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/nio/file/Paths.html)                                        |
+| `IncreaseDecreaseType`  | [`org.openhab.core.library.types.IncreaseDecreaseType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/increasedecreasetype)   |
+| `DECREASE`              | `IncreaseDecreaseType` enum item                                                                                                                      |
+| `INCREASE`              | `IncreaseDecreaseType` enum item                                                                                                                      |
+| `OnOffType`             | [`org.openhab.core.library.types.OnOffType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/onofftype)                         |
+| `ON`                    | `OnOffType` enum item                                                                                                                                 |
+| `OFF`                   | `OnOffType` enum item                                                                                                                                 |
+| `OpenClosedType`        | [`org.openhab.core.library.types.OpenClosedType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/openclosedtype)               |
+| `OPEN`                  | `OpenClosedType` enum item                                                                                                                            |
+| `CLOSED`                | `OpenClosedType` enum item                                                                                                                            |
+| `StopMoveType`          | [`org.openhab.core.library.types.StopMoveType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/stopmovetype)                   |
+| `STOP`                  | `StopMoveType` enum item                                                                                                                              |
+| `MOVE`                  | `StopMoveType` enum item                                                                                                                              |
+| `UpDownType`            | [`org.openhab.core.library.types.UpDownType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/updowntype)                       |
+| `UP`                    | `UpDownType` enum item                                                                                                                                |
+| `DOWN`                  | `UpDownType` enum item                                                                                                                                |
+| `UnDefType`             | [`org.openhab.core.library.types.UnDefType`](https://www.openhab.org/javadoc/latest/org/openhab/core/types/undeftype)                                 |
+| `NULL`                  | `UnDefType` enum item                                                                                                                                 |
+| `UNDEF`                 | `UnDefType` enum item                                                                                                                                 |
+| `RefreshType`           | [`org.openhab.core.library.types.RefreshType`](https://www.openhab.org/javadoc/latest/org/openhab/core/types/refreshtype)                             |
+| `REFRESH`               | `RefreshType` enum item                                                                                                                               |
+| `NextPreviousType`      | [`org.openhab.core.library.types.NextPreviusType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/nextprevioustype)            |
+| `NEXT`                  | `NextPreviousType` enum item                                                                                                                          |
+| `PREVIOUS`              | `NextPreviousType` enum item                                                                                                                          |
+| `PlayPauseType`         | [`org.openhab.core.library.types.PlayPauseType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/playpausetype)                 |
+| `PLAY`                  | `PlayPauseType` enum item                                                                                                                             |
+| `PAUSE`                 | `PlayPauseType` enum item                                                                                                                             |
+| `RewindFastforwardType` | [`org.openhab.core.library.types.RewindFastforwardType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/rewindfastforwardtype) |
+| `REWIND`                | `RewindFastforwardType` enum item                                                                                                                     |
+| `FASTFORWARD`           | `RewindFastforwardType` enum item                                                                                                                     |
+| `QuantityType`          | [`org.openhab.core.library.types.QuantityType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/quantitytype)                   |
+| `StringListType`        | [`org.openhab.core.library.types.StringListType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/stringlisttype)               |
+| `RawType`               | [`org.openhab.core.library.types.RawType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/rawtype)                             |
+| `DateTimeType`          | [`org.openhab.core.library.types.DateTimeType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/datetimetype)                   |
+| `DecimalType`           | [`org.openhab.core.library.types.DecimalType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/decimaltype)                     |
+| `HSBType`               | [`org.openhab.core.library.types.HSBType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/hsbtype)                             |
+| `PercentType`           | [`org.openhab.core.library.types.PercentType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/percenttype)                     |
+| `PointType`             | [`org.openhab.core.library.types.PointType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/pointtype)                         |
+| `StringType`            | [`org.openhab.core.library.types.StringType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/stringtype)                       |
+| `SIUnits`               | [`org.openhab.core.library.unit.SIUnits`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/unit/siunits)                               |
+| `ImperialUnits`         | [`org.openhab.core.library.unit.ImperialUnits`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/unit/imperialunits)                   |
+| `MetricPrefix`          | [`org.openhab.core.library.unit.MetricPrefix`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/unit/metricprefix)                     |
+| `Units`                 | [`org.openhab.core.library.unit.Units`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/unit/units)                                   |
+| `BinaryPrefix`          | [`org.openhab.core.library.unit.BinaryPrefix`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/unit/binaryprefix)                     |
+| `ChronoUnit`            | [`java.time.temporal.ChronoUnit`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/temporal/ChronoUnit.html)                    |
+| `Duration`              | [`java.time.Duration`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/Duration.html)                                          |
+| `ZoneId`                | [`java.time.ZoneId`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/ZoneId.html)                                              |
+| `ZonedDateTime`         | [`java.time.ZonedDateTime`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/ZonedDateTime.html)                                |
+
+`require("@runtime")` also defines "services" such as `items`, `things`, `rules`, `events`, `actions`, `ir`, `itemRegistry`.
+You can use these services for backwards compatibility purposes or ease migration from JSR223 scripts.
+Generally speaking, you should prefer to use [Standard Library](#standard-library) provided by this library instead.
