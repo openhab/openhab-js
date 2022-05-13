@@ -24,13 +24,12 @@ binding](https://www.openhab.org/addons/automation/jsscripting/)
 - [UI Based Rules](#ui-based-rules)
   - [Adding Triggers](#adding-triggers)
   - [Adding Actions](#adding-actions)
+  - [Event Object](#event-object)
 - [Scripting Basics](#scripting-basics)
   - [Require](#require)
   - [Console](#console)
   - [SetTimeout](#settimeout)
   - [SetInterval](#setinterval)
-  - [ScriptLoaded](#scriptloaded)
-  - [ScriptUnLoaded](#scriptunloaded)
   - [Paths](#paths)
 - [Standard Library](#standard-library)
   - [Items](#items)
@@ -42,15 +41,21 @@ binding](https://www.openhab.org/addons/automation/jsscripting/)
 - [File Based Rules](#file-based-rules)
   - [JSRule](#jsrule)
   - [Rule Builder](#rule-builder)
-  - [Event Object](#event-object)
+  - [Event Object](#event-object-1)
+  - [Initialization hook: scriptLoaded](#initialization-hook-scriptloaded)
+  - [Deinitialization hook: scriptUnloaded](#deinitialization-hook-scriptunloaded)
+- [Advanced Scripting](#advanced-scripting)
+  - [@runtime](#runtime)
 
 ## Installation
 
 ### Default Installation
 
-- Install the openHAB [JavaScript binding](https://www.openhab.org/addons/automation/jsscripting/), a version of this
-library will be automatically installed and available to all javascript rules by default.
+Install the openHAB [JavaScript binding](https://www.openhab.org/addons/automation/jsscripting/), a version of this library will be automatically installed and available to ECMAScript 2021+ rules created using [File Based Rules](#file-based-rules) or [UI Based Rules](#ui-based-rules). 
 
+By default, openHAB ships with an older JavaScript runtime based on the Nashorn JavaScript engine which is part of the standard JDK.  This is referred to as `ECMA - 262 Edition 5.1` or `application/javascript` in the Main UI.
+
+*This library is not compatible with this older runtime.* 
 ### Custom Installation
 
 - Go to the javascript user scripts directory: `cd $OPENHAB_CONF/automation/js`
@@ -109,6 +114,40 @@ console.log("Thing status",thingStatusInfo.getStatus());
 
 See [openhab-js](https://openhab.github.io/openhab-js) for a complete list of functionality
 
+### Event Object
+
+**NOTE**: Note that `event` object is different in UI based rules and file based rules! This section is only valid for UI based rules. If you use file based rules, refer to [file based rules event object documentation](#event-object-1).
+
+When you use "Item event" as trigger (i.e. "[item] received a command", "[item] was updated", "[item] changed"), there is additional context available for the action in a variable called `event`.
+
+This tables gives an overview over the `event` object for most common trigger types:
+
+| Property Name  | Type                                                                                                                 | Trigger Types                          | Description                                                                                                   |                        |
+| -------------- | -------------------------------------------------------------------------------------------------------------------- | -------------------------------------- | ------------------------------------------------------------------------------------------------------------- | ---------------------- |
+| `itemState`    | sub-class of [org.openhab.core.types.State](https://www.openhab.org/javadoc/latest/org/openhab/core/types/state)     | `[item] changed`, `[item] was updated` | State that triggered event                                                                                    | `triggeringItem.state` |
+| `oldItemState` | sub-class of [org.openhab.core.types.State](https://www.openhab.org/javadoc/latest/org/openhab/core/types/state)     | `[item] changed`                       | Previous state of Item or Group that triggered event                                                          | `previousState`        |
+| `itemCommand`  | sub-class of [org.openhab.core.types.Command](https://www.openhab.org/javadoc/latest/org/openhab/core/types/command) | `[item] received a command`            | Command that triggered event                                                                                  | `receivedCommand`      |
+| `itemName`     | string                                                                                                               | all                                    | Name of Item that triggered event                                                                             | `triggeringItem.name`  |
+| `type`         | string                                                                                                               | all                                    | Type of event that triggered event (`"ItemStateEvent"`, `"ItemStateChangedEvent"`, `"ItemCommandEvent"`, ...) | N/A                    |
+
+Note that in UI based rules `event.itemState`, `event.oldItemState`, and `event.itemCommand` are Java types (not JavaScript), and care must be taken when comparing these with JavaScript types:
+
+```javascript
+var { ON } = require("@runtime")
+
+console.log(event.itemState == "ON")  // WRONG. Java type does not equal with string, not even with "relaxed" equals (==) comparison
+console.log(event.itemState.toString() == "ON")  // OK. Comparing strings
+console.log(event.itemState == ON)  // OK. Comparing Java types
+```
+
+**NOTE**: Even with `String` items, simple comparison with `==` is not working as one would expect! See below example:
+
+```javascript
+// Example assumes String item trigger
+console.log(event.itemState == "test") // WRONG. Will always log "false"
+console.log(event.itemState.toString() == "test") // OK
+```
+
 ## Scripting Basics
 
 The openHAB JSScripting runtime attempts to provide a familiar environment to Javascript developers.
@@ -146,9 +185,10 @@ The string representations of each of these objects are appended together in the
 
 see https://developer.mozilla.org/en-US/docs/Web/API/console for more information about console logging.
 
+
 ### SetTimeout
 
-The global setTimeout() method sets a timer which executes a function or specified piece of code once the timer expires.
+The global `setTimeout()` method sets a timer which executes a function or specified piece of code once the timer expires.
 ```javascript
 var timeoutID = setTimeout(function[, delay, arg1, arg2, ...]);
 var timeoutID = setTimeout(function[, delay]);
@@ -156,7 +196,7 @@ var timeoutID = setTimeout(function[, delay]);
 
 The global `clearTimeout()` method cancels a timeout previously established by calling `setTimeout()`.
 
-see https://developer.mozilla.org/en-US/docs/Web/API/setTimeout for more information about setTimeout.
+See https://developer.mozilla.org/en-US/docs/Web/API/setTimeout for more information about `setTimeout`.
 
 ### SetInterval
 
@@ -171,30 +211,7 @@ The global `clearInterval()` method cancels a timed, repeating action which was 
 
 NOTE: Timers will not be canceled if a script is deleted or modified, it is up to the user to manage timers.  See using the [cache](#cache) namespace as well as [ScriptLoaded](#scriptloaded) and [ScriptUnLoaded](#scriptunloaded) for a convenient way of managing persisted objects, such as timers between reloads or deletions of scripts.
 
-see https://developer.mozilla.org/en-US/docs/Web/API/setInterval for more information about setInterval.
-
-### ScriptLoaded
-
-For file based scripts, this function will be called if found when the script is loaded.
-
-```javascript
-scriptLoaded = function () {
-    console.log("script loaded");
-    loadedDate = Date.now();
-}
-```
-
-### ScriptUnLoaded
-
-For file based scripts, this function will be called if found when the script is unloaded.
-
-```javascript
-scriptUnloaded = function () {
-    console.log("script unloaded");
-    //clean up rouge timers
-    clearInterval(timer);
-}
-```
+See https://developer.mozilla.org/en-US/docs/Web/API/setInterval for more information about `setInterval`.
 
 ### Paths
 
@@ -509,15 +526,12 @@ Examples:
 ```javascript
 var now = time.ZonedDateTime.now();
 var yesterday = time.ZonedDateTime.now().minusHours(24);
-
 var item = items.getItem("Kitchen");
 console.log("averageSince", item.history.averageSince(yesterday));
 ```
-
 ```javascript
 actions.Exec.executeCommandLine(time.Duration.ofSeconds(20), 'echo', 'Hello World!');
 ```
-
 See [JS-Joda](https://js-joda.github.io/js-joda/) for more examples and complete API usage.
 
 #### `time.toZDT()`
@@ -793,6 +807,9 @@ rules.when().item('HallLight').receivedUpdate().then().copyState().fromItem('Bed
 ```
 
 ### Event Object
+
+**NOTE**: Note that `event` object is different in UI based rules and file based rules! This section is only valid for file based rules. If you use UI based rules, refer to [UI based rules event object documentation](#event-object).
+
 When a rule is triggered, the script is provided the event instance that triggered it.
 The specific data depends on the event type.
 The `event` object provides several information about that trigger.
@@ -817,3 +834,104 @@ All properties are type of String.
 `Group****Trigger`s use the equivalent `Item****Trigger` as trigger for each member.
 
 You may use [utils.dumpObject(event)](https://openhab.github.io/openhab-js/utils.html#.dumpObject) to get all properties of an `event` object.
+
+### Initialization hook: scriptLoaded
+
+For file based scripts, this function will be called if found when the script is loaded.
+
+```javascript
+scriptLoaded = function () {
+    console.log("script loaded");
+    loadedDate = Date.now();
+}
+```
+
+### Deinitialization hook: scriptUnloaded
+
+For file based scripts, this function will be called if found when the script is unloaded.
+
+```javascript
+scriptUnloaded = function () {
+    console.log("script unloaded");
+    //clean up rouge timers
+    clearInterval(timer);
+}
+```
+
+## Advanced Scripting
+
+### @runtime
+
+One can access many useful utilities and types using `require("@runtime")`, e.g.
+
+```javascript
+var { ON, OFF, QuantityType } = require("@runtime")
+// Alternative, more verbose way to achieve the same:
+//
+// var runtime = require("@runtime")
+//
+// var ON = runtime.ON
+// var OFF = runtime.OFF
+// var QuantityType = runtime.QuantityType
+```
+
+| Variable                | Description                                                                                                                                           |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `State`                 | [`org.openhab.core.types.State`](https://www.openhab.org/javadoc/latest/org/openhab/core/types/state)                                                 |
+| `Command`               | [`org.openhab.core.types.Command`](https://www.openhab.org/javadoc/latest/org/openhab/core/types/command)                                             |
+| `URLEncoder`            | [`java.net.URLEncoder`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/net/URLEncoder.html)                                        |
+| `File`                  | [`java.io.File`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/io/File.html)                                                      |
+| `Files`                 | [`java.nio.file.Files`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/nio/file/Files.html)                                        |
+| `Path`                  | [`java.nio.file.Path`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/nio/file/Path.html)                                          |
+| `Paths`                 | [`java.nio.file.Paths`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/nio/file/Paths.html)                                        |
+| `IncreaseDecreaseType`  | [`org.openhab.core.library.types.IncreaseDecreaseType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/increasedecreasetype)   |
+| `DECREASE`              | `IncreaseDecreaseType` enum item                                                                                                                      |
+| `INCREASE`              | `IncreaseDecreaseType` enum item                                                                                                                      |
+| `OnOffType`             | [`org.openhab.core.library.types.OnOffType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/onofftype)                         |
+| `ON`                    | `OnOffType` enum item                                                                                                                                 |
+| `OFF`                   | `OnOffType` enum item                                                                                                                                 |
+| `OpenClosedType`        | [`org.openhab.core.library.types.OpenClosedType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/openclosedtype)               |
+| `OPEN`                  | `OpenClosedType` enum item                                                                                                                            |
+| `CLOSED`                | `OpenClosedType` enum item                                                                                                                            |
+| `StopMoveType`          | [`org.openhab.core.library.types.StopMoveType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/stopmovetype)                   |
+| `STOP`                  | `StopMoveType` enum item                                                                                                                              |
+| `MOVE`                  | `StopMoveType` enum item                                                                                                                              |
+| `UpDownType`            | [`org.openhab.core.library.types.UpDownType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/updowntype)                       |
+| `UP`                    | `UpDownType` enum item                                                                                                                                |
+| `DOWN`                  | `UpDownType` enum item                                                                                                                                |
+| `UnDefType`             | [`org.openhab.core.library.types.UnDefType`](https://www.openhab.org/javadoc/latest/org/openhab/core/types/undeftype)                                 |
+| `NULL`                  | `UnDefType` enum item                                                                                                                                 |
+| `UNDEF`                 | `UnDefType` enum item                                                                                                                                 |
+| `RefreshType`           | [`org.openhab.core.library.types.RefreshType`](https://www.openhab.org/javadoc/latest/org/openhab/core/types/refreshtype)                             |
+| `REFRESH`               | `RefreshType` enum item                                                                                                                               |
+| `NextPreviousType`      | [`org.openhab.core.library.types.NextPreviusType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/nextprevioustype)            |
+| `NEXT`                  | `NextPreviousType` enum item                                                                                                                          |
+| `PREVIOUS`              | `NextPreviousType` enum item                                                                                                                          |
+| `PlayPauseType`         | [`org.openhab.core.library.types.PlayPauseType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/playpausetype)                 |
+| `PLAY`                  | `PlayPauseType` enum item                                                                                                                             |
+| `PAUSE`                 | `PlayPauseType` enum item                                                                                                                             |
+| `RewindFastforwardType` | [`org.openhab.core.library.types.RewindFastforwardType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/rewindfastforwardtype) |
+| `REWIND`                | `RewindFastforwardType` enum item                                                                                                                     |
+| `FASTFORWARD`           | `RewindFastforwardType` enum item                                                                                                                     |
+| `QuantityType`          | [`org.openhab.core.library.types.QuantityType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/quantitytype)                   |
+| `StringListType`        | [`org.openhab.core.library.types.StringListType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/stringlisttype)               |
+| `RawType`               | [`org.openhab.core.library.types.RawType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/rawtype)                             |
+| `DateTimeType`          | [`org.openhab.core.library.types.DateTimeType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/datetimetype)                   |
+| `DecimalType`           | [`org.openhab.core.library.types.DecimalType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/decimaltype)                     |
+| `HSBType`               | [`org.openhab.core.library.types.HSBType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/hsbtype)                             |
+| `PercentType`           | [`org.openhab.core.library.types.PercentType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/percenttype)                     |
+| `PointType`             | [`org.openhab.core.library.types.PointType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/pointtype)                         |
+| `StringType`            | [`org.openhab.core.library.types.StringType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/stringtype)                       |
+| `SIUnits`               | [`org.openhab.core.library.unit.SIUnits`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/unit/siunits)                               |
+| `ImperialUnits`         | [`org.openhab.core.library.unit.ImperialUnits`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/unit/imperialunits)                   |
+| `MetricPrefix`          | [`org.openhab.core.library.unit.MetricPrefix`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/unit/metricprefix)                     |
+| `Units`                 | [`org.openhab.core.library.unit.Units`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/unit/units)                                   |
+| `BinaryPrefix`          | [`org.openhab.core.library.unit.BinaryPrefix`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/unit/binaryprefix)                     |
+| `ChronoUnit`            | [`java.time.temporal.ChronoUnit`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/temporal/ChronoUnit.html)                    |
+| `Duration`              | [`java.time.Duration`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/Duration.html)                                          |
+| `ZoneId`                | [`java.time.ZoneId`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/ZoneId.html)                                              |
+| `ZonedDateTime`         | [`java.time.ZonedDateTime`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/ZonedDateTime.html)                                |
+
+`require("@runtime")` also defines "services" such as `items`, `things`, `rules`, `events`, `actions`, `ir`, `itemRegistry`.
+You can use these services for backwards compatibility purposes or ease migration from JSR223 scripts.
+Generally speaking, you should prefer to use [Standard Library](#standard-library) provided by this library instead.
