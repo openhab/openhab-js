@@ -196,9 +196,9 @@ var timeoutID = setTimeout(function[, delay]);
 
 The global `clearTimeout()` method cancels a timeout previously established by calling `setTimeout()`.
 
-See https://developer.mozilla.org/en-US/docs/Web/API/setTimeout for more information about setTimeout.
+See https://developer.mozilla.org/en-US/docs/Web/API/setTimeout for more information about `setTimeout()`.
 
- openHAB does not return the integer timeoutID as standard JS does, instead it returns an instance of [openHAB Timer](#openhab-timer).
+openHAB does not return the integer timeoutID as standard JS does, instead it returns an instance of [openHAB Timer](#openhab-timer).
 
 #### SetInterval
 
@@ -213,7 +213,7 @@ The global `clearInterval()` method cancels a timed, repeating action which was 
 
 NOTE: Timers will not be canceled if a script is deleted or modified, it is up to the user to manage timers.  See using the [cache](#cache) namespace as well as [ScriptLoaded](#scriptloaded) and [ScriptUnLoaded](#scriptunloaded) for a convenient way of managing persisted objects, such as timers between reloads or deletions of scripts.
 
-See https://developer.mozilla.org/en-US/docs/Web/API/setInterval for more information about setInterval.
+See https://developer.mozilla.org/en-US/docs/Web/API/setInterval for more information about `setInterval()`.
 
 openHAB does not return the integer timeoutID as standard JS does, instead it returns an instance of [openHAB Timer](#openhab-timer).
 
@@ -247,7 +247,7 @@ NPM libraries will be loaded from `automation/js/node_modules` in the user confi
 
 ## Standard Library
 
-Full documentation for the openHAB JavaScript library can be found at [openhab-js](https://openhab.github.io/openhab-js)
+Full documentation for the openHAB JavaScript library can be found at [openhab-js](https://openhab.github.io/openhab-js).
 
 ### Items
 
