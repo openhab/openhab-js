@@ -207,11 +207,17 @@ let JSRule = function (ruleConfig) {
     let SimpleRule = Java.extend(Java.type('org.openhab.core.automation.module.script.rulesupport.shared.simple.SimpleRule'));
 
     let doExecute = function (module, input) {
-        try {
-            return ruleConfig.execute(getTriggeredData(input));
-        } catch (error) {
-            throw Error(`Failed to execute rule ${ruid}: ${error}: ${error.stack}`);
+      try {
+        return ruleConfig.execute(getTriggeredData(input));
+      } catch (error) {
+        // logging error is required for meaningful error log message
+        // when throwing error: error is caught by core framework and no meaningful message is logged
+        if (error.stack) {
+          console.error(`Failed to execute rule ${ruid}: ${error}: ${error.stack}`);
+        } else {
+          console.error(`Failed to execute rule ${ruid}: ${error}`);
         }
+      }
     };
 
     let rule = new SimpleRule({
