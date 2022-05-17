@@ -212,13 +212,14 @@ let JSRule = function (ruleConfig) {
       } catch (error) {
         // logging error is required for meaningful error log message
         // when throwing error: error is caught by core framework and no meaningful message is logged
+        let msg;
         if (error.stack) {
-          console.error(`Failed to execute rule ${ruid}: ${error}: ${error.stack}`);
-          throw Error(`Failed to execute rule ${ruid}: ${error}: ${error.stack}`);
+          msg = `Failed to execute rule ${ruid}: ${error}: ${error.stack}`;
         } else {
-          console.error(`Failed to execute rule ${ruid}: ${error}`);
-          throw Error(`Failed to execute rule ${ruid}: ${error}`);
+          msg = `Failed to execute rule ${ruid}: ${error}`;
         }
+        console.error(msg);
+        throw Error(msg);
       }
     };
 
