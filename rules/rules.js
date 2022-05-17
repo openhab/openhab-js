@@ -214,8 +214,10 @@ let JSRule = function (ruleConfig) {
         // when throwing error: error is caught by core framework and no meaningful message is logged
         if (error.stack) {
           console.error(`Failed to execute rule ${ruid}: ${error}: ${error.stack}`);
+          throw Error(`Failed to execute rule ${ruid}: ${error}: ${error.stack}`);
         } else {
           console.error(`Failed to execute rule ${ruid}: ${error}`);
+          throw Error(`Failed to execute rule ${ruid}: ${error}`);
         }
       }
     };
