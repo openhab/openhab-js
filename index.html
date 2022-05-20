@@ -94,8 +94,7 @@ binding</a></p>
 <ul>
 <li><a href="#require">Require</a></li>
 <li><a href="#console">Console</a></li>
-<li><a href="#settimeout">SetTimeout</a></li>
-<li><a href="#setinterval">SetInterval</a></li>
+<li><a href="#timers">Timers</a></li>
 <li><a href="#paths">Paths</a></li>
 </ul>
 </li>
@@ -256,27 +255,49 @@ Script debug logging is enabled by default at the <code>INFO</code> level, but c
 </ul>
 <p>where <code>obj1 ... objN</code> is a list of JavaScript objects to output.
 The string representations of each of these objects are appended together in the order listed and output.</p>
-<p>see https://developer.mozilla.org/en-US/docs/Web/API/console for more information about console logging.</p>
-<h3>SetTimeout</h3>
+<p>See https://developer.mozilla.org/en-US/docs/Web/API/console for more information about console logging.</p>
+<h3>Timers</h3>
+<h4>SetTimeout</h4>
 <p>The global <code>setTimeout()</code> method sets a timer which executes a function or specified piece of code once the timer expires.</p>
 <pre class="prettyprint source lang-javascript"><code>var timeoutID = setTimeout(function[, delay, arg1, arg2, ...]);
 var timeoutID = setTimeout(function[, delay]);
 </code></pre>
 <p>The global <code>clearTimeout()</code> method cancels a timeout previously established by calling <code>setTimeout()</code>.</p>
-<p>See https://developer.mozilla.org/en-US/docs/Web/API/setTimeout for more information about <code>setTimeout</code>.</p>
-<h3>SetInterval</h3>
+<p>See https://developer.mozilla.org/en-US/docs/Web/API/setTimeout for more information about <code>setTimeout()</code>.</p>
+<p>openHAB does not return the integer timeoutID as standard JS does, instead it returns an instance of <a href="#openhab-timer">openHAB Timer</a>.</p>
+<h4>SetInterval</h4>
 <p>The setInterval() method repeatedly calls a function or executes a code snippet, with a fixed time delay between each call.</p>
 <pre class="prettyprint source lang-javascript"><code>var intervalID = setInterval(func, [delay, arg1, arg2, ...]);
 var intervalID = setInterval(function[, delay]);
 </code></pre>
 <p>The global <code>clearInterval()</code> method cancels a timed, repeating action which was previously established by a call to <code>setInterval()</code>.</p>
 <p>NOTE: Timers will not be canceled if a script is deleted or modified, it is up to the user to manage timers.  See using the <a href="#cache">cache</a> namespace as well as <a href="#scriptloaded">ScriptLoaded</a> and <a href="#scriptunloaded">ScriptUnLoaded</a> for a convenient way of managing persisted objects, such as timers between reloads or deletions of scripts.</p>
-<p>See https://developer.mozilla.org/en-US/docs/Web/API/setInterval for more information about <code>setInterval</code>.</p>
+<p>See https://developer.mozilla.org/en-US/docs/Web/API/setInterval for more information about <code>setInterval()</code>.</p>
+<p>openHAB does not return the integer timeoutID as standard JS does, instead it returns an instance of <a href="#openhab-timer">openHAB Timer</a>.</p>
+<h4>openHAB Timer</h4>
+<p>A native openHAB Timer instance has the following methods:</p>
+<ul>
+<li><code>cancel()</code>: Cancels the timer. ⇒ <code>boolean</code>: true, if cancellation was successful</li>
+<li><code>getExecutionTime()</code>: The scheduled execution time or null if timer was cancelled. ⇒ <code>time.ZonedDateTime</code> or <code>null</code></li>
+<li><code>isActive()</code>: Whether the scheduled execution is yet to happen. ⇒ <code>boolean</code></li>
+<li><code>isCancelled()</code>: Whether the timer has been cancelled. ⇒ <code>boolean</code></li>
+<li><code>isRunning()</code>: Whether the scheduled code is currently executed. ⇒ <code>boolean</code></li>
+<li><code>hasTerminated()</code>: Whether the scheduled execution has already terminated. ⇒ <code>boolean</code></li>
+<li><code>reschedule(time.ZonedDateTime)</code>: Reschedules a timer to a new starting time. This can also be called after a timer has terminated, which will result in another execution of the same code. ⇒ <code>boolean</code>: true, if rescheduling was successful</li>
+</ul>
+<p>Examples:</p>
+<pre class="prettyprint source lang-javascript"><code>var timer = setTimeout(() => { console.log('Timer expired.'); }, 10000); // Would log 'Timer expired.' in 10s.
+if (timer.isActive()) console.log('Timer is waiting to execute.');
+timer.cancel();
+if (timer.isCancelled()) console.log('Timer has been cancelled.');
+timer.reschedule(time.ZonedDateTime.now().plusSeconds(2)); // Logs 'Timer expired.' in 2s.
+</code></pre>
+<p>See <a href="https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/timer">openHAB JavaDoc - Timer</a> for full API documentation.</p>
 <h3>Paths</h3>
 <p>For <a href="#file-based-rules">file based rules</a>, scripts will be loaded from <code>automation/js</code> in the user configuration directory.</p>
 <p>NPM libraries will be loaded from <code>automation/js/node_modules</code> in the user configuration directory.</p>
 <h2>Standard Library</h2>
-<p>Full documentation for the openHAB JavaScript library can be found at <a href="https://openhab.github.io/openhab-js">openhab-js</a></p>
+<p>Full documentation for the openHAB JavaScript library can be found at <a href="https://openhab.github.io/openhab-js">openhab-js</a>.</p>
 <h3>Items</h3>
 <p>The items namespace allows interactions with openHAB items.</p>
 <p>See <a href="https://openhab.github.io/openhab-js/items.html">openhab-js : items</a> for full API documentation</p>
@@ -416,18 +437,18 @@ The following are a list of standard actions.</p>
 (example:  <code>actions.Pushsafer.pushsafer(...)</code>)</p>
 <p>See <a href="https://openhab.github.io/openhab-js/actions.html">openhab-js : actions</a> for full API documentation and additional actions.</p>
 <h4>Audio Actions</h4>
-<p>See <a href="https://openhab.github.io/openhab-js/actions.html#.Audio">openhab-js : actions.Audio</a> for complete documentation</p>
+<p>See <a href="https://openhab.github.io/openhab-js/actions.html#.Audio">openhab-js : actions.Audio</a> for complete documentation.</p>
 <h4>BusEvent</h4>
-<p>See <a href="https://openhab.github.io/openhab-js/actions.html#.BusEvent">openhab-js : actions.BusEvent</a> for complete documentation</p>
+<p>See <a href="https://openhab.github.io/openhab-js/actions.html#.BusEvent">openhab-js : actions.BusEvent</a> for complete documentation.</p>
 <h4>Ephemeris Actions</h4>
-<p>See <a href="https://openhab.github.io/openhab-js/actions.html#.Ephemeris">openhab-js : actions.Ephemeris</a> for complete documentation</p>
+<p>See <a href="https://openhab.github.io/openhab-js/actions.html#.Ephemeris">openhab-js : actions.Ephemeris</a> for complete documentation.</p>
 <p>Ephemeris is a way to determine what type of day today or a number of days before or after today is. For example, a way to determine if today is a weekend, a bank holiday, someone’s birthday, trash day, etc.</p>
 <p>Additional information can be found on the  <a href="https://www.openhab.org/docs/configuration/actions.html#ephemeris">Ephemeris Actions Docs</a> as well as the <a href="https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/ephemeris">Ephemeris JavaDoc</a>.</p>
 <pre class="prettyprint source lang-javascript"><code>// Example
 let weekend = actions.Ephemeris.isWeekend();
 </code></pre>
 <h4>Exec Actions</h4>
-<p>See <a href="https://openhab.github.io/openhab-js/actions.html#.Exec">openhab-js : actions.Exec</a> for complete documentation</p>
+<p>See <a href="https://openhab.github.io/openhab-js/actions.html#.Exec">openhab-js : actions.Exec</a> for complete documentation.</p>
 <p>Execute a command line.</p>
 <pre class="prettyprint source lang-javascript"><code>
 // Execute command line.
@@ -444,13 +465,13 @@ let response = actions.Exec.executeCommandLine('echo', 'Hello World!');
 response = actions.Exec.executeCommandLine(Duration.ofSeconds(20), 'echo', 'Hello World!');
 </code></pre>
 <h4>HTTP Actions</h4>
-<p>See <a href="https://openhab.github.io/openhab-js/actions.html#.HTTP">openhab-js : actions.HTTP</a> for complete documentation</p>
+<p>See <a href="https://openhab.github.io/openhab-js/actions.html#.HTTP">openhab-js : actions.HTTP</a> for complete documentation.</p>
 <pre class="prettyprint source lang-javascript"><code>// Example GET Request
 var response = actions.HTTP.sendHttpGetRequest('&lt;url>');
 </code></pre>
 <p>Replace <code>&lt;url&gt;</code> with the request url.</p>
 <h4>ScriptExecution Actions</h4>
-<p>See <a href="https://openhab.github.io/openhab-js/actions.html#.ScriptExecution">openhab-js : actions.ScriptExecution</a> for complete documentation</p>
+<p>See <a href="https://openhab.github.io/openhab-js/actions.html#.ScriptExecution">openhab-js : actions.ScriptExecution</a> for complete documentation.</p>
 <pre class="prettyprint source lang-javascript"><code>let now = time.ZonedDateTime.now();
 
 // Function to run when the timer goes off.
@@ -471,11 +492,11 @@ let active = this.myTimer.isActive();
 this.myTimer.reschedule(now.plusSeconds(5));
 </code></pre>
 <h4>Semantics Actions</h4>
-<p>See <a href="https://openhab.github.io/openhab-js/actions.html#.Semantics">openhab-js : actions.Semantics</a> for complete documentation</p>
+<p>See <a href="https://openhab.github.io/openhab-js/actions.html#.Semantics">openhab-js : actions.Semantics</a> for complete documentation.</p>
 <h4>Things Actions</h4>
-<p>See <a href="https://openhab.github.io/openhab-js/actions.html#.Things">openhab-js : actions.Things</a> for complete documentation</p>
+<p>See <a href="https://openhab.github.io/openhab-js/actions.html#.Things">openhab-js : actions.Things</a> for complete documentation.</p>
 <h4>Voice Actions</h4>
-<p>See <a href="https://openhab.github.io/openhab-js/actions.html#.Voice">openhab-js : actions.Voice</a> for complete documentation</p>
+<p>See <a href="https://openhab.github.io/openhab-js/actions.html#.Voice">openhab-js : actions.Voice</a> for complete documentation.</p>
 <h4>Cloud Notification Actions</h4>
 <p>(optional action if openhab-cloud is installed)</p>
 <p>Notification actions may be placed in Rules to send alerts to mobile devices registered with an <a href="https://github.com/openhab/openhab-cloud">openHAB Cloud instance</a> such as <a href="https://myopenhab.org/">myopenHAB.org</a>.</p>
@@ -488,7 +509,7 @@ actions.NotificationAction.sendBroadcastNotification('&lt;message>'); // to all 
 Replace <code>&lt;message&gt;</code> with the notification text.</p>
 <h3>Cache</h3>
 <p>The cache namespace provides a default cache that can be use to set and retrieve objects that will be persisted between reloads of scripts.</p>
-<p>See <a href="https://openhab.github.io/openhab-js/cache.html">openhab-js : cache</a> for full API documentation</p>
+<p>See <a href="https://openhab.github.io/openhab-js/cache.html">openhab-js : cache</a> for full API documentation.</p>
 <ul>
 <li>cache : <code>object</code>
 <ul>
@@ -499,7 +520,7 @@ Replace <code>&lt;message&gt;</code> with the notification text.</p>
 </ul>
 </li>
 </ul>
-<p>The <code>defaultSupplier</code> provided function will return a default value if a specified key is not already associated with a value</p>
+<p>The <code>defaultSupplier</code> provided function will return a default value if a specified key is not already associated with a value.</p>
 <p><strong>Example</strong> <em>(Get a previously set value with a default value (times = 0))</em></p>
 <pre class="prettyprint source lang-js"><code>let counter = cache.get(&quot;counter&quot;, () => ({ &quot;times&quot;: 0 }));
 console.log(&quot;Count&quot;,counter.times++);
@@ -631,6 +652,11 @@ time.toZDT(items.getItem('StartTime')).betweenTimes(time.toZDT(), 'PT1H'); // is
 <pre class="prettyprint source lang-javascript"><code>const timestamp = time.toZDT();
 // do some stuff
 if(timestamp.isClose(time.toZDT(), time.Duration.ofMillis(100))) { // did &quot;do some stuff&quot; take longer than 100 msecs to run?
+</code></pre>
+<h4><code>getMillisFromNow</code></h4>
+<p>This method on <code>time.ZonedDateTime</code> returns the milliseconds from now to the <code>time.ZonedDateTime</code>.</p>
+<pre class="prettyprint source lang-javascript"><code>const timestamp = time.ZonedDateTime.now().plusMinutes(5);
+console.log(timestamp.getMillisFromNow());
 </code></pre>
 <h3>Utils</h3>
 <p>openHAB internally is a Java program.
@@ -1189,7 +1215,7 @@ Generally speaking, you should prefer to use <a href="#standard-library">Standar
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Tue May 17 2022 15:09:59 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Fri May 20 2022 16:00:02 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
