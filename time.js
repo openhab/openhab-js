@@ -275,7 +275,7 @@ time.toZDT = function(when) {
 
 }
 
-//openHAB uses a RFC DateTime string, js-joda defaults to the ISO version, this defaults RFC instead
+// openHAB uses a RFC DateTime string, js-joda defaults to the ISO version, this defaults RFC instead
 const rfcFormatter = time.DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ss.SSS[xxxx][xxxxx]");
 const targetParse = time.ZonedDateTime.prototype.parse;
 time.ZonedDateTime.prototype.parse = function (text, formatter = rfcFormatter) {
@@ -333,5 +333,15 @@ time.ZonedDateTime.prototype.isClose = function(zdt, maxDur) {
     const delta = time.Duration.between(this, zdt).abs();
     return delta.compareTo(maxDur) <= 0;
 }
- 
+
+/**
+ * Parses a ZonedDateTime to milliseconds from now until the ZonedDateTime.
+ *
+ * @memberof time
+ * @returns {number} duration from now to the ZonedDateTime in milliseconds
+ */
+time.ZonedDateTime.prototype.getMillisFromNow = function () {
+  return time.Duration.between(time.ZonedDateTime.now(), this).toMillis();
+};
+
 module.exports = time;

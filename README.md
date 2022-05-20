@@ -28,8 +28,7 @@ binding](https://www.openhab.org/addons/automation/jsscripting/)
 - [Scripting Basics](#scripting-basics)
   - [Require](#require)
   - [Console](#console)
-  - [SetTimeout](#settimeout)
-  - [SetInterval](#setinterval)
+  - [Timers](#timers)
   - [Paths](#paths)
 - [Standard Library](#standard-library)
   - [Items](#items)
@@ -183,10 +182,11 @@ Supported logging functions include:
 where `obj1 ... objN` is a list of JavaScript objects to output.
 The string representations of each of these objects are appended together in the order listed and output.
 
-see https://developer.mozilla.org/en-US/docs/Web/API/console for more information about console logging.
+See https://developer.mozilla.org/en-US/docs/Web/API/console for more information about console logging.
 
+### Timers
 
-### SetTimeout
+#### SetTimeout
 
 The global `setTimeout()` method sets a timer which executes a function or specified piece of code once the timer expires.
 ```javascript
@@ -196,9 +196,11 @@ var timeoutID = setTimeout(function[, delay]);
 
 The global `clearTimeout()` method cancels a timeout previously established by calling `setTimeout()`.
 
-See https://developer.mozilla.org/en-US/docs/Web/API/setTimeout for more information about `setTimeout`.
+See https://developer.mozilla.org/en-US/docs/Web/API/setTimeout for more information about `setTimeout()`.
 
-### SetInterval
+openHAB does not return the integer timeoutID as standard JS does, instead it returns an instance of [openHAB Timer](#openhab-timer).
+
+#### SetInterval
 
 The setInterval() method repeatedly calls a function or executes a code snippet, with a fixed time delay between each call.
 
@@ -211,7 +213,31 @@ The global `clearInterval()` method cancels a timed, repeating action which was 
 
 NOTE: Timers will not be canceled if a script is deleted or modified, it is up to the user to manage timers.  See using the [cache](#cache) namespace as well as [ScriptLoaded](#scriptloaded) and [ScriptUnLoaded](#scriptunloaded) for a convenient way of managing persisted objects, such as timers between reloads or deletions of scripts.
 
-See https://developer.mozilla.org/en-US/docs/Web/API/setInterval for more information about `setInterval`.
+See https://developer.mozilla.org/en-US/docs/Web/API/setInterval for more information about `setInterval()`.
+
+openHAB does not return the integer timeoutID as standard JS does, instead it returns an instance of [openHAB Timer](#openhab-timer).
+
+#### openHAB Timer
+
+A native openHAB Timer instance has the following methods:
+* `cancel()`: Cancels the timer. ⇒ `boolean`: true, if cancellation was successful
+* `getExecutionTime()`: The scheduled execution time or null if timer was cancelled. ⇒ `time.ZonedDateTime` or `null`
+* `isActive()`: Whether the scheduled execution is yet to happen. ⇒ `boolean`
+* `isCancelled()`: Whether the timer has been cancelled. ⇒ `boolean`
+* `isRunning()`: Whether the scheduled code is currently executed. ⇒ `boolean`
+* `hasTerminated()`: Whether the scheduled execution has already terminated. ⇒ `boolean`
+* `reschedule(time.ZonedDateTime)`: Reschedules a timer to a new starting time. This can also be called after a timer has terminated, which will result in another execution of the same code. ⇒ `boolean`: true, if rescheduling was successful
+
+Examples:
+```javascript
+var timer = setTimeout(() => { console.log('Timer expired.'); }, 10000); // Would log 'Timer expired.' in 10s.
+if (timer.isActive()) console.log('Timer is waiting to execute.');
+timer.cancel();
+if (timer.isCancelled()) console.log('Timer has been cancelled.');
+timer.reschedule(time.ZonedDateTime.now().plusSeconds(2)); // Logs 'Timer expired.' in 2s.
+```
+
+See [openHAB JavaDoc - Timer](https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/timer) for full API documentation.
 
 ### Paths
 
@@ -221,7 +247,7 @@ NPM libraries will be loaded from `automation/js/node_modules` in the user confi
 
 ## Standard Library
 
-Full documentation for the openHAB JavaScript library can be found at [openhab-js](https://openhab.github.io/openhab-js)
+Full documentation for the openHAB JavaScript library can be found at [openhab-js](https://openhab.github.io/openhab-js).
 
 ### Items
 
@@ -367,15 +393,15 @@ See [openhab-js : actions](https://openhab.github.io/openhab-js/actions.html) fo
 
 #### Audio Actions
 
-See [openhab-js : actions.Audio](https://openhab.github.io/openhab-js/actions.html#.Audio) for complete documentation
+See [openhab-js : actions.Audio](https://openhab.github.io/openhab-js/actions.html#.Audio) for complete documentation.
 
 #### BusEvent
 
-See [openhab-js : actions.BusEvent](https://openhab.github.io/openhab-js/actions.html#.BusEvent) for complete documentation
+See [openhab-js : actions.BusEvent](https://openhab.github.io/openhab-js/actions.html#.BusEvent) for complete documentation.
 
 #### Ephemeris Actions
 
-See [openhab-js : actions.Ephemeris](https://openhab.github.io/openhab-js/actions.html#.Ephemeris) for complete documentation
+See [openhab-js : actions.Ephemeris](https://openhab.github.io/openhab-js/actions.html#.Ephemeris) for complete documentation.
 
 Ephemeris is a way to determine what type of day today or a number of days before or after today is. For example, a way to determine if today is a weekend, a bank holiday, someone’s birthday, trash day, etc.
 
@@ -388,7 +414,7 @@ let weekend = actions.Ephemeris.isWeekend();
 
 #### Exec Actions
 
-See [openhab-js : actions.Exec](https://openhab.github.io/openhab-js/actions.html#.Exec) for complete documentation
+See [openhab-js : actions.Exec](https://openhab.github.io/openhab-js/actions.html#.Exec) for complete documentation.
 
 Execute a command line.
 
@@ -410,7 +436,7 @@ response = actions.Exec.executeCommandLine(Duration.ofSeconds(20), 'echo', 'Hell
 
 #### HTTP Actions
 
-See [openhab-js : actions.HTTP](https://openhab.github.io/openhab-js/actions.html#.HTTP) for complete documentation
+See [openhab-js : actions.HTTP](https://openhab.github.io/openhab-js/actions.html#.HTTP) for complete documentation.
 
 ```javascript
 // Example GET Request
@@ -421,7 +447,7 @@ Replace `<url>` with the request url.
 
 #### ScriptExecution Actions
 
-See [openhab-js : actions.ScriptExecution](https://openhab.github.io/openhab-js/actions.html#.ScriptExecution) for complete documentation
+See [openhab-js : actions.ScriptExecution](https://openhab.github.io/openhab-js/actions.html#.ScriptExecution) for complete documentation.
 
 
 ```javascript
@@ -446,15 +472,15 @@ this.myTimer.reschedule(now.plusSeconds(5));
 ```
 #### Semantics Actions
 
-See [openhab-js : actions.Semantics](https://openhab.github.io/openhab-js/actions.html#.Semantics) for complete documentation
+See [openhab-js : actions.Semantics](https://openhab.github.io/openhab-js/actions.html#.Semantics) for complete documentation.
 
 #### Things Actions
 
-See [openhab-js : actions.Things](https://openhab.github.io/openhab-js/actions.html#.Things) for complete documentation
+See [openhab-js : actions.Things](https://openhab.github.io/openhab-js/actions.html#.Things) for complete documentation.
 
 #### Voice Actions
 
-See [openhab-js : actions.Voice](https://openhab.github.io/openhab-js/actions.html#.Voice) for complete documentation
+See [openhab-js : actions.Voice](https://openhab.github.io/openhab-js/actions.html#.Voice) for complete documentation.
 
 #### Cloud Notification Actions
 
@@ -477,7 +503,7 @@ Replace `<message>` with the notification text.
 
 The cache namespace provides a default cache that can be use to set and retrieve objects that will be persisted between reloads of scripts.
 
-See [openhab-js : cache](https://openhab.github.io/openhab-js/cache.html) for full API documentation
+See [openhab-js : cache](https://openhab.github.io/openhab-js/cache.html) for full API documentation.
 
 * cache : <code>object</code>
     * .get(key, defaultSupplier) ⇒ <code>Object | null</code>
@@ -485,7 +511,7 @@ See [openhab-js : cache](https://openhab.github.io/openhab-js/cache.html) for fu
     * .remove(key) ⇒ <code>Previous Object | null</code>
     * .exists(key) ⇒ <code>boolean</code>
 
-The `defaultSupplier` provided function will return a default value if a specified key is not already associated with a value
+The `defaultSupplier` provided function will return a default value if a specified key is not already associated with a value.
 
 **Example** *(Get a previously set value with a default value (times &#x3D; 0))*
 ```js
@@ -591,6 +617,15 @@ Tests to see if the delta between the `time.ZonedDateTime` and the passed in `ti
 const timestamp = time.toZDT();
 // do some stuff
 if(timestamp.isClose(time.toZDT(), time.Duration.ofMillis(100))) { // did "do some stuff" take longer than 100 msecs to run?
+```
+
+#### `getMillisFromNow`
+
+This method on `time.ZonedDateTime` returns the milliseconds from now to the `time.ZonedDateTime`.
+
+```javascript
+const timestamp = time.ZonedDateTime.now().plusMinutes(5);
+console.log(timestamp.getMillisFromNow());
 ```
 
 ### Utils
