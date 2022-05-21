@@ -1,20 +1,20 @@
 
 const log = require('./log')('utils');
 
-const HashSet = Java.type("java.util.HashSet");
-const ArrayList = Java.type("java.util.ArrayList");
+const HashSet = Java.type('java.util.HashSet');
+const ArrayList = Java.type('java.util.ArrayList');
 
 /**
  * Utils namespace.
  * This namespace handles utilities, especially for conversion from and to Java data types.
  *
- * @namespace utils 
+ * @namespace utils
  */
 
 function getAllPropertyNames (obj) {
-    const proto     = Object.getPrototypeOf(obj);
-    const inherited = (proto) ? getAllPropertyNames(proto) : [];
-    return [...new Set(Object.getOwnPropertyNames(obj).concat(inherited))];
+  const proto = Object.getPrototypeOf(obj);
+  const inherited = (proto) ? getAllPropertyNames(proto) : [];
+  return [...new Set(Object.getOwnPropertyNames(obj).concat(inherited))];
 }
 
 /**
@@ -24,13 +24,13 @@ function getAllPropertyNames (obj) {
  * @param {Set} set JavaScript Set Object ({@link https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Set})
  * @returns {java.util.Set} Java Set ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html})
  */
-let jsSetToJavaSet = function(set) {
-    let rv = new HashSet();
+const jsSetToJavaSet = function (set) {
+  const rv = new HashSet();
 
-    set.forEach(e => rv.add(e));
+  set.forEach(e => rv.add(e));
 
-    return rv;
-}
+  return rv;
+};
 
 /**
  * Convert JavaScript Array to Java Set.
@@ -39,32 +39,32 @@ let jsSetToJavaSet = function(set) {
  * @param {Array} arr JavaScript Array
  * @returns {java.util.Set} Java Set ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html})
  */
-let jsArrayToJavaSet = function (arr) {
-    let set = new HashSet();
+const jsArrayToJavaSet = function (arr) {
+  const set = new HashSet();
 
-    for (let i of arr) {
-        set.add(i);
-    }
+  for (const i of arr) {
+    set.add(i);
+  }
 
-    return set;
+  return set;
 };
 
 /**
  * Convert JavaScript Array to Java List.
  *
  * @memberOf utils
- * @param {Array} arr JavaScript Array 
+ * @param {Array} arr JavaScript Array
  * @returns {java.util.List} Java List ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/List.html})
  */
-let jsArrayToJavaList = function (arr) {
-    let list = new ArrayList();
+const jsArrayToJavaList = function (arr) {
+  const list = new ArrayList();
 
-    for (let i of arr) {
-        list.add(i);
-    }
+  for (const i of arr) {
+    list.add(i);
+  }
 
-    return list;
-}
+  return list;
+};
 
 /**
  * Convert Java List to JavaScript Array.
@@ -73,9 +73,9 @@ let jsArrayToJavaList = function (arr) {
  * @param {java.util.List} set Java Set ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/List.html})
  * @returns {Array} JavaScript Array
  */
- let javaListToJsArray = function(list) {
-    return Java.from(list);
-}
+const javaListToJsArray = function (list) {
+  return Java.from(list);
+};
 
 /**
  * Convert Java Set to JavaScript Array.
@@ -84,9 +84,9 @@ let jsArrayToJavaList = function (arr) {
  * @param {java.util.Set} set Java Set ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html})
  * @returns {Array} JavaScript Array
  */
-let javaSetToJsArray = function(set) {
-    return Java.from(new ArrayList(set));
-}
+const javaSetToJsArray = function (set) {
+  return Java.from(new ArrayList(set));
+};
 
 /**
  * Convert Java Set to JavaScript Set.
@@ -95,17 +95,17 @@ let javaSetToJsArray = function(set) {
  * @param {java.util.Set} set Java Set ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html})
  * @returns {Set} JavaScript Set Object ({@link https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Set})
  */
-let javaSetToJsSet = function(set) {
-    return new Set(exports.javaSetToJsArray(set));
-}
+const javaSetToJsSet = function (set) {
+  return new Set(exports.javaSetToJsArray(set));
+};
 
 /**
  * Generate a random UUID.
- * 
+ *
  * @memberOf utils
  * @returns {String} random UUID
  */
-let randomUUID = () => Java.type("java.util.UUID").randomUUID();
+const randomUUID = () => Java.type('java.util.UUID').randomUUID();
 
 /**
  * Outputs all members and properties of an object and whether it is a JS or a Java Object to the log.
@@ -113,43 +113,43 @@ let randomUUID = () => Java.type("java.util.UUID").randomUUID();
  * @memberOf utils
  * @param {*} obj object
  */
-let dumpObject = function (obj) {
-    try {
-        log.info("Dumping object...");
-        log.info("  typeof obj = {}", (typeof obj));
-        let isJavaObject = Java.isJavaObject(obj);
-        log.info("  Java.isJavaObject(obj) = {}", isJavaObject)
-        let isJavaType = Java.isType(obj);
-        log.info("  Java.isType(obj) = {}", isJavaType)
-        if (isJavaObject) {
-            if (isJavaType) {
-                log.info("  Java.typeName(obj) = {}", Java.typeName(obj));
-            } else {
-                log.info("  Java.typeName(obj.class) = {}", Java.typeName(obj.class));
-                if(Java.typeName(obj.class) == 'java.util.HashMap'){
-                    log.info("Dumping contents...");
-                    let keys = obj.keySet().toArray();
-                    for (var key in keys) {
-                        log.info(`${keys[key]}(${typeof keys[key]}) = ${obj.get(keys[key])}(${typeof obj.get(keys[key])})`);
-                        if(typeof keys[key] === 'object') {
-                            log.info("Dumping key...");
-                            exports.dumpObject(keys[key]);
-                        }
-                    }
-                }
+const dumpObject = function (obj) {
+  try {
+    log.info('Dumping object...');
+    log.info('  typeof obj = {}', (typeof obj));
+    const isJavaObject = Java.isJavaObject(obj);
+    log.info('  Java.isJavaObject(obj) = {}', isJavaObject);
+    const isJavaType = Java.isType(obj);
+    log.info('  Java.isType(obj) = {}', isJavaType);
+    if (isJavaObject) {
+      if (isJavaType) {
+        log.info('  Java.typeName(obj) = {}', Java.typeName(obj));
+      } else {
+        log.info('  Java.typeName(obj.class) = {}', Java.typeName(obj.class));
+        if (Java.typeName(obj.class) === 'java.util.HashMap') {
+          log.info('Dumping contents...');
+          const keys = obj.keySet().toArray();
+          for (const key in keys) {
+            log.info(`${keys[key]}(${typeof keys[key]}) = ${obj.get(keys[key])}(${typeof obj.get(keys[key])})`);
+            if (typeof keys[key] === 'object') {
+              log.info('Dumping key...');
+              exports.dumpObject(keys[key]);
             }
-        } else if (typeof obj === 'string'){
-            log.info("String value = " + obj);
+          }
         }
-
-        log.info("  getOwnPropertyNames(obj) = {}", Object.keys(obj).toString());
-        log.info("  getAllPropertyNames(obj) = {}", getAllPropertyNames(obj).toString());
-        // log.info("obj.toString() = {}", obj.toString());
-        // log.info("JSON.stringify(obj) = {}", JSON.stringify(obj));
-    } catch(e) {
-        log.info("Failed to dump object: " + e.message);
+      }
+    } else if (typeof obj === 'string') {
+      log.info('String value = ' + obj);
     }
-}
+
+    log.info('  getOwnPropertyNames(obj) = {}', Object.keys(obj).toString());
+    log.info('  getAllPropertyNames(obj) = {}', getAllPropertyNames(obj).toString());
+    // log.info("obj.toString() = {}", obj.toString());
+    // log.info("JSON.stringify(obj) = {}", JSON.stringify(obj));
+  } catch (e) {
+    log.info('Failed to dump object: ' + e.message);
+  }
+};
 
 /**
  * Checks whether an object is instance of a Java class.
@@ -160,26 +160,26 @@ let dumpObject = function (obj) {
  * @returns {boolean} whether it is an instance of a Java class
  * @throws error if type is not a java class
  */
-let isJsInstanceOfJava = function(instance, type) {
-    if(!Java.isType(type)) {
-        throw Error("type is not a java class");
-    }
+const isJsInstanceOfJava = function (instance, type) {
+  if (!Java.isType(type)) {
+    throw Error('type is not a java class');
+  }
 
-    if(instance === null || instance === undefined || instance.class === null || instance.class === undefined) {
-        return false;
-    }
+  if (instance === null || instance === undefined || instance.class === null || instance.class === undefined) {
+    return false;
+  }
 
-    return type.class.isAssignableFrom(instance.class);
-}
+  return type.class.isAssignableFrom(instance.class);
+};
 
 module.exports = {
-    jsSetToJavaSet,
-    jsArrayToJavaSet,
-    jsArrayToJavaList,
-    javaListToJsArray,
-    javaSetToJsArray,
-    javaSetToJsSet,
-    randomUUID,
-    dumpObject,
-    isJsInstanceOfJava
-}
+  jsSetToJavaSet,
+  jsArrayToJavaSet,
+  jsArrayToJavaList,
+  javaListToJsArray,
+  javaSetToJsArray,
+  javaSetToJsSet,
+  randomUUID,
+  dumpObject,
+  isJsInstanceOfJava
+};

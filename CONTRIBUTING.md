@@ -80,6 +80,28 @@ comment.
 Commits that fix or close an issue should include a reference like `Fixes #XXX`,
 which will automatically close the issue when merged.
 
+### Code style
+
+openhab-js uses [`standardx`](https://github.com/standard/standardx) for code linting and formatting.
+
+Code-style is enforced when checks run on a PR.
+
+#### Linting & Formatting
+
+Install `standardx` with `npm install -g standardx snazzy`.
+
+Lint your code with `npm run lint`.
+Fix auto-fixable issuers with `npm run fix-codestyle`.
+
+If you want, you can also use the plugin for your editor, see [StandardJS: Are there text editor plugins?](https://standardjs.com/#are-there-text-editor-plugins).
+
+If `standardx` marks an issue that can't be resolved, you can disable the particular rule, see [How do I disable a rule?](https://standardjs.com/#how-do-i-disable-a-rule).
+
+When you write a `mocha` test, put the following on top of the file:
+```javascript
+/* eslint-env mocha */
+```
+
 ### Sign your work
 
 The sign-off is a simple line at the end of the explanation for the

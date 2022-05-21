@@ -5,41 +5,41 @@ module.exports = {
   mode: 'development',
   externals: [
     {
-      ["@runtime"]: {
-        root: "@runtime",
+      '@runtime': {
+        root: '@runtime',
         commonjs: '@runtime',
         commonjs2: '@runtime',
-        amd: '@runtime',
+        amd: '@runtime'
       },
-      ["@runtime/Defaults"]: {
-        root: "@runtime/Defaults",
+      '@runtime/Defaults': {
+        root: '@runtime/Defaults',
         commonjs: '@runtime/Defaults',
         commonjs2: '@runtime/Defaults',
-        amd: '@runtime/Defaults',
+        amd: '@runtime/Defaults'
       },
-      ["@runtime/provider"]: {
-        root: "@runtime/provider",
+      '@runtime/provider': {
+        root: '@runtime/provider',
         commonjs: '@runtime/provider',
         commonjs2: '@runtime/provider',
-        amd: '@runtime/provider',
+        amd: '@runtime/provider'
       },
-      ["@runtime/RuleSupport"]: {
-        root: "@runtime/RuleSupport",
+      '@runtime/RuleSupport': {
+        root: '@runtime/RuleSupport',
         commonjs: '@runtime/RuleSupport',
         commonjs2: '@runtime/RuleSupport',
-        amd: '@runtime/RuleSupport',
+        amd: '@runtime/RuleSupport'
       },
-      ["@runtime/rules"]: {
-        root: "@runtime/rules",
+      '@runtime/rules': {
+        root: '@runtime/rules',
         commonjs: '@runtime/rules',
         commonjs2: '@runtime/rules',
-        amd: '@runtime/rules',
+        amd: '@runtime/rules'
       },
-      ["@runtime/osgi"]: {
-        root: "@runtime/osgi",
+      '@runtime/osgi': {
+        root: '@runtime/osgi',
         commonjs: '@runtime/osgi',
         commonjs2: '@runtime/osgi',
-        amd: '@runtime/osgi',
+        amd: '@runtime/osgi'
       }
     }
   ],
@@ -47,9 +47,9 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'openhab.js',
     library: {
-      name: "openhab",
-      type: "umd"
+      name: 'openhab',
+      type: 'umd'
     },
-    globalObject: 'this',
+    globalObject: 'this'
   }
 };

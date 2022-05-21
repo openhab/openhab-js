@@ -5,6 +5,6 @@
  */
 
 module.exports = {
-    ...require('./managed'),
-    provider: require('./items-provider')
-}
+  ...require('./managed'),
+  provider: require('./items-provider')
+};
