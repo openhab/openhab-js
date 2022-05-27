@@ -2,8 +2,8 @@
  * OSGi module.
  * This module provides access to OSGi services.
  *
+ * @namespace osgi
  */
-
 const log = require('./log')('osgi');
 const bundleContext = require('@runtime/osgi').bundleContext;
 const lifecycle = require('@runtime/osgi').lifecycle;
@@ -11,6 +11,8 @@ const Hashtable = Java.type('java.util.Hashtable');
 
 /**
  * Map of interface names to sets of services registered (by this module)
+ *
+ * @private
  */
 const registeredServices = {};
 
@@ -32,7 +34,6 @@ const jsObjectToHashtable = function (obj) {
  * @private
  * @param {String|HostClass} classOrName the class of the service to get
  * @returns an instance of the service, or null if it cannot be found
- * @memberOf osgi
  */
 const lookupService = function (classOrName) {
   let bc = bundleContext;
@@ -52,11 +53,11 @@ const lookupService = function (classOrName) {
 /**
  * Gets a service registered with OSGi. Allows providing multiple classes/names to try for lookup.
  *
+ * @memberof osgi
  * @param {Array<String|HostClass>} classOrNames the class of the service to get
  *
  * @returns an instance of the service, or null if it cannot be found
  * @throws {Error} if no services of the requested type(s) can be found
- * @memberOf osgi
  */
 const getService = function (...classOrNames) {
   let rv = null;
@@ -79,10 +80,10 @@ const getService = function (...classOrNames) {
 /**
  * Finds services registered with OSGi.
  *
+ * @memberof osgi
  * @param {String} className the class of the service to get
  * @param {*} [filter] an optional filter used to filter the returned services
  * @returns {Object[]} any instances of the service that can be found
- * @memberOf osgi
  */
 const findServices = function (className, filter) {
   if (bundleContext !== null) {

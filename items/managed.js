@@ -16,13 +16,15 @@ const managedItemProvider = osgi.getService('org.openhab.core.items.ManagedItemP
 
 /**
  * Tag value to be attached to all dynamically created items.
+ *
+ * @memberof items
  */
 const DYNAMIC_ITEM_TAG = '_DYNAMIC_';
 
 /**
  * Class representing an openHAB Item
  *
- * @memberOf items
+ * @memberof items
  */
 class Item {
   /**
@@ -366,7 +368,7 @@ const createItem = function (itemConfig) {
  * Note that all items created this way have an additional tag attached, for simpler retrieval later. This tag is
  * created with the value {@link DYNAMIC_ITEM_TAG}.
  *
- * @memberOf items
+ * @memberof items
  * @param {Object} itemConfig the Item config describing the Item
  * @param {String} itemConfig.type the type of the Item
  * @param {String} itemConfig.name Item name for the Item to create
@@ -415,7 +417,7 @@ const addItem = function (itemConfig) {
  * Removes an Item from openHAB. The Item is removed immediately and cannot be recovered.
  *
  * @memberof items
- * @param {String|HostItem} itemOrItemName the Item or the name or the Item to remove
+ * @param {String|HostItem} itemOrItemName the Item or the name of the Item to remove
  * @returns {Boolean} true if the item was actually removed
  */
 const removeItem = function (itemOrItemName) {
@@ -465,7 +467,7 @@ const removeItem = function (itemOrItemName) {
  * periodically, during startup or even during development of the script. Using fixed item names will ensure
  * that the items remain up-to-date, but won't fail with issues related to duplicate items.
  *
- * @memberOf items
+ * @memberof items
  * @param {Object} itemConfig the Item config describing the Item
  * @param {String} itemConfig.type the type of the Item
  * @param {String} itemConfig.name Item name for the Item to create
@@ -500,7 +502,7 @@ const replaceItem = function (itemConfig) {
 
 /**
  * Gets an openHAB Item.
- * @memberOf items
+ * @memberof items
  * @param {String} name the name of the item
  * @param {String} nullIfMissing whether to return null if the item cannot be found (default is to throw an exception)
  * @return {items.Item} the item
@@ -522,7 +524,7 @@ const getItem = (name, nullIfMissing = false) => {
 /**
  * Gets all openHAB Items.
  *
- * @memberOf items
+ * @memberof items
  * @return {items.Item[]} all items
  */
 const getItems = () => {
@@ -532,7 +534,7 @@ const getItems = () => {
 /**
  * Gets all openHAB Items with a specific tag.
  *
- * @memberOf items
+ * @memberof items
  * @param {...String} tagNames an array of tags to match against
  * @return {items.Item[]} the items with a tag that is included in the passed tags
  */
@@ -542,7 +544,7 @@ const getItemsByTag = (...tagNames) => {
 
 /**
  * Helper function to ensure an item name is valid. All invalid characters are replaced with an underscore.
- * @memberOf items
+ * @memberof items
  * @param {String} s the name to make value
  * @returns {String} a valid item name
  */

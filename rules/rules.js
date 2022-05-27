@@ -140,6 +140,7 @@ const runRule = function (uid, args = {}, cond = true) {
   * Tests to see if the rule with the given UID is enabled or disabled. Throws
   * and error if the rule doesn't exist.
   *
+  * @memberof rules
   * @param {String} uid
   * @returns {Boolean} whether or not the rule is enabled
   * @throws Will throw an error when the rule is not found.
@@ -155,6 +156,7 @@ const isEnabled = function (uid) {
   * Enables or disables the rule with the given UID. Throws an error if the
   * rule doesn't exist.
   *
+  * @memberof rules
   * @param {String} uid UID of the rule
   * @param {Boolean} isEnabled when true, the rule is enabled, otherwise the rule is disabled
   * @throws Will throw an error when the rule is not found.
