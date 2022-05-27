@@ -1,4 +1,3 @@
-
 const log = require('./log')('utils');
 
 const HashSet = Java.type('java.util.HashSet');
@@ -112,8 +111,9 @@ const randomUUID = () => Java.type('java.util.UUID').randomUUID();
  *
  * @memberOf utils
  * @param {*} obj object
+ * @param {Boolean} [dumpProps=false] whether properties also should be dumped
  */
-const dumpObject = function (obj) {
+const dumpObject = function (obj, dumpProps = false) {
   try {
     log.info('Dumping object...');
     log.info('  typeof obj = {}', (typeof obj));
@@ -130,22 +130,29 @@ const dumpObject = function (obj) {
           log.info('Dumping contents...');
           const keys = obj.keySet().toArray();
           for (const key in keys) {
-            log.info(`${keys[key]}(${typeof keys[key]}) = ${obj.get(keys[key])}(${typeof obj.get(keys[key])})`);
+            log.info('{}({}) = {}({})', keys[key], typeof keys[key], obj.get(keys[key]), typeof obj.get(keys[key]));
             if (typeof keys[key] === 'object') {
-              log.info('Dumping key...');
-              exports.dumpObject(keys[key]);
+              log.info('Dumping key {} ...', keys[key]);
+              dumpObject(keys[key]);
             }
           }
         }
       }
     } else if (typeof obj === 'string') {
       log.info('String value = ' + obj);
+    } else if (typeof obj === 'object' && obj != null) {
+      const keys = Object.keys(obj);
+      log.info('  getOwnPropertyNames(obj) = {}', keys.toString());
+      log.info('  getAllPropertyNames(obj) = {}', getAllPropertyNames(obj).toString());
+      // log.info("obj.toString() = {}", obj.toString());
+      // log.info("JSON.stringify(obj) = {}", JSON.stringify(obj));
+      if (dumpProps === true) {
+        for (const key in keys) {
+          log.info('Dumping property {} ...', keys[key]);
+          dumpObject(obj[keys[key]]);
+        }
+      }
     }
-
-    log.info('  getOwnPropertyNames(obj) = {}', Object.keys(obj).toString());
-    log.info('  getAllPropertyNames(obj) = {}', getAllPropertyNames(obj).toString());
-    // log.info("obj.toString() = {}", obj.toString());
-    // log.info("JSON.stringify(obj) = {}", JSON.stringify(obj));
   } catch (e) {
     log.info('Failed to dump object: ' + e.message);
   }
