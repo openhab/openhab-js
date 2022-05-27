@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>rules/trigger-builder.js - Documentation</title>
+    <title>osgi - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -34,575 +34,498 @@
 
 <div id="main">
     
-    <h1 class="page-title">rules/trigger-builder.js</h1>
+    <h1 class="page-title">osgi</h1>
     
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>const triggers = require('../triggers');
-const operations = require('./operation-builder');
-const conditions = require('./condition-builder');
+        <h2>
+        osgi
+        </h2>
+        
+    
+</header>
 
-/**
- * Builder for rule Triggers
- *
- * @hideconstructor
- */
-class TriggerBuilder {
-  constructor (builder) {
-    this.builder = builder;
-  }
+<article>
+    
+        <div class="container-overview">
+        
+            
 
-  _setTrigger (trigger) {
-    this.currentTigger = trigger;
-    return this.currentTigger;
-  }
+<dl class="details">
 
-  _or () {
-    this.builder.addTrigger(this.currentTigger);
-    return this;
-  }
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="osgi.js.html">osgi.js</a>, <a href="osgi.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
 
-  _then (fn) {
-    this._or();
-    return new operations.OperationBuilder(this.builder, fn);
-  }
+    
 
-  _if (fn) {
-    this._or();
-    return new conditions.ConditionBuilder(this.builder, fn);
-  }
+    
 
-  /**
-     * Specifies a channel event as a source for the rule to fire.
-     *
-     * @param {String} channelName the name of the channel
-     * @returns {TriggerBuilder.ChannelTriggerConfig} the trigger config
-     */
-  channel (s) {
-    return this._setTrigger(new ChannelTriggerConfig(s, this));
-  }
+    
 
-  /**
-     * Specifies a cron schedule for the rule to fire.
-     *
-     * @param {String} cronExpression the cron expression
-     * @returns {TriggerBuilder.CronTriggerConfig} the trigger config
-     */
-  cron (s) {
-    return this._setTrigger(new CronTriggerConfig(s, this));
-  }
+    
 
-  /**
-     * Specifies an item as the source of changes to trigger a rule.
-     *
-     * @param {String} itemName the name of the item
-     * @returns {TriggerBuilder.ItemTriggerConfig} the trigger config
-     */
-  item (s) {
-    return this._setTrigger(new ItemTriggerConfig(s, false, this));
-  }
+    
 
-  /**
-     * Specifies an group member as the source of changes to trigger a rule.
-     *
-     * @param {String} groupName the name of the group
-     * @returns {TriggerBuilder.ItemTriggerConfig} the trigger config
-     */
-  memberOf (s) {
-    return this._setTrigger(new ItemTriggerConfig(s, true, this));
-  }
+    
 
-  /**
-     * Specifies a Thing status event as a source for the rule to fire.
-     *
-     * @param {String} thingUID the UID of the Thing
-     * @returns {TriggerBuilder.ThingTriggerConfig} the trigger config
-     */
-  thing (s) {
-    return this._setTrigger(new ThingTriggerConfig(s, this));
-  }
+    
 
-  /**
-     * Specifies a system event as a source for the rule to fire.
-     *
-     * @memberof TriggerBuilder
-     * @returns {TriggerBuilder.SystemTriggerConfig} the trigger config
-     */
-  system () {
-    return this._setTrigger(new SystemTriggerConfig(this));
-  }
-}
+    
 
-/**
- * {RuleBuilder} RuleBuilder triggers
- * @memberof TriggerBuilder
- */
-class TriggerConf {
-  constructor (triggerBuilder) {
-    this.triggerBuilder = triggerBuilder;
-  }
+    
 
-  /**
-     * Add an additional Trigger
-     *
-     * @returns {TriggerBuilder}
-     */
-  or () {
-    return this.triggerBuilder._or();
-  }
+    
 
-  /**
-     * Move to the rule operations
-     *
-     * @param {*} function the optional function to execute
-     * @returns {OperationBuilder}
-     */
-  then (fn) {
-    return this.triggerBuilder._then(fn);
-  }
+    
 
-  /**
-     * Move to the rule condition
-     *
-     * @param {*} function the optional function to execute
-     * @returns {ConditionBuilder}
-     */
-  if (fn) {
-    return this.triggerBuilder._if(fn);
-  }
-}
+    
 
-/**
- * @memberof TriggerBuilder
- * @extends TriggerBuilder.TriggerConf
- * @hideconstructor
- */
-class ChannelTriggerConfig extends TriggerConf {
-  constructor (channelName, triggerBuilder) {
-    super(triggerBuilder);
-    this.channelName = channelName;
-    this._toOHTriggers = () => [triggers.ChannelEventTrigger(this.channelName, this.eventName)];
-  }
+    
 
-  describe (compact) {
-    if (compact) {
-      return this.channelName + (this.eventName ? `:${this.eventName}` : '');
-    } else {
-      return `matches channel "${this.channelName}"` + (this.eventName ? `for event ${this.eventName}` : '');
-    }
-  }
+    
 
-  /**
-     * trigger a specific event name
-     *
-     * @param {string} eventName
-     * @returns {TriggerBuilder.ChannelTriggerConfig}
-     */
-  to (eventName) {
-    return this.triggered(eventName);
-  }
+    
+</dl>
 
-  /**
-     * trigger a specific event name
-     *
-     * @param {string} eventName
-     * @returns {TriggerBuilder.ChannelTriggerConfig}
-     */
-  triggered (eventName) {
-    this.eventName = eventName || '';
-    return this;
-  }
 
-  _complete () {
-    return typeof (this.eventName) !== 'undefined';
-  }
-}
 
-/**
- * Cron based trigger
- *
- * @memberof TriggerBuilder
- * @extends TriggerBuilder.TriggerConf
- * @hideconstructor
- */
-class CronTriggerConfig extends TriggerConf {
-  constructor (timeStr, triggerBuilder) {
-    super(triggerBuilder);
-    this.timeStr = timeStr;
-    this._complete = () => true;
-    this._toOHTriggers = () => [triggers.GenericCronTrigger(this.timeStr)];
-    this.describe = (compact) => compact ? `cron_${this.timeStr}` : `matches cron "${this.timeStr}"`;
-  }
-}
 
-/**
- * item based trigger
- *
- * @memberof TriggerBuilder
- * @extends TriggerBuilder.TriggerConf
- * @hideconstructor
- */
-class ItemTriggerConfig extends TriggerConf {
-  constructor (itemOrName, isGroup, triggerBuilder) {
-    super(triggerBuilder);
-    this.type = isGroup ? 'memberOf' : 'item';
-    if (typeof itemOrName !== 'string') {
-      itemOrName = itemOrName.name;
-    }
+            
+                <div class="description usertext"><p>OSGi module.
+This module provides access to OSGi services.</p></div>
+            
 
-    this.item_name = itemOrName;
-    this.describe = () => `${this.type} ${this.item_name} changed`;
-    this.of = this.to; // receivedCommand().of(..)
-  }
+            
+        
+        </div>
+    
 
-  /**
-     * Item to
-     *
-     * @param {*} value this item should be triggered to
-     * @returns {TriggerBuilder.ItemTriggerConfig}
-     */
-  to (value) {
-    this.to_value = value;
-    return this;
-  }
+    
 
-  /**
-     * Item from
-     * @param {*} value this items should be triggered from
-     * @returns {TriggerBuilder.ItemTriggerConfig}
-     */
-  from (value) {
-    if (this.op_type !== 'changed') {
-      throw Error('.from(..) only available for .changed()');
-    }
-    this.from_value = value;
-    return this;
-  }
+    
 
-  /**
-     * item changed to OFF
-     *
-     * @returns {TriggerBuilder.ItemTriggerConfig}
-     */
-  toOff () {
-    return this.to('OFF');
-  }
+    
+    
+    
 
-  /**
-     * item changed to ON
-     *
-     * @returns {TriggerBuilder.ItemTriggerConfig}
-     */
-  toOn () {
-    return this.to('ON');
-  }
+     
 
-  /**
-     * item recieved command
-     *
-     * @returns {TriggerBuilder.ItemTriggerConfig}
-     */
-  receivedCommand () {
-    this.op_type = 'receivedCommand';
-    return this;
-  }
+    
 
-  /**
-     * item recieved update
-     *
-     * @returns {TriggerBuilder.ItemTriggerConfig}
-     */
-  receivedUpdate () {
-    this.op_type = 'receivedUpdate';
-    return this;
-  }
+    
 
-  /**
-     * item changed state
-     *
-     * @returns {TriggerBuilder.ItemTriggerConfig}
-     */
-  changed () {
-    this.op_type = 'changed';
-    return this;
-  }
+    
+        <h3 class="subsection-title">Methods</h3>
 
-  /**
-     * For timespan
-     * @param {*} timespan
-     * @returns {TriggerBuilder.ItemTriggerConfig}
-     */
-  for (timespan) {
-    return new operations.TimingItemStateOperation(this, timespan);
-  }
+        
+            
 
-  _complete () {
-    return typeof (this.op_type) !== 'undefined';
-  }
+    
 
-  describe (compact) {
-    switch (this.op_type) {
-      case 'changed':
-        if (compact) {
-          let transition = this.from_value + '=>' || '';
-          if (this.to_value) {
-            transition = (transition || '=>') + this.to_value;
-          }
+    <h4 class="name" id=".getService"><span class="type-signature">(static) </span>getService<span class="signature">(&hellip;classOrNames)</span><span class="type-signature"></span></h4>
 
-          return `${this.item_name} ${transition}/Δ`;
-        } else {
-          let transition = 'changed';
-          if (this.from_value) {
-            transition += ` from ${this.from_value}`;
-          }
+    
 
-          if (this.to_value) {
-            transition += ` to ${this.to_value}`;
-          }
 
-          return `${this.item_name} ${transition}`;
-        }
-      case 'receivedCommand':
-        return compact ? `${this.item_name}/⌘` : `${this.type} ${this.item_name} received command`;
-      case 'receivedUpdate':
-        return compact ? `${this.item_name}/↻` : `${this.type} ${this.item_name} received update`;
-      default:
-        throw Error('Unknown operation type: ' + this.op_type);
-    }
-  }
 
-  _toOHTriggers () {
-    if (this.type === 'memberOf') {
-      switch (this.op_type) {
-        case 'changed':
-          return [triggers.GroupStateChangeTrigger(this.item_name, this.from_value, this.to_value)];
-        case 'receivedCommand':
-          return [triggers.GroupCommandTrigger(this.item_name, this.to_value)];
-        case 'receivedUpdate':
-          return [triggers.GroupStateUpdateTrigger(this.item_name, this.to_value)];
-        default:
-          throw Error('Unknown operation type: ' + this.op_type);
-      }
-    } else {
-      switch (this.op_type) {
-        case 'changed':
-          return [triggers.ItemStateChangeTrigger(this.item_name, this.from_value, this.to_value)];
-        case 'receivedCommand':
-          return [triggers.ItemCommandTrigger(this.item_name, this.to_value)];
-        case 'receivedUpdate':
-          return [triggers.ItemStateUpdateTrigger(this.item_name, this.to_value)];
-        default:
-          throw Error('Unknown operation type: ' + this.op_type);
-      }
-    }
-  }
 
-  _executeHook () {
-    const getReceivedCommand = function (args) {
-      return args.receivedCommand;
-    };
+<dl class="details">
 
-    if (this.op_type === 'receivedCommand') { // add the received command as 'it'
-      return function (next, args) {
-        const it = getReceivedCommand(args);
-        return next({
-          ...args,
-          it
-        });
-      };
-    } else {
-      return null;
-    }
-  }
-}
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="osgi.js.html">osgi.js</a>, <a href="osgi.js.html#line62">line 62</a>
+    </li></ul></dd>
+    
 
-/**
- * Thing based trigger
- *
- * @memberof TriggerBuilder
- * @extends TriggerBuilder.TriggerConf
- * @hideconstructor
- */
-class ThingTriggerConfig extends TriggerConf {
-  constructor (thingUID, triggerBuilder) {
-    super(triggerBuilder);
-    this.thingUID = thingUID;
-  }
+    
 
-  _complete () {
-    return typeof (this.op_type) !== 'undefined';
-  }
+    
 
-  describe (compact) {
-    switch (this.op_type) {
-      case 'changed':
-        let transition = 'changed'; // eslint-disable-line no-case-declarations
+    
 
-        if (this.to_value) {
-          transition += ` to ${this.to_value}`;
-        }
+    
 
-        if (this.from_value) {
-          transition += ` from ${this.from_value}`;
-        }
+    
 
-        return `${this.thingUID} ${transition}`;
-      case 'updated':
-        return compact ? `${this.thingUID}/updated` : `Thing ${this.thingUID} received update`;
-      default:
-        throw Error('Unknown operation type: ' + this.op_type);
-    }
-  }
+    
 
-  /**
-     * thing changed
-     *
-     * @returns {TriggerBuilder.ThingTriggerConfig}
-     */
-  changed () {
-    this.op_type = 'changed';
-    return this;
-  }
+    
 
-  /**
-     * thing updates
-     *
-     * @returns {TriggerBuilder.ThingTriggerConfig}
-     */
-  updated () {
-    this.op_type = 'updated';
-    return this;
-  }
+    
 
-  /**
-     * thing status changed from
-     *
-     * @returns {TriggerBuilder.ThingTriggerConfig}
-     */
-  from (value) {
-    if (this.op_type !== 'changed') {
-      throw Error('.from(..) only available for .changed()');
-    }
-    this.from_value = value;
-    return this;
-  }
+    
 
-  /**
-     * thing status changed to
-     *
-     * @returns {TriggerBuilder.ThingTriggerConfig}
-     */
-  to (value) {
-    this.to_value = value;
-    return this;
-  }
+    
 
-  _toOHTriggers () {
-    switch (this.op_type) {
-      case 'changed':
-        return [triggers.ThingStatusChangeTrigger(this.thingUID, this.to_value, this.from_value)];
-      case 'updated':
-        return [triggers.ThingStatusUpdateTrigger(this.thingUID, this.to_value)];
-      default:
-        throw Error('Unknown operation type: ' + this.op_type);
-    }
-  }
-}
+    
 
-/**
- * System based trigger
- *
- * @memberof TriggerBuilder
- * @extends TriggerBuilder.TriggerConf
- * @hideconstructor
- */
-class SystemTriggerConfig extends TriggerConf {
-  constructor (triggerBuilder) {
-    super(triggerBuilder);
-    this._toOHTriggers = () => [triggers.SystemStartlevelTrigger(this.level)];
-    this.describe = (compact) => compact ? `system:${this.level}` : `system level "${this.level}"`;
-  }
+    
 
-  _complete () {
-    return typeof (this.level) !== 'undefined';
-  }
+    
 
-  /**
-     * System trigger
-     *
-     * @returns {TriggerBuilder.SystemTriggerConfig}
-     */
-  rulesLoaded () {
-    return this.startLevel(40);
-  }
+    
 
-  /**
-     * System trigger
-     *
-     * @returns {TriggerBuilder.SystemTriggerConfig}
-     */
-  ruleEngineStarted () {
-    return this.startLevel(50);
-  }
+    
+</dl>
 
-  /**
-     * System trigger
-     *
-     * @returns {TriggerBuilder.SystemTriggerConfig}
-     */
-  userInterfacesStarted () {
-    return this.startLevel(70);
-  }
 
-  /**
-     * System trigger
-     *
-     * @returns {TriggerBuilder.SystemTriggerConfig}
-     */
-  thingsInitialized () {
-    return this.startLevel(80);
-  }
 
-  /**
-     * System trigger
-     *
-     * @returns {TriggerBuilder.SystemTriggerConfig}
-     */
-  startupComplete () {
-    return this.startLevel(100);
-  }
 
-  /**
-     * System trigger
-     *
-     * @returns {TriggerBuilder.SystemTriggerConfig}
-     */
-  startLevel (level) {
-    if (typeof (this.level) !== 'undefined') {
-      throw Error('Level already set');
-    }
-    this.level = level;
-    return this;
-  }
-}
 
-module.exports = {
-  CronTriggerConfig,
-  ChannelTriggerConfig,
-  ItemTriggerConfig,
-  ThingTriggerConfig,
-  SystemTriggerConfig,
-  TriggerBuilder
-};
-</code></pre>
-        </article>
-    </section>
+<div class="description usertext">
+    <p>Gets a service registered with OSGi. Allows providing multiple classes/names to try for lookup.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>classOrNames</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;(String|<a href="global.html#HostClass">HostClass</a>)></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                    &lt;repeatable><br>
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>the class of the service to get</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Throws:</h5>
+
+        
+
+<dl>
+    <dt>
+        <div class="param-desc usertext">
+        <p>if no services of the requested type(s) can be found</p>
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl class="param-type">
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">Error</span>
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+
+    
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>an instance of the service, or null if it cannot be found</p>
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".findServices"><span class="type-signature">(static) </span>findServices<span class="signature">(className, filter<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Array.&lt;Object>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="osgi.js.html">osgi.js</a>, <a href="osgi.js.html#line88">line 88</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Finds services registered with OSGi.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>className</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>the class of the service to get</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>filter</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>an optional filter used to filter the returned services</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>any instances of the service that can be found</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;Object></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 
