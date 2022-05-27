@@ -412,11 +412,11 @@ const addItem = function (itemConfig) {
 };
 
 /**
- * Removes an item from OpenHab. The item is removed immediately and cannot be recoved.
+ * Removes an Item from openHAB. The Item is removed immediately and cannot be recovered.
  *
- * @memberOf items
- * @param {String|HostItem} itemOrItemName the item to remove
- * @returns {Boolean} true iff the item is actually removed
+ * @memberof items
+ * @param {String|HostItem} itemOrItemName the Item or the name or the Item to remove
+ * @returns {Boolean} true if the item was actually removed
  */
 const removeItem = function (itemOrItemName) {
   let itemName;
@@ -426,22 +426,33 @@ const removeItem = function (itemOrItemName) {
   } else if (itemOrItemName.hasOwnProperty('name')) { // eslint-disable-line no-prototype-builtins
     itemName = itemOrItemName.name;
   } else {
-    log.warn('Item not registered (or supplied name is not a string) so cannot be removed');
+    log.warn('Item name is undefined (no Item supplied or supplied name is not a string) so cannot be removed');
     return false;
   }
 
-  if (typeof getItem(itemName) === 'undefined') {
-    log.warn('Item not registered so cannot be removed');
-    return false;
+  try { // If the Item is not registered, ItemNotFoundException is thrown.
+    getItem(itemName);
+  } catch (e) {
+    if (Java.typeName(e.class) === 'org.openhab.core.items.ItemNotFoundException') {
+      log.error('Item {} not registered so cannot be removed: {}', itemName, e.message);
+      return false;
+    } else { // If exception/error is not ItemNotFouncException, rethrow.
+      throw Error(e);
+    }
   }
 
   managedItemProvider.remove(itemName);
 
-  if (typeof itemRegistry.getItem(itemName) === 'undefined') {
-    return true;
-  } else {
-    log.warn('Failed to remove item: ' + itemName);
+  try { // If the Item has been successfully removed, ItemNotFoundException is thrown.
+    itemRegistry.getItem(itemName);
+    log.warn('Failed to remove Item: {}', itemName);
     return false;
+  } catch (e) {
+    if (Java.typeName(e.class) === 'org.openhab.core.items.ItemNotFoundException') {
+      return true;
+    } else { // If exception/error is not ItemNotFoundException, rethrow.
+      throw Error(e);
+    }
   }
 };
 
