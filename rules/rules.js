@@ -209,7 +209,7 @@ const JSRule = function (ruleConfig) {
 
   const doExecute = function (module, input) {
     try {
-      return ruleConfig.execute(getTriggeredData(input));
+      return ruleConfig.execute(getTriggeredData(input), input, module);
     } catch (error) {
       // logging error is required for meaningful error log message
       // when throwing error: error is caught by core framework and no meaningful message is logged
