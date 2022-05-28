@@ -1,4 +1,3 @@
-
 /**
  * Triggers namespace.
  * This namespace allows creation of openHAB rule triggers.
@@ -19,6 +18,7 @@ const Configuration = Java.type('org.openhab.core.config.core.Configuration');
  * @param {String} typeString the type of trigger to create
  * @param {String} [name] the name of the trigger
  * @param {Configuration} config the trigger configuration
+ * @returns {HostTrigger} {@link HostTrigger}
  */
 const createTrigger = function (typeString, name, config) {
   if (typeof name === 'undefined' || name === null) {
@@ -44,7 +44,7 @@ module.exports = {
      * @memberof triggers
      * @param {String} channel the name of the channel
      * @param {String} event the name of the event to listen for
-     * @param {String} [triggerName] the name of the trigger to create
+     * @param {String} [triggerName] the optional name of the trigger to create
      *
      */
   ChannelEventTrigger: (channel, event, triggerName) => createTrigger('core.ChannelEventTrigger', triggerName, {
@@ -53,17 +53,17 @@ module.exports = {
   }),
 
   /**
-     * Creates a trigger that fires upon an item changing state.
+     * Creates a trigger that fires upon an Item changing state.
      *
      * @example
      * ItemStateChangeTrigger('my_item', 'OFF', 'ON')
      *
      * @name ItemStateChangeTrigger
      * @memberof triggers
-     * @param {String} itemName the name of the item to monitor for change
-     * @param {String} [oldState] the previous state of the item
-     * @param {String} [newState] the new state of the item
-     * @param {String} [triggerName] the name of the trigger to create
+     * @param {String} itemName the name of the Item to monitor for change
+     * @param {String} [oldState] the previous state of the Item
+     * @param {String} [newState] the new state of the Item
+     * @param {String} [triggerName] the optional name of the trigger to create
      */
   ItemStateChangeTrigger: (itemName, oldState, newState, triggerName) => createTrigger('core.ItemStateChangeTrigger', triggerName, {
     itemName: itemName,
@@ -72,16 +72,16 @@ module.exports = {
   }),
 
   /**
-     * Creates a trigger that fires upon an item receiving a state update. Note that the item does not need to change state.
+     * Creates a trigger that fires upon an Item receiving a state update. Note that the Item does not need to change state.
      *
      * @example
      * ItemStateUpdateTrigger('my_item', 'OFF')
      *
      * @name ItemStateUpdateTrigger
      * @memberof triggers
-     * @param {String} itemName the name of the item to monitor for change
-     * @param {String} [state] the new state of the item
-     * @param {String} [triggerName] the name of the trigger to create
+     * @param {String} itemName the name of the Item to monitor for change
+     * @param {String} [state] the new state of the Item
+     * @param {String} [triggerName] the optional name of the trigger to create
      */
   ItemStateUpdateTrigger: (itemName, state, triggerName) => createTrigger('core.ItemStateUpdateTrigger', triggerName, {
     itemName: itemName,
@@ -89,16 +89,16 @@ module.exports = {
   }),
 
   /**
-     * Creates a trigger that fires upon an item receiving a command. Note that the item does not need to change state.
+     * Creates a trigger that fires upon an Item receiving a command. Note that the Item does not need to change state.
      *
      * @example
      * ItemCommandTrigger('my_item', 'OFF')
      *
      * @name ItemCommandTrigger
      * @memberof triggers
-     * @param {String} itemName the name of the item to monitor for change
+     * @param {String} itemName the name of the Item to monitor for change
      * @param {String} [command] the command received
-     * @param {String} [triggerName] the name of the trigger to create
+     * @param {String} [triggerName] the optional name of the trigger to create
      */
   ItemCommandTrigger: (itemName, command, triggerName) => createTrigger('core.ItemCommandTrigger', triggerName, {
     itemName: itemName,
@@ -116,7 +116,7 @@ module.exports = {
      * @param {String} groupName the name of the group to monitor for change
      * @param {String} [oldState] the previous state of the group
      * @param {String} [newState] the new state of the group
-     * @param {String} [triggerName] the name of the trigger to create
+     * @param {String} [triggerName] the optional name of the trigger to create
      */
   GroupStateChangeTrigger: (groupName, oldState, newState, triggerName) => createTrigger('core.GroupStateChangeTrigger', triggerName, {
     groupName: groupName,
@@ -134,7 +134,7 @@ module.exports = {
      * @memberof triggers
      * @param {String} groupName the name of the group to monitor for change
      * @param {String} [state] the new state of the group
-     * @param {String} [triggerName] the name of the trigger to create
+     * @param {String} [triggerName] the optional name of the trigger to create
      */
   GroupStateUpdateTrigger: (groupName, state, triggerName) => createTrigger('core.GroupStateUpdateTrigger', triggerName, {
     groupName: groupName,
@@ -151,7 +151,7 @@ module.exports = {
      * @memberof triggers
      * @param {String} groupName the name of the group to monitor for change
      * @param {String} [command] the command received
-     * @param {String} [triggerName] the name of the trigger to create
+     *@param {String} [triggerName] the optional name of the trigger to create
      */
   GroupCommandTrigger: (groupName, command, triggerName) => createTrigger('core.GroupCommandTrigger', triggerName, {
     groupName: groupName,
@@ -168,7 +168,7 @@ module.exports = {
      * @memberof triggers
      * @param {String} thingUID the name of the thing to monitor for a status updating
      * @param {String} [status] the optional status to monitor for
-     * @param {String} [triggerName] the name of the trigger to create
+     * @param {String} [triggerName] the optional name of the trigger to create
      */
   ThingStatusUpdateTrigger: (thingUID, status, triggerName) => createTrigger('core.ThingStatusUpdateTrigger', triggerName, {
     thingUID: thingUID,
@@ -211,7 +211,7 @@ module.exports = {
      * @name SystemStartlevelTrigger
      * @memberof triggers
      * @param {String} startlevel the system start level to be triggered on
-     * @param {String} [triggerName] the name of the trigger to create
+     * @param {String} [triggerName] the optional name of the trigger to create
      */
   SystemStartlevelTrigger: (startlevel, triggerName) => createTrigger('core.SystemStartlevelTrigger', triggerName, {
     startlevel: startlevel
@@ -226,6 +226,7 @@ module.exports = {
      * @name GenericCronTrigger
      * @memberof triggers
      * @param {String} expression the cron expression defining the triggering schedule
+     * @param {String} [triggerName] the optional name of the trigger to create
      */
   GenericCronTrigger: (expression, triggerName) => createTrigger('timer.GenericCronTrigger', triggerName, {
     cronExpression: expression
@@ -240,9 +241,41 @@ module.exports = {
      * @name TimeOfDayTrigger
      * @memberof triggers
      * @param {String} time the time expression defining the triggering schedule
+     * @param {String} [triggerName] the optional name of the trigger to create
      */
   TimeOfDayTrigger: (time, triggerName) => createTrigger('timer.TimeOfDayTrigger', triggerName, {
     time: time
+  }),
+
+  /**
+   * Creates a trigger for the {@link https://openhab.org/addons/automation/pwm/ Pulse Width Modulation (PWM) Automation} add-on.
+   *
+   * @example
+   * rules.JSRule({
+   *   name: "Termostat x PWM rule",
+   *   triggers: [
+   *     triggers.PWMTrigger('pwm_dimmer', 10)
+   *   ],
+   *   execute: (event, input) => {
+   *     items.getItem('pwm_switch').sendCommand(input.command.toString());
+   *   }
+   * });
+   *
+   * @name PWMTrigger
+   * @memberof triggers
+   * @param {String} dutycycleItem Item (PercentType) to read the duty cycle from
+   * @param {Number} interval constant interval in which the output is switch ON and OFF again (in sec)
+   * @param {Number} [minDutyCycle] any duty cycle below this value will be increased to this value
+   * @param {Number} [maxDutyCycle] any duty cycle above this value will be decreased to this value
+   * @param {Number} [deadManSwitch] output will be switched off, when the duty cycle is not updated within this time (in ms)
+   * @param {String} [triggerName] the optional name of the trigger to create
+   */
+  PWMTrigger: (dutycycleItem, interval, minDutyCycle, maxDutyCycle, deadManSwitch, triggerName) => createTrigger('pwm.trigger', triggerName, {
+    dutycycleItem: dutycycleItem,
+    interval: interval,
+    minDutyCycle: minDutyCycle,
+    maxDutyCycle: maxDutyCycle,
+    deadManSwitch: deadManSwitch
   })
 
   /* not yet tested
