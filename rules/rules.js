@@ -5,6 +5,29 @@
  * @namespace rules
  */
 
+/**
+ * @typedef {Object} EventObject When a rule is triggered, the script is provided the event instance that triggered it. The specific data depends on the event type. The {@link EventObject} provides several information about that trigger.
+ * @memberof rules
+ * @property {String} oldState only for {@link triggers.ItemStateChangeTrigger} & {@link triggers.GroupStateChangeTrigger}: Previous state of Item or Group that triggered event
+ * @property {String} newState only for {@link triggers.ItemStateChangeTrigger} & {@link triggers.GroupStateChangeTrigger}: New state of Item or Group that triggered event
+ * @property {String} state only for {@link triggers.ItemStateUpdateTrigger} & {@link triggers.GroupStateUpdateTrigger}: State of Item that triggered event
+ * @property {String} receivedCommand only for {@link triggers.ItemCommandTrigger} & {@link triggers.GroupCommandTrigger}: Command that triggered event
+ * @property {String} receivedState only for {@link triggers.ItemStateUpdateTrigger} & {@link triggers.GroupStateUpdateTrigger}: State that triggered event
+ * @property {*} receivedTrigger only for {@link triggers.ChannelEventTrigger}: Trigger that triggered event
+ * @property {String} itemName for all triggers: Name of Item that triggered event
+ * @property {String} eventType for all triggers except ThingStatus****Triggers: Type of event that triggered event (change, command, time, triggered, update)
+ * @property {String} triggerType for all triggers except ThingStatus****Triggers: Type of trigger that triggered event (for TimeOfDayTrigger: GenericCronTrigger)
+ * @property {*} payload not for all triggers
+ */
+
+/**
+ * @callback RuleCallback When a rule is run, a callback is executed.
+ * @memberof rules
+ * @param {rules.EventObject} event
+ * @param {*} input raw Java input from the Rule Engine, sometimes required for advances use cases
+ * @param {*} module raw Java input from the Rule Engine, sometimes required for advances use cases
+ */
+
 const GENERATED_RULE_ITEM_TAG = 'GENERATED_RULE_ITEM';
 
 const items = require('../items');
@@ -178,14 +201,14 @@ const setEnabled = function (uid, isEnabled) {
   *  name: "my_new_rule",
   *  description: "this rule swizzles the swallows",
   *  triggers: triggers.GenericCronTrigger("0 30 16 * * ? *"),
-  *  execute: triggerConfig => { //do stuff }
+  *  execute: (event) => { // do stuff }
   * });
   *
   * @memberOf rules
   * @param {Object} ruleConfig The rule config describing the rule
   * @param {String} ruleConfig.name the name of the rule
   * @param {String} [ruleConfig.description] a description of the rule
-  * @param {*} ruleConfig.execute callback that will be called when the rule fires
+  * @param {rules.RuleCallback} ruleConfig.execute callback that will be called when the rule fires
   * @param {HostTrigger|HostTrigger[]} ruleConfig.triggers triggers which will define when to fire the rule
   * @param {String} [ruleConfig.id] the UID of the rule
   * @param {Array<String>} [ruleConfig.tags] the tags for the rule
@@ -300,7 +323,7 @@ const registerRule = function (rule) {
   * @param {Object} ruleConfig The rule config describing the rule
   * @param {String} ruleConfig.name the name of the rule
   * @param {String} [ruleConfig.description] a description of the rule
-  * @param {*} ruleConfig.execute callback that will be called when the rule fires
+  * @param {rules.RuleCallback} ruleConfig.execute callback that will be called when the rule fires
   * @param {HostTrigger|HostTrigger[]} ruleConfig.triggers triggers which will define when to fire the rule
   * @param {String} [ruleConfig.id] the UID of the rule
   * @param {Array<String>} [ruleConfig.tags] the tags for the rule
