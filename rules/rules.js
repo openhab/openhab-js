@@ -351,10 +351,10 @@ const getTriggeredData = function (input) {
     return {
       eventType: 'command',
       triggerType: 'ItemCommandTrigger',
-      receivedCommand: event.getItemCommand(),
+      receivedCommand: event.getItemCommand().toString(),
       oldState: input.get('oldState') + '',
       newState: input.get('newState') + '',
-      itemName: event.getItemName(),
+      itemName: event.getItemName().toString(),
       module: input.get('module')
     };
   }
@@ -377,7 +377,7 @@ const getTriggeredData = function (input) {
     receivedCommand: null,
     receivedState: null,
     receivedTrigger: null,
-    itemName: evArr[0],
+    itemName: evArr[0].toString(),
     module: input.get('module')
   };
 
