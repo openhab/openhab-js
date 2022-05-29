@@ -6,7 +6,12 @@
  */
 
 /**
- * @typedef {Object} EventObject When a rule is triggered, the script is provided the event instance that triggered it. The specific data depends on the event type. The {@link EventObject} provides several information about that trigger.
+ * @typedef {Object} EventObject When a rule is triggered, the script is provided the event instance that triggered it. The specific data depends on the event type. The `EventObject` provides several information about that trigger.
+ *
+ * Note:
+ * `ThingStatusUpdateTrigger`, `ThingStatusChangeTrigger` use *Thing* and `ChannelEventTrigger` uses the the trigger channel name as value for `itemName`.
+ * `Group****Trigger`s use the equivalent `Item****Trigger` as trigger for each member.
+ *
  * @memberof rules
  * @property {String} oldState only for {@link triggers.ItemStateChangeTrigger} & {@link triggers.GroupStateChangeTrigger}: Previous state of Item or Group that triggered event
  * @property {String} newState only for {@link triggers.ItemStateChangeTrigger} & {@link triggers.GroupStateChangeTrigger}: New state of Item or Group that triggered event
@@ -15,8 +20,8 @@
  * @property {String} receivedState only for {@link triggers.ItemStateUpdateTrigger} & {@link triggers.GroupStateUpdateTrigger}: State that triggered event
  * @property {*} receivedTrigger only for {@link triggers.ChannelEventTrigger}: Trigger that triggered event
  * @property {String} itemName for all triggers: Name of Item that triggered event
- * @property {String} eventType for all triggers except ThingStatus****Triggers: Type of event that triggered event (change, command, time, triggered, update)
- * @property {String} triggerType for all triggers except ThingStatus****Triggers: Type of trigger that triggered event (for TimeOfDayTrigger: GenericCronTrigger)
+ * @property {String} eventType for all triggers except `ThingStatus****Triggers`: Type of event that triggered event (change, command, time, triggered, update)
+ * @property {String} triggerType for all triggers except `ThingStatus****Triggers`: Type of trigger that triggered event (for `TimeOfDayTrigger`: `GenericCronTrigger`)
  * @property {*} payload not for all triggers
  */
 

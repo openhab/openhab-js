@@ -13,7 +13,7 @@ This library aims to be a fairly high-level ES6 library to support automation in
 It provides convenient access to common openHAB functionality within rules including items, things, actions, logging and more.
 
 This library is included by default in the openHAB [JavaScript
-binding](https://www.openhab.org/addons/automation/jsscripting/)
+binding](https://www.openhab.org/addons/automation/jsscripting/).
 
 - [Installation](#installation)
   - [Default Installation](#default-installation)
@@ -741,7 +741,7 @@ rules.when().item("F1_light").changed().then(event => {
     console.log(event);
 }).build("Test Rule", "My Test Rule");
 ```
-see [Examples](#rule-builder-examples) for further patterns
+See [Examples](#rule-builder-examples) for further patterns.
 
 #### Rule Builder Triggers
 
@@ -862,13 +862,13 @@ This tables gives an overview over the `event` object:
 | `eventType`       | all except `ThingStatus****Trigger`s                | Type of event that triggered event (change, command, time, triggered, update)       | N/A                    |
 | `triggerType`     | all except `ThingStatus****Trigger`s                | Type of trigger that triggered event (for `TimeOfDayTrigger`: `GenericCronTrigger`) | N/A                    |
 
-All properties are type of String.
+All properties are typeof `string`.
 
 **NOTE:**
 `ThingStatusUpdateTrigger`, `ThingStatusChangeTrigger` use *Thing* and `ChannelEventTrigger` uses the the trigger channel name as value for `itemName`.
 `Group****Trigger`s use the equivalent `Item****Trigger` as trigger for each member.
 
-You may use [utils.dumpObject(event)](https://openhab.github.io/openhab-js/utils.html#.dumpObject) to get all properties of an `event` object.
+See [openhab-js - EventObject](https://openhab.github.io/openhab-js/rules.html#.EventObject) for full APi documentation.
 
 ### Initialization hook: scriptLoaded
 
@@ -888,7 +888,7 @@ For file based scripts, this function will be called if found when the script is
 ```javascript
 scriptUnloaded = function () {
     console.log("script unloaded");
-    //clean up rouge timers
+    // clean up rouge timers
     clearInterval(timer);
 }
 ```
