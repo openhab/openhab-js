@@ -142,7 +142,7 @@ const GroupStateUpdateTrigger = (groupName, state, triggerName) => createTrigger
  * @memberof triggers
  * @param {String} groupName the name of the group to monitor for change
  * @param {String} [command] the command received
- *@param {String} [triggerName] the optional name of the trigger to create
+ * @param {String} [triggerName] the optional name of the trigger to create
  */
 const GroupCommandTrigger = (groupName, command, triggerName) => createTrigger('core.GroupCommandTrigger', triggerName, {
   groupName: groupName,
