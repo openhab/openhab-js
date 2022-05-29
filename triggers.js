@@ -242,8 +242,8 @@ const TimeOfDayTrigger = (time, triggerName) => createTrigger('timer.TimeOfDayTr
  *   triggers: [
  *     triggers.PWMTrigger('pwm_dimmer', 10)
  *   ],
- *   execute: (event, input) => {
- *     items.getItem('pwm_switch').sendCommand(input.command.toString());
+ *   execute: (event) => {
+ *     items.getItem('pwm_switch').sendCommand(event.command);
  *   }
  * });
  *
