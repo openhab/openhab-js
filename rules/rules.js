@@ -19,18 +19,17 @@
  * @property {String} receivedCommand only for {@link triggers.ItemCommandTrigger} & {@link triggers.GroupCommandTrigger}: Command that triggered event
  * @property {String} receivedState only for {@link triggers.ItemStateUpdateTrigger} & {@link triggers.GroupStateUpdateTrigger}: State that triggered event
  * @property {*} receivedTrigger only for {@link triggers.ChannelEventTrigger}: Trigger that triggered event
- * @property {String} itemName for all triggers: Name of Item that triggered event
- * @property {String} eventType for all triggers except `ThingStatus****Triggers`: Type of event that triggered event (change, command, time, triggered, update)
- * @property {String} triggerType for all triggers except `ThingStatus****Triggers`: Type of trigger that triggered event (for `TimeOfDayTrigger`: `GenericCronTrigger`)
+ * @property {String} itemName for all triggers except {@link triggers.PWMTrigger}: name of Item that triggered event
+ * @property {String} eventType for all triggers except `ThingStatus****Triggers`, {@link triggers.PWMTrigger}: Type of event that triggered event (change, command, time, triggered, update)
+ * @property {String} triggerType for all triggers except `ThingStatus****Triggers`, {@link triggers.PWMTrigger}: Type of trigger that triggered event (for `TimeOfDayTrigger`: `GenericCronTrigger`)
  * @property {*} payload not for all triggers
+ * @property {String} command only for {@link triggers.PWMTrigger}: Pulse Width Modulation Automation command
  */
 
 /**
  * @callback RuleCallback When a rule is run, a callback is executed.
  * @memberof rules
  * @param {rules.EventObject} event
- * @param {*} input raw Java input from the Rule Engine, sometimes required for advances use cases
- * @param {*} module raw Java input from the Rule Engine, sometimes required for advances use cases
  */
 
 const GENERATED_RULE_ITEM_TAG = 'GENERATED_RULE_ITEM';
@@ -237,7 +236,7 @@ const JSRule = function (ruleConfig) {
 
   const doExecute = function (module, input) {
     try {
-      return ruleConfig.execute(getTriggeredData(input), input, module);
+      return ruleConfig.execute(getTriggeredData(input));
     } catch (error) {
       // logging error is required for meaningful error log message
       // when throwing error: error is caught by core framework and no meaningful message is logged
@@ -406,7 +405,8 @@ const getTriggeredData = function (input) {
     receivedState: null,
     receivedTrigger: null,
     itemName: evArr[0].toString(),
-    module: input.get('module')
+    module: input.get('module'),
+    command: input.get('command') + '' // for PWM trigger
   };
 
   try {
