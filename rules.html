@@ -317,7 +317,7 @@ This namespace allows creation of openHAB rules.</p></div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="rules_rules.js.html">rules/rules.js</a>, <a href="rules_rules.js.html#line107">line 107</a>
+        <a href="rules_rules.js.html">rules/rules.js</a>, <a href="rules_rules.js.html#line134">line 134</a>
     </li></ul></dd>
     
 
@@ -476,7 +476,7 @@ Only works for rules created in the same file.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="rules_rules.js.html">rules/rules.js</a>, <a href="rules_rules.js.html#line127">line 127</a>
+        <a href="rules_rules.js.html">rules/rules.js</a>, <a href="rules_rules.js.html#line154">line 154</a>
     </li></ul></dd>
     
 
@@ -719,7 +719,7 @@ or is unable to run (e.g. it's disabled).</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="rules_rules.js.html">rules/rules.js</a>, <a href="rules_rules.js.html#line148">line 148</a>
+        <a href="rules_rules.js.html">rules/rules.js</a>, <a href="rules_rules.js.html#line175">line 175</a>
     </li></ul></dd>
     
 
@@ -890,7 +890,7 @@ and error if the rule doesn't exist.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="rules_rules.js.html">rules/rules.js</a>, <a href="rules_rules.js.html#line164">line 164</a>
+        <a href="rules_rules.js.html">rules/rules.js</a>, <a href="rules_rules.js.html#line191">line 191</a>
     </li></ul></dd>
     
 
@@ -1062,7 +1062,7 @@ rule doesn't exist.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="rules_rules.js.html">rules/rules.js</a>, <a href="rules_rules.js.html#line197">line 197</a>
+        <a href="rules_rules.js.html">rules/rules.js</a>, <a href="rules_rules.js.html#line224">line 224</a>
     </li></ul></dd>
     
 
@@ -1121,7 +1121,7 @@ rules.JSRule({
  name: "my_new_rule",
  description: "this rule swizzles the swallows",
  triggers: triggers.GenericCronTrigger("0 30 16 * * ? *"),
- execute: triggerConfig => { //do stuff }
+ execute: (event) => { // do stuff }
 });</code></pre>
 
 
@@ -1276,7 +1276,7 @@ rules.JSRule({
             <td class="type">
             
                 
-<span class="param-type">*</span>
+<span class="param-type"><a href="rules.html#.RuleCallback">rules.RuleCallback</a></span>
 
 
             
@@ -1569,7 +1569,7 @@ rules.JSRule({
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="rules_rules.js.html">rules/rules.js</a>, <a href="rules_rules.js.html#line312">line 312</a>
+        <a href="rules_rules.js.html">rules/rules.js</a>, <a href="rules_rules.js.html#line339">line 339</a>
     </li></ul></dd>
     
 
@@ -1772,7 +1772,7 @@ The rule will be created and immediately available.</p>
             <td class="type">
             
                 
-<span class="param-type">*</span>
+<span class="param-type"><a href="rules.html#.RuleCallback">rules.RuleCallback</a></span>
 
 
             
@@ -2052,6 +2052,500 @@ The rule will be created and immediately available.</p>
     
 
     
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        
+                
+<h4 class="name" id=".EventObject">EventObject</h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="rules_rules.js.html">rules/rules.js</a>, <a href="rules_rules.js.html#line8">line 8</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>oldState</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>only for <a href="triggers.html#.ItemStateChangeTrigger"><code>triggers.ItemStateChangeTrigger</code></a> &amp; <a href="triggers.html#.GroupStateChangeTrigger"><code>triggers.GroupStateChangeTrigger</code></a>: Previous state of Item or Group that triggered event</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>newState</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>only for <a href="triggers.html#.ItemStateChangeTrigger"><code>triggers.ItemStateChangeTrigger</code></a> &amp; <a href="triggers.html#.GroupStateChangeTrigger"><code>triggers.GroupStateChangeTrigger</code></a>: New state of Item or Group that triggered event</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>state</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>only for <a href="triggers.html#.ItemStateUpdateTrigger"><code>triggers.ItemStateUpdateTrigger</code></a> &amp; <a href="triggers.html#.GroupStateUpdateTrigger"><code>triggers.GroupStateUpdateTrigger</code></a>: State of Item that triggered event</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>receivedCommand</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>only for <a href="triggers.html#.ItemCommandTrigger"><code>triggers.ItemCommandTrigger</code></a> &amp; <a href="triggers.html#.GroupCommandTrigger"><code>triggers.GroupCommandTrigger</code></a>: Command that triggered event</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>receivedState</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>only for <a href="triggers.html#.ItemStateUpdateTrigger"><code>triggers.ItemStateUpdateTrigger</code></a> &amp; <a href="triggers.html#.GroupStateUpdateTrigger"><code>triggers.GroupStateUpdateTrigger</code></a>: State that triggered event</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>receivedTrigger</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>only for <a href="triggers.html#.ChannelEventTrigger"><code>triggers.ChannelEventTrigger</code></a>: Trigger that triggered event</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>itemName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>for all triggers except <code>triggers.PWMTrigger</code>: name of Item that triggered event</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>eventType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>for all triggers except <code>ThingStatus****Triggers</code>, <code>triggers.PWMTrigger</code>: Type of event that triggered event (change, command, time, triggered, update)</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>triggerType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>for all triggers except <code>ThingStatus****Triggers</code>, <code>triggers.PWMTrigger</code>: Type of trigger that triggered event (for <code>TimeOfDayTrigger</code>: <code>GenericCronTrigger</code>)</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>payload</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>not for all triggers</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>command</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>only for <code>triggers.PWMTrigger</code>: Pulse Width Modulation Automation command</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<div class="description usertext">
+    <p>When a rule is triggered, the script is provided the event instance that triggered it. The specific data depends on the event type. The <code>EventObject</code> provides several information about that trigger.</p>
+<p>Note:
+<code>ThingStatusUpdateTrigger</code>, <code>ThingStatusChangeTrigger</code> use <em>Thing</em> and <code>ChannelEventTrigger</code> uses the the trigger channel name as value for <code>itemName</code>.
+<code>Group****Trigger</code>s use the equivalent <code>Item****Trigger</code> as trigger for each member.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+            
+                
+
+    
+
+    <h4 class="name" id=".RuleCallback"><span class="type-signature"></span>RuleCallback<span class="signature">(event)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="rules_rules.js.html">rules/rules.js</a>, <a href="rules_rules.js.html#line29">line 29</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>event</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="rules.html#.EventObject">rules.EventObject</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+    
 
     
 </article>
@@ -2068,7 +2562,7 @@ The rule will be created and immediately available.</p>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Fri May 27 2022 21:50:18 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Mon May 30 2022 15:52:00 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
