@@ -15,6 +15,21 @@ const managedItemProvider = osgi.getService('org.openhab.core.items.ManagedItemP
  */
 
 /**
+ * @typedef ItemConfig configuration describing an Item
+ * @memberof items
+ * @property {String} itemConfig.type the type of the Item
+ * @property {String} itemConfig.name Item name for the Item to create
+ * @property {String} [itemConfig.label] the label for the Item
+ * @property {String} [itemConfig.category] the category (icon) for the Item
+ * @property {String[]} [itemConfig.groups] an array of groups the Item is a member of
+ * @property {String[]} [itemConfig.tags] an array of tags for the Item
+ * @property {String|Object} [itemConfig.channels] for single channel link a string or for multiple an object { channeluid: configuration }; configuration is an object
+ * @property {Object} [itemConfig.metadata] either object { namespace: value } or { namespace: { value: value, config: {} } }, `stateDescription.config.pattern` is required for state rendering in Basic UI and the mobile apps
+ * @property {HostItem} [itemConfig.giBaseType] the group Item base type for the Item
+ * @property {HostGroupFunction} [itemConfig.groupFunction] the group function used by the Item
+ */
+
+/**
  * Tag value to be attached to all dynamically created items.
  *
  * @memberof items
@@ -369,19 +384,10 @@ const createItem = function (itemConfig) {
  * created with the value {@link DYNAMIC_ITEM_TAG}.
  *
  * @memberof items
- * @param {Object} itemConfig the Item config describing the Item
- * @param {String} itemConfig.type the type of the Item
- * @param {String} itemConfig.name Item name for the Item to create
- * @param {String} [itemConfig.label] the label for the Item
- * @param {String} [itemConfig.category] the category (icon) for the Item
- * @param {String[]} [itemConfig.groups] an array of groups the Item is a member of
- * @param {String[]} [itemConfig.tags] an array of tags for the Item
- * @param {String|Object} [itemConfig.channels] for single channel link a string or for multiple an object { channeluid: configuration }; configuration is an object
- * @param {Object} [itemConfig.metadata] either object { namespace: value } or { namespace: { value: value, config: {} } }
- * @param {HostItem} [itemConfig.giBaseType] the group Item base type for the Item
- * @param {HostGroupFunction} [itemConfig.groupFunction] the group function used by the Item
+ * @memberof items
+ * @param {items.ItemConfig} itemConfig the Item config describing the Item
  * @returns {Item} an {@link items.Item} object
- * @throws itemConfig.name or itemConfig.type not set
+ * @throws {@link items.ItemConfig.name} or {@link items.ItemConfig.type} not set
  * @throws failed to create Item
  */
 const addItem = function (itemConfig) {
@@ -465,22 +471,12 @@ const removeItem = function (itemOrItemName) {
  *
  * This function can be useful in scripts which create a static set of items which may need updating either
  * periodically, during startup or even during development of the script. Using fixed item names will ensure
- * that the items remain up-to-date, but won't fail with issues related to duplicate items.
+ * that the items remain up-to-date, but won't fail with issues related to duplicate items. 
  *
  * @memberof items
- * @param {Object} itemConfig the Item config describing the Item
- * @param {String} itemConfig.type the type of the Item
- * @param {String} itemConfig.name Item name for the Item to create
- * @param {String} [itemConfig.label] the label for the Item
- * @param {String} [itemConfig.category] the category (icon) for the Item
- * @param {String[]} [itemConfig.groups] an array of groups the Item is a member of
- * @param {String[]} [itemConfig.tags] an array of tags for the Item
- * @param {String|Object} [itemConfig.channels] for single channel link a string or for multiple an object { channeluid: configuration }; configuration is an object
- * @param {Object} [itemConfig.metadata] either object { namespace: value } or { namespace: { value: value, config: {} } }
- * @param {HostItem} [itemConfig.giBaseType] the group Item base type for the Item
- * @param {HostGroupFunction} [itemConfig.groupFunction] the group function used by the Item
+ * @param {items.ItemConfig} itemConfig the Item config describing the Item
  * @returns {Item} an {@link items.Item} object
- * @throws itemConfig.name or itemConfig.type not set
+ * @throws {@link items.ItemConfig.name} or {@link items.ItemConfig.type} not set
  * @throws failed to create Item
  */
 const replaceItem = function (itemConfig) {
