@@ -354,8 +354,10 @@ items.replaceItem({
   type: 'Switch',
   name: 'MySwitch',
   metadata: {
-    config: {
-      pattern: '%s'
+    stateDescription: {
+      config: {
+        pattern: '%s'
+      }
     }
   }
 });
