@@ -321,11 +321,13 @@ Calling `addItem(itemConfig)` or `replaceItem(itemConfig)` requires the `itemCon
     * .groupFunction ⇒ <code>String</code>
 
 Note: `.type` and `.name` are required.
+Basic UI and the mobile apps need `metadata.stateDescription.config.pattern` to render the state of an Item.
 
 Example:
 ```javascript
+// more advanced example
 items.replaceItem({
-  type: 'Switch',
+  type: 'String',
   name: 'Hallway_Light',
   label: 'Hallway Light',
   category: 'light',
@@ -338,15 +340,22 @@ items.replaceItem({
     }
   },
   metadata: {
-    expire: '10m,command=OFF',
+    expire: '10m,command=1',
     stateDescription: {
       config: {
         pattern: '%d%%',
-        min: 0,
-        max: 100,
-        step: 1,
         options: '1=Red, 2=Green, 3=Blue'
       }
+    }
+  }
+});
+// minimal example
+items.replaceItem({
+  type: 'Switch',
+  name: 'MySwitch',
+  metadata: {
+    config: {
+      pattern: '%s'
     }
   }
 });
