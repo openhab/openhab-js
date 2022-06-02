@@ -361,7 +361,8 @@ items.replaceItem({
 });
 ```
 
-See [openhab-js : items](https://openhab.github.io/openhab-js/items.html) for full API documentation.
+See [openhab-js : ItemConfig](https://openhab.github.io/openhab-js/items.html#.ItemConfig) for full API documentation.
+
 #### `item.history`
 Calling `item.history` returns a ItemHistory object with the following functions:
 
