@@ -11,7 +11,32 @@ const itemBuilderFactory = osgi.getService('org.openhab.core.items.ItemBuilderFa
 const managedItemProvider = osgi.getService('org.openhab.core.items.ManagedItemProvider');
 
 /**
- * @namespace items
+ * @typedef ItemConfig configuration describing an Item
+ * @memberof items
+ * @property {String} type the type of the Item
+ * @property {String} name Item name for the Item to create
+ * @property {String} [label] the label for the Item
+ * @property {String} [category] the category (icon) for the Item
+ * @property {String[]} [groups] an array of groups the Item is a member of
+ * @property {String[]} [tags] an array of tags for the Item
+ * @property {String|Object} [channels] for single channel link a string or for multiple an object { channeluid: configuration }; configuration is an object
+ * @property {items.ItemMetadata} [metadata] either object { namespace: value } or { namespace: { value: value, config: {} } }
+ * @property {String} [giBaseType] the group Item base type for the Item
+ * @property {HostGroupFunction} [groupFunction] the group function used by the Item
+ */
+
+/**
+ * @typedef ItemMetadata Item metadata configuration, not fully documented
+ * @memberof items
+ * @property {Object} [stateDescription] `stateDescription` configuration, required for most UIs
+ * @property {Object} [stateDescription.config] config of this metadata namespace
+ * @property {String} [stateDescription.config.pattern] state formatting pattern, required for most UIs, see {@link https://www.openhab.org/docs/configuration/items.html#state-presentation}
+ * @property {Object} [expire] `expire` configuration, see {@link https://www.openhab.org/docs/configuration/items.html#parameter-expire}
+ * @property {String} [expire.value] e.g. `0h30m0s,command=OFF`
+ * @property {Object} [expire.config]
+ * @property {String} [expire.config.ignoreStateUpdates] If the ignore state updates checkbox is set, only state changes will reset the timer; `true` or `false`
+ * @property {Object} [autoupdate] `autoupdate` configuration, see {@link https://www.openhab.org/docs/configuration/items.html#parameter-expire}
+ * @property {String} [autoupdate.value] `true` or `false`
  */
 
 /**
@@ -306,17 +331,10 @@ class Item {
  *
  * @memberof items
  * @private
- * @param {Object} itemConfig the Item config describing the Item
+ * @param {items.ItemConfig} itemConfig the Item config describing the Item
  * @param {String} itemConfig.type the type of the Item
- * @param {String} itemConfig.name Item name for the Item to create
- * @param {String} [itemConfig.label] the label for the Item
- * @param {String} [itemConfig.category] the category (icon) for the Item
- * @param {String[]} [itemConfig.groups] an array of groups the Item is a member of
- * @param {String[]} [itemConfig.tags] an array of tags for the Item
- * @param {HostItem} [itemConfig.giBaseType] the group Item base type for the Item
- * @param {HostGroupFunction} [itemConfig.groupFunction] the group function used by the Item
  * @returns {Item} an {@link items.Item} object
- * @throws itemConfig.name or itemConfig.type not set
+ * @throws {@link items.ItemConfig.name} or {@link items.ItemConfig.type} not set
  * @throws failed to create Item
  */
 const createItem = function (itemConfig) {
@@ -369,19 +387,10 @@ const createItem = function (itemConfig) {
  * created with the value {@link DYNAMIC_ITEM_TAG}.
  *
  * @memberof items
- * @param {Object} itemConfig the Item config describing the Item
- * @param {String} itemConfig.type the type of the Item
- * @param {String} itemConfig.name Item name for the Item to create
- * @param {String} [itemConfig.label] the label for the Item
- * @param {String} [itemConfig.category] the category (icon) for the Item
- * @param {String[]} [itemConfig.groups] an array of groups the Item is a member of
- * @param {String[]} [itemConfig.tags] an array of tags for the Item
- * @param {String|Object} [itemConfig.channels] for single channel link a string or for multiple an object { channeluid: configuration }; configuration is an object
- * @param {Object} [itemConfig.metadata] either object { namespace: value } or { namespace: { value: value, config: {} } }
- * @param {HostItem} [itemConfig.giBaseType] the group Item base type for the Item
- * @param {HostGroupFunction} [itemConfig.groupFunction] the group function used by the Item
+ * @memberof items
+ * @param {items.ItemConfig} itemConfig the Item config describing the Item
  * @returns {Item} an {@link items.Item} object
- * @throws itemConfig.name or itemConfig.type not set
+ * @throws {@link items.ItemConfig.name} or {@link items.ItemConfig.type} not set
  * @throws failed to create Item
  */
 const addItem = function (itemConfig) {
@@ -468,19 +477,9 @@ const removeItem = function (itemOrItemName) {
  * that the items remain up-to-date, but won't fail with issues related to duplicate items.
  *
  * @memberof items
- * @param {Object} itemConfig the Item config describing the Item
- * @param {String} itemConfig.type the type of the Item
- * @param {String} itemConfig.name Item name for the Item to create
- * @param {String} [itemConfig.label] the label for the Item
- * @param {String} [itemConfig.category] the category (icon) for the Item
- * @param {String[]} [itemConfig.groups] an array of groups the Item is a member of
- * @param {String[]} [itemConfig.tags] an array of tags for the Item
- * @param {String|Object} [itemConfig.channels] for single channel link a string or for multiple an object { channeluid: configuration }; configuration is an object
- * @param {Object} [itemConfig.metadata] either object { namespace: value } or { namespace: { value: value, config: {} } }
- * @param {HostItem} [itemConfig.giBaseType] the group Item base type for the Item
- * @param {HostGroupFunction} [itemConfig.groupFunction] the group function used by the Item
+ * @param {items.ItemConfig} itemConfig the Item config describing the Item
  * @returns {Item} an {@link items.Item} object
- * @throws itemConfig.name or itemConfig.type not set
+ * @throws {@link items.ItemConfig.name} or {@link items.ItemConfig.type} not set
  * @throws failed to create Item
  */
 const replaceItem = function (itemConfig) {
