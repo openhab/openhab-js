@@ -170,14 +170,14 @@ class Thing {
    * Thing type UID as `String`
    */
   get thingTypeUID () {
-    return this.rawThing.getThingTypeUID().getId();
+    return this.rawThing.getThingTypeUID().toString();
   }
 
   /**
    * Thing UID as `String`
    */
   get uid () {
-    return this.rawThing.getUID().getId();
+    return this.rawThing.getUID().toString();
   }
 
   /**
@@ -226,7 +226,7 @@ class Thing {
  *
  * @memberof things
  * @param {String} uid UID of the thing
- * @param {String} [nullIfMissing] whether to return null if the Thing cannot be found (default is to throw an exception)
+ * @param {Boolean} [nullIfMissing] whether to return null if the Thing cannot be found (default is to throw an exception)
  * @returns {things.Thing} the Thing
  */
 const getThing = function (uid, nullIfMissing) {
