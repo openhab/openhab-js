@@ -17,6 +17,7 @@ const Configuration = Java.type('org.openhab.core.config.core.Configuration');
 /**
  * Things namespace.
  * This namespace handles querying and editing openHAB Things.
+ *
  * @namespace things
  */
 
@@ -175,7 +176,7 @@ class Thing {
   /**
    * Thing UID as `String`
    */
-  get UID () {
+  get uid () {
     return this.rawThing.getUID().getId();
   }
 
@@ -220,7 +221,42 @@ class Thing {
   }
 }
 
+/**
+ * Gets an openHAB Thing.
+ *
+ * @memberof things
+ * @param {String} uid UID of the thing
+ * @param {String} [nullIfMissing] whether to return null if the Thing cannot be found (default is to throw an exception)
+ * @returns {things.Thing} the Thing
+ */
+const getThing = function (uid, nullIfMissing) {
+  try {
+    if (typeof uid === 'string' || uid instanceof String) {
+      return new Thing(thingRegistry.get(new ThingUID(uid)));
+    }
+  } catch (e) {
+    if (nullIfMissing) {
+      return null;
+    } else {
+      throw e;
+    }
+  }
+};
+
+/**
+ * Gets all openHAB Things.
+ *
+ * @memberof things
+ * @returns {things.Thing[]} all Things
+ */
+const getThings = function () {
+  return utils.javaSetToJsArray(thingRegistry.getAll()).map(i => new Thing(i));
+};
+
 module.exports = {
   newThingBuilder: (thingTypeUID, id, bridgeUID) => new ThingBuilder(thingTypeUID, id, bridgeUID),
-  newChannelBuilder: (thingUID, channelId, acceptedItemType) => new ChannelBuilder(thingUID, channelId, acceptedItemType)
+  newChannelBuilder: (thingUID, channelId, acceptedItemType) => new ChannelBuilder(thingUID, channelId, acceptedItemType),
+  Thing,
+  getThing,
+  getThings
 };
