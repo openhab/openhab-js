@@ -238,7 +238,7 @@ const TimeOfDayTrigger = (time, triggerName) => createTrigger('timer.TimeOfDayTr
  *
  * @example
  * rules.JSRule({
- *   name: "Termostat x PWM rule",
+ *   name: 'PWM rule',
  *   triggers: [
  *     triggers.PWMTrigger('pwm_dimmer', 10)
  *   ],
@@ -261,6 +261,56 @@ const PWMTrigger = (dutycycleItem, interval, minDutyCycle, maxDutyCycle, deadMan
   minDutyCycle: minDutyCycle,
   maxDutyCycle: maxDutyCycle,
   deadManSwitch: deadManSwitch
+});
+
+/**
+ * Creates a trigger for the {@link https://www.openhab.org/addons/automation/pidcontroller/ PID Controller Automation} add-on.
+ *
+ * @example
+ * rules.JSRule({
+ *   name: 'PID rule',
+ *   triggers: [
+ *     triggers.PIDTrigger('currentTemperature', 'targetTemperature', 1, 1, 1, 1, 10000, null, 1, 100)
+ *   ],
+ *   execute: (event) => {
+ *     // Look out what the max value for your Item is!
+ *     const command = parseInt(event.command) > 100 ? '100' : event.command;
+ *     items.getItem('thermostat').sendCommand(command);
+ *   }
+ * });
+ *
+ * @memberof triggers
+ * @param {String} inputItem name of the input Item (e.g. temperature sensor value)
+ * @param {String} setpointItem name of the setpoint Item (e.g. desired room temperature)
+ * @param {Number} kp P: {@link https://www.openhab.org/addons/automation/pidcontroller/#proportional-p-gain-parameter Proportional Gain} parameter
+ * @param {Number} ki I: {@link https://www.openhab.org/addons/automation/pidcontroller/#integral-i-gain-parameter Integral Gain} parameter
+ * @param {Number} kd D: {@link https://www.openhab.org/addons/automation/pidcontroller/#derivative-d-gain-parameter Deritative Gain} parameter
+ * @param {Number} kdTimeConstant D-T1: {@link https://www.openhab.org/addons/automation/pidcontroller/#derivative-time-constant-d-t1-parameter Derivative Gain Time Constant} in sec
+ * @param {Number} loopTime The interval the output value will be updated in milliseconds. Note: the output will also be updated when the input value or the setpoint changes.
+ * @param {String} [commandItem] Name of the item to send a String "RESET" to reset the I- and the D-part to 0.
+ * @param {Number} [integralMinValue] The I-part will be limited (min) to this value.
+ * @param {Number} [integralMaxValue] The I-part will be limited (max) to this value.
+ * @param {String} [pInspectorItem] name of the debug Item for the current P-part
+ * @param {String} [iInspectorItem] name of the debug Item for the current I-part
+ * @param {String} [dInspectorItem] name of the debug Item for the current D-part
+ * @param {String} [errorInspectorItem] name of the debug Item for the current regulation difference (error)
+ * @param {String} [triggerName] the optional name of the trigger to create
+ */
+const PIDTrigger = (inputItem, setpointItem, kp = 1, ki = 1, kd = 1, kdTimeConstant = 1, loopTime = 1000, commandItem, integralMinValue, integralMaxValue, pInspectorItem, iInspectorItem, dInspectorItem, errorInspectorItem, triggerName) => createTrigger('pidcontroller.trigger', triggerName, {
+  input: inputItem,
+  setpoint: setpointItem,
+  kp: kp,
+  ki: ki,
+  kd: kd,
+  kdTimeConstant: kdTimeConstant,
+  loopTime: loopTime,
+  commandItem: commandItem,
+  integralMinValue: integralMinValue,
+  integralMaxValue: integralMaxValue,
+  pInspector: pInspectorItem,
+  iInspector: iInspectorItem,
+  dInspector: dInspectorItem,
+  eInspector: errorInspectorItem
 });
 
 /* not yet tested
@@ -289,5 +339,6 @@ module.exports = {
   SystemStartlevelTrigger,
   GenericCronTrigger,
   TimeOfDayTrigger,
-  PWMTrigger
+  PWMTrigger,
+  PIDTrigger
 };
