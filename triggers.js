@@ -280,7 +280,7 @@ const PWMTrigger = (dutycycleItem, interval, minDutyCycle, maxDutyCycle, deadMan
  * });
  *
  * @memberof triggers
- * @param {String} inputItem name of the input Item (opens new window) (e.g. temperature sensor value)
+ * @param {String} inputItem name of the input Item (e.g. temperature sensor value)
  * @param {String} setpointItem name of the setpoint Item (e.g. desired room temperature)
  * @param {Number} kp P: {@link https://www.openhab.org/addons/automation/pidcontroller/#proportional-p-gain-parameter Proportional Gain} parameter
  * @param {Number} ki I: {@link https://www.openhab.org/addons/automation/pidcontroller/#integral-i-gain-parameter Integral Gain} parameter
