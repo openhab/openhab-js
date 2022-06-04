@@ -32,6 +32,7 @@ binding](https://www.openhab.org/addons/automation/jsscripting/).
   - [Paths](#paths)
 - [Standard Library](#standard-library)
   - [Items](#items)
+  - [Things](#things)
   - [Actions](#actions)
   - [Cache](#cache)
   - [Log](#log)
@@ -391,6 +392,43 @@ Note `serviceId` is optional, if omitted, the default persistance service will b
 var yesterday = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
 var item = items.getItem("KitchenDimmer");
 console.log("KitchenDimmer averageSince", item.history.averageSince(yesterday));
+```
+
+### Things
+
+The Things namespace allows to interact with openHAB Things.
+
+See [openhab-js : things](https://openhab.github.io/openhab-js/things.html) for full API documentation.
+
+* things : <code>object</code>
+    * .getItem(uid, nullIfMissing) ⇒ <code>Thing</code>
+    * .Things() ⇒ <code>Array.&lt;Thing&gt;</code>
+
+#### `getThing(uid, nullIfMissing)`
+
+Calling `getThing(...)` returns a `Thing` object with the following properties:
+
+* Thing : <code>object</code>
+    * .bridgeUID ⇒ <code>String</code>
+    * .label ⇒ <code>String</code>
+    * .location ⇒ <code>String</code>
+    * .status ⇒ <code>String</code>
+    * .statusInfo ⇒ <code>String</code>
+    * .thingTypeUID ⇒ <code>String</code>
+    * .uid ⇒ <code>String</code>
+    * .isEnabled ⇒ <code>Boolean</code>
+    * .setLabel(label)
+    * .setLocation(location)
+    * .setProperty(name, value)
+    * .setEnabled(enabled)
+
+```javascript
+const thing = things.getThing('astro:moon:home');
+console.log('Thing label: ' + thing.label);
+// Set Thing location
+thing.setLocation('living room');
+// Disable Thing
+thing.setEnabled(false);
 ```
 
 ### Actions

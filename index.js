@@ -13,6 +13,9 @@
 /**
  * @typedef {Object} HostTrigger Native Jave openHAB Trigger (instance of {@link https://www.openhab.org/javadoc/latest/org/openhab/core/automation/trigger org.openhab.core.automation.Trigger})
  */
+/**
+ * @typedef {Object} HostThing Native Java openHAB Thing (instance of {@link https://www.openhab.org/javadoc/latest/org/openhab/core/thing/thing org.openhab.core.thing.Thing})
+ */
 
 // lazy getters to avoid any reference loading all submodules
 module.exports = {
