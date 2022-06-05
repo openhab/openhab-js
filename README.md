@@ -58,7 +58,7 @@ By default, openHAB ships with an older JavaScript runtime based on the Nashorn 
 *This library is not compatible with this older runtime.* 
 ### Custom Installation
 
-- Go to the javascript user scripts directory: `cd $OPENHAB_CONF/automation/js`
+- Go to the JavaScript user scripts directory: `cd $OPENHAB_CONF/automation/js`
 - Run `npm i openhab` (you may need to install npm)
 
 NPM will create a `node_modules` directory containing the latest version of this library.
@@ -79,14 +79,14 @@ The quickest way to add rules is through the openHAB Web UI.
 Advanced users, or users migrating scripts from existing systems may want to use [File Based Rules](#file-based-rules) for managing rules using files in the user configuration directory.
 
 ### Adding Triggers
-Using the openHAB UI, first create a new rule and set a trigger condition
+Using the openHAB UI, first create a new rule and set a trigger condition.
 
 ![openHAB Rule Configuration](/images/rule-config.png)
 
 
 ### Adding Actions
 Select "Add Action" and then select "Run Script" with "ECMAScript 262 Edition 11".
-Its important this is "Edition 11" or higher, earlier versions will not work.
+It’s important this is "Edition 11" or higher, earlier versions will not work.
 This will bring up a empty script editor where you can enter your JavaScript.
 
 ![openHAB Rule Engines](/images/rule-engines.png)
@@ -112,7 +112,7 @@ const thingStatusInfo = actions.Things.getThingStatusInfo("zwave:serial_zstick:5
 console.log("Thing status",thingStatusInfo.getStatus());
 ```
 
-See [openhab-js](https://openhab.github.io/openhab-js) for a complete list of functionality
+See [openhab-js](https://openhab.github.io/openhab-js) for a complete list of functionality.
 
 ### Event Object
 
@@ -122,7 +122,7 @@ When you use "Item event" as trigger (i.e. "[item] received a command", "[item] 
 
 This tables gives an overview over the `event` object for most common trigger types:
 
-| Property Name  | Type                                                                                                                 | Trigger Types                          | Description                                                                                                   |                        |
+| Property Name  | Type                                                                                                                 | Trigger Types                          | Description                                                                                                   | Rules DSL Equivalent   |
 | -------------- | -------------------------------------------------------------------------------------------------------------------- | -------------------------------------- | ------------------------------------------------------------------------------------------------------------- | ---------------------- |
 | `itemState`    | sub-class of [org.openhab.core.types.State](https://www.openhab.org/javadoc/latest/org/openhab/core/types/state)     | `[item] changed`, `[item] was updated` | State that triggered event                                                                                    | `triggeringItem.state` |
 | `oldItemState` | sub-class of [org.openhab.core.types.State](https://www.openhab.org/javadoc/latest/org/openhab/core/types/state)     | `[item] changed`                       | Previous state of Item or Group that triggered event                                                          | `previousState`        |
@@ -154,12 +154,12 @@ The openHAB JSScripting runtime attempts to provide a familiar environment to Ja
 
 ### Require
 
-Scripts may include standard NPM based libraries by using CommonJS require.
-The library search path will look in `automation/js/node_modules` in the user configuration directory.
+Scripts may include standard NPM based libraries by using CommonJS `require`.
+The library search will look in the path `automation/js/node_modules` in the user configuration directory.
 
 ### Console
 
-The JSScripting binding supports the standard `console` object for logging.
+The JS Scripting binding supports the standard `console` object for logging.
 Script debug logging is enabled by default at the `INFO` level, but can be configured using the [console logging]({{base}}/administration/logging.html) commands. 
 
 ```text
@@ -180,7 +180,7 @@ Supported logging functions include:
 - `console.debug(obj1 [, obj2, ..., objN])`
 - `console.trace(obj1 [, obj2, ..., objN])`
 
-where `obj1 ... objN` is a list of JavaScript objects to output.
+Where `obj1 ... objN` is a list of JavaScript objects to output.
 The string representations of each of these objects are appended together in the order listed and output.
 
 See https://developer.mozilla.org/en-US/docs/Web/API/console for more information about console logging.
@@ -254,7 +254,7 @@ Full documentation for the openHAB JavaScript library can be found at [openhab-j
 
 The items namespace allows interactions with openHAB items.
 
-See [openhab-js : items](https://openhab.github.io/openhab-js/items.html) for full API documentation
+See [openhab-js : items](https://openhab.github.io/openhab-js/items.html) for full API documentation.
 
 * items : <code>object</code>
     * .getItem(name, nullIfMissing) ⇒ <code>Item</code>
@@ -269,6 +269,8 @@ See [openhab-js : items](https://openhab.github.io/openhab-js/items.html) for fu
 const item = items.getItem("KitchenLight");
 console.log("Kitchen Light State", item.state);
 ```
+
+#### `getItem(name, nullIfMissing)`
 
 Calling `getItem(...)` returns an `Item` object with the following properties:
 
@@ -369,8 +371,6 @@ See [openhab-js : ItemConfig](https://openhab.github.io/openhab-js/items.html#.I
 #### `item.history`
 Calling `item.history` returns a ItemHistory object with the following functions:
 
-Note `serviceId` is optional, if omitted, the default persistance service will be used.
-
 * ItemHistory : <code>object</code>
     * .averageSince(timestamp, serviceId) ⇒ <code>Number</code>
     * .changedSince(timestamp, serviceId) ⇒ <code>Number</code>
@@ -388,6 +388,8 @@ Note `serviceId` is optional, if omitted, the default persistance service will b
     * .updatedSince(timestamp, serviceId) ⇒ <code>Boolean</code>
     * .varianceSince(timestamp,serviceId) ⇒ <code>state</code>
 
+Note: `serviceId` is optional, if omitted, the default persistance service will be used.
+
 ```javascript
 var yesterday = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
 var item = items.getItem("KitchenDimmer");
@@ -401,8 +403,8 @@ The Things namespace allows to interact with openHAB Things.
 See [openhab-js : things](https://openhab.github.io/openhab-js/things.html) for full API documentation.
 
 * things : <code>object</code>
-    * .getItem(uid, nullIfMissing) ⇒ <code>Thing</code>
-    * .Things() ⇒ <code>Array.&lt;Thing&gt;</code>
+    * .getThing(uid, nullIfMissing) ⇒ <code>Thing</code>
+    * .getThings() ⇒ <code>Array.&lt;Thing&gt;</code>
 
 #### `getThing(uid, nullIfMissing)`
 
@@ -534,9 +536,9 @@ See [openhab-js : actions.Voice](https://openhab.github.io/openhab-js/actions.ht
 
 #### Cloud Notification Actions
 
-(optional action if openhab-cloud is installed)
+Note: Optional action if [openHAB Cloud Connector](https://www.openhab.org/addons/integrations/openhabcloud/) is installed.
 
-Notification actions may be placed in Rules to send alerts to mobile devices registered with an [openHAB Cloud instance](https://github.com/openhab/openhab-cloud) such as [myopenHAB.org](https://myopenhab.org/).
+Notification actions may be placed in rules to send alerts to mobile devices registered with an [openHAB Cloud instance](https://github.com/openhab/openhab-cloud) such as [myopenHAB.org](https://myopenhab.org/).
 
 For available actions have a look at the [Cloud Notification Actions Docs](https://www.openhab.org/docs/configuration/actions.html#cloud-notification-actions).
 
@@ -551,7 +553,7 @@ Replace `<message>` with the notification text.
 
 ### Cache
 
-The cache namespace provides a default cache that can be use to set and retrieve objects that will be persisted between reloads of scripts.
+The cache namespace provides a default cache that can be used to set and retrieve objects that will be persisted between reloads of scripts.
 
 See [openhab-js : cache](https://openhab.github.io/openhab-js/cache.html) for full API documentation.
 
@@ -581,7 +583,7 @@ console.log("Count",counter.times++);
 ### Log
 
 By default the JS Scripting binding supports console logging like `console.log()` and `console.debug()` to the openHAB default log.
-Additionally scripts may create their own native openHAB logs using the log namespace.
+Additionally scripts may create their own native openHAB logger using the log namespace.
 
 ```javascript
 let logger = log('my_logger');
@@ -637,6 +639,7 @@ When a type or string that cannot be handled is encountered, an error is thrown.
 #### `toToday()`
 
 When you have a `time.ZonedDateTime`, a new `toToday()` method was added which will return a new `time.ZonedDateTime` with today's date but the original's time, accounting for DST changes.
+
 For example, if the time was 13:45 and today was a DST changeover, the time will still be 13:45 instead of one hour off.
 
 ```javascript
@@ -671,7 +674,7 @@ if(timestamp.isClose(time.toZDT(), time.Duration.ofMillis(100))) { // did "do so
 
 #### `getMillisFromNow`
 
-This method on `time.ZonedDateTime` returns the milliseconds from now to the `time.ZonedDateTime`.
+This method on `time.ZonedDateTime` returns the milliseconds from now to the passed in `time.ZonedDateTime`.
 
 ```javascript
 const timestamp = time.ZonedDateTime.now().plusMinutes(5);
@@ -683,18 +686,18 @@ console.log(timestamp.getMillisFromNow());
 openHAB internally is a Java program. 
 openHAB-JS converts between Java and JavaScript data types and reverse.
 
-See [openhab-js : utils](https://openhab.github.io/openhab-js/utils.html) for full API documentation
+See [openhab-js : utils](https://openhab.github.io/openhab-js/utils.html) for full API documentation.
 
 
 ## File Based Rules
 
-The JSScripting binding  will load scripts from `automation/js` in the user configuration directory.
+The JS Scripting binding will load scripts from `automation/js` in the user configuration directory.
 The system will automatically reload scripts when changes are detected to files.
-Local variable state is not persisted among reloads, see using the [cache](#cache) for a connivent way to persist objects.
+Local variable state is not persisted among reloads, see using the [cache](#cache) for a convenient way to persist objects.
 
 File based rules can be created in 2 different ways: using [JSRule](#jsrule) or the [Rule Builder](#rule-builder).
 
-See [openhab-js : rules ](https://openhab.github.io/openhab-js/rules.html) for full API documentation
+See [openhab-js : rules ](https://openhab.github.io/openhab-js/rules.html) for full API documentation.
 
 ### JSRule
 
@@ -724,38 +727,37 @@ See [Event Object](#event-object) for documentation.
 Multiple triggers can be added, some example triggers include:
 
 ```javascript
-triggers.ChannelEventTrigger('astro:sun:local:rise#event', 'START')
+triggers.ChannelEventTrigger('astro:sun:local:rise#event', 'START');
 
-triggers.ItemStateChangeTrigger('my_item', 'OFF', 'ON')
+triggers.ItemStateChangeTrigger('my_item', 'OFF', 'ON');
 
-triggers.ItemStateUpdateTrigger('my_item', 'OFF')
+triggers.ItemStateUpdateTrigger('my_item', 'OFF');
 
-triggers.ItemCommandTrigger('my_item', 'OFF')
+triggers.ItemCommandTrigger('my_item', 'OFF');
 
-triggers.GroupStateChangeTrigger('my_group', 'OFF', 'ON')
+triggers.GroupStateChangeTrigger('my_group', 'OFF', 'ON');
 
-triggers.GroupStateUpdateTrigger('my_group', 'OFF')
+triggers.GroupStateUpdateTrigger('my_group', 'OFF');
 
-triggers.GroupCommandTrigger('my_group', 'OFF')
+triggers.GroupCommandTrigger('my_group', 'OFF');
 
-triggers.ThingStatusUpdateTrigger('some:thing:uuid','OFFLINE')
+triggers.ThingStatusUpdateTrigger('some:thing:uuid','OFFLINE');
 
-triggers.ThingStatusChangeTrigger('some:thing:uuid','ONLINE','OFFLINE')
+triggers.ThingStatusChangeTrigger('some:thing:uuid','ONLINE','OFFLINE');
 
-triggers.SystemStartlevelTrigger(40)  //Rules loaded
+triggers.SystemStartlevelTrigger(40)  // Rules loaded
 
-triggers.SystemStartlevelTrigger(50)  //Rule engine started
+triggers.SystemStartlevelTrigger(50)  // Rule engine started
 
-triggers.SystemStartlevelTrigger(70)  //User interfaces started
+triggers.SystemStartlevelTrigger(70)  // User interfaces started
 
-triggers.SystemStartlevelTrigger(80)  //Things initialized
+triggers.SystemStartlevelTrigger(80)  // Things initialized
 
-triggers.SystemStartlevelTrigger(100) //Startup Complete
+triggers.SystemStartlevelTrigger(100) // Startup Complete
 
-triggers.GenericCronTrigger('0 30 16 * * ? *')
+triggers.GenericCronTrigger('0 30 16 * * ? *');
 
-triggers.TimeOfDayTrigger('19:00')
-
+triggers.TimeOfDayTrigger('19:00');
 ```
 
 See [openhab-js : triggers ](https://openhab.github.io/openhab-js/triggers.html) in the API documentation for a full list of all triggers.
@@ -858,42 +860,40 @@ Additionally all the above triggers have the following functions:
 #### Rule Builder Examples
 
 ```javascript
-//Basic rule, when the BedroomLight1 is changed, run a custom function
+// Basic rule, when the BedroomLight1 is changed, run a custom function
 rules.when().item('BedroomLight1').changed().then(e => {
     console.log("BedroomLight1 state", e.newState)
 }.build();
 
-//turn on the kitchen light at SUNSET
-rules.when().timeOfDay("SUNSET").then().sendOn().toItem("KitchenLight").build("Sunset Rule","turn on the kitchen light
-at SUNSET");
+// Turn on the kitchen light at SUNSET
+rules.when().timeOfDay("SUNSET").then().sendOn().toItem("KitchenLight").build("Sunset Rule","turn on the kitchen light at SUNSET");
 
-//turn off the kitchen light at 9PM and tag rule
-rules.when().cron("0 0 21 * * ?").then().sendOff().toItem("KitchenLight").build("9PM Rule", "turn off the kitchen light
-at 9PM", ["Tag1", "Tag2"]);
+// Turn off the kitchen light at 9PM and tag rule
+rules.when().cron("0 0 21 * * ?").then().sendOff().toItem("KitchenLight").build("9PM Rule", "turn off the kitchen light at 9PM", ["Tag1", "Tag2"]);
 
-//set the colour of the hall light to pink at 9PM, tag rule and use a custom ID
-rules.when().cron("0 0 21 * * ?").then().send("300,100,100").toItem("HallLight").build("Pink Rule", "set the colour of
-the hall light to pink at 9PM", ["Tag1", "Tag2"], "MyCustomID");
+// Set the colour of the hall light to pink at 9PM, tag rule and use a custom ID
+rules.when().cron("0 0 21 * * ?").then().send("300,100,100").toItem("HallLight").build("Pink Rule", "set the colour of the hall light to pink at 9PM", ["Tag1", "Tag2"], "MyCustomID");
 
-//when the switch S1 status changes to ON, then turn on the HallLight
+// When the switch S1 status changes to ON, then turn on the HallLight
 rules.when().item('S1').changed().toOn().then(sendOn().toItem('HallLight')).build("S1 Rule");
 
-//when the HallLight colour changes pink, if the function fn returns true, then toggle the state of the OutsideLight
+// When the HallLight colour changes pink, if the function fn returns true, then toggle the state of the OutsideLight
 rules.when().item('HallLight').changed().to("300,100,100").if(fn).then().sendToggle().toItem('OutsideLight').build();
 
-//and some rules which can be toggled by the items created in the 'gRules' Group:
+// And some rules which can be toggled by the items created in the 'gRules' Group:
 
-//when the HallLight receives a command, send the same command to the KitchenLight
+// When the HallLight receives a command, send the same command to the KitchenLight
 rules.when().item('HallLight').receivedCommand().then().sendIt().toItem('KitchenLight').build("Hall Light", "");
 
-//when the HallLight is updated to ON, make sure that BedroomLight1 is set to the same state as the BedroomLight2
+// When the HallLight is updated to ON, make sure that BedroomLight1 is set to the same state as the BedroomLight2
 rules.when().item('HallLight').receivedUpdate().then().copyState().fromItem('BedroomLight1').toItem('BedroomLight2').build();
-
 ```
 
 ### Event Object
 
-**NOTE**: Note that `event` object is different in UI based rules and file based rules! This section is only valid for file based rules. If you use UI based rules, refer to [UI based rules event object documentation](#event-object).
+**NOTE**: The `event` object is different in UI Based Rules and File Based Rules!
+This section is only valid for File Based Rules.
+If you use UI Based Rules, refer to [UI based rules event object documentation](#event-object).
 
 When a rule is triggered, the script is provided the event instance that triggered it.
 The specific data depends on the event type.
@@ -918,7 +918,7 @@ All properties are typeof `string`.
 `ThingStatusUpdateTrigger`, `ThingStatusChangeTrigger` use *Thing* and `ChannelEventTrigger` uses the the trigger channel name as value for `itemName`.
 `Group****Trigger`s use the equivalent `Item****Trigger` as trigger for each member.
 
-See [openhab-js - EventObject](https://openhab.github.io/openhab-js/rules.html#.EventObject) for full APi documentation.
+See [openhab-js : EventObject](https://openhab.github.io/openhab-js/rules.html#.EventObject) for full API documentation.
 
 ### Initialization hook: scriptLoaded
 
@@ -928,7 +928,7 @@ For file based scripts, this function will be called if found when the script is
 scriptLoaded = function () {
     console.log("script loaded");
     loadedDate = Date.now();
-}
+};
 ```
 
 ### Deinitialization hook: scriptUnloaded
@@ -940,7 +940,7 @@ scriptUnloaded = function () {
     console.log("script unloaded");
     // clean up rouge timers
     clearInterval(timer);
-}
+};
 ```
 
 ## Advanced Scripting
@@ -950,14 +950,14 @@ scriptUnloaded = function () {
 One can access many useful utilities and types using `require("@runtime")`, e.g.
 
 ```javascript
-var { ON, OFF, QuantityType } = require("@runtime")
+var { ON, OFF, QuantityType } = require("@runtime");
 // Alternative, more verbose way to achieve the same:
 //
-// var runtime = require("@runtime")
+// var runtime = require("@runtime");
 //
-// var ON = runtime.ON
-// var OFF = runtime.OFF
-// var QuantityType = runtime.QuantityType
+// var ON = runtime.ON;
+// var OFF = runtime.OFF;
+// var QuantityType = runtime.QuantityType;
 ```
 
 | Variable                | Description                                                                                                                                           |
