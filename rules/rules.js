@@ -381,7 +381,7 @@ const getTriggeredData = function (input) {
       receivedCommand: event.getItemCommand().toString(),
       oldState: input.get('oldState') + '',
       newState: input.get('newState') + '',
-      itemName: event.getItemName().toString(),
+      itemName: event.getItemName(),
       module: input.get('module')
     };
   }
@@ -404,7 +404,7 @@ const getTriggeredData = function (input) {
     receivedCommand: null,
     receivedState: null,
     receivedTrigger: null,
-    itemName: evArr[0].toString(),
+    itemName: evArr[0],
     module: input.get('module'),
     command: input.get('command') + '' // for PWM trigger
   };
