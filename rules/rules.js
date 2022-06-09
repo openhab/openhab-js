@@ -16,14 +16,18 @@
  * @property {String} oldState only for {@link triggers.ItemStateChangeTrigger} & {@link triggers.GroupStateChangeTrigger}: Previous state of Item or Group that triggered event
  * @property {String} newState only for {@link triggers.ItemStateChangeTrigger} & {@link triggers.GroupStateChangeTrigger}: New state of Item or Group that triggered event
  * @property {String} state only for {@link triggers.ItemStateUpdateTrigger} & {@link triggers.GroupStateUpdateTrigger}: State of Item that triggered event
- * @property {String} receivedCommand only for {@link triggers.ItemCommandTrigger} & {@link triggers.GroupCommandTrigger}: Command that triggered event
  * @property {String} receivedState only for {@link triggers.ItemStateUpdateTrigger} & {@link triggers.GroupStateUpdateTrigger}: State that triggered event
- * @property {*} receivedTrigger only for {@link triggers.ChannelEventTrigger}: Trigger that triggered event
+ * @property {String} command only for {@link triggers.ItemCommandTrigger}, {@link triggers.GroupCommandTrigger}, {@link triggers.PWMTrigger} & {@link triggers.PIDTrigger} : Command that triggered event
+ * @property {String} receivedCommand only for {@link triggers.ItemCommandTrigger}, {@link triggers.GroupCommandTrigger}, {@link triggers.PWMTrigger} & {@link triggers.PIDTrigger} : Command that triggered event
  * @property {String} itemName for all triggers except {@link triggers.PWMTrigger}: name of Item that triggered event
- * @property {String} eventType for all triggers except `ThingStatus****Triggers`, {@link triggers.PWMTrigger}: Type of event that triggered event (change, command, time, triggered, update)
- * @property {String} triggerType for all triggers except `ThingStatus****Triggers`, {@link triggers.PWMTrigger}: Type of trigger that triggered event (for `TimeOfDayTrigger`: `GenericCronTrigger`)
- * @property {*} payload not for all triggers
- * @property {String} command only for {@link triggers.PWMTrigger}: Pulse Width Modulation Automation command
+ * @property {String} receivedEvent only for {@link triggers.ChannelEventTrigger}: Channel event that triggered event
+ * @property {String} channelUID only for {@link triggers.ChannelEventTrigger}: UID of channel that triggered event
+ * @property {String} oldStatus only for {@link triggers.ThingStatusChangeTrigger}: Previous state of Thing that triggered event
+ * @property {String} newStatus only for {@link triggers.ThingStatusChangeTrigger}: New state of Thing that triggered event
+ * @property {String} status only for {@link triggers.ThingStatusUpdateTrigger}: State of Thing that triggered event
+ * @property {String} eventType for all triggers except {@link triggers.PWMTrigger}, {@link triggers.PIDTrigger}: Type of event that triggered event (change, command, time, triggered, update)
+ * @property {String} triggerType for all triggers: Type of trigger that triggered event (for `TimeOfDayTrigger`: `GenericCronTrigger`)
+ * @property {*} payload for most triggers
  */
 
 /**
@@ -373,83 +377,84 @@ const SwitchableJSRule = function (ruleConfig) {
 
 const getTriggeredData = function (input) {
   const event = input.get('event');
+  const data = {};
 
-  if (event && Java.typeName(event.class) === 'org.openhab.core.items.events.ItemCommandEvent') {
-    return {
-      eventType: 'command',
-      triggerType: 'ItemCommandTrigger',
-      receivedCommand: event.getItemCommand().toString(),
-      oldState: input.get('oldState') + '',
-      newState: input.get('newState') + '',
-      itemName: event.getItemName().toString(),
-      module: input.get('module')
-    };
+  // Properties of data are dynamically added, depending on their availability
+
+  // Item triggers
+  if (input.containsKey('command')) {
+    data.receivedCommand = input.get('command').toString();
+    data.command = input.get('command').toString();
+  }
+  if (input.containsKey('oldState')) data.oldState = input.get('oldState').toString();
+  if (input.containsKey('newState')) data.newState = input.get('newState').toString();
+  if (input.containsKey('state')) {
+    data.receivedState = input.get('state').toString();
+    data.state = input.get('state').toString();
   }
 
-  const ev = event + '';
-  // log.debug("event",ev.split("'").join("").split("Item ").join("").split(" "));
-  let evArr = [];
-  if (ev.includes('triggered')) {
-    const atmp = ev.split(' triggered '); // astro:sun:local:astroDawn#event triggered START
-    evArr = [atmp[0], 'triggered', atmp[1]];
-  } else {
-    evArr = ev.split("'").join('').split('Item ').join('').split(' '); // Item 'benqth681_switch' received command ON
-  }
+  // Thing triggers
+  if (input.containsKey('newStatus')) data.newStatus = input.get('newStatus').toString();
+  if (input.containsKey('oldStatus')) data.oldStatus = input.get('oldStatus').toString();
+  if (input.containsKey('status')) data.status = input.get('status').toString();
 
-  const d = {
-    // size: input.size(),
-    oldState: input.get('oldState') + '',
-    newState: input.get('newState') + '',
-    state: input.get('state') + '', // this occurs on an ItemStateUpdateTrigger
-    receivedCommand: null,
-    receivedState: null,
-    receivedTrigger: null,
-    itemName: evArr[0].toString(),
-    module: input.get('module'),
-    command: input.get('command') + '' // for PWM trigger
-  };
-
-  try {
-    if (event !== null && event.getPayload()) {
-      d.payload = JSON.parse(event.getPayload());
-      log.debug('Extracted event payload {}', d.payload);
+  // Only with event data (for Item, Thing & Channel triggers)
+  if (event) {
+    switch (Java.typeName(event.class)) {
+      case 'org.openhab.core.items.events.ItemCommandEvent':
+        data.itemName = event.getItemName();
+        data.eventType = 'command';
+        data.triggerType = 'ItemCommandTrigger';
+        break;
+      case 'org.openhab.core.items.events.ItemStateChangedEvent':
+        data.itemName = event.getItemName();
+        data.eventType = 'change';
+        data.triggerType = 'ItemStateChangeTrigger';
+        break;
+      case 'org.openhab.core.items.events.ItemStateEvent':
+        data.itemName = event.getItemName();
+        data.eventType = 'update';
+        data.triggerType = 'ItemStateUpdateTrigger';
+        break;
+      case 'org.openhab.core.thing.events.ThingStatusInfoChangedEvent':
+        data.thingUID = event.getThingUID().toString();
+        data.eventType = 'change';
+        data.triggerType = 'ThingStatusChangeTrigger';
+        break;
+      case 'org.openhab.core.thing.events.ThingStatusInfoEvent':
+        data.thingUID = event.getThingUID().toString();
+        data.eventType = 'update';
+        data.triggerType = 'ThingStatusUpdateTrigger';
+        break;
+      case 'org.openhab.core.thing.events.ChannelTriggeredEvent':
+        data.channelUID = event.getChannel().toString();
+        data.receivedEvent = event.getEvent();
+        data.eventType = 'triggered';
+        data.triggerType = 'ChannelEventTrigger';
+        break;
     }
-  } catch (e) {
-    log.warn('Failed to extract payload: {}', e.message);
-  }
-
-  switch (evArr[1]) {
-    case 'received':
-      d.eventType = 'command';
-      d.triggerType = 'ItemCommandTrigger';
-      d.receivedCommand = input.get('command') + '';
-      break;
-    case 'updated':
-      d.eventType = 'update';
-      d.triggerType = 'ItemStateUpdateTrigger';
-      d.receivedState = input.get('state') + '';
-      break;
-    case 'changed':
-      d.eventType = 'change';
-      d.triggerType = 'ItemStateChangeTrigger';
-      break;
-    case 'triggered':
-      d.eventType = 'triggered';
-      d.triggerType = 'ChannelEventTrigger';
-      d.receivedTrigger = evArr[2];
-      break;
-    default:
-      if (input.size() === 0) {
-        d.eventType = 'time';
-        d.triggerType = 'GenericCronTrigger';
-        d.triggerTypeOld = 'TimerTrigger';
-      } else {
-        d.eventType = '';
-        d.triggerType = '';
+    data.eventClass = Java.typeName(event.class);
+    try {
+      if (event.getPayload()) {
+        data.payload = JSON.parse(event.getPayload());
+        log.debug('Extracted event payload {}', data.payload);
       }
+    } catch (e) {
+      log.warn('Failed to extract payload: {}', e.message);
+    }
   }
 
-  return d;
+  // Always
+  if (input.containsKey('module')) data.module = input.get('module');
+
+  // If the ScriptEngine gets an empty input, the trigger is either time based or the rule is run manually!!
+  if (input.size() === 0) {
+    data.eventType = 'time';
+    data.triggerType = 'GenericCronTrigger';
+    data.triggerTypeOld = 'TimerTrigger';
+  }
+
+  return data;
 };
 
 module.exports = {
