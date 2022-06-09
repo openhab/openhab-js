@@ -19,8 +19,6 @@ binding](https://www.openhab.org/addons/automation/jsscripting/).
   - [Default Installation](#default-installation)
   - [Custom Installation](#custom-installation)
   - [Configuration](#configuration)
-- [Latest Changes](#latest-changes)
-  - [Breaking Changes](#breaking-changes)
 - [UI Based Rules](#ui-based-rules)
   - [Adding Triggers](#adding-triggers)
   - [Adding Actions](#adding-actions)
@@ -65,12 +63,6 @@ NPM will create a `node_modules` directory containing the latest version of this
 This will be used instead of the binding provided version.
 
 ### Configuration
-
-## Latest Changes
-
-### Breaking Changes
-- item.history.lastUpdate() returns `ZonedDateTime` instead of `Date`
-- `addItem(...)` and `updateItem(...)` use [`itemConfig`](#itemconfig) as parameter
 
 ## UI Based Rules
 
