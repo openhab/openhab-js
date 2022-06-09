@@ -914,7 +914,7 @@ This tables gives an overview over the `event` object:
 | `status`                     | `ThingStatusUpdateTrigger`                          | State of Thing that triggered event                                                 | N/A                    |
 | `thingUID`                   | `Thing****Trigger`                                  | UID of Thing that triggered event                                                   | N/A                    |
 | `eventType`                  | all                                                 | Type of event that triggered event (change, command, time, triggered, update)       | N/A                    |
-| `triggerType`                | all                                                 | Type of trigger that triggered event (for `TimeOfDayTrigger`: `GenericCronTrigger`) | N/A                    |
+| `triggerType`                | all except `PWMTrigger`, `PIDTrigger`               | Type of trigger that triggered event (for `TimeOfDayTrigger`: `GenericCronTrigger`) | N/A                    |
 
 All properties are typeof `string`.
 
