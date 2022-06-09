@@ -9,7 +9,6 @@
  * @typedef {Object} EventObject When a rule is triggered, the script is provided the event instance that triggered it. The specific data depends on the event type. The `EventObject` provides several information about that trigger.
  *
  * Note:
- * `ThingStatusUpdateTrigger`, `ThingStatusChangeTrigger` use *Thing* and `ChannelEventTrigger` uses the the trigger channel name as value for `itemName`.
  * `Group****Trigger`s use the equivalent `Item****Trigger` as trigger for each member.
  *
  * @memberof rules
@@ -26,14 +25,8 @@
  * @property {String} newStatus only for {@link triggers.ThingStatusChangeTrigger}: New state of Thing that triggered event
  * @property {String} status only for {@link triggers.ThingStatusUpdateTrigger}: State of Thing that triggered event
  * @property {String} eventType for all triggers except {@link triggers.PWMTrigger}, {@link triggers.PIDTrigger}: Type of event that triggered event (change, command, time, triggered, update)
- * @property {String} triggerType for all triggers: Type of trigger that triggered event (for `TimeOfDayTrigger`: `GenericCronTrigger`)
+ * @property {String} triggerType for all triggers except {@link triggers.PWMTrigger}, {@link triggers.PIDTrigger}: Type of trigger that triggered event (for `TimeOfDayTrigger`: `GenericCronTrigger`)
  * @property {*} payload for most triggers
- */
-
-/**
- * @callback RuleCallback When a rule is run, a callback is executed.
- * @memberof rules
- * @param {rules.EventObject} event
  */
 
 const GENERATED_RULE_ITEM_TAG = 'GENERATED_RULE_ITEM';
@@ -200,6 +193,25 @@ const setEnabled = function (uid, isEnabled) {
 };
 
 /**
+ * @callback RuleCallback When a rule is run, a callback is executed.
+ * @memberof rules
+ * @param {rules.EventObject} event
+ */
+
+/**
+ * @typedef RuleConfig configuration for {@link rules.JSRule}
+ * @memberof rules
+ * @property {String} name name of the rule (used in UI)
+ * @property {String} [description] description of the rule (used in UI)
+ * @property {triggers|triggers[]} triggers which will fire the rule
+ * @property {rules.RuleCallback} execute callback to run when the rule fires
+ * @property {String} [id] UID of the rule, if not provided, one is generated
+ * @property {String[]} [tags] tags for the rule (used in UI)
+ * @property {String} ruleGroup name of rule group to use
+ * @property {Boolean} [overwrite=false] whether to overwrite an existing rule with the same UID
+ */
+
+/**
   * Creates a rule. The rule will be created and immediately available.
   *
   * @example
@@ -213,15 +225,7 @@ const setEnabled = function (uid, isEnabled) {
   * });
   *
   * @memberOf rules
-  * @param {Object} ruleConfig The rule config describing the rule
-  * @param {String} ruleConfig.name the name of the rule
-  * @param {String} [ruleConfig.description] a description of the rule
-  * @param {rules.RuleCallback} ruleConfig.execute callback that will be called when the rule fires
-  * @param {HostTrigger|HostTrigger[]} ruleConfig.triggers triggers which will define when to fire the rule
-  * @param {String} [ruleConfig.id] the UID of the rule
-  * @param {Array<String>} [ruleConfig.tags] the tags for the rule
-  * @param {String} [ruleConfig.ruleGroup] the name of the rule group to use
-  * @param {Boolean} [ruleConfig.overwrite=false] overwrite an existing rule with the same UID
+  * @param {rules.RuleConfig} ruleConfig The rule config describing the rule
   * @returns {HostRule} the created rule
   * @throws Will throw an error if the rule with the passed in uid already exists
   */
@@ -328,15 +332,7 @@ const registerRule = function (rule) {
   * The rule will be created and immediately available.
   *
   * @memberOf rules
-  * @param {Object} ruleConfig The rule config describing the rule
-  * @param {String} ruleConfig.name the name of the rule
-  * @param {String} [ruleConfig.description] a description of the rule
-  * @param {rules.RuleCallback} ruleConfig.execute callback that will be called when the rule fires
-  * @param {HostTrigger|HostTrigger[]} ruleConfig.triggers triggers which will define when to fire the rule
-  * @param {String} [ruleConfig.id] the UID of the rule
-  * @param {Array<String>} [ruleConfig.tags] the tags for the rule
-  * @param {String} [ruleConfig.ruleGroup] the name of the rule group to use
-  * @param {Boolean} [ruleConfig.overwrite=false] overwrite an existing rule with the same UID
+  * @param {rules.RuleConfig} ruleConfig The rule config describing the rule
   * @returns {HostRule} the created rule
   * @throws Will throw an error is a rule with the given UID already exists.
   */
@@ -375,6 +371,12 @@ const SwitchableJSRule = function (ruleConfig) {
   }
 };
 
+/**
+ * Get rule trigger data from raw Java input and generate JavScript object.
+ * @private
+ * @param {*} input raw Java input from openHAB core
+ * @returns {rules.EventObject}
+ */
 const getTriggeredData = function (input) {
   const event = input.get('event');
   const data = {};
