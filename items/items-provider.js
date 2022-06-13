@@ -1,5 +1,5 @@
 // const osgi = require('../osgi');
-const items = require('./managed');
+const items = require('./items');
 const utils = require('../utils');
 const { AbstractProvider } = require('../provider');
 
@@ -106,8 +106,10 @@ class StaticCallbackItemProvider extends AbstractProvider {
   }
 }
 
-module.exports = {
+const exports = {
   staticItemProvider: items => new StaticItemProvider(items),
   managedItemProvider: () => new ManagedItemProvider(),
   staticCallbackItemProvider: () => new StaticCallbackItemProvider()
 };
+
+module.exports = exports;

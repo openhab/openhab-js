@@ -104,7 +104,7 @@ class RuleBuilder {
   }
 }
 
-module.exports = {
+const exports = {
   RuleBuilder,
   /**
      * Create a new {RuleBuilder} chain for easily creating rules.
@@ -123,3 +123,5 @@ module.exports = {
      */
   when: withToggle => new RuleBuilder(withToggle).when()
 };
+
+module.exports = exports;

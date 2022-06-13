@@ -5,6 +5,7 @@
  * @namespace rules
  */
 
+// typedefs need to be global for TypeScript to fully work
 /**
  * @typedef {Object} EventObject When a rule is triggered, the script is provided the event instance that triggered it. The specific data depends on the event type. The `EventObject` provides several information about that trigger.
  *
@@ -12,7 +13,6 @@
  * `ThingStatusUpdateTrigger`, `ThingStatusChangeTrigger` use *Thing* and `ChannelEventTrigger` uses the the trigger channel name as value for `itemName`.
  * `Group****Trigger`s use the equivalent `Item****Trigger` as trigger for each member.
  *
- * @memberof rules
  * @property {String} oldState only for {@link triggers.ItemStateChangeTrigger} & {@link triggers.GroupStateChangeTrigger}: Previous state of Item or Group that triggered event
  * @property {String} newState only for {@link triggers.ItemStateChangeTrigger} & {@link triggers.GroupStateChangeTrigger}: New state of Item or Group that triggered event
  * @property {String} state only for {@link triggers.ItemStateUpdateTrigger} & {@link triggers.GroupStateUpdateTrigger}: State of Item that triggered event
@@ -28,8 +28,19 @@
 
 /**
  * @callback RuleCallback When a rule is run, a callback is executed.
- * @memberof rules
- * @param {rules.EventObject} event
+ * @param {EventObject} event
+ */
+
+/**
+ * @typedef {Object} RuleConfig
+ * @property {String} name the name of the rule
+ * @property {String} [description] a description of the rule
+ * @property {RuleCallback} execute callback that will be called when the rule fires
+ * @property {HostTrigger|HostTrigger[]} triggers triggers which will define when to fire the rule
+ * @property {String} [id] the UID of the rule
+ * @property {Array<String>} [tags] the tags for the rule
+ * @property {String} [ruleGroup] the name of the rule group to use
+ * @property {Boolean} [overwrite=false] overwrite an existing rule with the same UID
  */
 
 const GENERATED_RULE_ITEM_TAG = 'GENERATED_RULE_ITEM';
@@ -62,7 +73,7 @@ const itemNameForRule = function (ruleConfig) {
   * @memberOf rules
   * @private
   * @param {HostRule} rule The rule to link to the item.
-  * @param {Item} item the item to link to the rule.
+  * @param {items.Item} item the item to link to the rule.
   */
 const linkItemToRule = function (rule, item) {
   JSRule({
@@ -89,8 +100,7 @@ const linkItemToRule = function (rule, item) {
   *
   * @memberOf rules
   * @private
-  * @param {Object} ruleConfig The rule config describing the rule
-  * @param {String} ruleConfig.ruleGroup the name of the rule group to use.
+  * @param {RuleConfig} ruleConfig The rule config describing the rule
   * @returns {String[]} the group names to put the item in
   */
 const getGroupsForItem = function (ruleConfig) {
@@ -209,15 +219,7 @@ const setEnabled = function (uid, isEnabled) {
   * });
   *
   * @memberOf rules
-  * @param {Object} ruleConfig The rule config describing the rule
-  * @param {String} ruleConfig.name the name of the rule
-  * @param {String} [ruleConfig.description] a description of the rule
-  * @param {rules.RuleCallback} ruleConfig.execute callback that will be called when the rule fires
-  * @param {HostTrigger|HostTrigger[]} ruleConfig.triggers triggers which will define when to fire the rule
-  * @param {String} [ruleConfig.id] the UID of the rule
-  * @param {Array<String>} [ruleConfig.tags] the tags for the rule
-  * @param {String} [ruleConfig.ruleGroup] the name of the rule group to use
-  * @param {Boolean} [ruleConfig.overwrite=false] overwrite an existing rule with the same UID
+  * @param {RuleConfig} ruleConfig The rule config describing the rule
   * @returns {HostRule} the created rule
   * @throws Will throw an error if the rule with the passed in uid already exists
   */
@@ -324,15 +326,7 @@ const registerRule = function (rule) {
   * The rule will be created and immediately available.
   *
   * @memberOf rules
-  * @param {Object} ruleConfig The rule config describing the rule
-  * @param {String} ruleConfig.name the name of the rule
-  * @param {String} [ruleConfig.description] a description of the rule
-  * @param {rules.RuleCallback} ruleConfig.execute callback that will be called when the rule fires
-  * @param {HostTrigger|HostTrigger[]} ruleConfig.triggers triggers which will define when to fire the rule
-  * @param {String} [ruleConfig.id] the UID of the rule
-  * @param {Array<String>} [ruleConfig.tags] the tags for the rule
-  * @param {String} [ruleConfig.ruleGroup] the name of the rule group to use
-  * @param {Boolean} [ruleConfig.overwrite=false] overwrite an existing rule with the same UID
+  * @param {RuleConfig} ruleConfig The rule config describing the rule
   * @returns {HostRule} the created rule
   * @throws Will throw an error is a rule with the given UID already exists.
   */

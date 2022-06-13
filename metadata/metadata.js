@@ -65,7 +65,7 @@ const createMetadata = function (itemName, namespace, value) {
   return new Metadata(key, value, {});
 };
 
-module.exports = {
+const exports = {
   getValue,
   addValue,
   updateValue,
@@ -73,3 +73,5 @@ module.exports = {
   provider: require('./metadata-provider'),
   itemchannellink: require('./itemchannellink')
 };
+
+module.exports = exports;
