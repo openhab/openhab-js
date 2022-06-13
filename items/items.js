@@ -506,7 +506,7 @@ const replaceItem = function (itemConfig) {
  * Gets an openHAB Item.
  * @memberof items
  * @param {String} name the name of the item
- * @param {String} nullIfMissing whether to return null if the item cannot be found (default is to throw an exception)
+ * @param {Boolean} [nullIfMissing=false] whether to return null if the item cannot be found (default is to throw an exception)
  * @return {items.Item} the item
  */
 const getItem = (name, nullIfMissing = false) => {
