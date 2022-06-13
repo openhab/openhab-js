@@ -4,6 +4,8 @@
     "description": "JavaScript Library for openHAB Automation",
     "private": false,
     "license": "EPL-2.0",
+    "main": "index.js",
+    "types": "types/index.d.ts",
     "repository": {
         "type": "git",
         "url": "git://github.com/openhab/openhab-js.git"
@@ -31,6 +33,7 @@
         "rewiremock": "^3.13.9",
         "snazzy": "^9.0.0",
         "standardx": "^7.0.0",
+        "tsc": "^2.0.4",
         "webpack": "^5.58.2",
         "webpack-cli": "^4.9.1"
     }
