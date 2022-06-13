@@ -372,6 +372,18 @@ const SwitchableJSRule = function (ruleConfig) {
 };
 
 /**
+ * Adds a key's value from a Java HashMap to a JavaScript object (as string) if the HashMap has that key.
+ * This function uses the mutable nature of JS objects and does not return anything.
+ * @private
+ * @param {*} hashMap Java HashMap
+ * @param {String} key key from the HashMap to add to the JS object
+ * @param {Object} object JavaScript object
+ */
+const addFromHashMap = (hashMap, key, object) => {
+  if (hashMap.containsKey(key)) object[key] = hashMap[key].toString();
+};
+
+/**
  * Get rule trigger data from raw Java input and generate JavaScript object.
  * @private
  * @param {*} input raw Java input from openHAB core
@@ -388,17 +400,17 @@ const getTriggeredData = function (input) {
     data.receivedCommand = input.get('command').toString();
     data.command = input.get('command').toString();
   }
-  if (input.containsKey('oldState')) data.oldState = input.get('oldState').toString();
-  if (input.containsKey('newState')) data.newState = input.get('newState').toString();
+  addFromHashMap(input, 'oldState', data);
+  addFromHashMap(input, 'newState', data);
   if (input.containsKey('state')) {
     data.receivedState = input.get('state').toString();
     data.state = input.get('state').toString();
   }
 
   // Thing triggers
-  if (input.containsKey('newStatus')) data.newStatus = input.get('newStatus').toString();
-  if (input.containsKey('oldStatus')) data.oldStatus = input.get('oldStatus').toString();
-  if (input.containsKey('status')) data.status = input.get('status').toString();
+  addFromHashMap(input, 'oldStatus', data);
+  addFromHashMap(input, 'newStatus', data);
+  addFromHashMap(input, 'status', data);
 
   // Only with event data (for Item, Thing & Channel triggers)
   if (event) {
@@ -447,7 +459,7 @@ const getTriggeredData = function (input) {
   }
 
   // Always
-  if (input.containsKey('module')) data.module = input.get('module');
+  addFromHashMap(input, 'module', data);
 
   // If the ScriptEngine gets an empty input, the trigger is either time based or the rule is run manually!!
   if (input.size() === 0) {
