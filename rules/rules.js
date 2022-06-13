@@ -372,7 +372,7 @@ const SwitchableJSRule = function (ruleConfig) {
 };
 
 /**
- * Get rule trigger data from raw Java input and generate JavScript object.
+ * Get rule trigger data from raw Java input and generate JavaScript object.
  * @private
  * @param {*} input raw Java input from openHAB core
  * @returns {rules.EventObject}
