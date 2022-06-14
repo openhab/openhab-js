@@ -14,7 +14,6 @@
  * @memberof rules
  * @property {String} oldState only for {@link triggers.ItemStateChangeTrigger} & {@link triggers.GroupStateChangeTrigger}: Previous state of Item or Group that triggered event
  * @property {String} newState only for {@link triggers.ItemStateChangeTrigger} & {@link triggers.GroupStateChangeTrigger}: New state of Item or Group that triggered event
- * @property {String} state only for {@link triggers.ItemStateUpdateTrigger} & {@link triggers.GroupStateUpdateTrigger}: State of Item that triggered event
  * @property {String} receivedState only for {@link triggers.ItemStateUpdateTrigger} & {@link triggers.GroupStateUpdateTrigger}: State that triggered event
  * @property {String} receivedCommand only for {@link triggers.ItemCommandTrigger}, {@link triggers.GroupCommandTrigger}, {@link triggers.PWMTrigger} & {@link triggers.PIDTrigger} : Command that triggered event
  * @property {String} itemName for all triggers except {@link triggers.PWMTrigger}: name of Item that triggered event
