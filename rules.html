@@ -317,7 +317,7 @@ This namespace allows creation of openHAB rules.</p></div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="rules_rules.js.html">rules/rules.js</a>, <a href="rules_rules.js.html#line134">line 134</a>
+        <a href="rules_rules.js.html">rules/rules.js</a>, <a href="rules_rules.js.html#line129">line 129</a>
     </li></ul></dd>
     
 
@@ -476,7 +476,7 @@ Only works for rules created in the same file.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="rules_rules.js.html">rules/rules.js</a>, <a href="rules_rules.js.html#line154">line 154</a>
+        <a href="rules_rules.js.html">rules/rules.js</a>, <a href="rules_rules.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -719,7 +719,7 @@ or is unable to run (e.g. it's disabled).</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="rules_rules.js.html">rules/rules.js</a>, <a href="rules_rules.js.html#line175">line 175</a>
+        <a href="rules_rules.js.html">rules/rules.js</a>, <a href="rules_rules.js.html#line170">line 170</a>
     </li></ul></dd>
     
 
@@ -890,7 +890,7 @@ and error if the rule doesn't exist.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="rules_rules.js.html">rules/rules.js</a>, <a href="rules_rules.js.html#line191">line 191</a>
+        <a href="rules_rules.js.html">rules/rules.js</a>, <a href="rules_rules.js.html#line186">line 186</a>
     </li></ul></dd>
     
 
@@ -1062,7 +1062,7 @@ rule doesn't exist.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="rules_rules.js.html">rules/rules.js</a>, <a href="rules_rules.js.html#line224">line 224</a>
+        <a href="rules_rules.js.html">rules/rules.js</a>, <a href="rules_rules.js.html#line230">line 230</a>
     </li></ul></dd>
     
 
@@ -1158,7 +1158,7 @@ rules.JSRule({
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="rules.html#.RuleConfig">rules.RuleConfig</a></span>
 
 
             
@@ -1168,332 +1168,7 @@ rules.JSRule({
 
             
 
-            <td class="description last"><p>The rule config describing the rule</p>
-                <h6>Properties</h6>
-                
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last"><p>the name of the rule</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>description</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last"><p>a description of the rule</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>execute</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="rules.html#.RuleCallback">rules.RuleCallback</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last"><p>callback that will be called when the rule fires</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>triggers</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#HostTrigger">HostTrigger</a></span>
-|
-
-<span class="param-type">Array.&lt;<a href="global.html#HostTrigger">HostTrigger</a>></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last"><p>triggers which will define when to fire the rule</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>id</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last"><p>the UID of the rule</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>tags</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array.&lt;String></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last"><p>the tags for the rule</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>ruleGroup</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last"><p>the name of the rule group to use</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>overwrite</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    <code>false</code>
-                
-                </td>
-            
-
-            <td class="description last"><p>overwrite an existing rule with the same UID</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-            </td>
+            <td class="description last"><p>The rule config describing the rule</p></td>
         </tr>
 
     
@@ -1569,7 +1244,7 @@ rules.JSRule({
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="rules_rules.js.html">rules/rules.js</a>, <a href="rules_rules.js.html#line339">line 339</a>
+        <a href="rules_rules.js.html">rules/rules.js</a>, <a href="rules_rules.js.html#line337">line 337</a>
     </li></ul></dd>
     
 
@@ -1654,7 +1329,7 @@ The rule will be created and immediately available.</p>
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="rules.html#.RuleConfig">rules.RuleConfig</a></span>
 
 
             
@@ -1664,332 +1339,7 @@ The rule will be created and immediately available.</p>
 
             
 
-            <td class="description last"><p>The rule config describing the rule</p>
-                <h6>Properties</h6>
-                
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last"><p>the name of the rule</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>description</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last"><p>a description of the rule</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>execute</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="rules.html#.RuleCallback">rules.RuleCallback</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last"><p>callback that will be called when the rule fires</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>triggers</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#HostTrigger">HostTrigger</a></span>
-|
-
-<span class="param-type">Array.&lt;<a href="global.html#HostTrigger">HostTrigger</a>></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last"><p>triggers which will define when to fire the rule</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>id</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last"><p>the UID of the rule</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>tags</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array.&lt;String></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last"><p>the tags for the rule</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>ruleGroup</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last"><p>the name of the rule group to use</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>overwrite</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    <code>false</code>
-                
-                </td>
-            
-
-            <td class="description last"><p>overwrite an existing rule with the same UID</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-            </td>
+            <td class="description last"><p>The rule config describing the rule</p></td>
         </tr>
 
     
@@ -2176,52 +1526,6 @@ The rule will be created and immediately available.</p>
 
         <tr>
             
-                <td class="name"><code>state</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>only for <a href="triggers.html#.ItemStateUpdateTrigger"><code>triggers.ItemStateUpdateTrigger</code></a> &amp; <a href="triggers.html#.GroupStateUpdateTrigger"><code>triggers.GroupStateUpdateTrigger</code></a>: State of Item that triggered event</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>receivedCommand</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>only for <a href="triggers.html#.ItemCommandTrigger"><code>triggers.ItemCommandTrigger</code></a> &amp; <a href="triggers.html#.GroupCommandTrigger"><code>triggers.GroupCommandTrigger</code></a>: Command that triggered event</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
                 <td class="name"><code>receivedState</code></td>
             
 
@@ -2245,13 +1549,13 @@ The rule will be created and immediately available.</p>
 
         <tr>
             
-                <td class="name"><code>receivedTrigger</code></td>
+                <td class="name"><code>receivedCommand</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">*</span>
+<span class="param-type">String</span>
 
 
             
@@ -2261,7 +1565,7 @@ The rule will be created and immediately available.</p>
 
             
 
-            <td class="description last"><p>only for <a href="triggers.html#.ChannelEventTrigger"><code>triggers.ChannelEventTrigger</code></a>: Trigger that triggered event</p></td>
+            <td class="description last"><p>only for <a href="triggers.html#.ItemCommandTrigger"><code>triggers.ItemCommandTrigger</code></a>, <a href="triggers.html#.GroupCommandTrigger"><code>triggers.GroupCommandTrigger</code></a>, <a href="triggers.html#.PWMTrigger"><code>triggers.PWMTrigger</code></a> &amp; <a href="triggers.html#.PIDTrigger"><code>triggers.PIDTrigger</code></a> : Command that triggered event</p></td>
         </tr>
 
     
@@ -2291,6 +1595,121 @@ The rule will be created and immediately available.</p>
 
         <tr>
             
+                <td class="name"><code>receivedEvent</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>only for <a href="triggers.html#.ChannelEventTrigger"><code>triggers.ChannelEventTrigger</code></a>: Channel event that triggered event</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>channelUID</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>only for <a href="triggers.html#.ChannelEventTrigger"><code>triggers.ChannelEventTrigger</code></a>: UID of channel that triggered event</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>oldStatus</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>only for <a href="triggers.html#.ThingStatusChangeTrigger"><code>triggers.ThingStatusChangeTrigger</code></a>: Previous state of Thing that triggered event</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>newStatus</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>only for <a href="triggers.html#.ThingStatusChangeTrigger"><code>triggers.ThingStatusChangeTrigger</code></a>: New state of Thing that triggered event</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>status</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>only for <a href="triggers.html#.ThingStatusUpdateTrigger"><code>triggers.ThingStatusUpdateTrigger</code></a>: State of Thing that triggered event</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
                 <td class="name"><code>eventType</code></td>
             
 
@@ -2307,7 +1726,7 @@ The rule will be created and immediately available.</p>
 
             
 
-            <td class="description last"><p>for all triggers except <code>ThingStatus****Triggers</code>, <a href="triggers.html#.PWMTrigger"><code>triggers.PWMTrigger</code></a>: Type of event that triggered event (change, command, time, triggered, update)</p></td>
+            <td class="description last"><p>for all triggers except <a href="triggers.html#.PWMTrigger"><code>triggers.PWMTrigger</code></a>, <a href="triggers.html#.PIDTrigger"><code>triggers.PIDTrigger</code></a>: Type of event that triggered event (change, command, time, triggered, update)</p></td>
         </tr>
 
     
@@ -2330,7 +1749,7 @@ The rule will be created and immediately available.</p>
 
             
 
-            <td class="description last"><p>for all triggers except <code>ThingStatus****Triggers</code>, <a href="triggers.html#.PWMTrigger"><code>triggers.PWMTrigger</code></a>: Type of trigger that triggered event (for <code>TimeOfDayTrigger</code>: <code>GenericCronTrigger</code>)</p></td>
+            <td class="description last"><p>for all triggers except <a href="triggers.html#.PWMTrigger"><code>triggers.PWMTrigger</code></a>, <a href="triggers.html#.PIDTrigger"><code>triggers.PIDTrigger</code></a>: Type of trigger that triggered event (for <code>TimeOfDayTrigger</code>: <code>GenericCronTrigger</code>)</p></td>
         </tr>
 
     
@@ -2353,30 +1772,7 @@ The rule will be created and immediately available.</p>
 
             
 
-            <td class="description last"><p>not for all triggers</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>command</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>only for <a href="triggers.html#.PWMTrigger"><code>triggers.PWMTrigger</code></a>: Pulse Width Modulation Automation command</p></td>
+            <td class="description last"><p>for most triggers</p></td>
         </tr>
 
     
@@ -2391,7 +1787,6 @@ The rule will be created and immediately available.</p>
 <div class="description usertext">
     <p>When a rule is triggered, the script is provided the event instance that triggered it. The specific data depends on the event type. The <code>EventObject</code> provides several information about that trigger.</p>
 <p>Note:
-<code>ThingStatusUpdateTrigger</code>, <code>ThingStatusChangeTrigger</code> use <em>Thing</em> and <code>ChannelEventTrigger</code> uses the the trigger channel name as value for <code>itemName</code>.
 <code>Group****Trigger</code>s use the equivalent <code>Item****Trigger</code> as trigger for each member.</p>
 </div>
 
@@ -2429,7 +1824,7 @@ The rule will be created and immediately available.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="rules_rules.js.html">rules/rules.js</a>, <a href="rules_rules.js.html#line29">line 29</a>
+        <a href="rules_rules.js.html">rules/rules.js</a>, <a href="rules_rules.js.html#line193">line 193</a>
     </li></ul></dd>
     
 
@@ -2545,6 +1940,375 @@ The rule will be created and immediately available.</p>
 
 
             
+                
+<h4 class="name" id=".RuleConfig">RuleConfig</h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="rules_rules.js.html">rules/rules.js</a>, <a href="rules_rules.js.html#line199">line 199</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>name of the rule (used in UI)</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>description</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>description of the rule (used in UI)</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>triggers</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="triggers.html">triggers</a></span>
+|
+
+<span class="param-type">Array.&lt;<a href="triggers.html">triggers</a>></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>which will fire the rule</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>execute</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="rules.html#.RuleCallback">rules.RuleCallback</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>callback to run when the rule fires</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>UID of the rule, if not provided, one is generated</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>tags</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;String></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>tags for the rule (used in UI)</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>ruleGroup</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>name of rule group to use</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>overwrite</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>false</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>whether to overwrite an existing rule with the same UID</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
     
 
     
@@ -2562,7 +2326,7 @@ The rule will be created and immediately available.</p>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Thu Jun 09 2022 15:24:23 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Tue Jun 14 2022 21:37:09 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
