@@ -459,9 +459,8 @@ const getTriggeredData = function (input) {
 
   // If the ScriptEngine gets an empty input, the trigger is either time based or the rule is run manually!!
   if (input.size() === 0) {
-    data.eventType = 'time';
-    data.triggerType = 'GenericCronTrigger';
-    data.triggerTypeOld = 'TimerTrigger';
+    data.eventType = '';
+    data.triggerType = '';
   }
 
   return data;
