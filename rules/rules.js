@@ -16,7 +16,6 @@
  * @property {String} newState only for {@link triggers.ItemStateChangeTrigger} & {@link triggers.GroupStateChangeTrigger}: New state of Item or Group that triggered event
  * @property {String} state only for {@link triggers.ItemStateUpdateTrigger} & {@link triggers.GroupStateUpdateTrigger}: State of Item that triggered event
  * @property {String} receivedState only for {@link triggers.ItemStateUpdateTrigger} & {@link triggers.GroupStateUpdateTrigger}: State that triggered event
- * @property {String} command only for {@link triggers.ItemCommandTrigger}, {@link triggers.GroupCommandTrigger}, {@link triggers.PWMTrigger} & {@link triggers.PIDTrigger} : Command that triggered event
  * @property {String} receivedCommand only for {@link triggers.ItemCommandTrigger}, {@link triggers.GroupCommandTrigger}, {@link triggers.PWMTrigger} & {@link triggers.PIDTrigger} : Command that triggered event
  * @property {String} itemName for all triggers except {@link triggers.PWMTrigger}: name of Item that triggered event
  * @property {String} receivedEvent only for {@link triggers.ChannelEventTrigger}: Channel event that triggered event
@@ -396,10 +395,7 @@ const getTriggeredData = function (input) {
   // Properties of data are dynamically added, depending on their availability
 
   // Item triggers
-  if (input.containsKey('command')) {
-    data.receivedCommand = input.get('command').toString();
-    data.command = input.get('command').toString();
-  }
+  if (input.containsKey('command')) data.receivedCommand = input.get('command').toString();
   addFromHashMap(input, 'oldState', data);
   addFromHashMap(input, 'newState', data);
   if (input.containsKey('state')) {
