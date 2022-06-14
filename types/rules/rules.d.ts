@@ -2,7 +2,6 @@
  * When a rule is triggered, the script is provided the event instance that triggered it. The specific data depends on the event type. The `EventObject` provides several information about that trigger.
  *
  * Note:
- * `ThingStatusUpdateTrigger`, `ThingStatusChangeTrigger` use *Thing* and `ChannelEventTrigger` uses the the trigger channel name as value for `itemName`.
  * `Group****Trigger`s use the equivalent `Item****Trigger` as trigger for each member.
  */
 export type EventObject = {
@@ -15,77 +14,88 @@ export type EventObject = {
      */
     newState: string;
     /**
-     * only for {@link triggers.ItemStateUpdateTrigger } & {@link triggers.GroupStateUpdateTrigger }: State of Item that triggered event
-     */
-    state: string;
-    /**
-     * only for {@link triggers.ItemCommandTrigger } & {@link triggers.GroupCommandTrigger }: Command that triggered event
-     */
-    receivedCommand: string;
-    /**
      * only for {@link triggers.ItemStateUpdateTrigger } & {@link triggers.GroupStateUpdateTrigger }: State that triggered event
      */
     receivedState: string;
     /**
-     * only for {@link triggers.ChannelEventTrigger }: Trigger that triggered event
+     * only for {@link triggers.ItemCommandTrigger }, {@link triggers.GroupCommandTrigger }, {@link triggers.PWMTrigger } & {@link triggers.PIDTrigger } : Command that triggered event
      */
-    receivedTrigger: any;
+    receivedCommand: string;
     /**
      * for all triggers except {@link triggers.PWMTrigger }: name of Item that triggered event
      */
     itemName: string;
     /**
-     * for all triggers except `ThingStatus****Triggers`, {@link triggers.PWMTrigger }: Type of event that triggered event (change, command, time, triggered, update)
+     * only for {@link triggers.ChannelEventTrigger }: Channel event that triggered event
+     */
+    receivedEvent: string;
+    /**
+     * only for {@link triggers.ChannelEventTrigger }: UID of channel that triggered event
+     */
+    channelUID: string;
+    /**
+     * only for {@link triggers.ThingStatusChangeTrigger }: Previous state of Thing that triggered event
+     */
+    oldStatus: string;
+    /**
+     * only for {@link triggers.ThingStatusChangeTrigger }: New state of Thing that triggered event
+     */
+    newStatus: string;
+    /**
+     * only for {@link triggers.ThingStatusUpdateTrigger }: State of Thing that triggered event
+     */
+    status: string;
+    /**
+     * for all triggers except {@link triggers.PWMTrigger }, {@link triggers.PIDTrigger }: Type of event that triggered event (change, command, time, triggered, update)
      */
     eventType: string;
     /**
-     * for all triggers except `ThingStatus****Triggers`, {@link triggers.PWMTrigger }: Type of trigger that triggered event (for `TimeOfDayTrigger`: `GenericCronTrigger`)
+     * for all triggers except {@link triggers.PWMTrigger }, {@link triggers.PIDTrigger }: Type of trigger that triggered event (for `TimeOfDayTrigger`: `GenericCronTrigger`)
      */
     triggerType: string;
     /**
-     * not for all triggers
+     * for most triggers
      */
     payload: any;
-    /**
-     * only for {@link triggers.PWMTrigger }: Pulse Width Modulation Automation command
-     */
-    command: string;
 };
 /**
  * When a rule is run, a callback is executed.
  */
 export type RuleCallback = (event: EventObject) => any;
+/**
+ * configuration for {@link rules.JSRule }
+ */
 export type RuleConfig = {
     /**
-     * the name of the rule
+     * name of the rule (used in UI)
      */
     name: string;
     /**
-     * a description of the rule
+     * description of the rule (used in UI)
      */
     description?: string;
     /**
-     * callback that will be called when the rule fires
+     * which will fire the rule
+     */
+    triggers: typeof triggers | (typeof triggers)[];
+    /**
+     * callback to run when the rule fires
      */
     execute: RuleCallback;
     /**
-     * triggers which will define when to fire the rule
-     */
-    triggers: HostTrigger | HostTrigger[];
-    /**
-     * the UID of the rule
+     * UID of the rule, if not provided, one is generated
      */
     id?: string;
     /**
-     * the tags for the rule
+     * tags for the rule (used in UI)
      */
-    tags?: Array<string>;
+    tags?: string[];
     /**
-     * the name of the rule group to use
+     * name of rule group to use
      */
-    ruleGroup?: string;
+    ruleGroup: string;
     /**
-     * overwrite an existing rule with the same UID
+     * whether to overwrite an existing rule with the same UID
      */
     overwrite?: boolean;
 };
@@ -159,4 +169,5 @@ export function JSRule(ruleConfig: RuleConfig): HostRule;
   * @throws Will throw an error is a rule with the given UID already exists.
   */
 export function SwitchableJSRule(ruleConfig: RuleConfig): HostRule;
+import triggers = require("../triggers");
 //# sourceMappingURL=rules.d.ts.map

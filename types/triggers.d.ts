@@ -161,7 +161,7 @@ export function TimeOfDayTrigger(time: string, triggerName?: string): HostTrigge
  *     triggers.PWMTrigger('pwm_dimmer', 10)
  *   ],
  *   execute: (event) => {
- *     items.getItem('pwm_switch').sendCommand(event.command);
+ *     items.getItem('pwm_switch').sendCommand(event.receivedCommand);
  *   }
  * });
  *
@@ -185,7 +185,7 @@ export function PWMTrigger(dutycycleItem: string, interval: number, minDutyCycle
  *   ],
  *   execute: (event) => {
  *     // Look out what the max value for your Item is!
- *     const command = parseInt(event.command) > 100 ? '100' : event.command;
+ *     const command = parseInt(event.receivedCommand) > 100 ? '100' : event.receivedCommand;
  *     items.getItem('thermostat').sendCommand(command);
  *   }
  * });
