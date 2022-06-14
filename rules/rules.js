@@ -448,6 +448,16 @@ const getTriggeredData = function (input) {
         data.receivedEvent = event.getEvent();
         data.eventType = 'triggered';
         data.triggerType = 'ChannelEventTrigger';
+        Object.defineProperty(
+          data,
+          'receivedTrigger',
+          {
+            get: function () {
+              console.warn('"receivedTrigger" has been deprecated and will be removed in a future release. Please use "receivedEvent" instead.');
+              return event.getEvent();
+            }
+          }
+        );
         break;
     }
     data.eventClass = Java.typeName(event.class);
