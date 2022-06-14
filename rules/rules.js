@@ -398,10 +398,7 @@ const getTriggeredData = function (input) {
   if (input.containsKey('command')) data.receivedCommand = input.get('command').toString();
   addFromHashMap(input, 'oldState', data);
   addFromHashMap(input, 'newState', data);
-  if (input.containsKey('state')) {
-    data.receivedState = input.get('state').toString();
-    data.state = input.get('state').toString();
-  }
+  if (input.containsKey('state')) data.receivedState = input.get('state').toString();
 
   // Thing triggers
   addFromHashMap(input, 'oldStatus', data);
@@ -425,6 +422,16 @@ const getTriggeredData = function (input) {
         data.itemName = event.getItemName();
         data.eventType = 'update';
         data.triggerType = 'ItemStateUpdateTrigger';
+        Object.defineProperty(
+          data,
+          'state',
+          {
+            get: function () {
+              console.warn('"state" has been deprecated and will be removed in a future release. Please use "receivedState" instead.');
+              return input.get('state').toString();
+            }
+          }
+        );
         break;
       case 'org.openhab.core.thing.events.ThingStatusInfoChangedEvent':
         data.thingUID = event.getThingUID().toString();
