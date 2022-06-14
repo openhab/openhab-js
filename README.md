@@ -19,8 +19,6 @@ binding](https://www.openhab.org/addons/automation/jsscripting/).
   - [Default Installation](#default-installation)
   - [Custom Installation](#custom-installation)
   - [Configuration](#configuration)
-- [Latest Changes](#latest-changes)
-  - [Breaking Changes](#breaking-changes)
 - [UI Based Rules](#ui-based-rules)
   - [Adding Triggers](#adding-triggers)
   - [Adding Actions](#adding-actions)
@@ -65,12 +63,6 @@ NPM will create a `node_modules` directory containing the latest version of this
 This will be used instead of the binding provided version.
 
 ### Configuration
-
-## Latest Changes
-
-### Breaking Changes
-- item.history.lastUpdate() returns `ZonedDateTime` instead of `Date`
-- `addItem(...)` and `updateItem(...)` use [`itemConfig`](#itemconfig) as parameter
 
 ## UI Based Rules
 
@@ -904,18 +896,21 @@ This tables gives an overview over the `event` object:
 |-------------------|-----------------------------------------------------|-------------------------------------------------------------------------------------|------------------------|
 | `oldState`        | `ItemStateChangeTrigger`, `GroupStateChangeTrigger` | Previous state of Item or Group that triggered event                                | `previousState`        |
 | `newState`        | `ItemStateChangeTrigger`, `GroupStateChangeTrigger` | New state of Item or Group that triggered event                                     | N/A                    |
-| `state`           | `ItemStateUpdateTrigger`, `GroupStateUpdateTrigger` | State of Item that triggered event                                                  | `triggeringItem.state` |
+| `receivedState`   | `ItemStateUpdateTrigger`, `GroupStateUpdateTrigger` | State of Item that triggered event                                                  | `triggeringItem.state` |
 | `receivedCommand` | `ItemCommandTrigger`, `GroupCommandTrigger`         | Command that triggered event                                                        | `receivedCommand`      |
-| `receivedState`   | `ItemStateUpdateTrigger`, `GroupStateUpdateTrigger` | State that triggered event                                                          | N/A                    |
-| `receivedTrigger` | `ChannelEventTrigger`                               | Trigger that triggered event                                                        | N/A                    |
-| `itemName`        | all                                                 | Name of Item that triggered event                                                   | `triggeringItem.name`  |
-| `eventType`       | all except `ThingStatus****Trigger`s                | Type of event that triggered event (change, command, time, triggered, update)       | N/A                    |
-| `triggerType`     | all except `ThingStatus****Trigger`s                | Type of trigger that triggered event (for `TimeOfDayTrigger`: `GenericCronTrigger`) | N/A                    |
+| `itemName`        | `Item****Trigger`                                   | Name of Item that triggered event                                                   | `triggeringItem.name`  |
+| `receivedEvent`   | `ChannelEventTrigger`                               | Channel event that triggered event                                                  | N/A                    |
+| `channelUID`      | `ChannelEventTrigger`                               | UID of channel that triggered event                                                 | N/A                    |
+| `oldStatus`       | `ThingStatusChangeTrigger`                          | Previous state of Thing that triggered event                                        | N/A                    |
+| `newStatus`       | `ThingStatusChangeTrigger`                          | New state of Thing that triggered event                                             | N/A                    |
+| `status`          | `ThingStatusUpdateTrigger`                          | State of Thing that triggered event                                                 | N/A                    |
+| `thingUID`        | `Thing****Trigger`                                  | UID of Thing that triggered event                                                   | N/A                    |
+| `eventType`       | all                                                 | Type of event that triggered event (change, command, time, triggered, update)       | N/A                    |
+| `triggerType`     | all except `PWMTrigger`, `PIDTrigger`               | Type of trigger that triggered event (for `TimeOfDayTrigger`: `GenericCronTrigger`) | N/A                    |
 
 All properties are typeof `string`.
 
 **NOTE:**
-`ThingStatusUpdateTrigger`, `ThingStatusChangeTrigger` use *Thing* and `ChannelEventTrigger` uses the the trigger channel name as value for `itemName`.
 `Group****Trigger`s use the equivalent `Item****Trigger` as trigger for each member.
 
 See [openhab-js : EventObject](https://openhab.github.io/openhab-js/rules.html#.EventObject) for full API documentation.
