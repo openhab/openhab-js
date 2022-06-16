@@ -308,6 +308,6 @@ export class Item {
        */
     removeTags(...tagNames: string[]): void;
 }
-export declare const provider: typeof import("./items-provider");
+export declare const provider: object;
 export declare function objects(): any;
 //# sourceMappingURL=items.d.ts.map

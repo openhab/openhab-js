@@ -106,10 +106,21 @@ class StaticCallbackItemProvider extends AbstractProvider {
   }
 }
 
-const exports = {
-  staticItemProvider: items => new StaticItemProvider(items),
+module.exports = {
+  /**
+   * Creates a new instance of class StaticItemProvider.
+   * @param {HostItem[]} items
+   * @returns {StaticItemProvider}
+   */
+  staticItemProvider: (items) => new StaticItemProvider(items),
+  /**
+   * Creates a new instance of class ManagedItemProvider.
+   * @returns {ManagedItemProvider}
+   */
   managedItemProvider: () => new ManagedItemProvider(),
+  /**
+   * Creates a new instance of StaticCallbackItemProvider.
+   * @returns {StaticCallbackItemProvider}
+   */
   staticCallbackItemProvider: () => new StaticCallbackItemProvider()
 };
-
-module.exports = exports;

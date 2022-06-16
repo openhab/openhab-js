@@ -1,4 +1,3 @@
-declare const _exports: typeof rules;
+declare const _exports: any;
 export = _exports;
-import rules = require("./rules");
 //# sourceMappingURL=index.d.ts.map
