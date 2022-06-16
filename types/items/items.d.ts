@@ -74,15 +74,15 @@ export type ItemMetadata = {
 /**
  * Helper function to ensure an item name is valid. All invalid characters are replaced with an underscore.
  * @memberof items
- * @param {String} s the name to make value
- * @returns {String} a valid item name
+ * @param {string} s the name to make value
+ * @returns {string} a valid item name
  */
 export function safeItemName(s: string): string;
 /**
  * Gets an openHAB Item.
  * @memberof items
- * @param {String} name the name of the item
- * @param {Boolean} [nullIfMissing=false] whether to return null if the item cannot be found (default is to throw an exception)
+ * @param {string} name the name of the item
+ * @param {boolean} [nullIfMissing=false] whether to return null if the item cannot be found (default is to throw an exception)
  * @return {items.Item} the item
  */
 export function getItem(name: string, nullIfMissing?: boolean): items.Item;
@@ -149,7 +149,7 @@ export function createItem(itemConfig: ItemConfig): Item;
  *
  * @memberof items
  * @param {String|HostItem} itemOrItemName the Item or the name of the Item to remove
- * @returns {Boolean} true if the item was actually removed
+ * @returns {boolean} true if the item was actually removed
  */
 export function removeItem(itemOrItemName: string | HostItem): boolean;
 /**
@@ -172,22 +172,22 @@ export class Item {
     history: items.ItemHistory;
     /**
        * The type of the item: the Simple (without package) name of the Java item type, such as 'Switch'.
-       * @return {String} the type
+       * @return {string} the type
        */
     get type(): string;
     /**
        * The name of the item.
-       * @return {String} the name
+       * @return {string} the name
        */
     get name(): string;
     /**
        * The label attached to the item
-       * @return {String} the label
+       * @return {string} the label
        */
     get label(): string;
     /**
        * The state of the item, as a string.
-       * @return {String} the item's state
+       * @return {string} the item's state
        */
     get state(): string;
     /**
@@ -207,28 +207,28 @@ export class Item {
     get descendents(): Item[];
     /**
        * Whether this item is initialized.
-       * @type {Boolean}
+       * @type {boolean}
        * @returns true iff the item has not been initialized
        */
     get isUninitialized(): boolean;
     /**
        * Gets metadata values for this item.
-       * @param {String} namespace The namespace for the metadata to retreive
-       * @returns {String} the metadata associated with this item and namespace
+       * @param {string} namespace The namespace for the metadata to retreive
+       * @returns {string} the metadata associated with this item and namespace
        */
     getMetadataValue(namespace: string): string;
     /**
        * Updates metadata values for this item.
-       * @param {String} namespace The namespace for the metadata to update
-       * @param {String} value the value to update the metadata to
-       * @returns {String} the updated value
+       * @param {string} namespace The namespace for the metadata to update
+       * @param {string} value the value to update the metadata to
+       * @returns {string} the updated value
        */
     updateMetadataValue(namespace: string, value: string): string;
     /**
        * Inserts or updates metadata values for this item.
-       * @param {String} namespace The namespace for the metadata to update
-       * @param {String} value the value to update the metadata to
-       * @returns {Boolean} true iff a new value was inserted
+       * @param {string} namespace The namespace for the metadata to update
+       * @param {string} value the value to update the metadata to
+       * @returns {boolean} true iff a new value was inserted
        */
     upsertMetadataValue(namespace: string, value: string): boolean;
     /**
@@ -247,7 +247,7 @@ export class Item {
        * Sends a command to the item, but only if the current state is not what is being sent.
        * Note
        * @param {String|HostState} value the value of the command to send, such as 'ON'
-       * @returns {Boolean} true if the command was sent, false otherwise
+       * @returns {boolean} true if the command was sent, false otherwise
        * @see sendCommand
        */
     sendCommandIfDifferent(value: string | HostState): boolean;

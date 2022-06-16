@@ -1,1 +1,1 @@
-{"version":3,"file":"osgi.d.ts","sourceRoot":"","sources":["../osgi.js"],"names":[],"mappings":"AAoDA;;;;;;;;GAQG;AACH,4CALW,MAAM,kBAAgB,CAAC,OAqBjC;AAED;;;;;;;GAOG;AACH,+DAFa,KAAQ,CAOpB;AAED,8EAGC;AAED,mGAWC;AAED,kEAcC"}
+{"version":3,"file":"osgi.d.ts","sourceRoot":"","sources":["../osgi.js"],"names":[],"mappings":"AAoDA;;;;;;;;GAQG;AACH,4CALW,MAAM,kBAAgB,CAAC,OAqBjC;AAED;;;;;;;GAOG;AACH,wCAJW,MAAM,iBAEJ,KAAQ,CAOpB;AAED,8EAGC;AAED,mGAWC;AAED,kEAcC"}

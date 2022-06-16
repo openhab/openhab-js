@@ -93,7 +93,7 @@ export type RuleConfig = {
     /**
      * name of rule group to use
      */
-    ruleGroup: string;
+    ruleGroup?: string;
     /**
      * whether to overwrite an existing rule with the same UID
      */
@@ -105,8 +105,8 @@ export function withNewRuleProvider(fn: any): void;
   * Only works for rules created in the same file.
   *
   * @memberOf rules
-  * @param {String} uid the UID of the rule
-  * @returns {Boolean} whether the rule was actually removed
+  * @param {string} uid the UID of the rule
+  * @returns {boolean} whether the rule was actually removed
   */
 export function removeRule(uid: string): boolean;
 /**
@@ -114,9 +114,9 @@ export function removeRule(uid: string): boolean;
   * or is unable to run (e.g. it's disabled).
   *
   * @memberOf rules
-  * @param {String} uid the UID of the rule to run
+  * @param {string} uid the UID of the rule to run
   * @param {Map<Object>} [args={}] args optional dict of data to pass to the called rule
-  * @param {Boolean} [cond=true] when true, the called rule will only run if it's conditions are met
+  * @param {boolean} [cond=true] when true, the called rule will only run if it's conditions are met
   * @throws Will throw an error if the rule does not exist or is not initialized.
   */
 export function runRule(uid: string, args?: Map<any, any>, cond?: boolean): void;
@@ -125,8 +125,8 @@ export function runRule(uid: string, args?: Map<any, any>, cond?: boolean): void
   * and error if the rule doesn't exist.
   *
   * @memberof rules
-  * @param {String} uid
-  * @returns {Boolean} whether or not the rule is enabled
+  * @param {string} uid
+  * @returns {boolean} whether or not the rule is enabled
   * @throws Will throw an error when the rule is not found.
   */
 export function isEnabled(uid: string): boolean;
@@ -135,8 +135,8 @@ export function isEnabled(uid: string): boolean;
   * rule doesn't exist.
   *
   * @memberof rules
-  * @param {String} uid UID of the rule
-  * @param {Boolean} isEnabled when true, the rule is enabled, otherwise the rule is disabled
+  * @param {string} uid UID of the rule
+  * @param {boolean} isEnabled when true, the rule is enabled, otherwise the rule is disabled
   * @throws Will throw an error when the rule is not found.
   */
 export function setEnabled(uid: string, isEnabled: boolean): void;

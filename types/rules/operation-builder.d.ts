@@ -90,7 +90,7 @@ export class CopyStateOperation {
     /**
        * Creates a new operation. Don't use constructor directly.
        *
-       * @param {Boolean} send whether to send (or post update) the state
+       * @param {boolean} send whether to send (or post update) the state
        * @hideconstructor
        */
     constructor(operationBuilder: any, send: boolean);
@@ -98,7 +98,7 @@ export class CopyStateOperation {
     /**
        * Sets the item to copy the state from
        *
-       * @param {String} itemName the item to copy state from
+       * @param {string} itemName the item to copy state from
        * @returns {OperationBuilder.CopyStateOperation} this
        */
     fromItem(itemName: string): OperationBuilder.CopyStateOperation;
@@ -106,7 +106,7 @@ export class CopyStateOperation {
     /**
        * Sets the item to copy the state to
        *
-       * @param {String} itemName the item to copy state to
+       * @param {string} itemName the item to copy state to
        * @returns {OperationBuilder.CopyStateOperation} this
        */
     toItem(itemName: string): OperationBuilder.CopyStateOperation;
@@ -121,7 +121,7 @@ export class CopyStateOperation {
        * Runs the operation. Don't call directly.
        *
        * @private
-       * @param {Object} args rule firing args
+       * @param {object} args rule firing args
        */
     private _run;
     /**
@@ -169,14 +169,14 @@ export class OperationBuilder {
     /**
       * Specifies that a command should be sent as a result of this rule firing.
       *
-      * @param {String} command the command to send
+      * @param {string} command the command to send
       * @returns {OperationBuilder.SendCommandOrUpdateOperation} the operation
       */
     send(c: any): OperationBuilder.SendCommandOrUpdateOperation;
     /**
        * Specifies that an update should be posted as a result of this rule firing.
        *
-       * @param {String} update the update to send
+       * @param {string} update the update to send
        * @returns {OperationBuilder.SendCommandOrUpdateOperation} the operation
        */
     postUpdate(c: any): OperationBuilder.SendCommandOrUpdateOperation;

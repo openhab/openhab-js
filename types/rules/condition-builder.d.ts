@@ -18,7 +18,7 @@ export class FunctionConditionConf {
        *
        * @private
        * @param  {...any} args rule trigger arguments
-       * @returns {Boolean} true only if the operations should be run
+       * @returns {boolean} true only if the operations should be run
        */
     private check;
 }
@@ -68,7 +68,7 @@ export class ConditionBuilder {
       * Condition of an item in determining whether to process rule.
       *
       * @memberof ConditionBuilder
-      * @param {String} itemName the name of the item to assess the state
+      * @param {string} itemName the name of the item to assess the state
       * @returns {ItemStateConditionConf} the operation config
       */
     stateOfItem(itemName: string): ItemStateConditionConf;

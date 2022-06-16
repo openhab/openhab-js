@@ -11,8 +11,8 @@ const managedItemChannelLinkProvider = osgi.getService('org.openhab.core.thing.l
  *
  * @private
  * @memberof metadata
- * @param {String} itemName the name of the Item
- * @param {String} channel channelUID as string
+ * @param {string} itemName the name of the Item
+ * @param {string} channel channelUID as string
  * @param {Map} [conf] Map of channel configuration
  * @returns {ItemChannelLink} ItemChannelLink object
  */
@@ -31,8 +31,8 @@ const createItemChannelLink = function (itemName, channel, conf) {
  *
  * @private
  * @memberof metadata
- * @param {String} itemName the name of the Item
- * @param {String} channel channelUID as string
+ * @param {string} itemName the name of the Item
+ * @param {string} channel channelUID as string
  * @returns {ItemChannelLink|null} if ItemChannelLink is registered in provider, ItemChannelLink, else null
  */
 const getItemChannelLink = function (itemName, channel) {
@@ -45,8 +45,8 @@ const getItemChannelLink = function (itemName, channel) {
  *
  * @private
  * @memberof metadata
- * @param {String} itemName the name of the Item
- * @param {String} channel channelUID as string
+ * @param {string} itemName the name of the Item
+ * @param {string} channel channelUID as string
  * @param {Map<String, any>} [conf] Map of channel configuration
  * @returns {ItemChannelLink} ItemChannelLink object
  */
@@ -62,8 +62,8 @@ const addItemChannelLink = function (itemName, channel, conf) {
  *
  * @private
  * @memberof metadata
- * @param {String} itemName the name of the Item
- * @param {String} channel channelUID as string
+ * @param {string} itemName the name of the Item
+ * @param {string} channel channelUID as string
  * @param {Map<String, String>} [conf] Map of channel configuration
  * @returns {ItemChannelLink} ItemChannelLink object
  */
@@ -78,8 +78,8 @@ const updateItemChannelLink = function (itemName, channel, conf) {
  * Adds (inserts) or updates an Item channel link.
  *
  * @memberof metadata
- * @param {String} itemName the name of the Item
- * @param {String} channel channelUID as string
+ * @param {string} itemName the name of the Item
+ * @param {string} channel channelUID as string
  * @param {Map<String, String>} [conf] Map of channel configuration
  * @returns true if the channel link was added, false if it was updated
  */
@@ -98,8 +98,8 @@ const upsertItemChannelLink = function (itemName, channel, conf) {
  * Removes an ItemChannelLink from the provider. Therefore, the channel link is removed from the Item.
  *
  * @memberof metadata
- * @param {String} itemName the name of the Item
- * @param {String} channel channelUID as string
+ * @param {string} itemName the name of the Item
+ * @param {string} channel channelUID as string
  * @returns {ItemChannelLink} the removed ItemChannelLink
  */
 const removeItemChannelLink = function (itemName, channel) {

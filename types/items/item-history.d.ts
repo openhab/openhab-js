@@ -129,8 +129,7 @@ declare class ItemHistory {
        */
     latestState(serviceId?: string, ...args: any[]): any;
     _stateOrNull(result: any): any;
-    _dateOrNull(result: any): time.ZonedDateTime;
+    _dateOrNull(result: any): JSJoda.ZonedDateTime;
     _decimalOrNull(result: any): any;
 }
-import time = require("@js-joda/core");
 //# sourceMappingURL=item-history.d.ts.map

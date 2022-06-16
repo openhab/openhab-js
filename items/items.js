@@ -18,30 +18,30 @@ const managedItemProvider = osgi.getService('org.openhab.core.items.ManagedItemP
 
 // typedefs need to be global for TypeScript to fully work
 /**
- * @typedef {Object} ItemConfig configuration describing an Item
- * @property {String} type the type of the Item
- * @property {String} name Item name for the Item to create
- * @property {String} [label] the label for the Item
- * @property {String} [category] the category (icon) for the Item
+ * @typedef {object} ItemConfig configuration describing an Item
+ * @property {string} type the type of the Item
+ * @property {string} name Item name for the Item to create
+ * @property {string} [label] the label for the Item
+ * @property {string} [category] the category (icon) for the Item
  * @property {String[]} [groups] an array of groups the Item is a member of
  * @property {String[]} [tags] an array of tags for the Item
  * @property {String|Object} [channels] for single channel link a string or for multiple an object { channeluid: configuration }; configuration is an object
  * @property {ItemMetadata} [metadata] either object { namespace: value } or { namespace: { value: value, config: {} } }
- * @property {String} [giBaseType] the group Item base type for the Item
+ * @property {string} [giBaseType] the group Item base type for the Item
  * @property {HostGroupFunction} [groupFunction] the group function used by the Item
  */
 
 /**
- * @typedef {Object} ItemMetadata Item metadata configuration, not fully documented
- * @property {Object} [stateDescription] `stateDescription` configuration, required for most UIs
- * @property {Object} [stateDescription.config] config of this metadata namespace
- * @property {String} [stateDescription.config.pattern] state formatting pattern, required for most UIs, see {@link https://www.openhab.org/docs/configuration/items.html#state-presentation}
- * @property {Object} [expire] `expire` configuration, see {@link https://www.openhab.org/docs/configuration/items.html#parameter-expire}
- * @property {String} [expire.value] e.g. `0h30m0s,command=OFF`
- * @property {Object} [expire.config]
- * @property {String} [expire.config.ignoreStateUpdates] If the ignore state updates checkbox is set, only state changes will reset the timer; `true` or `false`
- * @property {Object} [autoupdate] `autoupdate` configuration, see {@link https://www.openhab.org/docs/configuration/items.html#parameter-expire}
- * @property {String} [autoupdate.value] `true` or `false`
+ * @typedef {object} ItemMetadata Item metadata configuration, not fully documented
+ * @property {object} [stateDescription] `stateDescription` configuration, required for most UIs
+ * @property {object} [stateDescription.config] config of this metadata namespace
+ * @property {string} [stateDescription.config.pattern] state formatting pattern, required for most UIs, see {@link https://www.openhab.org/docs/configuration/items.html#state-presentation}
+ * @property {object} [expire] `expire` configuration, see {@link https://www.openhab.org/docs/configuration/items.html#parameter-expire}
+ * @property {string} [expire.value] e.g. `0h30m0s,command=OFF`
+ * @property {object} [expire.config]
+ * @property {string} [expire.config.ignoreStateUpdates] If the ignore state updates checkbox is set, only state changes will reset the timer; `true` or `false`
+ * @property {object} [autoupdate] `autoupdate` configuration, see {@link https://www.openhab.org/docs/configuration/items.html#parameter-expire}
+ * @property {string} [autoupdate.value] `true` or `false`
  */
 
 /**
@@ -77,7 +77,7 @@ class Item {
 
   /**
      * The type of the item: the Simple (without package) name of the Java item type, such as 'Switch'.
-     * @return {String} the type
+     * @return {string} the type
      */
   get type () {
     return this.rawItem.getClass().getSimpleName();
@@ -85,7 +85,7 @@ class Item {
 
   /**
      * The name of the item.
-     * @return {String} the name
+     * @return {string} the name
      */
   get name () {
     return this.rawItem.getName();
@@ -93,7 +93,7 @@ class Item {
 
   /**
      * The label attached to the item
-     * @return {String} the label
+     * @return {string} the label
      */
   get label () {
     return this.rawItem.getLabel();
@@ -101,7 +101,7 @@ class Item {
 
   /**
      * The state of the item, as a string.
-     * @return {String} the item's state
+     * @return {string} the item's state
      */
   get state () {
     return this.rawState.toString();
@@ -133,7 +133,7 @@ class Item {
 
   /**
      * Whether this item is initialized.
-     * @type {Boolean}
+     * @type {boolean}
      * @returns true iff the item has not been initialized
      */
   get isUninitialized () {
@@ -149,8 +149,8 @@ class Item {
 
   /**
      * Gets metadata values for this item.
-     * @param {String} namespace The namespace for the metadata to retreive
-     * @returns {String} the metadata associated with this item and namespace
+     * @param {string} namespace The namespace for the metadata to retreive
+     * @returns {string} the metadata associated with this item and namespace
      */
   getMetadataValue (namespace) {
     return metadata.getValue(this.name, namespace);
@@ -158,9 +158,9 @@ class Item {
 
   /**
      * Updates metadata values for this item.
-     * @param {String} namespace The namespace for the metadata to update
-     * @param {String} value the value to update the metadata to
-     * @returns {String} the updated value
+     * @param {string} namespace The namespace for the metadata to update
+     * @param {string} value the value to update the metadata to
+     * @returns {string} the updated value
      */
   updateMetadataValue (namespace, value) {
     return metadata.updateValue(this.name, namespace, value);
@@ -168,9 +168,9 @@ class Item {
 
   /**
      * Inserts or updates metadata values for this item.
-     * @param {String} namespace The namespace for the metadata to update
-     * @param {String} value the value to update the metadata to
-     * @returns {Boolean} true iff a new value was inserted
+     * @param {string} namespace The namespace for the metadata to update
+     * @param {string} value the value to update the metadata to
+     * @returns {boolean} true iff a new value was inserted
      */
   upsertMetadataValue (namespace, value) {
     return metadata.upsertValue(this.name, namespace, value);
@@ -200,7 +200,7 @@ class Item {
      * Sends a command to the item, but only if the current state is not what is being sent.
      * Note
      * @param {String|HostState} value the value of the command to send, such as 'ON'
-     * @returns {Boolean} true if the command was sent, false otherwise
+     * @returns {boolean} true if the command was sent, false otherwise
      * @see sendCommand
      */
   sendCommandIfDifferent (value) {
@@ -430,7 +430,7 @@ const addItem = function (itemConfig) {
  *
  * @memberof items
  * @param {String|HostItem} itemOrItemName the Item or the name of the Item to remove
- * @returns {Boolean} true if the item was actually removed
+ * @returns {boolean} true if the item was actually removed
  */
 const removeItem = function (itemOrItemName) {
   let itemName;
@@ -505,8 +505,8 @@ const replaceItem = function (itemConfig) {
 /**
  * Gets an openHAB Item.
  * @memberof items
- * @param {String} name the name of the item
- * @param {Boolean} [nullIfMissing=false] whether to return null if the item cannot be found (default is to throw an exception)
+ * @param {string} name the name of the item
+ * @param {boolean} [nullIfMissing=false] whether to return null if the item cannot be found (default is to throw an exception)
  * @return {items.Item} the item
  */
 const getItem = (name, nullIfMissing = false) => {
@@ -547,8 +547,8 @@ const getItemsByTag = (...tagNames) => {
 /**
  * Helper function to ensure an item name is valid. All invalid characters are replaced with an underscore.
  * @memberof items
- * @param {String} s the name to make value
- * @returns {String} a valid item name
+ * @param {string} s the name to make value
+ * @returns {string} a valid item name
  */
 const safeItemName = s => s
   .replace(/["']/g, '') // delete
@@ -572,7 +572,7 @@ module.exports = {
      * ...
      * let my_state = my_object_name.state; //my_object_name is an Item
      *
-     * @returns {Object} a collection of items allowing indexing by item name
+     * @returns {object} a collection of items allowing indexing by item name
      */
   objects: () => new Proxy({}, {
     get: function (target, name) {

@@ -50,7 +50,7 @@ export function javaSetToJsSet(set: java.util.Set): Set<any>;
  * Generate a random UUID.
  *
  * @memberOf utils
- * @returns {String} random UUID
+ * @returns {string} random UUID
  */
 export function randomUUID(): string;
 /**
@@ -58,7 +58,7 @@ export function randomUUID(): string;
  *
  * @memberOf utils
  * @param {*} obj object
- * @param {Boolean} [dumpProps=false] whether properties also should be dumped
+ * @param {boolean} [dumpProps=false] whether properties also should be dumped
  */
 export function dumpObject(obj: any, dumpProps?: boolean): void;
 /**

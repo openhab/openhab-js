@@ -28,7 +28,7 @@ class Logger {
   /**
      * Creates a new logger. Don't use directly, use {@link log} on module.
      *
-     * @param {String} _name the name of the logger. Will be prefixed by {@link LOGGER_PREFIX}
+     * @param {string} _name the name of the logger. Will be prefixed by {@link LOGGER_PREFIX}
      * @param {*} _listener a callback to receive logging calls. Can be used to send calls elsewhere, such as escalate errors.
      */
   constructor (_name, appenderProvider) {
@@ -41,8 +41,8 @@ class Logger {
      * Method to determine caller. Don't use directly.
      *
      * @private
-     * @param {Object} msg the message to get caller details for
-     * @param {Number} ignoreStackDepth the number of stack frames which to ignore in calculating caller
+     * @param {object} msg the message to get caller details for
+     * @param {number} ignoreStackDepth the number of stack frames which to ignore in calculating caller
      * @returns {Error} message as an error object, with fileName, caller and optional lineNumber properties
      */
   _getCallerDetails (msg, ignoreStackDepth) {
@@ -82,10 +82,10 @@ class Logger {
      * Method to format a log message. Don't use directly.
      *
      * @private
-     * @param {Object} msg the message to get caller details for
-     * @param {String} levelString the level being logged at
-     * @param {Number} ignoreStackDepth the number of stack frames which to ignore in calculating caller
-     * @param {String} [prefix=log] the prefix type, such as none, level, short or log.
+     * @param {object} msg the message to get caller details for
+     * @param {string} levelString the level being logged at
+     * @param {number} ignoreStackDepth the number of stack frames which to ignore in calculating caller
+     * @param {string} [prefix=log] the prefix type, such as none, level, short or log.
      * @returns {Error} message with 'message' String property
      */
   _formatLogMessage (msg, levelString, ignoreStackDepth, prefix = 'none') {
@@ -143,7 +143,7 @@ class Logger {
      * log.atLevel('INFO', 'The widget was created as {}', widget);
      *
      *
-     * @param {String} level The level at which to log, such as 'INFO', or 'DEBUG'
+     * @param {string} level The level at which to log, such as 'INFO', or 'DEBUG'
      * @param {String|Error} msg the message to log, possibly with object placeholders
      * @param {Object[]} [objects] the objects to substitute into the log message
      */
@@ -188,7 +188,7 @@ class Logger {
 
   /**
      * The name of this logger
-     * @return {String} the logger name
+     * @return {string} the logger name
      */
   get name () { return this._name; }
 }
@@ -196,11 +196,11 @@ class Logger {
 /**
  * Creates a logger.
  * @see Logger
- * @name default
  * @param {string} name the name of the logger
- * @param {*} [_listener] an optional listener to process log events.
  * @memberof log
  */
-module.exports = function (_name) {
+function newLogger (_name) {
   return new Logger(_name);
-};
+}
+
+module.exports = newLogger;

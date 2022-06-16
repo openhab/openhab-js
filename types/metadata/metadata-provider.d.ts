@@ -1,3 +1,10 @@
+/**
+ * Returns a new instance of StaticCallbackMetadataProvider.
+ *
+ * @private
+ * @returns {StaticCallbackMetadataProvider}
+ */
+export function staticCallbackMetadataProvider(): StaticCallbackMetadataProvider;
 declare class StaticCallbackMetadataProvider extends AbstractProvider {
     constructor();
     metadataCallbacks: any[];
@@ -7,6 +14,5 @@ declare class StaticCallbackMetadataProvider extends AbstractProvider {
     getAll(): java.util.List;
 }
 import { AbstractProvider } from "../provider";
-export function staticCallbackMetadataProvider(): StaticCallbackMetadataProvider;
 export {};
 //# sourceMappingURL=metadata-provider.d.ts.map

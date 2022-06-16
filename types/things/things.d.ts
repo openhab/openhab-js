@@ -8,15 +8,6 @@ declare class ThingBuilder {
     withLabel(label: any): ThingBuilder;
     build(): OHThing;
 }
-declare class ChannelBuilder {
-    constructor(thingUID: any, channelId: any, acceptedItemType: any);
-    rawBuilder: any;
-    withConfiguration(config: any): ChannelBuilder;
-    withKind(stateOrTrigger: any): ChannelBuilder;
-    withLabel(label: any): ChannelBuilder;
-    withType(channelType: any): ChannelBuilder;
-    build(): OHChannel;
-}
 /**
  * Class representing an openHAB Thing
  *
@@ -64,23 +55,23 @@ export class Thing {
     get isEnabled(): any;
     /**
      * Set the label.
-     * @param {String} label Thing label
+     * @param {string} label Thing label
      */
     setLabel(label: string): void;
     /**
      * Sets the physical location.
-     * @param {String} location physical location of the Thing
+     * @param {string} location physical location of the Thing
      */
     setLocation(location: string): void;
     /**
      * Sets the property value for the property identified by the given name.
-     * @param {String} name name of the property
-     * @param {String} value value for the property
+     * @param {string} name name of the property
+     * @param {string} value value for the property
      */
     setProperty(name: string, value: string): void;
     /**
      * Sets the enabled status of the Thing.
-     * @param {Boolean} enabled whether the Thing is enabled or not
+     * @param {boolean} enabled whether the Thing is enabled or not
      */
     setEnabled(enabled: boolean): void;
 }
@@ -88,8 +79,8 @@ export class Thing {
  * Gets an openHAB Thing.
  *
  * @memberof things
- * @param {String} uid UID of the thing
- * @param {Boolean} [nullIfMissing] whether to return null if the Thing cannot be found (default is to throw an exception)
+ * @param {string} uid UID of the thing
+ * @param {boolean} [nullIfMissing] whether to return null if the Thing cannot be found (default is to throw an exception)
  * @returns {things.Thing} the Thing
  */
 export function getThing(uid: string, nullIfMissing?: boolean): things.Thing;
@@ -110,12 +101,7 @@ declare class OHThing {
     constructor(rawThing: any);
     rawThing: any;
 }
-declare class OHChannel {
-    constructor(rawChannel: any);
-    rawChannel: any;
-    get uid(): any;
-}
-export declare function newThingBuilder(thingTypeUID: any, id: any, bridgeUID: any): ThingBuilder;
-export declare function newChannelBuilder(thingUID: any, channelId: any, acceptedItemType: any): ChannelBuilder;
+export declare function newThingBuilder(thingTypeUID: string, id: string, bridgeUID: string): ThingBuilder;
+export declare function newChannelBuilder(thingUID: string, channelId: string, acceptedItemType: string): ThingBuilder;
 export {};
 //# sourceMappingURL=things.d.ts.map

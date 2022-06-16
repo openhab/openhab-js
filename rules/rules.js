@@ -7,23 +7,23 @@
 
 // typedefs need to be global for TypeScript to fully work
 /**
- * @typedef {Object} EventObject When a rule is triggered, the script is provided the event instance that triggered it. The specific data depends on the event type. The `EventObject` provides several information about that trigger.
+ * @typedef {object} EventObject When a rule is triggered, the script is provided the event instance that triggered it. The specific data depends on the event type. The `EventObject` provides several information about that trigger.
  *
  * Note:
  * `Group****Trigger`s use the equivalent `Item****Trigger` as trigger for each member.
  *
- * @property {String} oldState only for {@link triggers.ItemStateChangeTrigger} & {@link triggers.GroupStateChangeTrigger}: Previous state of Item or Group that triggered event
- * @property {String} newState only for {@link triggers.ItemStateChangeTrigger} & {@link triggers.GroupStateChangeTrigger}: New state of Item or Group that triggered event
- * @property {String} receivedState only for {@link triggers.ItemStateUpdateTrigger} & {@link triggers.GroupStateUpdateTrigger}: State that triggered event
- * @property {String} receivedCommand only for {@link triggers.ItemCommandTrigger}, {@link triggers.GroupCommandTrigger}, {@link triggers.PWMTrigger} & {@link triggers.PIDTrigger} : Command that triggered event
- * @property {String} itemName for all triggers except {@link triggers.PWMTrigger}: name of Item that triggered event
- * @property {String} receivedEvent only for {@link triggers.ChannelEventTrigger}: Channel event that triggered event
- * @property {String} channelUID only for {@link triggers.ChannelEventTrigger}: UID of channel that triggered event
- * @property {String} oldStatus only for {@link triggers.ThingStatusChangeTrigger}: Previous state of Thing that triggered event
- * @property {String} newStatus only for {@link triggers.ThingStatusChangeTrigger}: New state of Thing that triggered event
- * @property {String} status only for {@link triggers.ThingStatusUpdateTrigger}: State of Thing that triggered event
- * @property {String} eventType for all triggers except {@link triggers.PWMTrigger}, {@link triggers.PIDTrigger}: Type of event that triggered event (change, command, time, triggered, update)
- * @property {String} triggerType for all triggers except {@link triggers.PWMTrigger}, {@link triggers.PIDTrigger}: Type of trigger that triggered event (for `TimeOfDayTrigger`: `GenericCronTrigger`)
+ * @property {string} oldState only for {@link triggers.ItemStateChangeTrigger} & {@link triggers.GroupStateChangeTrigger}: Previous state of Item or Group that triggered event
+ * @property {string} newState only for {@link triggers.ItemStateChangeTrigger} & {@link triggers.GroupStateChangeTrigger}: New state of Item or Group that triggered event
+ * @property {string} receivedState only for {@link triggers.ItemStateUpdateTrigger} & {@link triggers.GroupStateUpdateTrigger}: State that triggered event
+ * @property {string} receivedCommand only for {@link triggers.ItemCommandTrigger}, {@link triggers.GroupCommandTrigger}, {@link triggers.PWMTrigger} & {@link triggers.PIDTrigger} : Command that triggered event
+ * @property {string} itemName for all triggers except {@link triggers.PWMTrigger}: name of Item that triggered event
+ * @property {string} receivedEvent only for {@link triggers.ChannelEventTrigger}: Channel event that triggered event
+ * @property {string} channelUID only for {@link triggers.ChannelEventTrigger}: UID of channel that triggered event
+ * @property {string} oldStatus only for {@link triggers.ThingStatusChangeTrigger}: Previous state of Thing that triggered event
+ * @property {string} newStatus only for {@link triggers.ThingStatusChangeTrigger}: New state of Thing that triggered event
+ * @property {string} status only for {@link triggers.ThingStatusUpdateTrigger}: State of Thing that triggered event
+ * @property {string} eventType for all triggers except {@link triggers.PWMTrigger}, {@link triggers.PIDTrigger}: Type of event that triggered event (change, command, time, triggered, update)
+ * @property {string} triggerType for all triggers except {@link triggers.PWMTrigger}, {@link triggers.PIDTrigger}: Type of trigger that triggered event (for `TimeOfDayTrigger`: `GenericCronTrigger`)
  * @property {*} payload for most triggers
  */
 
@@ -33,15 +33,15 @@
  */
 
 /**
- * @typedef {Object} RuleConfig configuration for {@link rules.JSRule}
- * @property {String} name name of the rule (used in UI)
- * @property {String} [description] description of the rule (used in UI)
+ * @typedef {object} RuleConfig configuration for {@link rules.JSRule}
+ * @property {string} name name of the rule (used in UI)
+ * @property {string} [description] description of the rule (used in UI)
  * @property {triggers|triggers[]} triggers which will fire the rule
  * @property {RuleCallback} execute callback to run when the rule fires
- * @property {String} [id] UID of the rule, if not provided, one is generated
+ * @property {string} [id] UID of the rule, if not provided, one is generated
  * @property {String[]} [tags] tags for the rule (used in UI)
- * @property {String} ruleGroup name of rule group to use
- * @property {Boolean} [overwrite=false] whether to overwrite an existing rule with the same UID
+ * @property {string} [ruleGroup] name of rule group to use
+ * @property {boolean} [overwrite=false] whether to overwrite an existing rule with the same UID
  */
 
 const GENERATED_RULE_ITEM_TAG = 'GENERATED_RULE_ITEM';
@@ -61,8 +61,8 @@ const factory = require('@runtime/rules').factory;
   *
   * @memberOf rules
   * @private
-  * @param {Object} ruleConfig The rule config
-  * @param {String} userInfo.name The name of the rule.
+  * @param {object} ruleConfig The rule config
+  * @param {string} userInfo.name The name of the rule.
   */
 const itemNameForRule = function (ruleConfig) {
   return 'vRuleItemFor' + items.safeItemName(ruleConfig.name);
@@ -127,8 +127,8 @@ const getGroupsForItem = function (ruleConfig) {
   *
   * @memberOf rules
   * @private
-  * @param {String} uid the UID of the rule
-  * @returns {Boolean} whether the rule exists
+  * @param {string} uid the UID of the rule
+  * @returns {boolean} whether the rule exists
   */
 const ruleExists = function (uid) {
   return !(RuleManager.getStatusInfo(uid) == null);
@@ -139,8 +139,8 @@ const ruleExists = function (uid) {
   * Only works for rules created in the same file.
   *
   * @memberOf rules
-  * @param {String} uid the UID of the rule
-  * @returns {Boolean} whether the rule was actually removed
+  * @param {string} uid the UID of the rule
+  * @returns {boolean} whether the rule was actually removed
   */
 const removeRule = function (uid) {
   if (ruleExists(uid)) {
@@ -157,9 +157,9 @@ const removeRule = function (uid) {
   * or is unable to run (e.g. it's disabled).
   *
   * @memberOf rules
-  * @param {String} uid the UID of the rule to run
+  * @param {string} uid the UID of the rule to run
   * @param {Map<Object>} [args={}] args optional dict of data to pass to the called rule
-  * @param {Boolean} [cond=true] when true, the called rule will only run if it's conditions are met
+  * @param {boolean} [cond=true] when true, the called rule will only run if it's conditions are met
   * @throws Will throw an error if the rule does not exist or is not initialized.
   */
 const runRule = function (uid, args = {}, cond = true) {
@@ -179,8 +179,8 @@ const runRule = function (uid, args = {}, cond = true) {
   * and error if the rule doesn't exist.
   *
   * @memberof rules
-  * @param {String} uid
-  * @returns {Boolean} whether or not the rule is enabled
+  * @param {string} uid
+  * @returns {boolean} whether or not the rule is enabled
   * @throws Will throw an error when the rule is not found.
   */
 const isEnabled = function (uid) {
@@ -195,8 +195,8 @@ const isEnabled = function (uid) {
   * rule doesn't exist.
   *
   * @memberof rules
-  * @param {String} uid UID of the rule
-  * @param {Boolean} isEnabled when true, the rule is enabled, otherwise the rule is disabled
+  * @param {string} uid UID of the rule
+  * @param {boolean} isEnabled when true, the rule is enabled, otherwise the rule is disabled
   * @throws Will throw an error when the rule is not found.
   */
 const setEnabled = function (uid, isEnabled) {
@@ -371,8 +371,8 @@ const SwitchableJSRule = function (ruleConfig) {
  * This function uses the mutable nature of JS objects and does not return anything.
  * @private
  * @param {*} hashMap Java HashMap
- * @param {String} key key from the HashMap to add to the JS object
- * @param {Object} object JavaScript object
+ * @param {string} key key from the HashMap to add to the JS object
+ * @param {object} object JavaScript object
  */
 const addFromHashMap = (hashMap, key, object) => {
   if (hashMap.containsKey(key)) object[key] = hashMap[key].toString();
