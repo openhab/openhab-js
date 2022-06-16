@@ -226,7 +226,6 @@ class CopyStateOperation extends OperationConfig {
 
   /**
      * Appends another operation to execute when the rule fires
-     *
      * @returns {OperationBuilder.CopyStateOperation} this
      */
   and () {
@@ -314,7 +313,7 @@ class SendCommandOrUpdateOperation extends OperationConfig {
   /**
      * Send command to multiple items
      *
-     * @param {*} itemsOrNames the items to send a command to
+     * @param {items.Item[]|String[]} itemsOrNames the items to send a command to
      * @returns {OperationBuilder.SendCommandOrUpdateOperation} this
      */
   toItems (itemsOrNames) {
@@ -325,7 +324,7 @@ class SendCommandOrUpdateOperation extends OperationConfig {
   /**
      * Send command to an item
      *
-     * @param {*} itemOrName the item to send a command to
+     * @param {items.Item|String} itemOrName the item to send a command to
      * @returns {OperationBuilder.SendCommandOrUpdateOperation} this
      */
   toItem (itemOrName) {
@@ -381,10 +380,12 @@ class ToggleOperation extends OperationConfig {
   constructor (operationBuilder) {
     super(operationBuilder);
     this.next = null;
+    /** @type {function} */
     this.toItem = function (itemName) {
       this.itemName = itemName;
       return this;
     };
+    /** @type {function} */
     this.and = function (next) {
       this.next = next;
       return this;
