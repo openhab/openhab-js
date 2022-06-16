@@ -5,7 +5,7 @@
     "private": false,
     "license": "EPL-2.0",
     "main": "index.js",
-    "types": "types/index.d.ts",
+    "types": "types/openhab-js.d.ts",
     "repository": {
         "type": "git",
         "url": "git://github.com/openhab/openhab-js.git"
