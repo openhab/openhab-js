@@ -1,6 +1,6 @@
 /**
  * Shared cache namespace.
- * This namespace provides a default cache that can be use to set and retrieve objects that will be persisted between reloads of scripts.
+ * This namespace provides a default cache that can be used to set and retrieve objects that will be persisted between reloads of scripts.
  *
  * @namespace cache
  */
