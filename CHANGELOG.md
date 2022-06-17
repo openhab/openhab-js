@@ -10,7 +10,8 @@
 | Enhancement | triggers  | Add PWM Automation trigger                               | https://github.com/openhab/openhab-js/pull/126 | No       |
 | Enhancement | triggers  | Add PID Automation trigger                               | https://github.com/openhab/openhab-js/pull/131 | No       |
 | Enhancement | things    | Add Thing class & add `getThing`(s)                      | https://github.com/openhab/openhab-js/pull/132 | No       |
-| Enhancement | rules     | Refactor EventObject to only hold properties with values | TODO                                           | **Yes**  |
+| Enhancement | rules     | Refactor EventObject to only hold properties with values | https://github.com/openhab/openhab-js/pull/136 | **Yes**  |
+| Enhancement |           | Add type definitions for better autocompletion           | https://github.com/openhab/openhab-js/pull/137 | No       |
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/1).
 

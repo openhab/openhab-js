@@ -15,7 +15,7 @@ openhab-js has included type definitions which are generated from JSDoc using th
 Type definitons allow supercharged auto-completion in your IDE.
 
 ``bash
-tsc
+npm run types
 ``
 This outputs the type definition files (`*.d.ts`) to `/types`.
 

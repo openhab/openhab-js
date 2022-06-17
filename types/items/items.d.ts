@@ -56,7 +56,7 @@ export type ItemMetadata = {
         };
     };
     /**
-     * `expire` configuration, see {@link https ://www.openhab.org/docs/configuration/items.html#parameter-expire}
+     * `expire` configuration, see {@link https://www.openhab.org/docs/configuration/items.html#parameter-expire}
      */
     expire?: {
         value?: string;
@@ -65,7 +65,7 @@ export type ItemMetadata = {
         };
     };
     /**
-     * `autoupdate` configuration, see {@link https ://www.openhab.org/docs/configuration/items.html#parameter-expire}
+     * `autoupdate` configuration, see {@link https://www.openhab.org/docs/configuration/items.html#parameter-expire}
      */
     autoupdate?: {
         value?: string;
