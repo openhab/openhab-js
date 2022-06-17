@@ -20,5 +20,5 @@ export class RuleBuilder {
     optionalRuleGroup: any;
     describe(compact: any): string;
 }
-export declare function when(withToggle: boolean): TriggerBuilder;
+export declare function when(withToggle?: boolean): TriggerBuilder;
 //# sourceMappingURL=rule-builder.d.ts.map
