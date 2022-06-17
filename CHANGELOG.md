@@ -1,6 +1,10 @@
 # Changelog
 
-## 2.0.0 (to be released)
+## 2.x.x (to be released)
+
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/2).
+
+## 2.0.0
 
 | Type        | Namespace | Description                                              | Reference                                      | Breaking |
 |-------------|-----------|----------------------------------------------------------|------------------------------------------------|----------|
