@@ -4,6 +4,8 @@
     "description": "JavaScript Library for openHAB Automation",
     "private": false,
     "license": "EPL-2.0",
+    "main": "index.js",
+    "types": "types/openhab-js.d.ts",
     "repository": {
         "type": "git",
         "url": "git://github.com/openhab/openhab-js.git"
@@ -19,7 +21,8 @@
         "deploy": "npm test && npm run docs",
         "lint": "npx standardx | snazzy",
         "fix-codestyle": "npx standardx --fix",
-        "webpack": "webpack"
+        "webpack": "webpack",
+        "types": "tsc"
     },
     "devDependencies": {
         "acorn": "^8.6.0",
@@ -31,6 +34,7 @@
         "rewiremock": "^3.13.9",
         "snazzy": "^9.0.0",
         "standardx": "^7.0.0",
+        "typescript": "^4.7.3",
         "webpack": "^5.58.2",
         "webpack-cli": "^4.9.1"
     }

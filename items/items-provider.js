@@ -1,5 +1,5 @@
 // const osgi = require('../osgi');
-const items = require('./managed');
+const items = require('./items');
 const utils = require('../utils');
 const { AbstractProvider } = require('../provider');
 
@@ -107,7 +107,20 @@ class StaticCallbackItemProvider extends AbstractProvider {
 }
 
 module.exports = {
-  staticItemProvider: items => new StaticItemProvider(items),
+  /**
+   * Creates a new instance of class StaticItemProvider.
+   * @param {HostItem[]} items
+   * @returns {StaticItemProvider}
+   */
+  staticItemProvider: (items) => new StaticItemProvider(items),
+  /**
+   * Creates a new instance of class ManagedItemProvider.
+   * @returns {ManagedItemProvider}
+   */
   managedItemProvider: () => new ManagedItemProvider(),
+  /**
+   * Creates a new instance of StaticCallbackItemProvider.
+   * @returns {StaticCallbackItemProvider}
+   */
   staticCallbackItemProvider: () => new StaticCallbackItemProvider()
 };

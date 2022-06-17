@@ -15,8 +15,8 @@ const Configuration = Java.type('org.openhab.core.config.core.Configuration');
  *
  * @memberof triggers
  * @private
- * @param {String} typeString the type of trigger to create
- * @param {String} [name] the name of the trigger
+ * @param {string} typeString the type of trigger to create
+ * @param {string} [name] the name of the trigger
  * @param {Configuration} config the trigger configuration
  * @returns {HostTrigger} {@link HostTrigger}
  */
@@ -39,9 +39,9 @@ const createTrigger = function (typeString, name, config) {
  * ChannelEventTrigger('astro:sun:local:rise#event', 'START')
  *
  * @memberof triggers
- * @param {String} channel the name of the channel
- * @param {String} event the name of the event to listen for
- * @param {String} [triggerName] the optional name of the trigger to create
+ * @param {string} channel the name of the channel
+ * @param {string} event the name of the event to listen for
+ * @param {string} [triggerName] the optional name of the trigger to create
  *
  */
 const ChannelEventTrigger = (channel, event, triggerName) => createTrigger('core.ChannelEventTrigger', triggerName, {
@@ -56,10 +56,10 @@ const ChannelEventTrigger = (channel, event, triggerName) => createTrigger('core
  * ItemStateChangeTrigger('my_item', 'OFF', 'ON')
  *
  * @memberof triggers
- * @param {String} itemName the name of the Item to monitor for change
- * @param {String} [oldState] the previous state of the Item
- * @param {String} [newState] the new state of the Item
- * @param {String} [triggerName] the optional name of the trigger to create
+ * @param {string} itemName the name of the Item to monitor for change
+ * @param {string} [oldState] the previous state of the Item
+ * @param {string} [newState] the new state of the Item
+ * @param {string} [triggerName] the optional name of the trigger to create
  */
 const ItemStateChangeTrigger = (itemName, oldState, newState, triggerName) => createTrigger('core.ItemStateChangeTrigger', triggerName, {
   itemName: itemName,
@@ -74,9 +74,9 @@ const ItemStateChangeTrigger = (itemName, oldState, newState, triggerName) => cr
  * ItemStateUpdateTrigger('my_item', 'OFF')
  *
  * @memberof triggers
- * @param {String} itemName the name of the Item to monitor for change
- * @param {String} [state] the new state of the Item
- * @param {String} [triggerName] the optional name of the trigger to create
+ * @param {string} itemName the name of the Item to monitor for change
+ * @param {string} [state] the new state of the Item
+ * @param {string} [triggerName] the optional name of the trigger to create
  */
 const ItemStateUpdateTrigger = (itemName, state, triggerName) => createTrigger('core.ItemStateUpdateTrigger', triggerName, {
   itemName: itemName,
@@ -90,9 +90,9 @@ const ItemStateUpdateTrigger = (itemName, state, triggerName) => createTrigger('
  * ItemCommandTrigger('my_item', 'OFF')
  *
  * @memberof triggers
- * @param {String} itemName the name of the Item to monitor for change
- * @param {String} [command] the command received
- * @param {String} [triggerName] the optional name of the trigger to create
+ * @param {string} itemName the name of the Item to monitor for change
+ * @param {string} [command] the command received
+ * @param {string} [triggerName] the optional name of the trigger to create
  */
 const ItemCommandTrigger = (itemName, command, triggerName) => createTrigger('core.ItemCommandTrigger', triggerName, {
   itemName: itemName,
@@ -106,10 +106,10 @@ const ItemCommandTrigger = (itemName, command, triggerName) => createTrigger('co
  * GroupStateChangeTrigger('my_group', 'OFF', 'ON')
  *
  * @memberof triggers
- * @param {String} groupName the name of the group to monitor for change
- * @param {String} [oldState] the previous state of the group
- * @param {String} [newState] the new state of the group
- * @param {String} [triggerName] the optional name of the trigger to create
+ * @param {string} groupName the name of the group to monitor for change
+ * @param {string} [oldState] the previous state of the group
+ * @param {string} [newState] the new state of the group
+ * @param {string} [triggerName] the optional name of the trigger to create
  */
 const GroupStateChangeTrigger = (groupName, oldState, newState, triggerName) => createTrigger('core.GroupStateChangeTrigger', triggerName, {
   groupName: groupName,
@@ -124,9 +124,9 @@ const GroupStateChangeTrigger = (groupName, oldState, newState, triggerName) => 
  * GroupStateUpdateTrigger('my_group', 'OFF')
  *
  * @memberof triggers
- * @param {String} groupName the name of the group to monitor for change
- * @param {String} [state] the new state of the group
- * @param {String} [triggerName] the optional name of the trigger to create
+ * @param {string} groupName the name of the group to monitor for change
+ * @param {string} [state] the new state of the group
+ * @param {string} [triggerName] the optional name of the trigger to create
  */
 const GroupStateUpdateTrigger = (groupName, state, triggerName) => createTrigger('core.GroupStateUpdateTrigger', triggerName, {
   groupName: groupName,
@@ -140,9 +140,9 @@ const GroupStateUpdateTrigger = (groupName, state, triggerName) => createTrigger
  * GroupCommandTrigger('my_group', 'OFF')
  *
  * @memberof triggers
- * @param {String} groupName the name of the group to monitor for change
- * @param {String} [command] the command received
- * @param {String} [triggerName] the optional name of the trigger to create
+ * @param {string} groupName the name of the group to monitor for change
+ * @param {string} [command] the command received
+ * @param {string} [triggerName] the optional name of the trigger to create
  */
 const GroupCommandTrigger = (groupName, command, triggerName) => createTrigger('core.GroupCommandTrigger', triggerName, {
   groupName: groupName,
@@ -156,9 +156,9 @@ const GroupCommandTrigger = (groupName, command, triggerName) => createTrigger('
  * ThingStatusUpdateTrigger('some:thing:uuid','OFFLINE')
  *
  * @memberof triggers
- * @param {String} thingUID the name of the thing to monitor for a status updating
- * @param {String} [status] the optional status to monitor for
- * @param {String} [triggerName] the optional name of the trigger to create
+ * @param {string} thingUID the name of the thing to monitor for a status updating
+ * @param {string} [status] the optional status to monitor for
+ * @param {string} [triggerName] the optional name of the trigger to create
  */
 const ThingStatusUpdateTrigger = (thingUID, status, triggerName) => createTrigger('core.ThingStatusUpdateTrigger', triggerName, {
   thingUID: thingUID,
@@ -172,10 +172,10 @@ const ThingStatusUpdateTrigger = (thingUID, status, triggerName) => createTrigge
  * ThingStatusChangeTrigger('some:thing:uuid','ONLINE','OFFLINE')
  *
  * @memberof triggers
- * @param {String} thingUID the name of the thing to monitor for a status change
- * @param {String} [status] the optional status to monitor for
- * @param {String} [previousStatus] the optional previous state to monitor from
- * @param {String} [triggerName] the optional name of the trigger to create
+ * @param {string} thingUID the name of the thing to monitor for a status change
+ * @param {string} [status] the optional status to monitor for
+ * @param {string} [previousStatus] the optional previous state to monitor from
+ * @param {string} [triggerName] the optional name of the trigger to create
  */
 const ThingStatusChangeTrigger = (thingUID, status, previousStatus, triggerName) => createTrigger('core.ThingStatusChangeTrigger', triggerName, {
   thingUID: thingUID,
@@ -198,8 +198,8 @@ const ThingStatusChangeTrigger = (thingUID, status, previousStatus, triggerName)
  * SystemStartlevelTrigger(100) //Startup Complete
  *
  * @memberof triggers
- * @param {String} startlevel the system start level to be triggered on
- * @param {String} [triggerName] the optional name of the trigger to create
+ * @param {string} startlevel the system start level to be triggered on
+ * @param {string} [triggerName] the optional name of the trigger to create
  */
 const SystemStartlevelTrigger = (startlevel, triggerName) => createTrigger('core.SystemStartlevelTrigger', triggerName, {
   startlevel: startlevel
@@ -212,8 +212,8 @@ const SystemStartlevelTrigger = (startlevel, triggerName) => createTrigger('core
  * GenericCronTrigger('0 30 16 * * ? *')
  *
  * @memberof triggers
- * @param {String} expression the cron expression defining the triggering schedule
- * @param {String} [triggerName] the optional name of the trigger to create
+ * @param {string} expression the cron expression defining the triggering schedule
+ * @param {string} [triggerName] the optional name of the trigger to create
  */
 const GenericCronTrigger = (expression, triggerName) => createTrigger('timer.GenericCronTrigger', triggerName, {
   cronExpression: expression
@@ -226,8 +226,8 @@ const GenericCronTrigger = (expression, triggerName) => createTrigger('timer.Gen
  * TimeOfDayTrigger('19:00')
  *
  * @memberof triggers
- * @param {String} time the time expression defining the triggering schedule
- * @param {String} [triggerName] the optional name of the trigger to create
+ * @param {string} time the time expression defining the triggering schedule
+ * @param {string} [triggerName] the optional name of the trigger to create
  */
 const TimeOfDayTrigger = (time, triggerName) => createTrigger('timer.TimeOfDayTrigger', triggerName, {
   time: time
@@ -248,12 +248,12 @@ const TimeOfDayTrigger = (time, triggerName) => createTrigger('timer.TimeOfDayTr
  * });
  *
  * @memberof triggers
- * @param {String} dutycycleItem Item (PercentType) to read the duty cycle from
- * @param {Number} interval constant interval in which the output is switch ON and OFF again (in sec)
- * @param {Number} [minDutyCycle] any duty cycle below this value will be increased to this value
- * @param {Number} [maxDutyCycle] any duty cycle above this value will be decreased to this value
- * @param {Number} [deadManSwitch] output will be switched off, when the duty cycle is not updated within this time (in ms)
- * @param {String} [triggerName] the optional name of the trigger to create
+ * @param {string} dutycycleItem Item (PercentType) to read the duty cycle from
+ * @param {number} interval constant interval in which the output is switch ON and OFF again (in sec)
+ * @param {number} [minDutyCycle] any duty cycle below this value will be increased to this value
+ * @param {number} [maxDutyCycle] any duty cycle above this value will be decreased to this value
+ * @param {number} [deadManSwitch] output will be switched off, when the duty cycle is not updated within this time (in ms)
+ * @param {string} [triggerName] the optional name of the trigger to create
  */
 const PWMTrigger = (dutycycleItem, interval, minDutyCycle, maxDutyCycle, deadManSwitch, triggerName) => createTrigger('pwm.trigger', triggerName, {
   dutycycleItem: dutycycleItem,
@@ -280,21 +280,21 @@ const PWMTrigger = (dutycycleItem, interval, minDutyCycle, maxDutyCycle, deadMan
  * });
  *
  * @memberof triggers
- * @param {String} inputItem name of the input Item (e.g. temperature sensor value)
- * @param {String} setpointItem name of the setpoint Item (e.g. desired room temperature)
- * @param {Number} kp P: {@link https://www.openhab.org/addons/automation/pidcontroller/#proportional-p-gain-parameter Proportional Gain} parameter
- * @param {Number} ki I: {@link https://www.openhab.org/addons/automation/pidcontroller/#integral-i-gain-parameter Integral Gain} parameter
- * @param {Number} kd D: {@link https://www.openhab.org/addons/automation/pidcontroller/#derivative-d-gain-parameter Deritative Gain} parameter
- * @param {Number} kdTimeConstant D-T1: {@link https://www.openhab.org/addons/automation/pidcontroller/#derivative-time-constant-d-t1-parameter Derivative Gain Time Constant} in sec
- * @param {Number} loopTime The interval the output value will be updated in milliseconds. Note: the output will also be updated when the input value or the setpoint changes.
- * @param {String} [commandItem] Name of the item to send a String "RESET" to reset the I- and the D-part to 0.
- * @param {Number} [integralMinValue] The I-part will be limited (min) to this value.
- * @param {Number} [integralMaxValue] The I-part will be limited (max) to this value.
- * @param {String} [pInspectorItem] name of the debug Item for the current P-part
- * @param {String} [iInspectorItem] name of the debug Item for the current I-part
- * @param {String} [dInspectorItem] name of the debug Item for the current D-part
- * @param {String} [errorInspectorItem] name of the debug Item for the current regulation difference (error)
- * @param {String} [triggerName] the optional name of the trigger to create
+ * @param {string} inputItem name of the input Item (e.g. temperature sensor value)
+ * @param {string} setpointItem name of the setpoint Item (e.g. desired room temperature)
+ * @param {number} kp P: {@link https://www.openhab.org/addons/automation/pidcontroller/#proportional-p-gain-parameter Proportional Gain} parameter
+ * @param {number} ki I: {@link https://www.openhab.org/addons/automation/pidcontroller/#integral-i-gain-parameter Integral Gain} parameter
+ * @param {number} kd D: {@link https://www.openhab.org/addons/automation/pidcontroller/#derivative-d-gain-parameter Deritative Gain} parameter
+ * @param {number} kdTimeConstant D-T1: {@link https://www.openhab.org/addons/automation/pidcontroller/#derivative-time-constant-d-t1-parameter Derivative Gain Time Constant} in sec
+ * @param {number} loopTime The interval the output value will be updated in milliseconds. Note: the output will also be updated when the input value or the setpoint changes.
+ * @param {string} [commandItem] Name of the item to send a String "RESET" to reset the I- and the D-part to 0.
+ * @param {number} [integralMinValue] The I-part will be limited (min) to this value.
+ * @param {number} [integralMaxValue] The I-part will be limited (max) to this value.
+ * @param {string} [pInspectorItem] name of the debug Item for the current P-part
+ * @param {string} [iInspectorItem] name of the debug Item for the current I-part
+ * @param {string} [dInspectorItem] name of the debug Item for the current D-part
+ * @param {string} [errorInspectorItem] name of the debug Item for the current regulation difference (error)
+ * @param {string} [triggerName] the optional name of the trigger to create
  */
 const PIDTrigger = (inputItem, setpointItem, kp = 1, ki = 1, kd = 1, kdTimeConstant = 1, loopTime = 1000, commandItem, integralMinValue, integralMaxValue, pInspectorItem, iInspectorItem, dInspectorItem, errorInspectorItem, triggerName) => createTrigger('pidcontroller.trigger', triggerName, {
   input: inputItem,

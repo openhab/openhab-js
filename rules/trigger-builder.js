@@ -35,7 +35,7 @@ class TriggerBuilder {
   /**
      * Specifies a channel event as a source for the rule to fire.
      *
-     * @param {String} channelName the name of the channel
+     * @param {string} channelName the name of the channel
      * @returns {TriggerBuilder.ChannelTriggerConfig} the trigger config
      */
   channel (s) {
@@ -45,7 +45,7 @@ class TriggerBuilder {
   /**
      * Specifies a cron schedule for the rule to fire.
      *
-     * @param {String} cronExpression the cron expression
+     * @param {string} cronExpression the cron expression
      * @returns {TriggerBuilder.CronTriggerConfig} the trigger config
      */
   cron (s) {
@@ -55,7 +55,7 @@ class TriggerBuilder {
   /**
      * Specifies an item as the source of changes to trigger a rule.
      *
-     * @param {String} itemName the name of the item
+     * @param {string} itemName the name of the item
      * @returns {TriggerBuilder.ItemTriggerConfig} the trigger config
      */
   item (s) {
@@ -65,7 +65,7 @@ class TriggerBuilder {
   /**
      * Specifies an group member as the source of changes to trigger a rule.
      *
-     * @param {String} groupName the name of the group
+     * @param {string} groupName the name of the group
      * @returns {TriggerBuilder.ItemTriggerConfig} the trigger config
      */
   memberOf (s) {
@@ -75,7 +75,7 @@ class TriggerBuilder {
   /**
      * Specifies a Thing status event as a source for the rule to fire.
      *
-     * @param {String} thingUID the UID of the Thing
+     * @param {string} thingUID the UID of the Thing
      * @returns {TriggerBuilder.ThingTriggerConfig} the trigger config
      */
   thing (s) {

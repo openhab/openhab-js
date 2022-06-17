@@ -31,7 +31,16 @@ class StaticCallbackMetadataProvider extends AbstractProvider {
   }
 }
 
-module.exports = {
-  staticCallbackMetadataProvider: () => new StaticCallbackMetadataProvider()
+/**
+ * Returns a new instance of StaticCallbackMetadataProvider.
+ *
+ * @private
+ * @returns {StaticCallbackMetadataProvider}
+ */
+const staticCallbackMetadataProvider = () => {
+  return new StaticCallbackMetadataProvider();
+};
 
+module.exports = {
+  staticCallbackMetadataProvider
 };

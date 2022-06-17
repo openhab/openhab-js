@@ -189,7 +189,7 @@ class Thing {
 
   /**
    * Set the label.
-   * @param {String} label Thing label
+   * @param {string} label Thing label
    */
   setLabel (label) {
     this.rawThing.setLabel(label);
@@ -197,7 +197,7 @@ class Thing {
 
   /**
    * Sets the physical location.
-   * @param {String} location physical location of the Thing
+   * @param {string} location physical location of the Thing
    */
   setLocation (location) {
     this.rawThing.setLocation(location);
@@ -205,8 +205,8 @@ class Thing {
 
   /**
    * Sets the property value for the property identified by the given name.
-   * @param {String} name name of the property
-   * @param {String} value value for the property
+   * @param {string} name name of the property
+   * @param {string} value value for the property
    */
   setProperty (name, value) {
     this.rawThing.setProperty(name, value);
@@ -214,7 +214,7 @@ class Thing {
 
   /**
    * Sets the enabled status of the Thing.
-   * @param {Boolean} enabled whether the Thing is enabled or not
+   * @param {boolean} enabled whether the Thing is enabled or not
    */
   setEnabled (enabled) {
     thingMgr.setEnabled(this.rawThing.getUID(), enabled);
@@ -225,8 +225,8 @@ class Thing {
  * Gets an openHAB Thing.
  *
  * @memberof things
- * @param {String} uid UID of the thing
- * @param {Boolean} [nullIfMissing] whether to return null if the Thing cannot be found (default is to throw an exception)
+ * @param {string} uid UID of the thing
+ * @param {boolean} [nullIfMissing] whether to return null if the Thing cannot be found (default is to throw an exception)
  * @returns {things.Thing} the Thing
  */
 const getThing = function (uid, nullIfMissing) {
@@ -254,7 +254,23 @@ const getThings = function () {
 };
 
 module.exports = {
+  /**
+   * Creates a new instance of ThingBuilder.
+   *
+   * @param {string} thingTypeUID UID of Thing type
+   * @param {string} id id for Thing
+   * @param {string} bridgeUID UID of Thing's bridge
+   * @returns {ThingBuilder}
+   */
   newThingBuilder: (thingTypeUID, id, bridgeUID) => new ThingBuilder(thingTypeUID, id, bridgeUID),
+  /**
+   * Creates a new instance of ChannelBuilder.
+   *
+   * @param {string} thingUID UID of the Thing
+   * @param {string} channelId ID of the channel
+   * @param {string} acceptedItemType accepted Item type, e.g. Switch`
+   * @returns {ThingBuilder}
+   */
   newChannelBuilder: (thingUID, channelId, acceptedItemType) => new ChannelBuilder(thingUID, channelId, acceptedItemType),
   Thing,
   getThing,

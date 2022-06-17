@@ -102,7 +102,7 @@ const javaSetToJsSet = function (set) {
  * Generate a random UUID.
  *
  * @memberOf utils
- * @returns {String} random UUID
+ * @returns {string} random UUID
  */
 const randomUUID = () => Java.type('java.util.UUID').randomUUID();
 
@@ -111,7 +111,7 @@ const randomUUID = () => Java.type('java.util.UUID').randomUUID();
  *
  * @memberOf utils
  * @param {*} obj object
- * @param {Boolean} [dumpProps=false] whether properties also should be dumped
+ * @param {boolean} [dumpProps=false] whether properties also should be dumped
  */
 const dumpObject = function (obj, dumpProps = false) {
   try {

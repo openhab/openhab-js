@@ -81,7 +81,7 @@ const getService = function (...classOrNames) {
  * Finds services registered with OSGi.
  *
  * @memberof osgi
- * @param {String} className the class of the service to get
+ * @param {string} className the class of the service to get
  * @param {*} [filter] an optional filter used to filter the returned services
  * @returns {Object[]} any instances of the service that can be found
  */

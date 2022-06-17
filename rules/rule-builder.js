@@ -118,8 +118,8 @@ module.exports = {
      *  }).build("Test Rule", "My Test Rule");
      *
      * @memberof rules
-     * @param {boolean} withToggle rule can be toggled on or off (optional)
+     * @param {boolean} [withToggle=false] rule can be toggled on or off (optional)
      * @returns {TriggerBuilder} rule builder
      */
-  when: withToggle => new RuleBuilder(withToggle).when()
+  when: (withToggle) => new RuleBuilder(withToggle).when()
 };

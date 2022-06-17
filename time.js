@@ -58,7 +58,7 @@ const addQuantityType = function (quantityType) {
 /**
  * Tests the passed in string to see if it conforms to the ISO8601 standard
  * @private
- * @param {String} dtStr potential ISO8601 string
+ * @param {string} dtStr potential ISO8601 string
  * @returns {boolean} true if ISO8601 format
  */
 const isISO8601 = (dtStr) => {
@@ -69,7 +69,7 @@ const isISO8601 = (dtStr) => {
 /**
  * Tests the string to see if it matches a 24 hour clock time
  * @private
- * @param {String} dtStr potential HH:MM String
+ * @param {string} dtStr potential HH:MM String
  * @returns {boolean} true if it matches HH:MM
  */
 const is24Hr = function (dtStr) {
@@ -80,7 +80,7 @@ const is24Hr = function (dtStr) {
 /**
  * Tests the string to see if it matches a 12 hour clock time
  * @private
- * @param {String} dtStr potential hh:MM aa string
+ * @param {string} dtStr potential hh:MM aa string
  * @returns {boolean} true if it matches hh:mm aa
  */
 const is12Hr = function (dtStr) {
@@ -91,7 +91,7 @@ const is12Hr = function (dtStr) {
 /**
  * Parses the passed in string based on it's format and converted to a ZonedDateTime.
  * @private
- * @param {String} str string number to try and parse and convert
+ * @param {string} str string number to try and parse and convert
  * @throws Error when the string cannot be parsed
  */
 const parseString = function (str) {
@@ -183,7 +183,7 @@ const convertItem = function (item) {
  * @returns time.ZonedDateTime
  * @throws error if the type, format, or contents of when are not supported
  */
-time.toZDT = function (when) {
+const toZDT = function (when) {
   // If when is not supplied or null, return now
   if (when === undefined || when === null) {
     return time.ZonedDateTime.now();
@@ -280,7 +280,7 @@ time.ZonedDateTime.prototype.toToday = function () {
  * @memberof time
  * @param {*} start the starting time in anything that can be
  * @param {*} end the ending time
- * @returns {Boolean} true if this is between start and end
+ * @returns {boolean} true if this is between start and end
  */
 time.ZonedDateTime.prototype.isBetweenTimes = function (start, end) {
   const startTime = time.toZDT(start).toLocalTime();
@@ -301,7 +301,7 @@ time.ZonedDateTime.prototype.isBetweenTimes = function (start, end) {
  * @memberof time
  * @param {time.ZonedDateTime} zdt the date time to compare to this
  * @param {time.Duration} maxDur the duration to test that the difference between this and zdt is within
- * @returns {Boolean} true if the delta between this and zdt is within maxDur
+ * @returns {boolean} true if the delta between this and zdt is within maxDur
  */
 time.ZonedDateTime.prototype.isClose = function (zdt, maxDur) {
   const delta = time.Duration.between(this, zdt).abs();
@@ -318,4 +318,7 @@ time.ZonedDateTime.prototype.getMillisFromNow = function () {
   return time.Duration.between(time.ZonedDateTime.now(), this).toMillis();
 };
 
-module.exports = time;
+module.exports = {
+  ...time,
+  toZDT
+};
