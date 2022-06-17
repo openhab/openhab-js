@@ -34,7 +34,6 @@
         "rewiremock": "^3.13.9",
         "snazzy": "^9.0.0",
         "standardx": "^7.0.0",
-        "tsc": "^2.0.4",
         "typescript": "^4.7.3",
         "webpack": "^5.58.2",
         "webpack-cli": "^4.9.1"
