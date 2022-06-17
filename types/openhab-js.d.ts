@@ -25,7 +25,7 @@ export type HostTrigger = object;
  */
 export type HostThing = object;
 export const log: typeof import("./log");
-export const rules: typeof import("./rules");
+export const rules: typeof import("./rules/rules");
 export const items: typeof import("./items/items");
 export const things: typeof import("./things/things");
 export const metadata: typeof import("./metadata/metadata");
