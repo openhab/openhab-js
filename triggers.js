@@ -3,7 +3,7 @@
  * This namespace allows creation of openHAB rule triggers.
  *
  * It is possible to skip parameter configuration in triggers by using `null`.
- * 
+ *
  * @namespace triggers
  */
 
