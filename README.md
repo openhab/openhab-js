@@ -752,6 +752,8 @@ triggers.GenericCronTrigger('0 30 16 * * ? *');
 triggers.TimeOfDayTrigger('19:00');
 ```
 
+You can use `null` for a trigger parameter to skip it‘s configuration.
+
 See [openhab-js : triggers ](https://openhab.github.io/openhab-js/triggers.html) in the API documentation for a full list of all triggers.
 
 ### Rule Builder
