@@ -104,7 +104,8 @@
 
             
                 <div class="description usertext"><p>Triggers namespace.
-This namespace allows creation of openHAB rule triggers.</p></div>
+This namespace allows creation of openHAB rule triggers.</p>
+<p>It is possible to skip parameter configuration in triggers by using <code>null</code>.</p></div>
             
 
             
@@ -146,7 +147,7 @@ This namespace allows creation of openHAB rule triggers.</p></div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line47">line 47</a>
+        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -199,7 +200,7 @@ This namespace allows creation of openHAB rule triggers.</p></div>
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>ChannelEventTrigger('astro:sun:local:rise#event', 'START')</code></pre>
+    <pre class="prettyprint"><code>ChannelEventTrigger('astro:sun:local:rise#event', 'START');</code></pre>
 
 
 
@@ -361,7 +362,7 @@ This namespace allows creation of openHAB rule triggers.</p></div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line64">line 64</a>
+        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line69">line 69</a>
     </li></ul></dd>
     
 
@@ -414,7 +415,10 @@ This namespace allows creation of openHAB rule triggers.</p></div>
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>ItemStateChangeTrigger('my_item', 'OFF', 'ON')</code></pre>
+    <pre class="prettyprint"><code>ItemStateChangeTrigger('my_item'); // changed
+ItemStateChangeTrigger('my_item', 'OFF', 'ON'); // changed from OFF to ON
+ItemStateChangeTrigger('my_item', null, 'ON'); // changed to ON
+ItemStateChangeTrigger('my_item', 'OFF', null); // changed from OFF</code></pre>
 
 
 
@@ -611,7 +615,7 @@ This namespace allows creation of openHAB rule triggers.</p></div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line81">line 81</a>
+        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line87">line 87</a>
     </li></ul></dd>
     
 
@@ -664,7 +668,8 @@ This namespace allows creation of openHAB rule triggers.</p></div>
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>ItemStateUpdateTrigger('my_item', 'OFF')</code></pre>
+    <pre class="prettyprint"><code>ItemStateUpdateTrigger('my_item'); // received update
+ItemStateUpdateTrigger('my_item', 'OFF'); // received update OFF</code></pre>
 
 
 
@@ -828,7 +833,7 @@ This namespace allows creation of openHAB rule triggers.</p></div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line97">line 97</a>
+        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line104">line 104</a>
     </li></ul></dd>
     
 
@@ -881,7 +886,8 @@ This namespace allows creation of openHAB rule triggers.</p></div>
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>ItemCommandTrigger('my_item', 'OFF')</code></pre>
+    <pre class="prettyprint"><code>ItemCommandTrigger('my_item'); // received command
+ItemCommandTrigger('my_item', 'OFF'); // received command OFF</code></pre>
 
 
 
@@ -1045,7 +1051,7 @@ This namespace allows creation of openHAB rule triggers.</p></div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line114">line 114</a>
+        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line121">line 121</a>
     </li></ul></dd>
     
 
@@ -1098,7 +1104,7 @@ This namespace allows creation of openHAB rule triggers.</p></div>
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>GroupStateChangeTrigger('my_group', 'OFF', 'ON')</code></pre>
+    <pre class="prettyprint"><code>GroupStateChangeTrigger('my_group', 'OFF', 'ON');</code></pre>
 
 
 
@@ -1295,7 +1301,7 @@ This namespace allows creation of openHAB rule triggers.</p></div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line131">line 131</a>
+        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line138">line 138</a>
     </li></ul></dd>
     
 
@@ -1348,7 +1354,7 @@ This namespace allows creation of openHAB rule triggers.</p></div>
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>GroupStateUpdateTrigger('my_group', 'OFF')</code></pre>
+    <pre class="prettyprint"><code>GroupStateUpdateTrigger('my_group', 'OFF');</code></pre>
 
 
 
@@ -1512,7 +1518,7 @@ This namespace allows creation of openHAB rule triggers.</p></div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line147">line 147</a>
+        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line154">line 154</a>
     </li></ul></dd>
     
 
@@ -1565,7 +1571,7 @@ This namespace allows creation of openHAB rule triggers.</p></div>
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>GroupCommandTrigger('my_group', 'OFF')</code></pre>
+    <pre class="prettyprint"><code>GroupCommandTrigger('my_group', 'OFF');</code></pre>
 
 
 
@@ -1729,7 +1735,7 @@ This namespace allows creation of openHAB rule triggers.</p></div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line163">line 163</a>
+        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line170">line 170</a>
     </li></ul></dd>
     
 
@@ -1782,7 +1788,7 @@ This namespace allows creation of openHAB rule triggers.</p></div>
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>ThingStatusUpdateTrigger('some:thing:uuid','OFFLINE')</code></pre>
+    <pre class="prettyprint"><code>ThingStatusUpdateTrigger('some:thing:uuid', 'OFFLINE');</code></pre>
 
 
 
@@ -1946,7 +1952,7 @@ This namespace allows creation of openHAB rule triggers.</p></div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line180">line 180</a>
+        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line187">line 187</a>
     </li></ul></dd>
     
 
@@ -1999,7 +2005,7 @@ This namespace allows creation of openHAB rule triggers.</p></div>
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>ThingStatusChangeTrigger('some:thing:uuid','ONLINE','OFFLINE')</code></pre>
+    <pre class="prettyprint"><code>ThingStatusChangeTrigger('some:thing:uuid', 'ONLINE', 'OFFLINE');</code></pre>
 
 
 
@@ -2196,7 +2202,7 @@ This namespace allows creation of openHAB rule triggers.</p></div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line204">line 204</a>
+        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line211">line 211</a>
     </li></ul></dd>
     
 
@@ -2249,15 +2255,15 @@ This namespace allows creation of openHAB rule triggers.</p></div>
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>SystemStartlevelTrigger(40)  //Rules loaded
+    <pre class="prettyprint"><code>SystemStartlevelTrigger(40)  // Rules loaded
 ...
-SystemStartlevelTrigger(50)  //Rule engine started
+SystemStartlevelTrigger(50)  // Rule engine started
 ...
-SystemStartlevelTrigger(70)  //User interfaces started
+SystemStartlevelTrigger(70)  // User interfaces started
 ...
-SystemStartlevelTrigger(80)  //Things initialized
+SystemStartlevelTrigger(80)  // Things initialized
 ...
-SystemStartlevelTrigger(100) //Startup Complete</code></pre>
+SystemStartlevelTrigger(100) // Startup Complete</code></pre>
 
 
 
@@ -2388,7 +2394,7 @@ SystemStartlevelTrigger(100) //Startup Complete</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line218">line 218</a>
+        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line225">line 225</a>
     </li></ul></dd>
     
 
@@ -2441,7 +2447,7 @@ SystemStartlevelTrigger(100) //Startup Complete</code></pre>
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>GenericCronTrigger('0 30 16 * * ? *')</code></pre>
+    <pre class="prettyprint"><code>GenericCronTrigger('0 30 16 * * ? *');</code></pre>
 
 
 
@@ -2572,7 +2578,7 @@ SystemStartlevelTrigger(100) //Startup Complete</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line232">line 232</a>
+        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line239">line 239</a>
     </li></ul></dd>
     
 
@@ -2625,7 +2631,7 @@ SystemStartlevelTrigger(100) //Startup Complete</code></pre>
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>TimeOfDayTrigger('19:00')</code></pre>
+    <pre class="prettyprint"><code>TimeOfDayTrigger('19:00');</code></pre>
 
 
 
@@ -2756,7 +2762,7 @@ SystemStartlevelTrigger(100) //Startup Complete</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line258">line 258</a>
+        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line265">line 265</a>
     </li></ul></dd>
     
 
@@ -2812,7 +2818,7 @@ SystemStartlevelTrigger(100) //Startup Complete</code></pre>
     <pre class="prettyprint"><code>rules.JSRule({
   name: 'PWM rule',
   triggers: [
-    triggers.PWMTrigger('pwm_dimmer', 10)
+    triggers.PWMTrigger('pwm_dimmer', 10);
   ],
   execute: (event) => {
     items.getItem('pwm_switch').sendCommand(event.receivedCommand);
@@ -3078,7 +3084,7 @@ SystemStartlevelTrigger(100) //Startup Complete</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line299">line 299</a>
+        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line306">line 306</a>
     </li></ul></dd>
     
 
@@ -3134,7 +3140,7 @@ SystemStartlevelTrigger(100) //Startup Complete</code></pre>
     <pre class="prettyprint"><code>rules.JSRule({
   name: 'PID rule',
   triggers: [
-    triggers.PIDTrigger('currentTemperature', 'targetTemperature', 1, 1, 1, 1, 10000, null, 1, 100)
+    triggers.PIDTrigger('currentTemperature', 'targetTemperature', 1, 1, 1, 1, 10000, null, 1, 100);
   ],
   execute: (event) => {
     // Look out what the max value for your Item is!
@@ -3764,7 +3770,7 @@ SystemStartlevelTrigger(100) //Startup Complete</code></pre>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Fri Jun 17 2022 22:09:38 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Tue Jun 28 2022 15:36:27 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
