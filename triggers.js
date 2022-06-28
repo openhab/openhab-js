@@ -2,6 +2,8 @@
  * Triggers namespace.
  * This namespace allows creation of openHAB rule triggers.
  *
+ * It is possible to skip parameter configuration in triggers by using `null`.
+ *
  * @namespace triggers
  */
 
@@ -36,7 +38,7 @@ const createTrigger = function (typeString, name, config) {
  * Creates a trigger that fires upon specific events in a channel.
  *
  * @example
- * ChannelEventTrigger('astro:sun:local:rise#event', 'START')
+ * ChannelEventTrigger('astro:sun:local:rise#event', 'START');
  *
  * @memberof triggers
  * @param {string} channel the name of the channel
@@ -53,7 +55,10 @@ const ChannelEventTrigger = (channel, event, triggerName) => createTrigger('core
  * Creates a trigger that fires upon an Item changing state.
  *
  * @example
- * ItemStateChangeTrigger('my_item', 'OFF', 'ON')
+ * ItemStateChangeTrigger('my_item'); // changed
+ * ItemStateChangeTrigger('my_item', 'OFF', 'ON'); // changed from OFF to ON
+ * ItemStateChangeTrigger('my_item', null, 'ON'); // changed to ON
+ * ItemStateChangeTrigger('my_item', 'OFF', null); // changed from OFF
  *
  * @memberof triggers
  * @param {string} itemName the name of the Item to monitor for change
@@ -71,7 +76,8 @@ const ItemStateChangeTrigger = (itemName, oldState, newState, triggerName) => cr
  * Creates a trigger that fires upon an Item receiving a state update. Note that the Item does not need to change state.
  *
  * @example
- * ItemStateUpdateTrigger('my_item', 'OFF')
+ * ItemStateUpdateTrigger('my_item'); // received update
+ * ItemStateUpdateTrigger('my_item', 'OFF'); // received update OFF
  *
  * @memberof triggers
  * @param {string} itemName the name of the Item to monitor for change
@@ -87,7 +93,8 @@ const ItemStateUpdateTrigger = (itemName, state, triggerName) => createTrigger('
  * Creates a trigger that fires upon an Item receiving a command. Note that the Item does not need to change state.
  *
  * @example
- * ItemCommandTrigger('my_item', 'OFF')
+ * ItemCommandTrigger('my_item'); // received command
+ * ItemCommandTrigger('my_item', 'OFF'); // received command OFF
  *
  * @memberof triggers
  * @param {string} itemName the name of the Item to monitor for change
@@ -103,7 +110,7 @@ const ItemCommandTrigger = (itemName, command, triggerName) => createTrigger('co
  * Creates a trigger that fires upon a member of a group changing state.
  *
  * @example
- * GroupStateChangeTrigger('my_group', 'OFF', 'ON')
+ * GroupStateChangeTrigger('my_group', 'OFF', 'ON');
  *
  * @memberof triggers
  * @param {string} groupName the name of the group to monitor for change
@@ -121,7 +128,7 @@ const GroupStateChangeTrigger = (groupName, oldState, newState, triggerName) => 
  * Creates a trigger that fires upon a member of a group receiving a state update. Note that group item does not need to change state.
  *
  * @example
- * GroupStateUpdateTrigger('my_group', 'OFF')
+ * GroupStateUpdateTrigger('my_group', 'OFF');
  *
  * @memberof triggers
  * @param {string} groupName the name of the group to monitor for change
@@ -137,7 +144,7 @@ const GroupStateUpdateTrigger = (groupName, state, triggerName) => createTrigger
  * Creates a trigger that fires upon a member of a group receiving a command. Note that the group does not need to change state.
  *
  * @example
- * GroupCommandTrigger('my_group', 'OFF')
+ * GroupCommandTrigger('my_group', 'OFF');
  *
  * @memberof triggers
  * @param {string} groupName the name of the group to monitor for change
@@ -153,7 +160,7 @@ const GroupCommandTrigger = (groupName, command, triggerName) => createTrigger('
  * Creates a trigger that fires upon an Thing status updating
  *
  * @example
- * ThingStatusUpdateTrigger('some:thing:uuid','OFFLINE')
+ * ThingStatusUpdateTrigger('some:thing:uuid', 'OFFLINE');
  *
  * @memberof triggers
  * @param {string} thingUID the name of the thing to monitor for a status updating
@@ -169,7 +176,7 @@ const ThingStatusUpdateTrigger = (thingUID, status, triggerName) => createTrigge
  * Creates a trigger that fires upon an Thing status changing
  *
  * @example
- * ThingStatusChangeTrigger('some:thing:uuid','ONLINE','OFFLINE')
+ * ThingStatusChangeTrigger('some:thing:uuid', 'ONLINE', 'OFFLINE');
  *
  * @memberof triggers
  * @param {string} thingUID the name of the thing to monitor for a status change
@@ -187,15 +194,15 @@ const ThingStatusChangeTrigger = (thingUID, status, previousStatus, triggerName)
  * Creates a trigger that fires if a given start level is reached by the system
  *
  * @example
- * SystemStartlevelTrigger(40)  //Rules loaded
+ * SystemStartlevelTrigger(40)  // Rules loaded
  * ...
- * SystemStartlevelTrigger(50)  //Rule engine started
+ * SystemStartlevelTrigger(50)  // Rule engine started
  * ...
- * SystemStartlevelTrigger(70)  //User interfaces started
+ * SystemStartlevelTrigger(70)  // User interfaces started
  * ...
- * SystemStartlevelTrigger(80)  //Things initialized
+ * SystemStartlevelTrigger(80)  // Things initialized
  * ...
- * SystemStartlevelTrigger(100) //Startup Complete
+ * SystemStartlevelTrigger(100) // Startup Complete
  *
  * @memberof triggers
  * @param {string} startlevel the system start level to be triggered on
@@ -209,7 +216,7 @@ const SystemStartlevelTrigger = (startlevel, triggerName) => createTrigger('core
  * Creates a trigger that fires on a cron schedule. The supplied cron expression defines when the trigger will fire.
  *
  * @example
- * GenericCronTrigger('0 30 16 * * ? *')
+ * GenericCronTrigger('0 30 16 * * ? *');
  *
  * @memberof triggers
  * @param {string} expression the cron expression defining the triggering schedule
@@ -223,7 +230,7 @@ const GenericCronTrigger = (expression, triggerName) => createTrigger('timer.Gen
  * Creates a trigger that fires daily at a specific time. The supplied time defines when the trigger will fire.
  *
  * @example
- * TimeOfDayTrigger('19:00')
+ * TimeOfDayTrigger('19:00');
  *
  * @memberof triggers
  * @param {string} time the time expression defining the triggering schedule
@@ -240,7 +247,7 @@ const TimeOfDayTrigger = (time, triggerName) => createTrigger('timer.TimeOfDayTr
  * rules.JSRule({
  *   name: 'PWM rule',
  *   triggers: [
- *     triggers.PWMTrigger('pwm_dimmer', 10)
+ *     triggers.PWMTrigger('pwm_dimmer', 10);
  *   ],
  *   execute: (event) => {
  *     items.getItem('pwm_switch').sendCommand(event.receivedCommand);
@@ -270,7 +277,7 @@ const PWMTrigger = (dutycycleItem, interval, minDutyCycle, maxDutyCycle, deadMan
  * rules.JSRule({
  *   name: 'PID rule',
  *   triggers: [
- *     triggers.PIDTrigger('currentTemperature', 'targetTemperature', 1, 1, 1, 1, 10000, null, 1, 100)
+ *     triggers.PIDTrigger('currentTemperature', 'targetTemperature', 1, 1, 1, 1, 10000, null, 1, 100);
  *   ],
  *   execute: (event) => {
  *     // Look out what the max value for your Item is!
