@@ -232,7 +232,7 @@ const JSRule = function (ruleConfig) {
   if (ruleExists(ruid)) {
     throw Error(`Failed to add rule: ${ruleConfig.name ? ruleConfig.name : ruid}, a rule with same UID [${ruid}] already exists!`);
   }
-  const ruTemplateid = ruleConfig.name.replace(/[^\w]/g, '-') + '-' + utils.randomUUID();
+  const ruTemplateid = ruleConfig.name.replace(/[^\w]+/g, '-') + '-' + utils.randomUUID();
   log.info('Adding rule: {}', ruleConfig.name ? ruleConfig.name : ruid);
 
   const SimpleRule = Java.extend(Java.type('org.openhab.core.automation.module.script.rulesupport.shared.simple.SimpleRule'));
