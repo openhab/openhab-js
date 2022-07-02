@@ -403,19 +403,24 @@ const getTriggeredData = function (input) {
 
   // Only with event data (for Item, Thing & Channel triggers)
   if (event) {
+    try {
+      data.itemName = event.getItemName();
+    } catch (e) {
+      // do nothing
+    }
     switch (Java.typeName(event.class)) {
+      case 'org.openhab.core.items.events.GroupItemCommandEvent':
       case 'org.openhab.core.items.events.ItemCommandEvent':
-        data.itemName = event.getItemName();
         data.eventType = 'command';
         data.triggerType = 'ItemCommandTrigger';
         break;
+      case 'org.openhab.core.items.events.GroupItemStateChangedEvent':
       case 'org.openhab.core.items.events.ItemStateChangedEvent':
-        data.itemName = event.getItemName();
         data.eventType = 'change';
         data.triggerType = 'ItemStateChangeTrigger';
         break;
+      case 'org.openhab.core.items.events.GroupItemStateEvent':
       case 'org.openhab.core.items.events.ItemStateEvent':
-        data.itemName = event.getItemName();
         data.eventType = 'update';
         data.triggerType = 'ItemStateUpdateTrigger';
         Object.defineProperty(
