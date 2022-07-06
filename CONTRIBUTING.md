@@ -189,6 +189,12 @@ When you write a `mocha` test, put the following on top of the file:
 
 openhab-js uses [TypeScript](https://www.typescriptlang.org/) to generate type definitions from the JSDoc comments.
 
+### MainUI code completion
+
+The code completion in the openHAB web UI is working with a so called tern definition.
+This tern definition has to be updated manually when breaking change happens or when a new feature is added,
+it is located at https://github.com/openhab/openhab-webui/blob/main/bundles/org.openhab.ui/web/src/assets/openhab-js-tern-defs.json.
+
 
 ## Community Guidelines
 
