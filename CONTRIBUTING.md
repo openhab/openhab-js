@@ -157,11 +157,6 @@ openhab-js has several (development) dependencies which are required.
 
 Run `npm install` to install those dependencies.
 
-A few of those dependencies are required to be installed globally:
-```bash
-npm i -g typescript standard standardx snazzy
-```
-
 After you read the following sections, please read the [deployment instructions](./DEPLOY.md) as well.
 
 ### Code style
