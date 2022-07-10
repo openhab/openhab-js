@@ -4,10 +4,6 @@ Want to hack on openHAB? Awesome! Here are instructions to get you
 started. They are probably not perfect, please let us know if anything
 feels wrong or incomplete.
 
-<!-- ## Build Environment
-
-For instructions on setting up your development environment, please
-see our dedicated [IDE setup guide](https://www.openhab.org/docs/developer/). -->
 
 ## Contribution guidelines
 
@@ -28,7 +24,7 @@ that feature *on top of* openHAB.
 
 ### Discuss your design in the discussion forum
 
-We recommend discussing your plans [in the discussion forum](https://community.openhab.org/c/setup-configuration-and-use/scripts-rules/)
+We recommend discussing your plans [in the discussion forum](https://community.openhab.org/tags/c/setup-configuration-and-use/scripts-rules/jsscripting) 
 before starting to code - especially for more ambitious contributions.
 This gives other contributors a chance to point you in the right
 direction, give feedback on your design, and maybe point out if someone
@@ -59,8 +55,9 @@ Update the documentation when creating or modifying features. Test
 your documentation changes for clarity, concision, and correctness, as
 well as a clean documentation build.
 
-Write clean code. Universally formatted code promotes ease of writing, reading,
-and maintenance. 
+Write clean code. 
+Universally formatted code promotes ease of writing, reading, and maintenance. 
+See [code style](#code-style).
 
 Pull requests descriptions should be as clear as possible and include a
 reference to all the issues that they address.
@@ -79,28 +76,6 @@ comment.
 
 Commits that fix or close an issue should include a reference like `Fixes #XXX`,
 which will automatically close the issue when merged.
-
-### Code style
-
-openhab-js uses [`standardx`](https://github.com/standard/standardx) for code linting and formatting.
-
-Code-style is enforced when checks run on a PR.
-
-#### Linting & Formatting
-
-Install `standardx` with `npm install -g standardx snazzy`.
-
-Lint your code with `npm run lint`.
-Fix auto-fixable issuers with `npm run fix-codestyle`.
-
-If you want, you can also use the plugin for your editor, see [StandardJS: Are there text editor plugins?](https://standardjs.com/#are-there-text-editor-plugins).
-
-If `standardx` marks an issue that can't be resolved, you can disable the particular rule, see [How do I disable a rule?](https://standardjs.com/#how-do-i-disable-a-rule).
-
-When you write a `mocha` test, put the following on top of the file:
-```javascript
-/* eslint-env mocha */
-```
 
 ### Sign your work
 
@@ -166,8 +141,55 @@ On the command line you can use `git commit -s` to sign off the commit.
 * Step 2: make yourself useful by contributing code, bugfixes, support etc.
 * Step 3: volunteer on [the discussion group](https://github.com/openhab/openhab-js/issues?labels=question&page=1&state=open)
 
-Don't forget: being a maintainer is a time investment. Make sure you will have time to make yourself available.
+Don't forget: being a maintainer is a time investment. 
+Make sure you will have time to make yourself available.
 You don't have to be a maintainer to make a difference on the project!
+
+
+## Build system
+
+openhab-js is using NodeJS version 12.16.1 as the JS Scripting add-on is currently on this version.
+It is required to use this version as well in your development environment, otherwise you could cause trouble.
+
+Maintainers recommend to use a NodeJS version manager, see [nvm-sh/nvm](https://github.com/nvm-sh/nvm).
+
+openhab-js has several (development) dependencies which are required.
+
+Run `npm install` to install those dependencies.
+
+After you read the following sections, please read the [deployment instructions](./DEPLOY.md) as well.
+
+### Code style
+
+openhab-js uses [`standardx`](https://github.com/standard/standardx) for code linting and formatting.
+
+Code-style is enforced when checks run on a PR.
+
+#### Linting & Formatting
+
+Lint your code with `npm run lint`.
+Fix auto-fixable issuers with `npm run fix-codestyle`.
+
+If you want, you can also use the plugin for your editor, see [StandardJS: Are there text editor plugins?](https://standardjs.com/#are-there-text-editor-plugins).
+
+If `standardx` marks an issue that can't be resolved, you can disable the particular rule for the line or a section, 
+see [How do I disable a rule?](https://standardjs.com/#how-do-i-disable-a-rule).
+
+When you write a `mocha` test, put the following on top of the file:
+```javascript
+/* eslint-env mocha */
+```
+
+### Type definitions
+
+openhab-js uses [TypeScript](https://www.typescriptlang.org/) to generate type definitions from the JSDoc comments.
+
+### MainUI code completion
+
+The code completion in the openHAB web UI is working with a so called tern definition.
+This tern definition has to be updated manually when breaking change happens or when a new feature is added,
+it is located at https://github.com/openhab/openhab-webui/blob/main/bundles/org.openhab.ui/web/src/assets/openhab-js-tern-defs.json.
+
 
 ## Community Guidelines
 

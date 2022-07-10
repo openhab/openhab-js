@@ -11,12 +11,12 @@ This outputs the library as a single JS file to `dist/openhab.js`.
 
 ## TypeScript type definitions
 
-openhab-js has included type definitions which are generated from JSDoc using the TypeScript compiler (`tsc`).
+openhab-js has included type definitions which are generated from JSDoc using the [`typescript`](https://www.npmjs.com/package/typescript) npm module.
 Type definitons allow supercharged auto-completion in your IDE.
 
-``bash
+```bash
 npm run types
-``
+```
 This outputs the type definition files (`*.d.ts`) to `/types`.
 
 Pro tip: Add `// @ts-check` to the top of your `.js` files to enable type checking!
@@ -39,10 +39,10 @@ We have a Github action which will publish this library automatically when a ver
 
 ```bash
 npm test
-export OHJS=2.x.x #replace 2.x.x with version
+export OHJS=2.x.x # replace 2.x.x with version
 git checkout main
 git pull origin
 npm version $OHJS 
-git push origin  #push changes
-git push origin v${OHJS} #push tag
+git push origin  # push changes
+git push origin v${OHJS} # push tag
 ```
