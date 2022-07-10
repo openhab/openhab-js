@@ -117,6 +117,7 @@ const BusEvent = Java.type('org.openhab.core.model.script.actions.BusEvent');
  * @memberof actions
  */
 const Ephemeris = Java.type('org.openhab.core.model.script.actions.Ephemeris');
+
 /**
  * Exec Actions
  *
@@ -130,6 +131,7 @@ const Ephemeris = Java.type('org.openhab.core.model.script.actions.Ephemeris');
  * @memberof actions
  */
 const Exec = Java.type('org.openhab.core.model.script.actions.Exec');
+
 /**
  * HTTP Actions
  *
@@ -157,6 +159,7 @@ const Exec = Java.type('org.openhab.core.model.script.actions.Exec');
  * @memberof actions
  */
 const HTTP = Java.type('org.openhab.core.model.script.actions.HTTP');
+
 /**
  * Log Actions
  *
@@ -172,6 +175,7 @@ const HTTP = Java.type('org.openhab.core.model.script.actions.HTTP');
  * @memberof actions
  */
 const LogAction = Java.type('org.openhab.core.model.script.actions.Log');
+
 /**
  * Ping Actions
  *
@@ -184,6 +188,7 @@ const LogAction = Java.type('org.openhab.core.model.script.actions.Log');
  * @memberof actions
  */
 const Ping = Java.type('org.openhab.core.model.script.actions.Ping');
+
 /**
  * ScriptExecution Actions
  *
@@ -198,6 +203,7 @@ const Ping = Java.type('org.openhab.core.model.script.actions.Ping');
  * @memberof actions
  */
 const ScriptExecution = Java.type('org.openhab.core.model.script.actions.ScriptExecution');
+
 /**
  * Semantics Actions
  *
@@ -219,6 +225,7 @@ const ScriptExecution = Java.type('org.openhab.core.model.script.actions.ScriptE
  * @memberof actions
  */
 const Semantics = Java.type('org.openhab.core.model.script.actions.Semantics');
+
 /**
  * Things Actions
  *
@@ -232,6 +239,7 @@ const Semantics = Java.type('org.openhab.core.model.script.actions.Semantics');
  * @memberof actions
  */
 const ThingsAction = Java.type('org.openhab.core.model.script.actions.Things');
+
 /**
  * Voice Actions
  *
@@ -253,6 +261,29 @@ const ThingsAction = Java.type('org.openhab.core.model.script.actions.Things');
  */
 const Voice = Java.type('org.openhab.core.model.script.actions.Voice');
 
+/**
+ * Cloud Notification Actions
+ *
+ * If the {@link https://www.openhab.org/addons/integrations/openhabcloud/ openHAB Cloud Connector} add-on is installed, notifications can be sent to registered users/devices.
+ *
+ * The static methods of this class are made available as functions in the scripts. This allows a script to send notifications using the openHAB Cloud Connector add-on.
+ * See {@link https://www.openhab.org/docs/configuration/actions.html#cloud-notification-actions Cloud Notification Action Docs} for full documentation.
+ *
+ * @example
+ * NotificationAction.sendNotification('<email>', '<message>'); // to a single myopenHAB user identified by e-mail
+ * NotificationAction.sendBroadcastNotification('<message>'); // to all myopenHAB users
+ * NotificationAction.sendLogNotification('<message>'); // only listed in the notification log
+ *
+ * @name NotificationAction
+ * @memberof actions
+ */
+let NotificationAction;
+try {
+  NotificationAction = Java.type('org.openhab.io.openhabcloud.NotificationAction');
+} catch (error) {
+  if (error.name !== 'TypeError') throw Error(error);
+}
+
 module.exports = {
   Audio,
   BusEvent,
@@ -264,7 +295,8 @@ module.exports = {
   ScriptExecution,
   Semantics,
   Things: ThingsAction,
-  Voice
+  Voice,
+  NotificationAction
 };
 
 exports.get = (...args) => actions.get(...args);

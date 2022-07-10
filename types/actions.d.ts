@@ -216,6 +216,23 @@ declare const ThingsAction: any;
  * @memberof actions
  */
 export const Voice: any;
+/**
+ * Cloud Notification Actions
+ *
+ * If the {@link https://www.openhab.org/addons/integrations/openhabcloud/ openHAB Cloud Connector} add-on is installed, notifications can be sent to registered users/devices.
+ *
+ * The static methods of this class are made available as functions in the scripts. This allows a script to send notifications using the openHAB Cloud Connector add-on.
+ * See {@link https://www.openhab.org/docs/configuration/actions.html#cloud-notification-actions Cloud Notification Action Docs} for full documentation.
+ *
+ * @example
+ * NotificationAction.sendNotification('<email>', '<message>'); // to a single myopenHAB user identified by e-mail
+ * NotificationAction.sendBroadcastNotification('<message>'); // to all myopenHAB users
+ * NotificationAction.sendLogNotification('<message>'); // only listed in the notification log
+ *
+ * @name NotificationAction
+ * @memberof actions
+ */
+export let NotificationAction: any;
 export declare function get(...args: any[]): any;
 export declare function thingActions(bindingId: string, thingUid: string): any;
 export { LogAction as Log, ThingsAction as Things };
