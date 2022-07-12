@@ -10,6 +10,7 @@
         "type": "git",
         "url": "git://github.com/openhab/openhab-js.git"
     },
+    "homepage": "https://www.openhab.org/addons/automation/jsscripting/",
     "dependencies": {
         "@js-joda/core": "^4.3.1",
         "@js-joda/timezone": "^2.11.1",
