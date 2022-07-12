@@ -337,7 +337,7 @@ class Item {
  * @memberof items
  * @private
  * @param {ItemConfig} itemConfig the Item config describing the Item
- * @returns {Item} an {@link items.Item} object
+ * @returns {Item} {@link items.Item}
  * @throws {@link ItemConfig}.name or {@link ItemConfig}.type not set
  * @throws failed to create Item
  */
@@ -392,7 +392,7 @@ const createItem = function (itemConfig) {
  *
  * @memberof items
  * @param {ItemConfig} itemConfig the Item config describing the Item
- * @returns {Item} an {@link items.Item} object
+ * @returns {Item} {@link items.Item}
  * @throws {@link ItemConfig}.name or {@link ItemConfig}.type not set
  * @throws failed to create Item
  */
@@ -481,7 +481,7 @@ const removeItem = function (itemOrItemName) {
  *
  * @memberof items
  * @param {ItemConfig} itemConfig the Item config describing the Item
- * @returns {Item} an {@link items.Item} object
+ * @returns {Item} {@link items.Item}
  * @throws {@link ItemConfig}.name or {@link ItemConfig}.type not set
  * @throws failed to create Item
  */
@@ -507,7 +507,7 @@ const replaceItem = function (itemConfig) {
  * @memberof items
  * @param {string} name the name of the item
  * @param {boolean} [nullIfMissing=false] whether to return null if the item cannot be found (default is to throw an exception)
- * @return {items.Item} the item
+ * @returns {Item} {@link items.Item}
  */
 const getItem = (name, nullIfMissing = false) => {
   try {
@@ -527,7 +527,7 @@ const getItem = (name, nullIfMissing = false) => {
  * Gets all openHAB Items.
  *
  * @memberof items
- * @return {items.Item[]} all items
+ * @returns {Item[]} {@link items.Item}[]: all Items
  */
 const getItems = () => {
   return utils.javaSetToJsArray(itemRegistry.getItems()).map(i => new Item(i));
@@ -538,7 +538,7 @@ const getItems = () => {
  *
  * @memberof items
  * @param {...String} tagNames an array of tags to match against
- * @return {items.Item[]} the items with a tag that is included in the passed tags
+ * @returns {Item[]} {@link items.Item}[]: the Items with a tag that is included in the passed tags
  */
 const getItemsByTag = (...tagNames) => {
   return utils.javaSetToJsArray(itemRegistry.getItemsByTag(tagNames)).map(i => new Item(i));
