@@ -4,6 +4,13 @@
 
 | Type        | Namespace | Description                                                              | Reference                                      | Breaking |
 |-------------|-----------|--------------------------------------------------------------------------|------------------------------------------------|----------|
+
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/3).
+
+## 2.0.1
+
+| Type        | Namespace | Description                                                              | Reference                                      | Breaking |
+|-------------|-----------|--------------------------------------------------------------------------|------------------------------------------------|----------|
 | Bugfix      | `rules`   | Strip dashes in generated rule UIDs                                      | https://github.com/openhab/openhab-js/pull/144 | No       |
 | Bugfix      | `rules`   | Fix `itemName` & `triggerType` unavailable for Group in Item****Triggers | https://github.com/openhab/openhab-js/pull/146 | No       |
 | Enhancement | `actions` | Enable type definitions & Extend with `NotificationAction`               | https://github.com/openhab/openhab-js/pull/148 | No       |
