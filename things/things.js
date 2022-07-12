@@ -227,7 +227,7 @@ class Thing {
  * @memberof things
  * @param {string} uid UID of the thing
  * @param {boolean} [nullIfMissing] whether to return null if the Thing cannot be found (default is to throw an exception)
- * @returns {things.Thing} the Thing
+ * @returns {Thing} {@link things.Thing}
  */
 const getThing = function (uid, nullIfMissing) {
   try {
@@ -247,7 +247,7 @@ const getThing = function (uid, nullIfMissing) {
  * Gets all openHAB Things.
  *
  * @memberof things
- * @returns {things.Thing[]} all Things
+ * @returns {Thing[]} {@link things.Thing}[]: all Things
  */
 const getThings = function () {
   return utils.javaSetToJsArray(thingRegistry.getAll()).map(i => new Thing(i));

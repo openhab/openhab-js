@@ -81,16 +81,16 @@ export class Thing {
  * @memberof things
  * @param {string} uid UID of the thing
  * @param {boolean} [nullIfMissing] whether to return null if the Thing cannot be found (default is to throw an exception)
- * @returns {things.Thing} the Thing
+ * @returns {Thing} {@link things.Thing}
  */
-export function getThing(uid: string, nullIfMissing?: boolean): things.Thing;
+export function getThing(uid: string, nullIfMissing?: boolean): Thing;
 /**
  * Gets all openHAB Things.
  *
  * @memberof things
- * @returns {things.Thing[]} all Things
+ * @returns {Thing[]} {@link things.Thing}[]: all Things
  */
-export function getThings(): things.Thing[];
+export function getThings(): Thing[];
 /**
  * Things namespace.
  * This namespace handles querying and editing openHAB Things.
