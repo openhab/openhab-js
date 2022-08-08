@@ -639,7 +639,7 @@ const alarm = items.getItem('Alarm');
 alarm.postUpdate(time.toZDT(alarm).toToday());
 ```
 
-#### `betweenTimes(start, end)`
+#### `isBetweenTimes(start, end)`
 
 Tests whether this `time.ZonedDateTime` is between the passed in `start` and `end`.
 However, the function only compares the time portion of the three, ignoring the date portion.
@@ -649,9 +649,9 @@ The function takes into account times that span midnight.
 Examples:
 
 ```javascript
-time.toZDT().betweenTimes('22:00', '05:00') // currently between 11:00 pm and 5:00 am
-time.toZDT().betweenTimes(items.getItem('Sunset'), '11:30 PM') // is now between sunset and 11:30 PM?
-time.toZDT(items.getItem('StartTime')).betweenTimes(time.toZDT(), 'PT1H'); // is the state of StartTime between now and one hour from now
+time.toZDT().isBetweenTimes('22:00', '05:00') // currently between 11:00 pm and 5:00 am
+time.toZDT().isBetweenTimes(items.getItem('Sunset'), '11:30 PM') // is now between sunset and 11:30 PM?
+time.toZDT(items.getItem('StartTime')).isBetweenTimes(time.toZDT(), 'PT1H'); // is the state of StartTime between now and one hour from now
 ```
 
 #### `isClose(zdt, maxDur)`
