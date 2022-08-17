@@ -283,8 +283,8 @@ time.ZonedDateTime.prototype.toToday = function () {
  * @returns {boolean} true if this is between start and end
  */
 time.ZonedDateTime.prototype.isBetweenTimes = function (start, end) {
-  const startTime = time.toZDT(start).toLocalTime();
-  const endTime = time.toZDT(end).toLocalTime();
+  const startTime = toZDT(start).toLocalTime();
+  const endTime = toZDT(end).toLocalTime();
   const currTime = this.toLocalTime();
 
   // time range spans midnight
