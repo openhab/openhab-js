@@ -83,16 +83,16 @@ export function safeItemName(s: string): string;
  * @memberof items
  * @param {string} name the name of the item
  * @param {boolean} [nullIfMissing=false] whether to return null if the item cannot be found (default is to throw an exception)
- * @return {items.Item} the item
+ * @returns {Item} {@link items.Item}
  */
-export function getItem(name: string, nullIfMissing?: boolean): items.Item;
+export function getItem(name: string, nullIfMissing?: boolean): Item;
 /**
  * Gets all openHAB Items.
  *
  * @memberof items
- * @return {items.Item[]} all items
+ * @returns {Item[]} {@link items.Item}[]: all Items
  */
-export function getItems(): items.Item[];
+export function getItems(): Item[];
 /**
  * Creates a new item within OpenHab. This Item will persist to the provider regardless of the lifecycle of the script creating it.
  *
@@ -101,7 +101,7 @@ export function getItems(): items.Item[];
  *
  * @memberof items
  * @param {ItemConfig} itemConfig the Item config describing the Item
- * @returns {Item} an {@link items.Item} object
+ * @returns {Item} {@link items.Item}
  * @throws {@link ItemConfig}.name or {@link ItemConfig}.type not set
  * @throws failed to create Item
  */
@@ -111,9 +111,9 @@ export function addItem(itemConfig: ItemConfig): Item;
  *
  * @memberof items
  * @param {...String} tagNames an array of tags to match against
- * @return {items.Item[]} the items with a tag that is included in the passed tags
+ * @returns {Item[]} {@link items.Item}[]: the Items with a tag that is included in the passed tags
  */
-export function getItemsByTag(...tagNames: string[]): items.Item[];
+export function getItemsByTag(...tagNames: string[]): Item[];
 /**
  * Replaces (upserts) an item. If an item exists with the same name, it will be removed and a new item with
  * the supplied parameters will be created in it's place. If an item does not exist with this name, a new
@@ -125,7 +125,7 @@ export function getItemsByTag(...tagNames: string[]): items.Item[];
  *
  * @memberof items
  * @param {ItemConfig} itemConfig the Item config describing the Item
- * @returns {Item} an {@link items.Item} object
+ * @returns {Item} {@link items.Item}
  * @throws {@link ItemConfig}.name or {@link ItemConfig}.type not set
  * @throws failed to create Item
  */
@@ -139,7 +139,7 @@ export function replaceItem(itemConfig: ItemConfig, ...args: any[]): Item;
  * @memberof items
  * @private
  * @param {ItemConfig} itemConfig the Item config describing the Item
- * @returns {Item} an {@link items.Item} object
+ * @returns {Item} {@link items.Item}
  * @throws {@link ItemConfig}.name or {@link ItemConfig}.type not set
  * @throws failed to create Item
  */
