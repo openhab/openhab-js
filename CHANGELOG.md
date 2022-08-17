@@ -4,6 +4,13 @@
 
 | Type        | Namespace | Description                                                              | Reference                                      | Breaking |
 |-------------|-----------|--------------------------------------------------------------------------|------------------------------------------------|----------|
+
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/4).
+
+## 2.0.2
+
+| Type        | Namespace | Description                                                              | Reference                                      | Breaking |
+|-------------|-----------|--------------------------------------------------------------------------|------------------------------------------------|----------|
 | Bugfix      | `time`    | `isBetweenTimes` fails with: TypeError: `time.toZDT` is not a function   | https://github.com/openhab/openhab-js/pull/151 | No       |
 | Enhancement | `items`   | Update JSDoc to fix type definitions for return of getters               | https://github.com/openhab/openhab-js/pull/152 | No       |
 | Enhancement | `things`  | Update JSDoc to fix type definitions for return of getters               | https://github.com/openhab/openhab-js/pull/152 | No       |
