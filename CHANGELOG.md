@@ -4,6 +4,7 @@
 
 | Type        | Namespace | Description                                                              | Reference                                      | Breaking |
 |-------------|-----------|--------------------------------------------------------------------------|------------------------------------------------|----------|
+| Bugfix      | `time`    | `isBetweenTimes` fails with: TypeError: `time.toZDT` is not a function   | https://github.com/openhab/openhab-js/pull/151 | No       |
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/3).
 
