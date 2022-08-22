@@ -750,6 +750,8 @@ triggers.SystemStartlevelTrigger(100) // Startup Complete
 triggers.GenericCronTrigger('0 30 16 * * ? *');
 
 triggers.TimeOfDayTrigger('19:00');
+
+triggers.DateTimeTrigger('MyDateTimeItem');
 ```
 
 You can use `null` for a trigger parameter to skip it‘s configuration.
