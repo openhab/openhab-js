@@ -248,7 +248,7 @@ const TimeOfDayTrigger = (time, triggerName) => createTrigger('timer.TimeOfDayTr
  *
  * @memberof triggers
  * @param {string} itemName the name of the DateTime Item
- * @param {boolean} [timeOnly=false] Specifies whether only the time of the Item should be compared or the date and time. 
+ * @param {boolean} [timeOnly=false] Specifies whether only the time of the Item should be compared or the date and time.
  * @param {string} [triggerName] the optional name of the trigger to create
  */
 const DateTimeTrigger = (itemName, timeOnly = false, triggerName) => createTrigger('timer.DateTimeTrigger', triggerName, {
