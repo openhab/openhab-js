@@ -11,6 +11,7 @@
  *
  * Note:
  * `Group****Trigger`s use the equivalent `Item****Trigger` as trigger for each member.
+ * Time triggers do not provide any event instance, therefore no property is populated.
  *
  * @property {string} oldState only for {@link triggers.ItemStateChangeTrigger} & {@link triggers.GroupStateChangeTrigger}: Previous state of Item or Group that triggered event
  * @property {string} newState only for {@link triggers.ItemStateChangeTrigger} & {@link triggers.GroupStateChangeTrigger}: New state of Item or Group that triggered event
@@ -22,8 +23,8 @@
  * @property {string} oldStatus only for {@link triggers.ThingStatusChangeTrigger}: Previous state of Thing that triggered event
  * @property {string} newStatus only for {@link triggers.ThingStatusChangeTrigger}: New state of Thing that triggered event
  * @property {string} status only for {@link triggers.ThingStatusUpdateTrigger}: State of Thing that triggered event
- * @property {string} eventType for all triggers except {@link triggers.PWMTrigger}, {@link triggers.PIDTrigger}: Type of event that triggered event (change, command, time, triggered, update)
- * @property {string} triggerType for all triggers except {@link triggers.PWMTrigger}, {@link triggers.PIDTrigger}: Type of trigger that triggered event (for `TimeOfDayTrigger`: `GenericCronTrigger`)
+ * @property {string} eventType for all triggers except {@link triggers.PWMTrigger}, {@link triggers.PIDTrigger}, time triggers: Type of event that triggered event (change, command, time, triggered, update)
+ * @property {string} triggerType for all triggers except {@link triggers.PWMTrigger}, {@link triggers.PIDTrigger}, time triggers: Type of trigger that triggered event (for `TimeOfDayTrigger`: `GenericCronTrigger`)
  * @property {*} payload for most triggers
  */
 
