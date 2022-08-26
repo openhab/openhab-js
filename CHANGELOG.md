@@ -2,8 +2,9 @@
 
 ## 2.x.x (to be released)
 
-| Type        | Namespace | Description                                                              | Reference                                      | Breaking |
-|-------------|-----------|--------------------------------------------------------------------------|------------------------------------------------|----------|
+| Type        | Namespace  | Description                                                              | Reference                                      | Breaking |
+|-------------|------------|--------------------------------------------------------------------------|------------------------------------------------|----------|
+| Enhancement | `triggers` | Add DateTime Trigger                                                     | https://github.com/openhab/openhab-js/pull/154 | No       |
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/4).
 

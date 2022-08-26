@@ -750,6 +750,8 @@ triggers.SystemStartlevelTrigger(100) // Startup Complete
 triggers.GenericCronTrigger('0 30 16 * * ? *');
 
 triggers.TimeOfDayTrigger('19:00');
+
+triggers.DateTimeTrigger('MyDateTimeItem');
 ```
 
 You can use `null` for a trigger parameter to skip it‘s configuration.
@@ -894,26 +896,27 @@ The specific data depends on the event type.
 The `event` object provides several information about that trigger.
 
 This tables gives an overview over the `event` object:
-| Property Name     | Trigger Types                                       | Description                                                                         | Rules DSL Equivalent   |
-|-------------------|-----------------------------------------------------|-------------------------------------------------------------------------------------|------------------------|
-| `oldState`        | `ItemStateChangeTrigger`, `GroupStateChangeTrigger` | Previous state of Item or Group that triggered event                                | `previousState`        |
-| `newState`        | `ItemStateChangeTrigger`, `GroupStateChangeTrigger` | New state of Item or Group that triggered event                                     | N/A                    |
-| `receivedState`   | `ItemStateUpdateTrigger`, `GroupStateUpdateTrigger` | State of Item that triggered event                                                  | `triggeringItem.state` |
-| `receivedCommand` | `ItemCommandTrigger`, `GroupCommandTrigger`         | Command that triggered event                                                        | `receivedCommand`      |
-| `itemName`        | `Item****Trigger`                                   | Name of Item that triggered event                                                   | `triggeringItem.name`  |
-| `receivedEvent`   | `ChannelEventTrigger`                               | Channel event that triggered event                                                  | N/A                    |
-| `channelUID`      | `ChannelEventTrigger`                               | UID of channel that triggered event                                                 | N/A                    |
-| `oldStatus`       | `ThingStatusChangeTrigger`                          | Previous state of Thing that triggered event                                        | N/A                    |
-| `newStatus`       | `ThingStatusChangeTrigger`                          | New state of Thing that triggered event                                             | N/A                    |
-| `status`          | `ThingStatusUpdateTrigger`                          | State of Thing that triggered event                                                 | N/A                    |
-| `thingUID`        | `Thing****Trigger`                                  | UID of Thing that triggered event                                                   | N/A                    |
-| `eventType`       | all                                                 | Type of event that triggered event (change, command, time, triggered, update)       | N/A                    |
-| `triggerType`     | all except `PWMTrigger`, `PIDTrigger`               | Type of trigger that triggered event (for `TimeOfDayTrigger`: `GenericCronTrigger`) | N/A                    |
+| Property Name     | Trigger Types                                        | Description                                                                         | Rules DSL Equivalent   |
+|-------------------|------------------------------------------------------|-------------------------------------------------------------------------------------|------------------------|
+| `oldState`        | `ItemStateChangeTrigger`, `GroupStateChangeTrigger`  | Previous state of Item or Group that triggered event                                | `previousState`        |
+| `newState`        | `ItemStateChangeTrigger`, `GroupStateChangeTrigger`  | New state of Item or Group that triggered event                                     | N/A                    |
+| `receivedState`   | `ItemStateUpdateTrigger`, `GroupStateUpdateTrigger`  | State of Item that triggered event                                                  | `triggeringItem.state` |
+| `receivedCommand` | `ItemCommandTrigger`, `GroupCommandTrigger`          | Command that triggered event                                                        | `receivedCommand`      |
+| `itemName`        | `Item****Trigger`                                    | Name of Item that triggered event                                                   | `triggeringItem.name`  |
+| `receivedEvent`   | `ChannelEventTrigger`                                | Channel event that triggered event                                                  | N/A                    |
+| `channelUID`      | `ChannelEventTrigger`                                | UID of channel that triggered event                                                 | N/A                    |
+| `oldStatus`       | `ThingStatusChangeTrigger`                           | Previous state of Thing that triggered event                                        | N/A                    |
+| `newStatus`       | `ThingStatusChangeTrigger`                           | New state of Thing that triggered event                                             | N/A                    |
+| `status`          | `ThingStatusUpdateTrigger`                           | State of Thing that triggered event                                                 | N/A                    |
+| `thingUID`        | `Thing****Trigger`                                   | UID of Thing that triggered event                                                   | N/A                    |
+| `eventType`       | all except `PWMTrigger`, `PIDTrigger`, time triggers | Type of event that triggered event (change, command, triggered, update)             | N/A                    |
+| `triggerType`     | all except `PWMTrigger`, `PIDTrigger`, time triggers | Type of trigger that triggered event                                                | N/A                    |
 
 All properties are typeof `string`.
 
 **NOTE:**
 `Group****Trigger`s use the equivalent `Item****Trigger` as trigger for each member.
+ Time triggers do not provide any event instance, therefore no property is populated.
 
 See [openhab-js : EventObject](https://openhab.github.io/openhab-js/rules.html#.EventObject) for full API documentation.
 

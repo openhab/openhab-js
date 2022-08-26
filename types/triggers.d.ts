@@ -157,6 +157,18 @@ export function GenericCronTrigger(expression: string, triggerName?: string): Ho
  */
 export function TimeOfDayTrigger(time: string, triggerName?: string): HostTrigger;
 /**
+ * Creates a trigger that fires at a (optional) date and time specified in an DateTime Item.
+ *
+ * @example
+ * DateTimeTrigger('MyDateTimeItem');
+ *
+ * @memberof triggers
+ * @param {string} itemName the name of the DateTime Item
+ * @param {boolean} [timeOnly=false] Specifies whether only the time of the Item should be compared or the date and time.
+ * @param {string} [triggerName] the optional name of the trigger to create
+ */
+export function DateTimeTrigger(itemName: string, timeOnly?: boolean, triggerName?: string): HostTrigger;
+/**
  * Creates a trigger for the {@link https://openhab.org/addons/automation/pwm/ Pulse Width Modulation (PWM) Automation} add-on.
  *
  * @example

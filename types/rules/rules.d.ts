@@ -3,6 +3,7 @@
  *
  * Note:
  * `Group****Trigger`s use the equivalent `Item****Trigger` as trigger for each member.
+ * Time triggers do not provide any event instance, therefore no property is populated.
  */
 export type EventObject = {
     /**
@@ -46,11 +47,11 @@ export type EventObject = {
      */
     status: string;
     /**
-     * for all triggers except {@link triggers.PWMTrigger }, {@link triggers.PIDTrigger }: Type of event that triggered event (change, command, time, triggered, update)
+     * for all triggers except {@link triggers.PWMTrigger }, {@link triggers.PIDTrigger }, time triggers: Type of event that triggered event (change, command, time, triggered, update)
      */
     eventType: string;
     /**
-     * for all triggers except {@link triggers.PWMTrigger }, {@link triggers.PIDTrigger }: Type of trigger that triggered event (for `TimeOfDayTrigger`: `GenericCronTrigger`)
+     * for all triggers except {@link triggers.PWMTrigger }, {@link triggers.PIDTrigger }, time triggers: Type of trigger that triggered event (for `TimeOfDayTrigger`: `GenericCronTrigger`)
      */
     triggerType: string;
     /**

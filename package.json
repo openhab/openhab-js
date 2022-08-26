@@ -21,7 +21,7 @@
         "docs": "rm -Rf ./docs/* && ./node_modules/.bin/jsdoc --configure docs_config.json && mv ./docs/$npm_package_name/$npm_package_version/* ./docs/ && rm -Rf ./docs/$npm_package_name/$npm_package_version",
         "deploy": "npm test && npm run docs",
         "lint": "npx standardx | snazzy",
-        "fix-codestyle": "npx standardx --fix",
+        "lint:fix": "npx standardx --fix",
         "webpack": "webpack",
         "types": "tsc"
     },

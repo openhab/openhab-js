@@ -168,7 +168,7 @@ Code-style is enforced when checks run on a PR.
 #### Linting & Formatting
 
 Lint your code with `npm run lint`.
-Fix auto-fixable issuers with `npm run fix-codestyle`.
+Fix auto-fixable issuers with `npm run lint:fix`.
 
 If you want, you can also use the plugin for your editor, see [StandardJS: Are there text editor plugins?](https://standardjs.com/#are-there-text-editor-plugins).
 
