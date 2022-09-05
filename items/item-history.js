@@ -11,8 +11,8 @@ const DateTime = Java.type('java.time.ZonedDateTime');
  * @hideconstructor
  */
 class ItemHistory {
-  constructor (item) {
-    this.item = item;
+  constructor (rawItem) {
+    this.rawItem = rawItem;
   }
 
   /**
@@ -27,7 +27,7 @@ class ItemHistory {
      * @returns {(Number | null)}
      */
   averageSince (timestamp, serviceId) {
-    return this._decimalOrNull(PersistenceExtensions.averageSince(this.item, ...arguments));
+    return this._decimalOrNull(PersistenceExtensions.averageSince(this.rawItem, ...arguments));
   }
 
   /**
@@ -38,7 +38,7 @@ class ItemHistory {
      * @returns {boolean}
      */
   changedSince (timestamp, serviceId) {
-    return PersistenceExtensions.changedSince(this.item, ...arguments);
+    return PersistenceExtensions.changedSince(this.rawItem, ...arguments);
   }
 
   /**
@@ -49,7 +49,7 @@ class ItemHistory {
      * @returns {(Number | null)}
      */
   deltaSince (timestamp, serviceId) {
-    return this._decimalOrNull(PersistenceExtensions.deltaSince(this.item, ...arguments));
+    return this._decimalOrNull(PersistenceExtensions.deltaSince(this.rawItem, ...arguments));
   }
 
   /**
@@ -60,7 +60,7 @@ class ItemHistory {
      * @returns {(Number | null)}
      */
   deviationSince (timestamp, serviceId) {
-    return this._decimalOrNull(PersistenceExtensions.deviationSince(this.item, ...arguments));
+    return this._decimalOrNull(PersistenceExtensions.deviationSince(this.rawItem, ...arguments));
   }
 
   /**
@@ -71,7 +71,7 @@ class ItemHistory {
      * @returns {(Number | null)}
      */
   evolutionRate (timestamp, serviceId) {
-    return this._decimalOrNull(PersistenceExtensions.evolutionRate(this.item, ...arguments));
+    return this._decimalOrNull(PersistenceExtensions.evolutionRate(this.rawItem, ...arguments));
   }
 
   /**
@@ -82,7 +82,7 @@ class ItemHistory {
      * @returns {*} state
      */
   historicState (timestamp, serviceId) {
-    return this._stateOrNull(PersistenceExtensions.historicState(this.item, ...arguments));
+    return this._stateOrNull(PersistenceExtensions.historicState(this.rawItem, ...arguments));
   }
 
   /**
@@ -92,7 +92,7 @@ class ItemHistory {
      * @returns {(ZonedDateTime | null)}
      */
   lastUpdate (serviceId) {
-    return this._dateOrNull(PersistenceExtensions.lastUpdate(this.item, ...arguments));
+    return this._dateOrNull(PersistenceExtensions.lastUpdate(this.rawItem, ...arguments));
   }
 
   /**
@@ -103,7 +103,7 @@ class ItemHistory {
      * @returns {*} state
      */
   maximumSince (timestamp, serviceId) {
-    return this._stateOrNull(PersistenceExtensions.maximumSince(this.item, ...arguments));
+    return this._stateOrNull(PersistenceExtensions.maximumSince(this.rawItem, ...arguments));
   }
 
   /**
@@ -114,7 +114,7 @@ class ItemHistory {
      * @returns {*} state
      */
   minimumSince (timestamp, serviceId) {
-    return this._stateOrNull(PersistenceExtensions.minimumSince(this.item, ...arguments));
+    return this._stateOrNull(PersistenceExtensions.minimumSince(this.rawItem, ...arguments));
   }
 
   /**
@@ -123,7 +123,7 @@ class ItemHistory {
      * @param {string} [serviceId] optional persistance service ID
      */
   persist (serviceId) {
-    PersistenceExtensions.persist(this.item, ...arguments);
+    PersistenceExtensions.persist(this.rawItem, ...arguments);
   }
 
   /**
@@ -134,7 +134,7 @@ class ItemHistory {
      * @returns {*} state
      */
   previousState (skipEqual, serviceId) {
-    return this._stateOrNull(PersistenceExtensions.previousState(this.item, ...arguments));
+    return this._stateOrNull(PersistenceExtensions.previousState(this.rawItem, ...arguments));
   }
 
   /**
@@ -145,7 +145,7 @@ class ItemHistory {
      * @returns {(Number | null)}
      */
   sumSince (timestamp, serviceId) {
-    return this._decimalOrNull(PersistenceExtensions.sumSince(this.item, ...arguments));
+    return this._decimalOrNull(PersistenceExtensions.sumSince(this.rawItem, ...arguments));
   }
 
   /**
@@ -156,7 +156,7 @@ class ItemHistory {
      * @returns {boolean}
      */
   updatedSince (timestamp, serviceId) {
-    return PersistenceExtensions.updatedSince(this.item, ...arguments);
+    return PersistenceExtensions.updatedSince(this.rawItem, ...arguments);
   }
 
   /**
@@ -167,7 +167,7 @@ class ItemHistory {
      * @returns {*} state
      */
   varianceSince (timestamp, serviceId) {
-    return this._stateOrNull(PersistenceExtensions.varianceSince(this.item, ...arguments));
+    return this._stateOrNull(PersistenceExtensions.varianceSince(this.rawItem, ...arguments));
   }
 
   /**
@@ -179,14 +179,23 @@ class ItemHistory {
     return this.historicState(DateTime.now(), ...arguments);
   }
 
+  /**
+   * @private
+   */
   _stateOrNull (result) {
     return result === null ? null : result.state;
   }
 
+  /**
+   * @private
+   */
   _dateOrNull (result) {
     return result === null ? null : time.ZonedDateTime.parse(result.toString());
   }
 
+  /**
+   * @private
+   */
   _decimalOrNull (result) {
     return result === null ? null : result.toBigDecimal();
   }

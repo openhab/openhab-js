@@ -128,8 +128,17 @@ declare class ItemHistory {
        * @returns {*} state
        */
     latestState(serviceId?: string, ...args: any[]): any;
-    _stateOrNull(result: any): any;
-    _dateOrNull(result: any): JSJoda.ZonedDateTime;
-    _decimalOrNull(result: any): any;
+    /**
+     * @private
+     */
+    private _stateOrNull;
+    /**
+     * @private
+     */
+    private _dateOrNull;
+    /**
+     * @private
+     */
+    private _decimalOrNull;
 }
 //# sourceMappingURL=item-history.d.ts.map
