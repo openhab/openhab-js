@@ -7,127 +7,205 @@ export = ItemHistory;
  * @hideconstructor
  */
 declare class ItemHistory {
-    constructor(item: any);
-    item: any;
+    constructor(rawItem: any);
+    rawItem: any;
+    /**
+     * Gets the average value of the state of a given Item between two certain points in time.
+     *
+     * @param {ZoneDateTime} begin begin
+     * @param {ZoneDateTime} end end
+     * @param {string} [serviceId] optional persistance service ID
+     * @returns {(number | null)}
+     */
+    averageBetween(begin: ZoneDateTime, end: ZoneDateTime, serviceId?: string, ...args: any[]): (number | null);
     /**
        * Gets the average value of the state of a given Item since a certain point in time.
        *
-       * @example
-       * var item = items.getItem("KitchenDimmer");
-       * console.log("KitchenDimmer averageSince", item.history.averageSince(yesterday));
-       *
-       * @param {(Date | ZoneDateTime)} timestamp
+       * @param {ZoneDateTime} timestamp
        * @param {string} [serviceId] optional persistance service ID
-       * @returns {(Number | null)}
+       * @returns {(number | null)}
        */
-    averageSince(timestamp: (Date | ZoneDateTime), serviceId?: string, ...args: any[]): (number | null);
+    averageSince(timestamp: ZoneDateTime, serviceId?: string, ...args: any[]): (number | null);
     /**
-       * Checks if the state of a given item has changed since a certain point in time.
+     * Checks if the state of a given Item has changed between two certain points in time.
+     *
+     * @param {ZoneDateTime} begin begin
+     * @param {ZoneDateTime} end end
+     * @param {string} [serviceId] optional persistance service ID
+     * @returns {boolean}
+     */
+    changedBetween(begin: ZoneDateTime, end: ZoneDateTime, serviceId?: string, ...args: any[]): boolean;
+    /**
+       * Checks if the state of a given Item has changed since a certain point in time.
        *
-       * @param {(Date | ZoneDateTime)} timestamp
+       * @param {ZoneDateTime} timestamp
        * @param {string} [serviceId] optional persistance service ID
        * @returns {boolean}
        */
-    changedSince(timestamp: (Date | ZoneDateTime), serviceId?: string, ...args: any[]): boolean;
+    changedSince(timestamp: ZoneDateTime, serviceId?: string, ...args: any[]): boolean;
     /**
-       * Gets the difference value of the state of a given item since a certain point in time.
+     * Gets the difference value of the state of a given Item between two certain points in time.
+     *
+     * @param {ZoneDateTime} begin begin
+     * @param {ZoneDateTime} end end
+     * @param {string} [serviceId] optional persistance service ID
+     * @returns {(number | null)}
+     */
+    deltaBetween(begin: ZoneDateTime, end: ZoneDateTime, serviceId?: string, ...args: any[]): (number | null);
+    /**
+       * Gets the difference value of the state of a given Item since a certain point in time.
        *
-       * @param {(Date | ZoneDateTime)} timestamp
+       * @param {ZoneDateTime} timestamp
        * @param {string} [serviceId] optional persistance service ID
-       * @returns {(Number | null)}
+       * @returns {(number | null)}
        */
-    deltaSince(timestamp: (Date | ZoneDateTime), serviceId?: string, ...args: any[]): (number | null);
+    deltaSince(timestamp: ZoneDateTime, serviceId?: string, ...args: any[]): (number | null);
+    /**
+     * Gets the standard deviation of the state of the given Item between two certain points in time.
+     *
+     * @param {ZoneDateTime} begin begin
+     * @param {ZoneDateTime} end end
+     * @param {string} [serviceId] optional persistance service ID
+     * @returns {(number | null)}
+     */
+    deviationBetween(begin: ZoneDateTime, end: ZoneDateTime, serviceId?: string, ...args: any[]): (number | null);
     /**
        * Gets the standard deviation of the state of the given Item since a certain point in time.
        *
-       * @param {(Date | ZoneDateTime)} timestamp
+       * @param {ZoneDateTime} timestamp
        * @param {string} [serviceId] optional persistance service ID
-       * @returns {(Number | null)}
+       * @returns {(number | null)}
        */
-    deviationSince(timestamp: (Date | ZoneDateTime), serviceId?: string, ...args: any[]): (number | null);
+    deviationSince(timestamp: ZoneDateTime, serviceId?: string, ...args: any[]): (number | null);
     /**
        * Gets the evolution rate of the state of a given Item since a certain point in time.
        *
-       * @param {(Date | ZoneDateTime)} timestamp
+       * @param {ZoneDateTime} timestamp
        * @param {string} [serviceId] optional persistance service ID
-       * @returns {(Number | null)}
+       * @returns {(number | null)}
        */
-    evolutionRate(timestamp: (Date | ZoneDateTime), serviceId?: string, ...args: any[]): (number | null);
+    evolutionRate(timestamp: ZoneDateTime, serviceId?: string, ...args: any[]): (number | null);
     /**
-       * Retrieves the historic item state for a given item at a certain point in time.
+       * Retrieves the historic state for a given Item at a certain point in time.
        *
-       * @param {(Date | ZoneDateTime)} timestamp
+       * @param {ZoneDateTime} timestamp
        * @param {string} [serviceId] optional persistance service ID
        * @returns {*} state
        */
-    historicState(timestamp: (Date | ZoneDateTime), serviceId?: string, ...args: any[]): any;
+    historicState(timestamp: ZoneDateTime, serviceId?: string, ...args: any[]): any;
     /**
-       * Query the last update time of a given item.
-       *
-       * @param {string} [serviceId] optional persistance service ID
-       * @returns {(ZonedDateTime | null)}
-       */
+     * Query the last update time of a given Item.
+     *
+     * @param {string} [serviceId] optional persistance service ID
+     * @returns {(ZonedDateTime | null)}
+     */
     lastUpdate(serviceId?: string, ...args: any[]): (ZonedDateTime | null);
     /**
-       * Gets the historic item with the maximum value of the state of a given item since a certain point in time.
-       *
-       * @param {(Date | ZoneDateTime)} timestamp
-       * @param {string} [serviceId] optional persistance service ID
-       * @returns {*} state
-       */
-    maximumSince(timestamp: (Date | ZoneDateTime), serviceId?: string, ...args: any[]): any;
+     * Gets the maximum value of the historic state of a given Item between two certain points in time.
+     *
+     * @param {ZoneDateTime} begin begin
+     * @param {ZoneDateTime} end end
+     * @param {string} [serviceId] optional persistance service ID
+     * @returns {(string | null)} state or null
+     */
+    maximumBetween(begin: ZoneDateTime, end: ZoneDateTime, serviceId?: string, ...args: any[]): (string | null);
     /**
-       * Gets the historic item with the minimum value of the state of a given item since a certain point in time.
-       *
-       * @param {(Date | ZoneDateTime)} timestamp
-       * @param {string} [serviceId] optional persistance service ID
-       * @returns {*} state
-       */
-    minimumSince(timestamp: (Date | ZoneDateTime), serviceId?: string, ...args: any[]): any;
+     * Gets the maximum value of the historic state of a given Item since a certain point in time.
+     *
+     * @param {ZoneDateTime} timestamp
+     * @param {string} [serviceId] optional persistance service ID
+     * @returns {(string | null)} state or null
+     */
+    maximumSince(timestamp: ZoneDateTime, serviceId?: string, ...args: any[]): (string | null);
     /**
-       * Persists the state of a given item
-       *
-       * @param {string} [serviceId] optional persistance service ID
-       */
+     * Gets the minimum value of the historic state of a given Item between two certain points in time.
+     *
+     * @param {ZoneDateTime} begin begin
+     * @param {ZoneDateTime} end end
+     * @param {string} [serviceId] optional persistance service ID
+     * @returns {(string | null)} state or null
+     */
+    minimumBetween(begin: ZoneDateTime, end: ZoneDateTime, serviceId?: string, ...args: any[]): (string | null);
+    /**
+     * Gets the minimum value of the historic state of a given Item since a certain point in time.
+     *
+     * @param {ZoneDateTime} timestamp
+     * @param {string} [serviceId] optional persistance service ID
+     * @returns {(string | null)} state or null
+     */
+    minimumSince(timestamp: ZoneDateTime, serviceId?: string, ...args: any[]): (string | null);
+    /**
+     * Persists the state of a given Item.
+     *
+     * @param {string} [serviceId] optional persistance service ID
+     */
     persist(serviceId?: string, ...args: any[]): void;
     /**
-       * Returns the previous state of a given item.
-       *
-       * @param {boolean} [skipEqual] optional, if true, skips equal state values and searches the first state not equal the current state
-       * @param {string} [serviceId] optional persistance service ID
-       * @returns {*} state
-       */
-    previousState(skipEqual?: boolean, serviceId?: string, ...args: any[]): any;
+     * Returns the previous state of a given Item.
+     *
+     * @param {boolean} [skipEqual] optional, if true, skips equal state values and searches the first state not equal the current state
+     * @param {string} [serviceId] optional persistance service ID
+     * @returns {(string | null)} state or null
+     */
+    previousState(skipEqual?: boolean, serviceId?: string, ...args: any[]): (string | null);
     /**
-       * Gets the sum of the state of a given item since a certain point in time.
-       *
-       * @param {(Date | ZoneDateTime)} timestamp
-       * @param {string} [serviceId] optional persistance service ID
-       * @returns {(Number | null)}
-       */
-    sumSince(timestamp: (Date | ZoneDateTime), serviceId?: string, ...args: any[]): (number | null);
+     * Gets the sum of the states of a given Item between two certain points in time.
+     *
+     * @param {ZoneDateTime} begin begin
+     * @param {ZoneDateTime} end end
+     * @param {string} [serviceId] optional persistance service ID
+     * @returns {(number | null)}
+     */
+    sumBetween(begin: ZoneDateTime, end: ZoneDateTime, serviceId?: string, ...args: any[]): (number | null);
     /**
-       * Checks if the state of a given item has been updated since a certain point in time.
-       *
-       * @param {(Date | ZoneDateTime)} timestamp
-       * @param {string} [serviceId] optional persistance service ID
-       * @returns {boolean}
-       */
-    updatedSince(timestamp: (Date | ZoneDateTime), serviceId?: string, ...args: any[]): boolean;
+     * Gets the sum of the states of a given Item since a certain point in time.
+     *
+     * @param {ZoneDateTime} timestamp
+     * @param {string} [serviceId] optional persistance service ID
+     * @returns {(number | null)}
+     */
+    sumSince(timestamp: ZoneDateTime, serviceId?: string, ...args: any[]): (number | null);
     /**
-       * Gets the variance of the state of the given Item since a certain point in time.
-       *
-       * @param {(Date | ZoneDateTime)} timestamp
-       * @param {string} [serviceId] optional persistance service ID
-       * @returns {*} state
-       */
-    varianceSince(timestamp: (Date | ZoneDateTime), serviceId?: string, ...args: any[]): any;
+     * Checks if the state of a given Item has been updated between two certain points in time.
+     *
+     * @param {ZoneDateTime} begin begin
+     * @param {ZoneDateTime} end end
+     * @param {string} [serviceId] optional persistance service ID
+     * @returns {boolean}
+     */
+    updatedBetween(begin: ZoneDateTime, end: ZoneDateTime, serviceId?: string, ...args: any[]): boolean;
     /**
-       * Retrieves the historic item state for a given item at the current point in time.
-       * @param {string} [serviceId] optional persistance service ID
-       * @returns {*} state
-       */
-    latestState(serviceId?: string, ...args: any[]): any;
+     * Checks if the state of a given Item has been updated since a certain point in time.
+     *
+     * @param {ZoneDateTime} timestamp
+     * @param {string} [serviceId] optional persistance service ID
+     * @returns {boolean}
+     */
+    updatedSince(timestamp: ZoneDateTime, serviceId?: string, ...args: any[]): boolean;
+    /**
+     * Gets the variance of the state of the given Item between two certain points in time.
+     *
+     * @param {ZoneDateTime} begin begin
+     * @param {ZoneDateTime} end end
+     * @param {string} [serviceId] optional persistance service ID
+     * @returns {(number | null)}
+     */
+    varianceBetween(begin: ZoneDateTime, end: ZoneDateTime, serviceId?: string, ...args: any[]): (number | null);
+    /**
+     * Gets the variance of the state of the given Item since a certain point in time.
+     *
+     * @param {ZoneDateTime} timestamp
+     * @param {string} [serviceId] optional persistance service ID
+     * @returns {(number | null)}
+     */
+    varianceSince(timestamp: ZoneDateTime, serviceId?: string, ...args: any[]): (number | null);
+    /**
+     * Retrieves the historic item state for a given Item at the current point in time.
+     *
+     * @param {string} [serviceId] optional persistance service ID
+     * @returns {(string | null)} state
+     */
+    latestState(serviceId?: string, ...args: any[]): (string | null);
     /**
      * @private
      */
