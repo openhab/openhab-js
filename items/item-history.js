@@ -19,8 +19,8 @@ class ItemHistory {
   /**
    * Gets the average value of the state of a given Item between two certain points in time.
    *
-   * @param {ZoneDateTime} begin begin
-   * @param {ZoneDateTime} end end
+   * @param {(ZonedDateTime | Date)} begin begin
+   * @param {(ZonedDateTime | Date)} end end
    * @param {string} [serviceId] optional persistance service ID
    * @returns {(number | null)}
    */
@@ -31,7 +31,7 @@ class ItemHistory {
   /**
      * Gets the average value of the state of a given Item since a certain point in time.
      *
-     * @param {ZoneDateTime} timestamp
+     * @param {(ZonedDateTime | Date)} timestamp
      * @param {string} [serviceId] optional persistance service ID
      * @returns {(number | null)}
      */
@@ -42,8 +42,8 @@ class ItemHistory {
   /**
    * Checks if the state of a given Item has changed between two certain points in time.
    *
-   * @param {ZoneDateTime} begin begin
-   * @param {ZoneDateTime} end end
+   * @param {(ZonedDateTime | Date)} begin begin
+   * @param {(ZonedDateTime | Date)} end end
    * @param {string} [serviceId] optional persistance service ID
    * @returns {boolean}
    */
@@ -54,7 +54,7 @@ class ItemHistory {
   /**
      * Checks if the state of a given Item has changed since a certain point in time.
      *
-     * @param {ZoneDateTime} timestamp
+     * @param {(ZonedDateTime | Date)} timestamp
      * @param {string} [serviceId] optional persistance service ID
      * @returns {boolean}
      */
@@ -65,8 +65,8 @@ class ItemHistory {
   /**
    * Gets the difference value of the state of a given Item between two certain points in time.
    *
-   * @param {ZoneDateTime} begin begin
-   * @param {ZoneDateTime} end end
+   * @param {(ZonedDateTime | Date)} begin begin
+   * @param {(ZonedDateTime | Date)} end end
    * @param {string} [serviceId] optional persistance service ID
    * @returns {(number | null)}
    */
@@ -77,7 +77,7 @@ class ItemHistory {
   /**
      * Gets the difference value of the state of a given Item since a certain point in time.
      *
-     * @param {ZoneDateTime} timestamp
+     * @param {(ZonedDateTime | Date)} timestamp
      * @param {string} [serviceId] optional persistance service ID
      * @returns {(number | null)}
      */
@@ -88,8 +88,8 @@ class ItemHistory {
   /**
    * Gets the standard deviation of the state of the given Item between two certain points in time.
    *
-   * @param {ZoneDateTime} begin begin
-   * @param {ZoneDateTime} end end
+   * @param {(ZonedDateTime | Date)} begin begin
+   * @param {(ZonedDateTime | Date)} end end
    * @param {string} [serviceId] optional persistance service ID
    * @returns {(number | null)}
    */
@@ -100,7 +100,7 @@ class ItemHistory {
   /**
      * Gets the standard deviation of the state of the given Item since a certain point in time.
      *
-     * @param {ZoneDateTime} timestamp
+     * @param {(ZonedDateTime | Date)} timestamp
      * @param {string} [serviceId] optional persistance service ID
      * @returns {(number | null)}
      */
@@ -111,7 +111,7 @@ class ItemHistory {
   /**
      * Gets the evolution rate of the state of a given Item since a certain point in time.
      *
-     * @param {ZoneDateTime} timestamp
+     * @param {(ZonedDateTime | Date)} timestamp
      * @param {string} [serviceId] optional persistance service ID
      * @returns {(number | null)}
      */
@@ -122,7 +122,7 @@ class ItemHistory {
   /**
      * Retrieves the historic state for a given Item at a certain point in time.
      *
-     * @param {ZoneDateTime} timestamp
+     * @param {(ZonedDateTime | Date)} timestamp
      * @param {string} [serviceId] optional persistance service ID
      * @returns {*} state
      */
@@ -143,8 +143,8 @@ class ItemHistory {
   /**
    * Gets the maximum value of the historic state of a given Item between two certain points in time.
    *
-   * @param {ZoneDateTime} begin begin
-   * @param {ZoneDateTime} end end
+   * @param {(ZonedDateTime | Date)} begin begin
+   * @param {(ZonedDateTime | Date)} end end
    * @param {string} [serviceId] optional persistance service ID
    * @returns {(string | null)} state or null
    */
@@ -155,7 +155,7 @@ class ItemHistory {
   /**
    * Gets the maximum value of the historic state of a given Item since a certain point in time.
    *
-   * @param {ZoneDateTime} timestamp
+   * @param {(ZonedDateTime | Date)} timestamp
    * @param {string} [serviceId] optional persistance service ID
    * @returns {(string | null)} state or null
    */
@@ -166,8 +166,8 @@ class ItemHistory {
   /**
    * Gets the minimum value of the historic state of a given Item between two certain points in time.
    *
-   * @param {ZoneDateTime} begin begin
-   * @param {ZoneDateTime} end end
+   * @param {(ZonedDateTime | Date)} begin begin
+   * @param {(ZonedDateTime | Date)} end end
    * @param {string} [serviceId] optional persistance service ID
    * @returns {(string | null)} state or null
    */
@@ -178,7 +178,7 @@ class ItemHistory {
   /**
    * Gets the minimum value of the historic state of a given Item since a certain point in time.
    *
-   * @param {ZoneDateTime} timestamp
+   * @param {(ZonedDateTime | Date)} timestamp
    * @param {string} [serviceId] optional persistance service ID
    * @returns {(string | null)} state or null
    */
@@ -209,8 +209,8 @@ class ItemHistory {
   /**
    * Gets the sum of the states of a given Item between two certain points in time.
    *
-   * @param {ZoneDateTime} begin begin
-   * @param {ZoneDateTime} end end
+   * @param {(ZonedDateTime | Date)} begin begin
+   * @param {(ZonedDateTime | Date)} end end
    * @param {string} [serviceId] optional persistance service ID
    * @returns {(number | null)}
    */
@@ -221,7 +221,7 @@ class ItemHistory {
   /**
    * Gets the sum of the states of a given Item since a certain point in time.
    *
-   * @param {ZoneDateTime} timestamp
+   * @param {(ZonedDateTime | Date)} timestamp
    * @param {string} [serviceId] optional persistance service ID
    * @returns {(number | null)}
    */
@@ -232,8 +232,8 @@ class ItemHistory {
   /**
    * Checks if the state of a given Item has been updated between two certain points in time.
    *
-   * @param {ZoneDateTime} begin begin
-   * @param {ZoneDateTime} end end
+   * @param {(ZonedDateTime | Date)} begin begin
+   * @param {(ZonedDateTime | Date)} end end
    * @param {string} [serviceId] optional persistance service ID
    * @returns {boolean}
    */
@@ -244,7 +244,7 @@ class ItemHistory {
   /**
    * Checks if the state of a given Item has been updated since a certain point in time.
    *
-   * @param {ZoneDateTime} timestamp
+   * @param {(ZonedDateTime | Date)} timestamp
    * @param {string} [serviceId] optional persistance service ID
    * @returns {boolean}
    */
@@ -255,8 +255,8 @@ class ItemHistory {
   /**
    * Gets the variance of the state of the given Item between two certain points in time.
    *
-   * @param {ZoneDateTime} begin begin
-   * @param {ZoneDateTime} end end
+   * @param {(ZonedDateTime | Date)} begin begin
+   * @param {(ZonedDateTime | Date)} end end
    * @param {string} [serviceId] optional persistance service ID
    * @returns {(number | null)}
    */
@@ -267,7 +267,7 @@ class ItemHistory {
   /**
    * Gets the variance of the state of the given Item since a certain point in time.
    *
-   * @param {ZoneDateTime} timestamp
+   * @param {(ZonedDateTime | Date)} timestamp
    * @param {string} [serviceId] optional persistance service ID
    * @returns {(number | null)}
    */
