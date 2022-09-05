@@ -1,6 +1,7 @@
 export = ItemHistory;
 /**
- * Class representing the historic state of an openHAB Item
+ * Class representing the historic state of an openHAB Item.
+ * Wrapping the {@link https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/extensions/persistenceextensions PersistenceExtensions}.
  *
  *
  * @memberOf items
