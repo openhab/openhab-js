@@ -270,7 +270,7 @@ Calling `getItem(...)` returns an `Item` object with the following properties:
     * .type ⇒ <code>String</code>
     * .name ⇒ <code>String</code>
     * .label ⇒ <code>String</code>
-    * .history ⇒ <code>ItemHistory</code>
+    * .history ⇒ [`ItemHistory`](https://openhab.github.io/openhab-js/items.ItemHistory.html)
     * .state ⇒ <code>String</code>
     * .rawState ⇒ <code>HostState</code>
     * .members ⇒ <code>Array.&lt;Item&gt;</code>
@@ -358,35 +358,7 @@ items.replaceItem({
 });
 ```
 
-See [openhab-js : ItemConfig](https://openhab.github.io/openhab-js/items.html#.ItemConfig) for full API documentation.
-
-#### `item.history`
-Calling `item.history` returns a ItemHistory object with the following functions:
-
-* ItemHistory : <code>object</code>
-    * .averageSince(timestamp, serviceId) ⇒ <code>Number</code>
-    * .changedSince(timestamp, serviceId) ⇒ <code>Number</code>
-    * .deltaSince(timestamp, serviceId) ⇒ <code>Number</code>
-    * .deviationSince(timestamp, serviceId) ⇒ <code>Number</code>
-    * .evolutionRate(timestamp, serviceId) ⇒ <code>Number</code>
-    * .historicState(timestamp, serviceId) ⇒ <code>state</code>
-    * .lastUpdate(serviceId) ⇒ <code>Date</code>
-    * .latestState(serviceId) ⇒ <code>state</code>
-    * .maximumSince(timestamp,serviceId) ⇒ <code>state</code>
-    * .minimumSince(timestamp,serviceId) ⇒ <code>state</code>
-    * .persist(serviceId)
-    * .previousState(skipEqual,serviceId) ⇒ <code>state</code>
-    * .sumSince(timestamp, serviceId) ⇒ <code>Number</code>
-    * .updatedSince(timestamp, serviceId) ⇒ <code>Boolean</code>
-    * .varianceSince(timestamp,serviceId) ⇒ <code>state</code>
-
-Note: `serviceId` is optional, if omitted, the default persistance service will be used.
-
-```javascript
-var yesterday = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
-var item = items.getItem("KitchenDimmer");
-console.log("KitchenDimmer averageSince", item.history.averageSince(yesterday));
-```
+See [openhab-js : ItemConfig](https://openhab.github.io/openhab-js/global.html#ItemConfig) for full API documentation.
 
 ### Things
 
