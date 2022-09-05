@@ -166,10 +166,10 @@ export class Item {
     constructor(rawItem: HostItem);
     rawItem: HostItem;
     /**
-         * Access historical states for this item
-         * @type {items.ItemHistory}
+         * Access historical states for this Item {@link items.ItemHistory}
+         * @type {ItemHistory}
          */
-    history: items.ItemHistory;
+    history: ItemHistory;
     /**
        * The type of the item: the Simple (without package) name of the Java item type, such as 'Switch'.
        * @return {string} the type
@@ -308,6 +308,7 @@ export class Item {
        */
     removeTags(...tagNames: string[]): void;
 }
+import ItemHistory = require("./item-history");
 export declare const provider: object;
 export declare function objects(): any;
 //# sourceMappingURL=items.d.ts.map
