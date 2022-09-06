@@ -115,7 +115,7 @@ class ItemHistory {
   /**
    * Gets the evolution rate of the state of a given Item since a certain point in time.
    *
-   * @deprecated
+   * @deprecated Replaced by evolutionRateSince and evolutionRateBetween.
    * @param {(ZonedDateTime | Date)} timestamp
    * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
    * @returns {(number | null)}
