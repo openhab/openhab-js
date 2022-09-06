@@ -19,17 +19,17 @@ declare class ItemHistory {
      */
     averageBetween(begin: (ZonedDateTime | Date), end: (ZonedDateTime | Date), serviceId?: string, ...args: any[]): (number | null);
     /**
-       * Gets the average value of the state of a given Item since a certain point in time.
-       *
-       * @example
-       * var yesterday = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
-       * var item = items.getItem('KitchenDimmer');
-       * console.log('KitchenDimmer average since yesterday', item.history.averageSince(yesterday));
-       *
-       * @param {(ZonedDateTime | Date)} timestamp
-       * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
-       * @returns {(number | null)}
-       */
+     * Gets the average value of the state of a given Item since a certain point in time.
+     *
+     * @example
+     * var yesterday = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
+     * var item = items.getItem('KitchenDimmer');
+     * console.log('KitchenDimmer average since yesterday', item.history.averageSince(yesterday));
+     *
+     * @param {(ZonedDateTime | Date)} timestamp
+     * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
+     * @returns {(number | null)}
+     */
     averageSince(timestamp: (ZonedDateTime | Date), serviceId?: string, ...args: any[]): (number | null);
     /**
      * Checks if the state of a given Item has changed between two certain points in time.
@@ -41,12 +41,12 @@ declare class ItemHistory {
      */
     changedBetween(begin: (ZonedDateTime | Date), end: (ZonedDateTime | Date), serviceId?: string, ...args: any[]): boolean;
     /**
-       * Checks if the state of a given Item has changed since a certain point in time.
-       *
-       * @param {(ZonedDateTime | Date)} timestamp
-       * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
-       * @returns {boolean}
-       */
+     * Checks if the state of a given Item has changed since a certain point in time.
+     *
+     * @param {(ZonedDateTime | Date)} timestamp
+     * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
+     * @returns {boolean}
+     */
     changedSince(timestamp: (ZonedDateTime | Date), serviceId?: string, ...args: any[]): boolean;
     /**
      * Gets the difference value of the state of a given Item between two certain points in time.
@@ -58,12 +58,12 @@ declare class ItemHistory {
      */
     deltaBetween(begin: (ZonedDateTime | Date), end: (ZonedDateTime | Date), serviceId?: string, ...args: any[]): (number | null);
     /**
-       * Gets the difference value of the state of a given Item since a certain point in time.
-       *
-       * @param {(ZonedDateTime | Date)} timestamp
-       * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
-       * @returns {(number | null)}
-       */
+     * Gets the difference value of the state of a given Item since a certain point in time.
+     *
+     * @param {(ZonedDateTime | Date)} timestamp
+     * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
+     * @returns {(number | null)}
+     */
     deltaSince(timestamp: (ZonedDateTime | Date), serviceId?: string, ...args: any[]): (number | null);
     /**
      * Gets the standard deviation of the state of the given Item between two certain points in time.
@@ -75,28 +75,46 @@ declare class ItemHistory {
      */
     deviationBetween(begin: (ZonedDateTime | Date), end: (ZonedDateTime | Date), serviceId?: string, ...args: any[]): (number | null);
     /**
-       * Gets the standard deviation of the state of the given Item since a certain point in time.
-       *
-       * @param {(ZonedDateTime | Date)} timestamp
-       * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
-       * @returns {(number | null)}
-       */
+     * Gets the standard deviation of the state of the given Item since a certain point in time.
+     *
+     * @param {(ZonedDateTime | Date)} timestamp
+     * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
+     * @returns {(number | null)}
+     */
     deviationSince(timestamp: (ZonedDateTime | Date), serviceId?: string, ...args: any[]): (number | null);
     /**
-       * Gets the evolution rate of the state of a given Item since a certain point in time.
-       *
-       * @param {(ZonedDateTime | Date)} timestamp
-       * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
-       * @returns {(number | null)}
-       */
+     * Gets the evolution rate of the state of a given Item since a certain point in time.
+     *
+     * @deprecated
+     * @param {(ZonedDateTime | Date)} timestamp
+     * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
+     * @returns {(number | null)}
+     */
     evolutionRate(timestamp: (ZonedDateTime | Date), serviceId?: string, ...args: any[]): (number | null);
     /**
-       * Retrieves the historic state for a given Item at a certain point in time.
-       *
-       * @param {(ZonedDateTime | Date)} timestamp
-       * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
-       * @returns {*} state
-       */
+     * Gets the evolution rate of the state of a given Item since a certain point in time.
+     *
+     * @param {(ZonedDateTime | Date)} timestamp
+     * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
+     * @returns {(number | null)}
+     */
+    evolutionRateSince(timestamp: (ZonedDateTime | Date), serviceId?: string, ...args: any[]): (number | null);
+    /**
+     * Gets the evolution rate of the state of a given Item between two certain points in time.
+     *
+     * @param {(ZonedDateTime | Date)} begin begin
+     * @param {(ZonedDateTime | Date)} end end
+     * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
+     * @returns {(number | null)}
+     */
+    evolutionRateBetween(begin: (ZonedDateTime | Date), end: (ZonedDateTime | Date), serviceId?: string, ...args: any[]): (number | null);
+    /**
+     * Retrieves the historic state for a given Item at a certain point in time.
+     *
+     * @param {(ZonedDateTime | Date)} timestamp
+     * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
+     * @returns {*} state
+     */
     historicState(timestamp: (ZonedDateTime | Date), serviceId?: string, ...args: any[]): any;
     /**
      * Query the last update time of a given Item.

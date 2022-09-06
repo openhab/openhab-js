@@ -28,17 +28,17 @@ class ItemHistory {
   }
 
   /**
-     * Gets the average value of the state of a given Item since a certain point in time.
-     *
-     * @example
-     * var yesterday = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
-     * var item = items.getItem('KitchenDimmer');
-     * console.log('KitchenDimmer average since yesterday', item.history.averageSince(yesterday));
-     *
-     * @param {(ZonedDateTime | Date)} timestamp
-     * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
-     * @returns {(number | null)}
-     */
+   * Gets the average value of the state of a given Item since a certain point in time.
+   *
+   * @example
+   * var yesterday = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
+   * var item = items.getItem('KitchenDimmer');
+   * console.log('KitchenDimmer average since yesterday', item.history.averageSince(yesterday));
+   *
+   * @param {(ZonedDateTime | Date)} timestamp
+   * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
+   * @returns {(number | null)}
+   */
   averageSince (timestamp, serviceId) {
     return this._decimalOrNull(PersistenceExtensions.averageSince(this.rawItem, ...arguments));
   }
@@ -56,12 +56,12 @@ class ItemHistory {
   }
 
   /**
-     * Checks if the state of a given Item has changed since a certain point in time.
-     *
-     * @param {(ZonedDateTime | Date)} timestamp
-     * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
-     * @returns {boolean}
-     */
+   * Checks if the state of a given Item has changed since a certain point in time.
+   *
+   * @param {(ZonedDateTime | Date)} timestamp
+   * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
+   * @returns {boolean}
+   */
   changedSince (timestamp, serviceId) {
     return PersistenceExtensions.changedSince(this.rawItem, ...arguments);
   }
@@ -79,12 +79,12 @@ class ItemHistory {
   }
 
   /**
-     * Gets the difference value of the state of a given Item since a certain point in time.
-     *
-     * @param {(ZonedDateTime | Date)} timestamp
-     * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
-     * @returns {(number | null)}
-     */
+   * Gets the difference value of the state of a given Item since a certain point in time.
+   *
+   * @param {(ZonedDateTime | Date)} timestamp
+   * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
+   * @returns {(number | null)}
+   */
   deltaSince (timestamp, serviceId) {
     return this._decimalOrNull(PersistenceExtensions.deltaSince(this.rawItem, ...arguments));
   }
@@ -102,34 +102,59 @@ class ItemHistory {
   }
 
   /**
-     * Gets the standard deviation of the state of the given Item since a certain point in time.
-     *
-     * @param {(ZonedDateTime | Date)} timestamp
-     * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
-     * @returns {(number | null)}
-     */
+   * Gets the standard deviation of the state of the given Item since a certain point in time.
+   *
+   * @param {(ZonedDateTime | Date)} timestamp
+   * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
+   * @returns {(number | null)}
+   */
   deviationSince (timestamp, serviceId) {
     return this._decimalOrNull(PersistenceExtensions.deviationSince(this.rawItem, ...arguments));
   }
 
   /**
-     * Gets the evolution rate of the state of a given Item since a certain point in time.
-     *
-     * @param {(ZonedDateTime | Date)} timestamp
-     * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
-     * @returns {(number | null)}
-     */
+   * Gets the evolution rate of the state of a given Item since a certain point in time.
+   *
+   * @deprecated
+   * @param {(ZonedDateTime | Date)} timestamp
+   * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
+   * @returns {(number | null)}
+   */
   evolutionRate (timestamp, serviceId) {
+    console.warn('"evolutionRate" is deprecated and will be removed in the future. Use "evolutionRateSince" instead.');
     return this._decimalOrNull(PersistenceExtensions.evolutionRate(this.rawItem, ...arguments));
   }
 
   /**
-     * Retrieves the historic state for a given Item at a certain point in time.
-     *
-     * @param {(ZonedDateTime | Date)} timestamp
-     * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
-     * @returns {*} state
-     */
+   * Gets the evolution rate of the state of a given Item since a certain point in time.
+   *
+   * @param {(ZonedDateTime | Date)} timestamp
+   * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
+   * @returns {(number | null)}
+   */
+  evolutionRateSince (timestamp, serviceId) {
+    return this._decimalOrNull(PersistenceExtensions.evolutionRate(this.rawItem, ...arguments));
+  }
+
+  /**
+   * Gets the evolution rate of the state of a given Item between two certain points in time.
+   *
+   * @param {(ZonedDateTime | Date)} begin begin
+   * @param {(ZonedDateTime | Date)} end end
+   * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
+   * @returns {(number | null)}
+   */
+  evolutionRateBetween (begin, end, serviceId) {
+    return this._decimalOrNull(PersistenceExtensions.evolutionRate(this.rawItem, ...arguments));
+  }
+
+  /**
+   * Retrieves the historic state for a given Item at a certain point in time.
+   *
+   * @param {(ZonedDateTime | Date)} timestamp
+   * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
+   * @returns {*} state
+   */
   historicState (timestamp, serviceId) {
     return this._stateOrNull(PersistenceExtensions.historicState(this.rawItem, ...arguments));
   }
