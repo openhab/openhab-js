@@ -92,14 +92,6 @@ declare class ItemHistory {
      */
     evolutionRate(timestamp: (ZonedDateTime | Date), serviceId?: string, ...args: any[]): (number | null);
     /**
-     * Gets the evolution rate of the state of a given Item since a certain point in time.
-     *
-     * @param {(ZonedDateTime | Date)} timestamp
-     * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
-     * @returns {(number | null)}
-     */
-    evolutionRateSince(timestamp: (ZonedDateTime | Date), serviceId?: string, ...args: any[]): (number | null);
-    /**
      * Gets the evolution rate of the state of a given Item between two certain points in time.
      *
      * @param {(ZonedDateTime | Date)} begin begin
@@ -109,13 +101,21 @@ declare class ItemHistory {
      */
     evolutionRateBetween(begin: (ZonedDateTime | Date), end: (ZonedDateTime | Date), serviceId?: string, ...args: any[]): (number | null);
     /**
+     * Gets the evolution rate of the state of a given Item since a certain point in time.
+     *
+     * @param {(ZonedDateTime | Date)} timestamp
+     * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
+     * @returns {(number | null)}
+     */
+    evolutionRateSince(timestamp: (ZonedDateTime | Date), serviceId?: string, ...args: any[]): (number | null);
+    /**
      * Retrieves the historic state for a given Item at a certain point in time.
      *
      * @param {(ZonedDateTime | Date)} timestamp
      * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
-     * @returns {*} state
+     * @returns {(string | null)} state
      */
-    historicState(timestamp: (ZonedDateTime | Date), serviceId?: string, ...args: any[]): any;
+    historicState(timestamp: (ZonedDateTime | Date), serviceId?: string, ...args: any[]): (string | null);
     /**
      * Query the last update time of a given Item.
      *
@@ -123,6 +123,13 @@ declare class ItemHistory {
      * @returns {(ZonedDateTime | null)}
      */
     lastUpdate(serviceId?: string, ...args: any[]): (ZonedDateTime | null);
+    /**
+     * Retrieves the historic item state for a given Item at the current point in time.
+     *
+     * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
+     * @returns {(string | null)} state
+     */
+    latestState(serviceId?: string, ...args: any[]): (string | null);
     /**
      * Gets the maximum value of the historic state of a given Item between two certain points in time.
      *
@@ -222,13 +229,6 @@ declare class ItemHistory {
      * @returns {(number | null)}
      */
     varianceSince(timestamp: (ZonedDateTime | Date), serviceId?: string, ...args: any[]): (number | null);
-    /**
-     * Retrieves the historic item state for a given Item at the current point in time.
-     *
-     * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
-     * @returns {(string | null)} state
-     */
-    latestState(serviceId?: string, ...args: any[]): (string | null);
     /**
      * @private
      */

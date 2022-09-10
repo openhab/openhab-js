@@ -270,7 +270,7 @@ Calling `getItem(...)` returns an `Item` object with the following properties:
     * .type ⇒ <code>String</code>
     * .name ⇒ <code>String</code>
     * .label ⇒ <code>String</code>
-    * .history ⇒ [`ItemHistory`](https://openhab.github.io/openhab-js/items.ItemHistory.html)
+    * .history ⇒ [`ItemHistory`](#itemhistory)
     * .state ⇒ <code>String</code>
     * .rawState ⇒ <code>HostState</code>
     * .members ⇒ <code>Array.&lt;Item&gt;</code>
@@ -359,6 +359,47 @@ items.replaceItem({
 ```
 
 See [openhab-js : ItemConfig](https://openhab.github.io/openhab-js/global.html#ItemConfig) for full API documentation.
+
+#### `ItemHistory`
+
+Calling `Item.history` returns a `ItemHistory` object with the following functions:
+
+* ItemHistory :`object`
+    * .averageBetween(begin, end, serviceId) ⇒ `number | null`
+    * .averageSince(timestamp, serviceId) ⇒ `number | null`
+    * .changedBetween(begin, end, serviceId) ⇒ `boolean`
+    * .changedSince(timestamp, serviceId) ⇒ `boolean`
+    * .deltaBetween(begin, end, serviceId) ⇒ `number | null`
+    * .deltaSince(timestamp, serviceId) ⇒ `number | null`
+    * .deviationBetween(begin, end, serviceId) ⇒ `number | null`
+    * .deviationSince(timestamp, serviceId) ⇒ `number | null`
+    * .evolutionRateBetween(begin, end, serviceId) ⇒ `number | null`
+    * .evolutionRateSince(timestamp, serviceId) ⇒ `number | null`
+    * .historicState(timestamp, serviceId) ⇒ `string | null`
+    * .lastUpdate(serviceId) ⇒ `ZonedDateTime | null`
+    * .latestState(serviceId) ⇒ `string | null`
+    * .maximumBetween(begin, end, serviceId) ⇒ `string | null`
+    * .maximumSince(timestamp,serviceId) ⇒ `string | null`
+    * .minimumSince(begin, end, serviceId) ⇒ `string | null`
+    * .minimumSince(timestamp, serviceId) ⇒ `string | null`
+    * .persist(serviceId)
+    * .previousState(skipEqual, serviceId) ⇒ `string | null`
+    * .sumBetween(begin, end, serviceId) ⇒ `number | null`
+    * .sumSince(timestamp, serviceId) ⇒ `number | null`
+    * .updatedBetween(begin, end, serviceId) ⇒ `boolean`
+    * .updatedSince(timestamp, serviceId) ⇒ `boolean`
+    * .varianceBetween(begin, end, serviceId) ⇒ `number | null`
+    * .varianceSince(timestamp, serviceId) ⇒ `number | null`
+
+Note: `serviceId` is optional, if omitted, the default persistance service will be used.
+
+```javascript
+var yesterday = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
+var item = items.getItem(„KitchenDimmer“);
+console.log(„KitchenDimmer averageSince“, item.history.averageSince(yesterday));
+```
+
+See [openhab-js : ItemHistory](https://openhab.github.io/openhab-js/items.ItemHistory.html) for full API documentation.
 
 ### Things
 

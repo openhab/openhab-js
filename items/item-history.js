@@ -126,17 +126,6 @@ class ItemHistory {
   }
 
   /**
-   * Gets the evolution rate of the state of a given Item since a certain point in time.
-   *
-   * @param {(ZonedDateTime | Date)} timestamp
-   * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
-   * @returns {(number | null)}
-   */
-  evolutionRateSince (timestamp, serviceId) {
-    return this._decimalOrNull(PersistenceExtensions.evolutionRate(this.rawItem, ...arguments));
-  }
-
-  /**
    * Gets the evolution rate of the state of a given Item between two certain points in time.
    *
    * @param {(ZonedDateTime | Date)} begin begin
@@ -149,11 +138,22 @@ class ItemHistory {
   }
 
   /**
+   * Gets the evolution rate of the state of a given Item since a certain point in time.
+   *
+   * @param {(ZonedDateTime | Date)} timestamp
+   * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
+   * @returns {(number | null)}
+   */
+  evolutionRateSince (timestamp, serviceId) {
+    return this._decimalOrNull(PersistenceExtensions.evolutionRate(this.rawItem, ...arguments));
+  }
+
+  /**
    * Retrieves the historic state for a given Item at a certain point in time.
    *
    * @param {(ZonedDateTime | Date)} timestamp
    * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
-   * @returns {*} state
+   * @returns {(string | null)} state
    */
   historicState (timestamp, serviceId) {
     return this._stateOrNull(PersistenceExtensions.historicState(this.rawItem, ...arguments));
@@ -167,6 +167,16 @@ class ItemHistory {
    */
   lastUpdate (serviceId) {
     return this._dateOrNull(PersistenceExtensions.lastUpdate(this.rawItem, ...arguments));
+  }
+
+  /**
+   * Retrieves the historic item state for a given Item at the current point in time.
+   *
+   * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
+   * @returns {(string | null)} state
+   */
+  latestState (serviceId) {
+    return this.historicState(DateTime.now(), ...arguments);
   }
 
   /**
@@ -302,16 +312,6 @@ class ItemHistory {
    */
   varianceSince (timestamp, serviceId) {
     return this._decimalOrNull(PersistenceExtensions.varianceSince(this.rawItem, ...arguments));
-  }
-
-  /**
-   * Retrieves the historic item state for a given Item at the current point in time.
-   *
-   * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
-   * @returns {(string | null)} state
-   */
-  latestState (serviceId) {
-    return this.historicState(DateTime.now(), ...arguments);
   }
 
   /**
