@@ -6,6 +6,7 @@ description: "Fairly high-level ES6 library to support automation in openHAB. It
 ---
 
 # openHAB Javascript Library
+
 [![Build
 Status](https://github.com/openhab/openhab-js/actions/workflows/build.yaml/badge.svg)](https://github.com/openhab/openhab-js/actions/workflows/build.yaml) [![npm version](https://badge.fury.io/js/openhab.svg)](https://badge.fury.io/js/openhab)
 
@@ -49,11 +50,12 @@ binding](https://www.openhab.org/addons/automation/jsscripting/).
 
 ### Default Installation
 
-Install the openHAB [JavaScript binding](https://www.openhab.org/addons/automation/jsscripting/), a version of this library will be automatically installed and available to ECMAScript 2021+ rules created using [File Based Rules](#file-based-rules) or [UI Based Rules](#ui-based-rules). 
+Install the openHAB [JavaScript binding](https://www.openhab.org/addons/automation/jsscripting/), a version of this library will be automatically installed and available to ECMAScript 2021+ rules created using [File Based Rules](#file-based-rules) or [UI Based Rules](#ui-based-rules).
 
 By default, openHAB ships with an older JavaScript runtime based on the Nashorn JavaScript engine which is part of the standard JDK.  This is referred to as `ECMA - 262 Edition 5.1` or `application/javascript` in the Main UI.
 
-*This library is not compatible with this older runtime.* 
+*This library is not compatible with this older runtime.*
+
 ### Custom Installation
 
 - Go to the JavaScript user scripts directory: `cd $OPENHAB_CONF/automation/js`
@@ -71,12 +73,13 @@ The quickest way to add rules is through the openHAB Web UI.
 Advanced users, or users migrating scripts from existing systems may want to use [File Based Rules](#file-based-rules) for managing rules using files in the user configuration directory.
 
 ### Adding Triggers
+
 Using the openHAB UI, first create a new rule and set a trigger condition.
 
 ![openHAB Rule Configuration](/images/rule-config.png)
 
-
 ### Adding Actions
+
 Select "Add Action" and then select "Run Script" with "ECMAScript 262 Edition 11".
 It’s important this is "Edition 11" or higher, earlier versions will not work.
 This will bring up a empty script editor where you can enter your JavaScript.
@@ -88,17 +91,20 @@ You can now write rules using standard ES6 JavaScript along with the included op
 ![openHAB Rule Script](/images/rule-script.png)
 
 For example, turning a light on:
+
 ```javascript
 items.getItem("KitchenLight").sendCommand("ON");
 console.log("Kitchen Light State", items.getItem("KitchenLight").state);
 ```
 
 Sending a notification
+
 ```javascript
 actions.NotificationAction.sendNotification("romeo@montague.org", "Balcony door is open");
 ```
 
 Querying the status of a thing
+
 ```javascript
 const thingStatusInfo = actions.Things.getThingStatusInfo("zwave:serial_zstick:512");
 console.log("Thing status",thingStatusInfo.getStatus());
@@ -152,7 +158,7 @@ The library search will look in the path `automation/js/node_modules` in the use
 ### Console
 
 The JS Scripting binding supports the standard `console` object for logging.
-Script debug logging is enabled by default at the `INFO` level, but can be configured using the [console logging]({{base}}/administration/logging.html) commands. 
+Script debug logging is enabled by default at the `INFO` level, but can be configured using the [console logging]({{base}}/administration/logging.html) commands.
 
 ```text
 log:set DEBUG org.openhab.automation.script
@@ -165,6 +171,7 @@ console.loggerName = "custom"
 ```
 
 Supported logging functions include:
+
 - `console.log(obj1 [, obj2, ..., objN])`
 - `console.info(obj1 [, obj2, ..., objN])`
 - `console.warn(obj1 [, obj2, ..., objN])`
@@ -175,13 +182,14 @@ Supported logging functions include:
 Where `obj1 ... objN` is a list of JavaScript objects to output.
 The string representations of each of these objects are appended together in the order listed and output.
 
-See https://developer.mozilla.org/en-US/docs/Web/API/console for more information about console logging.
+See <https://developer.mozilla.org/en-US/docs/Web/API/console> for more information about console logging.
 
 ### Timers
 
 #### SetTimeout
 
 The global `setTimeout()` method sets a timer which executes a function or specified piece of code once the timer expires.
+
 ```javascript
 var timeoutID = setTimeout(function[, delay, arg1, arg2, ...]);
 var timeoutID = setTimeout(function[, delay]);
@@ -189,7 +197,7 @@ var timeoutID = setTimeout(function[, delay]);
 
 The global `clearTimeout()` method cancels a timeout previously established by calling `setTimeout()`.
 
-See https://developer.mozilla.org/en-US/docs/Web/API/setTimeout for more information about `setTimeout()`.
+See <https://developer.mozilla.org/en-US/docs/Web/API/setTimeout> for more information about `setTimeout()`.
 
 openHAB does not return the integer timeoutID as standard JS does, instead it returns an instance of [openHAB Timer](#openhab-timer).
 
@@ -204,24 +212,27 @@ var intervalID = setInterval(function[, delay]);
 
 The global `clearInterval()` method cancels a timed, repeating action which was previously established by a call to `setInterval()`.
 
-NOTE: Timers will not be canceled if a script is deleted or modified, it is up to the user to manage timers.  See using the [cache](#cache) namespace as well as [ScriptLoaded](#scriptloaded) and [ScriptUnLoaded](#scriptunloaded) for a convenient way of managing persisted objects, such as timers between reloads or deletions of scripts.
+NOTE: Timers will not be canceled if a script is deleted or modified, it is up to the user to manage timers.
+See using the [cache](#cache) namespace as well as [ScriptLoaded](#initialization-hook-scriptloaded) and [ScriptUnLoaded](#deinitialization-hook-scriptunloaded) for a convenient way of managing persisted objects, such as timers between reloads or deletions of scripts.
 
-See https://developer.mozilla.org/en-US/docs/Web/API/setInterval for more information about `setInterval()`.
+See <https://developer.mozilla.org/en-US/docs/Web/API/setInterval> for more information about `setInterval()`.
 
 openHAB does not return the integer timeoutID as standard JS does, instead it returns an instance of [openHAB Timer](#openhab-timer).
 
 #### openHAB Timer
 
 A native openHAB Timer instance has the following methods:
-* `cancel()`: Cancels the timer. ⇒ `boolean`: true, if cancellation was successful
-* `getExecutionTime()`: The scheduled execution time or null if timer was cancelled. ⇒ `time.ZonedDateTime` or `null`
-* `isActive()`: Whether the scheduled execution is yet to happen. ⇒ `boolean`
-* `isCancelled()`: Whether the timer has been cancelled. ⇒ `boolean`
-* `isRunning()`: Whether the scheduled code is currently executed. ⇒ `boolean`
-* `hasTerminated()`: Whether the scheduled execution has already terminated. ⇒ `boolean`
-* `reschedule(time.ZonedDateTime)`: Reschedules a timer to a new starting time. This can also be called after a timer has terminated, which will result in another execution of the same code. ⇒ `boolean`: true, if rescheduling was successful
+
+- `cancel()`: Cancels the timer. ⇒ `boolean`: true, if cancellation was successful
+- `getExecutionTime()`: The scheduled execution time or null if timer was cancelled. ⇒ `time.ZonedDateTime` or `null`
+- `isActive()`: Whether the scheduled execution is yet to happen. ⇒ `boolean`
+- `isCancelled()`: Whether the timer has been cancelled. ⇒ `boolean`
+- `isRunning()`: Whether the scheduled code is currently executed. ⇒ `boolean`
+- `hasTerminated()`: Whether the scheduled execution has already terminated. ⇒ `boolean`
+- `reschedule(time.ZonedDateTime)`: Reschedules a timer to a new starting time. This can also be called after a timer has terminated, which will result in another execution of the same code. ⇒ `boolean`: true, if rescheduling was successful
 
 Examples:
+
 ```javascript
 var timer = setTimeout(() => { console.log('Timer expired.'); }, 10000); // Would log 'Timer expired.' in 10s.
 if (timer.isActive()) console.log('Timer is waiting to execute.');
@@ -248,14 +259,14 @@ The items namespace allows interactions with openHAB items.
 
 See [openhab-js : items](https://openhab.github.io/openhab-js/items.html) for full API documentation.
 
-* items : <code>object</code>
-    * .getItem(name, nullIfMissing) ⇒ <code>Item</code>
-    * .getItems() ⇒ <code>Array.&lt;Item&gt;</code>
-    * .getItemsByTag(...tagNames) ⇒ <code>Array.&lt;Item&gt;</code>
-    * .addItem([itemConfig](#itemconfig))
-    * .removeItem(itemOrItemName) ⇒ <code>Boolean</code>
-    * .replaceItem([itemConfig](#itemconfig))
-    * .safeItemName(s) ⇒ <code>String</code>
+- items : <code>object</code>
+  - .getItem(name, nullIfMissing) ⇒ <code>Item</code>
+  - .getItems() ⇒ <code>Array.&lt;Item&gt;</code>
+  - .getItemsByTag(...tagNames) ⇒ <code>Array.&lt;Item&gt;</code>
+  - .addItem([itemConfig](#itemconfig))
+  - .removeItem(itemOrItemName) ⇒ <code>Boolean</code>
+  - .replaceItem([itemConfig](#itemconfig))
+  - .safeItemName(s) ⇒ <code>String</code>
 
 ```javascript
 const item = items.getItem("KitchenLight");
@@ -266,29 +277,29 @@ console.log("Kitchen Light State", item.state);
 
 Calling `getItem(...)` returns an `Item` object with the following properties:
 
-* Item : <code>object</code>
-    * .type ⇒ <code>String</code>
-    * .name ⇒ <code>String</code>
-    * .label ⇒ <code>String</code>
-    * .history ⇒ [`ItemHistory`](#itemhistory)
-    * .state ⇒ <code>String</code>
-    * .rawState ⇒ <code>HostState</code>
-    * .members ⇒ <code>Array.&lt;Item&gt;</code>
-    * .descendents ⇒ <code>Array.&lt;Item&gt;</code>
-    * .isUninitialized ⇒ <code>Boolean</code>
-    * .groupNames ⇒ <code>Array.&lt;String&gt;</code>
-    * .tags ⇒ <code>Array.&lt;String&gt;</code>
-    * .getMetadataValue(namespace) ⇒ <code>String</code>
-    * .updateMetadataValue(namespace, value) ⇒ <code>String</code>
-    * .upsertMetadataValue(namespace, value) ⇒ <code>Boolean</code>
-    * .updateMetadataValues(namespaceToValues)
-    * .sendCommand(value)
-    * .sendCommandIfDifferent(value) ⇒ <code>Boolean</code>
-    * .postUpdate(value)
-    * .addGroups(...groupNamesOrItems)
-    * .removeGroups(...groupNamesOrItems)
-    * .addTags(...tagNames)
-    * .removeTags(...tagNames)
+- Item : <code>object</code>
+  - .type ⇒ <code>String</code>
+  - .name ⇒ <code>String</code>
+  - .label ⇒ <code>String</code>
+  - .history ⇒ [`ItemHistory`](#itemhistory)
+  - .state ⇒ <code>String</code>
+  - .rawState ⇒ <code>HostState</code>
+  - .members ⇒ <code>Array.&lt;Item&gt;</code>
+  - .descendents ⇒ <code>Array.&lt;Item&gt;</code>
+  - .isUninitialized ⇒ <code>Boolean</code>
+  - .groupNames ⇒ <code>Array.&lt;String&gt;</code>
+  - .tags ⇒ <code>Array.&lt;String&gt;</code>
+  - .getMetadataValue(namespace) ⇒ <code>String</code>
+  - .updateMetadataValue(namespace, value) ⇒ <code>String</code>
+  - .upsertMetadataValue(namespace, value) ⇒ <code>Boolean</code>
+  - .updateMetadataValues(namespaceToValues)
+  - .sendCommand(value)
+  - .sendCommandIfDifferent(value) ⇒ <code>Boolean</code>
+  - .postUpdate(value)
+  - .addGroups(...groupNamesOrItems)
+  - .removeGroups(...groupNamesOrItems)
+  - .addTags(...tagNames)
+  - .removeTags(...tagNames)
 
 ```javascript
 const item = items.getItem("KitchenLight");
@@ -301,24 +312,26 @@ console.log("KitchenLight state", item.state)
 ```
 
 #### `itemConfig`
+
 Calling `addItem(itemConfig)` or `replaceItem(itemConfig)` requires the `itemConfig` object with the following properties:
 
-* itemConfig : <code>object</code>
-    * .type ⇒ <code>String</code>
-    * .name ⇒ <code>String</code>
-    * .label ⇒ <code>String</code>
-    * .category (icon) ⇒ <code>String</code>
-    * .groups ⇒ <code>Array.&lt;String&gt;</code>
-    * .tags ⇒ <code>Array.&lt;String&gt;</code>
-    * .channels ⇒ <code>String|Object { channeluid: { config } }</code>
-    * .metadata ⇒ <code>Object { namespace: value }|Object { namespace: { value: value , config: { config } } }</code>
-    * .giBaseType ⇒ <code>String</code>
-    * .groupFunction ⇒ <code>String</code>
+- itemConfig : <code>object</code>
+  - .type ⇒ <code>String</code>
+  - .name ⇒ <code>String</code>
+  - .label ⇒ <code>String</code>
+  - .category (icon) ⇒ <code>String</code>
+  - .groups ⇒ <code>Array.&lt;String&gt;</code>
+  - .tags ⇒ <code>Array.&lt;String&gt;</code>
+  - .channels ⇒ <code>String|Object { channeluid: { config } }</code>
+  - .metadata ⇒ <code>Object { namespace: value }|Object { namespace: { value: value , config: { config } } }</code>
+  - .giBaseType ⇒ <code>String</code>
+  - .groupFunction ⇒ <code>String</code>
 
 Note: `.type` and `.name` are required.
 Basic UI and the mobile apps need `metadata.stateDescription.config.pattern` to render the state of an Item.
 
 Example:
+
 ```javascript
 // more advanced example
 items.replaceItem({
@@ -364,32 +377,32 @@ See [openhab-js : ItemConfig](https://openhab.github.io/openhab-js/global.html#I
 
 Calling `Item.history` returns a `ItemHistory` object with the following functions:
 
-* ItemHistory :`object`
-    * .averageBetween(begin, end, serviceId) ⇒ `number | null`
-    * .averageSince(timestamp, serviceId) ⇒ `number | null`
-    * .changedBetween(begin, end, serviceId) ⇒ `boolean`
-    * .changedSince(timestamp, serviceId) ⇒ `boolean`
-    * .deltaBetween(begin, end, serviceId) ⇒ `number | null`
-    * .deltaSince(timestamp, serviceId) ⇒ `number | null`
-    * .deviationBetween(begin, end, serviceId) ⇒ `number | null`
-    * .deviationSince(timestamp, serviceId) ⇒ `number | null`
-    * .evolutionRateBetween(begin, end, serviceId) ⇒ `number | null`
-    * .evolutionRateSince(timestamp, serviceId) ⇒ `number | null`
-    * .historicState(timestamp, serviceId) ⇒ `string | null`
-    * .lastUpdate(serviceId) ⇒ `ZonedDateTime | null`
-    * .latestState(serviceId) ⇒ `string | null`
-    * .maximumBetween(begin, end, serviceId) ⇒ `string | null`
-    * .maximumSince(timestamp,serviceId) ⇒ `string | null`
-    * .minimumSince(begin, end, serviceId) ⇒ `string | null`
-    * .minimumSince(timestamp, serviceId) ⇒ `string | null`
-    * .persist(serviceId)
-    * .previousState(skipEqual, serviceId) ⇒ `string | null`
-    * .sumBetween(begin, end, serviceId) ⇒ `number | null`
-    * .sumSince(timestamp, serviceId) ⇒ `number | null`
-    * .updatedBetween(begin, end, serviceId) ⇒ `boolean`
-    * .updatedSince(timestamp, serviceId) ⇒ `boolean`
-    * .varianceBetween(begin, end, serviceId) ⇒ `number | null`
-    * .varianceSince(timestamp, serviceId) ⇒ `number | null`
+- ItemHistory :`object`
+  - .averageBetween(begin, end, serviceId) ⇒ `number | null`
+  - .averageSince(timestamp, serviceId) ⇒ `number | null`
+  - .changedBetween(begin, end, serviceId) ⇒ `boolean`
+  - .changedSince(timestamp, serviceId) ⇒ `boolean`
+  - .deltaBetween(begin, end, serviceId) ⇒ `number | null`
+  - .deltaSince(timestamp, serviceId) ⇒ `number | null`
+  - .deviationBetween(begin, end, serviceId) ⇒ `number | null`
+  - .deviationSince(timestamp, serviceId) ⇒ `number | null`
+  - .evolutionRateBetween(begin, end, serviceId) ⇒ `number | null`
+  - .evolutionRateSince(timestamp, serviceId) ⇒ `number | null`
+  - .historicState(timestamp, serviceId) ⇒ `string | null`
+  - .lastUpdate(serviceId) ⇒ `ZonedDateTime | null`
+  - .latestState(serviceId) ⇒ `string | null`
+  - .maximumBetween(begin, end, serviceId) ⇒ `string | null`
+  - .maximumSince(timestamp,serviceId) ⇒ `string | null`
+  - .minimumSince(begin, end, serviceId) ⇒ `string | null`
+  - .minimumSince(timestamp, serviceId) ⇒ `string | null`
+  - .persist(serviceId)
+  - .previousState(skipEqual, serviceId) ⇒ `string | null`
+  - .sumBetween(begin, end, serviceId) ⇒ `number | null`
+  - .sumSince(timestamp, serviceId) ⇒ `number | null`
+  - .updatedBetween(begin, end, serviceId) ⇒ `boolean`
+  - .updatedSince(timestamp, serviceId) ⇒ `boolean`
+  - .varianceBetween(begin, end, serviceId) ⇒ `number | null`
+  - .varianceSince(timestamp, serviceId) ⇒ `number | null`
 
 Note: `serviceId` is optional, if omitted, the default persistance service will be used.
 
@@ -407,27 +420,27 @@ The Things namespace allows to interact with openHAB Things.
 
 See [openhab-js : things](https://openhab.github.io/openhab-js/things.html) for full API documentation.
 
-* things : <code>object</code>
-    * .getThing(uid, nullIfMissing) ⇒ <code>Thing</code>
-    * .getThings() ⇒ <code>Array.&lt;Thing&gt;</code>
+- things : <code>object</code>
+  - .getThing(uid, nullIfMissing) ⇒ <code>Thing</code>
+  - .getThings() ⇒ <code>Array.&lt;Thing&gt;</code>
 
 #### `getThing(uid, nullIfMissing)`
 
 Calling `getThing(...)` returns a `Thing` object with the following properties:
 
-* Thing : <code>object</code>
-    * .bridgeUID ⇒ <code>String</code>
-    * .label ⇒ <code>String</code>
-    * .location ⇒ <code>String</code>
-    * .status ⇒ <code>String</code>
-    * .statusInfo ⇒ <code>String</code>
-    * .thingTypeUID ⇒ <code>String</code>
-    * .uid ⇒ <code>String</code>
-    * .isEnabled ⇒ <code>Boolean</code>
-    * .setLabel(label)
-    * .setLocation(location)
-    * .setProperty(name, value)
-    * .setEnabled(enabled)
+- Thing : <code>object</code>
+  - .bridgeUID ⇒ <code>String</code>
+  - .label ⇒ <code>String</code>
+  - .location ⇒ <code>String</code>
+  - .status ⇒ <code>String</code>
+  - .statusInfo ⇒ <code>String</code>
+  - .thingTypeUID ⇒ <code>String</code>
+  - .uid ⇒ <code>String</code>
+  - .isEnabled ⇒ <code>Boolean</code>
+  - .setLabel(label)
+  - .setLocation(location)
+  - .setProperty(name, value)
+  - .setEnabled(enabled)
 
 ```javascript
 const thing = things.getThing('astro:moon:home');
@@ -506,7 +519,6 @@ Replace `<url>` with the request url.
 
 See [openhab-js : actions.ScriptExecution](https://openhab.github.io/openhab-js/actions.html#.ScriptExecution) for complete documentation.
 
-
 ```javascript
 let now = time.ZonedDateTime.now();
 
@@ -527,6 +539,7 @@ let active = this.myTimer.isActive();
 // Reschedule the timer.
 this.myTimer.reschedule(now.plusSeconds(5));
 ```
+
 #### Semantics Actions
 
 See [openhab-js : actions.Semantics](https://openhab.github.io/openhab-js/actions.html#.Semantics) for complete documentation.
@@ -562,21 +575,23 @@ The cache namespace provides a default cache that can be used to set and retriev
 
 See [openhab-js : cache](https://openhab.github.io/openhab-js/cache.html) for full API documentation.
 
-* cache : <code>object</code>
-    * .get(key, defaultSupplier) ⇒ <code>Object | null</code>
-    * .put(key, value) ⇒ <code>Previous Object | null</code>
-    * .remove(key) ⇒ <code>Previous Object | null</code>
-    * .exists(key) ⇒ <code>boolean</code>
+- cache : <code>object</code>
+  - .get(key, defaultSupplier) ⇒ <code>Object | null</code>
+  - .put(key, value) ⇒ <code>Previous Object | null</code>
+  - .remove(key) ⇒ <code>Previous Object | null</code>
+  - .exists(key) ⇒ <code>boolean</code>
 
 The `defaultSupplier` provided function will return a default value if a specified key is not already associated with a value.
 
 **Example** *(Get a previously set value with a default value (times &#x3D; 0))*
+
 ```js
 let counter = cache.get("counter", () => ({ "times": 0 }));
 console.log("Count",counter.times++);
 ```
 
 **Example** *(Get a previously set object)*
+
 ```js
 let counter = cache.get("counter");
 if(counter == null){
@@ -585,6 +600,7 @@ if(counter == null){
 }
 console.log("Count",counter.times++);
 ```
+
 ### Log
 
 By default the JS Scripting binding supports console logging like `console.log()` and `console.debug()` to the openHAB default log.
@@ -600,21 +616,24 @@ logger.debug("Hello {}!", "world");
 ### Time
 
 openHAB internally makes extensive use of the `java.time` package.
-openHAB-JS exports the excellent [JS-Joda](#https://js-joda.github.io/js-joda/) library via the `time` namespace, which is a native JavaScript port of the same API standard used in Java for `java.time`.
+openHAB-JS exports the excellent [JS-Joda](https://js-joda.github.io/js-joda/) library via the `time` namespace, which is a native JavaScript port of the same API standard used in Java for `java.time`.
 Anywhere that a native Java `ZonedDateTime` or `Duration` is required, the runtime will automatically convert a JS-Joda `ZonedDateTime` or `Duration` to its Java counterpart.
 
 The exported JS-Joda library is also extended with convenient functions relevant to openHAB usage.
 
 Examples:
+
 ```javascript
 var now = time.ZonedDateTime.now();
 var yesterday = time.ZonedDateTime.now().minusHours(24);
 var item = items.getItem("Kitchen");
 console.log("averageSince", item.history.averageSince(yesterday));
 ```
+
 ```javascript
 actions.Exec.executeCommandLine(time.Duration.ofSeconds(20), 'echo', 'Hello World!');
 ```
+
 See [JS-Joda](https://js-joda.github.io/js-joda/) for more examples and complete API usage.
 
 #### `time.toZDT()`
@@ -637,7 +656,6 @@ The following rules are used during the conversion:
 | `"HH:MM[:ss]"` (24 hour time)                              | today's date with the time indicated, seconds is optional                                                                                                                                              | `time.toZDT('13:45:12');`                                       |
 | `"kk:mm[:ss][ ]a"` (12 hour time)                          | today's date with the time indicated, the space between the time and am/pm and seconds are optional                                                                                                    | `time.toZDT('1:23:45 PM');`                                     |
 | Duration String                                            | any duration string supported by `time.Duration` added to `now()`, see [the docs](https://js-joda.github.io/js-joda/class/packages/core/src/Duration.js~Duration.html#static-method-parse) for details | `time.toZDT('PT1H4M6.789S');`                                   |
-
 
 When a type or string that cannot be handled is encountered, an error is thrown.
 
@@ -688,11 +706,10 @@ console.log(timestamp.getMillisFromNow());
 
 ### Utils
 
-openHAB internally is a Java program. 
+openHAB internally is a Java program.
 openHAB-JS converts between Java and JavaScript data types and reverse.
 
 See [openhab-js : utils](https://openhab.github.io/openhab-js/utils.html) for full API documentation.
-
 
 ## File Based Rules
 
@@ -702,7 +719,7 @@ Local variable state is not persisted among reloads, see using the [cache](#cach
 
 File based rules can be created in 2 different ways: using [JSRule](#jsrule) or the [Rule Builder](#rule-builder).
 
-See [openhab-js : rules ](https://openhab.github.io/openhab-js/rules.html) for full API documentation.
+See [openhab-js : rules](https://openhab.github.io/openhab-js/rules.html) for full API documentation.
 
 ### JSRule
 
@@ -769,7 +786,7 @@ triggers.DateTimeTrigger('MyDateTimeItem');
 
 You can use `null` for a trigger parameter to skip it‘s configuration.
 
-See [openhab-js : triggers ](https://openhab.github.io/openhab-js/triggers.html) in the API documentation for a full list of all triggers.
+See [openhab-js : triggers](https://openhab.github.io/openhab-js/triggers.html) in the API documentation for a full list of all triggers.
 
 ### Rule Builder
 
@@ -802,69 +819,72 @@ rules.when().item("F1_light").changed().then(event => {
     console.log(event);
 }).build("Test Rule", "My Test Rule");
 ```
+
 See [Examples](#rule-builder-examples) for further patterns.
 
 #### Rule Builder Triggers
 
-* `when()`
-* `or()`
-    * `.channel(channelName)` Specifies a channel event as a source for the rule to fire.
-        * `.triggered(event)` Trigger on a specific event name
-    * `.cron(cronExpression)` Specifies a cron schedule for the rule to fire.
-    * `.item(itemName)` Specifies an item as the source of changes to trigger a rule.
-        * `.for(duration)`
-        * `.from(state)`
-        * `.to(state)`
-        * `.fromOff()`
-        * `.toOn()`
-        * `.receivedCommand()`
-        * `.receivedUpdate()`
-    * `.memberOf(groupName)`
-        * `.for(duration)`
-        * `.from(state)`
-        * `.to(state)`
-        * `.fromOff()`
-        * `.toOn()`
-        * `.receivedCommand()`
-        * `.receivedUpdate()`
-    * `.system()`
-        * `.ruleEngineStarted()`
-        * `.rulesLoaded()`
-        * `.startupComplete()`
-        * `.thingsInitialized()`
-        * `.userInterfacesStarted()`
-        * `.startLevel(level)`
-    * `.thing(thingName)`
-        * `changed()`
-        * `updated()`
-        * `from(state)`
-        * `to(state)`
+- `when()`
+- `or()`
+  - `.channel(channelName)` Specifies a channel event as a source for the rule to fire.
+    - `.triggered(event)` Trigger on a specific event name
+  - `.cron(cronExpression)` Specifies a cron schedule for the rule to fire.
+  - `.item(itemName)` Specifies an item as the source of changes to trigger a rule.
+    - `.for(duration)`
+    - `.from(state)`
+    - `.to(state)`
+    - `.fromOff()`
+    - `.toOn()`
+    - `.receivedCommand()`
+    - `.receivedUpdate()`
+  - `.memberOf(groupName)`
+    - `.for(duration)`
+    - `.from(state)`
+    - `.to(state)`
+    - `.fromOff()`
+    - `.toOn()`
+    - `.receivedCommand()`
+    - `.receivedUpdate()`
+  - `.system()`
+    - `.ruleEngineStarted()`
+    - `.rulesLoaded()`
+    - `.startupComplete()`
+    - `.thingsInitialized()`
+    - `.userInterfacesStarted()`
+    - `.startLevel(level)`
+  - `.thing(thingName)`
+    - `changed()`
+    - `updated()`
+    - `from(state)`
+    - `to(state)`
 
 Additionally all the above triggers have the following functions:
-* `.if()` or `.if(fn)` -> a [rule condition](#rule-builder-conditions)
-* `.then()` or `.then(fn)` -> a [rule operation](#rule-builder-operations)
-* `.or()` -> a [rule trigger](#rule-builder-triggers) (chain additional triggers)
+
+- `.if()` or `.if(fn)` -> a [rule condition](#rule-builder-conditions)
+- `.then()` or `.then(fn)` -> a [rule operation](#rule-builder-operations)
+- `.or()` -> a [rule trigger](#rule-builder-triggers) (chain additional triggers)
 
 #### Rule Builder Conditions
 
-* `if(optionalFunction)`
-    * `.stateOfItem(itemName)`
-        * `is(state)`
-        * `in(state...)`
+- `if(optionalFunction)`
+  - `.stateOfItem(itemName)`
+    - `is(state)`
+    - `in(state...)`
 
 #### Rule Builder Operations
-* `then(optionalFunction)`
-    * `.build(name, description, tags, id)`
-    * `.copyAndSendState()`
-    * `.copyState()`
-    * `.inGroup(groupName)`
-    * `.postIt()`
-    * `.postUpdate(state)`
-    * `.send(command)`
-    * `.sendIt()`
-    * `.sendOff()`
-    * `.sendOn()`
-    * `.sendToggle()`
+
+- `then(optionalFunction)`
+  - `.build(name, description, tags, id)`
+  - `.copyAndSendState()`
+  - `.copyState()`
+  - `.inGroup(groupName)`
+  - `.postIt()`
+  - `.postUpdate(state)`
+  - `.send(command)`
+  - `.sendIt()`
+  - `.sendOff()`
+  - `.sendOn()`
+  - `.sendToggle()`
 
 #### Rule Builder Examples
 
