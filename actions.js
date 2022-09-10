@@ -304,6 +304,7 @@ exports.get = (...args) => actions.get(...args);
 /**
  * Get the ThingActions of a Thing.
  *
+ * @memberof actions
  * @param {String} bindingId binding ID
  * @param {String} thingUid Thing UID
  * @returns {any} {@link https://www.openhab.org/javadoc/latest/org/openhab/core/thing/binding/thingactions ThingActions}
