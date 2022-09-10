@@ -69,8 +69,8 @@ class Item {
     this.rawItem = rawItem;
 
     /**
-         * Access historical states for this item
-         * @type {items.ItemHistory}
+         * Access historical states for this Item {@link items.ItemHistory}
+         * @type {ItemHistory}
          */
     this.history = new ItemHistory(rawItem);
   }

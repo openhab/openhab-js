@@ -212,7 +212,8 @@ var intervalID = setInterval(function[, delay]);
 
 The global `clearInterval()` method cancels a timed, repeating action which was previously established by a call to `setInterval()`.
 
-NOTE: Timers will not be canceled if a script is deleted or modified, it is up to the user to manage timers.  See using the [cache](#cache) namespace as well as [ScriptLoaded](#scriptloaded) and [ScriptUnLoaded](#scriptunloaded) for a convenient way of managing persisted objects, such as timers between reloads or deletions of scripts.
+NOTE: Timers will not be canceled if a script is deleted or modified, it is up to the user to manage timers.
+See using the [cache](#cache) namespace as well as [ScriptLoaded](#initialization-hook-scriptloaded) and [ScriptUnLoaded](#deinitialization-hook-scriptunloaded) for a convenient way of managing persisted objects, such as timers between reloads or deletions of scripts.
 
 See <https://developer.mozilla.org/en-US/docs/Web/API/setInterval> for more information about `setInterval()`.
 
@@ -280,7 +281,7 @@ Calling `getItem(...)` returns an `Item` object with the following properties:
   - .type ⇒ <code>String</code>
   - .name ⇒ <code>String</code>
   - .label ⇒ <code>String</code>
-  - .history ⇒ <code>ItemHistory</code>
+  - .history ⇒ [`ItemHistory`](#itemhistory)
   - .state ⇒ <code>String</code>
   - .rawState ⇒ <code>HostState</code>
   - .members ⇒ <code>Array.&lt;Item&gt;</code>
@@ -370,36 +371,48 @@ items.replaceItem({
 });
 ```
 
-See [openhab-js : ItemConfig](https://openhab.github.io/openhab-js/items.html#.ItemConfig) for full API documentation.
+See [openhab-js : ItemConfig](https://openhab.github.io/openhab-js/global.html#ItemConfig) for full API documentation.
 
-#### `item.history`
+#### `ItemHistory`
 
-Calling `item.history` returns a ItemHistory object with the following functions:
+Calling `Item.history` returns a `ItemHistory` object with the following functions:
 
-- ItemHistory : <code>object</code>
-  - .averageSince(timestamp, serviceId) ⇒ <code>Number</code>
-  - .changedSince(timestamp, serviceId) ⇒ <code>Number</code>
-  - .deltaSince(timestamp, serviceId) ⇒ <code>Number</code>
-  - .deviationSince(timestamp, serviceId) ⇒ <code>Number</code>
-  - .evolutionRate(timestamp, serviceId) ⇒ <code>Number</code>
-  - .historicState(timestamp, serviceId) ⇒ <code>state</code>
-  - .lastUpdate(serviceId) ⇒ <code>Date</code>
-  - .latestState(serviceId) ⇒ <code>state</code>
-  - .maximumSince(timestamp,serviceId) ⇒ <code>state</code>
-  - .minimumSince(timestamp,serviceId) ⇒ <code>state</code>
+- ItemHistory :`object`
+  - .averageBetween(begin, end, serviceId) ⇒ `number | null`
+  - .averageSince(timestamp, serviceId) ⇒ `number | null`
+  - .changedBetween(begin, end, serviceId) ⇒ `boolean`
+  - .changedSince(timestamp, serviceId) ⇒ `boolean`
+  - .deltaBetween(begin, end, serviceId) ⇒ `number | null`
+  - .deltaSince(timestamp, serviceId) ⇒ `number | null`
+  - .deviationBetween(begin, end, serviceId) ⇒ `number | null`
+  - .deviationSince(timestamp, serviceId) ⇒ `number | null`
+  - .evolutionRateBetween(begin, end, serviceId) ⇒ `number | null`
+  - .evolutionRateSince(timestamp, serviceId) ⇒ `number | null`
+  - .historicState(timestamp, serviceId) ⇒ `string | null`
+  - .lastUpdate(serviceId) ⇒ `ZonedDateTime | null`
+  - .latestState(serviceId) ⇒ `string | null`
+  - .maximumBetween(begin, end, serviceId) ⇒ `string | null`
+  - .maximumSince(timestamp,serviceId) ⇒ `string | null`
+  - .minimumSince(begin, end, serviceId) ⇒ `string | null`
+  - .minimumSince(timestamp, serviceId) ⇒ `string | null`
   - .persist(serviceId)
-  - .previousState(skipEqual,serviceId) ⇒ <code>state</code>
-  - .sumSince(timestamp, serviceId) ⇒ <code>Number</code>
-  - .updatedSince(timestamp, serviceId) ⇒ <code>Boolean</code>
-  - .varianceSince(timestamp,serviceId) ⇒ <code>state</code>
+  - .previousState(skipEqual, serviceId) ⇒ `string | null`
+  - .sumBetween(begin, end, serviceId) ⇒ `number | null`
+  - .sumSince(timestamp, serviceId) ⇒ `number | null`
+  - .updatedBetween(begin, end, serviceId) ⇒ `boolean`
+  - .updatedSince(timestamp, serviceId) ⇒ `boolean`
+  - .varianceBetween(begin, end, serviceId) ⇒ `number | null`
+  - .varianceSince(timestamp, serviceId) ⇒ `number | null`
 
 Note: `serviceId` is optional, if omitted, the default persistance service will be used.
 
 ```javascript
 var yesterday = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
-var item = items.getItem("KitchenDimmer");
-console.log("KitchenDimmer averageSince", item.history.averageSince(yesterday));
+var item = items.getItem(„KitchenDimmer“);
+console.log(„KitchenDimmer averageSince“, item.history.averageSince(yesterday));
 ```
+
+See [openhab-js : ItemHistory](https://openhab.github.io/openhab-js/items.ItemHistory.html) for full API documentation.
 
 ### Things
 
@@ -603,7 +616,7 @@ logger.debug("Hello {}!", "world");
 ### Time
 
 openHAB internally makes extensive use of the `java.time` package.
-openHAB-JS exports the excellent [JS-Joda](#https://js-joda.github.io/js-joda/) library via the `time` namespace, which is a native JavaScript port of the same API standard used in Java for `java.time`.
+openHAB-JS exports the excellent [JS-Joda](https://js-joda.github.io/js-joda/) library via the `time` namespace, which is a native JavaScript port of the same API standard used in Java for `java.time`.
 Anywhere that a native Java `ZonedDateTime` or `Duration` is required, the runtime will automatically convert a JS-Joda `ZonedDateTime` or `Duration` to its Java counterpart.
 
 The exported JS-Joda library is also extended with convenient functions relevant to openHAB usage.
