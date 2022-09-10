@@ -7,6 +7,7 @@ openhab-js can be compiled into a single JS file, which is connivent for deployi
 ```bash
 npm run webpack
 ```
+
 This outputs the library as a single JS file to `dist/openhab.js`.
 
 ## TypeScript type definitions
@@ -17,6 +18,7 @@ Type definitons allow supercharged auto-completion in your IDE.
 ```bash
 npm run types
 ```
+
 This outputs the type definition files (`*.d.ts`) to `/types`.
 
 Pro tip: Add `// @ts-check` to the top of your `.js` files to enable type checking!
@@ -31,11 +33,11 @@ npm run docs
 
 This will output API documentation to `./docs`.
 
-This also happens automatically on every push to `main` and is published using Github Pages, see [openhab-js API Documentation](https://openhab.github.io/openhab-js/) for the latest version. 
+This also happens automatically on every push to `main` and is published using Github Pages, see [openhab-js API Documentation](https://openhab.github.io/openhab-js/) for the latest version.
 
 ## Publish to NPM
 
-We have a Github action which will publish this library automatically when a version tag is pushed. 
+We have a Github action which will publish this library automatically when a version tag is pushed.
 
 ```bash
 npm test
