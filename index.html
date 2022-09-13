@@ -77,13 +77,10 @@ binding</a>.</p>
 <li><a href="#default-installation">Default Installation</a></li>
 <li><a href="#custom-installation">Custom Installation</a></li>
 <li><a href="#configuration">Configuration</a></li>
-</ul>
-</li>
-<li><a href="#ui-based-rules">UI Based Rules</a>
-<ul>
+<li><a href="#ui-based-rules">UI Based Rules</a></li>
 <li><a href="#adding-triggers">Adding Triggers</a></li>
 <li><a href="#adding-actions">Adding Actions</a></li>
-<li><a href="#event-object">Event Object</a></li>
+<li><a href="#ui-event-object">UI Event Object</a></li>
 </ul>
 </li>
 <li><a href="#scripting-basics">Scripting Basics</a>
@@ -109,7 +106,7 @@ binding</a>.</p>
 <ul>
 <li><a href="#jsrule">JSRule</a></li>
 <li><a href="#rule-builder">Rule Builder</a></li>
-<li><a href="#event-object-1">Event Object</a></li>
+<li><a href="#event-object">Event Object</a></li>
 <li><a href="#initialization-hook-scriptloaded">Initialization hook: scriptLoaded</a></li>
 <li><a href="#deinitialization-hook-scriptunloaded">Deinitialization hook: scriptUnloaded</a></li>
 </ul>
@@ -127,25 +124,28 @@ binding</a>.</p>
 <p><em>This library is not compatible with this older runtime.</em></p>
 <h3>Custom Installation</h3>
 <ul>
-<li>Go to the JavaScript user scripts directory: <code>cd $OPENHAB_CONF/automation/js</code></li>
-<li>Run <code>npm i openhab</code> (you may need to install npm)</li>
+<li>Go to the JavaScript user scripts directory: <code>cd $OPENHAB_CONF/automation/js</code>.</li>
+<li>You may need to install <code>npm</code>.</li>
+<li>Install the latest release: Run <code>npm i openhab</code>.</li>
+<li>Install the latest development version: Run <code>npm i git+https://github.com/openhab/openhab-js.git</code>.</li>
 </ul>
 <p>NPM will create a <code>node_modules</code> directory containing the latest version of this library.
 This will be used instead of the binding provided version.</p>
 <h3>Configuration</h3>
-<h2>UI Based Rules</h2>
+<!-- Copy everything from here to update the JS Scripting documentation. -->
+<h3>UI Based Rules</h3>
 <p>The quickest way to add rules is through the openHAB Web UI.</p>
 <p>Advanced users, or users migrating scripts from existing systems may want to use <a href="#file-based-rules">File Based Rules</a> for managing rules using files in the user configuration directory.</p>
 <h3>Adding Triggers</h3>
 <p>Using the openHAB UI, first create a new rule and set a trigger condition.</p>
-<p><img src="./images/rule-config.png" alt="openHAB Rule Configuration"></p>
+<p><img src="doc/rule-config.png" alt="openHAB Rule Configuration"></p>
 <h3>Adding Actions</h3>
 <p>Select &quot;Add Action&quot; and then select &quot;Run Script&quot; with &quot;ECMAScript 262 Edition 11&quot;.
 It’s important this is &quot;Edition 11&quot; or higher, earlier versions will not work.
-This will bring up a empty script editor where you can enter your JavaScript.</p>
-<p><img src="./images/rule-engines.png" alt="openHAB Rule Engines"></p>
+This will bring up an empty script editor where you can enter your JavaScript.</p>
+<p><img src="doc/rule-engines.png" alt="openHAB Rule Engines"></p>
 <p>You can now write rules using standard ES6 JavaScript along with the included openHAB <a href="#standard-library">standard library</a>.</p>
-<p><img src="./images/rule-script.png" alt="openHAB Rule Script"></p>
+<p><img src="doc/rule-script.png" alt="openHAB Rule Script"></p>
 <p>For example, turning a light on:</p>
 <pre class="prettyprint source lang-javascript"><code>items.getItem(&quot;KitchenLight&quot;).sendCommand(&quot;ON&quot;);
 console.log(&quot;Kitchen Light State&quot;, items.getItem(&quot;KitchenLight&quot;).state);
@@ -158,8 +158,8 @@ console.log(&quot;Kitchen Light State&quot;, items.getItem(&quot;KitchenLight&qu
 console.log(&quot;Thing status&quot;,thingStatusInfo.getStatus());
 </code></pre>
 <p>See <a href="https://openhab.github.io/openhab-js">openhab-js</a> for a complete list of functionality.</p>
-<h3>Event Object</h3>
-<p><strong>NOTE</strong>: Note that <code>event</code> object is different in UI based rules and file based rules! This section is only valid for UI based rules. If you use file based rules, refer to <a href="#event-object-1">file based rules event object documentation</a>.</p>
+<h3>UI Event Object</h3>
+<p><strong>NOTE</strong>: Note that <code>event</code> object is different in UI based rules and file based rules! This section is only valid for UI based rules. If you use file based rules, refer to <a href="#event-object">file based rules event object documentation</a>.</p>
 <p>When you use &quot;Item event&quot; as trigger (i.e. &quot;[item] received a command&quot;, &quot;[item] was updated&quot;, &quot;[item] changed&quot;), there is additional context available for the action in a variable called <code>event</code>.</p>
 <p>This tables gives an overview over the <code>event</code> object for most common trigger types:</p>
 <table>
@@ -250,22 +250,20 @@ The string representations of each of these objects are appended together in the
 <h3>Timers</h3>
 <h4>SetTimeout</h4>
 <p>The global <code>setTimeout()</code> method sets a timer which executes a function or specified piece of code once the timer expires.</p>
-<pre class="prettyprint source lang-javascript"><code>var timeoutID = setTimeout(function[, delay, arg1, arg2, ...]);
-var timeoutID = setTimeout(function[, delay]);
+<pre class="prettyprint source lang-javascript"><code>var ohTimer = setTimeout(callbackFunction, delay);
 </code></pre>
 <p>The global <code>clearTimeout()</code> method cancels a timeout previously established by calling <code>setTimeout()</code>.</p>
-<p>See <a href="https:%5C/%5C/developer.mozilla.org/en-US/docs/Web/API/setTimeout">https://developer.mozilla.org/en-US/docs/Web/API/setTimeout</a> for more information about <code>setTimeout()</code>.</p>
-<p>openHAB does not return the integer timeoutID as standard JS does, instead it returns an instance of <a href="#openhab-timer">openHAB Timer</a>.</p>
+<p>The openHAB implementation of <code>setTimeout()</code> differs from the <a href="https://developer.mozilla.org/en-US/docs/Web/API/setTimeout">HTML DOM API's <code>setTimeout()</code></a>.
+openHAB does not return the integer timeoutID as standard JS does, instead it returns an instance of <a href="#openhab-timer">openHAB Timer</a>.</p>
 <h4>SetInterval</h4>
 <p>The setInterval() method repeatedly calls a function or executes a code snippet, with a fixed time delay between each call.</p>
-<pre class="prettyprint source lang-javascript"><code>var intervalID = setInterval(func, [delay, arg1, arg2, ...]);
-var intervalID = setInterval(function[, delay]);
+<pre class="prettyprint source lang-javascript"><code>var ohIntervalTimer = setInterval(callbackFunction, delay);
 </code></pre>
 <p>The global <code>clearInterval()</code> method cancels a timed, repeating action which was previously established by a call to <code>setInterval()</code>.</p>
 <p>NOTE: Timers will not be canceled if a script is deleted or modified, it is up to the user to manage timers.
 See using the <a href="#cache">cache</a> namespace as well as <a href="#initialization-hook-scriptloaded">ScriptLoaded</a> and <a href="#deinitialization-hook-scriptunloaded">ScriptUnLoaded</a> for a convenient way of managing persisted objects, such as timers between reloads or deletions of scripts.</p>
-<p>See <a href="https:%5C/%5C/developer.mozilla.org/en-US/docs/Web/API/setInterval">https://developer.mozilla.org/en-US/docs/Web/API/setInterval</a> for more information about <code>setInterval()</code>.</p>
-<p>openHAB does not return the integer timeoutID as standard JS does, instead it returns an instance of <a href="#openhab-timer">openHAB Timer</a>.</p>
+<p>The openHAB implementation of <code>setInterval()</code> differs from the <a href="https://developer.mozilla.org/en-US/docs/Web/API/setInterval">HTML DOM API's <code>setInterval()</code></a>.
+openHAB does not return the integer timeoutID as standard JS does, instead it returns an instance of <a href="#openhab-timer">openHAB Timer</a>.</p>
 <h4>openHAB Timer</h4>
 <p>A native openHAB Timer instance has the following methods:</p>
 <ul>
@@ -439,10 +437,10 @@ items.replaceItem({
 </ul>
 </li>
 </ul>
-<p>Note: <code>serviceId</code> is optional, if omitted, the default persistance service will be used.</p>
+<p>Note: <code>serviceId</code> is optional, if omitted, the default persistence service will be used.</p>
 <pre class="prettyprint source lang-javascript"><code>var yesterday = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
-var item = items.getItem(„KitchenDimmer“);
-console.log(„KitchenDimmer averageSince“, item.history.averageSince(yesterday));
+var item = items.getItem('KitchenDimmer');
+console.log('KitchenDimmer averageSince', item.history.averageSince(yesterday));
 </code></pre>
 <p>See <a href="https://openhab.github.io/openhab-js/items.ItemHistory.html">openhab-js : ItemHistory</a> for full API documentation.</p>
 <h3>Things</h3>
@@ -587,8 +585,8 @@ if(counter == null){
 console.log(&quot;Count&quot;,counter.times++);
 </code></pre>
 <h3>Log</h3>
-<p>By default the JS Scripting binding supports console logging like <code>console.log()</code> and <code>console.debug()</code> to the openHAB default log.
-Additionally scripts may create their own native openHAB logger using the log namespace.</p>
+<p>By default, the JS Scripting binding supports console logging like <code>console.log()</code> and <code>console.debug()</code> to the openHAB default log.
+Additionally, scripts may create their own native openHAB logger using the log namespace.</p>
 <pre class="prettyprint source lang-javascript"><code>let logger = log('my_logger');
 
 //prints &quot;Hello World!&quot;
@@ -609,7 +607,7 @@ console.log(&quot;averageSince&quot;, item.history.averageSince(yesterday));
 </code></pre>
 <p>See <a href="https://js-joda.github.io/js-joda/">JS-Joda</a> for more examples and complete API usage.</p>
 <h4><code>time.toZDT()</code></h4>
-<p>There will be times where this automatic conversion is not available (for example when working with date times within a rule).
+<p>There will be times when this automatic conversion is not available (for example when working with date times within a rule).
 To ease having to deal with these cases a <code>time.toZDT()</code> function will accept almost any type that can be converted to a <code>time.ZonedDateTime</code>.
 The following rules are used during the conversion:</p>
 <table>
@@ -704,7 +702,9 @@ time.toZDT(items.getItem('StartTime')).isBetweenTimes(time.toZDT(), 'PT1H'); // 
 <p>Tests to see if the delta between the <code>time.ZonedDateTime</code> and the passed in <code>time.ZonedDateTime</code> is within the passed in <code>time.Duration</code>.</p>
 <pre class="prettyprint source lang-javascript"><code>const timestamp = time.toZDT();
 // do some stuff
-if(timestamp.isClose(time.toZDT(), time.Duration.ofMillis(100))) { // did &quot;do some stuff&quot; take longer than 100 msecs to run?
+if(timestamp.isClose(time.toZDT(), time.Duration.ofMillis(100))) {
+  // did &quot;do some stuff&quot; take longer than 100 msecs to run?
+}
 </code></pre>
 <h4><code>getMillisFromNow</code></h4>
 <p>This method on <code>time.ZonedDateTime</code> returns the milliseconds from now to the passed in <code>time.ZonedDateTime</code>.</p>
@@ -775,7 +775,7 @@ triggers.TimeOfDayTrigger('19:00');
 
 triggers.DateTimeTrigger('MyDateTimeItem');
 </code></pre>
-<p>You can use <code>null</code> for a trigger parameter to skip it‘s configuration.</p>
+<p>You can use <code>null</code> for a trigger parameter to skip its configuration.</p>
 <p>See <a href="https://openhab.github.io/openhab-js/triggers.html">openhab-js : triggers</a> in the API documentation for a full list of all triggers.</p>
 <h3>Rule Builder</h3>
 <p>The Rule Builder provides a convenient API to write rules in a high-level, readable style using a builder pattern.</p>
@@ -894,7 +894,7 @@ triggers.DateTimeTrigger('MyDateTimeItem');
 <pre class="prettyprint source lang-javascript"><code>// Basic rule, when the BedroomLight1 is changed, run a custom function
 rules.when().item('BedroomLight1').changed().then(e => {
     console.log(&quot;BedroomLight1 state&quot;, e.newState)
-}.build();
+}).build();
 
 // Turn on the kitchen light at SUNSET
 rules.when().timeOfDay(&quot;SUNSET&quot;).then().sendOn().toItem(&quot;KitchenLight&quot;).build(&quot;Sunset Rule&quot;,&quot;turn on the kitchen light at SUNSET&quot;);
@@ -922,10 +922,10 @@ rules.when().item('HallLight').receivedUpdate().then().copyState().fromItem('Bed
 <h3>Event Object</h3>
 <p><strong>NOTE</strong>: The <code>event</code> object is different in UI Based Rules and File Based Rules!
 This section is only valid for File Based Rules.
-If you use UI Based Rules, refer to <a href="#event-object">UI based rules event object documentation</a>.</p>
+If you use UI Based Rules, refer to <a href="#ui-event-object">UI based rules event object documentation</a>.</p>
 <p>When a rule is triggered, the script is provided the event instance that triggered it.
 The specific data depends on the event type.
-The <code>event</code> object provides several information about that trigger.</p>
+The <code>event</code> object provides some information about that trigger.</p>
 <p>This tables gives an overview over the <code>event</code> object:</p>
 <table>
 <thead>
@@ -1025,16 +1025,16 @@ Time triggers do not provide any event instance, therefore no property is popula
 <h3>Initialization hook: scriptLoaded</h3>
 <p>For file based scripts, this function will be called if found when the script is loaded.</p>
 <pre class="prettyprint source lang-javascript"><code>scriptLoaded = function () {
-    console.log(&quot;script loaded&quot;);
-    loadedDate = Date.now();
+  console.log(&quot;script loaded&quot;);
+  loadedDate = Date.now();
 };
 </code></pre>
 <h3>Deinitialization hook: scriptUnloaded</h3>
 <p>For file based scripts, this function will be called if found when the script is unloaded.</p>
 <pre class="prettyprint source lang-javascript"><code>scriptUnloaded = function () {
-    console.log(&quot;script unloaded&quot;);
-    // clean up rouge timers
-    clearInterval(timer);
+  console.log(&quot;script unloaded&quot;);
+  // clean up rouge timers
+  clearInterval(timer);
 };
 </code></pre>
 <h2>Advanced Scripting</h2>
@@ -1292,7 +1292,7 @@ Generally speaking, you should prefer to use <a href="#standard-library">Standar
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a> on Tue Sep 13 2022 14:32:34 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a> on Tue Sep 13 2022 15:29:40 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
