@@ -524,11 +524,11 @@ let now = time.ZonedDateTime.now();
 
 // Function to run when the timer goes off.
 function timerOver () {
-  logger.info('The timer is over.');
+  console.info('The timer is over.');
 }
 
 // Create the Timer.
-this.myTimer = actions.ScriptExecution.createTimer(now.plusSeconds(10), timerOver);
+this.myTimer = actions.ScriptExecution.createTimer('My Timer', now.plusSeconds(10), timerOver);
 
 // Cancel the timer.
 this.myTimer.cancel();

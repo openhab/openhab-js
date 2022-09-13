@@ -2,7 +2,7 @@
 
 /**
  * Actions namespace.
- * This namespace provides access to openHAB actions. All available actions can be accessed as direct properties of this
+ * This namespace provides access to openHAB actions. {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/package-summary.html All available actions} can be accessed as direct properties of this
  * object (via their simple class name).
  *
  * @example <caption>Sends a broadcast notification</caption>
@@ -33,7 +33,7 @@ actionServices.forEach(function (item) {
 });
 
 /**
- * Audio Actions
+ * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/audio Audio} Actions
  *
  * The static methods of this class are made available as functions in the scripts. This allows a script to use audio features.
  *
@@ -58,7 +58,7 @@ actionServices.forEach(function (item) {
 const Audio = Java.type('org.openhab.core.model.script.actions.Audio');
 
 /**
- * BusEvent Actions
+ * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/busevent BusEvent} Actions
  *
  * The static methods of this class are made available as functions in the scripts. This gives direct write access to the openHAB event bus from within scripts. Items should not be updated directly (setting the state property), but updates should be sent to the bus, so that all interested bundles are notified.
  * @example
@@ -79,7 +79,7 @@ const Audio = Java.type('org.openhab.core.model.script.actions.Audio');
 const BusEvent = Java.type('org.openhab.core.model.script.actions.BusEvent');
 
 /**
- * Ephemeris Actions
+ * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/ephemeris Ephemeris} Actions
  *
  * The static methods of this class are made available as functions in the scripts. This allows a script to use ephemeris features.
  * @example
@@ -119,7 +119,7 @@ const BusEvent = Java.type('org.openhab.core.model.script.actions.BusEvent');
 const Ephemeris = Java.type('org.openhab.core.model.script.actions.Ephemeris');
 
 /**
- * Exec Actions
+ * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/exec Exec} Actions
  *
  * This class provides static methods that can be used in automation rules for executing commands on command line.
  *
@@ -133,7 +133,7 @@ const Ephemeris = Java.type('org.openhab.core.model.script.actions.Ephemeris');
 const Exec = Java.type('org.openhab.core.model.script.actions.Exec');
 
 /**
- * HTTP Actions
+ * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/HTTP.html HTTP} Actions
  *
  * This class provides static methods that can be used in automation rules for sending HTTP requests
  *
@@ -161,7 +161,7 @@ const Exec = Java.type('org.openhab.core.model.script.actions.Exec');
 const HTTP = Java.type('org.openhab.core.model.script.actions.HTTP');
 
 /**
- * Log Actions
+ * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/Log.html Log} Actions
  *
  * The static methods of this class are made available as functions in the scripts. This allows a script to log to the SLF4J-Log.
  *
@@ -177,7 +177,7 @@ const HTTP = Java.type('org.openhab.core.model.script.actions.HTTP');
 const LogAction = Java.type('org.openhab.core.model.script.actions.Log');
 
 /**
- * Ping Actions
+ * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/Ping.html Ping} Actions
  *
  * This Action checks the vitality of the given host.
  *
@@ -190,14 +190,15 @@ const LogAction = Java.type('org.openhab.core.model.script.actions.Log');
 const Ping = Java.type('org.openhab.core.model.script.actions.Ping');
 
 /**
- * ScriptExecution Actions
+ * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/scriptexecution ScriptExecution} Actions
  *
  * The static methods of this class are made available as functions in the scripts. This allows a script to call another script, which is available as a file.
  *
  * @example
  * ScriptExecution.callScript​(String scriptName)
- * ScriptExecution.createTimer​(ZonedDateTime instant, org.eclipse.xtext.xbase.lib.Procedures.Procedure0 closure)
- * ScriptExecution.createTimerWithArgument​(ZonedDateTime instant, Object arg1, org.eclipse.xtext.xbase.lib.Procedures.Procedure1<Object> closure)
+ * ScriptExecution.createTimer​(ZonedDateTime instant, callbackFunction)
+ * ScriptExecution.createTimer​(String identifier, ZonedDateTime instant, callbackFunction)
+ * ScriptExecution.createTimerWithArgument​(ZonedDateTime instant, Object arg1, callbackFunction)
  *
  * @name ScriptExecution
  * @memberof actions
@@ -205,7 +206,7 @@ const Ping = Java.type('org.openhab.core.model.script.actions.Ping');
 const ScriptExecution = Java.type('org.openhab.core.model.script.actions.ScriptExecution');
 
 /**
- * Semantics Actions
+ * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/Semantics.html Semantics} Actions
  *
  * The static methods of this class are made available as functions in the scripts. This allows a script to use Semantics features.
  *
@@ -227,7 +228,7 @@ const ScriptExecution = Java.type('org.openhab.core.model.script.actions.ScriptE
 const Semantics = Java.type('org.openhab.core.model.script.actions.Semantics');
 
 /**
- * Things Actions
+ * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/Things.html Things} Actions
  *
  * This class provides static methods that can be used in automation rules for getting thing's status info.
  *
@@ -241,7 +242,7 @@ const Semantics = Java.type('org.openhab.core.model.script.actions.Semantics');
 const ThingsAction = Java.type('org.openhab.core.model.script.actions.Things');
 
 /**
- * Voice Actions
+ * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/Voice.html Voice} Actions
  *
  * The static methods of this class are made available as functions in the scripts. This allows a script to use voice features.
  *
