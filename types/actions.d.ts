@@ -1,5 +1,5 @@
 /**
- * Audio Actions
+ * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/audio Audio} Actions
  *
  * The static methods of this class are made available as functions in the scripts. This allows a script to use audio features.
  *
@@ -23,7 +23,7 @@
  */
 export const Audio: any;
 /**
- * BusEvent Actions
+ * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/busevent BusEvent} Actions
  *
  * The static methods of this class are made available as functions in the scripts. This gives direct write access to the openHAB event bus from within scripts. Items should not be updated directly (setting the state property), but updates should be sent to the bus, so that all interested bundles are notified.
  * @example
@@ -43,7 +43,7 @@ export const Audio: any;
  */
 export const BusEvent: any;
 /**
- * Ephemeris Actions
+ * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/ephemeris Ephemeris} Actions
  *
  * The static methods of this class are made available as functions in the scripts. This allows a script to use ephemeris features.
  * @example
@@ -82,7 +82,7 @@ export const BusEvent: any;
  */
 export const Ephemeris: any;
 /**
- * Exec Actions
+ * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/exec Exec} Actions
  *
  * This class provides static methods that can be used in automation rules for executing commands on command line.
  *
@@ -95,7 +95,7 @@ export const Ephemeris: any;
  */
 export const Exec: any;
 /**
- * HTTP Actions
+ * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/HTTP.html HTTP} Actions
  *
  * This class provides static methods that can be used in automation rules for sending HTTP requests
  *
@@ -122,7 +122,7 @@ export const Exec: any;
  */
 export const HTTP: any;
 /**
- * Log Actions
+ * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/Log.html Log} Actions
  *
  * The static methods of this class are made available as functions in the scripts. This allows a script to log to the SLF4J-Log.
  *
@@ -137,7 +137,7 @@ export const HTTP: any;
  */
 declare const LogAction: any;
 /**
- * Ping Actions
+ * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/Ping.html Ping} Actions
  *
  * This Action checks the vitality of the given host.
  *
@@ -149,21 +149,22 @@ declare const LogAction: any;
  */
 export const Ping: any;
 /**
- * ScriptExecution Actions
+ * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/scriptexecution ScriptExecution} Actions
  *
  * The static methods of this class are made available as functions in the scripts. This allows a script to call another script, which is available as a file.
  *
  * @example
  * ScriptExecution.callScript​(String scriptName)
- * ScriptExecution.createTimer​(ZonedDateTime instant, org.eclipse.xtext.xbase.lib.Procedures.Procedure0 closure)
- * ScriptExecution.createTimerWithArgument​(ZonedDateTime instant, Object arg1, org.eclipse.xtext.xbase.lib.Procedures.Procedure1<Object> closure)
+ * ScriptExecution.createTimer​(ZonedDateTime instant, callbackFunction)
+ * ScriptExecution.createTimer​(String identifier, ZonedDateTime instant, callbackFunction)
+ * ScriptExecution.createTimerWithArgument​(ZonedDateTime instant, Object arg1, callbackFunction)
  *
  * @name ScriptExecution
  * @memberof actions
  */
 export const ScriptExecution: any;
 /**
- * Semantics Actions
+ * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/Semantics.html Semantics} Actions
  *
  * The static methods of this class are made available as functions in the scripts. This allows a script to use Semantics features.
  *
@@ -184,7 +185,7 @@ export const ScriptExecution: any;
  */
 export const Semantics: any;
 /**
- * Things Actions
+ * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/Things.html Things} Actions
  *
  * This class provides static methods that can be used in automation rules for getting thing's status info.
  *
@@ -197,7 +198,7 @@ export const Semantics: any;
  */
 declare const ThingsAction: any;
 /**
- * Voice Actions
+ * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/Voice.html Voice} Actions
  *
  * The static methods of this class are made available as functions in the scripts. This allows a script to use voice features.
  *
