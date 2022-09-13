@@ -5,6 +5,9 @@
 | Type        | Namespace  | Description                                                              | Reference                                              | Breaking |
 |-------------|------------|--------------------------------------------------------------------------|--------------------------------------------------------|----------|
 | Enhancement | `triggers` | Add DateTime Trigger                                                     | [#154](https://github.com/openhab/openhab-js/pull/154) | No       |
+| Enhancement | `items`    | ItemHistory: Add missing methods & Enable type defs                      | [#158](https://github.com/openhab/openhab-js/pull/158) | No       |
+| Docs        | `actions`  | Update docs for naming timers                                            | [#160](https://github.com/openhab/openhab-js/pull/160) | No       |
+
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/4).
 
