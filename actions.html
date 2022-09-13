@@ -104,7 +104,7 @@
 
             
                 <div class="description usertext"><p>Actions namespace.
-This namespace provides access to openHAB actions. All available actions can be accessed as direct properties of this
+This namespace provides access to openHAB actions. <a href="https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/package-summary.html">All available actions</a> can be accessed as direct properties of this
 object (via their simple class name).</p></div>
             
 
@@ -194,7 +194,7 @@ actions.NotificationAction.sendBroadcastNotification("Hello World!")</code></pre
 
 
 <div class="description usertext">
-    <p>Audio Actions</p>
+    <p><a href="https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/audio">Audio</a> Actions</p>
 <p>The static methods of this class are made available as functions in the scripts. This allows a script to use audio features.</p>
 </div>
 
@@ -275,7 +275,7 @@ Audio.setMasterVolume​(PercentType percent)</code></pre>
 
 
 <div class="description usertext">
-    <p>BusEvent Actions</p>
+    <p><a href="https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/busevent">BusEvent</a> Actions</p>
 <p>The static methods of this class are made available as functions in the scripts. This gives direct write access to the openHAB event bus from within scripts. Items should not be updated directly (setting the state property), but updates should be sent to the bus, so that all interested bundles are notified.</p>
 </div>
 
@@ -353,7 +353,7 @@ BusEvent.storeStates​(Item... items)</code></pre>
 
 
 <div class="description usertext">
-    <p>Ephemeris Actions</p>
+    <p><a href="https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/ephemeris">Ephemeris</a> Actions</p>
 <p>The static methods of this class are made available as functions in the scripts. This allows a script to use ephemeris features.</p>
 </div>
 
@@ -450,7 +450,7 @@ Ephemeris.isWeekend​(ZonedDateTime day)</code></pre>
 
 
 <div class="description usertext">
-    <p>Exec Actions</p>
+    <p><a href="https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/exec">Exec</a> Actions</p>
 <p>This class provides static methods that can be used in automation rules for executing commands on command line.</p>
 </div>
 
@@ -520,7 +520,7 @@ Exec.executeCommandLine​(Duration timeout, String... commandLine)</code></pre>
 
 
 <div class="description usertext">
-    <p>HTTP Actions</p>
+    <p><a href="https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/HTTP.html">HTTP</a> Actions</p>
 <p>This class provides static methods that can be used in automation rules for sending HTTP requests</p>
 </div>
 
@@ -604,7 +604,7 @@ HTTP.sendHttpPutRequest​(String url, String contentType, String content, Map&l
 
 
 <div class="description usertext">
-    <p>Log Actions</p>
+    <p><a href="https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/Log.html">Log</a> Actions</p>
 <p>The static methods of this class are made available as functions in the scripts. This allows a script to log to the SLF4J-Log.</p>
 </div>
 
@@ -676,7 +676,7 @@ Log.logWarn​(String loggerName, String format, Object... args)</code></pre>
 
 
 <div class="description usertext">
-    <p>Ping Actions</p>
+    <p><a href="https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/Ping.html">Ping</a> Actions</p>
 <p>This Action checks the vitality of the given host.</p>
 </div>
 
@@ -745,7 +745,7 @@ Log.logWarn​(String loggerName, String format, Object... args)</code></pre>
 
 
 <div class="description usertext">
-    <p>ScriptExecution Actions</p>
+    <p><a href="https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/scriptexecution">ScriptExecution</a> Actions</p>
 <p>The static methods of this class are made available as functions in the scripts. This allows a script to call another script, which is available as a file.</p>
 </div>
 
@@ -758,8 +758,9 @@ Log.logWarn​(String loggerName, String format, Object... args)</code></pre>
     <h5>Example</h5>
     
     <pre class="prettyprint"><code>ScriptExecution.callScript​(String scriptName)
-ScriptExecution.createTimer​(ZonedDateTime instant, org.eclipse.xtext.xbase.lib.Procedures.Procedure0 closure)
-ScriptExecution.createTimerWithArgument​(ZonedDateTime instant, Object arg1, org.eclipse.xtext.xbase.lib.Procedures.Procedure1&lt;Object> closure)</code></pre>
+ScriptExecution.createTimer​(ZonedDateTime instant, callbackFunction)
+ScriptExecution.createTimer​(String identifier, ZonedDateTime instant, callbackFunction)
+ScriptExecution.createTimerWithArgument​(ZonedDateTime instant, Object arg1, callbackFunction)</code></pre>
 
 
 
@@ -776,7 +777,7 @@ ScriptExecution.createTimerWithArgument​(ZonedDateTime instant, Object arg1, o
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions.js.html">actions.js</a>, <a href="actions.js.html#line207">line 207</a>
+        <a href="actions.js.html">actions.js</a>, <a href="actions.js.html#line208">line 208</a>
     </li></ul></dd>
     
 
@@ -816,7 +817,7 @@ ScriptExecution.createTimerWithArgument​(ZonedDateTime instant, Object arg1, o
 
 
 <div class="description usertext">
-    <p>Semantics Actions</p>
+    <p><a href="https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/Semantics.html">Semantics</a> Actions</p>
 <p>The static methods of this class are made available as functions in the scripts. This allows a script to use Semantics features.</p>
 </div>
 
@@ -854,7 +855,7 @@ Semantics.isPoint​(Item item)</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions.js.html">actions.js</a>, <a href="actions.js.html#line229">line 229</a>
+        <a href="actions.js.html">actions.js</a>, <a href="actions.js.html#line230">line 230</a>
     </li></ul></dd>
     
 
@@ -894,7 +895,7 @@ Semantics.isPoint​(Item item)</code></pre>
 
 
 <div class="description usertext">
-    <p>Things Actions</p>
+    <p><a href="https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/Things.html">Things</a> Actions</p>
 <p>This class provides static methods that can be used in automation rules for getting thing's status info.</p>
 </div>
 
@@ -924,7 +925,7 @@ Things.getThingStatusInfo​(String thingUid)</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions.js.html">actions.js</a>, <a href="actions.js.html#line243">line 243</a>
+        <a href="actions.js.html">actions.js</a>, <a href="actions.js.html#line244">line 244</a>
     </li></ul></dd>
     
 
@@ -964,7 +965,7 @@ Things.getThingStatusInfo​(String thingUid)</code></pre>
 
 
 <div class="description usertext">
-    <p>Voice Actions</p>
+    <p><a href="https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/Voice.html">Voice</a> Actions</p>
 <p>The static methods of this class are made available as functions in the scripts. This allows a script to use voice features.</p>
 </div>
 
@@ -1001,7 +1002,7 @@ Voice.say​(Object text, PercentType volume)</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions.js.html">actions.js</a>, <a href="actions.js.html#line264">line 264</a>
+        <a href="actions.js.html">actions.js</a>, <a href="actions.js.html#line265">line 265</a>
     </li></ul></dd>
     
 
@@ -1084,7 +1085,7 @@ NotificationAction.sendLogNotification('&lt;message>'); // only listed in the no
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions.js.html">actions.js</a>, <a href="actions.js.html#line312">line 312</a>
+        <a href="actions.js.html">actions.js</a>, <a href="actions.js.html#line313">line 313</a>
     </li></ul></dd>
     
 
@@ -1268,7 +1269,7 @@ NotificationAction.sendLogNotification('&lt;message>'); // only listed in the no
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a> on Sat Sep 10 2022 22:33:00 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a> on Tue Sep 13 2022 14:15:31 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
