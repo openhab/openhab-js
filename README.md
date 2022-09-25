@@ -58,6 +58,12 @@ By default, openHAB ships with an older JavaScript runtime based on the Nashorn 
 
 ### Custom Installation
 
+On openHABian:
+- Open the openHABian config tool: `sudo openhabian-config`.
+- Select `40 | openHAB Related`.
+- Select `46 | Install openhab-js`.
+
+Manually:
 - Go to the JavaScript user scripts directory: `cd $OPENHAB_CONF/automation/js`.
 - You may need to install `npm`.
 - Install the latest release: Run `npm i openhab`.
