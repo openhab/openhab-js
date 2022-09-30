@@ -59,11 +59,13 @@ By default, openHAB ships with an older JavaScript runtime based on the Nashorn 
 ### Custom Installation
 
 On openHABian:
+
 - Open the openHABian config tool: `sudo openhabian-config`.
 - Select `40 | openHAB Related`.
 - Select `46 | Install openhab-js`.
 
 Manually:
+
 - Go to the JavaScript user scripts directory: `cd $OPENHAB_CONF/automation/js`.
 - You may need to install `npm`.
 - Install the latest release: Run `npm i openhab`.
@@ -548,9 +550,9 @@ myTimer.reschedule(now.plusSeconds(5));
 
 If you need to pass some variables to the timer, there are two options to do so:
 
-**Use a function generator**
+**Use a function generator** <!-- markdownlint-disable-line MD036 -->
 
-This allows you to pass variables to the timer‘s callback function at timer creation. 
+This allows you to pass variables to the timer‘s callback function at timer creation.
 The variables can not be mutated after the timer function generator was used to create the function.
 
 ```javascript
@@ -567,11 +569,11 @@ function timerOver (myVariable) {
 var myTimer = actions.ScriptExecution.createTimer('My Timer', now.plusSeconds(10), timerOver('Hello world!'));
 ```
 
-**Pass `this` to the timer**
+**Pass a single variable to the timer** <!--markdownlint-disable-line MD036 -->
 
-This allows you to access nearly everything from the current context to the timer.
-Variables can be mutated (changed) and added after the timer has been created.
-Be aware that this can lead to unattended side effects, e.g. when you change a variable after timer creation, which can make debugging quite difficult!
+This allows you to pass a single variable to the timer's callback function.
+Variables can be mutated (changed) after the timer has been created.
+Be aware that this can lead to unattended side effects, e.g. when you change the variable after timer creation, which can make debugging quite difficult!
 
 ```javascript
 var now = time.ZonedDateTime.now();
@@ -584,10 +586,12 @@ function timerOver () {
 var myVariable = 'Hello world!';
 
 // Create the Timer.
-var myTimer = actions.ScriptExecution.createTimerWithArgument('My Timer', now.plusSeconds(10), this, timerOver);
+var myTimer = actions.ScriptExecution.createTimerWithArgument('My Timer', now.plusSeconds(10), myVariable, timerOver);
 
 myVariable = 'Hello mutation!';
 ```
+
+You may also pass `this` to the timer to have access to all variables from the current context.
 
 #### Semantics Actions
 
