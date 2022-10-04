@@ -589,6 +589,7 @@ var myVariable = 'Hello world!';
 var myTimer = actions.ScriptExecution.createTimerWithArgument('My Timer', now.plusSeconds(10), myVariable, timerOver);
 
 myVariable = 'Hello mutation!';
+// When the timer runs, it will log "Hello mutation!" instead of "Hello world!"
 ```
 
 You may also pass `this` to the timer to have access to all variables from the current context.
