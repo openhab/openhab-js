@@ -2,21 +2,23 @@
 
 /**
  * Actions namespace.
+ *
  * This namespace provides access to openHAB actions. {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/package-summary.html All available actions} can be accessed as direct properties of this
  * object (via their simple class name).
  *
  * @example <caption>Sends a broadcast notification</caption>
- * let { actions } = require('openhab');
+ * const { actions } = require('openhab');
  * actions.NotificationAction.sendBroadcastNotification("Hello World!")
  *
  * @example <caption>Sends a PushSafer notification</caption>
- * let { actions } = require('openhab');
- *  actions.Pushsafer.pushsafer("<your pushsafer api key>", "<message>", "<message title>", "", "", "", "")
+ * const { actions } = require('openhab');
+ * actions.Pushsafer.pushsafer("<your pushsafer api key>", "<message>", "<message title>", "", "", "", "")
  *
  * @namespace actions
  */
 
 const osgi = require('./osgi');
+// See https://github.com/openhab/openhab-core/blob/main/bundles/org.openhab.core.automation.module.script/src/main/java/org/openhab/core/automation/module/script/internal/defaultscope/ScriptThingActionsImpl.java
 const { actions } = require('@runtime/Defaults');
 const log = require('./log')('actions');
 
@@ -300,22 +302,21 @@ module.exports = {
   Voice,
   NotificationAction,
   /**
-   * Gets an actions instance of a certain scope for a given Thing.
-   * See {@link https://www.openhab.org/javadoc/latest/org/openhab/core/automation/module/script/defaultscope/scriptthingactions#get(java.lang.String,java.lang.String) ScriptThingActions.get()}.
-   *
-   * @memberof actions
-   * @param {string} scope the action scope
-   * @param {string} thingUid the UID of the Thing
-   * @returns {*} {@link https://www.openhab.org/javadoc/latest/org/openhab/core/thing/binding/thingactions ThingActions}
-   */
-  get: (scope, thingUid) => actions.get(scope, thingUid),
-  /**
-   * Get the ThingActions of a Thing.
+   * Get the ThingActions of a given Thing.
    *
    * @memberof actions
    * @param {string} bindingId binding ID
    * @param {string} thingUid Thing UID
-   * @returns {*} {@link https://www.openhab.org/javadoc/latest/org/openhab/core/thing/binding/thingactions ThingActions ThingActions}
+   * @returns {*} Native Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/thing/binding/thingactions ThingActions}
+   */
+  get: (bindingId, thingUid) => actions.get(bindingId, thingUid),
+  /**
+   * Get the ThingActions of a given Thing.
+   *
+   * @memberof actions
+   * @param {string} bindingId binding ID
+   * @param {string} thingUid Thing UID
+   * @returns {*} Native Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/thing/binding/thingactions ThingActions}
    */
   thingActions: (bindingId, thingUid) => Things.getActions(bindingId, thingUid)
 };
