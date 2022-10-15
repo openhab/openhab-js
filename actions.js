@@ -298,17 +298,24 @@ module.exports = {
   Semantics,
   Things: ThingsAction,
   Voice,
-  NotificationAction
+  NotificationAction,
+  /**
+   * Gets an actions instance of a certain scope for a given Thing.
+   * See {@link https://www.openhab.org/javadoc/latest/org/openhab/core/automation/module/script/defaultscope/scriptthingactions#get(java.lang.String,java.lang.String) ScriptThingActions.get()}.
+   *
+   * @memberof actions
+   * @param {string} scope the action scope
+   * @param {string} thingUid the UID of the Thing
+   * @returns {*} {@link https://www.openhab.org/javadoc/latest/org/openhab/core/thing/binding/thingactions ThingActions}
+   */
+  get: (scope, thingUid) => actions.get(scope, thingUid),
+  /**
+   * Get the ThingActions of a Thing.
+   *
+   * @memberof actions
+   * @param {string} bindingId binding ID
+   * @param {string} thingUid Thing UID
+   * @returns {*} {@link https://www.openhab.org/javadoc/latest/org/openhab/core/thing/binding/thingactions ThingActions ThingActions}
+   */
+  thingActions: (bindingId, thingUid) => Things.getActions(bindingId, thingUid)
 };
-
-exports.get = (...args) => actions.get(...args);
-
-/**
- * Get the ThingActions of a Thing.
- *
- * @memberof actions
- * @param {String} bindingId binding ID
- * @param {String} thingUid Thing UID
- * @returns {any} {@link https://www.openhab.org/javadoc/latest/org/openhab/core/thing/binding/thingactions ThingActions}
- */
-exports.thingActions = (bindingId, thingUid) => Things.getActions(bindingId, thingUid);
