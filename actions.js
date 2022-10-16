@@ -6,17 +6,12 @@
  * This namespace provides access to openHAB actions. {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/package-summary.html All available actions} can be accessed as direct properties of this
  * object (via their simple class name).
  *
- * Additional actions provided by user installed addons are also exported using their common name space.
+ * Additional actions provided by user installed addons can be accessed using their common name on the actions name space if the addon exports them in a proper way.
  *
+ * @namespace actions
  * @example <caption>Sends a broadcast notification</caption>
  * const { actions } = require('openhab');
  * actions.NotificationAction.sendBroadcastNotification("Hello World!")
- *
- * @example <caption>Sends a PushSafer notification</caption>
- * const { actions } = require('openhab');
- * actions.Pushsafer.pushsafer("<your pushsafer api key>", "<message>", "<message title>", "", "", "", "")
- *
- * @namespace actions
  */
 
 const osgi = require('./osgi');
@@ -33,6 +28,7 @@ actionServices.forEach(function (item) {
   try {
     // if an action fails to activate, then warn and continue so that other actions are available
     dynamicExports[item.getActionClass().getSimpleName()] = item.getActionClass().static;
+    log.debug('Successfully activated action {} as {}', item, item.getActionClass().getSimpleName());
   } catch (e) {
     log.warn('Failed to activate action {} due to {}', item, e);
   }

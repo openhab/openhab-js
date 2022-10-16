@@ -464,8 +464,6 @@ thing.setEnabled(false);
 The actions namespace allows interactions with openHAB actions.
 The following are a list of standard actions.
 
-Additional actions provided by user installed addons can be accessed using their common name on the actions name space, e.g. `actions.Pushsafer.pushsafer(...)`.
-
 See [openhab-js : actions](https://openhab.github.io/openhab-js/actions.html) for full API documentation and additional actions.
 
 #### Audio Actions
