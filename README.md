@@ -464,8 +464,7 @@ thing.setEnabled(false);
 The actions namespace allows interactions with openHAB actions.
 The following are a list of standard actions.
 
-Additional actions provided by user installed addons can be accessed using their common name on the actions name space
-(example:  `actions.Pushsafer.pushsafer(...)`)
+Additional actions provided by user installed addons can be accessed using their common name on the actions name space, e.g. `actions.Pushsafer.pushsafer(...)`.
 
 See [openhab-js : actions](https://openhab.github.io/openhab-js/actions.html) for full API documentation and additional actions.
 
@@ -599,6 +598,8 @@ You may also pass `this` to the timer to have access to all variables from the c
 See [openhab-js : actions.Semantics](https://openhab.github.io/openhab-js/actions.html#.Semantics) for complete documentation.
 
 #### Things Actions
+
+It is possible to get the actions for a Thing using `actions.Things.getActions(bindingId, thingUid)`, e.g. `actions.Things.getActions('network', 'network:pingdevice:pc')`.
 
 See [openhab-js : actions.Things](https://openhab.github.io/openhab-js/actions.html#.Things) for complete documentation.
 

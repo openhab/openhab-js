@@ -191,7 +191,7 @@ export const Semantics: any;
  * This class provides static methods that can be used in automation rules for getting thing's status info.
  *
  * @example
- * Things.getActions​(String scope, String thingUid)
+ * Things.getActions​(String bindingId, String thingUid)
  * Things.getThingStatusInfo​(String thingUid)
  *
  * @name Things

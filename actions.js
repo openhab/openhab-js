@@ -6,11 +6,11 @@
  * This namespace provides access to openHAB actions. {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/package-summary.html All available actions} can be accessed as direct properties of this
  * object (via their simple class name).
  *
+ * Additional actions provided by user installed addons are also exported using their common name space.
+ *
  * @example <caption>Sends a broadcast notification</caption>
  * const { actions } = require('openhab');
  * actions.NotificationAction.sendBroadcastNotification("Hello World!")
- *
- * Additionally, actions of bindings are dynamically exported.
  *
  * @example <caption>Sends a PushSafer notification</caption>
  * const { actions } = require('openhab');
@@ -240,7 +240,7 @@ const Semantics = Java.type('org.openhab.core.model.script.actions.Semantics');
  * This class provides static methods that can be used in automation rules for getting thing's status info.
  *
  * @example
- * Things.getActions​(String scope, String thingUid)
+ * Things.getActions​(String bindingId, String thingUid)
  * Things.getThingStatusInfo​(String thingUid)
  *
  * @name Things
@@ -307,6 +307,7 @@ module.exports = Object.assign(dynamicExports, {
   NotificationAction,
   /**
    * Get the ThingActions of a given Thing.
+   * Duplicate of {@link actions.Things actions.Things.getActions()}.
    *
    * @memberof actions
    * @param {string} bindingId binding ID
@@ -316,7 +317,7 @@ module.exports = Object.assign(dynamicExports, {
   get: (bindingId, thingUid) => actions.get(bindingId, thingUid),
   /**
    * Get the ThingActions of a given Thing.
-   * Duplicate of {@link actions.get actions.get()}.
+   * Duplicate of {@link actions.get actions.get()} and {@link actions.Things actions.Things.getActions()}.
    *
    * @memberof actions
    * @param {string} bindingId binding ID
