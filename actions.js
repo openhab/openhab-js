@@ -316,6 +316,7 @@ module.exports = Object.assign(dynamicExports, {
   get: (bindingId, thingUid) => actions.get(bindingId, thingUid),
   /**
    * Get the ThingActions of a given Thing.
+   * Duplicate of {@link actions.get actions.get()}.
    *
    * @memberof actions
    * @param {string} bindingId binding ID

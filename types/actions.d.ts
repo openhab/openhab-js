@@ -158,6 +158,7 @@ export const Ping: any;
  * ScriptExecution.createTimer​(ZonedDateTime instant, callbackFunction)
  * ScriptExecution.createTimer​(String identifier, ZonedDateTime instant, callbackFunction)
  * ScriptExecution.createTimerWithArgument​(ZonedDateTime instant, Object arg1, callbackFunction)
+ * ScriptExecution.createTimerWithArgument​(String identifier, ZonedDateTime instant, Object arg1, callbackFunction)
  *
  * @name ScriptExecution
  * @memberof actions
@@ -234,7 +235,7 @@ export const Voice: any;
  * @memberof actions
  */
 export let NotificationAction: any;
-export declare function get(...args: any[]): any;
+export declare function get(bindingId: string, thingUid: string): any;
 export declare function thingActions(bindingId: string, thingUid: string): any;
 export { LogAction as Log, ThingsAction as Things };
 //# sourceMappingURL=actions.d.ts.map
