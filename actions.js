@@ -10,6 +10,8 @@
  * const { actions } = require('openhab');
  * actions.NotificationAction.sendBroadcastNotification("Hello World!")
  *
+ * Additionally, actions of bindings are dynamically exported.
+ *
  * @example <caption>Sends a PushSafer notification</caption>
  * const { actions } = require('openhab');
  * actions.Pushsafer.pushsafer("<your pushsafer api key>", "<message>", "<message title>", "", "", "", "")
@@ -25,10 +27,12 @@ const log = require('./log')('actions');
 const Things = Java.type('org.openhab.core.model.script.actions.Things');
 const actionServices = osgi.findServices('org.openhab.core.model.script.engine.action.ActionService', null) || [];
 
+// Dynamically export all found actions
+const dynamicExports = {};
 actionServices.forEach(function (item) {
   try {
     // if an action fails to activate, then warn and continue so that other actions are available
-    exports[item.getActionClass().getSimpleName()] = item.getActionClass().static;
+    dynamicExports[item.getActionClass().getSimpleName()] = item.getActionClass().static;
   } catch (e) {
     log.warn('Failed to activate action {} due to {}', item, e);
   }
@@ -288,7 +292,7 @@ try {
   if (error.name !== 'TypeError') throw Error(error);
 }
 
-module.exports = {
+module.exports = Object.assign(dynamicExports, {
   Audio,
   BusEvent,
   Ephemeris,
@@ -319,4 +323,4 @@ module.exports = {
    * @returns {*} Native Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/thing/binding/thingactions ThingActions}
    */
   thingActions: (bindingId, thingUid) => Things.getActions(bindingId, thingUid)
-};
+});
