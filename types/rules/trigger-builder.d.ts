@@ -2,10 +2,10 @@
  * Cron based trigger
  *
  * @memberof TriggerBuilder
- * @extends TriggerBuilder.TriggerConf
+ * @extends TriggerConf
  * @hideconstructor
  */
-export class CronTriggerConfig {
+export class CronTriggerConfig extends TriggerConf {
     constructor(timeStr: any, triggerBuilder: any);
     timeStr: any;
     _complete: () => boolean;
@@ -14,10 +14,10 @@ export class CronTriggerConfig {
 }
 /**
  * @memberof TriggerBuilder
- * @extends TriggerBuilder.TriggerConf
+ * @extends TriggerConf
  * @hideconstructor
  */
-export class ChannelTriggerConfig {
+export class ChannelTriggerConfig extends TriggerConf {
     constructor(channelName: any, triggerBuilder: any);
     channelName: any;
     _toOHTriggers: () => HostTrigger[];
@@ -26,16 +26,16 @@ export class ChannelTriggerConfig {
        * trigger a specific event name
        *
        * @param {string} eventName
-       * @returns {TriggerBuilder.ChannelTriggerConfig}
+       * @returns {ChannelTriggerConfig}
        */
-    to(eventName: string): TriggerBuilder.ChannelTriggerConfig;
+    to(eventName: string): ChannelTriggerConfig;
     /**
        * trigger a specific event name
        *
        * @param {string} eventName
-       * @returns {TriggerBuilder.ChannelTriggerConfig}
+       * @returns {ChannelTriggerConfig}
        */
-    triggered(eventName: string): TriggerBuilder.ChannelTriggerConfig;
+    triggered(eventName: string): ChannelTriggerConfig;
     eventName: string;
     _complete(): boolean;
 }
@@ -43,67 +43,67 @@ export class ChannelTriggerConfig {
  * item based trigger
  *
  * @memberof TriggerBuilder
- * @extends TriggerBuilder.TriggerConf
+ * @extends TriggerConf
  * @hideconstructor
  */
-export class ItemTriggerConfig {
+export class ItemTriggerConfig extends TriggerConf {
     constructor(itemOrName: any, isGroup: any, triggerBuilder: any);
     type: string;
     item_name: any;
     describe(compact: any): string;
-    of: (value: any) => TriggerBuilder.ItemTriggerConfig;
+    of: (value: any) => ItemTriggerConfig;
     /**
        * Item to
        *
        * @param {*} value this item should be triggered to
-       * @returns {TriggerBuilder.ItemTriggerConfig}
+       * @returns {ItemTriggerConfig}
        */
-    to(value: any): TriggerBuilder.ItemTriggerConfig;
+    to(value: any): ItemTriggerConfig;
     to_value: any;
     /**
        * Item from
        * @param {*} value this items should be triggered from
-       * @returns {TriggerBuilder.ItemTriggerConfig}
+       * @returns {ItemTriggerConfig}
        */
-    from(value: any): TriggerBuilder.ItemTriggerConfig;
+    from(value: any): ItemTriggerConfig;
     from_value: any;
     /**
        * item changed to OFF
        *
-       * @returns {TriggerBuilder.ItemTriggerConfig}
+       * @returns {ItemTriggerConfig}
        */
-    toOff(): TriggerBuilder.ItemTriggerConfig;
+    toOff(): ItemTriggerConfig;
     /**
        * item changed to ON
        *
-       * @returns {TriggerBuilder.ItemTriggerConfig}
+       * @returns {ItemTriggerConfig}
        */
-    toOn(): TriggerBuilder.ItemTriggerConfig;
+    toOn(): ItemTriggerConfig;
     /**
        * item recieved command
        *
-       * @returns {TriggerBuilder.ItemTriggerConfig}
+       * @returns {ItemTriggerConfig}
        */
-    receivedCommand(): TriggerBuilder.ItemTriggerConfig;
+    receivedCommand(): ItemTriggerConfig;
     op_type: string;
     /**
        * item recieved update
        *
-       * @returns {TriggerBuilder.ItemTriggerConfig}
+       * @returns {ItemTriggerConfig}
        */
-    receivedUpdate(): TriggerBuilder.ItemTriggerConfig;
+    receivedUpdate(): ItemTriggerConfig;
     /**
        * item changed state
        *
-       * @returns {TriggerBuilder.ItemTriggerConfig}
+       * @returns {ItemTriggerConfig}
        */
-    changed(): TriggerBuilder.ItemTriggerConfig;
+    changed(): ItemTriggerConfig;
     /**
        * For timespan
        * @param {*} timespan
-       * @returns {TriggerBuilder.ItemTriggerConfig}
+       * @returns {ItemTriggerConfig}
        */
-    for(timespan: any): TriggerBuilder.ItemTriggerConfig;
+    for(timespan: any): ItemTriggerConfig;
     _complete(): boolean;
     _toOHTriggers(): HostTrigger[];
     _executeHook(): (next: any, args: any) => any;
@@ -112,10 +112,10 @@ export class ItemTriggerConfig {
  * Thing based trigger
  *
  * @memberof TriggerBuilder
- * @extends TriggerBuilder.TriggerConf
+ * @extends TriggerConf
  * @hideconstructor
  */
-export class ThingTriggerConfig {
+export class ThingTriggerConfig extends TriggerConf {
     constructor(thingUID: any, triggerBuilder: any);
     thingUID: any;
     _complete(): boolean;
@@ -123,29 +123,29 @@ export class ThingTriggerConfig {
     /**
        * thing changed
        *
-       * @returns {TriggerBuilder.ThingTriggerConfig}
+       * @returns {ThingTriggerConfig}
        */
-    changed(): TriggerBuilder.ThingTriggerConfig;
+    changed(): ThingTriggerConfig;
     op_type: string;
     /**
        * thing updates
        *
-       * @returns {TriggerBuilder.ThingTriggerConfig}
+       * @returns {ThingTriggerConfig}
        */
-    updated(): TriggerBuilder.ThingTriggerConfig;
+    updated(): ThingTriggerConfig;
     /**
        * thing status changed from
        *
-       * @returns {TriggerBuilder.ThingTriggerConfig}
+       * @returns {ThingTriggerConfig}
        */
-    from(value: any): TriggerBuilder.ThingTriggerConfig;
+    from(value: any): ThingTriggerConfig;
     from_value: any;
     /**
        * thing status changed to
        *
-       * @returns {TriggerBuilder.ThingTriggerConfig}
+       * @returns {ThingTriggerConfig}
        */
-    to(value: any): TriggerBuilder.ThingTriggerConfig;
+    to(value: any): ThingTriggerConfig;
     to_value: any;
     _toOHTriggers(): HostTrigger[];
 }
@@ -153,50 +153,49 @@ export class ThingTriggerConfig {
  * System based trigger
  *
  * @memberof TriggerBuilder
- * @extends TriggerBuilder.TriggerConf
+ * @extends TriggerConf
  * @hideconstructor
  */
-export class SystemTriggerConfig {
-    constructor(triggerBuilder: any);
+export class SystemTriggerConfig extends TriggerConf {
     _toOHTriggers: () => HostTrigger[];
     describe: (compact: any) => string;
     _complete(): boolean;
     /**
        * System trigger
        *
-       * @returns {TriggerBuilder.SystemTriggerConfig}
+       * @returns {SystemTriggerConfig}
        */
-    rulesLoaded(): TriggerBuilder.SystemTriggerConfig;
+    rulesLoaded(): SystemTriggerConfig;
     /**
        * System trigger
        *
-       * @returns {TriggerBuilder.SystemTriggerConfig}
+       * @returns {SystemTriggerConfig}
        */
-    ruleEngineStarted(): TriggerBuilder.SystemTriggerConfig;
+    ruleEngineStarted(): SystemTriggerConfig;
     /**
        * System trigger
        *
-       * @returns {TriggerBuilder.SystemTriggerConfig}
+       * @returns {SystemTriggerConfig}
        */
-    userInterfacesStarted(): TriggerBuilder.SystemTriggerConfig;
+    userInterfacesStarted(): SystemTriggerConfig;
     /**
        * System trigger
        *
-       * @returns {TriggerBuilder.SystemTriggerConfig}
+       * @returns {SystemTriggerConfig}
        */
-    thingsInitialized(): TriggerBuilder.SystemTriggerConfig;
+    thingsInitialized(): SystemTriggerConfig;
     /**
        * System trigger
        *
-       * @returns {TriggerBuilder.SystemTriggerConfig}
+       * @returns {SystemTriggerConfig}
        */
-    startupComplete(): TriggerBuilder.SystemTriggerConfig;
+    startupComplete(): SystemTriggerConfig;
     /**
        * System trigger
        *
-       * @returns {TriggerBuilder.SystemTriggerConfig}
+       * @returns {SystemTriggerConfig}
        */
-    startLevel(level: any): TriggerBuilder.SystemTriggerConfig;
+    startLevel(level: any): SystemTriggerConfig;
     level: any;
 }
 /**
@@ -216,45 +215,74 @@ export class TriggerBuilder {
        * Specifies a channel event as a source for the rule to fire.
        *
        * @param {string} channelName the name of the channel
-       * @returns {TriggerBuilder.ChannelTriggerConfig} the trigger config
+       * @returns {ChannelTriggerConfig} the trigger config
        */
-    channel(s: any): TriggerBuilder.ChannelTriggerConfig;
+    channel(s: any): ChannelTriggerConfig;
     /**
        * Specifies a cron schedule for the rule to fire.
        *
        * @param {string} cronExpression the cron expression
-       * @returns {TriggerBuilder.CronTriggerConfig} the trigger config
+       * @returns {CronTriggerConfig} the trigger config
        */
-    cron(s: any): TriggerBuilder.CronTriggerConfig;
+    cron(s: any): CronTriggerConfig;
     /**
        * Specifies an item as the source of changes to trigger a rule.
        *
        * @param {string} itemName the name of the item
-       * @returns {TriggerBuilder.ItemTriggerConfig} the trigger config
+       * @returns {ItemTriggerConfig} the trigger config
        */
-    item(s: any): TriggerBuilder.ItemTriggerConfig;
+    item(s: any): ItemTriggerConfig;
     /**
        * Specifies an group member as the source of changes to trigger a rule.
        *
        * @param {string} groupName the name of the group
-       * @returns {TriggerBuilder.ItemTriggerConfig} the trigger config
+       * @returns {ItemTriggerConfig} the trigger config
        */
-    memberOf(s: any): TriggerBuilder.ItemTriggerConfig;
+    memberOf(s: any): ItemTriggerConfig;
     /**
        * Specifies a Thing status event as a source for the rule to fire.
        *
        * @param {string} thingUID the UID of the Thing
-       * @returns {TriggerBuilder.ThingTriggerConfig} the trigger config
+       * @returns {ThingTriggerConfig} the trigger config
        */
-    thing(s: any): TriggerBuilder.ThingTriggerConfig;
+    thing(s: any): ThingTriggerConfig;
     /**
        * Specifies a system event as a source for the rule to fire.
        *
        * @memberof TriggerBuilder
-       * @returns {TriggerBuilder.SystemTriggerConfig} the trigger config
+       * @returns {SystemTriggerConfig} the trigger config
        */
-    system(): TriggerBuilder.SystemTriggerConfig;
+    system(): SystemTriggerConfig;
+}
+/**
+ * {RuleBuilder} RuleBuilder triggers
+ * @memberof TriggerBuilder
+ */
+declare class TriggerConf {
+    constructor(triggerBuilder: any);
+    triggerBuilder: any;
+    /**
+       * Add an additional Trigger
+       *
+       * @returns {TriggerBuilder}
+       */
+    or(): TriggerBuilder;
+    /**
+       * Move to the rule operations
+       *
+       * @param {*} function the optional function to execute
+       * @returns {operations.OperationBuilder}
+       */
+    then(fn: any): operations.OperationBuilder;
+    /**
+       * Move to the rule condition
+       *
+       * @param {*} function the optional function to execute
+       * @returns {conditions.ConditionBuilder}
+       */
+    if(fn: any): conditions.ConditionBuilder;
 }
 import operations = require("./operation-builder");
 import conditions = require("./condition-builder");
+export {};
 //# sourceMappingURL=trigger-builder.d.ts.map

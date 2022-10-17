@@ -78,9 +78,9 @@ declare class Logger {
        *
        * @param {string} level The level at which to log, such as 'INFO', or 'DEBUG'
        * @param {String|Error} msg the message to log, possibly with object placeholders
-       * @param {Object[]} [objects] the objects to substitute into the log message
+       * @param {Object[]} objects=[] the objects to substitute into the log message
        */
-    atLevel(level: string, msg: string | Error, ...objects?: any[]): void;
+    atLevel(level: string, msg: string | Error, ...objects: any[]): void;
     maybeLogWithThrowable(level: any, msg: any, objects: any): boolean;
     writeLogLine(level: any, message: any, objects?: any[]): void;
     /**

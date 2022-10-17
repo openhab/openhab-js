@@ -3,30 +3,30 @@
  *
  * @memberOf utils
  * @param {Set} set JavaScript Set Object ({@link https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Set})
- * @returns {java.util.Set} Java Set ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html})
+ * @returns {HostSet} Java Set ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html})
  */
-export function jsSetToJavaSet(set: Set<any>): java.util.Set;
+export function jsSetToJavaSet(set: Set<any>): HostSet;
 /**
  * Convert JavaScript Array to Java Set.
  *
  * @memberOf utils
  * @param {Array} arr JavaScript Array
- * @returns {java.util.Set} Java Set ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html})
+ * @returns {HostSet} Java Set ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html})
  */
-export function jsArrayToJavaSet(arr: any[]): java.util.Set;
+export function jsArrayToJavaSet(arr: any[]): HostSet;
 /**
  * Convert JavaScript Array to Java List.
  *
  * @memberOf utils
  * @param {Array} arr JavaScript Array
- * @returns {java.util.List} Java List ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/List.html})
+ * @returns {HostList} Java List ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/List.html})
  */
-export function jsArrayToJavaList(arr: any[]): java.util.List;
+export function jsArrayToJavaList(arr: any[]): HostList;
 /**
  * Convert Java List to JavaScript Array.
  *
  * @memberOf utils
- * @param {java.util.List} set Java Set ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/List.html})
+ * @param {JavaList} set Java Set ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/List.html})
  * @returns {Array} JavaScript Array
  */
 export function javaListToJsArray(list: any): any[];
@@ -34,18 +34,18 @@ export function javaListToJsArray(list: any): any[];
  * Convert Java Set to JavaScript Array.
  *
  * @memberOf utils
- * @param {java.util.Set} set Java Set ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html})
+ * @param {HostSet} set Java Set ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html})
  * @returns {Array} JavaScript Array
  */
-export function javaSetToJsArray(set: java.util.Set): any[];
+export function javaSetToJsArray(set: HostSet): any[];
 /**
  * Convert Java Set to JavaScript Set.
  *
  * @memberOf utils
- * @param {java.util.Set} set Java Set ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html})
+ * @param {HostSet} set Java Set ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html})
  * @returns {Set} JavaScript Set Object ({@link https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Set})
  */
-export function javaSetToJsSet(set: java.util.Set): Set<any>;
+export function javaSetToJsSet(set: HostSet): Set<any>;
 /**
  * Generate a random UUID.
  *
@@ -66,9 +66,9 @@ export function dumpObject(obj: any, dumpProps?: boolean): void;
  *
  * @memberOf utils
  * @param {*} instance object
- * @param {java.lang.Class} type Java class ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Class.html})
+ * @param {HostClass} type Java class ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Class.html})
  * @returns {boolean} whether it is an instance of a Java class
  * @throws error if type is not a java class
  */
-export function isJsInstanceOfJava(instance: any, type: java.lang.Class): boolean;
+export function isJsInstanceOfJava(instance: any, type: HostClass): boolean;
 //# sourceMappingURL=utils.d.ts.map
