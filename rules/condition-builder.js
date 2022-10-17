@@ -18,11 +18,11 @@ class ConditionBuilder {
   }
 
   /**
-     * Move to the rule operations
-     *
-     * @param {*} function the optional function to execute
-     * @returns {OperationBuilder}
-     */
+   * Move to the rule operations
+   *
+   * @param {*} function the optional function to execute
+   * @returns {operations.OperationBuilder}
+   */
   then (fn) {
     if (this.fn) {
       this.builder.setCondition(new FunctionConditionConf(this.fn));
