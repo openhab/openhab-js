@@ -2,6 +2,10 @@ const parseDuration = require('parse-duration');
 const items = require('../items');
 
 /**
+ * @typedef { import("../items/items").Item } Item
+ */
+
+/**
  * Operation to execute as part of a rule
  * @hideconstructor
  */
@@ -313,7 +317,7 @@ class SendCommandOrUpdateOperation extends OperationConfig {
   /**
      * Send command to multiple items
      *
-     * @param {items.Item[]|String[]} itemsOrNames the items to send a command to
+     * @param {Item[] | string[]} itemsOrNames the items to send a command to
      * @returns {SendCommandOrUpdateOperation} this
      */
   toItems (itemsOrNames) {
@@ -324,7 +328,7 @@ class SendCommandOrUpdateOperation extends OperationConfig {
   /**
      * Send command to an item
      *
-     * @param {items.Item|String} itemOrName the item to send a command to
+     * @param {Item | string} itemOrName the item to send a command to
      * @returns {SendCommandOrUpdateOperation} this
      */
   toItem (itemOrName) {
