@@ -5,6 +5,15 @@
 | Type        | Namespace  | Description                                                              | Reference                                              | Breaking |
 |-------------|------------|--------------------------------------------------------------------------|--------------------------------------------------------|----------|
 
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/6).
+
+# 2.0.4
+
+| Type   | Namespace | Description                                     | Reference                                              | Breaking |
+|--------|-----------|-------------------------------------------------|--------------------------------------------------------|----------|
+| Docs   |           | Update timer docs                               | [#161](https://github.com/openhab/openhab-js/pull/161) | No       |
+| Bugfix | `actions` | Fix `get()`, `thingActions()` & dynamic exports | [#165](https://github.com/openhab/openhab-js/pull/165) | No       |
+
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/5).
 
