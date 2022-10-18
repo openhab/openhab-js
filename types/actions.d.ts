@@ -158,6 +158,7 @@ export const Ping: any;
  * ScriptExecution.createTimer​(ZonedDateTime instant, callbackFunction)
  * ScriptExecution.createTimer​(String identifier, ZonedDateTime instant, callbackFunction)
  * ScriptExecution.createTimerWithArgument​(ZonedDateTime instant, Object arg1, callbackFunction)
+ * ScriptExecution.createTimerWithArgument​(String identifier, ZonedDateTime instant, Object arg1, callbackFunction)
  *
  * @name ScriptExecution
  * @memberof actions
@@ -190,7 +191,7 @@ export const Semantics: any;
  * This class provides static methods that can be used in automation rules for getting thing's status info.
  *
  * @example
- * Things.getActions​(String scope, String thingUid)
+ * Things.getActions​(String bindingId, String thingUid)
  * Things.getThingStatusInfo​(String thingUid)
  *
  * @name Things
@@ -234,7 +235,7 @@ export const Voice: any;
  * @memberof actions
  */
 export let NotificationAction: any;
-export declare function get(...args: any[]): any;
+export declare function get(bindingId: string, thingUid: string): any;
 export declare function thingActions(bindingId: string, thingUid: string): any;
 export { LogAction as Log, ThingsAction as Things };
 //# sourceMappingURL=actions.d.ts.map

@@ -2,31 +2,33 @@
 
 /**
  * Actions namespace.
+ *
  * This namespace provides access to openHAB actions. {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/package-summary.html All available actions} can be accessed as direct properties of this
  * object (via their simple class name).
  *
- * @example <caption>Sends a broadcast notification</caption>
- * let { actions } = require('openhab');
- * actions.NotificationAction.sendBroadcastNotification("Hello World!")
- *
- * @example <caption>Sends a PushSafer notification</caption>
- * let { actions } = require('openhab');
- *  actions.Pushsafer.pushsafer("<your pushsafer api key>", "<message>", "<message title>", "", "", "", "")
+ * Additional actions provided by user installed addons can be accessed using their common name on the actions name space if the addon exports them in a proper way.
  *
  * @namespace actions
+ * @example <caption>Sends a broadcast notification</caption>
+ * const { actions } = require('openhab');
+ * actions.NotificationAction.sendBroadcastNotification("Hello World!")
  */
 
 const osgi = require('./osgi');
+// See https://github.com/openhab/openhab-core/blob/main/bundles/org.openhab.core.automation.module.script/src/main/java/org/openhab/core/automation/module/script/internal/defaultscope/ScriptThingActionsImpl.java
 const { actions } = require('@runtime/Defaults');
 const log = require('./log')('actions');
 
 const Things = Java.type('org.openhab.core.model.script.actions.Things');
 const actionServices = osgi.findServices('org.openhab.core.model.script.engine.action.ActionService', null) || [];
 
+// Dynamically export all found actions
+const dynamicExports = {};
 actionServices.forEach(function (item) {
   try {
     // if an action fails to activate, then warn and continue so that other actions are available
-    exports[item.getActionClass().getSimpleName()] = item.getActionClass().static;
+    dynamicExports[item.getActionClass().getSimpleName()] = item.getActionClass().static;
+    log.debug('Successfully activated action {} as {}', item, item.getActionClass().getSimpleName());
   } catch (e) {
     log.warn('Failed to activate action {} due to {}', item, e);
   }
@@ -234,7 +236,7 @@ const Semantics = Java.type('org.openhab.core.model.script.actions.Semantics');
  * This class provides static methods that can be used in automation rules for getting thing's status info.
  *
  * @example
- * Things.getActions​(String scope, String thingUid)
+ * Things.getActions​(String bindingId, String thingUid)
  * Things.getThingStatusInfo​(String thingUid)
  *
  * @name Things
@@ -286,7 +288,7 @@ try {
   if (error.name !== 'TypeError') throw Error(error);
 }
 
-module.exports = {
+module.exports = Object.assign(dynamicExports, {
   Audio,
   BusEvent,
   Ephemeris,
@@ -298,17 +300,25 @@ module.exports = {
   Semantics,
   Things: ThingsAction,
   Voice,
-  NotificationAction
-};
-
-exports.get = (...args) => actions.get(...args);
-
-/**
- * Get the ThingActions of a Thing.
- *
- * @memberof actions
- * @param {String} bindingId binding ID
- * @param {String} thingUid Thing UID
- * @returns {any} {@link https://www.openhab.org/javadoc/latest/org/openhab/core/thing/binding/thingactions ThingActions}
- */
-exports.thingActions = (bindingId, thingUid) => Things.getActions(bindingId, thingUid);
+  NotificationAction,
+  /**
+   * Get the ThingActions of a given Thing.
+   * Duplicate of {@link actions.Things actions.Things.getActions()}.
+   *
+   * @memberof actions
+   * @param {string} bindingId binding ID
+   * @param {string} thingUid Thing UID
+   * @returns {*} Native Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/thing/binding/thingactions ThingActions}
+   */
+  get: (bindingId, thingUid) => actions.get(bindingId, thingUid),
+  /**
+   * Get the ThingActions of a given Thing.
+   * Duplicate of {@link actions.get actions.get()} and {@link actions.Things actions.Things.getActions()}.
+   *
+   * @memberof actions
+   * @param {string} bindingId binding ID
+   * @param {string} thingUid Thing UID
+   * @returns {*} Native Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/thing/binding/thingactions ThingActions}
+   */
+  thingActions: (bindingId, thingUid) => Things.getActions(bindingId, thingUid)
+});
