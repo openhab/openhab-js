@@ -45,7 +45,7 @@ const managedItemProvider = osgi.getService('org.openhab.core.items.ManagedItemP
  */
 
 /**
- * Tag value to be attached to all dynamically created items.
+ * Tag value to be attached to all dynamically created Items.
  *
  * @memberof items
  */
@@ -64,7 +64,7 @@ class Item {
    */
   constructor (rawItem) {
     if (typeof rawItem === 'undefined') {
-      throw Error('Supplied item is undefined');
+      throw Error('Supplied Item is undefined');
     }
     /**
      * The raw Item as a Java implementation of the Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/items/item Item object}.
@@ -80,7 +80,7 @@ class Item {
   }
 
   /**
-   * The type of the item: the Simple (without package) name of the Java item type, such as 'Switch'.
+   * The type of the Item: the Simple (without package) name of the Java Item type, such as 'Switch'.
    * @return {string} the type
    */
   get type () {
@@ -88,7 +88,7 @@ class Item {
   }
 
   /**
-   * The name of the item.
+   * The name of the Item.
    * @return {string} the name
    */
   get name () {
@@ -96,7 +96,7 @@ class Item {
   }
 
   /**
-   * The label attached to the item
+   * The label attached to the Item
    * @return {string} the label
    */
   get label () {
@@ -104,8 +104,8 @@ class Item {
   }
 
   /**
-   * The state of the item, as a string.
-   * @return {string} the item's state
+   * The state of the Item, as a string.
+   * @return {string} the Item's state
    */
   get state () {
     return this.rawState.toString();
@@ -113,32 +113,32 @@ class Item {
 
   /**
    * The raw state of the Item, as a Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/types/state State object}.
-   * @return {HostState} the item's state
+   * @return {HostState} the Item's state
    */
   get rawState () {
     return this.rawItem.state;
   }
 
   /**
-   * Members / children / direct descendents of the current group item (as returned by 'getMembers()'). Must be a group item.
-   * @returns {Item[]} member items
+   * Members / children / direct descendents of the current group Item (as returned by 'getMembers()'). Must be a group Item.
+   * @returns {Item[]} member Items
    */
   get members () {
     return utils.javaSetToJsArray(this.rawItem.getMembers()).map(raw => new Item(raw));
   }
 
   /**
-   * All descendents of the current group item (as returned by 'getAllMembers()'). Must be a group item.
-   * @returns {Item[]} all descendent items
+   * All descendents of the current group Item (as returned by 'getAllMembers()'). Must be a group Item.
+   * @returns {Item[]} all descendent Items
    */
   get descendents () {
     return utils.javaSetToJsArray(this.rawItem.getAllMembers()).map(raw => new Item(raw));
   }
 
   /**
-   * Whether this item is initialized.
+   * Whether this Item is initialized.
    * @type {boolean}
-   * @returns true iff the item has not been initialized
+   * @returns true iff the Item has not been initialized
    */
   get isUninitialized () {
     if (this.rawItem.state instanceof UnDefType ||
@@ -152,16 +152,16 @@ class Item {
   }
 
   /**
-   * Gets metadata values for this item.
+   * Gets metadata values for this Item.
    * @param {string} namespace The namespace for the metadata to retreive
-   * @returns {string} the metadata associated with this item and namespace
+   * @returns {string} the metadata associated with this Item and namespace
    */
   getMetadataValue (namespace) {
     return metadata.getValue(this.name, namespace);
   }
 
   /**
-   * Updates metadata values for this item.
+   * Updates metadata values for this Item.
    * @param {string} namespace The namespace for the metadata to update
    * @param {string} value the value to update the metadata to
    * @returns {string} the updated value
@@ -171,7 +171,7 @@ class Item {
   }
 
   /**
-   * Inserts or updates metadata values for this item.
+   * Inserts or updates metadata values for this Item.
    * @param {string} namespace The namespace for the metadata to update
    * @param {string} value the value to update the metadata to
    * @returns {boolean} true iff a new value was inserted
@@ -181,7 +181,7 @@ class Item {
   }
 
   /**
-   * Updates metadata values for this item.
+   * Updates metadata values for this Item.
    * @param {Map} namespaceToValues A map of namespaces to values to update
    */
   updateMetadataValues (namespaceToValues) {
@@ -191,7 +191,7 @@ class Item {
   }
 
   /**
-   * Sends a command to the item
+   * Sends a command to the Item
    * @param {String|HostState} value the value of the command to send, such as 'ON'
    * @see sendCommandIfDifferent
    * @see postUpdate
@@ -201,7 +201,7 @@ class Item {
   }
 
   /**
-   * Sends a command to the item, but only if the current state is not what is being sent.
+   * Sends a command to the Item, but only if the current state is not what is being sent.
    * Note
    * @param {String|HostState} value the value of the command to send, such as 'ON'
    * @returns {boolean} true if the command was sent, false otherwise
@@ -237,7 +237,7 @@ class Item {
         if (oldState) {
           return oldState.toString() === 'ON' ? 'OFF' : 'ON';
         } else {
-          throw Error('Toggle not supported for items of type ' + this.type);
+          throw Error('Toggle not supported for Items of type ' + this.type);
         }
       }
     }
@@ -265,7 +265,7 @@ class Item {
   }
 
   /**
-   * Posts an update to the item
+   * Posts an update to the Item
    * @param {String|HostState} value the value of the command to send, such as 'ON'
    * @see sendCommand
    */
@@ -274,7 +274,7 @@ class Item {
   }
 
   /**
-   * Gets the tags from this item
+   * Gets the tags from this Item
    * @returns {Array<String>} array of group names
    */
   get groupNames () {
@@ -282,8 +282,8 @@ class Item {
   }
 
   /**
-   * Adds groups to this item
-   * @param {...String|...Item} groupNamesOrItems one or more names of the groups (or the group items themselves)
+   * Adds groups to this Item
+   * @param {...String|...Item} groupNamesOrItems one or more names of the groups (or the group Items themselves)
    */
   addGroups (...groupNamesOrItems) {
     const groupNames = groupNamesOrItems.map((x) => (typeof x === 'string') ? x : x.name);
@@ -292,8 +292,8 @@ class Item {
   }
 
   /**
-   * Removes groups from this item
-   * @param {...String|...Item} groupNamesOrItems one or more names of the groups (or the group items themselves)
+   * Removes groups from this Item
+   * @param {...String|...Item} groupNamesOrItems one or more names of the groups (or the group Items themselves)
    */
   removeGroups (...groupNamesOrItems) {
     const groupNames = groupNamesOrItems.map((x) => (typeof x === 'string') ? x : x.name);
@@ -304,7 +304,7 @@ class Item {
   }
 
   /**
-   * Gets the tags from this item
+   * Gets the tags from this Item
    * @returns {Array<String>} array of tags
    */
   get tags () {
@@ -312,7 +312,7 @@ class Item {
   }
 
   /**
-   * Adds tags to this item
+   * Adds tags to this Item
    * @param {...String} tagNames names of the tags to add
    */
   addTags (...tagNames) {
@@ -321,7 +321,7 @@ class Item {
   }
 
   /**
-   * Removes tags from this item
+   * Removes tags from this Item
    * @param {...String} tagNames names of the tags to remove
    */
   removeTags (...tagNames) {
@@ -383,20 +383,20 @@ const createItem = function (itemConfig) {
     const item = builder.build();
     return new Item(item);
   } catch (e) {
-    log.error('Failed to create item: ' + e);
+    log.error('Failed to create Item: ' + e);
     throw e;
   }
 };
 
 /**
- * Creates a new item within OpenHab. This Item will persist to the provider regardless of the lifecycle of the script creating it.
+ * Creates a new Item within OpenHab. This Item will persist to the provider regardless of the lifecycle of the script creating it.
  *
- * Note that all items created this way have an additional tag attached, for simpler retrieval later. This tag is
+ * Note that all Items created this way have an additional tag attached, for simpler retrieval later. This tag is
  * created with the value {@link DYNAMIC_ITEM_TAG}.
  *
  * @memberof items
  * @param {ItemConfig} itemConfig the Item config describing the Item
- * @returns {Item} {@link items.Item}
+ * @returns {Item} {@link Items.Item}
  * @throws {@link ItemConfig}.name or {@link ItemConfig}.type not set
  * @throws failed to create Item
  */
@@ -434,7 +434,7 @@ const addItem = function (itemConfig) {
  *
  * @memberof items
  * @param {String|HostItem} itemOrItemName the Item or the name of the Item to remove
- * @returns {boolean} true if the item was actually removed
+ * @returns {boolean} true if the Item was actually removed
  */
 const removeItem = function (itemOrItemName) {
   let itemName;
@@ -475,13 +475,13 @@ const removeItem = function (itemOrItemName) {
 };
 
 /**
- * Replaces (upserts) an item. If an item exists with the same name, it will be removed and a new item with
- * the supplied parameters will be created in it's place. If an item does not exist with this name, a new
- * item will be created with the supplied parameters.
+ * Replaces (upserts) an Item. If an Item exists with the same name, it will be removed and a new Item with
+ * the supplied parameters will be created in it's place. If an Item does not exist with this name, a new
+ * Item will be created with the supplied parameters.
  *
- * This function can be useful in scripts which create a static set of items which may need updating either
- * periodically, during startup or even during development of the script. Using fixed item names will ensure
- * that the items remain up-to-date, but won't fail with issues related to duplicate items.
+ * This function can be useful in scripts which create a static set of Items which may need updating either
+ * periodically, during startup or even during development of the script. Using fixed Item names will ensure
+ * that the Items remain up-to-date, but won't fail with issues related to duplicate Items.
  *
  * @memberof items
  * @param {ItemConfig} itemConfig the Item config describing the Item
@@ -497,7 +497,7 @@ const replaceItem = function (itemConfig) {
     }
   } catch (e) {
     if (('' + e).startsWith('org.openhab.core.items.ItemNotFoundException')) {
-      // item not present
+      // Item not present
     } else {
       throw e;
     }
@@ -509,8 +509,8 @@ const replaceItem = function (itemConfig) {
 /**
  * Gets an openHAB Item.
  * @memberof items
- * @param {string} name the name of the item
- * @param {boolean} [nullIfMissing=false] whether to return null if the item cannot be found (default is to throw an exception)
+ * @param {string} name the name of the Item
+ * @param {boolean} [nullIfMissing=false] whether to return null if the Item cannot be found (default is to throw an exception)
  * @returns {Item} {@link items.Item}
  */
 const getItem = (name, nullIfMissing = false) => {
@@ -549,10 +549,10 @@ const getItemsByTag = (...tagNames) => {
 };
 
 /**
- * Helper function to ensure an item name is valid. All invalid characters are replaced with an underscore.
+ * Helper function to ensure an Item name is valid. All invalid characters are replaced with an underscore.
  * @memberof items
  * @param {string} s the name to make value
- * @returns {string} a valid item name
+ * @returns {string} a valid Item name
  */
 const safeItemName = s => s
   .replace(/["']/g, '') // delete
@@ -571,13 +571,13 @@ module.exports = {
   /** @type {object} */
   provider: require('./items-provider'),
   /**
-     * Custom indexer, to allow static item lookup.
+     * Custom indexer, to allow static Item lookup.
      * @example
      * let { my_object_name } = require('openhab').items.objects;
      * ...
      * let my_state = my_object_name.state; //my_object_name is an Item
      *
-     * @returns {object} a collection of items allowing indexing by item name
+     * @returns {object} a collection of items allowing indexing by Item name
      */
   objects: () => new Proxy({}, {
     get: function (target, name) {
