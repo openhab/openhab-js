@@ -66,6 +66,10 @@ class Item {
     if (typeof rawItem === 'undefined') {
       throw Error('Supplied item is undefined');
     }
+    /**
+     * The raw Item as a Java implementation of the Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/items/item Item object}.
+     * @type {HostItem}
+     */
     this.rawItem = rawItem;
 
     /**
@@ -108,7 +112,7 @@ class Item {
   }
 
   /**
-   * The raw state of the item, as a java object.
+   * The raw state of the Item, as a Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/types/state State object}.
    * @return {HostState} the item's state
    */
   get rawState () {
