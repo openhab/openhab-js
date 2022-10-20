@@ -9,6 +9,7 @@ const utils = require('../utils');
 const log = require('../log')('items');
 const metadata = require('../metadata/metadata');
 const ItemHistory = require('./item-history');
+const ItemSemantics = require('./item-semantics');
 
 const { UnDefType, OnOffType, events, itemRegistry } = require('@runtime');
 
@@ -77,6 +78,12 @@ class Item {
      * @type {ItemHistory}
      */
     this.history = new ItemHistory(rawItem);
+
+    /**
+     * Access Semantic informations of this Item {@link items.ItemSemantics}
+     * @type {ItemSemantics}
+     */
+    this.semantics = new ItemSemantics(rawItem);
   }
 
   /**
