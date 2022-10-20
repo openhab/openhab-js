@@ -58,10 +58,10 @@ const DYNAMIC_ITEM_TAG = '_DYNAMIC_';
  */
 class Item {
   /**
-     * Create an Item, wrapping a native Java openHAB Item. Don't use this constructor, instead call {@link getItem}.
-     * @param {HostItem} rawItem Java Item from Host
-     * @hideconstructor
-     */
+   * Create an Item, wrapping a native Java openHAB Item. Don't use this constructor, instead call {@link getItem}.
+   * @param {HostItem} rawItem Java Item from Host
+   * @hideconstructor
+   */
   constructor (rawItem) {
     if (typeof rawItem === 'undefined') {
       throw Error('Supplied item is undefined');
@@ -69,73 +69,73 @@ class Item {
     this.rawItem = rawItem;
 
     /**
-         * Access historical states for this Item {@link items.ItemHistory}
-         * @type {ItemHistory}
-         */
+     * Access historical states for this Item {@link items.ItemHistory}
+     * @type {ItemHistory}
+     */
     this.history = new ItemHistory(rawItem);
   }
 
   /**
-     * The type of the item: the Simple (without package) name of the Java item type, such as 'Switch'.
-     * @return {string} the type
-     */
+   * The type of the item: the Simple (without package) name of the Java item type, such as 'Switch'.
+   * @return {string} the type
+   */
   get type () {
     return this.rawItem.getClass().getSimpleName();
   }
 
   /**
-     * The name of the item.
-     * @return {string} the name
-     */
+   * The name of the item.
+   * @return {string} the name
+   */
   get name () {
     return this.rawItem.getName();
   }
 
   /**
-     * The label attached to the item
-     * @return {string} the label
-     */
+   * The label attached to the item
+   * @return {string} the label
+   */
   get label () {
     return this.rawItem.getLabel();
   }
 
   /**
-     * The state of the item, as a string.
-     * @return {string} the item's state
-     */
+   * The state of the item, as a string.
+   * @return {string} the item's state
+   */
   get state () {
     return this.rawState.toString();
   }
 
   /**
-     * The raw state of the item, as a java object.
-     * @return {HostState} the item's state
-     */
+   * The raw state of the item, as a java object.
+   * @return {HostState} the item's state
+   */
   get rawState () {
     return this.rawItem.state;
   }
 
   /**
-     * Members / children / direct descendents of the current group item (as returned by 'getMembers()'). Must be a group item.
-     * @returns {Item[]} member items
-     */
+   * Members / children / direct descendents of the current group item (as returned by 'getMembers()'). Must be a group item.
+   * @returns {Item[]} member items
+   */
   get members () {
     return utils.javaSetToJsArray(this.rawItem.getMembers()).map(raw => new Item(raw));
   }
 
   /**
-     * All descendents of the current group item (as returned by 'getAllMembers()'). Must be a group item.
-     * @returns {Item[]} all descendent items
-     */
+   * All descendents of the current group item (as returned by 'getAllMembers()'). Must be a group item.
+   * @returns {Item[]} all descendent items
+   */
   get descendents () {
     return utils.javaSetToJsArray(this.rawItem.getAllMembers()).map(raw => new Item(raw));
   }
 
   /**
-     * Whether this item is initialized.
-     * @type {boolean}
-     * @returns true iff the item has not been initialized
-     */
+   * Whether this item is initialized.
+   * @type {boolean}
+   * @returns true iff the item has not been initialized
+   */
   get isUninitialized () {
     if (this.rawItem.state instanceof UnDefType ||
             this.rawItem.state.toString() === 'Undefined' ||
@@ -148,38 +148,38 @@ class Item {
   }
 
   /**
-     * Gets metadata values for this item.
-     * @param {string} namespace The namespace for the metadata to retreive
-     * @returns {string} the metadata associated with this item and namespace
-     */
+   * Gets metadata values for this item.
+   * @param {string} namespace The namespace for the metadata to retreive
+   * @returns {string} the metadata associated with this item and namespace
+   */
   getMetadataValue (namespace) {
     return metadata.getValue(this.name, namespace);
   }
 
   /**
-     * Updates metadata values for this item.
-     * @param {string} namespace The namespace for the metadata to update
-     * @param {string} value the value to update the metadata to
-     * @returns {string} the updated value
-     */
+   * Updates metadata values for this item.
+   * @param {string} namespace The namespace for the metadata to update
+   * @param {string} value the value to update the metadata to
+   * @returns {string} the updated value
+   */
   updateMetadataValue (namespace, value) {
     return metadata.updateValue(this.name, namespace, value);
   }
 
   /**
-     * Inserts or updates metadata values for this item.
-     * @param {string} namespace The namespace for the metadata to update
-     * @param {string} value the value to update the metadata to
-     * @returns {boolean} true iff a new value was inserted
-     */
+   * Inserts or updates metadata values for this item.
+   * @param {string} namespace The namespace for the metadata to update
+   * @param {string} value the value to update the metadata to
+   * @returns {boolean} true iff a new value was inserted
+   */
   upsertMetadataValue (namespace, value) {
     return metadata.upsertValue(this.name, namespace, value);
   }
 
   /**
-     * Updates metadata values for this item.
-     * @param {Map} namespaceToValues A map of namespaces to values to update
-     */
+   * Updates metadata values for this item.
+   * @param {Map} namespaceToValues A map of namespaces to values to update
+   */
   updateMetadataValues (namespaceToValues) {
     for (const k in namespaceToValues) {
       metadata.updateValue(this.name, k, namespaceToValues[k]);
@@ -187,22 +187,22 @@ class Item {
   }
 
   /**
-     * Sends a command to the item
-     * @param {String|HostState} value the value of the command to send, such as 'ON'
-     * @see sendCommandIfDifferent
-     * @see postUpdate
-     */
+   * Sends a command to the item
+   * @param {String|HostState} value the value of the command to send, such as 'ON'
+   * @see sendCommandIfDifferent
+   * @see postUpdate
+   */
   sendCommand (value) {
     events.sendCommand(this.rawItem, value);
   }
 
   /**
-     * Sends a command to the item, but only if the current state is not what is being sent.
-     * Note
-     * @param {String|HostState} value the value of the command to send, such as 'ON'
-     * @returns {boolean} true if the command was sent, false otherwise
-     * @see sendCommand
-     */
+   * Sends a command to the item, but only if the current state is not what is being sent.
+   * Note
+   * @param {String|HostState} value the value of the command to send, such as 'ON'
+   * @returns {boolean} true if the command was sent, false otherwise
+   * @see sendCommand
+   */
   sendCommandIfDifferent (value) {
     if (value.toString() !== this.state.toString()) {
       this.sendCommand(value);
@@ -213,12 +213,12 @@ class Item {
   }
 
   /**
-     * Calculates the toggled state of this Item. For Items like Color and
-     * Dimmer, getStateAs(OnOffType) is used and the toggle calculated off
-     * of that.
-     * @returns the toggled state (e.g. 'OFF' if the Item is 'ON')
-     * @throws error if the Item is uninitialized or is a type that doesn't make sense to toggle
-     */
+   * Calculates the toggled state of this Item. For Items like Color and
+   * Dimmer, getStateAs(OnOffType) is used and the toggle calculated off
+   * of that.
+   * @returns the toggled state (e.g. 'OFF' if the Item is 'ON')
+   * @throws error if the Item is uninitialized or is a type that doesn't make sense to toggle
+   */
   getToggleState () {
     if (this.isUninitialized) {
       throw Error('Cannot toggle uninitialized Items');
@@ -240,10 +240,10 @@ class Item {
   }
 
   /**
-     * Sends a command to flip the Item's state (e.g. if it is 'ON' an 'OFF'
-     * command is sent).
-     * @throws error if the Item is uninitialized or a type that cannot be toggled or commanded
-     */
+   * Sends a command to flip the Item's state (e.g. if it is 'ON' an 'OFF'
+   * command is sent).
+   * @throws error if the Item is uninitialized or a type that cannot be toggled or commanded
+   */
   sendToggleCommand () {
     if (this.type === 'ContactItem') {
       throw Error('Cannot command Contact Items');
@@ -252,35 +252,35 @@ class Item {
   }
 
   /**
-     * Posts an update to flip the Item's state (e.g. if it is 'ON' an 'OFF'
-     * update is posted).
-     * @throws error if the Item is uninitialized or a type that cannot be toggled
-     */
+   * Posts an update to flip the Item's state (e.g. if it is 'ON' an 'OFF'
+   * update is posted).
+   * @throws error if the Item is uninitialized or a type that cannot be toggled
+   */
   postToggleUpdate () {
     this.postUpdate(this.getToggleState());
   }
 
   /**
-     * Posts an update to the item
-     * @param {String|HostState} value the value of the command to send, such as 'ON'
-     * @see sendCommand
-     */
+   * Posts an update to the item
+   * @param {String|HostState} value the value of the command to send, such as 'ON'
+   * @see sendCommand
+   */
   postUpdate (value) {
     events.postUpdate(this.rawItem, value);
   }
 
   /**
-     * Gets the tags from this item
-     * @returns {Array<String>} array of group names
-     */
+   * Gets the tags from this item
+   * @returns {Array<String>} array of group names
+   */
   get groupNames () {
     return utils.javaListToJsArray(this.rawItem.getGroupNames());
   }
 
   /**
-     * Adds groups to this item
-     * @param {...String|...Item} groupNamesOrItems one or more names of the groups (or the group items themselves)
-     */
+   * Adds groups to this item
+   * @param {...String|...Item} groupNamesOrItems one or more names of the groups (or the group items themselves)
+   */
   addGroups (...groupNamesOrItems) {
     const groupNames = groupNamesOrItems.map((x) => (typeof x === 'string') ? x : x.name);
     this.rawItem.addGroupNames(groupNames);
@@ -288,9 +288,9 @@ class Item {
   }
 
   /**
-     * Removes groups from this item
-     * @param {...String|...Item} groupNamesOrItems one or more names of the groups (or the group items themselves)
-     */
+   * Removes groups from this item
+   * @param {...String|...Item} groupNamesOrItems one or more names of the groups (or the group items themselves)
+   */
   removeGroups (...groupNamesOrItems) {
     const groupNames = groupNamesOrItems.map((x) => (typeof x === 'string') ? x : x.name);
     for (const groupName of groupNames) {
@@ -300,26 +300,26 @@ class Item {
   }
 
   /**
-     * Gets the tags from this item
-     * @returns {Array<String>} array of tags
-     */
+   * Gets the tags from this item
+   * @returns {Array<String>} array of tags
+   */
   get tags () {
     return utils.javaSetToJsArray(this.rawItem.getTags());
   }
 
   /**
-     * Adds tags to this item
-     * @param {...String} tagNames names of the tags to add
-     */
+   * Adds tags to this item
+   * @param {...String} tagNames names of the tags to add
+   */
   addTags (...tagNames) {
     this.rawItem.addTags(tagNames);
     managedItemProvider.update(this.rawItem);
   }
 
   /**
-     * Removes tags from this item
-     * @param {...String} tagNames names of the tags to remove
-     */
+   * Removes tags from this item
+   * @param {...String} tagNames names of the tags to remove
+   */
   removeTags (...tagNames) {
     for (const tagName of tagNames) {
       this.rawItem.removeTag(tagName);
