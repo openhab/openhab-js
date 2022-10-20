@@ -267,14 +267,14 @@ The items namespace allows interactions with openHAB items.
 
 See [openhab-js : items](https://openhab.github.io/openhab-js/items.html) for full API documentation.
 
-- items : <code>object</code>
-  - .getItem(name, nullIfMissing) ⇒ <code>Item</code>
-  - .getItems() ⇒ <code>Array.&lt;Item&gt;</code>
-  - .getItemsByTag(...tagNames) ⇒ <code>Array.&lt;Item&gt;</code>
+- items : `object`
+  - .getItem(name, nullIfMissing) ⇒ `Item`
+  - .getItems() ⇒ `Array[Item]`
+  - .getItemsByTag(...tagNames) ⇒ `Array[Item]`
   - .addItem([itemConfig](#itemconfig))
-  - .removeItem(itemOrItemName) ⇒ <code>Boolean</code>
+  - .removeItem(itemOrItemName) ⇒ `boolean`
   - .replaceItem([itemConfig](#itemconfig))
-  - .safeItemName(s) ⇒ <code>String</code>
+  - .safeItemName(s) ⇒ `string`
 
 ```javascript
 const item = items.getItem("KitchenLight");
@@ -285,24 +285,26 @@ console.log("Kitchen Light State", item.state);
 
 Calling `getItem(...)` returns an `Item` object with the following properties:
 
-- Item : <code>object</code>
-  - .type ⇒ <code>String</code>
-  - .name ⇒ <code>String</code>
-  - .label ⇒ <code>String</code>
+- Item : `object`
+  - .rawItem ⇒ `HostItem`
   - .history ⇒ [`ItemHistory`](#itemhistory)
-  - .state ⇒ <code>String</code>
-  - .rawState ⇒ <code>HostState</code>
-  - .members ⇒ <code>Array.&lt;Item&gt;</code>
-  - .descendents ⇒ <code>Array.&lt;Item&gt;</code>
-  - .isUninitialized ⇒ <code>Boolean</code>
-  - .groupNames ⇒ <code>Array.&lt;String&gt;</code>
-  - .tags ⇒ <code>Array.&lt;String&gt;</code>
-  - .getMetadataValue(namespace) ⇒ <code>String</code>
-  - .updateMetadataValue(namespace, value) ⇒ <code>String</code>
-  - .upsertMetadataValue(namespace, value) ⇒ <code>Boolean</code>
+  - .semantics ⇒ [`ItemSemantics`](https://openhab.github.io/openhab-js/items.ItemSemantics.html)
+  - .type ⇒ `string`
+  - .name ⇒ `string`
+  - .label ⇒ `string`
+  - .state ⇒ `string`
+  - .rawState ⇒ `HostState`
+  - .members ⇒ `Array[Item]`
+  - .descendents ⇒ `Array[Item]`
+  - .isUninitialized ⇒ `boolean`
+  - .groupNames ⇒ `Array[string]`
+  - .tags ⇒ `Array[string]`
+  - .getMetadataValue(namespace) ⇒ `string`
+  - .updateMetadataValue(namespace, value) ⇒ `string`
+  - .upsertMetadataValue(namespace, value) ⇒ `boolean`
   - .updateMetadataValues(namespaceToValues)
   - .sendCommand(value)
-  - .sendCommandIfDifferent(value) ⇒ <code>Boolean</code>
+  - .sendCommandIfDifferent(value) ⇒ `boolean`
   - .postUpdate(value)
   - .addGroups(...groupNamesOrItems)
   - .removeGroups(...groupNamesOrItems)
@@ -323,17 +325,17 @@ console.log("KitchenLight state", item.state)
 
 Calling `addItem(itemConfig)` or `replaceItem(itemConfig)` requires the `itemConfig` object with the following properties:
 
-- itemConfig : <code>object</code>
-  - .type ⇒ <code>String</code>
-  - .name ⇒ <code>String</code>
-  - .label ⇒ <code>String</code>
-  - .category (icon) ⇒ <code>String</code>
-  - .groups ⇒ <code>Array.&lt;String&gt;</code>
-  - .tags ⇒ <code>Array.&lt;String&gt;</code>
-  - .channels ⇒ <code>String|Object { channeluid: { config } }</code>
-  - .metadata ⇒ <code>Object { namespace: value }|Object { namespace: { value: value , config: { config } } }</code>
-  - .giBaseType ⇒ <code>String</code>
-  - .groupFunction ⇒ <code>String</code>
+- itemConfig : `object`
+  - .type ⇒ `string`
+  - .name ⇒ `string`
+  - .label ⇒ `string`
+  - .category (icon) ⇒ `string`
+  - .groups ⇒ `Array[string]`
+  - .tags ⇒ `Array[string]`
+  - .channels ⇒ `string | Object { channeluid: { config } }`
+  - .metadata ⇒ `Object { namespace: value } | Object { namespace: { value: value , config: { config } } }`
+  - .giBaseType ⇒ `string`
+  - .groupFunction ⇒ `string`
 
 Note: `.type` and `.name` are required.
 Basic UI and the mobile apps need `metadata.stateDescription.config.pattern` to render the state of an Item.

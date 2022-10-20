@@ -2,8 +2,9 @@
 
 ## 2.x.x (to be released)
 
-| Type        | Namespace  | Description                                                              | Reference                                              | Breaking |
-|-------------|------------|--------------------------------------------------------------------------|--------------------------------------------------------|----------|
+| Type        | Namespace | Description                       | Reference                                              | Breaking |
+|-------------|-----------|-----------------------------------|--------------------------------------------------------|----------|
+| Enhancement | `items`   | Add semantics to the `Item` class | [#167](https://github.com/openhab/openhab-js/pull/167) | No       |
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/6).
 
