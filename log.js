@@ -204,3 +204,4 @@ function newLogger (_name) {
 }
 
 module.exports = newLogger;
+module.exports.Logger = Logger;
