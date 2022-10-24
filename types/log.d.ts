@@ -6,6 +6,9 @@ export = newLogger;
  * @memberof log
  */
 declare function newLogger(_name: any): Logger;
+declare namespace newLogger {
+    export { Logger };
+}
 /**
  * Logger class. A named logger providing the ability to log formatted messages.
  *
@@ -20,9 +23,12 @@ declare class Logger {
        * @param {*} _listener a callback to receive logging calls. Can be used to send calls elsewhere, such as escalate errors.
        */
     constructor(_name: string, appenderProvider: any);
-    _name: any;
-    appenderProvider: any;
-    _logger: any;
+    /** @private */
+    private _name;
+    /** @private */
+    private appenderProvider;
+    /** @private */
+    private _logger;
     /**
        * Method to determine caller. Don't use directly.
        *
@@ -77,10 +83,10 @@ declare class Logger {
        *
        *
        * @param {string} level The level at which to log, such as 'INFO', or 'DEBUG'
-       * @param {String|Error} msg the message to log, possibly with object placeholders
-       * @param {Object[]} objects=[] the objects to substitute into the log message
+       * @param {string|Error} msg the message to log, possibly with object placeholders
+       * @param {object[]} objects=[] the objects to substitute into the log message
        */
-    atLevel(level: string, msg: string | Error, ...objects: any[]): void;
+    atLevel(level: string, msg: string | Error, ...objects: object[]): void;
     maybeLogWithThrowable(level: any, msg: any, objects: any): boolean;
     writeLogLine(level: any, message: any, objects?: any[]): void;
     /**
