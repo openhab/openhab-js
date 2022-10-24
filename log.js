@@ -147,8 +147,8 @@ class Logger {
      *
      *
      * @param {string} level The level at which to log, such as 'INFO', or 'DEBUG'
-     * @param {String|Error} msg the message to log, possibly with object placeholders
-     * @param {Object[]} objects=[] the objects to substitute into the log message
+     * @param {string|Error} msg the message to log, possibly with object placeholders
+     * @param {object[]} objects=[] the objects to substitute into the log message
      */
   atLevel (level, msg, ...objects) {
     const titleCase = level[0].toUpperCase() + level.slice(1);
