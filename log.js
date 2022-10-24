@@ -32,8 +32,11 @@ class Logger {
      * @param {*} _listener a callback to receive logging calls. Can be used to send calls elsewhere, such as escalate errors.
      */
   constructor (_name, appenderProvider) {
+    /** @private */
     this._name = _name || this._getCallerDetails('', 3).fileName.replace(/\.[^/.]+$/, '');
+    /** @private */
     this.appenderProvider = appenderProvider;
+    /** @private */
     this._logger = Java.type('org.slf4j.LoggerFactory').getLogger(LOGGER_PREFIX + '.' + this.name.toString().toLowerCase());
   }
 
