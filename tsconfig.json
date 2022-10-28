@@ -3,7 +3,8 @@
   "include": ["**/*.js"],
   "exclude": [
     "test/**",
-    "docs/**"
+    "docs/**",
+    "jest.config.js"
   ],
   "compilerOptions": {
     // Tells TypeScript to read JS files, as

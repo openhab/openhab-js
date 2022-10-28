@@ -17,17 +17,20 @@
         "parse-duration": "^0.1.1"
     },
     "scripts": {
-        "test": "mocha && npm run lint",
+        "test": "mocha 'test/**/*.test.js' && npm run lint",
         "docs": "rm -Rf ./docs/* && jsdoc --configure docs_config.json && mv ./docs/$npm_package_name/$npm_package_version/* ./docs/ && rm -Rf ./docs/$npm_package_name/$npm_package_version",
         "deploy": "npm test && npm run docs",
         "lint": "npx standardx | snazzy",
         "lint:fix": "npx standardx --fix",
         "webpack": "webpack",
-        "types": "tsc"
+        "types": "tsc",
+        "jest": "jest"
     },
     "devDependencies": {
+        "@types/jest": "^28.1.8",
         "acorn": "^8.6.0",
         "docdash": "^1.2.0",
+        "jest": "^28.1.3",
         "jsdoc": "^4.0.0",
         "mocha": "^6.2.2",
         "proxyquire": "^2.1.3",
