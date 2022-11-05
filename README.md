@@ -505,74 +505,13 @@ Replace `<url>` with the request url.
 
 #### ScriptExecution Actions
 
+The `ScriptExecution` actions provide the `callScript(string scriptName)` method, which calls a script located at the `$OH_CONF/scripts` folder.
+
+Please note that `actions.ScriptExecution` also provides access to methods for creating timers, but it is NOT recommended to create timers using that raw Java API!
+Usage of those timer creation methods can lead to failing timers.
+Instead of those, use the [native JS methods for timer creation](#timers).
+
 See [openhab-js : actions.ScriptExecution](https://openhab.github.io/openhab-js/actions.html#.ScriptExecution) for complete documentation.
-
-```javascript
-var now = time.ZonedDateTime.now();
-
-// Function to run when the timer goes off.
-function timerOver () {
-  console.info('The timer is over.');
-}
-
-// Create the Timer.
-var myTimer = actions.ScriptExecution.createTimer('My Timer', now.plusSeconds(10), timerOver);
-
-// Cancel the timer.
-myTimer.cancel();
-
-// Check whether the timer is active. Returns true if the timer is active and will be executed as scheduled.
-var active = myTimer.isActive();
-
-// Reschedule the timer.
-myTimer.reschedule(now.plusSeconds(5));
-```
-
-If you need to pass some variables to the timer, there are two options to do so:
-
-**Use a function generator** <!-- markdownlint-disable-line MD036 -->
-
-This allows you to pass variables to the timer‘s callback function at timer creation.
-The variables can not be mutated after the timer function generator was used to create the function.
-
-```javascript
-var now = time.ZonedDateTime.now();
-
-// Function to run when the timer goes off.
-function timerOver (myVariable) {
-  return function () {
-    console.info('The timer is over. myVariable is: ' + myVariable);
-  }
-}
-
-// Create the Timer.
-var myTimer = actions.ScriptExecution.createTimer('My Timer', now.plusSeconds(10), timerOver('Hello world!'));
-```
-
-**Pass a single variable to the timer** <!--markdownlint-disable-line MD036 -->
-
-This allows you to pass a single variable to the timer's callback function.
-Variables can be mutated (changed) after the timer has been created.
-Be aware that this can lead to unattended side effects, e.g. when you change the variable after timer creation, which can make debugging quite difficult!
-
-```javascript
-var now = time.ZonedDateTime.now();
-
-// Function to run when the timer goes off.
-function timerOver () {
-  console.info('The timer is over. myVariable is: ' + myVariable);
-}
-
-var myVariable = 'Hello world!';
-
-// Create the Timer.
-var myTimer = actions.ScriptExecution.createTimerWithArgument('My Timer', now.plusSeconds(10), myVariable, timerOver);
-
-myVariable = 'Hello mutation!';
-// When the timer runs, it will log "Hello mutation!" instead of "Hello world!"
-```
-
-You may also pass `this` to the timer to have access to all variables from the current context.
 
 #### Semantics Actions
 
