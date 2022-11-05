@@ -176,10 +176,14 @@ Script debug logging is enabled by default at the `INFO` level, but can be confi
 log:set DEBUG org.openhab.automation.script
 ```
 
-The default logger name prefix is `org.openhab.automation.script`, this can be changed by assigning a new prefix to the `loggerName` property of the console.
+The default logger name prefix is `org.openhab.automation.script`, this can be changed by assigning a new string to the `loggerName` property of the console.
+
+Please be aware that messages might not appear in the logs if the logger name does not start with `org.openhab`.
+This behaviour is due to [log4j2](https://logging.apache.org/log4j/2.x/) requiring definition for each logger prefix.
+
 
 ```javascript
-console.loggerName = "custom"
+console.loggerName = "org.openhab.custom"
 ```
 
 Supported logging functions include:
