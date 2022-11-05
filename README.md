@@ -204,7 +204,7 @@ See <https://developer.mozilla.org/en-US/docs/Web/API/console> for more informat
 
 JS Scripting provides access to the global `setTimeout`, `setInterval`, `clearTimeout` and `clearInterval` methods specified in the [Web APIs](https://developer.mozilla.org/en-US/docs/Web/API).
 
-When a script is unload, all created timers and intervals are automatically cancelled.
+When a script is unloaded, all created timers and intervals are automatically cancelled.
 
 #### SetTimeout
 
@@ -247,14 +247,14 @@ setTimeout(() => {
   console.info(`Timer expired with myVar = "${myVar}"`);
 }, 10000);
 
-myVar = 'Hello mutation!' // When the timer runs, it will log "Hello mutation!" instead of "Hello world!"
+myVar = 'Hello mutation!'; // When the timer runs, it will log "Hello mutation!" instead of "Hello world!"
 ```
 
 If you need to pass some variables to the timer but avoid that they can get mutated, use a function generator.
 
 **Pass variables using a function generator** <!-- markdownlint-disable-line MD036 -->
 
-This allows you to pass variables to the timer‘s callback function during timer creation.
+This allows you to pass variables to the timer's callback function during timer creation.
 The variables can NOT be mutated after the timer function generator was used to create the callback function.
 
 ```javascript
@@ -262,7 +262,7 @@ The variables can NOT be mutated after the timer function generator was used to 
 function cbFuncGen (myVariable) {
   return function () {
     console.info(`Timer expired with myVar = "${myVariable}"`);
-  }
+  };
 }
 
 var myVar = 'Hello world!';
@@ -270,7 +270,7 @@ var myVar = 'Hello world!';
 // Schedule a timer that expires in ten seconds
 setTimeout(cbFuncGen(myVar), 10000);
 
-myVar = 'Hello mutation!' // When the timer runs, it will log "Hello world!"
+myVar = 'Hello mutation!'; // When the timer runs, it will log "Hello world!"
 ```
 
 ### Paths
