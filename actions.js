@@ -222,10 +222,11 @@ const ScriptExecution = {
    */
   createTimer (identifier, instant, closure) {
     console.warn('"actions.ScriptExecution.createTimer" has been deprecated and will be removed in a future release. Please use "setTimeout" or "setInterval" instead.');
+    // Method overloading as identifier is optional
     if (typeof identifier === 'string' && closure != null) {
       JavaScriptExecution.createTimer(identifier, instant, closure);
     } else {
-      JavaScriptExecution.createTimer(instant, closure);
+      JavaScriptExecution.createTimer(identifier, instant);
     }
   },
   /**
@@ -239,10 +240,11 @@ const ScriptExecution = {
    */
   createTimerWithArgument (identifier, instant, arg1, closure) {
     console.warn('"actions.ScriptExecution.createTimerWithArgument" has been deprecated and will be removed in a future release. Please use "setTimeout" or "setInterval" instead.');
+    // Method overloading as identifier is optional
     if (typeof identifier === 'string' && closure != null) {
       JavaScriptExecution.createTimerWithArgument(identifier, instant, arg1, closure);
     } else {
-      JavaScriptExecution.createTimerWithArgument(instant, arg1, closure);
+      JavaScriptExecution.createTimerWithArgument(identifier, instant, arg1);
     }
   }
 };
