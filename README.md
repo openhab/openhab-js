@@ -215,9 +215,9 @@ The global [`setTimeout()`](https://developer.mozilla.org/en-US/docs/Web/API/set
 var timeoutId = setTimeout(callbackFunction, delay);
 ```
 
-The global [`clearTimeout(timeoutId)`](https://developer.mozilla.org/en-US/docs/Web/API/clearTimeout) method cancels a timeout previously established by calling `setTimeout()`.
+`delay` is an integer value that represents the amount of milliseconds to wait before the timer expires.
 
-See the [mdn web docs](https://developer.mozilla.org/en-US/docs/Web/API/setTimeout) for more information about `setTimeout()`.
+The global [`clearTimeout(timeoutId)`](https://developer.mozilla.org/en-US/docs/Web/API/clearTimeout) method cancels a timeout previously established by calling `setTimeout()`.
 
 #### SetInterval
 
@@ -228,9 +228,50 @@ The global [`setInterval()`](https://developer.mozilla.org/en-US/docs/Web/API/se
 var intervalId = setInterval(callbackFunction, delay);
 ```
 
+`delay` is an integer value that represents the amount of milliseconds to wait before the timer expires.
+
 The global [`clearInterval(intervalId)`](https://developer.mozilla.org/en-US/docs/Web/API/clearInterval) method cancels a timed, repeating action which was previously established by a call to `setInterval()`.
 
-See the [mdn web docs](https://developer.mozilla.org/en-US/docs/Web/API/setInterval) for more information about `setInterval()`.
+#### Accessing Variables
+
+You can access all variables of the current context in the created timers.
+
+Note: Variables can be mutated (changed) after the timer has been created.
+Be aware that this can lead to unattended side effects, e.g. when you change the variable after timer creation, which can make debugging quite difficult!
+
+```javascript
+var myVar = 'Hello world!';
+
+// Schedule a timer that expires in ten seconds
+setTimeout(() => {
+  console.info(`Timer expired with myVar = "${myVar}"`);
+}, 10000);
+
+myVar = 'Hello mutation!' // When the timer runs, it will log "Hello mutation!" instead of "Hello world!"
+```
+
+If you need to pass some variables to the timer but avoid that they can get mutated, use a function generator.
+
+**Pass variables using a function generator** <!-- markdownlint-disable-line MD036 -->
+
+This allows you to pass variables to the timer‘s callback function during timer creation.
+The variables can NOT be mutated after the timer function generator was used to create the callback function.
+
+```javascript
+// Function generator for the timer's callback function
+function cbFuncGen (myVariable) {
+  return function () {
+    console.info(`Timer expired with myVar = "${myVariable}"`);
+  }
+}
+
+var myVar = 'Hello world!';
+
+// Schedule a timer that expires in ten seconds
+setTimeout(cbFuncGen(myVar), 10000);
+
+myVar = 'Hello mutation!' // When the timer runs, it will log "Hello world!"
+```
 
 ### Paths
 
