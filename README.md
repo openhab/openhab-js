@@ -198,34 +198,35 @@ See <https://developer.mozilla.org/en-US/docs/Web/API/console> for more informat
 
 ### Timers
 
+JS Scripting provides access to the global `setTimeout`, `setInterval`, `clearTimeout` and `clearInterval` methods specified in the [Web APIs](https://developer.mozilla.org/en-US/docs/Web/API).
+
+When a script is unload, all created timers and intervals are automatically cancelled.
+
 #### SetTimeout
 
-The global `setTimeout()` method sets a timer which executes a function or specified piece of code once the timer expires.
+The global [`setTimeout()`](https://developer.mozilla.org/en-US/docs/Web/API/setTimeout) method sets a timer which executes a function or specified piece of code once the timer expires.
+`setTimeout()` returns a `timeoutId` (a positive integer value) which identifies the timer created.
 
 ```javascript
-var ohTimer = setTimeout(callbackFunction, delay);
+var timeoutId = setTimeout(callbackFunction, delay);
 ```
 
-The global `clearTimeout()` method cancels a timeout previously established by calling `setTimeout()`.
+The global [`clearTimeout(timeoutId)`](https://developer.mozilla.org/en-US/docs/Web/API/clearTimeout) method cancels a timeout previously established by calling `setTimeout()`.
 
-The openHAB implementation of `setTimeout()` differs from the [HTML DOM API's `setTimeout()`](https://developer.mozilla.org/en-US/docs/Web/API/setTimeout).
-openHAB does not return the integer timeoutID as standard JS does, instead it returns an instance of [openHAB Timer](#openhab-timer).
+See the [mdn web docs](https://developer.mozilla.org/en-US/docs/Web/API/setTimeout) for more information about `setTimeout()`.
 
 #### SetInterval
 
-The setInterval() method repeatedly calls a function or executes a code snippet, with a fixed time delay between each call.
+The global [`setInterval()`](https://developer.mozilla.org/en-US/docs/Web/API/setInterval) method repeatedly calls a function or executes a code snippet, with a fixed time delay between each call.
+`setInterval()` returns an `intervalId` (a positive integer value) which identifies the interval created.
 
 ```javascript
-var ohIntervalTimer = setInterval(callbackFunction, delay);
+var intervalId = setInterval(callbackFunction, delay);
 ```
 
-The global `clearInterval()` method cancels a timed, repeating action which was previously established by a call to `setInterval()`.
+The global [`clearInterval(intervalId)`](https://developer.mozilla.org/en-US/docs/Web/API/clearInterval) method cancels a timed, repeating action which was previously established by a call to `setInterval()`.
 
-NOTE: Timers will not be canceled if a script is deleted or modified, it is up to the user to manage timers.
-See using the [cache](#cache) namespace as well as [ScriptLoaded](#initialization-hook-scriptloaded) and [ScriptUnLoaded](#deinitialization-hook-scriptunloaded) for a convenient way of managing persisted objects, such as timers between reloads or deletions of scripts.
-
-The openHAB implementation of `setInterval()` differs from the [HTML DOM API's `setInterval()`](https://developer.mozilla.org/en-US/docs/Web/API/setInterval).
-openHAB does not return the integer timeoutID as standard JS does, instead it returns an instance of [openHAB Timer](#openhab-timer).
+See the [mdn web docs](https://developer.mozilla.org/en-US/docs/Web/API/setInterval) for more information about `setInterval()`.
 
 #### openHAB Timer
 
