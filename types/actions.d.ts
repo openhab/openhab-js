@@ -148,22 +148,58 @@ declare const LogAction: any;
  * @memberof actions
  */
 export const Ping: any;
-/**
- * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/scriptexecution ScriptExecution} Actions
- *
- * The static methods of this class are made available as functions in the scripts. This allows a script to call another script, which is available as a file.
- *
- * @example
- * ScriptExecution.callScript​(String scriptName)
- * ScriptExecution.createTimer​(ZonedDateTime instant, callbackFunction)
- * ScriptExecution.createTimer​(String identifier, ZonedDateTime instant, callbackFunction)
- * ScriptExecution.createTimerWithArgument​(ZonedDateTime instant, Object arg1, callbackFunction)
- * ScriptExecution.createTimerWithArgument​(String identifier, ZonedDateTime instant, Object arg1, callbackFunction)
- *
- * @name ScriptExecution
- * @memberof actions
- */
-export const ScriptExecution: any;
+export namespace ScriptExecution {
+    /**
+     * Calls a script which must be located in the configurations/scripts folder.
+     *
+     * @param {string} scriptName the name of the script (if the name does not end with the .script file extension it is added)
+     */
+    function callScript(scriptName: string): void;
+    /**
+     * Calls a script which must be located in the configurations/scripts folder.
+     *
+     * @param {string} scriptName the name of the script (if the name does not end with the .script file extension it is added)
+     */
+    function callScript(scriptName: string): void;
+    /**
+     * Schedules a block of code for later execution.
+     *
+     * @deprecated
+     * @param {string} [identifier] an optional identifier
+     * @param {ZonedDateTime} instant the point in time when the code should be executed
+     * @callback closure the code block to execute
+     */
+    function createTimer(identifier?: string, instant: ZonedDateTime, closure: any): void;
+    /**
+     * Schedules a block of code for later execution.
+     *
+     * @deprecated
+     * @param {string} [identifier] an optional identifier
+     * @param {ZonedDateTime} instant the point in time when the code should be executed
+     * @callback closure the code block to execute
+     */
+    function createTimer(identifier?: string, instant: ZonedDateTime, closure: any): void;
+    /**
+     * Schedules a block of code (with argument) for later execution
+     *
+     * @deprecated
+     * @param string [identifier] an optional identifier
+     * @param {ZonedDateTime} instant the point in time when the code should be executed
+     * @param {*} arg1 the argument to pass to the code block
+     * @callback closure the code block to execute
+     */
+    function createTimerWithArgument(identifier: any, instant: ZonedDateTime, arg1: any, closure: any): void;
+    /**
+     * Schedules a block of code (with argument) for later execution
+     *
+     * @deprecated
+     * @param string [identifier] an optional identifier
+     * @param {ZonedDateTime} instant the point in time when the code should be executed
+     * @param {*} arg1 the argument to pass to the code block
+     * @callback closure the code block to execute
+     */
+    function createTimerWithArgument(identifier: any, instant: ZonedDateTime, arg1: any, closure: any): void;
+}
 /**
  * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/Semantics.html Semantics} Actions
  *
