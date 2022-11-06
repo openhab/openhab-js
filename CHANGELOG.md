@@ -4,6 +4,13 @@
 
 | Type        | Namespace | Description                                                | Reference                                              | Breaking |
 |-------------|-----------|------------------------------------------------------------|--------------------------------------------------------|----------|
+
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/7).
+
+## 2.1.0
+
+| Type        | Namespace | Description                                                | Reference                                              | Breaking |
+|-------------|-----------|------------------------------------------------------------|--------------------------------------------------------|----------|
 | Enhancement | `items`   | Add semantics to the `Item` class                          | [#167](https://github.com/openhab/openhab-js/pull/167) | No       |
 | Docs        |           | Timer polyfills now behave like standard JS                | [#169](https://github.com/openhab/openhab-js/pull/169) | No       |
 | Docs        |           | Remove raw Java timer creation methods & openHAB Timer     | [#169](https://github.com/openhab/openhab-js/pull/169) | No       |
