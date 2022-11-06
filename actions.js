@@ -191,22 +191,63 @@ const LogAction = Java.type('org.openhab.core.model.script.actions.Log');
  */
 const Ping = Java.type('org.openhab.core.model.script.actions.Ping');
 
+const JavaScriptExecution = Java.type('org.openhab.core.model.script.actions.ScriptExecution');
 /**
  * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/scriptexecution ScriptExecution} Actions
  *
- * The static methods of this class are made available as functions in the scripts. This allows a script to call another script, which is available as a file.
+ * The static methods of this class are made available as functions in the scripts.
  *
  * @example
  * ScriptExecution.callScript​(String scriptName)
- * ScriptExecution.createTimer​(ZonedDateTime instant, callbackFunction)
- * ScriptExecution.createTimer​(String identifier, ZonedDateTime instant, callbackFunction)
- * ScriptExecution.createTimerWithArgument​(ZonedDateTime instant, Object arg1, callbackFunction)
- * ScriptExecution.createTimerWithArgument​(String identifier, ZonedDateTime instant, Object arg1, callbackFunction)
  *
  * @name ScriptExecution
  * @memberof actions
  */
-const ScriptExecution = Java.type('org.openhab.core.model.script.actions.ScriptExecution');
+const ScriptExecution = {
+  /**
+   * Calls a script which must be located in the configurations/scripts folder.
+   *
+   * @param {string} scriptName the name of the script (if the name does not end with the .script file extension it is added)
+   */
+  callScript (scriptName) {
+    JavaScriptExecution.callScript(scriptName);
+  },
+  /**
+   * Schedules a block of code for later execution.
+   *
+   * @deprecated
+   * @param {string} [identifier] an optional identifier
+   * @param {ZonedDateTime} instant the point in time when the code should be executed
+   * @callback closure the code block to execute
+   */
+  createTimer (identifier, instant, closure) {
+    console.warn('"actions.ScriptExecution.createTimer" has been deprecated and will be removed in a future release. Please use "setTimeout" or "setInterval" instead.');
+    // Method overloading as identifier is optional
+    if (typeof identifier === 'string' && closure != null) {
+      JavaScriptExecution.createTimer(identifier, instant, closure);
+    } else {
+      JavaScriptExecution.createTimer(identifier, instant);
+    }
+  },
+  /**
+   * Schedules a block of code (with argument) for later execution
+   *
+   * @deprecated
+   * @param string [identifier] an optional identifier
+   * @param {ZonedDateTime} instant the point in time when the code should be executed
+   * @param {*} arg1 the argument to pass to the code block
+   * @callback closure the code block to execute
+   */
+  createTimerWithArgument (identifier, instant, arg1, closure) {
+    console.warn('"actions.ScriptExecution.createTimerWithArgument" has been deprecated and will be removed in a future release. Please use "setTimeout" or "setInterval" instead.');
+    // Method overloading as identifier is optional
+    if (typeof identifier === 'string' && closure != null) {
+      JavaScriptExecution.createTimerWithArgument(identifier, instant, arg1, closure);
+    } else {
+      JavaScriptExecution.createTimerWithArgument(identifier, instant, arg1);
+    }
+  }
+};
 
 /**
  * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/Semantics.html Semantics} Actions

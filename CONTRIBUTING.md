@@ -148,10 +148,11 @@ You don't have to be a maintainer to make a difference on the project!
 
 ## Build system
 
-openhab-js is using NodeJS version 12.16.1 as the JS Scripting add-on is currently on this version.
+openhab-js is using NodeJS version 16.17.1 as the JS Scripting add-on is currently on this version.
 It is required to use this version as well in your development environment, otherwise you could cause trouble.
 
 Maintainers recommend to use a NodeJS version manager, see [nvm-sh/nvm](https://github.com/nvm-sh/nvm).
+After you've installed, run `nvm use` to use the correct NodeJS version.
 
 openhab-js has several (development) dependencies which are required.
 
