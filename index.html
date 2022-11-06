@@ -239,8 +239,10 @@ The library search will look in the path <code>automation/js/node_modules</code>
 Script debug logging is enabled by default at the <code>INFO</code> level, but can be configured using the console logging commands.</p>
 <pre class="prettyprint source lang-text"><code>log:set DEBUG org.openhab.automation.script
 </code></pre>
-<p>The default logger name prefix is <code>org.openhab.automation.script</code>, this can be changed by assigning a new prefix to the <code>loggerName</code> property of the console.</p>
-<pre class="prettyprint source lang-javascript"><code>console.loggerName = &quot;custom&quot;
+<p>The default logger name prefix is <code>org.openhab.automation.script</code>, this can be changed by assigning a new string to the <code>loggerName</code> property of the console.</p>
+<p>Please be aware that messages might not appear in the logs if the logger name does not start with <code>org.openhab</code>.
+This behaviour is due to <a href="https://logging.apache.org/log4j/2.x/">log4j2</a> requiring definition for each logger prefix.</p>
+<pre class="prettyprint source lang-javascript"><code>console.loggerName = &quot;org.openhab.custom&quot;
 </code></pre>
 <p>Supported logging functions include:</p>
 <ul>
@@ -255,41 +257,53 @@ Script debug logging is enabled by default at the <code>INFO</code> level, but c
 The string representations of each of these objects are appended together in the order listed and output.</p>
 <p>See <a href="https:%5C/%5C/developer.mozilla.org/en-US/docs/Web/API/console">https://developer.mozilla.org/en-US/docs/Web/API/console</a> for more information about console logging.</p>
 <h3>Timers</h3>
+<p>JS Scripting provides access to the global <code>setTimeout</code>, <code>setInterval</code>, <code>clearTimeout</code> and <code>clearInterval</code> methods specified in the <a href="https://developer.mozilla.org/en-US/docs/Web/API">Web APIs</a>.</p>
+<p>When a script is unloaded, all created timers and intervals are automatically cancelled.</p>
 <h4>SetTimeout</h4>
-<p>The global <code>setTimeout()</code> method sets a timer which executes a function or specified piece of code once the timer expires.</p>
-<pre class="prettyprint source lang-javascript"><code>var ohTimer = setTimeout(callbackFunction, delay);
+<p>The global <a href="https://developer.mozilla.org/en-US/docs/Web/API/setTimeout"><code>setTimeout()</code></a> method sets a timer which executes a function or specified piece of code once the timer expires.
+<code>setTimeout()</code> returns a <code>timeoutId</code> (a positive integer value) which identifies the timer created.</p>
+<pre class="prettyprint source lang-javascript"><code>var timeoutId = setTimeout(callbackFunction, delay);
 </code></pre>
-<p>The global <code>clearTimeout()</code> method cancels a timeout previously established by calling <code>setTimeout()</code>.</p>
-<p>The openHAB implementation of <code>setTimeout()</code> differs from the <a href="https://developer.mozilla.org/en-US/docs/Web/API/setTimeout">HTML DOM API's <code>setTimeout()</code></a>.
-openHAB does not return the integer timeoutID as standard JS does, instead it returns an instance of <a href="#openhab-timer">openHAB Timer</a>.</p>
+<p><code>delay</code> is an integer value that represents the amount of milliseconds to wait before the timer expires.</p>
+<p>The global <a href="https://developer.mozilla.org/en-US/docs/Web/API/clearTimeout"><code>clearTimeout(timeoutId)</code></a> method cancels a timeout previously established by calling <code>setTimeout()</code>.</p>
 <h4>SetInterval</h4>
-<p>The setInterval() method repeatedly calls a function or executes a code snippet, with a fixed time delay between each call.</p>
-<pre class="prettyprint source lang-javascript"><code>var ohIntervalTimer = setInterval(callbackFunction, delay);
+<p>The global <a href="https://developer.mozilla.org/en-US/docs/Web/API/setInterval"><code>setInterval()</code></a> method repeatedly calls a function or executes a code snippet, with a fixed time delay between each call.
+<code>setInterval()</code> returns an <code>intervalId</code> (a positive integer value) which identifies the interval created.</p>
+<pre class="prettyprint source lang-javascript"><code>var intervalId = setInterval(callbackFunction, delay);
 </code></pre>
-<p>The global <code>clearInterval()</code> method cancels a timed, repeating action which was previously established by a call to <code>setInterval()</code>.</p>
-<p>NOTE: Timers will not be canceled if a script is deleted or modified, it is up to the user to manage timers.
-See using the <a href="#cache">cache</a> namespace as well as <a href="#initialization-hook-scriptloaded">ScriptLoaded</a> and <a href="#deinitialization-hook-scriptunloaded">ScriptUnLoaded</a> for a convenient way of managing persisted objects, such as timers between reloads or deletions of scripts.</p>
-<p>The openHAB implementation of <code>setInterval()</code> differs from the <a href="https://developer.mozilla.org/en-US/docs/Web/API/setInterval">HTML DOM API's <code>setInterval()</code></a>.
-openHAB does not return the integer timeoutID as standard JS does, instead it returns an instance of <a href="#openhab-timer">openHAB Timer</a>.</p>
-<h4>openHAB Timer</h4>
-<p>A native openHAB Timer instance has the following methods:</p>
-<ul>
-<li><code>cancel()</code>: Cancels the timer. ⇒ <code>boolean</code>: true, if cancellation was successful</li>
-<li><code>getExecutionTime()</code>: The scheduled execution time or null if timer was cancelled. ⇒ <code>time.ZonedDateTime</code> or <code>null</code></li>
-<li><code>isActive()</code>: Whether the scheduled execution is yet to happen. ⇒ <code>boolean</code></li>
-<li><code>isCancelled()</code>: Whether the timer has been cancelled. ⇒ <code>boolean</code></li>
-<li><code>isRunning()</code>: Whether the scheduled code is currently executed. ⇒ <code>boolean</code></li>
-<li><code>hasTerminated()</code>: Whether the scheduled execution has already terminated. ⇒ <code>boolean</code></li>
-<li><code>reschedule(time.ZonedDateTime)</code>: Reschedules a timer to a new starting time. This can also be called after a timer has terminated, which will result in another execution of the same code. ⇒ <code>boolean</code>: true, if rescheduling was successful</li>
-</ul>
-<p>Examples:</p>
-<pre class="prettyprint source lang-javascript"><code>var timer = setTimeout(() => { console.log('Timer expired.'); }, 10000); // Would log 'Timer expired.' in 10s.
-if (timer.isActive()) console.log('Timer is waiting to execute.');
-timer.cancel();
-if (timer.isCancelled()) console.log('Timer has been cancelled.');
-timer.reschedule(time.ZonedDateTime.now().plusSeconds(2)); // Logs 'Timer expired.' in 2s.
+<p><code>delay</code> is an integer value that represents the amount of milliseconds to wait before the timer expires.</p>
+<p>The global <a href="https://developer.mozilla.org/en-US/docs/Web/API/clearInterval"><code>clearInterval(intervalId)</code></a> method cancels a timed, repeating action which was previously established by a call to <code>setInterval()</code>.</p>
+<h4>Accessing Variables</h4>
+<p>You can access all variables of the current context in the created timers.</p>
+<p>Note: Variables can be mutated (changed) after the timer has been created.
+Be aware that this can lead to unattended side effects, e.g. when you change the variable after timer creation, which can make debugging quite difficult!</p>
+<pre class="prettyprint source lang-javascript"><code>var myVar = 'Hello world!';
+
+// Schedule a timer that expires in ten seconds
+setTimeout(() => {
+  console.info(`Timer expired with myVar = &quot;${myVar}&quot;`);
+}, 10000);
+
+myVar = 'Hello mutation!'; // When the timer runs, it will log &quot;Hello mutation!&quot; instead of &quot;Hello world!&quot;
 </code></pre>
-<p>See <a href="https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/timer">openHAB JavaDoc - Timer</a> for full API documentation.</p>
+<p>If you need to pass some variables to the timer but avoid that they can get mutated, use a function generator.</p>
+<p><strong>Pass variables using a function generator</strong> <!-- markdownlint-disable-line MD036 --></p>
+<p>This allows you to pass variables to the timer's callback function during timer creation.
+The variables can NOT be mutated after the timer function generator was used to create the callback function.</p>
+<pre class="prettyprint source lang-javascript"><code>// Function generator for the timer's callback function
+function cbFuncGen (myVariable) {
+  return function () {
+    console.info(`Timer expired with myVar = &quot;${myVariable}&quot;`);
+  };
+}
+
+var myVar = 'Hello world!';
+
+// Schedule a timer that expires in ten seconds
+setTimeout(cbFuncGen(myVar), 10000);
+
+myVar = 'Hello mutation!'; // When the timer runs, it will log &quot;Hello world!&quot;
+</code></pre>
 <h3>Paths</h3>
 <p>For <a href="#file-based-rules">file based rules</a>, scripts will be loaded from <code>automation/js</code> in the user configuration directory.</p>
 <p>NPM libraries will be loaded from <code>automation/js/node_modules</code> in the user configuration directory.</p>
@@ -529,62 +543,11 @@ var response = actions.HTTP.sendHttpGetRequest('&lt;url>');
 </code></pre>
 <p>Replace <code>&lt;url&gt;</code> with the request url.</p>
 <h4>ScriptExecution Actions</h4>
+<p>The <code>ScriptExecution</code> actions provide the <code>callScript(string scriptName)</code> method, which calls a script located at the <code>$OH_CONF/scripts</code> folder.</p>
+<p>Please note that <code>actions.ScriptExecution</code> also provides access to methods for creating timers, but it is NOT recommended to create timers using that raw Java API!
+Usage of those timer creation methods can lead to failing timers.
+Instead of those, use the <a href="#timers">native JS methods for timer creation</a>.</p>
 <p>See <a href="https://openhab.github.io/openhab-js/actions.html#.ScriptExecution">openhab-js : actions.ScriptExecution</a> for complete documentation.</p>
-<pre class="prettyprint source lang-javascript"><code>var now = time.ZonedDateTime.now();
-
-// Function to run when the timer goes off.
-function timerOver () {
-  console.info('The timer is over.');
-}
-
-// Create the Timer.
-var myTimer = actions.ScriptExecution.createTimer('My Timer', now.plusSeconds(10), timerOver);
-
-// Cancel the timer.
-myTimer.cancel();
-
-// Check whether the timer is active. Returns true if the timer is active and will be executed as scheduled.
-var active = myTimer.isActive();
-
-// Reschedule the timer.
-myTimer.reschedule(now.plusSeconds(5));
-</code></pre>
-<p>If you need to pass some variables to the timer, there are two options to do so:</p>
-<p><strong>Use a function generator</strong> <!-- markdownlint-disable-line MD036 --></p>
-<p>This allows you to pass variables to the timer‘s callback function at timer creation.
-The variables can not be mutated after the timer function generator was used to create the function.</p>
-<pre class="prettyprint source lang-javascript"><code>var now = time.ZonedDateTime.now();
-
-// Function to run when the timer goes off.
-function timerOver (myVariable) {
-  return function () {
-    console.info('The timer is over. myVariable is: ' + myVariable);
-  }
-}
-
-// Create the Timer.
-var myTimer = actions.ScriptExecution.createTimer('My Timer', now.plusSeconds(10), timerOver('Hello world!'));
-</code></pre>
-<p><strong>Pass a single variable to the timer</strong> <!--markdownlint-disable-line MD036 --></p>
-<p>This allows you to pass a single variable to the timer's callback function.
-Variables can be mutated (changed) after the timer has been created.
-Be aware that this can lead to unattended side effects, e.g. when you change the variable after timer creation, which can make debugging quite difficult!</p>
-<pre class="prettyprint source lang-javascript"><code>var now = time.ZonedDateTime.now();
-
-// Function to run when the timer goes off.
-function timerOver () {
-  console.info('The timer is over. myVariable is: ' + myVariable);
-}
-
-var myVariable = 'Hello world!';
-
-// Create the Timer.
-var myTimer = actions.ScriptExecution.createTimerWithArgument('My Timer', now.plusSeconds(10), myVariable, timerOver);
-
-myVariable = 'Hello mutation!';
-// When the timer runs, it will log &quot;Hello mutation!&quot; instead of &quot;Hello world!&quot;
-</code></pre>
-<p>You may also pass <code>this</code> to the timer to have access to all variables from the current context.</p>
 <h4>Semantics Actions</h4>
 <p>See <a href="https://openhab.github.io/openhab-js/actions.html#.Semantics">openhab-js : actions.Semantics</a> for complete documentation.</p>
 <h4>Things Actions</h4>
@@ -1007,7 +970,7 @@ The <code>event</code> object provides some information about that trigger.</p>
 </tr>
 <tr>
 <td><code>itemName</code></td>
-<td><code>Item****Trigger</code></td>
+<td><code>Item****Trigger</code>, <code>Group****Trigger</code></td>
 <td>Name of Item that triggered event</td>
 <td><code>triggeringItem.name</code></td>
 </tr>
@@ -1336,7 +1299,7 @@ Generally speaking, you should prefer to use <a href="#standard-library">Standar
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a> on Fri Oct 21 2022 16:55:33 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.0</a> on Sun Nov 06 2022 15:42:23 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
