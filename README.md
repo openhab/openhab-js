@@ -546,13 +546,43 @@ Replace `<url>` with the request url.
 
 #### ScriptExecution Actions
 
-The `ScriptExecution` actions provide the `callScript(string scriptName)` method, which calls a script located at the `$OH_CONF/scripts` folder.
+The `ScriptExecution` actions provide the `callScript(string scriptName)` method, which calls a script located at the `$OH_CONF/scripts` folder, as well as methods for creating timers.
 
-Please note that `actions.ScriptExecution` also provides access to methods for creating timers, but it is NOT recommended to create timers using that raw Java API!
-Usage of those timer creation methods can lead to failing timers.
-Instead of those, use the [native JS methods for timer creation](#timers).
+You can also create timers using the [native JS methods for timer creation](#timers), your choice depends on the versatility you need.
+Sometimes, using `setTimer` is much faster and easier, but other times, you need the versatility that `createTimer` provides.
 
-See [openhab-js : actions.ScriptExecution](https://openhab.github.io/openhab-js/actions.html#.ScriptExecution) for complete documentation.
+`createTimer` and `createTimerWithArgument` both return an openHAB Timer, that provides the following methods:
+
+- `cancel()`: Cancels the timer. ⇒ `boolean`: true, if cancellation was successful
+- `getExecutionTime()`: The scheduled execution time or null if timer was cancelled. ⇒ `time.ZonedDateTime` or `null`
+- `isActive()`: Whether the scheduled execution is yet to happen. ⇒ `boolean`
+- `isCancelled()`: Whether the timer has been cancelled. ⇒ `boolean`
+- `hasTerminated()`: Whether the scheduled execution has already terminated. ⇒ `boolean`
+- `reschedule(time.ZonedDateTime)`: Reschedules a timer to a new starting time. This can also be called after a timer has terminated, which will result in another execution of the same code. ⇒ `boolean`: true, if rescheduling was successful
+
+
+```javascript
+var now = time.ZonedDateTime.now();
+
+// Function to run when the timer goes off.
+function timerOver () {
+  console.info('The timer expired.');
+}
+
+// Create the Timer.
+var myTimer = actions.ScriptExecution.createTimer('My Timer', now.plusSeconds(10), timerOver);
+
+// Cancel the timer.
+myTimer.cancel();
+
+// Check whether the timer is active. Returns true if the timer is active and will be executed as scheduled.
+var active = myTimer.isActive();
+
+// Reschedule the timer.
+myTimer.reschedule(now.plusSeconds(5));
+```
+
+See [openhab-js : actions.ScriptExecution](https://openhab.github.io/openhab-js/actions.ScriptExecution.html) for complete documentation.
 
 #### Semantics Actions
 

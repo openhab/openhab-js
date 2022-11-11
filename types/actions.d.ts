@@ -155,6 +155,10 @@ export const Ping: any;
  *
  * @example
  * ScriptExecution.callScript​(String scriptName)
+ * ScriptExecution.createTimer​(ZonedDateTime instant, callbackFunction)
+ * ScriptExecution.createTimer​(String identifier, ZonedDateTime instant, callbackFunction)
+ * ScriptExecution.createTimerWithArgument​(ZonedDateTime instant, Object arg1, callbackFunction)
+ * ScriptExecution.createTimerWithArgument​(String identifier, ZonedDateTime instant, Object arg1, callbackFunction)
  *
  * @memberof actions
  * @hideconstructor
