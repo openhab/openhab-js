@@ -21,6 +21,7 @@ const log = require('./log')('actions');
 
 const Things = Java.type('org.openhab.core.model.script.actions.Things');
 const actionServices = osgi.findServices('org.openhab.core.model.script.engine.action.ActionService', null) || [];
+const JavaScriptExecution = Java.type('org.openhab.core.model.script.actions.ScriptExecution');
 
 // Dynamically export all found actions
 const dynamicExports = {};
@@ -191,7 +192,6 @@ const LogAction = Java.type('org.openhab.core.model.script.actions.Log');
  */
 const Ping = Java.type('org.openhab.core.model.script.actions.Ping');
 
-const JavaScriptExecution = Java.type('org.openhab.core.model.script.actions.ScriptExecution');
 /**
  * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/scriptexecution ScriptExecution} Actions
  *
@@ -200,54 +200,74 @@ const JavaScriptExecution = Java.type('org.openhab.core.model.script.actions.Scr
  * @example
  * ScriptExecution.callScript​(String scriptName)
  *
- * @name ScriptExecution
  * @memberof actions
+ * @hideconstructor
  */
-const ScriptExecution = {
+class ScriptExecution {
   /**
    * Calls a script which must be located in the configurations/scripts folder.
    *
    * @param {string} scriptName the name of the script (if the name does not end with the .script file extension it is added)
    */
-  callScript (scriptName) {
+  static callScript (scriptName) {
     JavaScriptExecution.callScript(scriptName);
-  },
+  }
+
   /**
    * Schedules a block of code for later execution.
    *
-   * @deprecated
    * @param {string} [identifier] an optional identifier
    * @param {ZonedDateTime} instant the point in time when the code should be executed
-   * @callback closure the code block to execute
+   * @param {function} closure the code block to execute
+   * @returns {OpenHABTimer} a native openHAB Timer
    */
-  createTimer (identifier, instant, closure) {
-    console.warn('"actions.ScriptExecution.createTimer" has been deprecated and will be removed in a future release. Please use "setTimeout" or "setInterval" instead.');
-    // Method overloading as identifier is optional
+  static createTimer (identifier, instant, closure) {
+    // Support method overloading as identifier is optional
     if (typeof identifier === 'string' && closure != null) {
-      JavaScriptExecution.createTimer(identifier, instant, closure);
+      // Try to access the createTimer method of ThreadsafeTimers
+      try {
+        return ThreadsafeTimers.createTimer(identifier, instant, closure); // eslint-disable-line no-undef
+      } catch {
+        return JavaScriptExecution.createTimer(identifier, instant, closure);
+      }
     } else {
-      JavaScriptExecution.createTimer(identifier, instant);
+      // Try to access the createTimer method of ThreadsafeTimers
+      try {
+        return ThreadsafeTimers.createTimer(identifier, instant); // eslint-disable-line no-undef
+      } catch {
+        return JavaScriptExecution.createTimer(identifier, instant);
+      }
     }
-  },
+  }
+
   /**
    * Schedules a block of code (with argument) for later execution
    *
-   * @deprecated
    * @param string [identifier] an optional identifier
    * @param {ZonedDateTime} instant the point in time when the code should be executed
    * @param {*} arg1 the argument to pass to the code block
-   * @callback closure the code block to execute
+   * @param {function} closure the code block to execute
+   * @returns {OpenHABTimer} a native openHAB Timer
    */
-  createTimerWithArgument (identifier, instant, arg1, closure) {
-    console.warn('"actions.ScriptExecution.createTimerWithArgument" has been deprecated and will be removed in a future release. Please use "setTimeout" or "setInterval" instead.');
-    // Method overloading as identifier is optional
+  static createTimerWithArgument (identifier, instant, arg1, closure) {
+    // Support method overloading as identifier is optional
     if (typeof identifier === 'string' && closure != null) {
-      JavaScriptExecution.createTimerWithArgument(identifier, instant, arg1, closure);
+      // Try to access the createTimerWithArgument method of ThreadsafeTimers
+      try {
+        return ThreadsafeTimers.createTimerWithArgument(identifier, instant, arg1, closure); // eslint-disable-line no-undef
+      } catch {
+        JavaScriptExecution.createTimerWithArgument(identifier, instant, arg1, closure);
+      }
     } else {
-      JavaScriptExecution.createTimerWithArgument(identifier, instant, arg1);
+      // Try to access the createTimerWithArgument method of ThreadsafeTimers
+      try {
+        return ThreadsafeTimers.createTimerWithArgument(identifier, instant, arg1); // eslint-disable-line no-undef
+      } catch (error) {
+        JavaScriptExecution.createTimerWithArgument(identifier, instant, arg1);
+      }
     }
   }
-};
+}
 
 /**
  * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/Semantics.html Semantics} Actions
