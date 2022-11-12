@@ -154,9 +154,9 @@ export const Ping: any;
  * The static methods of this class are made available as functions in the scripts.
  *
  * @example
- * ScriptExecution.callScript​(String scriptName)
- * ScriptExecution.createTimer​(ZonedDateTime instant, callbackFunction)
- * ScriptExecution.createTimer​(String identifier, ZonedDateTime instant, callbackFunction)
+ * ScriptExecution.callScript​(string scriptName)
+ * ScriptExecution.createTimer​(time.ZonedDateTime instant, function callbackFunction)
+ * ScriptExecution.createTimer​(string identifier, time.ZonedDateTime instant, function callbackFunction)
  *
  * @memberof actions
  * @hideconstructor
@@ -169,25 +169,25 @@ export class ScriptExecution {
      */
     static callScript(scriptName: string): void;
     /**
-     * Schedules a block of code for later execution.
+     * Schedules a function for later execution.
      *
      * @param {string} [identifier] an optional identifier
      * @param {ZonedDateTime} instant the point in time when the code should be executed
      * @param {function} closure the code block to execute
-     * @returns {OpenHABTimer} a native openHAB Timer
+     * @returns {*} a native openHAB Timer
      */
-    static createTimer(identifier?: string, instant: ZonedDateTime, closure: Function): OpenHABTimer;
+    static createTimer(identifier?: string, instant: ZonedDateTime, closure: Function): any;
     /**
-     * Schedules a block of code (with argument) for later execution
+     * Schedules a function (with argument) for later execution
      *
      * @deprecated
      * @param string [identifier] an optional identifier
      * @param {ZonedDateTime} instant the point in time when the code should be executed
      * @param {*} arg1 the argument to pass to the code block
      * @param {function} closure the code block to execute
-     * @returns {OpenHABTimer} a native openHAB Timer
+     * @returns {*} a native openHAB Timer
      */
-    static createTimerWithArgument(identifier: any, instant: ZonedDateTime, arg1: any, closure: Function): OpenHABTimer;
+    static createTimerWithArgument(identifier: any, instant: ZonedDateTime, arg1: any, closure: Function): any;
 }
 /**
  * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/Semantics.html Semantics} Actions

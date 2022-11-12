@@ -198,9 +198,9 @@ const Ping = Java.type('org.openhab.core.model.script.actions.Ping');
  * The static methods of this class are made available as functions in the scripts.
  *
  * @example
- * ScriptExecution.callScript​(String scriptName)
- * ScriptExecution.createTimer​(ZonedDateTime instant, callbackFunction)
- * ScriptExecution.createTimer​(String identifier, ZonedDateTime instant, callbackFunction)
+ * ScriptExecution.callScript​(string scriptName)
+ * ScriptExecution.createTimer​(time.ZonedDateTime instant, function callbackFunction)
+ * ScriptExecution.createTimer​(string identifier, time.ZonedDateTime instant, function callbackFunction)
  *
  * @memberof actions
  * @hideconstructor
@@ -216,12 +216,12 @@ class ScriptExecution {
   }
 
   /**
-   * Schedules a block of code for later execution.
+   * Schedules a function for later execution.
    *
    * @param {string} [identifier] an optional identifier
    * @param {ZonedDateTime} instant the point in time when the code should be executed
    * @param {function} closure the code block to execute
-   * @returns {OpenHABTimer} a native openHAB Timer
+   * @returns {*} a native openHAB Timer
    */
   static createTimer (identifier, instant, closure) {
     // Support method overloading as identifier is optional
@@ -243,14 +243,14 @@ class ScriptExecution {
   }
 
   /**
-   * Schedules a block of code (with argument) for later execution
+   * Schedules a function (with argument) for later execution
    *
    * @deprecated
    * @param string [identifier] an optional identifier
    * @param {ZonedDateTime} instant the point in time when the code should be executed
    * @param {*} arg1 the argument to pass to the code block
    * @param {function} closure the code block to execute
-   * @returns {OpenHABTimer} a native openHAB Timer
+   * @returns {*} a native openHAB Timer
    */
   static createTimerWithArgument (identifier, instant, arg1, closure) {
     console.warn('"createTimerWithArgument" has been deprecated and will be removed in a future release. Use "createTimer" or "setTimeout" instead.');
