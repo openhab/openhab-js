@@ -201,8 +201,6 @@ const Ping = Java.type('org.openhab.core.model.script.actions.Ping');
  * ScriptExecution.callScript​(String scriptName)
  * ScriptExecution.createTimer​(ZonedDateTime instant, callbackFunction)
  * ScriptExecution.createTimer​(String identifier, ZonedDateTime instant, callbackFunction)
- * ScriptExecution.createTimerWithArgument​(ZonedDateTime instant, Object arg1, callbackFunction)
- * ScriptExecution.createTimerWithArgument​(String identifier, ZonedDateTime instant, Object arg1, callbackFunction)
  *
  * @memberof actions
  * @hideconstructor
@@ -247,6 +245,7 @@ class ScriptExecution {
   /**
    * Schedules a block of code (with argument) for later execution
    *
+   * @deprecated
    * @param string [identifier] an optional identifier
    * @param {ZonedDateTime} instant the point in time when the code should be executed
    * @param {*} arg1 the argument to pass to the code block
@@ -254,21 +253,12 @@ class ScriptExecution {
    * @returns {OpenHABTimer} a native openHAB Timer
    */
   static createTimerWithArgument (identifier, instant, arg1, closure) {
+    console.warn('"createTimerWithArgument" has been deprecated and will be removed in a future release. Use "createTimer" or "setTimeout" instead.');
     // Support method overloading as identifier is optional
     if (typeof identifier === 'string' && closure != null) {
-      // Try to access the createTimerWithArgument method of ThreadsafeTimers
-      try {
-        return ThreadsafeTimers.createTimerWithArgument(identifier, instant, arg1, closure); // eslint-disable-line no-undef
-      } catch {
-        JavaScriptExecution.createTimerWithArgument(identifier, instant, arg1, closure);
-      }
+      return JavaScriptExecution.createTimerWithArgument(identifier, instant, arg1, closure);
     } else {
-      // Try to access the createTimerWithArgument method of ThreadsafeTimers
-      try {
-        return ThreadsafeTimers.createTimerWithArgument(identifier, instant, arg1); // eslint-disable-line no-undef
-      } catch (error) {
-        JavaScriptExecution.createTimerWithArgument(identifier, instant, arg1);
-      }
+      return JavaScriptExecution.createTimerWithArgument(identifier, instant, arg1);
     }
   }
 }

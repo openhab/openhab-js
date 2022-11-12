@@ -157,8 +157,6 @@ export const Ping: any;
  * ScriptExecution.callScript​(String scriptName)
  * ScriptExecution.createTimer​(ZonedDateTime instant, callbackFunction)
  * ScriptExecution.createTimer​(String identifier, ZonedDateTime instant, callbackFunction)
- * ScriptExecution.createTimerWithArgument​(ZonedDateTime instant, Object arg1, callbackFunction)
- * ScriptExecution.createTimerWithArgument​(String identifier, ZonedDateTime instant, Object arg1, callbackFunction)
  *
  * @memberof actions
  * @hideconstructor
@@ -182,6 +180,7 @@ export class ScriptExecution {
     /**
      * Schedules a block of code (with argument) for later execution
      *
+     * @deprecated
      * @param string [identifier] an optional identifier
      * @param {ZonedDateTime} instant the point in time when the code should be executed
      * @param {*} arg1 the argument to pass to the code block
