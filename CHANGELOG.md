@@ -4,6 +4,13 @@
 
 | Type        | Namespace | Description                                                | Reference                                              | Breaking |
 |-------------|-----------|------------------------------------------------------------|--------------------------------------------------------|----------|
+
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/8).
+
+## 2.1.1
+
+| Type        | Namespace | Description                                                | Reference                                              | Breaking |
+|-------------|-----------|------------------------------------------------------------|--------------------------------------------------------|----------|
 | Enhancement | `actions` | Don't deprecate `ScriptExecution.createTimer`              | [#171](https://github.com/openhab/openhab-js/pull/171) | No       |
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/7).
