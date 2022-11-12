@@ -208,7 +208,7 @@ When a script is unloaded, all created timers and intervals are automatically ca
 
 #### SetTimeout
 
-The global [`setTimeout()`](https://developer.mozilla.org/en-US/docs/Web/API/setTimeout) method sets a timer which executes a function or specified piece of code once the timer expires.
+The global [`setTimeout()`](https://developer.mozilla.org/en-US/docs/Web/API/setTimeout) method sets a timer which executes a function once the timer expires.
 `setTimeout()` returns a `timeoutId` (a positive integer value) which identifies the timer created.
 
 ```javascript
@@ -221,7 +221,7 @@ The global [`clearTimeout(timeoutId)`](https://developer.mozilla.org/en-US/docs/
 
 #### SetInterval
 
-The global [`setInterval()`](https://developer.mozilla.org/en-US/docs/Web/API/setInterval) method repeatedly calls a function or executes a code snippet, with a fixed time delay between each call.
+The global [`setInterval()`](https://developer.mozilla.org/en-US/docs/Web/API/setInterval) method repeatedly calls a function, with a fixed time delay between each call.
 `setInterval()` returns an `intervalId` (a positive integer value) which identifies the interval created.
 
 ```javascript
@@ -546,12 +546,26 @@ Replace `<url>` with the request url.
 
 #### ScriptExecution Actions
 
-The `ScriptExecution` actions provide the `callScript(string scriptName)` method, which calls a script located at the `$OH_CONF/scripts` folder, as well as methods for creating timers.
+The `ScriptExecution` actions provide the `callScript(string scriptName)` method, which calls a script located at the `$OH_CONF/scripts` folder, as well as the `createTimer` method.
 
 You can also create timers using the [native JS methods for timer creation](#timers), your choice depends on the versatility you need.
 Sometimes, using `setTimer` is much faster and easier, but other times, you need the versatility that `createTimer` provides.
 
-`createTimer` and `createTimerWithArgument` both return an openHAB Timer, that provides the following methods:
+##### `createTimer`
+
+```javascript
+actions.ScriptExecution.createTimer(time.ZonedDateTime instant, function callback);
+
+actions.ScriptExecution.createTimer(string identifier, time.ZonedDateTime instant, function callback);
+```
+
+`createTimer` accepts the following arguments:
+
+- `string` identifier (optional): Identifies the timer by a string, used e.g. for logging errors that occur during the callback execution.
+- [`time.ZonedDateTime`](#timetozdt) instant: Point in time when the callback should be executed.
+- `function` callback: Callback function to execute when the timer expires.
+
+`createTimer` returns an openHAB Timer, that provides the following methods:
 
 - `cancel()`: Cancels the timer. ⇒ `boolean`: true, if cancellation was successful
 - `getExecutionTime()`: The scheduled execution time or null if timer was cancelled. ⇒ `time.ZonedDateTime` or `null`
