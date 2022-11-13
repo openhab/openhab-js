@@ -10,8 +10,6 @@ const {
   isJsInstanceOfJava
 } = require('../utils');
 
-jest.mock('../log');
-
 describe('utils.js', () => {
   describe('randomUUID', () => {
     it('delegates to Java UUID#randomUUID().', () => {

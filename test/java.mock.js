@@ -20,12 +20,17 @@ class UUID {
 
 UUID.randomUUID = jest.fn();
 
+class LoggerFactory {}
+
+LoggerFactory.getLogger = jest.fn();
+
 const TYPES = {
   'java.util.UUID': UUID,
   'java.util.HashSet': HashSet,
   'java.util.ArrayList': ArrayList,
   'org.openhab.core.automation.util.ModuleBuilder': ModuleBuilder,
-  'org.openhab.core.config.core.Configuration': Configuration
+  'org.openhab.core.config.core.Configuration': Configuration,
+  'org.slf4j.LoggerFactory': LoggerFactory
 };
 
 Java = {

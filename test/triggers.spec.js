@@ -1,6 +1,4 @@
-jest.mock('../log');
-
-require('./java.mock');
+const { UUID } = require('./java.mock');
 const { ModuleBuilder } = require('./openhab.mock');
 const {
   ItemCommandTrigger,
@@ -19,7 +17,6 @@ const {
   PWMTrigger,
   PIDTrigger
 } = require('../triggers');
-const { UUID } = require('./java.mock');
 
 describe('triggers.js', () => {
   const moduleBuilderSpy = new ModuleBuilder();
