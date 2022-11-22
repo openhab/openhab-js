@@ -185,10 +185,10 @@ class ItemHistory {
    * @param {(ZonedDateTime | Date)} begin begin
    * @param {(ZonedDateTime | Date)} end end
    * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
-   * @returns {(string | null)} state or null
+   * @returns {(number | null)} state or null
    */
   maximumBetween (begin, end, serviceId) {
-    return this._stateOrNull(PersistenceExtensions.maximumBetween(this.rawItem, ...arguments));
+    return this._decimalOrNull(this._stateOrNull(PersistenceExtensions.maximumBetween(this.rawItem, ...arguments)));
   }
 
   /**
@@ -196,10 +196,10 @@ class ItemHistory {
    *
    * @param {(ZonedDateTime | Date)} timestamp
    * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
-   * @returns {(string | null)} state or null
+   * @returns {(number | null)} state or null
    */
   maximumSince (timestamp, serviceId) {
-    return this._stateOrNull(PersistenceExtensions.maximumSince(this.rawItem, ...arguments));
+    return this._decimalOrNull(this._stateOrNull(PersistenceExtensions.maximumSince(this.rawItem, ...arguments)));
   }
 
   /**
@@ -208,10 +208,10 @@ class ItemHistory {
    * @param {(ZonedDateTime | Date)} begin begin
    * @param {(ZonedDateTime | Date)} end end
    * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
-   * @returns {(string | null)} state or null
+   * @returns {(number | null)} state or null
    */
   minimumBetween (begin, end, serviceId) {
-    return this._stateOrNull(PersistenceExtensions.minimumBetween(this.rawItem, ...arguments));
+    return this._decimalOrNull(this._stateOrNull(PersistenceExtensions.minimumBetween(this.rawItem, ...arguments)));
   }
 
   /**
@@ -219,10 +219,10 @@ class ItemHistory {
    *
    * @param {(ZonedDateTime | Date)} timestamp
    * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
-   * @returns {(string | null)} state or null
+   * @returns {(number | null)} state or null
    */
   minimumSince (timestamp, serviceId) {
-    return this._stateOrNull(PersistenceExtensions.minimumSince(this.rawItem, ...arguments));
+    return this._decimalOrNull(this._stateOrNull(PersistenceExtensions.minimumSince(this.rawItem, ...arguments)));
   }
 
   /**
