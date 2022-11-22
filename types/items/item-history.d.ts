@@ -136,34 +136,34 @@ declare class ItemHistory {
      * @param {(ZonedDateTime | Date)} begin begin
      * @param {(ZonedDateTime | Date)} end end
      * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
-     * @returns {(string | null)} state or null
+     * @returns {(number | null)} state or null
      */
-    maximumBetween(begin: (ZonedDateTime | Date), end: (ZonedDateTime | Date), serviceId?: string, ...args: any[]): (string | null);
+    maximumBetween(begin: (ZonedDateTime | Date), end: (ZonedDateTime | Date), serviceId?: string, ...args: any[]): (number | null);
     /**
      * Gets the maximum value of the historic state of a given Item since a certain point in time.
      *
      * @param {(ZonedDateTime | Date)} timestamp
      * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
-     * @returns {(string | null)} state or null
+     * @returns {(number | null)} state or null
      */
-    maximumSince(timestamp: (ZonedDateTime | Date), serviceId?: string, ...args: any[]): (string | null);
+    maximumSince(timestamp: (ZonedDateTime | Date), serviceId?: string, ...args: any[]): (number | null);
     /**
      * Gets the minimum value of the historic state of a given Item between two certain points in time.
      *
      * @param {(ZonedDateTime | Date)} begin begin
      * @param {(ZonedDateTime | Date)} end end
      * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
-     * @returns {(string | null)} state or null
+     * @returns {(number | null)} state or null
      */
-    minimumBetween(begin: (ZonedDateTime | Date), end: (ZonedDateTime | Date), serviceId?: string, ...args: any[]): (string | null);
+    minimumBetween(begin: (ZonedDateTime | Date), end: (ZonedDateTime | Date), serviceId?: string, ...args: any[]): (number | null);
     /**
      * Gets the minimum value of the historic state of a given Item since a certain point in time.
      *
      * @param {(ZonedDateTime | Date)} timestamp
      * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
-     * @returns {(string | null)} state or null
+     * @returns {(number | null)} state or null
      */
-    minimumSince(timestamp: (ZonedDateTime | Date), serviceId?: string, ...args: any[]): (string | null);
+    minimumSince(timestamp: (ZonedDateTime | Date), serviceId?: string, ...args: any[]): (number | null);
     /**
      * Persists the state of a given Item.
      *
