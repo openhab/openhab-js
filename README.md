@@ -44,6 +44,7 @@ binding](https://www.openhab.org/addons/automation/jsscripting/).
   - [Initialization hook: scriptLoaded](#initialization-hook-scriptloaded)
   - [Deinitialization hook: scriptUnloaded](#deinitialization-hook-scriptunloaded)
 - [Advanced Scripting](#advanced-scripting)
+  - [Libraries](#libraries)
   - [@runtime](#runtime)
 
 ## Installation
@@ -1039,6 +1040,49 @@ scriptUnloaded = function () {
 ```
 
 ## Advanced Scripting
+
+### Libraries
+
+#### Third Party Libraries
+
+Loading of third party libraries is supported the same way as loading the openHAB JavaScript library:
+
+```javascript
+var myLibrary = require('my-library');
+```
+
+Run the `npm` command from the `automation/js` folder to install third party libraries (Node.js modules), e.g. from [npm](https://www.npmjs.com/search?q=openhab).
+This will create a `node_modules` folder (if it doesn't already exist) and install the library and it's dependencies there.
+
+There are already some openHAB specific libraries available on [npm](https://www.npmjs.com/search?q=openhab), you may also search the forum for details.
+
+#### Creating Your Own Library
+
+You can also create your own personal JavaScript library for openHAB, but you can not just create a folder in `node_modules` and put your library code in it!
+`npm` will remove everything from `node_modules` that has not been properly installed when it is run.
+
+You can follow these steps to create your own library (it's called a Node.js module):
+
+1. Create a separate folder for your library, you may also init a Git repository.
+2. Run `npm init` from your newly created folder; at least provide responses for the `name`, `version` and `main` (e.g. `index.js`) fields.
+3. Create the main file of your library (`index.js`) and add export:
+
+   ```javascript
+   const someProperty = 'Hello world!';
+   function someFunction () {
+     console.log('Hello from your personal library!');
+   }
+   
+   module.exports = {
+     someProperty,
+     someFunction
+   }
+   ```
+
+4. Tar it up by running `npm pack` from your library's folder.
+5. Install it by running `npm install <name>-<version>.tgz` from the `automation/js` folder.
+
+If you want to get some advanced information, you can read [this blog post](https://bugfender.com/blog/how-to-create-an-npm-package/) or just google it.
 
 ### @runtime
 
