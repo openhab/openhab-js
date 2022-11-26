@@ -603,7 +603,7 @@ See [openhab-js : actions.ScriptExecution](https://openhab.github.io/openhab-js/
 
 See [openhab-js : actions.Semantics](https://openhab.github.io/openhab-js/actions.html#.Semantics) for complete documentation.
 
-#### Things Actions
+#### Thing Actions
 
 It is possible to get the actions for a Thing using `actions.Things.getActions(bindingId, thingUid)`, e.g. `actions.Things.getActions('network', 'network:pingdevice:pc')`.
 
@@ -921,7 +921,7 @@ See [Examples](#rule-builder-examples) for further patterns.
     - `from(state)`
     - `to(state)`
 
-Additionally all the above triggers have the following functions:
+Additionally, all the above triggers have the following functions:
 
 - `.if()` or `.if(fn)` -> a [rule condition](#rule-builder-conditions)
 - `.then()` or `.then(fn)` -> a [rule operation](#rule-builder-operations)
@@ -1063,7 +1063,7 @@ You can also create your own personal JavaScript library for openHAB, but you ca
 
 You can follow these steps to create your own library (it's called a Node.js module):
 
-1. Create a separate folder for your library, you may also init a Git repository.
+1. Create a separate folder for your library outside of `automation/js`, you may also initialize a Git repository.
 2. Run `npm init` from your newly created folder; at least provide responses for the `name`, `version` and `main` (e.g. `index.js`) fields.
 3. Create the main file of your library (`index.js`) and add export:
 
@@ -1076,11 +1076,12 @@ You can follow these steps to create your own library (it's called a Node.js mod
    module.exports = {
      someProperty,
      someFunction
-   }
+   };
    ```
 
 4. Tar it up by running `npm pack` from your library's folder.
 5. Install it by running `npm install <name>-<version>.tgz` from the `automation/js` folder.
+6. After you've installed it with `npm`, you can continue development of the library inside `node_modules`.
 
 If you want to get some advanced information, you can read [this blog post](https://bugfender.com/blog/how-to-create-an-npm-package/) or just google it.
 
