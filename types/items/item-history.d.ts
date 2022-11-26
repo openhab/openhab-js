@@ -1,6 +1,7 @@
 export = ItemHistory;
 /**
  * Class representing the historic state of an openHAB Item.
+ * If the Item receives it's state from a binding that supports units of measurement, the returned state is in the according base unit, otherwise there is no unit conversion happening.
  * Wrapping the {@link https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/extensions/persistenceextensions PersistenceExtensions}.
  *
  * @memberOf items
@@ -131,7 +132,7 @@ declare class ItemHistory {
      */
     latestState(serviceId?: string, ...args: any[]): (string | null);
     /**
-     * Gets the maximum value of the historic state of a given Item between two certain points in time.
+     * Gets the state with the maximum value of a given Item between two certain points in time.
      *
      * @param {(ZonedDateTime | Date)} begin begin
      * @param {(ZonedDateTime | Date)} end end
@@ -140,7 +141,7 @@ declare class ItemHistory {
      */
     maximumBetween(begin: (ZonedDateTime | Date), end: (ZonedDateTime | Date), serviceId?: string, ...args: any[]): (number | null);
     /**
-     * Gets the maximum value of the historic state of a given Item since a certain point in time.
+     * Gets the state with the maximum value of a given Item since a certain point in time.
      *
      * @param {(ZonedDateTime | Date)} timestamp
      * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
@@ -148,7 +149,7 @@ declare class ItemHistory {
      */
     maximumSince(timestamp: (ZonedDateTime | Date), serviceId?: string, ...args: any[]): (number | null);
     /**
-     * Gets the minimum value of the historic state of a given Item between two certain points in time.
+     * Gets the state with the minimum value of a given Item between two certain points in time.
      *
      * @param {(ZonedDateTime | Date)} begin begin
      * @param {(ZonedDateTime | Date)} end end
@@ -157,7 +158,7 @@ declare class ItemHistory {
      */
     minimumBetween(begin: (ZonedDateTime | Date), end: (ZonedDateTime | Date), serviceId?: string, ...args: any[]): (number | null);
     /**
-     * Gets the minimum value of the historic state of a given Item since a certain point in time.
+     * Gets the state with the minimum value of a given Item since a certain point in time.
      *
      * @param {(ZonedDateTime | Date)} timestamp
      * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
