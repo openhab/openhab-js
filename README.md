@@ -29,6 +29,7 @@ binding](https://www.openhab.org/addons/automation/jsscripting/).
   - [Console](#console)
   - [Timers](#timers)
   - [Paths](#paths)
+  - [Deinitialization Hook](#deinitialization-hook)
 - [Standard Library](#standard-library)
   - [Items](#items)
   - [Things](#things)
@@ -41,8 +42,6 @@ binding](https://www.openhab.org/addons/automation/jsscripting/).
   - [JSRule](#jsrule)
   - [Rule Builder](#rule-builder)
   - [Event Object](#event-object)
-  - [Initialization hook: scriptLoaded](#initialization-hook-scriptloaded)
-  - [Deinitialization hook: scriptUnloaded](#deinitialization-hook-scriptunloaded)
 - [Advanced Scripting](#advanced-scripting)
   - [@runtime](#runtime)
 
@@ -204,7 +203,7 @@ See <https://developer.mozilla.org/en-US/docs/Web/API/console> for more informat
 
 JS Scripting provides access to the global `setTimeout`, `setInterval`, `clearTimeout` and `clearInterval` methods specified in the [Web APIs](https://developer.mozilla.org/en-US/docs/Web/API).
 
-When a script is unloaded, all created timers and intervals are automatically cancelled.
+When a script is unloaded, all created timeouts and intervals are automatically cancelled.
 
 #### SetTimeout
 
@@ -278,6 +277,19 @@ myVar = 'Hello mutation!'; // When the timer runs, it will log "Hello world!"
 For [file based rules](#file-based-rules), scripts will be loaded from `automation/js` in the user configuration directory.
 
 NPM libraries will be loaded from `automation/js/node_modules` in the user configuration directory.
+
+### Deinitialization Hook
+
+It is possible to hook into unloading of a script and register a function that is called when the script is unloaded.
+
+```javascript
+require('@runtime').lifecycleTracker.addDisposeHook(() => functionToCall());
+
+// Example
+require('@runtime').lifecycleTracker.addDisposeHook(() => {
+  console.log("Deinitialization hook runs...")
+});
+```
 
 ## Standard Library
 
@@ -550,6 +562,9 @@ The `ScriptExecution` actions provide the `callScript(string scriptName)` method
 
 You can also create timers using the [native JS methods for timer creation](#timers), your choice depends on the versatility you need.
 Sometimes, using `setTimer` is much faster and easier, but other times, you need the versatility that `createTimer` provides.
+
+Keep in mind that you should somehow manage the timers you create using `createTimer`, otherwise you could end up with unmanagable timers running until you restart openHAB.
+A possible solution is to store all timers in an array and cancel all timers in the [Deinitialization Hook](#deinitialization-hook).
 
 ##### `createTimer`
 
@@ -1014,29 +1029,6 @@ All properties are typeof `string`.
 Time triggers do not provide any event instance, therefore no property is populated.
 
 See [openhab-js : EventObject](https://openhab.github.io/openhab-js/rules.html#.EventObject) for full API documentation.
-
-### Initialization hook: scriptLoaded
-
-For file based scripts, this function will be called if found when the script is loaded.
-
-```javascript
-scriptLoaded = function () {
-  console.log("script loaded");
-  loadedDate = Date.now();
-};
-```
-
-### Deinitialization hook: scriptUnloaded
-
-For file based scripts, this function will be called if found when the script is unloaded.
-
-```javascript
-scriptUnloaded = function () {
-  console.log("script unloaded");
-  // clean up rouge timers
-  clearInterval(timer);
-};
-```
 
 ## Advanced Scripting
 
