@@ -23,7 +23,7 @@ MD025: false
 # Allow trailing punctuation in headers
 MD026: false
 MD029:
-    style: one
+    style: one_or_ordered
 
 # Allow inline HTML
 MD033: false
