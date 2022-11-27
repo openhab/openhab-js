@@ -224,6 +224,38 @@ export const Semantics: any;
  */
 declare const ThingsAction: any;
 /**
+ * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/transform/actions/transformation Transformation} Actions
+ *
+ * The static methods of this class allow rules to execute transformations using one of the various {@link https://www.openhab.org/addons/#transform data transformation services}.
+ *
+ * @example
+ * actions.Transformation.transform('MAP', 'en.map', 'OPEN'); // returns "open"
+ * actions.Transformation.transform('MAP', 'de.map', 'OPEN'); // returns "offen"
+ * @memberof actions
+ * @hideconstructor
+ */
+export class Transformation {
+    /**
+     * Applies a transformation of a given type with some function to a value.
+     *
+     * @param {string} type the transformation type, e.g. REGEX or MAP
+     * @param {string} fn the function to call, this value depends on the transformation type
+     * @param {string} value the value to apply the transformation to
+     * @returns {string} the transformed value or the original one, if there was no service registered for the given type or a transformation exception occurred
+     */
+    static transform(type: string, fn: string, value: string, ...args: any[]): string;
+    /**
+     * Applies a transformation of a given type with some function to a value.
+     *
+     * @param {string} type the transformation type, e.g. REGEX or MAP
+     * @param {string} fn the function to call, this value depends on the transformation type
+     * @param {string} value the value to apply the transformation to
+     * @returns {string} the transformed value
+     * @throws Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/transform/TransformationException.html TransformationException}
+     */
+    static transformRaw(type: string, fn: string, value: string, ...args: any[]): string;
+}
+/**
  * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/Voice.html Voice} Actions
  *
  * The static methods of this class are made available as functions in the scripts. This allows a script to use voice features.
