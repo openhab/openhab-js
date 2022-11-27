@@ -14,6 +14,7 @@
  * actions.NotificationAction.sendBroadcastNotification("Hello World!")
  */
 
+const typeOfArguments = require('typeof-arguments');
 const osgi = require('./osgi');
 // See https://github.com/openhab/openhab-core/blob/main/bundles/org.openhab.core.automation.module.script/src/main/java/org/openhab/core/automation/module/script/internal/defaultscope/ScriptThingActionsImpl.java
 const { actions } = require('@runtime/Defaults');
@@ -21,7 +22,9 @@ const log = require('./log')('actions');
 
 const Things = Java.type('org.openhab.core.model.script.actions.Things');
 const actionServices = osgi.findServices('org.openhab.core.model.script.engine.action.ActionService', null) || [];
+
 const JavaScriptExecution = Java.type('org.openhab.core.model.script.actions.ScriptExecution');
+const JavaTransformation = Java.type('org.openhab.core.transform.actions.Transformation');
 
 // Dynamically export all found actions
 const dynamicExports = {};
@@ -300,6 +303,51 @@ const Semantics = Java.type('org.openhab.core.model.script.actions.Semantics');
 const ThingsAction = Java.type('org.openhab.core.model.script.actions.Things');
 
 /**
+ * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/transform/actions/transformation Transformation} Actions
+ *
+ * The static methods of this class allow rules to execute transformations using one of the various {@link https://www.openhab.org/addons/#transform data transformation services}.
+ *
+ * @example
+ * actions.Transformation.transform('MAP', 'en.map', 'OPEN'); // returns "open"
+ * actions.Transformation.transform('MAP', 'de.map', 'OPEN'); // returns "offen"
+ * @memberof actions
+ * @hideconstructor
+ */
+class Transformation {
+  /**
+   * Applies a transformation of a given type with some function to a value.
+   *
+   * @param {string} type the transformation type, e.g. REGEX or MAP
+   * @param {string} fn the function to call, this value depends on the transformation type
+   * @param {string} value the value to apply the transformation to 
+   * @returns {string} the transformed value or the original one, if there was no service registered for the given type or a transformation exception occurred
+   */
+  static transform (type, fn, value) {
+    typeOfArguments(arguments, ['string', 'string', 'string']);
+    return JavaTransformation.transform(type, fn, value).toString();
+  }
+
+  /**
+   * Applies a transformation of a given type with some function to a value.
+   *
+   * @param {string} type the transformation type, e.g. REGEX or MAP
+   * @param {string} fn the function to call, this value depends on the transformation type
+   * @param {string} value the value to apply the transformation to 
+   * @returns {string} the transformed value
+   * @throws Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/transform/TransformationException.html TransformationException}
+   */
+  static transformRaw (type, fn, value) {
+    typeOfArguments(arguments, ['string', 'string', 'string']);
+    // Wrap exception to enable JS stack traces
+    try {
+      return JavaTransformation.transformRaw(type, fn, value).toString();
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+}
+
+/**
  * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/Voice.html Voice} Actions
  *
  * The static methods of this class are made available as functions in the scripts. This allows a script to use voice features.
@@ -354,6 +402,7 @@ module.exports = Object.assign(dynamicExports, {
   ScriptExecution,
   Semantics,
   Things: ThingsAction,
+  Transformation,
   Voice,
   NotificationAction,
   /**
