@@ -1051,7 +1051,9 @@ Loading of third party libraries is supported the same way as loading the openHA
 var myLibrary = require('my-library');
 ```
 
-Run the `npm` command from the `automation/js` folder to install third party libraries (Node.js modules), e.g. from [npm](https://www.npmjs.com/search?q=openhab).
+Note: Only CommonJS `require` is supported, ES module loading using `import` is not supported.
+
+Run the `npm` command from the `automation/js` folder to install third party libraries (CommonJS modules), e.g. from [npm](https://www.npmjs.com/search?q=openhab).
 This will create a `node_modules` folder (if it doesn't already exist) and install the library and it's dependencies there.
 
 There are already some openHAB specific libraries available on [npm](https://www.npmjs.com/search?q=openhab), you may also search the forum for details.
@@ -1061,7 +1063,7 @@ There are already some openHAB specific libraries available on [npm](https://www
 You can also create your own personal JavaScript library for openHAB, but you can not just create a folder in `node_modules` and put your library code in it!
 `npm` will remove everything from `node_modules` that has not been properly installed when it is run.
 
-You can follow these steps to create your own library (it's called a Node.js module):
+You can follow these steps to create your own library (it's called a CommonJS module):
 
 1. Create a separate folder for your library outside of `automation/js`, you may also initialize a Git repository.
 2. Run `npm init` from your newly created folder; at least provide responses for the `name`, `version` and `main` (e.g. `index.js`) fields.
