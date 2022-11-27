@@ -13,6 +13,7 @@ const {
 describe('utils.js', () => {
   describe('randomUUID', () => {
     it('delegates to Java UUID#randomUUID().', () => {
+      jest.spyOn(UUID, 'randomUUID');
       randomUUID();
       expect(UUID.randomUUID).toHaveBeenCalled();
     });
@@ -30,6 +31,7 @@ describe('utils.js', () => {
     });
 
     it('adds all items from set to returned HashSet.', () => {
+      jest.spyOn(HashSet.prototype, 'add');
       const hashSet = jsSetToJavaSet(new Set(['item1', 'item2']));
       expect(hashSet.add).toHaveBeenNthCalledWith(1, 'item1');
       expect(hashSet.add).toHaveBeenNthCalledWith(2, 'item2');
@@ -42,6 +44,7 @@ describe('utils.js', () => {
     });
 
     it('adds all items from array to returned HashSet.', () => {
+      jest.spyOn(HashSet.prototype, 'add');
       const hashSet = jsArrayToJavaSet(['item1', 'item2']);
       expect(hashSet.add).toHaveBeenNthCalledWith(1, 'item1');
       expect(hashSet.add).toHaveBeenNthCalledWith(2, 'item2');
@@ -54,6 +57,7 @@ describe('utils.js', () => {
     });
 
     it('adds all items from array to returned ArrayList.', () => {
+      jest.spyOn(ArrayList.prototype, 'add');
       const arrayList = jsArrayToJavaList(['item1', 'item2']);
       expect(arrayList.add).toHaveBeenNthCalledWith(1, 'item1');
       expect(arrayList.add).toHaveBeenNthCalledWith(2, 'item2');
@@ -63,6 +67,7 @@ describe('utils.js', () => {
   describe('javaListToJsArray', () => {
     it('delegates to Java#from().', () => {
       const list = new ArrayList();
+      jest.spyOn(Java, 'from');
       javaListToJsArray(list);
       expect(Java.from).toHaveBeenCalledWith(list);
     });
@@ -70,6 +75,7 @@ describe('utils.js', () => {
 
   describe('javaSetToJsArray', () => {
     it('delegates to Java#from().', () => {
+      jest.spyOn(Java, 'from');
       javaSetToJsArray(new HashSet());
       expect(Java.from.mock.calls[0][0]).toBeInstanceOf(ArrayList);
     });
@@ -84,7 +90,7 @@ describe('utils.js', () => {
   describe('isJsInstanceOfJava', () => {
     it('throws error when type is not a Java type.', () => {
       const notAJavaType = {};
-      Java.isType.mockImplementation(() => false);
+      jest.spyOn(Java, 'isType').mockImplementation(() => false);
       expect(() => isJsInstanceOfJava('', notAJavaType)).toThrow(
         'type is not a java class'
       );
@@ -92,7 +98,7 @@ describe('utils.js', () => {
     });
 
     it('returns false if instance oder type is null or undefined.', () => {
-      Java.isType.mockImplementation(() => true);
+      jest.spyOn(Java, 'isType').mockImplementation(() => true);
       expect(isJsInstanceOfJava(null, {})).toBe(false);
       expect(isJsInstanceOfJava(undefined, {})).toBe(false);
       expect(isJsInstanceOfJava({ class: null }, {})).toBe(false);
@@ -106,7 +112,7 @@ describe('utils.js', () => {
         }
       };
       const instance = { class: {} };
-      Java.isType.mockImplementation(() => true);
+      jest.spyOn(Java, 'isType').mockImplementation(() => true);
       isJsInstanceOfJava(instance, javaType);
       expect(javaType.class.isAssignableFrom).toHaveBeenCalledWith(
         instance.class

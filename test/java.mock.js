@@ -1,46 +1,57 @@
 const { ModuleBuilder, Configuration } = require('./openhab.mock');
 
 class HashSet {
-  constructor () {
-    this.add = jest.fn();
-  }
+  add () {}
+}
+
+class Hashtable {
+  put () {}
 }
 
 class ArrayList {
-  constructor () {
-    this.add = jest.fn();
-  }
+  add () {}
 }
 
 class UUID {
-  constructor () {
-    this.toString = jest.fn();
+  toString () {}
+  static randomUUID () {}
+}
+
+class Logger {
+  error () {}
+}
+
+class LoggerFactory {
+  static getLogger () {
+    return new Logger();
   }
 }
 
-UUID.randomUUID = jest.fn();
-
-class LoggerFactory {}
-
-LoggerFactory.getLogger = jest.fn();
+class FrameworkUtil {
+  static getBundleContext () {}
+}
 
 const TYPES = {
-  'java.util.UUID': UUID,
-  'java.util.HashSet': HashSet,
   'java.util.ArrayList': ArrayList,
+  'java.util.HashSet': HashSet,
+  'java.util.Hashtable': Hashtable,
+  'java.util.UUID': UUID,
   'org.openhab.core.automation.util.ModuleBuilder': ModuleBuilder,
   'org.openhab.core.config.core.Configuration': Configuration,
+  'org.osgi.framework.FrameworkUtil': FrameworkUtil,
   'org.slf4j.LoggerFactory': LoggerFactory
 };
 
 Java = {
   type: (type) => TYPES[type],
-  from: jest.fn(),
-  isType: jest.fn()
+  from: function () {},
+  isType: function () {}
 };
 
 module.exports = {
   ArrayList,
+  FrameworkUtil,
   HashSet,
+  Hashtable,
   UUID
 };

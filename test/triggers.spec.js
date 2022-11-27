@@ -24,7 +24,7 @@ describe('triggers.js', () => {
 
   it('use random UUID if no trigger name is specified.', () => {
     const uuid = 'random UUID';
-    UUID.randomUUID.mockImplementation(() => uuid);
+    jest.spyOn(UUID, 'randomUUID').mockImplementation(() => uuid);
     ItemCommandTrigger('itemName', 'command');
 
     expect(UUID.randomUUID).toHaveBeenCalled();
