@@ -1053,7 +1053,7 @@ var myLibrary = require('my-library');
 
 Note: Only CommonJS `require` is supported, ES module loading using `import` is not supported.
 
-Run the `npm` command from the `automation/js` folder to install third party libraries (CommonJS modules), e.g. from [npm](https://www.npmjs.com/search?q=openhab).
+Run the `npm` command from the `automation/js` folder to install third party libraries, e.g. from [npm](https://www.npmjs.com/search?q=openhab).
 This will create a `node_modules` folder (if it doesn't already exist) and install the library and it's dependencies there.
 
 There are already some openHAB specific libraries available on [npm](https://www.npmjs.com/search?q=openhab), you may also search the forum for details.
@@ -1061,13 +1061,13 @@ There are already some openHAB specific libraries available on [npm](https://www
 #### Creating Your Own Library
 
 You can also create your own personal JavaScript library for openHAB, but you can not just create a folder in `node_modules` and put your library code in it!
-`npm` will remove everything from `node_modules` that has not been properly installed when it is run.
+When it is run, `npm` will remove everything from `node_modules` that has not been properly installed.
 
-You can follow these steps to create your own library (it's called a CommonJS module):
+Follow these steps to create your own library (it's called a CommonJS module):
 
 1. Create a separate folder for your library outside of `automation/js`, you may also initialize a Git repository.
 2. Run `npm init` from your newly created folder; at least provide responses for the `name`, `version` and `main` (e.g. `index.js`) fields.
-3. Create the main file of your library (`index.js`) and add export:
+3. Create the main file of your library (`index.js`) and add some exports:
 
    ```javascript
    const someProperty = 'Hello world!';
@@ -1084,6 +1084,8 @@ You can follow these steps to create your own library (it's called a CommonJS mo
 4. Tar it up by running `npm pack` from your library's folder.
 5. Install it by running `npm install <name>-<version>.tgz` from the `automation/js` folder.
 6. After you've installed it with `npm`, you can continue development of the library inside `node_modules`.
+
+It is also possible to upload your library to [npm](https://npmjs.com) to share it with other users.
 
 If you want to get some advanced information, you can read [this blog post](https://bugfender.com/blog/how-to-create-an-npm-package/) or just google it.
 
