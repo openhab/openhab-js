@@ -319,7 +319,7 @@ class Transformation {
    *
    * @param {string} type the transformation type, e.g. REGEX or MAP
    * @param {string} fn the function to call, this value depends on the transformation type
-   * @param {string} value the value to apply the transformation to 
+   * @param {string} value the value to apply the transformation to
    * @returns {string} the transformed value or the original one, if there was no service registered for the given type or a transformation exception occurred
    */
   static transform (type, fn, value) {
@@ -332,7 +332,7 @@ class Transformation {
    *
    * @param {string} type the transformation type, e.g. REGEX or MAP
    * @param {string} fn the function to call, this value depends on the transformation type
-   * @param {string} value the value to apply the transformation to 
+   * @param {string} value the value to apply the transformation to
    * @returns {string} the transformed value
    * @throws Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/transform/TransformationException.html TransformationException}
    */
