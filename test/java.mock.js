@@ -1,4 +1,4 @@
-const { ModuleBuilder, Configuration } = require('./openhab.mock');
+const { ModuleBuilder, Configuration, JavaScriptExecution } = require('./openhab.mock');
 
 class HashSet {
   add () {}
@@ -38,6 +38,7 @@ const TYPES = {
   'java.util.UUID': UUID,
   'org.openhab.core.automation.util.ModuleBuilder': ModuleBuilder,
   'org.openhab.core.config.core.Configuration': Configuration,
+  'org.openhab.core.model.script.actions.ScriptExecution': JavaScriptExecution,
   'org.osgi.framework.FrameworkUtil': FrameworkUtil,
   'org.slf4j.LoggerFactory': LoggerFactory
 };

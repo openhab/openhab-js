@@ -15,4 +15,9 @@ class Configuration {
   }
 }
 
-module.exports = { Configuration, ModuleBuilder };
+class JavaScriptExecution {
+  static callScript () {}
+  static createTimer () {}
+}
+
+module.exports = { Configuration, ModuleBuilder, JavaScriptExecution };
