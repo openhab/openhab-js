@@ -89,6 +89,7 @@ binding</a>.</p>
 <li><a href="#console">Console</a></li>
 <li><a href="#timers">Timers</a></li>
 <li><a href="#paths">Paths</a></li>
+<li><a href="#deinitialization-hook">Deinitialization Hook</a></li>
 </ul>
 </li>
 <li><a href="#standard-library">Standard Library</a>
@@ -107,8 +108,6 @@ binding</a>.</p>
 <li><a href="#jsrule">JSRule</a></li>
 <li><a href="#rule-builder">Rule Builder</a></li>
 <li><a href="#event-object">Event Object</a></li>
-<li><a href="#initialization-hook-scriptloaded">Initialization hook: scriptLoaded</a></li>
-<li><a href="#deinitialization-hook-scriptunloaded">Deinitialization hook: scriptUnloaded</a></li>
 </ul>
 </li>
 <li><a href="#advanced-scripting">Advanced Scripting</a>
@@ -259,7 +258,7 @@ The string representations of each of these objects are appended together in the
 <p>See <a href="https:%5C/%5C/developer.mozilla.org/en-US/docs/Web/API/console">https://developer.mozilla.org/en-US/docs/Web/API/console</a> for more information about console logging.</p>
 <h3>Timers</h3>
 <p>JS Scripting provides access to the global <code>setTimeout</code>, <code>setInterval</code>, <code>clearTimeout</code> and <code>clearInterval</code> methods specified in the <a href="https://developer.mozilla.org/en-US/docs/Web/API">Web APIs</a>.</p>
-<p>When a script is unloaded, all created timers and intervals are automatically cancelled.</p>
+<p>When a script is unloaded, all created timeouts and intervals are automatically cancelled.</p>
 <h4>SetTimeout</h4>
 <p>The global <a href="https://developer.mozilla.org/en-US/docs/Web/API/setTimeout"><code>setTimeout()</code></a> method sets a timer which executes a function once the timer expires.
 <code>setTimeout()</code> returns a <code>timeoutId</code> (a positive integer value) which identifies the timer created.</p>
@@ -308,6 +307,15 @@ myVar = 'Hello mutation!'; // When the timer runs, it will log &quot;Hello world
 <h3>Paths</h3>
 <p>For <a href="#file-based-rules">file based rules</a>, scripts will be loaded from <code>automation/js</code> in the user configuration directory.</p>
 <p>NPM libraries will be loaded from <code>automation/js/node_modules</code> in the user configuration directory.</p>
+<h3>Deinitialization Hook</h3>
+<p>It is possible to hook into unloading of a script and register a function that is called when the script is unloaded.</p>
+<pre class="prettyprint source lang-javascript"><code>require('@runtime').lifecycleTracker.addDisposeHook(() => functionToCall());
+
+// Example
+require('@runtime').lifecycleTracker.addDisposeHook(() => {
+  console.log(&quot;Deinitialization hook runs...&quot;)
+});
+</code></pre>
 <h2>Standard Library</h2>
 <p>Full documentation for the openHAB JavaScript library can be found at <a href="https://openhab.github.io/openhab-js">openhab-js</a>.</p>
 <h3>Items</h3>
@@ -547,6 +555,8 @@ var response = actions.HTTP.sendHttpGetRequest('&lt;url>');
 <p>The <code>ScriptExecution</code> actions provide the <code>callScript(string scriptName)</code> method, which calls a script located at the <code>$OH_CONF/scripts</code> folder, as well as the <code>createTimer</code> method.</p>
 <p>You can also create timers using the <a href="#timers">native JS methods for timer creation</a>, your choice depends on the versatility you need.
 Sometimes, using <code>setTimer</code> is much faster and easier, but other times, you need the versatility that <code>createTimer</code> provides.</p>
+<p>Keep in mind that you should somehow manage the timers you create using <code>createTimer</code>, otherwise you could end up with unmanagable timers running until you restart openHAB.
+A possible solution is to store all timers in an array and cancel all timers in the <a href="#deinitialization-hook">Deinitialization Hook</a>.</p>
 <h5><code>createTimer</code></h5>
 <pre class="prettyprint source lang-javascript"><code>actions.ScriptExecution.createTimer(time.ZonedDateTime instant, function callback);
 
@@ -1068,21 +1078,6 @@ The <code>event</code> object provides some information about that trigger.</p>
 <code>Group****Trigger</code>s use the equivalent <code>Item****Trigger</code> as trigger for each member.
 Time triggers do not provide any event instance, therefore no property is populated.</p>
 <p>See <a href="https://openhab.github.io/openhab-js/rules.html#.EventObject">openhab-js : EventObject</a> for full API documentation.</p>
-<h3>Initialization hook: scriptLoaded</h3>
-<p>For file based scripts, this function will be called if found when the script is loaded.</p>
-<pre class="prettyprint source lang-javascript"><code>scriptLoaded = function () {
-  console.log(&quot;script loaded&quot;);
-  loadedDate = Date.now();
-};
-</code></pre>
-<h3>Deinitialization hook: scriptUnloaded</h3>
-<p>For file based scripts, this function will be called if found when the script is unloaded.</p>
-<pre class="prettyprint source lang-javascript"><code>scriptUnloaded = function () {
-  console.log(&quot;script unloaded&quot;);
-  // clean up rouge timers
-  clearInterval(timer);
-};
-</code></pre>
 <h2>Advanced Scripting</h2>
 <h3>Libraries</h3>
 <h4>Third Party Libraries</h4>
@@ -1383,7 +1378,7 @@ Generally speaking, you should prefer to use <a href="#standard-library">Standar
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.0</a> on Mon Nov 28 2022 09:36:32 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.0</a> on Mon Nov 28 2022 09:39:29 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
