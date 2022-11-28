@@ -2,8 +2,9 @@
 
 ## 2.x.x (to be released)
 
-| Type        | Namespace | Description                                                | Reference                                              | Breaking |
-|-------------|-----------|------------------------------------------------------------|--------------------------------------------------------|----------|
+| Type        | Namespace | Description                                                         | Reference                                              | Breaking |
+|-------------|-----------|---------------------------------------------------------------------|--------------------------------------------------------|----------|
+| Enhancement | `items`   | ItemHistory: Change return types of min/max between/since to number | [#175](https://github.com/openhab/openhab-js/pull/175) | Yes      |
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/8).
 
