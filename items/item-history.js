@@ -189,7 +189,9 @@ class ItemHistory {
    * @returns {(number | null)} state or null
    */
   maximumBetween (begin, end, serviceId) {
-    return parseFloat(this._stateOrNull(PersistenceExtensions.maximumBetween(this.rawItem, ...arguments)));
+    const state = this._stateOrNull(PersistenceExtensions.maximumBetween(this.rawItem, ...arguments));
+    if (state === null) return null;
+    return parseFloat(state);
   }
 
   /**
@@ -200,7 +202,9 @@ class ItemHistory {
    * @returns {(number | null)} state or null
    */
   maximumSince (timestamp, serviceId) {
-    return parseFloat(this._stateOrNull(PersistenceExtensions.maximumSince(this.rawItem, ...arguments)));
+    const state = this._stateOrNull(PersistenceExtensions.maximumSince(this.rawItem, ...arguments));
+    if (state === null) return null;
+    return parseFloat(state);
   }
 
   /**
@@ -212,7 +216,9 @@ class ItemHistory {
    * @returns {(number | null)} state or null
    */
   minimumBetween (begin, end, serviceId) {
-    return parseFloat(this._stateOrNull(PersistenceExtensions.minimumBetween(this.rawItem, ...arguments)));
+    const state = this._stateOrNull(PersistenceExtensions.minimumBetween(this.rawItem, ...arguments));
+    if (state === null) return null;
+    return parseFloat(state);
   }
 
   /**
@@ -223,7 +229,9 @@ class ItemHistory {
    * @returns {(number | null)} state or null
    */
   minimumSince (timestamp, serviceId) {
-    return parseFloat(this._stateOrNull(PersistenceExtensions.minimumSince(this.rawItem, ...arguments)));
+    const state = this._stateOrNull(PersistenceExtensions.minimumSince(this.rawItem, ...arguments));
+    if (state === null) return null;
+    return parseFloat(state);
   }
 
   /**
