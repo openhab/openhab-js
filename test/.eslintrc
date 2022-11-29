@@ -1,7 +1,4 @@
 {
-  "globals": {
-    "Java": "writable"
-  },
   "env": {
     "jest": true
   }

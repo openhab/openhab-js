@@ -43,6 +43,7 @@ const TYPES = {
   'org.slf4j.LoggerFactory': LoggerFactory
 };
 
+/* eslint-disable-next-line no-global-assign */
 Java = {
   type: (type) => TYPES[type],
   from: function () {},
