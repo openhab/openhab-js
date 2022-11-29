@@ -44,7 +44,7 @@ describe('actions.js', () => {
       expect(JavaScriptExecution.callScript).not.toHaveBeenCalled();
     });
 
-    it('falls back to Java ScriptExecution, when ThreasafeTimers throw error.', () => {
+    it('falls back to Java ScriptExecution, when ThreadsafeTimers throws error.', () => {
       const identifier = 'timer-1';
       const instant = {};
       const closure = () => null;
