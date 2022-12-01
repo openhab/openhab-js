@@ -283,6 +283,11 @@ const JSRule = function (ruleConfig) {
     rule = registerRule(rule);
   }
 
+  // Add config to the action so that MainUI can show the script
+  const actionConfiguration = rule.actions.get(0).configuration;
+  actionConfiguration.put('type', 'application/javascript;version=ECMAScript-2021');
+  actionConfiguration.put('script', '// Code to run when the rule fires:\n' + ruleConfig.execute.toString());
+
   return rule;
 };
 
