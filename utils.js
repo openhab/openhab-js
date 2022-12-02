@@ -95,7 +95,7 @@ const javaSetToJsArray = function (set) {
  * @returns {Set} JavaScript Set Object ({@link https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Set})
  */
 const javaSetToJsSet = function (set) {
-  return new Set(exports.javaSetToJsArray(set));
+  return new Set(javaSetToJsArray(set));
 };
 
 /**
