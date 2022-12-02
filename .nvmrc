@@ -1,1 +1,2 @@
 16.17.1
+// DO NOT DOWNGRADE, because NodeJS < 16 doesn't support Apple Silicon

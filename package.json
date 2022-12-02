@@ -17,7 +17,9 @@
         "parse-duration": "^0.1.1"
     },
     "scripts": {
-        "test": "mocha && npm run lint",
+        "test:mocha": "mocha test/**/*.test.js",
+        "test:jest": "jest",
+        "test": "npm run lint && npm run test:mocha && npm run test:jest",
         "docs": "rm -Rf ./docs/* && jsdoc --configure docs_config.json && mv ./docs/$npm_package_name/$npm_package_version/* ./docs/ && rm -Rf ./docs/$npm_package_name/$npm_package_version",
         "deploy": "npm test && npm run docs",
         "lint": "npx standardx | snazzy",
@@ -26,8 +28,10 @@
         "types": "tsc"
     },
     "devDependencies": {
+        "@types/jest": "^28.1.8",
         "acorn": "^8.6.0",
         "docdash": "^1.2.0",
+        "jest": "^28.1.3",
         "jsdoc": "^4.0.0",
         "mocha": "^6.2.2",
         "proxyquire": "^2.1.3",

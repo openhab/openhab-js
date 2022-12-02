@@ -5,6 +5,7 @@ const DateTime = Java.type('java.time.ZonedDateTime');
 
 /**
  * Class representing the historic state of an openHAB Item.
+ * If the Item receives it's state from a binding that supports units of measurement, the returned state is in the according base unit, otherwise there is no unit conversion happening.
  * Wrapping the {@link https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/extensions/persistenceextensions PersistenceExtensions}.
  *
  * @memberOf items
@@ -180,49 +181,49 @@ class ItemHistory {
   }
 
   /**
-   * Gets the maximum value of the historic state of a given Item between two certain points in time.
+   * Gets the state with the maximum value of a given Item between two certain points in time.
    *
    * @param {(ZonedDateTime | Date)} begin begin
    * @param {(ZonedDateTime | Date)} end end
    * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
-   * @returns {(string | null)} state or null
+   * @returns {(number | null)} state or null
    */
   maximumBetween (begin, end, serviceId) {
-    return this._stateOrNull(PersistenceExtensions.maximumBetween(this.rawItem, ...arguments));
+    return parseFloat(this._stateOrNull(PersistenceExtensions.maximumBetween(this.rawItem, ...arguments)));
   }
 
   /**
-   * Gets the maximum value of the historic state of a given Item since a certain point in time.
+   * Gets the state with the maximum value of a given Item since a certain point in time.
    *
    * @param {(ZonedDateTime | Date)} timestamp
    * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
-   * @returns {(string | null)} state or null
+   * @returns {(number | null)} state or null
    */
   maximumSince (timestamp, serviceId) {
-    return this._stateOrNull(PersistenceExtensions.maximumSince(this.rawItem, ...arguments));
+    return parseFloat(this._stateOrNull(PersistenceExtensions.maximumSince(this.rawItem, ...arguments)));
   }
 
   /**
-   * Gets the minimum value of the historic state of a given Item between two certain points in time.
+   * Gets the state with the minimum value of a given Item between two certain points in time.
    *
    * @param {(ZonedDateTime | Date)} begin begin
    * @param {(ZonedDateTime | Date)} end end
    * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
-   * @returns {(string | null)} state or null
+   * @returns {(number | null)} state or null
    */
   minimumBetween (begin, end, serviceId) {
-    return this._stateOrNull(PersistenceExtensions.minimumBetween(this.rawItem, ...arguments));
+    return parseFloat(this._stateOrNull(PersistenceExtensions.minimumBetween(this.rawItem, ...arguments)));
   }
 
   /**
-   * Gets the minimum value of the historic state of a given Item since a certain point in time.
+   * Gets the state with the minimum value of a given Item since a certain point in time.
    *
    * @param {(ZonedDateTime | Date)} timestamp
    * @param {string} [serviceId] Optional persistance service ID, if omitted, the default persistance service will be used.
-   * @returns {(string | null)} state or null
+   * @returns {(number | null)} state or null
    */
   minimumSince (timestamp, serviceId) {
-    return this._stateOrNull(PersistenceExtensions.minimumSince(this.rawItem, ...arguments));
+    return parseFloat(this._stateOrNull(PersistenceExtensions.minimumSince(this.rawItem, ...arguments)));
   }
 
   /**
