@@ -55,12 +55,11 @@ const triggers = require('../triggers');
 const { automationManager, ruleRegistry } = require('@runtime/RuleSupport');
 
 const RuleManager = osgi.getService('org.openhab.core.automation.RuleManager');
-const factory = require('@runtime/rules').factory;
 
 /**
   * Generates an item name given it's configuration.
   *
-  * @memberOf rules
+  * @memberof rules
   * @private
   * @param {object} ruleConfig The rule config
   * @param {string} userInfo.name The name of the rule.
@@ -72,7 +71,7 @@ const itemNameForRule = function (ruleConfig) {
 /**
   * Links an item to a rule. When the item is switched on or off, so will the rule be.
   *
-  * @memberOf rules
+  * @memberof rules
   * @private
   * @param {HostRule} rule The rule to link to the item.
   * @param {items.Item} item the item to link to the rule.
@@ -100,7 +99,7 @@ const linkItemToRule = function (rule, item) {
 /**
   * Gets the groups that an rule-toggling-item should be a member of. Will create the group item if necessary.
   *
-  * @memberOf rules
+  * @memberof rules
   * @private
   * @param {RuleConfig} ruleConfig The rule config describing the rule
   * @returns {String[]} the group names to put the item in
@@ -126,7 +125,7 @@ const getGroupsForItem = function (ruleConfig) {
   * Check whether a rule exists.
   * Only works for rules created in the same file.
   *
-  * @memberOf rules
+  * @memberof rules
   * @private
   * @param {string} uid the UID of the rule
   * @returns {boolean} whether the rule exists
@@ -139,7 +138,7 @@ const ruleExists = function (uid) {
   * Remove a rule when it exists. The rule will be immediately removed.
   * Only works for rules created in the same file.
   *
-  * @memberOf rules
+  * @memberof rules
   * @param {string} uid the UID of the rule
   * @returns {boolean} whether the rule was actually removed
   */
@@ -157,7 +156,7 @@ const removeRule = function (uid) {
   * Runs the rule with the given UID. Throws errors when the rule doesn't exist
   * or is unable to run (e.g. it's disabled).
   *
-  * @memberOf rules
+  * @memberof rules
   * @param {string} uid the UID of the rule to run
   * @param {Map<Object>} [args={}] args optional dict of data to pass to the called rule
   * @param {boolean} [cond=true] when true, the called rule will only run if it's conditions are met
@@ -220,7 +219,7 @@ const setEnabled = function (uid, isEnabled) {
   *  execute: (event) => { // do stuff }
   * });
   *
-  * @memberOf rules
+  * @memberof rules
   * @param {RuleConfig} ruleConfig The rule config describing the rule
   * @returns {HostRule} the created rule
   * @throws Will throw an error if the rule with the passed in uid already exists
@@ -280,54 +279,17 @@ const JSRule = function (ruleConfig) {
   // Register rule here
   if (triggers && triggers.length > 0) {
     rule.setTriggers(triggers);
-    rule = registerRule(rule);
+    rule = automationManager.addRule(rule);
   }
 
   return rule;
-};
-
-let currentProvider = automationManager;
-
-const withNewRuleProvider = function (fn) {
-  const cachedRules = [];
-  currentProvider = {
-    addRule: r => {
-      // r = factory.processRule(r);
-      // r.setConfigurationDescriptions(null);
-      // r.setConfiguration(null);
-      cachedRules.push(factory.processRule(r));
-    }
-  };
-
-  try {
-    fn();
-    const provider = factory.newRuleProvider(cachedRules);
-    osgi.registerService(provider, Java.type('org.openhab.core.automation.RuleProvider').class.getName());
-  } finally {
-    currentProvider = automationManager;
-  }
-};
-
-const withManagedProvider = function (fn) { // eslint-disable-line no-unused-vars
-  const previousProvider = currentProvider;
-  currentProvider = automationManager;
-
-  try {
-    fn();
-  } finally {
-    currentProvider = previousProvider;
-  }
-};
-
-const registerRule = function (rule) {
-  return currentProvider.addRule(rule);
 };
 
 /**
   * Creates a rule, with an associated SwitchItem that can be used to toggle the rule's enabled state.
   * The rule will be created and immediately available.
   *
-  * @memberOf rules
+  * @memberof rules
   * @param {RuleConfig} ruleConfig The rule config describing the rule
   * @returns {HostRule} the created rule
   * @throws Will throw an error is a rule with the given UID already exists.
@@ -484,7 +446,6 @@ const getTriggeredData = function (input) {
 };
 
 module.exports = {
-  withNewRuleProvider,
   removeRule,
   runRule,
   isEnabled,
