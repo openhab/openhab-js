@@ -55,7 +55,6 @@ const triggers = require('../triggers');
 const { automationManager, ruleRegistry } = require('@runtime/RuleSupport');
 
 const RuleManager = osgi.getService('org.openhab.core.automation.RuleManager');
-const factory = require('@runtime/rules').factory;
 
 /**
   * Generates an item name given it's configuration.

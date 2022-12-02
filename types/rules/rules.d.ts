@@ -100,12 +100,11 @@ export type RuleConfig = {
      */
     overwrite?: boolean;
 };
-export function withNewRuleProvider(fn: any): void;
 /**
   * Remove a rule when it exists. The rule will be immediately removed.
   * Only works for rules created in the same file.
   *
-  * @memberOf rules
+  * @memberof rules
   * @param {string} uid the UID of the rule
   * @returns {boolean} whether the rule was actually removed
   */
@@ -114,7 +113,7 @@ export function removeRule(uid: string): boolean;
   * Runs the rule with the given UID. Throws errors when the rule doesn't exist
   * or is unable to run (e.g. it's disabled).
   *
-  * @memberOf rules
+  * @memberof rules
   * @param {string} uid the UID of the rule to run
   * @param {Map<Object>} [args={}] args optional dict of data to pass to the called rule
   * @param {boolean} [cond=true] when true, the called rule will only run if it's conditions are met
@@ -154,7 +153,7 @@ export function setEnabled(uid: string, isEnabled: boolean): void;
   *  execute: (event) => { // do stuff }
   * });
   *
-  * @memberOf rules
+  * @memberof rules
   * @param {RuleConfig} ruleConfig The rule config describing the rule
   * @returns {HostRule} the created rule
   * @throws Will throw an error if the rule with the passed in uid already exists
@@ -164,7 +163,7 @@ export function JSRule(ruleConfig: RuleConfig): HostRule;
   * Creates a rule, with an associated SwitchItem that can be used to toggle the rule's enabled state.
   * The rule will be created and immediately available.
   *
-  * @memberOf rules
+  * @memberof rules
   * @param {RuleConfig} ruleConfig The rule config describing the rule
   * @returns {HostRule} the created rule
   * @throws Will throw an error is a rule with the given UID already exists.
