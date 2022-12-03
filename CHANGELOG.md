@@ -2,8 +2,9 @@
 
 ## 2.x.x (to be released)
 
-| Type        | Namespace | Description                                                | Reference                                              | Breaking |
-|-------------|-----------|------------------------------------------------------------|--------------------------------------------------------|----------|
+| Type        | Namespace | Description                                                  | Reference                                              | Breaking |
+|-------------|-----------|--------------------------------------------------------------|--------------------------------------------------------|----------|
+| Enhancement | `actions` | Add Transformation actions as a class with arg type checking | [#180](https://github.com/openhab/openhab-js/pull/180) | No       |
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/8).
 
