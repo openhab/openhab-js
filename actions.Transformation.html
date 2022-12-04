@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>ConditionBuilder - Documentation</title>
+    <title>Transformation - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -34,7 +34,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">ConditionBuilder</h1>
+    <h1 class="page-title">Transformation</h1>
     
 
     
@@ -47,10 +47,13 @@
 <header>
     
         <h2>
-        ConditionBuilder
+            <span class="ancestors"><a href="actions.html">actions</a>.</span>
+        
+        Transformation
         </h2>
         
-            <div class="class-description usertext"><p>Condition that wraps a function to determine whether if passes</p></div>
+            <div class="class-description usertext"><p><a href="https://www.openhab.org/javadoc/latest/org/openhab/core/transform/actions/transformation">Transformation</a> Actions</p>
+<p>The static methods of this class allow rules to execute transformations using one of the various <a href="https://www.openhab.org/addons/#transform">data transformation services</a>.</p></div>
         
     
 </header>
@@ -62,19 +65,6 @@
 
     
 
-    
-        <h3 class="subsection-title">Classes</h3>
-
-        <dl>
-            <dt><a href="ConditionBuilder.ConditionConf.html">ConditionConf</a></dt>
-            <dd></dd>
-        
-            <dt><a href="ConditionBuilder.FunctionConditionConf.html">FunctionConditionConf</a></dt>
-            <dd></dd>
-        
-            <dt><a href="ConditionBuilder.ItemStateConditionConf.html">ItemStateConditionConf</a></dt>
-            <dd></dd>
-        </dl>
     
     
     
@@ -93,7 +83,7 @@
 
     
 
-    <h4 class="name" id="then"><span class="type-signature"></span>then<span class="signature">(function)</span><span class="type-signature"> &rarr; {<a href="OperationBuilder.html">OperationBuilder</a>}</span></h4>
+    <h4 class="name" id=".transform"><span class="type-signature">(static) </span>transform<span class="signature">(type, fn, value)</span><span class="type-signature"> &rarr; {string}</span></h4>
 
     
 
@@ -105,7 +95,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="rules_condition-builder.js.html">rules/condition-builder.js</a>, <a href="rules_condition-builder.js.html#line26">line 26</a>
+        <a href="actions.js.html">actions.js</a>, <a href="actions.js.html#line325">line 325</a>
     </li></ul></dd>
     
 
@@ -145,7 +135,7 @@
 
 
 <div class="description usertext">
-    <p>Move to the rule operations</p>
+    <p>Applies a transformation of a given type with some function to a value.</p>
 </div>
 
 
@@ -183,161 +173,7 @@
 
         <tr>
             
-                <td class="name"><code>function</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">*</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>the optional function to execute</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="OperationBuilder.html">OperationBuilder</a></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="stateOfItem"><span class="type-signature"></span>stateOfItem<span class="signature">(itemName)</span><span class="type-signature"> &rarr; {ItemStateConditionConf}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="rules_condition-builder.js.html">rules/condition-builder.js</a>, <a href="rules_condition-builder.js.html#line42">line 42</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
-    <p>Condition of an item in determining whether to process rule.</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>itemName</code></td>
+                <td class="name"><code>type</code></td>
             
 
             <td class="type">
@@ -353,7 +189,53 @@
 
             
 
-            <td class="description last"><p>the name of the item to assess the state</p></td>
+            <td class="description last"><p>the transformation type, e.g. REGEX or MAP</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>fn</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the function to call, this value depends on the transformation type</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the value to apply the transformation to</p></td>
         </tr>
 
     
@@ -379,7 +261,7 @@
 
         
 <div class="param-desc">
-    <p>the operation config</p>
+    <p>the transformed value or the original one, if there was no service registered for the given type or a transformation exception occurred</p>
 </div>
 
 
@@ -390,7 +272,223 @@
     </dt>
     <dd>
         
-<span class="param-type">ItemStateConditionConf</span>
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".transformRaw"><span class="type-signature">(static) </span>transformRaw<span class="signature">(type, fn, value)</span><span class="type-signature"> &rarr; {string}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="actions.js.html">actions.js</a>, <a href="actions.js.html#line339">line 339</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Applies a transformation of a given type with some function to a value.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>type</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the transformation type, e.g. REGEX or MAP</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>fn</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the function to call, this value depends on the transformation type</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the value to apply the transformation to</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Throws:</h5>
+
+        
+
+    <div class="param-desc usertext">
+    
+        <p>Java <a href="https://www.openhab.org/javadoc/latest/org/openhab/core/transform/TransformationException.html">TransformationException</a></p>
+    
+    </div>
+
+
+    
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>the transformed value</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
 
 
     </dd>
