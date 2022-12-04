@@ -627,6 +627,18 @@ It is possible to get the actions for a Thing using `actions.Things.getActions(b
 
 See [openhab-js : actions.Things](https://openhab.github.io/openhab-js/actions.html#.Things) for complete documentation.
 
+#### Transformation Actions
+
+openHAB provides various [data transformation services](https://www.openhab.org/addons/#transform) which can translate between technical and human-readable values.
+Usually, they are used directly on Items, but it is also possible to access them from scripts.
+
+```javascript
+console.log(actions.Transformation.transform('MAP', 'en.map', 'OPEN')); // open
+console.log(actions.Transformation.transform('MAP', 'de.map', 'OPEN')); // offen
+```
+
+See [openhab-js : actions.Transformation](https://openhab.github.io/openhab-js/actions.Transformation.html) for complete documentation.
+
 #### Voice Actions
 
 See [openhab-js : actions.Voice](https://openhab.github.io/openhab-js/actions.html#.Voice) for complete documentation.

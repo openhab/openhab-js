@@ -6,6 +6,7 @@
 |-------------|-----------|---------------------------------------------------------------------|--------------------------------------------------------|----------|
 | Enhancement | `items`   | ItemHistory: Change return types of min/max between/since to number | [#175](https://github.com/openhab/openhab-js/pull/175) | Yes      |
 | Cleanup     | `rules`   | Remove unused rule providers                                        | [#183](https://github.com/openhab/openhab-js/pull/183) | Yes      |
+| Enhancement | `actions` | Add Transformation actions as a class with arg type checking        | [#180](https://github.com/openhab/openhab-js/pull/180) | No       |
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/8).
 
