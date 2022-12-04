@@ -20,6 +20,5 @@ export function updateValue(itemName: any, namespace: any, value: any, config: a
  * @returns {boolean} true if the value was added, false if it was updated
  */
 export function upsertValue(itemName: string, namespace: string, value: string, config?: Map<string, string>): boolean;
-export declare const provider: typeof import("./metadata-provider");
 export declare const itemchannellink: typeof import("./itemchannellink");
 //# sourceMappingURL=metadata.d.ts.map

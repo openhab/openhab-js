@@ -70,6 +70,5 @@ module.exports = {
   addValue,
   updateValue,
   upsertValue,
-  provider: require('./metadata-provider'),
   itemchannellink: require('./itemchannellink')
 };

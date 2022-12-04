@@ -319,6 +319,5 @@ export class Item {
 }
 import ItemHistory = require("./item-history");
 import ItemSemantics = require("./item-semantics");
-export declare const provider: object;
 export declare function objects(): any;
 //# sourceMappingURL=items.d.ts.map

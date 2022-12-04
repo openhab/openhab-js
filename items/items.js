@@ -575,8 +575,6 @@ module.exports = {
   createItem,
   removeItem,
   Item,
-  /** @type {object} */
-  provider: require('./items-provider'),
   /**
      * Custom indexer, to allow static Item lookup.
      * @example
