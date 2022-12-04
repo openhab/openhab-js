@@ -14,7 +14,7 @@
  *
  * @memberof log
  */
-const LOGGER_PREFIX = 'org.openhab.automation.script';
+const LOGGER_PREFIX = 'org.openhab.automation.openhab-js';
 
 const MessageFormatter = Java.type('org.slf4j.helpers.MessageFormatter');
 
