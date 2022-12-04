@@ -170,21 +170,22 @@ The library search will look in the path `automation/js/node_modules` in the use
 ### Console
 
 The JS Scripting binding supports the standard `console` object for logging.
-Script debug logging is enabled by default at the `INFO` level, but can be configured using the console logging commands.
+Script logging is enabled by default at the `INFO` level (messages from `console.debug` and `console.trace` won't be displayed), but can be configured using the [openHAB console](https://www.openhab.org/docs/administration/console.html):
 
 ```text
 log:set DEBUG org.openhab.automation.script
+log:set TRACE org.openhab.automation.script
+log:set DEFAULT org.openhab.automation.script
 ```
 
-The default logger name prefix is `org.openhab.automation.script`, this can be changed by assigning a new string to the `loggerName` property of the console.
-
-Please be aware that messages might not appear in the logs if the logger name does not start with `org.openhab`.
-This behaviour is due to [log4j2](https://logging.apache.org/log4j/2.x/) requiring definition for each logger prefix.
-
+The default logger name prefix is `org.openhab.automation.script`, this can be changed by assigning a new string to the `loggerName` property of the console:
 
 ```javascript
-console.loggerName = "org.openhab.custom"
+console.loggerName = 'org.openhab.custom';
 ```
+
+Please be aware that messages do not appear in the logs if the logger name does not start with `org.openhab`.
+This behaviour is due to [log4j2](https://logging.apache.org/log4j/2.x/) requiring a setting for each logger prefix in `$OPENHAB_USERDATA/etc/log4j2.xml` (on openHABian: `/srv/openhab-userdata/etc/log4j2.xml`).
 
 Supported logging functions include:
 
@@ -199,6 +200,8 @@ Where `obj1 ... objN` is a list of JavaScript objects to output.
 The string representations of each of these objects are appended together in the order listed and output.
 
 See <https://developer.mozilla.org/en-US/docs/Web/API/console> for more information about console logging.
+
+Note: [openhab-js](https://github.com/openhab/openhab-js/) is logging to `org.openhab.automation.openhab-js`.
 
 ### Timers
 
