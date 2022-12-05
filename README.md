@@ -30,6 +30,7 @@ binding](https://www.openhab.org/addons/automation/jsscripting/).
   - [Timers](#timers)
   - [Paths](#paths)
   - [Deinitialization Hook](#deinitialization-hook)
+- [`SCRIPT` Transformation](#script-transformation)
 - [Standard Library](#standard-library)
   - [Items](#items)
   - [Things](#things)
@@ -74,7 +75,7 @@ Manually:
 NPM will create a `node_modules` directory containing the latest version of this library.
 This will be used instead of the binding provided version.
 
-### Configuration
+## Configuration
 
 <!-- Copy everything from here to update the JS Scripting documentation. -->
 
@@ -160,12 +161,13 @@ console.log(event.itemState.toString() == "test") // OK
 
 ## Scripting Basics
 
-The openHAB JSScripting runtime attempts to provide a familiar environment to Javascript developers.
+The openHAB JavaScript Scripting runtime attempts to provide a familiar environment to JavaScript developers.
 
 ### Require
 
 Scripts may include standard NPM based libraries by using CommonJS `require`.
 The library search will look in the path `automation/js/node_modules` in the user configuration directory.
+See [libraries](#libraries) for more information.
 
 ### Console
 
@@ -294,6 +296,26 @@ require('@runtime').lifecycleTracker.addDisposeHook(() => {
   console.log("Deinitialization hook runs...")
 });
 ```
+
+## `SCRIPT` Transformation
+
+openHAB provides several [data transformation services](https://www.openhab.org/addons/#transform) as well as the `SCRIPT` transformation, that is available from the framework and needs no additional installation.
+It allows transforming values using any of the available scripting languages, which means JavaScript Scripting is supported as well.
+See the [transformation docs](https://openhab.org/docs/configuration/transformations.html#script-transformation) for more general information on the usage of `SCRIPT` transformation.
+
+Use the `SCRIPT` transformation with JavaScript Scripting by:
+
+1. Creating a script in the `$OPENHAB_CONF/transform` folder with the `.script` extension.
+   The script should take one argument `input` and return a value that supports `toString()` or `null`:
+   ```javascript
+   (function(data) {
+     // Do some data transformation here
+     return data;
+   })(input);
+   ```
+2. Using `SCRIPT(graaljs:<scriptname>.script):%s` as the transformation profile, e.g. on an Item.
+3. Passing parameters is also possible by using a URL like syntax: `SCRIPT(graaljs:<scriptname>.script?arg=value):%s`.
+   Parameters are injected into the script and can be referenced like variables.
 
 ## Standard Library
 
