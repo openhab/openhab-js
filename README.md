@@ -307,12 +307,14 @@ Use the `SCRIPT` transformation with JavaScript Scripting by:
 
 1. Creating a script in the `$OPENHAB_CONF/transform` folder with the `.script` extension.
    The script should take one argument `input` and return a value that supports `toString()` or `null`:
+
    ```javascript
    (function(data) {
      // Do some data transformation here
      return data;
    })(input);
    ```
+
 2. Using `SCRIPT(graaljs:<scriptname>.script):%s` as the transformation profile, e.g. on an Item.
 3. Passing parameters is also possible by using a URL like syntax: `SCRIPT(graaljs:<scriptname>.script?arg=value):%s`.
    Parameters are injected into the script and can be referenced like variables.
