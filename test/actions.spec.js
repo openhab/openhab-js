@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 
-const { ScriptExecution } = require('../actions');
-const { JavaScriptExecution } = require('./openhab.mock');
+const { ScriptExecution, Transformation } = require('../actions');
+const { JavaScriptExecution, JavaTransformation } = require('./openhab.mock');
 
 jest.mock('../osgi');
 jest.mock('@runtime/osgi', () => ({}), { virtual: true });
@@ -62,6 +62,54 @@ describe('actions.js', () => {
 
       expect(ThreadsafeTimers.createTimer).toHaveBeenCalledWith(identifier, instant);
       expect(JavaScriptExecution.createTimer).toHaveBeenCalledWith(identifier, instant);
+    });
+  });
+
+  describe('Transformation', () => {
+    describe('transform', () => {
+      const type = 'MAP';
+      const fn = 'en.map';
+      const value = 'ON';
+
+      it('throws TypeError when a wrong argument is passed.', () => {
+        expect(() => Transformation.transform({}, fn, value)).toThrow(TypeError);
+        expect(() => Transformation.transform(type, {}, value)).toThrow(TypeError);
+        expect(() => Transformation.transform(type, fn, { value })).toThrow(TypeError);
+        expect(JavaTransformation.transform).not.toHaveBeenCalled();
+      });
+
+      it('delegates to Java Transformation.', () => {
+        const type = 'MAP';
+        const fn = 'en.map';
+        const value = 'ON';
+
+        Transformation.transform(type, fn, value);
+
+        expect(JavaTransformation.transform).toHaveBeenCalledWith(type, fn, value);
+      });
+    });
+
+    describe('transformRaw', () => {
+      const type = 'MAP';
+      const fn = 'en.map';
+      const value = 'ON';
+
+      it('throws TypeError when a wrong argument is passed.', () => {
+        expect(() => Transformation.transformRaw({}, fn, value)).toThrow(TypeError);
+        expect(() => Transformation.transformRaw(type, {}, value)).toThrow(TypeError);
+        expect(() => Transformation.transformRaw(type, fn, { value })).toThrow(TypeError);
+        expect(JavaTransformation.transformRaw).not.toHaveBeenCalled();
+      });
+
+      it('delegates to Java Transformation.', () => {
+        const type = 'MAP';
+        const fn = 'en.map';
+        const value = 'ON';
+
+        Transformation.transformRaw(type, fn, value);
+
+        expect(JavaTransformation.transformRaw).toHaveBeenCalledWith(type, fn, value);
+      });
     });
   });
 });
