@@ -119,7 +119,7 @@ actions.NotificationAction.sendNotification("romeo@montague.org", "Balcony door 
 Querying the status of a thing
 
 ```javascript
-const thingStatusInfo = actions.Things.getThingStatusInfo("zwave:serial_zstick:512");
+var thingStatusInfo = actions.Things.getThingStatusInfo("zwave:serial_zstick:512");
 console.log("Thing status",thingStatusInfo.getStatus());
 ```
 
@@ -337,7 +337,7 @@ See [openhab-js : items](https://openhab.github.io/openhab-js/items.html) for fu
   - .safeItemName(s) ⇒ `string`
 
 ```javascript
-const item = items.getItem("KitchenLight");
+var item = items.getItem("KitchenLight");
 console.log("Kitchen Light State", item.state);
 ```
 
@@ -372,12 +372,12 @@ Calling `getItem(...)` returns an `Item` object with the following properties:
   - .removeTags(...tagNames)
 
 ```javascript
-const item = items.getItem("KitchenLight");
-//send a ON command
+var item = items.getItem("KitchenLight");
+// Send an ON command
 item.sendCommand("ON");
-//Post an update
+// Post an update
 item.postUpdate("OFF");
-//Get state
+// Get state
 console.log("KitchenLight state", item.state)
 ```
 
@@ -513,7 +513,7 @@ Calling `getThing(...)` returns a `Thing` object with the following properties:
   - .setEnabled(enabled)
 
 ```javascript
-const thing = things.getThing('astro:moon:home');
+var thing = things.getThing('astro:moon:home');
 console.log('Thing label: ' + thing.label);
 // Set Thing location
 thing.setLocation('living room');
@@ -546,7 +546,7 @@ Additional information can be found on the  [Ephemeris Actions Docs](https://www
 
 ```javascript
 // Example
-let weekend = actions.Ephemeris.isWeekend();
+var weekend = actions.Ephemeris.isWeekend();
 ```
 
 #### Exec Actions
@@ -561,11 +561,11 @@ Execute a command line.
 actions.Exec.executeCommandLine('echo', 'Hello World!');
 
 // Execute command line with timeout.
-let Duration = Java.type('java.time.Duration');
+var Duration = Java.type('java.time.Duration');
 actions.Exec.executeCommandLine(Duration.ofSeconds(20), 'echo', 'Hello World!');
 
 // Get response from command line.
-let response = actions.Exec.executeCommandLine('echo', 'Hello World!');
+var response = actions.Exec.executeCommandLine('echo', 'Hello World!');
 
 // Get response from command line with timeout.
 response = actions.Exec.executeCommandLine(Duration.ofSeconds(20), 'echo', 'Hello World!');
@@ -699,14 +699,14 @@ The `defaultSupplier` provided function will return a default value if a specifi
 **Example** *(Get a previously set value with a default value (times &#x3D; 0))*
 
 ```js
-let counter = cache.get("counter", () => ({ "times": 0 }));
+var counter = cache.get("counter", () => ({ "times": 0 }));
 console.log("Count",counter.times++);
 ```
 
 **Example** *(Get a previously set object)*
 
 ```js
-let counter = cache.get("counter");
+var counter = cache.get("counter");
 if(counter == null){
      counter = {times: 0};
      cache.put("counter", counter);
@@ -720,7 +720,7 @@ By default, the JS Scripting binding supports console logging like `console.log(
 Additionally, scripts may create their own native openHAB logger using the log namespace.
 
 ```javascript
-let logger = log('my_logger');
+var logger = log('my_logger');
 
 //prints "Hello World!"
 logger.debug("Hello {}!", "world");
@@ -779,7 +779,7 @@ When you have a `time.ZonedDateTime`, a new `toToday()` method was added which w
 For example, if the time was 13:45 and today was a DST changeover, the time will still be 13:45 instead of one hour off.
 
 ```javascript
-const alarm = items.getItem('Alarm');
+var alarm = items.getItem('Alarm');
 alarm.postUpdate(time.toZDT(alarm).toToday());
 ```
 
@@ -803,7 +803,7 @@ time.toZDT(items.getItem('StartTime')).isBetweenTimes(time.toZDT(), 'PT1H'); // 
 Tests to see if the delta between the `time.ZonedDateTime` and the passed in `time.ZonedDateTime` is within the passed in `time.Duration`.
 
 ```javascript
-const timestamp = time.toZDT();
+var timestamp = time.toZDT();
 // do some stuff
 if(timestamp.isClose(time.toZDT(), time.Duration.ofMillis(100))) {
   // did "do some stuff" take longer than 100 msecs to run?
@@ -815,7 +815,7 @@ if(timestamp.isClose(time.toZDT(), time.Duration.ofMillis(100))) {
 This method on `time.ZonedDateTime` returns the milliseconds from now to the passed in `time.ZonedDateTime`.
 
 ```javascript
-const timestamp = time.ZonedDateTime.now().plusMinutes(5);
+var timestamp = time.ZonedDateTime.now().plusMinutes(5);
 console.log(timestamp.getMillisFromNow());
 ```
 
@@ -841,7 +841,7 @@ See [openhab-js : rules](https://openhab.github.io/openhab-js/rules.html) for fu
 JSRules provides a simple, declarative syntax for defining rules that will be executed based on a trigger condition
 
 ```javascript
-const email = "juliet@capulet.org"
+var email = "juliet@capulet.org"
 
 rules.JSRule({
   name: "Balcony Lights ON at 5pm",
@@ -1099,7 +1099,7 @@ Follow these steps to create your own library (it's called a CommonJS module):
 3. Create the main file of your library (`index.js`) and add some exports:
 
    ```javascript
-   const someProperty = 'Hello world!';
+   var someProperty = 'Hello world!';
    function someFunction () {
      console.log('Hello from your personal library!');
    }
