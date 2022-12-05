@@ -92,6 +92,7 @@ binding</a>.</p>
 <li><a href="#deinitialization-hook">Deinitialization Hook</a></li>
 </ul>
 </li>
+<li><a href="#script-transformation"><code>SCRIPT</code> Transformation</a></li>
 <li><a href="#standard-library">Standard Library</a>
 <ul>
 <li><a href="#items">Items</a></li>
@@ -138,7 +139,7 @@ binding</a>.</p>
 </ul>
 <p>NPM will create a <code>node_modules</code> directory containing the latest version of this library.
 This will be used instead of the binding provided version.</p>
-<h3>Configuration</h3>
+<h2>Configuration</h2>
 <!-- Copy everything from here to update the JS Scripting documentation. -->
 <h3>UI Based Rules</h3>
 <p>The quickest way to add rules is through the openHAB Web UI.</p>
@@ -161,7 +162,7 @@ console.log(&quot;Kitchen Light State&quot;, items.getItem(&quot;KitchenLight&qu
 <pre class="prettyprint source lang-javascript"><code>actions.NotificationAction.sendNotification(&quot;romeo@montague.org&quot;, &quot;Balcony door is open&quot;);
 </code></pre>
 <p>Querying the status of a thing</p>
-<pre class="prettyprint source lang-javascript"><code>const thingStatusInfo = actions.Things.getThingStatusInfo(&quot;zwave:serial_zstick:512&quot;);
+<pre class="prettyprint source lang-javascript"><code>var thingStatusInfo = actions.Things.getThingStatusInfo(&quot;zwave:serial_zstick:512&quot;);
 console.log(&quot;Thing status&quot;,thingStatusInfo.getStatus());
 </code></pre>
 <p>See <a href="https://openhab.github.io/openhab-js">openhab-js</a> for a complete list of functionality.</p>
@@ -230,10 +231,11 @@ console.log(event.itemState == &quot;test&quot;) // WRONG. Will always log &quot
 console.log(event.itemState.toString() == &quot;test&quot;) // OK
 </code></pre>
 <h2>Scripting Basics</h2>
-<p>The openHAB JSScripting runtime attempts to provide a familiar environment to Javascript developers.</p>
+<p>The openHAB JavaScript Scripting runtime attempts to provide a familiar environment to JavaScript developers.</p>
 <h3>Require</h3>
 <p>Scripts may include standard NPM based libraries by using CommonJS <code>require</code>.
-The library search will look in the path <code>automation/js/node_modules</code> in the user configuration directory.</p>
+The library search will look in the path <code>automation/js/node_modules</code> in the user configuration directory.
+See <a href="#libraries">libraries</a> for more information.</p>
 <h3>Console</h3>
 <p>The JS Scripting binding supports the standard <code>console</code> object for logging.
 Script logging is enabled by default at the <code>INFO</code> level (messages from <code>console.debug</code> and <code>console.trace</code> won't be displayed), but can be configured using the <a href="https://www.openhab.org/docs/administration/console.html">openHAB console</a>:</p>
@@ -319,6 +321,29 @@ require('@runtime').lifecycleTracker.addDisposeHook(() => {
   console.log(&quot;Deinitialization hook runs...&quot;)
 });
 </code></pre>
+<h2><code>SCRIPT</code> Transformation</h2>
+<p>openHAB provides several <a href="https://www.openhab.org/addons/#transform">data transformation services</a> as well as the <code>SCRIPT</code> transformation, that is available from the framework and needs no additional installation.
+It allows transforming values using any of the available scripting languages, which means JavaScript Scripting is supported as well.
+See the <a href="https://openhab.org/docs/configuration/transformations.html#script-transformation">transformation docs</a> for more general information on the usage of <code>SCRIPT</code> transformation.</p>
+<p>Use the <code>SCRIPT</code> transformation with JavaScript Scripting by:</p>
+<ol>
+<li>
+<p>Creating a script in the <code>$OPENHAB_CONF/transform</code> folder with the <code>.script</code> extension.
+The script should take one argument <code>input</code> and return a value that supports <code>toString()</code> or <code>null</code>:</p>
+<pre class="prettyprint source lang-javascript"><code>(function(data) {
+  // Do some data transformation here
+  return data;
+})(input);
+</code></pre>
+</li>
+<li>
+<p>Using <code>SCRIPT(graaljs:&lt;scriptname&gt;.script):%s</code> as the transformation profile, e.g. on an Item.</p>
+</li>
+<li>
+<p>Passing parameters is also possible by using a URL like syntax: <code>SCRIPT(graaljs:&lt;scriptname&gt;.script?arg=value):%s</code>.
+Parameters are injected into the script and can be referenced like variables.</p>
+</li>
+</ol>
 <h2>Standard Library</h2>
 <p>Full documentation for the openHAB JavaScript library can be found at <a href="https://openhab.github.io/openhab-js">openhab-js</a>.</p>
 <h3>Items</h3>
@@ -337,7 +362,7 @@ require('@runtime').lifecycleTracker.addDisposeHook(() => {
 </ul>
 </li>
 </ul>
-<pre class="prettyprint source lang-javascript"><code>const item = items.getItem(&quot;KitchenLight&quot;);
+<pre class="prettyprint source lang-javascript"><code>var item = items.getItem(&quot;KitchenLight&quot;);
 console.log(&quot;Kitchen Light State&quot;, item.state);
 </code></pre>
 <h4><code>getItem(name, nullIfMissing)</code></h4>
@@ -372,12 +397,12 @@ console.log(&quot;Kitchen Light State&quot;, item.state);
 </ul>
 </li>
 </ul>
-<pre class="prettyprint source lang-javascript"><code>const item = items.getItem(&quot;KitchenLight&quot;);
-//send a ON command
+<pre class="prettyprint source lang-javascript"><code>var item = items.getItem(&quot;KitchenLight&quot;);
+// Send an ON command
 item.sendCommand(&quot;ON&quot;);
-//Post an update
+// Post an update
 item.postUpdate(&quot;OFF&quot;);
-//Get state
+// Get state
 console.log(&quot;KitchenLight state&quot;, item.state)
 </code></pre>
 <h4><code>itemConfig</code></h4>
@@ -509,7 +534,7 @@ console.log('KitchenDimmer averageSince', item.history.averageSince(yesterday));
 </ul>
 </li>
 </ul>
-<pre class="prettyprint source lang-javascript"><code>const thing = things.getThing('astro:moon:home');
+<pre class="prettyprint source lang-javascript"><code>var thing = things.getThing('astro:moon:home');
 console.log('Thing label: ' + thing.label);
 // Set Thing location
 thing.setLocation('living room');
@@ -529,7 +554,7 @@ The following are a list of standard actions.</p>
 <p>Ephemeris is a way to determine what type of day today or a number of days before or after today is. For example, a way to determine if today is a weekend, a bank holiday, someone’s birthday, trash day, etc.</p>
 <p>Additional information can be found on the  <a href="https://www.openhab.org/docs/configuration/actions.html#ephemeris">Ephemeris Actions Docs</a> as well as the <a href="https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/ephemeris">Ephemeris JavaDoc</a>.</p>
 <pre class="prettyprint source lang-javascript"><code>// Example
-let weekend = actions.Ephemeris.isWeekend();
+var weekend = actions.Ephemeris.isWeekend();
 </code></pre>
 <h4>Exec Actions</h4>
 <p>See <a href="https://openhab.github.io/openhab-js/actions.html#.Exec">openhab-js : actions.Exec</a> for complete documentation.</p>
@@ -539,11 +564,11 @@ let weekend = actions.Ephemeris.isWeekend();
 actions.Exec.executeCommandLine('echo', 'Hello World!');
 
 // Execute command line with timeout.
-let Duration = Java.type('java.time.Duration');
+var Duration = Java.type('java.time.Duration');
 actions.Exec.executeCommandLine(Duration.ofSeconds(20), 'echo', 'Hello World!');
 
 // Get response from command line.
-let response = actions.Exec.executeCommandLine('echo', 'Hello World!');
+var response = actions.Exec.executeCommandLine('echo', 'Hello World!');
 
 // Get response from command line with timeout.
 response = actions.Exec.executeCommandLine(Duration.ofSeconds(20), 'echo', 'Hello World!');
@@ -639,11 +664,11 @@ Replace <code>&lt;message&gt;</code> with the notification text.</p>
 </ul>
 <p>The <code>defaultSupplier</code> provided function will return a default value if a specified key is not already associated with a value.</p>
 <p><strong>Example</strong> <em>(Get a previously set value with a default value (times = 0))</em></p>
-<pre class="prettyprint source lang-js"><code>let counter = cache.get(&quot;counter&quot;, () => ({ &quot;times&quot;: 0 }));
+<pre class="prettyprint source lang-js"><code>var counter = cache.get(&quot;counter&quot;, () => ({ &quot;times&quot;: 0 }));
 console.log(&quot;Count&quot;,counter.times++);
 </code></pre>
 <p><strong>Example</strong> <em>(Get a previously set object)</em></p>
-<pre class="prettyprint source lang-js"><code>let counter = cache.get(&quot;counter&quot;);
+<pre class="prettyprint source lang-js"><code>var counter = cache.get(&quot;counter&quot;);
 if(counter == null){
      counter = {times: 0};
      cache.put(&quot;counter&quot;, counter);
@@ -653,7 +678,7 @@ console.log(&quot;Count&quot;,counter.times++);
 <h3>Log</h3>
 <p>By default, the JS Scripting binding supports console logging like <code>console.log()</code> and <code>console.debug()</code> to the openHAB default log.
 Additionally, scripts may create their own native openHAB logger using the log namespace.</p>
-<pre class="prettyprint source lang-javascript"><code>let logger = log('my_logger');
+<pre class="prettyprint source lang-javascript"><code>var logger = log('my_logger');
 
 //prints &quot;Hello World!&quot;
 logger.debug(&quot;Hello {}!&quot;, &quot;world&quot;);
@@ -751,7 +776,7 @@ The following rules are used during the conversion:</p>
 <h4><code>toToday()</code></h4>
 <p>When you have a <code>time.ZonedDateTime</code>, a new <code>toToday()</code> method was added which will return a new <code>time.ZonedDateTime</code> with today's date but the original's time, accounting for DST changes.</p>
 <p>For example, if the time was 13:45 and today was a DST changeover, the time will still be 13:45 instead of one hour off.</p>
-<pre class="prettyprint source lang-javascript"><code>const alarm = items.getItem('Alarm');
+<pre class="prettyprint source lang-javascript"><code>var alarm = items.getItem('Alarm');
 alarm.postUpdate(time.toZDT(alarm).toToday());
 </code></pre>
 <h4><code>isBetweenTimes(start, end)</code></h4>
@@ -766,7 +791,7 @@ time.toZDT(items.getItem('StartTime')).isBetweenTimes(time.toZDT(), 'PT1H'); // 
 </code></pre>
 <h4><code>isClose(zdt, maxDur)</code></h4>
 <p>Tests to see if the delta between the <code>time.ZonedDateTime</code> and the passed in <code>time.ZonedDateTime</code> is within the passed in <code>time.Duration</code>.</p>
-<pre class="prettyprint source lang-javascript"><code>const timestamp = time.toZDT();
+<pre class="prettyprint source lang-javascript"><code>var timestamp = time.toZDT();
 // do some stuff
 if(timestamp.isClose(time.toZDT(), time.Duration.ofMillis(100))) {
   // did &quot;do some stuff&quot; take longer than 100 msecs to run?
@@ -774,7 +799,7 @@ if(timestamp.isClose(time.toZDT(), time.Duration.ofMillis(100))) {
 </code></pre>
 <h4><code>getMillisFromNow</code></h4>
 <p>This method on <code>time.ZonedDateTime</code> returns the milliseconds from now to the passed in <code>time.ZonedDateTime</code>.</p>
-<pre class="prettyprint source lang-javascript"><code>const timestamp = time.ZonedDateTime.now().plusMinutes(5);
+<pre class="prettyprint source lang-javascript"><code>var timestamp = time.ZonedDateTime.now().plusMinutes(5);
 console.log(timestamp.getMillisFromNow());
 </code></pre>
 <h3>Utils</h3>
@@ -789,7 +814,7 @@ Local variable state is not persisted among reloads, see using the <a href="#cac
 <p>See <a href="https://openhab.github.io/openhab-js/rules.html">openhab-js : rules</a> for full API documentation.</p>
 <h3>JSRule</h3>
 <p>JSRules provides a simple, declarative syntax for defining rules that will be executed based on a trigger condition</p>
-<pre class="prettyprint source lang-javascript"><code>const email = &quot;juliet@capulet.org&quot;
+<pre class="prettyprint source lang-javascript"><code>var email = &quot;juliet@capulet.org&quot;
 
 rules.JSRule({
   name: &quot;Balcony Lights ON at 5pm&quot;,
@@ -1111,7 +1136,7 @@ When it is run, <code>npm</code> will remove everything from <code>node_modules<
 </li>
 <li>
 <p>Create the main file of your library (<code>index.js</code>) and add some exports:</p>
-<pre class="prettyprint source lang-javascript"><code>const someProperty = 'Hello world!';
+<pre class="prettyprint source lang-javascript"><code>var someProperty = 'Hello world!';
 function someFunction () {
   console.log('Hello from your personal library!');
 }
@@ -1388,7 +1413,7 @@ Generally speaking, you should prefer to use <a href="#standard-library">Standar
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.0</a> on Sun Dec 04 2022 13:12:41 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.0</a> on Mon Dec 05 2022 22:28:33 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
