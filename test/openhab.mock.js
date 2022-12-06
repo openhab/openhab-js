@@ -20,4 +20,8 @@ class JavaScriptExecution {
   static createTimer () {}
 }
 
-module.exports = { Configuration, ModuleBuilder, JavaScriptExecution };
+class JavaTransformation {}
+JavaTransformation.transform = jest.fn(() => 'on');
+JavaTransformation.transformRaw = jest.fn(() => 'on');
+
+module.exports = { Configuration, ModuleBuilder, JavaScriptExecution, JavaTransformation };
