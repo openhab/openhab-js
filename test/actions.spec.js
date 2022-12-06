@@ -66,11 +66,11 @@ describe('actions.js', () => {
   });
 
   describe('Transformation', () => {
-    describe('transform', () => {
-      const type = 'MAP';
-      const fn = 'en.map';
-      const value = 'ON';
+    const type = 'MAP';
+    const fn = 'en.map';
+    const value = 'ON';
 
+    describe('transform', () => {
       it('throws TypeError when a wrong argument is passed.', () => {
         expect(() => Transformation.transform({}, fn, value)).toThrow(TypeError);
         expect(() => Transformation.transform(type, {}, value)).toThrow(TypeError);
@@ -79,10 +79,6 @@ describe('actions.js', () => {
       });
 
       it('delegates to Java Transformation.', () => {
-        const type = 'MAP';
-        const fn = 'en.map';
-        const value = 'ON';
-
         Transformation.transform(type, fn, value);
 
         expect(JavaTransformation.transform).toHaveBeenCalledWith(type, fn, value);
@@ -90,10 +86,6 @@ describe('actions.js', () => {
     });
 
     describe('transformRaw', () => {
-      const type = 'MAP';
-      const fn = 'en.map';
-      const value = 'ON';
-
       it('throws TypeError when a wrong argument is passed.', () => {
         expect(() => Transformation.transformRaw({}, fn, value)).toThrow(TypeError);
         expect(() => Transformation.transformRaw(type, {}, value)).toThrow(TypeError);
@@ -102,13 +94,23 @@ describe('actions.js', () => {
       });
 
       it('delegates to Java Transformation.', () => {
-        const type = 'MAP';
-        const fn = 'en.map';
-        const value = 'ON';
-
         Transformation.transformRaw(type, fn, value);
 
         expect(JavaTransformation.transformRaw).toHaveBeenCalledWith(type, fn, value);
+      });
+
+      it('re-throws Java exception from Transformation as JavaScript error.', () => {
+        const exception = 'Java stack trace';
+
+        JavaTransformation.transformRaw.mockImplementation(() => { throw exception; });
+
+        try {
+          Transformation.transformRaw(type, fn, value);
+          fail('should not reach this point');
+        } catch (error) {
+          expect(error).toBeInstanceOf(Error);
+          expect(error.message).toBe(exception);
+        }
       });
     });
   });
