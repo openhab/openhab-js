@@ -690,9 +690,11 @@ The cache namespace provides both a private and a shared cache that can be used 
 
 The private cache can only be accessed by the same script and is cleared when the script is unloaded.
 You can use it to e.g. store timers or counters between subsequent runs of that script.
+When a script is unloaded and its cache is cleared, all timers (see [ScriptExecution Actions](#scriptexecution-actions)) stored in its private cache are cancelled.
 
 The shared cache is shared across all rules and scripts, it can therefore be accessed from any automation language.
 The access to every key is tracked and the key is removed when all scripts that ever accessed that key are unloaded.
+If that key stored a timer, the timer is cancelled.
 
 See [openhab-js : cache](https://openhab.github.io/openhab-js/cache.html) for full API documentation.
 
