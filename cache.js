@@ -31,18 +31,6 @@ class JSCache {
   /**
    * Returns the value to which the specified key is mapped.
    *
-   * @example <caption>Get a previously set value with a default value (times = 0)</caption>
-   * let counter = cache.get('counter', () => ({ 'times': 0 }));
-   * console.log('Count', counter.times++);
-   *
-   * @example <caption>Get a previously set object</caption>
-   * let counter = cache.get('counter');
-   * if (counter === null) {
-   *      counter = { times: 0 };
-   *      cache.put('counter', counter);
-   * }
-   * console.log('Count', counter.times++);
-   *
    * @param {string} key the key whose associated value is to be returned
    * @param {function} [defaultSupplier] if the specified key is not already associated with a value, this function will return a default value
    * @returns {*|null} the current object for the supplied key, a default value if defaultSupplier is provided, or null
@@ -110,16 +98,17 @@ module.exports = {
   /** @deprecated */
   exists: (key) => { return addonSharedJSCache.exists(key); },
   /**
-   * Private cache for each individual script.
-   * It is not cleared between subsequent runs of a rule, but it is removed when the script is unloaded.
+   * Private cache for each script.
+   * The private cache can only be accessed by the same script and is cleared when the script is unloaded.
+   * You can use it to e.g. store timers or counters between subsequent runs of that script.
    *
    * @memberof cache
    * @type JSCache
    */
   shared: (coreCacheAvail === true) ? new JSCache(sharedCache) : undefined,
   /**
-   * Shared cache between all scrips.
-   * Every access to a key is tracked, the key is removed if all scripts that ever accessed that key have been unloaded.
+   * Shared cache that is shared across all rules and scripts, it can therefore be accessed from any automation language.
+   * The access to every key is tracked and the key is removed when all scripts that ever accessed that key are unloaded.
    *
    * @memberof cache
    * @type JSCache
