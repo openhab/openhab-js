@@ -4,13 +4,14 @@
  * @namespace cache
  */
 
+const log = require('./log')('cache');
 const { privateCache, sharedCache } = require('@runtime/cache'); // The new cache from core
 const addonSharedCache = require('@runtime').sharedcache; // The old cache from the adddon
 
 const coreCacheAvail = Java.isJavaObject(privateCache) && Java.isJavaObject(sharedCache);
 
 const logDeprecationWarning = (funcName) => {
-  console.warn(`"cache.${funcName}" has been deprecated and will be removed in a future release. Use "cache.private.${funcName}" or "cache.shared.${funcName}" instead.\nVisit the JavaScript Scripting Automation docs for more infomation about the cache.`);
+  console.warn(`"cache.${funcName}" has been deprecated and will be removed in a future release. Use "cache.private.${funcName}" or "cache.shared.${funcName}" instead. Visit the JavaScript Scripting Automation addon docs for more information about the cache.`);
 };
 
 /**
@@ -92,9 +93,11 @@ class JSCache {
 
 let addonSharedJSCache;
 if (coreCacheAvail === true) {
+  log.debug('Caches from core are available, enable legacy cache methods to keep the old API.');
   addonSharedJSCache = new JSCache(sharedCache, true);
 } else {
-  addonSharedJSCache = new JSCache(addonSharedCache, true);
+  log.debug('Caches from core are unavailable, using the addon-provided cache.');
+  addonSharedJSCache = new JSCache(addonSharedCache);
 }
 
 module.exports = {
