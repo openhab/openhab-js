@@ -99,13 +99,13 @@ if (coreCacheAvail === true) {
 
 module.exports = {
   /** @deprecated */
-  get: addonSharedJSCache.get,
+  get: (key, defaultSupplier) => { return addonSharedJSCache.get(key, defaultSupplier); },
   /** @deprecated */
-  put: addonSharedJSCache.put,
+  put: (key, value) => { return addonSharedJSCache.put(key, value); },
   /** @deprecated */
-  remove: addonSharedJSCache.remove,
+  remove: (key) => { return addonSharedJSCache.remove(key); },
   /** @deprecated */
-  exists: addonSharedJSCache.exists,
+  exists: (key) => { return addonSharedJSCache.exists(key); },
   /**
    * Private cache for each individual script.
    * It is not cleared between subsequent runs of a rule, but it is removed when the script is unloaded.
