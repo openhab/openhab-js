@@ -2,19 +2,21 @@
 
 ## to be released
 
-| Type        | Namespace | Description                                                         | Reference                                              | Breaking |
-|-------------|-----------|---------------------------------------------------------------------|--------------------------------------------------------|----------|
+| Type        | Namespace | Description                                 | Reference                                                                                               | Breaking |
+|-------------|-----------|---------------------------------------------|---------------------------------------------------------------------------------------------------------|----------|
+| Enhancement | `utils`   | Support all data types in `dumpObject`      | Commit [144e6a9](https://github.com/openhab/openhab-js/commit/144e6a9c58982f45a07bf704ac0bd18fa6c3a54d) | No       |
+| Enhancement | `cache`   | Reimplementation to use the new core caches | [#191](https://github.com/openhab/openhab-js/pull/191)                                                  | No       |
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/9).
 
 ## 3.0.0
 
-| Type        | Namespace | Description                                                         | Reference                                              | Breaking |
-|-------------|-----------|---------------------------------------------------------------------|--------------------------------------------------------|----------|
-| Enhancement | `items`   | ItemHistory: Change return types of min/max between/since to number | [#175](https://github.com/openhab/openhab-js/pull/175) | **Yes**  |
-| Cleanup     | `rules`   | Remove unused rule providers                                        | [#183](https://github.com/openhab/openhab-js/pull/183) | **Yes**  |
-| Enhancement | `actions` | Add Transformation actions as a class with arg type checking        | [#180](https://github.com/openhab/openhab-js/pull/180) | No       |
-| Cleanup     |           | Remove unused & non-working providers                               | Commit 83dac55d                                        | No       |
+| Type        | Namespace | Description                                                         | Reference                                                                                                | Breaking |
+|-------------|-----------|---------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------|----------|
+| Enhancement | `items`   | ItemHistory: Change return types of min/max between/since to number | [#175](https://github.com/openhab/openhab-js/pull/175)                                                   | **Yes**  |
+| Cleanup     | `rules`   | Remove unused rule providers                                        | [#183](https://github.com/openhab/openhab-js/pull/183)                                                   | **Yes**  |
+| Enhancement | `actions` | Add Transformation actions as a class with arg type checking        | [#180](https://github.com/openhab/openhab-js/pull/180)                                                   | No       |
+| Cleanup     |           | Remove unused & non-working providers                               | Commit [83dac55d](https://github.com/openhab/openhab-js/commit/83dac55d67099494661d9bbee9cd0a58cca3e2b0) | No       |
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/8).
 
