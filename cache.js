@@ -100,6 +100,7 @@ module.exports = {
   /**
    * Shared cache that is shared across all rules and scripts, it can therefore be accessed from any automation language.
    * The access to every key is tracked and the key is removed when all scripts that ever accessed that key are unloaded.
+   * If the key that has been auto-removed stored a timer, that timer is cancelled.
    *
    * @memberof cache
    * @type JSCache
@@ -109,6 +110,7 @@ module.exports = {
    * Private cache for each script.
    * The private cache can only be accessed by the same script and is cleared when the script is unloaded.
    * You can use it to e.g. store timers or counters between subsequent runs of that script.
+   * When the script is unloaded and the cache is cleared, all timers in the cache are cancelled.
    *
    * @memberof cache
    * @type JSCache
