@@ -1,79 +1,99 @@
-const { exists, get, put, remove } = require('../cache');
-
 const mockExists = jest.fn();
 const mockGet = jest.fn();
 const mockPut = jest.fn();
 const mockRemove = jest.fn();
-
-jest.mock('@runtime', () => ({
-  sharedcache: {
-    exists: (...args) => mockExists(...args),
-    get: (...args) => mockGet(...args),
-    put: (...args) => mockPut(...args),
-    remove: (...args) => mockRemove(...args)
-  }
-}), { virtual: true });
+console.warn = jest.fn();
 
 describe('cache.js', () => {
-  describe('exist', () => {
-    it('returns true if key exists in cache instance.', () => {
-      mockGet.mockImplementation(() => 'value');
-      expect(exists('key')).toBe(true);
+  describe('JSCache', () => {
+    jest.mock('@runtime', () => ({}), { virtual: true });
+
+    jest.mock('@runtime/cache', () => ({}), { virtual: true });
+
+    const { JSCache } = require('../cache');
+    const cache = new JSCache({
+      exists: (...args) => mockExists(...args),
+      get: (...args) => mockGet(...args),
+      put: (...args) => mockPut(...args),
+      remove: (...args) => mockRemove(...args)
     });
 
-    it('returns false, if key does not exist in cache instance.', () => {
-      mockGet.mockImplementation(() => null);
-      expect(exists('key')).toBe(false);
-    });
-  });
+    const key = 'key';
+    const value = 'value';
 
-  describe('get', () => {
-    it('delegates to cache instance.', () => {
-      const key = 'key';
-      get(key);
-      expect(mockGet).toHaveBeenCalledWith(key);
-    });
+    describe('exist', () => {
+      it('returns true if key exists in cache instance.', () => {
+        mockGet.mockImplementation(() => 'value');
+        expect(cache.exists(key)).toBe(true);
+        expect(console.warn).not.toHaveBeenCalled();
+      });
 
-    it('passes supplier, if present.', () => {
-      const key = 'key';
-      const supplier = () => 'value';
-      get(key, supplier);
-      expect(mockGet).toHaveBeenCalledWith(key, supplier);
+      it('returns false, if key does not exist in cache instance.', () => {
+        mockGet.mockImplementation(() => null);
+        expect(cache.exists(key)).toBe(false);
+        expect(console.warn).not.toHaveBeenCalled();
+      });
     });
 
-    it('returns value from cache instance.', () => {
-      const returnValue = 'value';
-      mockGet.mockImplementation(() => returnValue);
-      expect(get('key')).toBe(returnValue);
-    });
-  });
+    describe('get', () => {
+      it('delegates to cache instance.', () => {
+        cache.get(key);
+        expect(mockGet).toHaveBeenCalledWith(key);
+        expect(console.warn).not.toHaveBeenCalled();
+      });
 
-  describe('put', () => {
-    it('delegates to cache instance.', () => {
-      const key = 'key';
-      const value = 'value';
-      put(key, value);
-      expect(mockPut).toHaveBeenCalledWith(key, value);
-    });
+      it('passes supplier, if present.', () => {
+        const supplier = () => 'value';
+        cache.get(key, supplier);
+        expect(mockGet).toHaveBeenCalledWith(key, supplier);
+        expect(console.warn).not.toHaveBeenCalled();
+      });
 
-    it('returns value from cache instance.', () => {
-      const returnValue = 'value';
-      mockPut.mockImplementation(() => returnValue);
-      expect(put('key', 'value')).toBe(returnValue);
-    });
-  });
-
-  describe('remove', () => {
-    it('delegates to cache instance.', () => {
-      const key = 'key';
-      remove(key);
-      expect(mockRemove).toHaveBeenCalledWith(key);
+      it('returns value from cache instance.', () => {
+        const returnValue = 'value';
+        mockGet.mockImplementation(() => returnValue);
+        expect(cache.get(key)).toBe(returnValue);
+        expect(console.warn).not.toHaveBeenCalled();
+      });
     });
 
-    it('returns value from cache instance.', () => {
-      const returnValue = 'value';
-      mockRemove.mockImplementation(() => returnValue);
-      expect(remove('key')).toBe(returnValue);
+    describe('put', () => {
+      it('delegates to cache instance.', () => {
+        cache.put(key, value);
+        expect(mockPut).toHaveBeenCalledWith(key, value);
+        expect(console.warn).not.toHaveBeenCalled();
+      });
+
+      it('returns value from cache instance.', () => {
+        const returnValue = 'value';
+        mockPut.mockImplementation(() => returnValue);
+        expect(cache.put(key, 'value')).toBe(returnValue);
+        expect(console.warn).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('remove', () => {
+      it('delegates to cache instance.', () => {
+        cache.remove(key);
+        expect(mockRemove).toHaveBeenCalledWith(key);
+        expect(console.warn).not.toHaveBeenCalled();
+      });
+
+      it('returns value from cache instance.', () => {
+        const returnValue = 'value';
+        mockRemove.mockImplementation(() => returnValue);
+        expect(cache.remove(key)).toBe(returnValue);
+        expect(console.warn).not.toHaveBeenCalled();
+      });
+    });
+
+    it('logs a warning if the deprecated option is set.', () => {
+      cache._deprecated = true;
+      cache.exists(key);
+      cache.get(key);
+      cache.put(key, value);
+      cache.remove(key);
+      expect(console.warn).toBeCalledTimes(4);
     });
   });
 });

@@ -18,7 +18,11 @@ class UUID {
 }
 
 class Logger {
+  debug () {}
   error () {}
+  info () {}
+  trace () {}
+  warn () {}
 }
 
 class LoggerFactory {
@@ -47,8 +51,9 @@ const TYPES = {
 /* eslint-disable-next-line no-global-assign */
 Java = {
   type: (type) => TYPES[type],
-  from: function () {},
-  isType: function () {}
+  from: jest.fn(),
+  isType: jest.fn(),
+  isJavaObject: jest.fn()
 };
 
 module.exports = {
@@ -56,5 +61,6 @@ module.exports = {
   FrameworkUtil,
   HashSet,
   Hashtable,
-  UUID
+  UUID,
+  Logger
 };

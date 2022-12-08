@@ -124,5 +124,6 @@ module.exports = {
    * @memberof cache
    * @type JSCache
    */
-  private: (coreCacheAvail === true) ? new JSCache(privateCache) : undefined
+  private: (coreCacheAvail === true) ? new JSCache(privateCache) : undefined,
+  JSCache
 };
