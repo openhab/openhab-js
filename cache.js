@@ -98,17 +98,17 @@ module.exports = {
   /** @deprecated */
   exists: (key) => { return addonSharedJSCache.exists(key); },
   /**
-   * Private cache for each script.
-   * The private cache can only be accessed by the same script and is cleared when the script is unloaded.
-   * You can use it to e.g. store timers or counters between subsequent runs of that script.
+   * Shared cache that is shared across all rules and scripts, it can therefore be accessed from any automation language.
+   * The access to every key is tracked and the key is removed when all scripts that ever accessed that key are unloaded.
    *
    * @memberof cache
    * @type JSCache
    */
   shared: (coreCacheAvail === true) ? new JSCache(sharedCache) : undefined,
   /**
-   * Shared cache that is shared across all rules and scripts, it can therefore be accessed from any automation language.
-   * The access to every key is tracked and the key is removed when all scripts that ever accessed that key are unloaded.
+   * Private cache for each script.
+   * The private cache can only be accessed by the same script and is cleared when the script is unloaded.
+   * You can use it to e.g. store timers or counters between subsequent runs of that script.
    *
    * @memberof cache
    * @type JSCache
