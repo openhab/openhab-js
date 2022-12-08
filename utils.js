@@ -139,7 +139,11 @@ const dumpObject = function (obj, dumpProps = false) {
         }
       }
     } else if (typeof obj === 'string') {
-      log.info('String value = ' + obj);
+      log.info('  string value = ' + obj);
+    } else if (typeof obj === 'boolean') {
+      log.info('  boolean value = ' + obj);
+    } else if (typeof obj === 'number') {
+      log.info('  number value = ' + obj);
     } else if (typeof obj === 'object' && obj != null) {
       const keys = Object.keys(obj);
       log.info('  getOwnPropertyNames(obj) = {}', keys.toString());
@@ -152,6 +156,8 @@ const dumpObject = function (obj, dumpProps = false) {
           dumpObject(obj[keys[key]]);
         }
       }
+    } else {
+      log.info('  value = ' + obj);
     }
   } catch (e) {
     log.info('Failed to dump object: ' + e.message);
