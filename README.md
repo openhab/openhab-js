@@ -323,6 +323,10 @@ Use the `SCRIPT` transformation with JavaScript Scripting by:
 
 Full documentation for the openHAB JavaScript library can be found at [openhab-js](https://openhab.github.io/openhab-js).
 
+The openHAB JavaScript library provides type definitions for most of its APIs to enable code completion is IDEs like [VS Code](https://code.visualstudio.com).
+To use the type definitions, install the [`openhab` npm package](https://npmjs.com/openhab) (read the [installation guide](https://github.com/openhab/openhab-js#custom-installation) for more information).
+If an API does not provide type definitions and therefore autocompletion won‘t work, the documentation will include a note.
+
 ### Items
 
 The items namespace allows interactions with openHAB items.
@@ -527,6 +531,8 @@ thing.setEnabled(false);
 
 The actions namespace allows interactions with openHAB actions.
 The following are a list of standard actions.
+
+Note that most of the actions currently do **not** provide type definitions and therefore auto-completion does not work.
 
 See [openhab-js : actions](https://openhab.github.io/openhab-js/actions.html) for full API documentation and additional actions.
 
@@ -936,6 +942,8 @@ rules.when().item("F1_light").changed().then(event => {
     console.log(event);
 }).build("Test Rule", "My Test Rule");
 ```
+
+Note that the Rule Builder currently does **not** provide type definitions and therefore auto-completion does not work.
 
 See [Examples](#rule-builder-examples) for further patterns.
 
