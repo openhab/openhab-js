@@ -262,7 +262,7 @@ describe('triggers.js', () => {
   describe('DateTimeTrigger', () => {
     it('creates trigger.', () => {
       const itemName = 'itemName';
-      const timeOnly = 'timeOnly';
+      const timeOnly = true;
       const triggerName = 'triggerName';
       DateTimeTrigger(itemName, timeOnly, triggerName);
 
