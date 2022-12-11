@@ -38,7 +38,7 @@ class TypeOfArguments {
  * {@link TypeOfArguments} validates the arguments' types passed to a function.
  *
  * A type expression accepts the following:
- *   - primitive types (`string`, `number`, `bigint`,`boolean`, `symbol`, `null`) except `undefined`
+ *   - primitive types (`string`, `number`, `bigint`,`boolean`, `symbol`, `undefined`, `null`)
  *   - `object`
  *   - classnames (retrieved by getting constructor.name) (e.g. `Item`)
  * Type expressions are case-sensitive, it is possible to allow multiple types by using the `|` symbol.
