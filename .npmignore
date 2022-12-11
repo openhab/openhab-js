@@ -11,6 +11,4 @@ jest.config.js
 openhab-*.tgz
 out
 test
-tsconfig.json
-webpack.config.js
 .markdownlint.yaml
