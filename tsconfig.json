@@ -3,8 +3,12 @@
   "include": ["**/*.js"],
   "exclude": [
     "test/**",
+    "coverage/**",
+    "dist/**",
     "docs/**",
-    "jest.config.js"
+    "typeOfArguments.js",
+    "jest.config.js",
+    "webpack.config.js"
   ],
   "compilerOptions": {
     // Tells TypeScript to read JS files, as
