@@ -11,6 +11,12 @@ module.exports = {
         commonjs2: '@runtime',
         amd: '@runtime'
       },
+      '@runtime/cache': {
+        root: '@runtime/cache',
+        commonjs: '@runtime/cache',
+        commonjs2: '@runtime/cache',
+        amd: '@runtime/cache'
+      },
       '@runtime/Defaults': {
         root: '@runtime/Defaults',
         commonjs: '@runtime/Defaults',
@@ -28,12 +34,6 @@ module.exports = {
         commonjs: '@runtime/RuleSupport',
         commonjs2: '@runtime/RuleSupport',
         amd: '@runtime/RuleSupport'
-      },
-      '@runtime/rules': {
-        root: '@runtime/rules',
-        commonjs: '@runtime/rules',
-        commonjs2: '@runtime/rules',
-        amd: '@runtime/rules'
       },
       '@runtime/osgi': {
         root: '@runtime/osgi',
