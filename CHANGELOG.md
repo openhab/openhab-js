@@ -4,6 +4,13 @@
 
 | Type        | Namespace | Description                                 | Reference                                                                                               | Breaking |
 |-------------|-----------|---------------------------------------------|---------------------------------------------------------------------------------------------------------|----------|
+
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/10).
+
+## 3.1.0
+
+| Type        | Namespace | Description                                 | Reference                                                                                               | Breaking |
+|-------------|-----------|---------------------------------------------|---------------------------------------------------------------------------------------------------------|----------|
 | Enhancement | `utils`   | Support all data types in `dumpObject`      | Commit [144e6a9](https://github.com/openhab/openhab-js/commit/144e6a9c58982f45a07bf704ac0bd18fa6c3a54d) | No       |
 | Enhancement | `cache`   | Reimplementation to use the new core caches | [#191](https://github.com/openhab/openhab-js/pull/191)                                                  | No       |
 

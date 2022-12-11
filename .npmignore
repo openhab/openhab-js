@@ -2,10 +2,15 @@
 
 .github
 .vscode
+DEPLOY.md
 docs
+docs_config.json
 dist
 images
+jest.config.js
 openhab-*.tgz
 out
 test
+tsconfig.json
+webpack.config.js
 .markdownlint.yaml
