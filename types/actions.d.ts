@@ -243,7 +243,7 @@ export class Transformation {
      * @param {string} value the value to apply the transformation to
      * @returns {string} the transformed value or the original one, if there was no service registered for the given type or a transformation exception occurred
      */
-    static transform(type: string, fn: string, value: string, ...args: any[]): string;
+    static transform(type: string, fn: string, value: string): string;
     /**
      * Applies a transformation of a given type with some function to a value.
      *
@@ -253,7 +253,7 @@ export class Transformation {
      * @returns {string} the transformed value
      * @throws Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/transform/TransformationException.html TransformationException}
      */
-    static transformRaw(type: string, fn: string, value: string, ...args: any[]): string;
+    static transformRaw(type: string, fn: string, value: string): string;
 }
 /**
  * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/Voice.html Voice} Actions

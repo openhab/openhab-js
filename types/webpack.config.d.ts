@@ -7,6 +7,12 @@ export const externals: {
         commonjs2: string;
         amd: string;
     };
+    '@runtime/cache': {
+        root: string;
+        commonjs: string;
+        commonjs2: string;
+        amd: string;
+    };
     '@runtime/Defaults': {
         root: string;
         commonjs: string;
@@ -20,12 +26,6 @@ export const externals: {
         amd: string;
     };
     '@runtime/RuleSupport': {
-        root: string;
-        commonjs: string;
-        commonjs2: string;
-        amd: string;
-    };
-    '@runtime/rules': {
         root: string;
         commonjs: string;
         commonjs2: string;
