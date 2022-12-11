@@ -1,47 +1,51 @@
 /**
- * Returns the value to which the specified key is mapped
- *
- * @example <caption>Get a previously set value with a default value (times = 0)</caption>
- * let counter = cache.get("counter", () => ({ "times": 0 }));
- * console.log("Count",counter.times++);
- *
- * @example <caption>Get a previously set object</caption>
- * let counter = cache.get("counter");
- * if(counter == null){
- *      counter = {times: 0};
- *      cache.put("counter", counter);
- * }
- * console.log("Count",counter.times++);
- *
- * @memberof cache
- * @param {string} key the key whose associated value is to be returned
- * @param {function} [defaultSupplier] if the specified key is not already associated with a value, this function will return a default value
- * @returns {(*|null)} the current object for the supplied key, a default value if defaultSupplier is provided, or null
+ * The {@link JSCache} can be used by to share information between subsequent runs of the same script or between scripts (depending on implementation).
  */
-export function get(key: string, defaultSupplier?: Function): (any | null);
-/**
- * Associates the specified value with the specified key
- *
- * @memberof cache
- * @param {string} key key with which the specified value is to be associated
- * @param {*} value value to be associated with the specified key
- * @returns {(*|null)} the previous value associated with null, or null if there was no mapping for key
- */
-export function put(key: string, value: any): (any | null);
-/**
- * Removes the mapping for a key from this map if it is present
- *
- * @memberof cache
- * @param {string} key key whose mapping is to be removed from the map
- * @returns {(*|null)} the previous value associated with key or null if there was no mapping for key
- */
-export function remove(key: string): (any | null);
-/**
- * Checks the mapping for a key from this map.
- *
- * @memberof cache
- * @param {string} key key whose mapping is to be checked in the map
- * @returns {boolean} whether the key has a mapping
- */
-export function exists(key: string): boolean;
+export class JSCache {
+    /**
+     * @param {*} valueCacheImpl an implementation of the Java {@link https://github.com/openhab/openhab-core/blob/main/bundles/org.openhab.core.automation.module.script.rulesupport/src/main/java/org/openhab/core/automation/module/script/rulesupport/shared/ValueCache.java ValueCache} interface
+     * @param {boolean} [deprecated]
+     * @hideconstructor
+     */
+    constructor(valueCacheImpl: any, deprecated?: boolean);
+    _valueCache: any;
+    _deprecated: boolean;
+    /**
+     * Returns the value to which the specified key is mapped.
+     *
+     * @param {string} key the key whose associated value is to be returned
+     * @param {function} [defaultSupplier] if the specified key is not already associated with a value, this function will return a default value
+     * @returns {*|null} the current object for the supplied key, a default value if defaultSupplier is provided, or null
+     */
+    get(key: string, defaultSupplier?: Function): any | null;
+    /**
+     * Associates the specified value with the specified key.
+     *
+     * @param {string} key key with which the specified value is to be associated
+     * @param {*} value value to be associated with the specified key
+     * @returns {*|null} the previous value associated with the key, or null if there was no mapping for key
+     */
+    put(key: string, value: any): any | null;
+    /**
+     * Removes the mapping for a key from this map if it is present.
+     *
+     * @param {string} key key whose mapping is to be removed from the cache
+     * @returns {*|null} the previous value associated with the key or null if there was no mapping for key
+     */
+    remove(key: string): any | null;
+    /**
+     * Checks the mapping for a key from this map.
+     *
+     * @param {string} key key whose mapping is to be checked in the map
+     * @returns {boolean} whether the key has a mapping
+     */
+    exists(key: string): boolean;
+}
+export declare function get(key: any, defaultSupplier: any): any;
+export declare function put(key: any, value: any): any;
+export declare function remove(key: any): any;
+export declare function exists(key: any): any;
+export declare const shared: JSCache;
+declare const _private: JSCache;
+export { _private as private };
 //# sourceMappingURL=cache.d.ts.map

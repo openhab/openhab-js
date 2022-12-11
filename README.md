@@ -692,34 +692,48 @@ Replace `<message>` with the notification text.
 
 ### Cache
 
-The cache namespace provides a default cache that can be used to set and retrieve objects that will be persisted between reloads of scripts.
+The cache namespace provides both a private and a shared cache that can be used to set and retrieve objects that will be persisted between subsequent runs of the same or between scripts.
+
+The private cache can only be accessed by the same script and is cleared when the script is unloaded.
+You can use it to e.g. store timers or counters between subsequent runs of that script.
+When a script is unloaded and its cache is cleared, all timers (see [ScriptExecution Actions](#scriptexecution-actions)) stored in its private cache are cancelled.
+
+The shared cache is shared across all rules and scripts, it can therefore be accessed from any automation language.
+The access to every key is tracked and the key is removed when all scripts that ever accessed that key are unloaded.
+If that key stored a timer, the timer is cancelled.
 
 See [openhab-js : cache](https://openhab.github.io/openhab-js/cache.html) for full API documentation.
 
 - cache : <code>object</code>
-  - .get(key, defaultSupplier) ⇒ <code>Object | null</code>
-  - .put(key, value) ⇒ <code>Previous Object | null</code>
-  - .remove(key) ⇒ <code>Previous Object | null</code>
-  - .exists(key) ⇒ <code>boolean</code>
+  - .private
+    - .get(key, defaultSupplier) ⇒ <code>Object | null</code>
+    - .put(key, value) ⇒ <code>Previous Object | null</code>
+    - .remove(key) ⇒ <code>Previous Object | null</code>
+    - .exists(key) ⇒ <code>boolean</code>
+  - .shared
+    - .get(key, defaultSupplier) ⇒ <code>Object | null</code>
+    - .put(key, value) ⇒ <code>Previous Object | null</code>
+    - .remove(key) ⇒ <code>Previous Object | null</code>
+    - .exists(key) ⇒ <code>boolean</code>
 
 The `defaultSupplier` provided function will return a default value if a specified key is not already associated with a value.
 
-**Example** *(Get a previously set value with a default value (times &#x3D; 0))*
+**Example** *(Get a previously set value with a default value (times = 0))*
 
 ```js
-var counter = cache.get("counter", () => ({ "times": 0 }));
-console.log("Count",counter.times++);
+var counter = cache.private.get('counter', () => ({ 'times': 0 }));
+console.log('Count', counter.times++);
 ```
 
 **Example** *(Get a previously set object)*
 
 ```js
-var counter = cache.get("counter");
-if(counter == null){
-     counter = {times: 0};
-     cache.put("counter", counter);
+var counter = cache.private.get('counter');
+if (counter === null) {
+  counter = { times: 0 };
+  cache.private.put('counter', counter);
 }
-console.log("Count",counter.times++);
+console.log('Count', counter.times++);
 ```
 
 ### Log
