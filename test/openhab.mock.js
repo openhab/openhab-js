@@ -15,6 +15,12 @@ class Configuration {
   }
 }
 
+class MetadataRegistry {
+  add () {}
+  get () {}
+  update () {}
+}
+
 class JavaScriptExecution {
   static callScript () {}
   static createTimer () {}
@@ -24,4 +30,8 @@ class JavaTransformation {}
 JavaTransformation.transform = jest.fn(() => 'on');
 JavaTransformation.transformRaw = jest.fn(() => 'on');
 
-module.exports = { Configuration, ModuleBuilder, JavaScriptExecution, JavaTransformation };
+const OSGIServices = {
+  'org.openhab.core.items.MetadataRegistry': MetadataRegistry
+};
+
+module.exports = { Configuration, MetadataRegistry, ModuleBuilder, JavaScriptExecution, JavaTransformation, OSGIServices };
