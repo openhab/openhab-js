@@ -1,8 +1,8 @@
 /**
  * {@link TypeOfArguments} validates the arguments' types passed to a function.
  *
- * @private
  * It's functionality was inspired by the typeof-arguments npm package (https://www.npmjs.com/package/typeof-arguments).
+ * @private
  */
 class TypeOfArguments {
   constructor (givenArray, expectedArray) {

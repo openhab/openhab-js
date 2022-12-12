@@ -7,7 +7,6 @@ jest.mock('@runtime', () => ({
 
 jest.mock('@runtime/Defaults', () => ({}), { virtual: true });
 
-// Do NOT set the mock implementation here, because some tests need to overwrite them. Instead, default initialize them.
 jest.mock('@runtime/osgi', () => ({
   bundleContext: {
     getServiceReference: jest.fn(),
