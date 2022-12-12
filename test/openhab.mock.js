@@ -30,8 +30,4 @@ class JavaTransformation {}
 JavaTransformation.transform = jest.fn(() => 'on');
 JavaTransformation.transformRaw = jest.fn(() => 'on');
 
-const OSGIServices = {
-  'org.openhab.core.items.MetadataRegistry': MetadataRegistry
-};
-
-module.exports = { Configuration, MetadataRegistry, ModuleBuilder, JavaScriptExecution, JavaTransformation, OSGIServices };
+module.exports = { Configuration, MetadataRegistry, ModuleBuilder, JavaScriptExecution, JavaTransformation };

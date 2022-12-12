@@ -18,6 +18,8 @@ const {
   PIDTrigger
 } = require('../triggers');
 
+jest.mock('../items', () => ({ Item: class {} }));
+
 describe('triggers.js', () => {
   const moduleBuilderSpy = new ModuleBuilder();
   ModuleBuilder.createTrigger.mockImplementation(() => moduleBuilderSpy);

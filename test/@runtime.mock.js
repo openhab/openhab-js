@@ -1,5 +1,3 @@
-const { OSGIServices } = require('./openhab.mock');
-
 jest.mock('@runtime', () => ({
   DateTimeType: jest.fn(),
   DecimalType: jest.fn(),
@@ -21,17 +19,3 @@ jest.mock('@runtime/osgi', () => ({
     addDisposeHook: jest.fn()
   }
 }), { virtual: true });
-
-const { bundleContext } = require('@runtime/osgi');
-
-bundleContext.getServiceReference.mockImplementation(() => function (classname) {
-  return classname;
-});
-
-bundleContext.getService.mockImplementation(() => function (ref) {
-  return OSGIServices[ref];
-});
-
-bundleContext.getAllServiceReferences.mockImplementation(() => function (classname, filter) {
-  return [classname];
-});
