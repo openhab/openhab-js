@@ -17,8 +17,8 @@ declare function typeOfArguments(givenArray: any[], expectedArray: any[]): TypeO
 /**
  * {@link TypeOfArguments} validates the arguments' types passed to a function.
  *
- * @private
  * It's functionality was inspired by the typeof-arguments npm package (https://www.npmjs.com/package/typeof-arguments).
+ * @private
  */
 declare class TypeOfArguments {
     constructor(givenArray: any, expectedArray: any);
