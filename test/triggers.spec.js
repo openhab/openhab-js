@@ -18,7 +18,14 @@ const {
   PIDTrigger
 } = require('../triggers');
 
-jest.mock('../items', () => ({ Item: class {} }));
+jest.mock('../items', () => ({
+  Item: class {
+    constructor (name) {
+      this.name = name;
+    }
+  }
+}));
+const Item = require('../items').Item;
 
 describe('triggers.js', () => {
   const moduleBuilderSpy = new ModuleBuilder();
@@ -34,11 +41,13 @@ describe('triggers.js', () => {
   });
 
   describe('ItemCommandTrigger', () => {
-    it('creates trigger.', () => {
-      const itemName = 'itemName';
-      const command = 'command';
-      const triggerName = 'triggerName';
-      ItemCommandTrigger(itemName, command, triggerName);
+    const itemName = 'itemName';
+    const command = 'command';
+    const triggerName = 'triggerName';
+    const item = new Item(itemName);
+
+    it.each([[itemName], [item]])('creates trigger from %s.', (itemOrName) => {
+      ItemCommandTrigger(itemOrName, command, triggerName);
 
       expect(moduleBuilderSpy.withTypeUID).toHaveBeenCalledWith(
         'core.ItemCommandTrigger'
@@ -53,12 +62,14 @@ describe('triggers.js', () => {
   });
 
   describe('ItemStateChangeTrigger', () => {
-    it('creates trigger.', () => {
-      const itemName = 'itemName';
-      const previousState = 'previousState';
-      const state = 'state';
-      const triggerName = 'triggerName';
-      ItemStateChangeTrigger(itemName, previousState, state, triggerName);
+    const itemName = 'itemName';
+    const previousState = 'previousState';
+    const state = 'state';
+    const triggerName = 'triggerName';
+    const item = new Item(itemName);
+
+    it.each([[itemName], [item]])('creates trigger from %s.', (itemOrName) => {
+      ItemStateChangeTrigger(itemOrName, previousState, state, triggerName);
 
       expect(moduleBuilderSpy.withTypeUID).toHaveBeenCalledWith(
         'core.ItemStateChangeTrigger'
@@ -92,11 +103,13 @@ describe('triggers.js', () => {
   });
 
   describe('ItemStateUpdateTrigger', () => {
-    it('creates trigger.', () => {
-      const itemName = 'itemName';
-      const state = 'state';
-      const triggerName = 'triggerName';
-      ItemStateUpdateTrigger(itemName, state, triggerName);
+    const itemName = 'itemName';
+    const state = 'state';
+    const triggerName = 'triggerName';
+    const item = new Item(itemName);
+
+    it.each([[itemName], [item]])('creates trigger from %s.', (itemOrName) => {
+      ItemStateUpdateTrigger(itemOrName, state, triggerName);
 
       expect(moduleBuilderSpy.withTypeUID).toHaveBeenCalledWith(
         'core.ItemStateUpdateTrigger'
@@ -111,12 +124,14 @@ describe('triggers.js', () => {
   });
 
   describe('GroupStateChangeTrigger', () => {
-    it('creates trigger.', () => {
-      const groupName = 'groupName';
-      const state = 'state';
-      const previousState = 'previousState';
-      const triggerName = 'triggerName';
-      GroupStateChangeTrigger(groupName, previousState, state, triggerName);
+    const groupName = 'groupName';
+    const state = 'state';
+    const previousState = 'previousState';
+    const triggerName = 'triggerName';
+    const group = new Item(groupName);
+
+    it.each([[groupName], [group]])('creates trigger from %s.', (groupOrName) => {
+      GroupStateChangeTrigger(groupOrName, previousState, state, triggerName);
 
       expect(moduleBuilderSpy.withTypeUID).toHaveBeenCalledWith(
         'core.GroupStateChangeTrigger'
@@ -131,11 +146,13 @@ describe('triggers.js', () => {
   });
 
   describe('GroupStateUpdateTrigger', () => {
-    it('creates trigger.', () => {
-      const groupName = 'groupName';
-      const state = 'state';
-      const triggerName = 'triggerName';
-      GroupStateUpdateTrigger(groupName, state, triggerName);
+    const groupName = 'groupName';
+    const state = 'state';
+    const triggerName = 'triggerName';
+    const group = new Item(groupName);
+
+    it.each([[groupName], [group]])('creates trigger from %s.', (groupOrName) => {
+      GroupStateUpdateTrigger(groupOrName, state, triggerName);
 
       expect(moduleBuilderSpy.withTypeUID).toHaveBeenCalledWith(
         'core.GroupStateUpdateTrigger'
@@ -150,11 +167,13 @@ describe('triggers.js', () => {
   });
 
   describe('GroupCommandTrigger', () => {
-    it('creates trigger.', () => {
-      const groupName = 'groupName';
-      const command = 'command';
-      const triggerName = 'triggerName';
-      GroupCommandTrigger(groupName, command, triggerName);
+    const groupName = 'groupName';
+    const command = 'command';
+    const triggerName = 'triggerName';
+    const group = new Item(groupName);
+
+    it.each([[groupName], [group]])('creates trigger from %s.', (groupOrName) => {
+      GroupCommandTrigger(groupOrName, command, triggerName);
 
       expect(moduleBuilderSpy.withTypeUID).toHaveBeenCalledWith(
         'core.GroupCommandTrigger'
