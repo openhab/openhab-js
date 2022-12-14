@@ -17,7 +17,7 @@ describe('typeOfArguments.js', () => {
     const expectedArray = ['Car', 'Bus'];
     class Car {}
     class Bus {}
-    it('does not trow an error if arguments match.', () => {
+    it('does not throw an error if arguments match.', () => {
       expect(() => typeOfArguments([new Car(), new Bus()], expectedArray)).not.toThrowError();
     });
     it('throws TypeError if an argument does not match.', () => {
