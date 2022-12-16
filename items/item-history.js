@@ -68,6 +68,52 @@ class ItemHistory {
   }
 
   /**
+   * Gets the number of available historic data points of a given Item between two certain points in time.
+   *
+   * @param {(ZonedDateTime | Date)} begin begin
+   * @param {(ZonedDateTime | Date)} end end
+   * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
+   * @returns {number}
+   */
+  countBetween (begin, end, serviceId) {
+    return PersistenceExtensions.countBetween(this.rawItem, ...arguments);
+  }
+
+  /**
+   * Gets the number of available historic data points of a given Item since a certain point in time.
+   *
+   * @param {(ZonedDateTime | Date)} timestamp
+   * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
+   * @returns {number}
+   */
+  countSince (timestamp, serviceId) {
+    return PersistenceExtensions.countSince(this.rawItem, ...arguments);
+  }
+
+  /**
+   * Gets the number of changes in historic data points of a given Item between two certain points in time.
+   *
+   * @param {(ZonedDateTime | Date)} begin begin
+   * @param {(ZonedDateTime | Date)} end end
+   * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
+   * @returns {number}
+   */
+  countStateChangesBetween (begin, end, serviceId) {
+    return PersistenceExtensions.countStateChangesBetween(this.rawItem, ...arguments);
+  }
+
+  /**
+   * Gets the number of changes in historic data points of a given Item since a certain point in time.
+   *
+   * @param {(ZonedDateTime | Date)} timestamp
+   * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
+   * @returns {number}
+   */
+  countStateChangesSince (timestamp, serviceId) {
+    return PersistenceExtensions.countStateChangesSince(this.rawItem, ...arguments);
+  }
+
+  /**
    * Gets the difference value of the state of a given Item between two certain points in time.
    *
    * @param {(ZonedDateTime | Date)} begin begin
