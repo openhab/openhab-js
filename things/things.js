@@ -124,6 +124,10 @@ class Thing {
     if (typeof rawThing === 'undefined') {
       throw Error('Supplied Thing is undefined');
     }
+    /**
+     * raw Java Thing
+     * @type {HostThing}
+     */
     this.rawThing = rawThing;
   }
 
@@ -218,6 +222,10 @@ class Thing {
    */
   setEnabled (enabled) {
     thingMgr.setEnabled(this.rawThing.getUID(), enabled);
+  }
+
+  toString () {
+    return this.rawThing.toString();
   }
 }
 
