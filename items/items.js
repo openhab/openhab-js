@@ -68,7 +68,7 @@ class Item {
       throw Error('Supplied Item is undefined');
     }
     /**
-     * The raw Item as a Java implementation of the Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/items/item Item object}.
+     * raw Java Item
      * @type {HostItem}
      */
     this.rawItem = rawItem;
@@ -336,6 +336,10 @@ class Item {
       this.rawItem.removeTag(tagName);
     }
     managedItemProvider.update(this.rawItem);
+  }
+
+  toString () {
+    return this.rawItem.toString();
   }
 }
 
