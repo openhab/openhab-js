@@ -259,11 +259,6 @@ const JSRule = function (ruleConfig) {
     getUID: () => ruid
   });
 
-  let triggers = ruleConfig.triggers ? ruleConfig.triggers : ruleConfig.getEventTrigger();
-  if (!Array.isArray(triggers)) {
-    triggers = [triggers];
-  }
-
   rule.setTemplateUID(ruTemplateid);
 
   if (ruleConfig.description) {
@@ -276,10 +271,14 @@ const JSRule = function (ruleConfig) {
     rule.setTags(utils.jsArrayToJavaSet(ruleConfig.tags));
   }
 
+  if (!Array.isArray(ruleConfig.triggers)) ruleConfig.triggers = [ruleConfig.triggers];
+
   // Register rule here
-  if (triggers && triggers.length > 0) {
-    rule.setTriggers(triggers);
+  if (ruleConfig.triggers && ruleConfig.triggers.length > 0) {
+    rule.setTriggers(ruleConfig.triggers);
     rule = automationManager.addRule(rule);
+  } else {
+    throw new Error(`Triggers are missing for rule "${ruleConfig.name ? ruleConfig.name : ruid}"!`);
   }
 
   return rule;
