@@ -3,18 +3,6 @@ const { Hashtable } = require('./java.mock');
 const bundleContext = require('@runtime/osgi').bundleContext;
 const lifecycle = require('@runtime/osgi').lifecycle;
 
-jest.mock('@runtime/osgi', () => ({
-  bundleContext: {
-    getServiceReference: jest.fn(),
-    getService: jest.fn(),
-    getAllServiceReferences: jest.fn(),
-    registerService: jest.fn()
-  },
-  lifecycle: {
-    addDisposeHook: jest.fn()
-  }
-}), { virtual: true });
-
 describe('osgi.js', () => {
   describe('getService', () => {
     describe('looks up given service from bundle context', () => {

@@ -2,8 +2,9 @@
 
 ## to be released
 
-| Type        | Namespace | Description                                 | Reference                                                                                               | Breaking |
-|-------------|-----------|---------------------------------------------|---------------------------------------------------------------------------------------------------------|----------|
+| Type        | Namespace  | Description                                              | Reference                                              | Breaking |
+|-------------|------------|----------------------------------------------------------|--------------------------------------------------------|----------|
+| Enhancement | `triggers` | Add support for `Item` as argument & Add arg type checks | [#194](https://github.com/openhab/openhab-js/pull/194) | No       |
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/10).
 
