@@ -5,6 +5,7 @@
 | Type        | Namespace  | Description                                              | Reference                                              | Breaking |
 |-------------|------------|----------------------------------------------------------|--------------------------------------------------------|----------|
 | Enhancement | `triggers` | Add support for `Item` as argument & Add arg type checks | [#194](https://github.com/openhab/openhab-js/pull/194) | No       |
+| Enhancement | `items`    | ItemHistory: Add new persistence methods                 | [#196](https://github.com/openhab/openhab-js/pull/196) | No       |
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/10).
 
