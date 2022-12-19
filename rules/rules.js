@@ -271,10 +271,9 @@ const JSRule = function (ruleConfig) {
     rule.setTags(utils.jsArrayToJavaSet(ruleConfig.tags));
   }
 
-  if (!Array.isArray(ruleConfig.triggers)) ruleConfig.triggers = [ruleConfig.triggers];
-
   // Register rule here
-  if (ruleConfig.triggers && ruleConfig.triggers.length > 0) {
+  if (ruleConfig.triggers) {
+    if (!Array.isArray(ruleConfig.triggers)) ruleConfig.triggers = [ruleConfig.triggers];
     rule.setTriggers(ruleConfig.triggers);
     rule = automationManager.addRule(rule);
   } else {

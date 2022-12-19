@@ -52,7 +52,7 @@ const createTrigger = function (typeString, name, config) {
  */
 const ChannelEventTrigger = (channel, event, triggerName) => {
   typeOfArguments([channel, event, triggerName], ['string', 'string', 'string|undefined']);
-  createTrigger('core.ChannelEventTrigger', triggerName, {
+  return createTrigger('core.ChannelEventTrigger', triggerName, {
     channelUID: channel,
     event: event
   });
@@ -75,7 +75,7 @@ const ChannelEventTrigger = (channel, event, triggerName) => {
  */
 const ItemStateChangeTrigger = (itemOrName, oldState, newState, triggerName) => {
   typeOfArguments([itemOrName, oldState, newState, triggerName], ['string|Item', 'string|undefined', 'string|undefined', 'string|undefined']);
-  createTrigger('core.ItemStateChangeTrigger', triggerName, {
+  return createTrigger('core.ItemStateChangeTrigger', triggerName, {
     itemName: (itemOrName instanceof Item) ? itemOrName.name : itemOrName,
     state: newState,
     previousState: oldState
@@ -96,7 +96,7 @@ const ItemStateChangeTrigger = (itemOrName, oldState, newState, triggerName) => 
  */
 const ItemStateUpdateTrigger = (itemOrName, state, triggerName) => {
   typeOfArguments([itemOrName, state, triggerName], ['string|Item', 'string|undefined', 'string|undefined']);
-  createTrigger('core.ItemStateUpdateTrigger', triggerName, {
+  return createTrigger('core.ItemStateUpdateTrigger', triggerName, {
     itemName: (itemOrName instanceof Item) ? itemOrName.name : itemOrName,
     state: state
   });
@@ -116,7 +116,7 @@ const ItemStateUpdateTrigger = (itemOrName, state, triggerName) => {
  */
 const ItemCommandTrigger = (itemOrName, command, triggerName) => {
   typeOfArguments([itemOrName, command, triggerName], ['string|Item', 'string|undefined', 'string|undefined']);
-  createTrigger('core.ItemCommandTrigger', triggerName, {
+  return createTrigger('core.ItemCommandTrigger', triggerName, {
     itemName: (itemOrName instanceof Item) ? itemOrName.name : itemOrName,
     command: command
   });
@@ -136,7 +136,7 @@ const ItemCommandTrigger = (itemOrName, command, triggerName) => {
  */
 const GroupStateChangeTrigger = (groupOrName, oldState, newState, triggerName) => {
   typeOfArguments([groupOrName, oldState, newState, triggerName], ['string|Item', 'string|undefined', 'string|undefined', 'string|undefined']);
-  createTrigger('core.GroupStateChangeTrigger', triggerName, {
+  return createTrigger('core.GroupStateChangeTrigger', triggerName, {
     groupName: (groupOrName instanceof Item) ? groupOrName.name : groupOrName,
     state: newState,
     previousState: oldState
@@ -156,7 +156,7 @@ const GroupStateChangeTrigger = (groupOrName, oldState, newState, triggerName) =
  */
 const GroupStateUpdateTrigger = (groupOrName, state, triggerName) => {
   typeOfArguments([groupOrName, state, triggerName], ['string|Item', 'string|undefined', 'string|undefined']);
-  createTrigger('core.GroupStateUpdateTrigger', triggerName, {
+  return createTrigger('core.GroupStateUpdateTrigger', triggerName, {
     groupName: (groupOrName instanceof Item) ? groupOrName.name : groupOrName,
     state: state
   });
@@ -175,7 +175,7 @@ const GroupStateUpdateTrigger = (groupOrName, state, triggerName) => {
  */
 const GroupCommandTrigger = (groupOrName, command, triggerName) => {
   typeOfArguments([groupOrName, command, triggerName], ['string|Item', 'string|undefined', 'string|undefined']);
-  createTrigger('core.GroupCommandTrigger', triggerName, {
+  return createTrigger('core.GroupCommandTrigger', triggerName, {
     groupName: (groupOrName instanceof Item) ? groupOrName.name : groupOrName,
     command: command
   });
@@ -194,7 +194,7 @@ const GroupCommandTrigger = (groupOrName, command, triggerName) => {
  */
 const ThingStatusUpdateTrigger = (thingUID, status, triggerName) => {
   typeOfArguments([thingUID, status, triggerName], ['string', 'string|undefined', 'string|undefined']);
-  createTrigger('core.ThingStatusUpdateTrigger', triggerName, {
+  return createTrigger('core.ThingStatusUpdateTrigger', triggerName, {
     thingUID: thingUID,
     status: status
   });
@@ -214,7 +214,7 @@ const ThingStatusUpdateTrigger = (thingUID, status, triggerName) => {
  */
 const ThingStatusChangeTrigger = (thingUID, status, previousStatus, triggerName) => {
   typeOfArguments([thingUID, status, previousStatus, triggerName], ['string', 'string|undefined', 'string|undefined', 'string|undefined']);
-  createTrigger('core.ThingStatusChangeTrigger', triggerName, {
+  return createTrigger('core.ThingStatusChangeTrigger', triggerName, {
     thingUID: thingUID,
     status: status,
     previousStatus: previousStatus
@@ -241,7 +241,7 @@ const ThingStatusChangeTrigger = (thingUID, status, previousStatus, triggerName)
  */
 const SystemStartlevelTrigger = (startlevel, triggerName) => {
   typeOfArguments([startlevel, triggerName], ['string|number', 'string|undefined']);
-  createTrigger('core.SystemStartlevelTrigger', triggerName, {
+  return createTrigger('core.SystemStartlevelTrigger', triggerName, {
     startlevel: startlevel.toString()
   });
 };
@@ -258,7 +258,7 @@ const SystemStartlevelTrigger = (startlevel, triggerName) => {
  */
 const GenericCronTrigger = (expression, triggerName) => {
   typeOfArguments([expression, triggerName], ['string', 'string|undefined']);
-  createTrigger('timer.GenericCronTrigger', triggerName, {
+  return createTrigger('timer.GenericCronTrigger', triggerName, {
     cronExpression: expression
   });
 };
@@ -275,7 +275,7 @@ const GenericCronTrigger = (expression, triggerName) => {
  */
 const TimeOfDayTrigger = (time, triggerName) => {
   typeOfArguments([time, triggerName], ['string', 'string|undefined']);
-  createTrigger('timer.TimeOfDayTrigger', triggerName, {
+  return createTrigger('timer.TimeOfDayTrigger', triggerName, {
     time: time
   });
 };
@@ -293,7 +293,7 @@ const TimeOfDayTrigger = (time, triggerName) => {
  */
 const DateTimeTrigger = (itemName, timeOnly = false, triggerName) => {
   typeOfArguments([itemName, timeOnly, triggerName], ['string', 'boolean|undefined', 'string|undefined']);
-  createTrigger('timer.DateTimeTrigger', triggerName, {
+  return createTrigger('timer.DateTimeTrigger', triggerName, {
     itemName: itemName,
     timeOnly: timeOnly
   });
