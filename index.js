@@ -29,5 +29,6 @@ module.exports = {
   get utils () { return require('./utils'); },
   get osgi () { return require('./osgi'); },
   get cache () { return require('./cache'); },
-  get time () { return require('./time'); }
+  get time () { return require('./time'); },
+  get Quantity () { return require('js-quantities'); }
 };
