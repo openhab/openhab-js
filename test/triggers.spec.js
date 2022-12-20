@@ -29,6 +29,7 @@ const Item = require('../items').Item;
 
 describe('triggers.js', () => {
   const moduleBuilderSpy = new ModuleBuilder();
+  moduleBuilderSpy.build.mockImplementation(() => new Object()); // eslint-disable-line no-new-object
   ModuleBuilder.createTrigger.mockImplementation(() => moduleBuilderSpy);
 
   it('use random UUID if no trigger name is specified.', () => {
@@ -47,8 +48,9 @@ describe('triggers.js', () => {
     const item = new Item(itemName);
 
     it.each([[itemName], [item]])('creates trigger from %s.', (itemOrName) => {
-      ItemCommandTrigger(itemOrName, command, triggerName);
+      const trigger = ItemCommandTrigger(itemOrName, command, triggerName);
 
+      expect(trigger).not.toBe(undefined);
       expect(moduleBuilderSpy.withTypeUID).toHaveBeenCalledWith(
         'core.ItemCommandTrigger'
       );
@@ -69,8 +71,9 @@ describe('triggers.js', () => {
     const item = new Item(itemName);
 
     it.each([[itemName], [item]])('creates trigger from %s.', (itemOrName) => {
-      ItemStateChangeTrigger(itemOrName, previousState, state, triggerName);
+      const trigger = ItemStateChangeTrigger(itemOrName, previousState, state, triggerName);
 
+      expect(trigger).not.toBe(undefined);
       expect(moduleBuilderSpy.withTypeUID).toHaveBeenCalledWith(
         'core.ItemStateChangeTrigger'
       );
@@ -88,8 +91,9 @@ describe('triggers.js', () => {
       const channelUID = 'channelUID';
       const event = 'event';
       const triggerName = 'triggerName';
-      ChannelEventTrigger(channelUID, event, triggerName);
+      const trigger = ChannelEventTrigger(channelUID, event, triggerName);
 
+      expect(trigger).not.toBe(undefined);
       expect(moduleBuilderSpy.withTypeUID).toHaveBeenCalledWith(
         'core.ChannelEventTrigger'
       );
@@ -109,8 +113,9 @@ describe('triggers.js', () => {
     const item = new Item(itemName);
 
     it.each([[itemName], [item]])('creates trigger from %s.', (itemOrName) => {
-      ItemStateUpdateTrigger(itemOrName, state, triggerName);
+      const trigger = ItemStateUpdateTrigger(itemOrName, state, triggerName);
 
+      expect(trigger).not.toBe(undefined);
       expect(moduleBuilderSpy.withTypeUID).toHaveBeenCalledWith(
         'core.ItemStateUpdateTrigger'
       );
@@ -131,8 +136,9 @@ describe('triggers.js', () => {
     const group = new Item(groupName);
 
     it.each([[groupName], [group]])('creates trigger from %s.', (groupOrName) => {
-      GroupStateChangeTrigger(groupOrName, previousState, state, triggerName);
+      const trigger = GroupStateChangeTrigger(groupOrName, previousState, state, triggerName);
 
+      expect(trigger).not.toBe(undefined);
       expect(moduleBuilderSpy.withTypeUID).toHaveBeenCalledWith(
         'core.GroupStateChangeTrigger'
       );
@@ -152,8 +158,9 @@ describe('triggers.js', () => {
     const group = new Item(groupName);
 
     it.each([[groupName], [group]])('creates trigger from %s.', (groupOrName) => {
-      GroupStateUpdateTrigger(groupOrName, state, triggerName);
+      const trigger = GroupStateUpdateTrigger(groupOrName, state, triggerName);
 
+      expect(trigger).not.toBe(undefined);
       expect(moduleBuilderSpy.withTypeUID).toHaveBeenCalledWith(
         'core.GroupStateUpdateTrigger'
       );
@@ -173,8 +180,9 @@ describe('triggers.js', () => {
     const group = new Item(groupName);
 
     it.each([[groupName], [group]])('creates trigger from %s.', (groupOrName) => {
-      GroupCommandTrigger(groupOrName, command, triggerName);
+      const trigger = GroupCommandTrigger(groupOrName, command, triggerName);
 
+      expect(trigger).not.toBe(undefined);
       expect(moduleBuilderSpy.withTypeUID).toHaveBeenCalledWith(
         'core.GroupCommandTrigger'
       );
@@ -192,8 +200,9 @@ describe('triggers.js', () => {
       const thingUID = 'thingUID';
       const status = 'status';
       const triggerName = 'triggerName';
-      ThingStatusUpdateTrigger(thingUID, status, triggerName);
+      const trigger = ThingStatusUpdateTrigger(thingUID, status, triggerName);
 
+      expect(trigger).not.toBe(undefined);
       expect(moduleBuilderSpy.withTypeUID).toHaveBeenCalledWith(
         'core.ThingStatusUpdateTrigger'
       );
@@ -210,8 +219,9 @@ describe('triggers.js', () => {
     it('creates trigger.', () => {
       const startlevel = 'startlevel';
       const triggerName = 'triggerName';
-      SystemStartlevelTrigger(startlevel, triggerName);
+      const trigger = SystemStartlevelTrigger(startlevel, triggerName);
 
+      expect(trigger).not.toBe(undefined);
       expect(moduleBuilderSpy.withTypeUID).toHaveBeenCalledWith(
         'core.SystemStartlevelTrigger'
       );
@@ -230,8 +240,9 @@ describe('triggers.js', () => {
       const status = 'status';
       const previousStatus = 'previousStatus';
       const triggerName = 'triggerName';
-      ThingStatusChangeTrigger(thingUID, status, previousStatus, triggerName);
+      const trigger = ThingStatusChangeTrigger(thingUID, status, previousStatus, triggerName);
 
+      expect(trigger).not.toBe(undefined);
       expect(moduleBuilderSpy.withTypeUID).toHaveBeenCalledWith(
         'core.ThingStatusChangeTrigger'
       );
@@ -248,8 +259,9 @@ describe('triggers.js', () => {
     it('creates trigger.', () => {
       const cronExpression = 'cronExpression';
       const triggerName = 'triggerName';
-      GenericCronTrigger(cronExpression, triggerName);
+      const trigger = GenericCronTrigger(cronExpression, triggerName);
 
+      expect(trigger).not.toBe(undefined);
       expect(moduleBuilderSpy.withTypeUID).toHaveBeenCalledWith(
         'timer.GenericCronTrigger'
       );
@@ -266,8 +278,9 @@ describe('triggers.js', () => {
     it('creates trigger.', () => {
       const time = 'time';
       const triggerName = 'triggerName';
-      TimeOfDayTrigger(time, triggerName);
+      const trigger = TimeOfDayTrigger(time, triggerName);
 
+      expect(trigger).not.toBe(undefined);
       expect(moduleBuilderSpy.withTypeUID).toHaveBeenCalledWith(
         'timer.TimeOfDayTrigger'
       );
@@ -285,8 +298,9 @@ describe('triggers.js', () => {
       const itemName = 'itemName';
       const timeOnly = true;
       const triggerName = 'triggerName';
-      DateTimeTrigger(itemName, timeOnly, triggerName);
+      const trigger = DateTimeTrigger(itemName, timeOnly, triggerName);
 
+      expect(trigger).not.toBe(undefined);
       expect(moduleBuilderSpy.withTypeUID).toHaveBeenCalledWith(
         'timer.DateTimeTrigger'
       );
@@ -307,7 +321,7 @@ describe('triggers.js', () => {
       const maxDutyCycle = 'maxDutyCycle';
       const deadManSwitch = 'deadManSwitch';
       const triggerName = 'triggerName';
-      PWMTrigger(
+      const trigger = PWMTrigger(
         dutycycleItem,
         interval,
         minDutyCycle,
@@ -316,6 +330,7 @@ describe('triggers.js', () => {
         triggerName
       );
 
+      expect(trigger).not.toBe(undefined);
       expect(moduleBuilderSpy.withTypeUID).toHaveBeenCalledWith('pwm.trigger');
       expect(moduleBuilderSpy.withId).toHaveBeenCalledWith(triggerName);
       expect(moduleBuilderSpy.withConfiguration).toHaveBeenCalledWith(
@@ -349,7 +364,7 @@ describe('triggers.js', () => {
       const dInspector = 'dInspector';
       const eInspector = 'eInspector';
       const triggerName = 'triggerName';
-      PIDTrigger(
+      const trigger = PIDTrigger(
         input,
         setpoint,
         kp,
@@ -367,6 +382,7 @@ describe('triggers.js', () => {
         triggerName
       );
 
+      expect(trigger).not.toBe(undefined);
       expect(moduleBuilderSpy.withTypeUID).toHaveBeenCalledWith(
         'pidcontroller.trigger'
       );
