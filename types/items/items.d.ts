@@ -165,7 +165,7 @@ export class Item {
      */
     constructor(rawItem: HostItem);
     /**
-     * The raw Item as a Java implementation of the Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/items/item Item object}.
+     * raw Java Item
      * @type {HostItem}
      */
     rawItem: HostItem;
@@ -316,6 +316,7 @@ export class Item {
      * @param {...String} tagNames names of the tags to remove
      */
     removeTags(...tagNames: string[]): void;
+    toString(): any;
 }
 import ItemHistory = require("./item-history");
 import ItemSemantics = require("./item-semantics");

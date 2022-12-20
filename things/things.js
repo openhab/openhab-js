@@ -5,14 +5,7 @@ const log = require('../log')('things'); // eslint-disable-line no-unused-vars
 const thingRegistry = osgi.getService('org.openhab.core.thing.ThingRegistry');
 const thingMgr = osgi.getService('org.openhab.core.thing.ThingManager');
 
-const JavaThingBuilder = Java.type('org.openhab.core.thing.binding.builder.ThingBuilder');
-const ThingTypeUID = Java.type('org.openhab.core.thing.ThingTypeUID');
-const JavaChannelBuilder = Java.type('org.openhab.core.thing.binding.builder.ChannelBuilder');
-const ChannelUID = Java.type('org.openhab.core.thing.ChannelUID');
 const ThingUID = Java.type('org.openhab.core.thing.ThingUID');
-const ChannelKind = Java.type('org.openhab.core.thing.type.ChannelKind');
-const ChannelTypeUID = Java.type('org.openhab.core.thing.type.ChannelTypeUID');
-const Configuration = Java.type('org.openhab.core.config.core.Configuration');
 
 /**
  * Things namespace.
