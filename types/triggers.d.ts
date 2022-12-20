@@ -10,7 +10,7 @@
  * @param {string} [triggerName] the optional name of the trigger to create
  *
  */
-export function ChannelEventTrigger(channel: string, event: string, triggerName?: string): void;
+export function ChannelEventTrigger(channel: string, event: string, triggerName?: string): HostTrigger;
 /**
  * Creates a trigger that fires upon an Item changing state.
  *
@@ -26,7 +26,7 @@ export function ChannelEventTrigger(channel: string, event: string, triggerName?
  * @param {string} [newState] the new state of the Item
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function ItemStateChangeTrigger(itemOrName: any | string, oldState?: string, newState?: string, triggerName?: string): void;
+export function ItemStateChangeTrigger(itemOrName: any | string, oldState?: string, newState?: string, triggerName?: string): HostTrigger;
 /**
  * Creates a trigger that fires upon an Item receiving a state update. Note that the Item does not need to change state.
  *
@@ -39,7 +39,7 @@ export function ItemStateChangeTrigger(itemOrName: any | string, oldState?: stri
  * @param {string} [state] the new state of the Item
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function ItemStateUpdateTrigger(itemOrName: any | string, state?: string, triggerName?: string): void;
+export function ItemStateUpdateTrigger(itemOrName: any | string, state?: string, triggerName?: string): HostTrigger;
 /**
  * Creates a trigger that fires upon an Item receiving a command. Note that the Item does not need to change state.
  *
@@ -52,7 +52,7 @@ export function ItemStateUpdateTrigger(itemOrName: any | string, state?: string,
  * @param {string} [command] the command received
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function ItemCommandTrigger(itemOrName: any | string, command?: string, triggerName?: string): void;
+export function ItemCommandTrigger(itemOrName: any | string, command?: string, triggerName?: string): HostTrigger;
 /**
  * Creates a trigger that fires upon a member of a group changing state. Note that group Item does not need to change state.
  *
@@ -65,7 +65,7 @@ export function ItemCommandTrigger(itemOrName: any | string, command?: string, t
  * @param {string} [newState] the new state of the group
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function GroupStateChangeTrigger(groupOrName: any | string, oldState?: string, newState?: string, triggerName?: string): void;
+export function GroupStateChangeTrigger(groupOrName: any | string, oldState?: string, newState?: string, triggerName?: string): HostTrigger;
 /**
  * Creates a trigger that fires upon a member of a group receiving a state update. Note that group Item does not need to change state.
  *
@@ -77,7 +77,7 @@ export function GroupStateChangeTrigger(groupOrName: any | string, oldState?: st
  * @param {string} [state] the new state of the group
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function GroupStateUpdateTrigger(groupOrName: any | string, state?: string, triggerName?: string): void;
+export function GroupStateUpdateTrigger(groupOrName: any | string, state?: string, triggerName?: string): HostTrigger;
 /**
  * Creates a trigger that fires upon a member of a group receiving a command. Note that the group Item does not need to change state.
  *
@@ -89,7 +89,7 @@ export function GroupStateUpdateTrigger(groupOrName: any | string, state?: strin
  * @param {string} [command] the command received
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function GroupCommandTrigger(groupOrName: any | string, command?: string, triggerName?: string): void;
+export function GroupCommandTrigger(groupOrName: any | string, command?: string, triggerName?: string): HostTrigger;
 /**
  * Creates a trigger that fires upon a Thing status updating.
  *
@@ -101,7 +101,7 @@ export function GroupCommandTrigger(groupOrName: any | string, command?: string,
  * @param {string} [status] the optional status to monitor for
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function ThingStatusUpdateTrigger(thingUID: string, status?: string, triggerName?: string): void;
+export function ThingStatusUpdateTrigger(thingUID: string, status?: string, triggerName?: string): HostTrigger;
 /**
  * Creates a trigger that fires upon a Thing status changing.
  *
@@ -114,7 +114,7 @@ export function ThingStatusUpdateTrigger(thingUID: string, status?: string, trig
  * @param {string} [previousStatus] the optional previous state to monitor from
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function ThingStatusChangeTrigger(thingUID: string, status?: string, previousStatus?: string, triggerName?: string): void;
+export function ThingStatusChangeTrigger(thingUID: string, status?: string, previousStatus?: string, triggerName?: string): HostTrigger;
 /**
  * Creates a trigger that fires if a given start level is reached by the system
  *
@@ -133,7 +133,7 @@ export function ThingStatusChangeTrigger(thingUID: string, status?: string, prev
  * @param {string|number} startlevel the system start level to be triggered on
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function SystemStartlevelTrigger(startlevel: string | number, triggerName?: string): void;
+export function SystemStartlevelTrigger(startlevel: string | number, triggerName?: string): HostTrigger;
 /**
  * Creates a trigger that fires on a cron schedule. The supplied cron expression defines when the trigger will fire.
  *
@@ -144,7 +144,7 @@ export function SystemStartlevelTrigger(startlevel: string | number, triggerName
  * @param {string} expression the cron expression defining the triggering schedule
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function GenericCronTrigger(expression: string, triggerName?: string): void;
+export function GenericCronTrigger(expression: string, triggerName?: string): HostTrigger;
 /**
  * Creates a trigger that fires daily at a specific time. The supplied time defines when the trigger will fire.
  *
@@ -155,7 +155,7 @@ export function GenericCronTrigger(expression: string, triggerName?: string): vo
  * @param {string} time the time expression defining the triggering schedule
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function TimeOfDayTrigger(time: string, triggerName?: string): void;
+export function TimeOfDayTrigger(time: string, triggerName?: string): HostTrigger;
 /**
  * Creates a trigger that fires at a (optional) date and time specified in an DateTime Item.
  *
@@ -167,7 +167,7 @@ export function TimeOfDayTrigger(time: string, triggerName?: string): void;
  * @param {boolean} [timeOnly=false] Specifies whether only the time of the Item should be compared or the date and time.
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function DateTimeTrigger(itemName: string, timeOnly?: boolean, triggerName?: string): void;
+export function DateTimeTrigger(itemName: string, timeOnly?: boolean, triggerName?: string): HostTrigger;
 /**
  * Creates a trigger for the {@link https://openhab.org/addons/automation/pwm/ Pulse Width Modulation (PWM) Automation} add-on.
  *
