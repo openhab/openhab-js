@@ -1,9 +1,10 @@
 .DS_Store
 .vscode
 .idea
+coverage
 dist
 docs
 node_modules
 openhab-*.tgz
 out
-coverage
+types/quantities.*
