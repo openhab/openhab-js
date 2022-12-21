@@ -118,4 +118,18 @@ describe('quantities.js', function () {
       });
     });
   });
+
+  describe('supports some additional units', () => {
+    const custom = [
+      ['Density', 'Kilogram per cubic metre', 'kg/m^3']
+    ];
+    describe.each(custom)('of type %s with unit %s and symbol %s', (type, unit, symbol) => {
+      it('doesn\'t throw Qty.Error.', () => {
+        expect(() => Quantity('1 ' + symbol)).not.toThrowError(Qty.Error);
+      });
+      it('returns a Quantity.', () => {
+        expect(Quantity('1' + symbol) instanceof Qty).toBe(true);
+      });
+    });
+  });
 });
