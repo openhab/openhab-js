@@ -37,13 +37,13 @@ describe('quantities.js', function () {
       ['Acceleration', 'Metre per Second squared', 'm/s^2'],
       ['Acceleration', 'Standard Gravity', 'ɡₙ'],
       ['AmountOfSubstance', 'Mole', 'mol'],
-      // Unsupported ['AmountOfSubstance', 'Deutscher Härtegrad', '°dH'],
+      ['AmountOfSubstance', 'Deutscher Härtegrad', '°dH'],
       ['Angle', 'Radian', 'rad'],
       ['Angle', 'Degree', '°'],
       // Unsupported ['Angle', 'Minute Angle', "'"],
       // Unsupported ['Angle', 'Second Angle', "''"],
       ['Area', 'Square Metre', 'm^2'],
-      // Unsupported ['ArealDensity', 'Dobson Unit', 'DU'],
+      ['ArealDensity', 'Dobson Unit', 'DU'],
       ['CatalyticActivity', 'Katal', 'kat'],
       ['DataAmount', 'Bit', 'bit'],
       ['DataAmount', 'Byte', 'B'],
@@ -130,6 +130,18 @@ describe('quantities.js', function () {
       it('returns a Quantity.', () => {
         expect(Quantity('1' + symbol) instanceof Qty).toBe(true);
       });
+    });
+  });
+
+  describe('additional unit works as expected', () => {
+    it('of type AmountOfSubstance with unit Deutscher Härtegrad and symbol °dH', () => {
+      expect(Quantity('1 °dH').to('mmol/l').toString()).toBe('0.1783 mmol/l');
+      expect(Quantity('1.5 °dH').to('mol/l').toString()).toBe('0.00026745 mol/l');
+    });
+
+    it('of type ArealDensity with unit Dobson Unit and symbol DU', () => {
+      expect(Quantity('1 DU').to('mmol/m^2').toString()).toBe('0.44615 mmol/m2');
+      expect(Quantity('1.5 DU').to('mol/m^2').toString()).toBe('0.000669225 mol/m2');
     });
   });
 });
