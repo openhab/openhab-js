@@ -40,8 +40,8 @@ describe('quantities.js', function () {
       ['AmountOfSubstance', 'Deutscher Härtegrad', '°dH'],
       ['Angle', 'Radian', 'rad'],
       ['Angle', 'Degree', '°'],
-      // Unsupported ['Angle', 'Minute Angle', "'"],
-      // Unsupported ['Angle', 'Second Angle', "''"],
+      ['Angle', 'Minute Angle', "'"],
+      ['Angle', 'Second Angle', "''"],
       ['Area', 'Square Metre', 'm^2'],
       ['ArealDensity', 'Dobson Unit', 'DU'],
       ['CatalyticActivity', 'Katal', 'kat'],
@@ -134,14 +134,28 @@ describe('quantities.js', function () {
   });
 
   describe('additional unit works as expected', () => {
+    it('of type Angel with unit Minute Angel and symbol \'', () => {
+      expect(Quantity('1 \'').to('degree').toPrec('0.0001 deg').toString()).toBe('0.0167 deg');
+      expect(Quantity('1.5 \'').to('degree').toPrec('0.0001 deg').toString()).toBe('0.025 deg');
+      expect(Quantity('1 °').to(Quantity('\'')).toString()).toBe('1 deg');
+    });
+
+    it('of type Angel with unit Second Angel and symbol \'\'', () => {
+      expect(Quantity('1 \'\'').to('degree').toPrec('0.000001 deg').toString()).toBe('0.000278 deg');
+      expect(Quantity('1.5 \'\'').to('degree').toPrec('0.000001 deg').toString()).toBe('0.000417 deg');
+      expect(Quantity('1 °').to(Quantity('\'\'')).toString()).toBe('1 deg');
+    });
+
     it('of type AmountOfSubstance with unit Deutscher Härtegrad and symbol °dH', () => {
       expect(Quantity('1 °dH').to('mmol/l').toString()).toBe('0.1783 mmol/l');
       expect(Quantity('1.5 °dH').to('mol/l').toString()).toBe('0.00026745 mol/l');
+      expect(Quantity('1 mmol/l').to(Quantity('°dH')).toString()).toBe('1 mmol/l');
     });
 
     it('of type ArealDensity with unit Dobson Unit and symbol DU', () => {
       expect(Quantity('1 DU').to('mmol/m^2').toString()).toBe('0.44615 mmol/m2');
       expect(Quantity('1.5 DU').to('mol/m^2').toString()).toBe('0.000669225 mol/m2');
+      expect(Quantity('1 mol/m^2').to(Quantity('DU')).toString()).toBe('1000 mmol/m2');
     });
   });
 });

@@ -20,6 +20,22 @@ const replaceUnits = (value) => {
       const mmol_m2 = du * 0.44615; // eslint-disable-line camelcase
       return mmol_m2 + ' mmol/m^2'; // eslint-disable-line camelcase
     }
+    // Add support for Second Angle (arc second) for Angle
+    if (value.endsWith('\'\'')) {
+      // See https://en.wikipedia.org/wiki/Minute_and_second_of_arc for the equation/math
+      let arcsecond = parseFloat(value);
+      if (isNaN(arcsecond)) arcsecond = 1;
+      const degree = arcsecond / 3600;
+      return degree + ' deg';
+    }
+    // Add support for Minute Angle (arc minute) for Angle
+    if (value.endsWith('\'')) {
+      // See https://en.wikipedia.org/wiki/Minute_and_second_of_arc for the equation/math
+      let arcminute = parseFloat(value);
+      if (isNaN(arcminute)) arcminute = 1;
+      const degree = arcminute / 60;
+      return degree + ' deg';
+    }
     return value
       .replace(/(°|° )C/, 'tempC')
       .replace(/(°|° )F/, 'tempF')
