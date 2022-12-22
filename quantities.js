@@ -1,5 +1,12 @@
 const Qty = require('js-quantities');
 
+/**
+ * Quantity namespace.
+ * This namespace exports the [js-quantities library](https://www.npmjs.com/package/js-quantities) to simplify the handling of units for calculations involving quantities and [`QuantityType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/quantitytype)s.
+ *
+ * @namespace Quantity
+ */
+
 // Polyfill support for additional unit notations and additional units as well
 // Use absolute temperature units here to allow conversion of measured temperatures
 const replaceUnits = (value) => {
