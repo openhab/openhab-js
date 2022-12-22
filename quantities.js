@@ -13,7 +13,7 @@ const replaceUnits = (value) => {
       .replace('lea', 'league') // Imperial length unit
       .replace('ɡₙ', 'gee') // Acceleration: Standard Gravity
       .replace('Ws', 'W*s') // Energy: Watt Seconds
-      .replace(/VArh/i, 'VAr*h') // Energy: Volt-Ampere Reactive Hours
+      .replace(/varh/i, 'var*h') // Energy: Volt-Ampere Reactive Hours
       .replace('lx', 'lux') // Illuminance: Lux
       .replace(/(dBm)(W)?/, 'dB*mW') // Power: Decibel-Milliwatts
       .replace('VAh', 'VA*h'); // Power: Volt-Ampere Hours
