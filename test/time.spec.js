@@ -1,10 +1,28 @@
-const ZonedDateTime = require('@js-joda/core').ZonedDateTime;
-const { parseISO8601 } = require('../time');
+const time = require('../time');
 
-jest.mock('../items', () => ({}));
+jest.mock('../items', () => ({
+  Item: new Object() // eslint-disable-line no-new-object
+}));
 
 describe('time.js', () => {
+  describe('toZDT', () => {
+    it('passes through if when is a time.ZonedDateTime', () => {
+      const zdt = time.ZonedDateTime.now();
+      expect(time.toZDT(zdt)).toBe(zdt);
+    });
+
+    it('delegates to parseString', () => {
+      const when = 'when';
+      expect(() => time.toZDT(when)).toThrowError('Failed to parse string when: DateTimeParseException: Text cannot be parsed to a Duration: when, at index: 0');
+    });
+
+    // TODO: Add remaining possible cases for when
+  });
+
   describe('parseISO8601', () => {
+    const parseISO8601 = time.parseISO8601;
+    const ZonedDateTime = require('@js-joda/core').ZonedDateTime;
+
     describe('parses ISO Date', () => {
       it('accepts correct pattern YYYY-MM-DD', () => {
         expect(parseISO8601('2022-12-24')).toBeInstanceOf(ZonedDateTime);
@@ -53,6 +71,88 @@ describe('time.js', () => {
         ['YYYY-MM-DDThh', '2022-12-24T18']
       ])('%s', (pattern, isoStr) => {
         expect(parseISO8601(isoStr)).toBe(null);
+      });
+    });
+  });
+
+  describe('ZonedDateTime', () => {
+    describe('polyfilled method', () => {
+      it('toToday works', () => {
+        const oldZdt = time.ZonedDateTime.parse('2005-01-21T02:13:35Z');
+        const newZdt = oldZdt.toToday();
+        expect(newZdt.toLocalDate().toString()).toBe(time.LocalDate.now().toString());
+      });
+
+      describe('isBetweenTimes', () => {
+        const zdt1 = time.toZDT('14:30');
+        const zdt2 = time.toZDT('16:30');
+        const zdt3 = time.toZDT('18:30');
+        const zdt4 = time.toZDT('0:30');
+
+        describe('it returns true if is between', () => {
+          it('without spanning over midnight', () => {
+            expect(zdt2.isBetweenTimes(zdt1, zdt3)).toBe(true);
+          });
+          it('with spanning over midnight', () => {
+            expect(zdt3.isBetweenTimes(zdt2, zdt4)).toBe(true);
+          });
+        });
+        describe('it returns false if is not between', () => {
+          it('without spanning over midnight', () => {
+            expect(zdt1.isBetweenTimes(zdt2, zdt3)).toBe(false);
+            expect(zdt3.isBetweenTimes(zdt1, zdt2)).toBe(false);
+          });
+          it('with spanning over midnight', () => {
+            expect(zdt1.isBetweenTimes(zdt2, zdt4)).toBe(false);
+          });
+        });
+      });
+
+      describe('isBetweenDates', () => {
+        const date1 = time.toZDT('2022-12-01');
+        const date2 = time.toZDT('2022-12-24');
+        const date3 = time.toZDT('2022-12-26');
+
+        it('returns true if is between', () => {
+          expect(date2.isBetweenDates(date1, date3)).toBe(true);
+        });
+        it('returns false is is not between', () => {
+          expect(date1.isBetweenDates(date2, date3)).toBe(false);
+          expect(date3.isBetweenDates(date1, date2)).toBe(false);
+        });
+      });
+
+      describe('isBetweenDateTimes', () => {
+        const dateTime1 = time.toZDT('2022-12-01T14:30Z');
+        const dateTime2 = time.toZDT('2022-12-01T18:30Z');
+        const dateTime3 = time.toZDT('2022-12-24T18:30Z');
+
+        it('returns true if is between', () => {
+          expect(dateTime2.isBetweenDateTimes(dateTime1, dateTime3)).toBe(true);
+        });
+        it('returns false if is not between', () => {
+          expect(dateTime1.isBetweenDateTimes(dateTime1, dateTime2)).toBe(false);
+          expect(dateTime3.isBetweenDateTimes(dateTime1, dateTime2)).toBe(false);
+        });
+      });
+
+      describe('isClose', () => {
+        const now = time.ZonedDateTime.now();
+        const zdt = time.ZonedDateTime.now().plusHours(6);
+        it('returns true if the difference between this and time.ZonedDateTime is within time.Duration', () => {
+          const duration = time.Duration.ofHours(12);
+          expect(now.isClose(zdt, duration)).toBe(true);
+        });
+        it('returns false if the difference between this and time.ZonedDateTime is not within time.Duration', () => {
+          const duration = time.Duration.ofHours(3);
+          expect(now.isClose(zdt, duration)).toBe(false);
+        });
+      });
+
+      it('getMillisFromNow works', () => {
+        const now = time.ZonedDateTime.now().plusSeconds(10);
+        expect(now.getMillisFromNow()).toBeGreaterThan(9000);
+        expect(now.getMillisFromNow()).toBeLessThan(11000);
       });
     });
   });
