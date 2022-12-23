@@ -288,25 +288,20 @@ time.ZonedDateTime.prototype.toToday = function () {
 };
 
 /**
- * Compares this ZDT to see if it falls between start and end times,
- * accounting for times that span midnight. start and end can be any type
- * that has a `toZonedDateTime()` method.
- * time.toZDT is called on the arguments. Examples:
+ * Tests whether `this` time.ZonedDateTime is between the passed in start and end.
+ * However, the function only compares the time portion of the three, ignoring the date portion.
+ * The function takes into account times that span midnight.
  *
- * time.ZonedDateTime.now().betweenTimes(items.getItem('Sunset'), "23:30:00") // is now between sunset and 11:00 pm?
- * time.toZDT(items.geItem('MyDateTimeItem')).betweenTimes(time.toZDT(), time.toZDT(1000)) // is the state of MyDateTimeItem between now and a second from now?
- * @memberof time
- * @param {*} start the starting time in anything that can be
- * @param {*} end the ending time
- * @returns {boolean} true if this is between start and end
+ * @param {*} start starting time, anything supported by {@link time.toZDT}
+ * @param {*} end ending time, anything supported by {@link time.toZDT}
+ * @returns {boolean} true if `this` is between start and end
  */
 time.ZonedDateTime.prototype.isBetweenTimes = function (start, end) {
   const startTime = toZDT(start).toLocalTime();
   const endTime = toZDT(end).toLocalTime();
   const currTime = this.toLocalTime();
 
-  // time range spans midnight
-  if (endTime.isBefore(startTime)) {
+  if (endTime.isBefore(startTime)) { // Time range spans midnight
     return currTime.isAfter(startTime) || currTime.isBefore(endTime);
   } else {
     return currTime.isAfter(startTime) && currTime.isBefore(endTime);
@@ -314,9 +309,40 @@ time.ZonedDateTime.prototype.isBetweenTimes = function (start, end) {
 };
 
 /**
+ * Tests whether `this` time.ZonedDateTime is between the passed in start and end.
+ * However, the function only compares the date portion of the three, ignoring the time portion.
+ *
+ * @param {*} start starting date, anything supported by {@link time.toZDT}
+ * @param {*} end ending date, anything supported by {@link time.toZDT}
+ * @returns {boolean} true if `this` is between start and end
+ */
+time.ZonedDateTime.prototype.isBetweenDates = function (start, end) {
+  const startDate = toZDT(start).toLocalDate();
+  const endDate = toZDT(end).toLocalDate();
+  const currDate = this.toLocalDate();
+
+  return currDate.isAfter(startDate) && currDate.isBefore(endDate);
+};
+
+/**
+ * Tests whether `this` time.ZonedDateTime is between the passed in start and end.
+ *
+ * @param {*} start starting DateTime, anything supported by {@link time.toZDT}
+ * @param {*} end ending DateTime, anything supported by {@link time.toZDT}
+ * @returns {boolean} true if `this` is between start and end
+ */
+time.ZonedDateTime.prototype.isBetweenDateTimes = function (start, end) {
+  const startDateTime = toZDT(start).toLocalDateTime();
+  const endDateTime = toZDT(end).toLocalDateTime();
+  const currDateTime = this.toLocalDateTime();
+
+  return currDateTime.isAfter(startDateTime) && currDateTime.isBefore(endDateTime);
+};
+
+/**
  * Tests to see if the difference between this and the passed in ZoneDateTime is
  * within the passed in maxDur.
- * @memberof time
+ *
  * @param {time.ZonedDateTime} zdt the date time to compare to this
  * @param {time.Duration} maxDur the duration to test that the difference between this and zdt is within
  * @returns {boolean} true if the delta between this and zdt is within maxDur
