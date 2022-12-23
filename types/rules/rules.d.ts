@@ -115,11 +115,11 @@ export function removeRule(uid: string): boolean;
   *
   * @memberof rules
   * @param {string} uid the UID of the rule to run
-  * @param {Map<Object>} [args={}] args optional dict of data to pass to the called rule
+  * @param {object} [args={}] args optional dict of data to pass to the called rule
   * @param {boolean} [cond=true] when true, the called rule will only run if it's conditions are met
   * @throws Will throw an error if the rule does not exist or is not initialized.
   */
-export function runRule(uid: string, args?: Map<any, any>, cond?: boolean): void;
+export function runRule(uid: string, args?: object, cond?: boolean): void;
 /**
   * Tests to see if the rule with the given UID is enabled or disabled. Throws
   * and error if the rule doesn't exist.

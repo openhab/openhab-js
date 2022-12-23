@@ -3,7 +3,7 @@ export = typeOfArguments;
  * {@link TypeOfArguments} validates the arguments' types passed to a function.
  *
  * A type expression accepts the following:
- *   - primitive types (`string`, `number`, `bigint`,`boolean`, `symbol`, `null`) except `undefined`
+ *   - primitive types (`string`, `number`, `bigint`,`boolean`, `symbol`, `undefined`, `null`)
  *   - `object`
  *   - classnames (retrieved by getting constructor.name) (e.g. `Item`)
  * Type expressions are case-sensitive, it is possible to allow multiple types by using the `|` symbol.
@@ -17,8 +17,8 @@ declare function typeOfArguments(givenArray: any[], expectedArray: any[]): TypeO
 /**
  * {@link TypeOfArguments} validates the arguments' types passed to a function.
  *
- * @private
  * It's functionality was inspired by the typeof-arguments npm package (https://www.npmjs.com/package/typeof-arguments).
+ * @private
  */
 declare class TypeOfArguments {
     constructor(givenArray: any, expectedArray: any);

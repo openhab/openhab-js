@@ -4,8 +4,6 @@ const { ScriptExecution, Transformation } = require('../actions');
 const { JavaScriptExecution, JavaTransformation } = require('./openhab.mock');
 
 jest.mock('../osgi');
-jest.mock('@runtime/osgi', () => ({}), { virtual: true });
-jest.mock('@runtime/Defaults', () => ({}), { virtual: true });
 
 describe('actions.js', () => {
   describe('ScriptExecution', () => {
