@@ -7,10 +7,12 @@
  * @namespace triggers
  */
 
-/** @type {object} */
 const typeOfArguments = require('./typeOfArguments');
 const utils = require('./utils');
-/** @type {Item} */
+/**
+ * @type {Item}
+ * @private
+ */
 const Item = require('./items').Item;
 
 const ModuleBuilder = Java.type('org.openhab.core.automation.util.ModuleBuilder');

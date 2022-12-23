@@ -48,6 +48,4 @@ class TypeOfArguments {
  * @param {Array} expectedArray Array of the expected argument types. The index should match the index of the passed in argument. Each element is a type expression and defines the required type of the matching argument.
  * @returns {TypeOfArguments}
  */
-function typeOfArguments (givenArray, expectedArray) { return new TypeOfArguments(givenArray, expectedArray); }
-
-module.exports = typeOfArguments;
+module.exports = (givenArray, expectedArray) => new TypeOfArguments(givenArray, expectedArray);

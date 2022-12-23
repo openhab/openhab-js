@@ -7,3 +7,4 @@ node_modules
 openhab-*.tgz
 out
 coverage
+types/typeOfArguments.*
