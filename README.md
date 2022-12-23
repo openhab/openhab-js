@@ -820,6 +820,29 @@ time.toZDT().isBetweenTimes(items.getItem('Sunset'), '11:30 PM') // is now betwe
 time.toZDT(items.getItem('StartTime')).isBetweenTimes(time.toZDT(), 'PT1H'); // is the state of StartTime between now and one hour from now
 ```
 
+#### `isBetweenDates(start, end)`
+
+Tests whether this `time.ZonedDateTime` is between the passed in `start` and `end`.
+However, the function only compares the date portion of the three, ignoring the time portion.
+`start` and `end` can be anything supported by `time.toZDT()`.
+
+Examples:
+
+```javascript
+time.toZDT().isBetweenDates('2022-06-18', '2023-12-24') // currently between 2022-06-18 and 2023-12-24
+```
+
+#### `isBetweenDateTimes(start, end)`
+
+Tests whether this `time.ZonedDateTime` is between the passed in `start` and `end`.
+`start` and `end` can be anything supported by `time.toZDT()`.
+
+Examples:
+
+```javascript
+time.toZDT().isBetweenDateTimes('2022-06-18T22:00Z', '2023-12-24T05:00Z') // currently between 2022-06-18 22:00 and 2023-12-24 05:00
+```
+
 #### `isClose(zdt, maxDur)`
 
 Tests to see if the delta between the `time.ZonedDateTime` and the passed in `time.ZonedDateTime` is within the passed in `time.Duration`.
