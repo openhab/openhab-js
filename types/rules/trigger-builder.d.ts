@@ -9,7 +9,7 @@ export class CronTriggerConfig {
     constructor(timeStr: any, triggerBuilder: any);
     timeStr: any;
     _complete: () => boolean;
-    _toOHTriggers: () => void[];
+    _toOHTriggers: () => HostTrigger[];
     describe: (compact: any) => string;
 }
 /**
@@ -20,7 +20,7 @@ export class CronTriggerConfig {
 export class ChannelTriggerConfig {
     constructor(channelName: any, triggerBuilder: any);
     channelName: any;
-    _toOHTriggers: () => void[];
+    _toOHTriggers: () => HostTrigger[];
     describe(compact: any): string;
     /**
        * trigger a specific event name
@@ -105,7 +105,7 @@ export class ItemTriggerConfig {
        */
     for(timespan: any): TriggerBuilder.ItemTriggerConfig;
     _complete(): boolean;
-    _toOHTriggers(): void[];
+    _toOHTriggers(): HostTrigger[];
     _executeHook(): (next: any, args: any) => any;
 }
 /**
@@ -147,7 +147,7 @@ export class ThingTriggerConfig {
        */
     to(value: any): TriggerBuilder.ThingTriggerConfig;
     to_value: any;
-    _toOHTriggers(): void[];
+    _toOHTriggers(): HostTrigger[];
 }
 /**
  * System based trigger
@@ -158,7 +158,7 @@ export class ThingTriggerConfig {
  */
 export class SystemTriggerConfig {
     constructor(triggerBuilder: any);
-    _toOHTriggers: () => void[];
+    _toOHTriggers: () => HostTrigger[];
     describe: (compact: any) => string;
     _complete(): boolean;
     /**

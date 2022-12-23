@@ -158,7 +158,7 @@ const removeRule = function (uid) {
   *
   * @memberof rules
   * @param {string} uid the UID of the rule to run
-  * @param {Map<Object>} [args={}] args optional dict of data to pass to the called rule
+  * @param {object} [args={}] args optional dict of data to pass to the called rule
   * @param {boolean} [cond=true] when true, the called rule will only run if it's conditions are met
   * @throws Will throw an error if the rule does not exist or is not initialized.
   */
@@ -279,6 +279,11 @@ const JSRule = function (ruleConfig) {
   } else {
     throw new Error(`Triggers are missing for rule "${ruleConfig.name ? ruleConfig.name : ruid}"!`);
   }
+
+  // Add config to the action so that MainUI can show the script
+  const actionConfiguration = rule.actions.get(0).configuration;
+  actionConfiguration.put('type', 'application/javascript;version=ECMAScript-2021');
+  actionConfiguration.put('script', '// Code to run when the rule fires:\n// Note that Rule Builder is currently not supported!\n\n' + ruleConfig.execute.toString());
 
   return rule;
 };
