@@ -163,7 +163,6 @@ const parseString = function (str) {
  * @throws error if the Item's state is not supported or the Item itself is not supported
  */
 const convertItem = function (item) {
-  // Uninitialized
   if (item.isUninitialized) {
     throw Error('Item ' + item.name + ' is NULL or UNDEF, cannot convert to a time.ZonedDateTime');
   } else if (item.rawState instanceof DecimalType) { // Number type Items
@@ -212,14 +211,9 @@ const toZDT = function (when) {
     return when;
   }
 
-  // Java ZDT
-  if (when instanceof javaZDT) {
-    return javaZDTtoZDT(when);
-  }
-
-  // DateTimeType, extract the javaZDT and convert to time.ZDT
-  if (when instanceof DateTimeType) {
-    return javaZDTtoZDT(when.getZonedDateTime());
+  // String or StringType
+  if (typeof when === 'string' || when instanceof javaString || when instanceof StringType) {
+    return parseString(when.toString());
   }
 
   // JavaScript Native Date, use the SYSTEM timezone
@@ -239,6 +233,16 @@ const toZDT = function (when) {
     return addMillisToNow(when);
   }
 
+  // Java ZDT
+  if (when instanceof javaZDT) {
+    return javaZDTtoZDT(when);
+  }
+
+  // DateTimeType, extract the javaZDT and convert to time.ZDT
+  if (when instanceof DateTimeType) {
+    return javaZDTtoZDT(when.getZonedDateTime());
+  }
+
   // QuantityType<Time>, add to now
   if (when instanceof QuantityType) {
     return addQuantityType(when);
@@ -247,11 +251,6 @@ const toZDT = function (when) {
   // Java Number of DecimalType, add as millisecs to now
   if (when instanceof javaNumber || when instanceof DecimalType) {
     return addMillisToNow(when.floatValue());
-  }
-
-  // String or StringType
-  if (typeof when === 'string' || when instanceof javaString || when instanceof StringType) {
-    return parseString(when.toString());
   }
 
   // GenericItem
@@ -277,8 +276,8 @@ time.ZonedDateTime.prototype.parse = function (text, formatter = rfcFormatter) {
 
 /**
  * Moves the date portion of the date time to today, accounting for DST
- * @memberof time
- * @returns {time.ZonedDateTime} a new date time with today's date
+ *
+ * @returns {time.ZonedDateTime} a new {@link time.ZonedDateTime} with today's date
  */
 time.ZonedDateTime.prototype.toToday = function () {
   const now = time.ZonedDateTime.now();
@@ -355,7 +354,6 @@ time.ZonedDateTime.prototype.isClose = function (zdt, maxDur) {
 /**
  * Parses a ZonedDateTime to milliseconds from now until the ZonedDateTime.
  *
- * @memberof time
  * @returns {number} duration from now to the ZonedDateTime in milliseconds
  */
 time.ZonedDateTime.prototype.getMillisFromNow = function () {
