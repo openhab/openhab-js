@@ -53,7 +53,7 @@
 
 require('@js-joda/timezone');
 const time = require('@js-joda/core');
-const items = require('./items/items');
+const items = require('./items');
 
 const javaZDT = Java.type('java.time.ZonedDateTime');
 const javaDuration = Java.type('java.time.Duration');
@@ -102,17 +102,6 @@ const addQuantityType = function (quantityType) {
 };
 
 /**
- * Tests the passed in string to see if it conforms to the ISO8601 standard
- * @private
- * @param {string} dtStr potential ISO8601 string
- * @returns {boolean} true if ISO8601 format
- */
-const isISO8601 = (dtStr) => {
-  const regex = /^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(\.[0-9]+)?(Z|[+-](?:2[0-3]|[01][0-9]):[0-5][0-9])?$/;
-  return regex.test(dtStr);
-};
-
-/**
  * Tests the string to see if it matches a 24 hour clock time
  * @private
  * @param {string} dtStr potential HH:MM String
@@ -135,6 +124,35 @@ const is12Hr = function (dtStr) {
 };
 
 /**
+ * Parses a string that conforms the ISO8601 standard to a {@link time.ZonedDateTime}.
+ * The following ISO strings are supported:
+ *  - for date: `YYYY-MM-DD`
+ *  - for time: `hh:mm`, `hh:mm:ss`, `hh:mm:ss.f`
+ *  - a combination of these date and time formats
+ *  - full ISO8601: date format + `T` + any time format + offset (e.g. `Z` for UTC or `+01:00` and some other notations)
+ *
+ * @private
+ * @param isoStr
+ * @returns {time.ZonedDateTime|null} {@link time.ZonedDateTime} if parsing was successful, else `null`
+ * @throws `JsJodaException` thrown by the {@link https://js-joda.github.io/js-joda/ JS-Joda library} that signals that string could not be parsed
+ */
+const parseISO8601 = function (isoStr) {
+  const REGEX = {
+    LOCAL_DATE: /^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])$/, // YYYY-MM-DD
+    LOCAL_TIME: /^\d{2}:\d{2}(:\d{2})?(\.\d+)?$/, // hh:mm or hh:mm:ss or hh:mm:ss.f
+    LOCAL_DATE_TIME: /^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T\d{2}:\d{2}(:\d{2})?(\.\d+)?$/, // LOCAL_DATE and LOCAL_TIME connected with "T"
+    ISO_8160_FULL: /^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9])(:[0-5][0-9])?(\.\d+)?(Z|[+-]\d{2}(:\d{2})?)/
+  };
+  switch (true) {
+    case REGEX.LOCAL_DATE.test(isoStr): return time.ZonedDateTime.of(time.LocalDate.parse(isoStr), time.LocalTime.now(), time.ZoneId.SYSTEM);
+    case REGEX.LOCAL_TIME.test(isoStr): return time.ZonedDateTime.of(time.LocalDate.now(), time.LocalTime.parse(isoStr), time.ZoneId.SYSTEM);
+    case REGEX.LOCAL_DATE_TIME.test(isoStr): return time.ZonedDateTime.of(time.LocalDateTime.parse(isoStr), time.ZoneId.SYSTEM);
+    case REGEX.ISO_8160_FULL.test(isoStr): return time.ZonedDateTime.parse(isoStr);
+  }
+  return null;
+};
+
+/**
  * Parses the passed in string based on it's format and converted to a ZonedDateTime.
  * @private
  * @param {string} str string number to try and parse and convert
@@ -144,11 +162,6 @@ const parseString = function (str) {
   // Number
   if (!isNaN(str)) {
     return addMillisToNow(str);
-  }
-
-  // ISO8601
-  if (isISO8601(str)) {
-    throw Error('ISO 8601 strings are not yet supported');
   }
 
   // 24 hour time string
@@ -171,15 +184,20 @@ const parseString = function (str) {
       .withNano(0);
   }
 
-  // Java ZonedDateTime's toString format (see monkey patched parse function)
+  // ISO8601 Time, Date, or DateTime string
   try {
-    return time.ZonedDateTime.parse(str);
-  } catch (e) { // Duration string
-    try {
-      return time.ZonedDateTime.now().plus(time.Duration.parse(str));
-    } catch (e) { // Unsupported
-      throw Error('"' + str + '" cannot be parsed into a format that can be converted to a ZonedDateTime');
-    }
+    const zdt = parseISO8601(str);
+    if (zdt !== null) return zdt;
+  } catch (e) {
+    throw Error(`Failed to parse ISO8601 string ${str}: ${e}`);
+  }
+
+  // Possibly ISO8601 Duration string
+  // TODO: Further improvements here
+  try {
+    return time.ZonedDateTime.now().plus(time.Duration.parse(str));
+  } catch (e) { // Unsupported
+    throw Error(`Failed to parse string ${str}: ${e}`);
   }
 };
 
@@ -219,11 +237,11 @@ const convertItem = function (item) {
  * - QuantityType: if the units are Time, added to now
  * - Item: converts the state of the Item based on the *Type rules described here
  * - String, Java String, StringType: Parsed based on the following rules
- *     - ISO 8601: Not yet implemented
+ *     - ISO 8601 DateTime: any Date, Time or DateTime with optional time offset and/or time zone in the {@link https://en.wikipedia.org/wiki/ISO_8601 ISO8601 calendar system}
+ *     - ISO 8601 Duration: any Duration in the {@link https://en.wikipedia.org/wiki/ISO_8601#Durations ISO8601 calendar system} (e.g. 'PT5H4M3.210S'), also see {@link https://js-joda.github.io/js-joda/class/packages/core/src/Duration.js~Duration.html#static-method-parse JS-Joda : Duration}
  *     - RFC (output from a Java ZonedDateTime.toString()): parsed to time.ZonedDateTime
  *     - HH:mm[:ss] (i.e. 24 hour time): that time with today's date (seconds are optional)
  *     - KK:mm[:ss][ ][aa] (i.e. 12 hour time): that time with today's date (seconds and space between time and am/pm are optional)
- *     - Duration: any duration string supported by time.Duration (e.g. 'PT5H4M3.210S'), see https://js-joda.github.io/js-joda/class/packages/core/src/Duration.js~Duration.html#static-method-parse
  * @memberof time
  * @param {*} when any of the types discussed above
  * @returns time.ZonedDateTime
@@ -366,7 +384,8 @@ time.ZonedDateTime.prototype.getMillisFromNow = function () {
 
 module.exports = {
   ...time,
-  toZDT
+  toZDT,
+  parseISO8601
 };
 </code></pre>
         </article>
@@ -382,7 +401,7 @@ module.exports = {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.0</a> on Fri Dec 23 2022 17:21:56 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.0</a> on Fri Dec 23 2022 17:30:51 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
