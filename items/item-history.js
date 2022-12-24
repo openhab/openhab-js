@@ -1,6 +1,5 @@
-const time = require('@js-joda/core')
+const time = require('@js-joda/core');
 const PersistenceExtensions = Java.type('org.openhab.core.persistence.extensions.PersistenceExtensions');
-const DateTime = Java.type('java.time.ZonedDateTime');
 
 /**
  * Class representing the historic state of an openHAB Item.
@@ -222,7 +221,7 @@ class ItemHistory {
    * @returns {(string | null)} state
    */
   latestState (serviceId) {
-    return this.historicState(DateTime.now(), ...arguments);
+    return this.historicState(time.ZonedDateTime.now(), ...arguments);
   }
 
   /**
