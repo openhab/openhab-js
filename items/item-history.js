@@ -1,5 +1,4 @@
-// const { ZonedDateTime } = require('@js-joda/core');
-const time = require('../time');
+const time = require('@js-joda/core')
 const PersistenceExtensions = Java.type('org.openhab.core.persistence.extensions.PersistenceExtensions');
 const DateTime = Java.type('java.time.ZonedDateTime');
 

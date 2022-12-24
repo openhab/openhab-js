@@ -289,4 +289,5 @@ declare class ItemHistory {
      */
     private _decimalOrNull;
 }
+import time = require("@js-joda/core");
 //# sourceMappingURL=item-history.d.ts.map
