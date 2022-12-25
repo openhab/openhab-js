@@ -56,9 +56,9 @@ const addQuantityType = function (quantityType) {
 };
 
 /**
- * Tests the string to see if it matches a 24 hour clock time
+ * Tests the string to see if it matches a 24-hour clock time like `hh:mm`, `hh:mm:ss`, `h:mm`, `h:mm:ss`
  * @private
- * @param {string} dtStr potential HH:MM String
+ * @param {string} dtStr potential 24-hour time String
  * @returns {boolean} true if it matches HH:MM
  */
 const is24Hr = function (dtStr) {
@@ -118,15 +118,6 @@ const parseString = function (str) {
     return addMillisToNow(str);
   }
 
-  // 24 hour time string
-  if (is24Hr(str)) {
-    const parts = str.split(':');
-    return time.ZonedDateTime.now().withHour(parts[0])
-      .withMinute(parts[1])
-      .withSecond(parts[2] || 0)
-      .withNano(0);
-  }
-
   // 12 hour time string
   if (is12Hr(str)) {
     const parts = str.split(':');
@@ -136,6 +127,16 @@ const parseString = function (str) {
       .withMinute(parseInt(parts[1])) // parseInt will ignore the am/pm
       .withSecond(parseInt(parts[2]) || 0)
       .withNano(0);
+  }
+
+  // 24-hour time string
+  // This could also be handled by ISO8601, but h:mm string like 0:30 require this code here!
+  if (is24Hr(str)) {
+    const parts = str.split(':');
+    return time.ZonedDateTime.now().withHour(parts[0])
+        .withMinute(parts[1])
+        .withSecond(parts[2] || 0)
+        .withNano(0);
   }
 
   // ISO8601 Time, Date, or DateTime string
