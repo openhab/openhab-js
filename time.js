@@ -134,9 +134,9 @@ const parseString = function (str) {
   if (is24Hr(str)) {
     const parts = str.split(':');
     return time.ZonedDateTime.now().withHour(parts[0])
-        .withMinute(parts[1])
-        .withSecond(parts[2] || 0)
-        .withNano(0);
+      .withMinute(parts[1])
+      .withSecond(parts[2] || 0)
+      .withNano(0);
   }
 
   // ISO8601 Time, Date, or DateTime string
