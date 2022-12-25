@@ -1,4 +1,5 @@
-const time = require('@js-joda/core');
+/** @typedef {import('@js-joda/core')} time */
+const time = require('../time');
 const PersistenceExtensions = Java.type('org.openhab.core.persistence.extensions.PersistenceExtensions');
 
 /**

@@ -289,5 +289,8 @@ declare class ItemHistory {
      */
     private _decimalOrNull;
 }
-import time = require("@js-joda/core");
+declare namespace ItemHistory {
+    export { time };
+}
+type time = typeof JSJoda;
 //# sourceMappingURL=item-history.d.ts.map
