@@ -390,7 +390,7 @@ class ItemHistory {
    * @private
    */
   _timestampOrNull (result) {
-    return result === null ? null : time.ZonedDateTime().parse(result.getTimestamp().toString());
+    return result === null ? null : time.ZonedDateTime.parse(result.getTimestamp().toString());
   }
 
   /**
