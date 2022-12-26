@@ -214,6 +214,14 @@ declare class ItemHistory {
      */
     previousState(skipEqual?: boolean, serviceId?: string, ...args: any[]): (string | null);
     /**
+     * Returns the time when the previous state of a given Item was persisted.
+     *
+     * @param {boolean} [skipEqual] optional, if true, skips equal state values and searches the first state not equal the current state
+     * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
+     * @returns {(time.ZonedDateTime | null)} {@link time.ZonedDateTime} or null
+     */
+    previousStateTimestamp(skipEqual?: boolean, serviceId?: string, ...args: any[]): (time.ZonedDateTime | null);
+    /**
      * Gets the sum of the states of a given Item between two certain points in time.
      *
      * @param {(time.ZonedDateTime | Date)} begin begin
@@ -271,10 +279,18 @@ declare class ItemHistory {
     /**
      * @private
      */
+    private _timestampOrNull;
+    /**
+     * @private
+     */
     private _dateOrNull;
     /**
      * @private
      */
     private _decimalOrNull;
 }
+declare namespace ItemHistory {
+    export { time };
+}
+type time = typeof JSJoda;
 //# sourceMappingURL=item-history.d.ts.map

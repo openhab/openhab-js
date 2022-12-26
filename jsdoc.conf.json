@@ -15,7 +15,8 @@
         "excludePattern": "(node_modules/|docs|dist)"
     },
     "plugins": [
-        "plugins/markdown"
+        "plugins/markdown",
+        "node_modules/jsdoc-tsimport-plugin/index.js"
     ],
     "templates": {
         "cleverLinks": false,

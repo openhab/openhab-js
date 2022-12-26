@@ -473,6 +473,7 @@ Calling `Item.history` returns a `ItemHistory` object with the following functio
   - .minimumSince(timestamp, serviceId) ⇒ `string | null`
   - .persist(serviceId)
   - .previousState(skipEqual, serviceId) ⇒ `string | null`
+  - .previousStateTimestamp(skipEqual, serviceId) ⇒ `time.ZonedDateTime | null`
   - .sumBetween(begin, end, serviceId) ⇒ `number | null`
   - .sumSince(timestamp, serviceId) ⇒ `number | null`
   - .updatedBetween(begin, end, serviceId) ⇒ `boolean`
