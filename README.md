@@ -473,6 +473,7 @@ Calling `Item.history` returns a `ItemHistory` object with the following functio
   - .minimumSince(timestamp, serviceId) ⇒ `string | null`
   - .persist(serviceId)
   - .previousState(skipEqual, serviceId) ⇒ `string | null`
+  - .previousStateTimestamp(skipEqual, serviceId) ⇒ `time.ZonedDateTime | null`
   - .sumBetween(begin, end, serviceId) ⇒ `number | null`
   - .sumSince(timestamp, serviceId) ⇒ `number | null`
   - .updatedBetween(begin, end, serviceId) ⇒ `boolean`
@@ -777,20 +778,20 @@ There will be times when this automatic conversion is not available (for example
 To ease having to deal with these cases a `time.toZDT()` function will accept almost any type that can be converted to a `time.ZonedDateTime`.
 The following rules are used during the conversion:
 
-| Argument Type                                              | Rule                                                                                                                                                                                                   | Examples                                                        |
-|------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------|
-| `null` or `undefined`                                      | `time.ZonedDateTime.now()`                                                                                                                                                                             | `time.toZDT();`                                                 |
-| `time.ZonedDateTime`                                       | passed through unmodified                                                                                                                                                                              |                                                                 |
-| `java.time.ZonedDateTime`                                  | converted to the `time.ZonedDateTime` equivalent                                                                                                                                                       |                                                                 |
-| JavaScript native `Date`                                   | converted to the equivalent `time.ZonedDateTime` using `SYSTEM` as the timezone                                                                                                                        |                                                                 |
-| `number`, `bingint`, `java.lang.Number`, `DecimalType`     | rounded to the nearest integer and added to `now` as milliseconds                                                                                                                                      | `time.toZDT(1000);`                                             |
-| `QuantityType`                                             | if the units are `Time`, that time is added to `now`                                                                                                                                                   | `time.toZDT(item.getItem('MyTimeItem').rawState);`              |
-| `items.Item` or `org.openhab.core.types.Item`              | if the state is supported (see the `Type` rules in this table, e.g. `DecimalType`), the state is converted                                                                                             | `time.toZDT(items.getItem('MyItem'));`                          |
-| `String`, `java.lang.String`, `StringType`                 | parsed based on the following rules                                                                                                                                                                    |                                                                 |
-| RFC String (output from a Java `ZonedDateTime.toString()`) | parsed                                                                                                                                                                                                 | `time.toZDT(new DateTimeType().getZonedDateTime().toString());` |
-| `"HH:MM[:ss]"` (24 hour time)                              | today's date with the time indicated, seconds is optional                                                                                                                                              | `time.toZDT('13:45:12');`                                       |
-| `"kk:mm[:ss][ ]a"` (12 hour time)                          | today's date with the time indicated, the space between the time and am/pm and seconds are optional                                                                                                    | `time.toZDT('1:23:45 PM');`                                     |
-| Duration String                                            | any duration string supported by `time.Duration` added to `now()`, see [the docs](https://js-joda.github.io/js-joda/class/packages/core/src/Duration.js~Duration.html#static-method-parse) for details | `time.toZDT('PT1H4M6.789S');`                                   |
+| Argument Type                                                                | Rule                                                                                                           | Examples                                            |
+|------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|-----------------------------------------------------|
+| `null` or `undefined`                                                        | `time.ZonedDateTime.now()`                                                                                     | `time.toZDT();`                                     |
+| `time.ZonedDateTime`                                                         | passed through unmodified                                                                                      |                                                     |
+| `java.time.ZonedDateTime`                                                    | converted to the `time.ZonedDateTime` equivalent                                                               |                                                     |
+| JavaScript native `Date`                                                     | converted to the equivalent `time.ZonedDateTime` using `SYSTEM` as the timezone                                |                                                     |
+| `number`, `bingint`, `java.lang.Number`, `DecimalType`                       | rounded to the nearest integer and added to `now` as milliseconds                                              | `time.toZDT(1000);`                                 |
+| `QuantityType`                                                               | if the units are `Time`, that time is added to `now`                                                           | `time.toZDT(item.getItem('MyTimeItem').rawState);`  |
+| `items.Item` or `org.openhab.core.types.Item`                                | if the state is supported (see the `Type` rules in this table, e.g. `DecimalType`), the state is converted     | `time.toZDT(items.getItem('MyItem'));`              |
+| `String`, `java.lang.String`, `StringType`                                   | parsed based on the following rules                                                                            |                                                     |
+| [ISO8601 Date/Time](https://en.wikipedia.org/wiki/ISO_8601) String           | parsed, depending on the provided data: if no date is passed, today's date; if no time is passed, current time | `time.toZDT('2022-12-24');`, `time.toZDT('12:34');` |
+| RFC String (output from a Java `ZonedDateTime.toString()`)                   | parsed                                                                                                         | `time.toZDT('2019-10-12T07:20:50.52Z');`            |
+| `"kk:mm[:ss][ ]a"` (12 hour time)                                            | today's date with the time indicated, the space between the time and am/pm and seconds are optional            | `time.toZDT('1:23:45 PM');`                         |
+| [ISO 8601 Duration](https://en.wikipedia.org/wiki/ISO_8601#Durations) String | added to `now`                                                                                                 | `time.toZDT('PT1H4M6.789S');`                       |
 
 When a type or string that cannot be handled is encountered, an error is thrown.
 
@@ -818,6 +819,29 @@ Examples:
 time.toZDT().isBetweenTimes('22:00', '05:00') // currently between 11:00 pm and 5:00 am
 time.toZDT().isBetweenTimes(items.getItem('Sunset'), '11:30 PM') // is now between sunset and 11:30 PM?
 time.toZDT(items.getItem('StartTime')).isBetweenTimes(time.toZDT(), 'PT1H'); // is the state of StartTime between now and one hour from now
+```
+
+#### `isBetweenDates(start, end)`
+
+Tests whether this `time.ZonedDateTime` is between the passed in `start` and `end`.
+However, the function only compares the date portion of the three, ignoring the time portion.
+`start` and `end` can be anything supported by `time.toZDT()`.
+
+Examples:
+
+```javascript
+time.toZDT().isBetweenDates('2022-06-18', '2023-12-24') // currently between 2022-06-18 and 2023-12-24
+```
+
+#### `isBetweenDateTimes(start, end)`
+
+Tests whether this `time.ZonedDateTime` is between the passed in `start` and `end`.
+`start` and `end` can be anything supported by `time.toZDT()`.
+
+Examples:
+
+```javascript
+time.toZDT().isBetweenDateTimes('2022-06-18T22:00Z', '2023-12-24T05:00Z') // currently between 2022-06-18 22:00 and 2023-12-24 05:00
 ```
 
 #### `isClose(zdt, maxDur)`

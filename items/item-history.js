@@ -1,7 +1,6 @@
-// const { ZonedDateTime } = require('@js-joda/core');
+/** @typedef {import('@js-joda/core')} time */
 const time = require('../time');
 const PersistenceExtensions = Java.type('org.openhab.core.persistence.extensions.PersistenceExtensions');
-const DateTime = Java.type('java.time.ZonedDateTime');
 
 /**
  * Class representing the historic state of an openHAB Item.
@@ -223,7 +222,7 @@ class ItemHistory {
    * @returns {(string | null)} state
    */
   latestState (serviceId) {
-    return this.historicState(DateTime.now(), ...arguments);
+    return this.historicState(time.ZonedDateTime.now(), ...arguments);
   }
 
   /**
@@ -301,6 +300,17 @@ class ItemHistory {
   }
 
   /**
+   * Returns the time when the previous state of a given Item was persisted.
+   *
+   * @param {boolean} [skipEqual] optional, if true, skips equal state values and searches the first state not equal the current state
+   * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
+   * @returns {(time.ZonedDateTime | null)} {@link time.ZonedDateTime} or null
+   */
+  previousStateTimestamp (skipEqual, serviceId) {
+    return this._timestampOrNull(PersistenceExtensions.previousState(this.rawItem, ...arguments));
+  }
+
+  /**
    * Gets the sum of the states of a given Item between two certain points in time.
    *
    * @param {(time.ZonedDateTime | Date)} begin begin
@@ -373,7 +383,14 @@ class ItemHistory {
    * @private
    */
   _stateOrNull (result) {
-    return result === null ? null : result.state.toString();
+    return result === null ? null : result.getState().toString();
+  }
+
+  /**
+   * @private
+   */
+  _timestampOrNull (result) {
+    return result === null ? null : time.ZonedDateTime.parse(result.getTimestamp().toString());
   }
 
   /**

@@ -7,7 +7,7 @@
 
 require('@js-joda/timezone');
 const time = require('@js-joda/core');
-const items = require('./items/items');
+const items = require('./items');
 
 const javaZDT = Java.type('java.time.ZonedDateTime');
 const javaDuration = Java.type('java.time.Duration');
@@ -56,20 +56,9 @@ const addQuantityType = function (quantityType) {
 };
 
 /**
- * Tests the passed in string to see if it conforms to the ISO8601 standard
+ * Tests the string to see if it matches a 24-hour clock time like `hh:mm`, `hh:mm:ss`, `h:mm`, `h:mm:ss`
  * @private
- * @param {string} dtStr potential ISO8601 string
- * @returns {boolean} true if ISO8601 format
- */
-const isISO8601 = (dtStr) => {
-  const regex = /^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(\.[0-9]+)?(Z|[+-](?:2[0-3]|[01][0-9]):[0-5][0-9])?$/;
-  return regex.test(dtStr);
-};
-
-/**
- * Tests the string to see if it matches a 24 hour clock time
- * @private
- * @param {string} dtStr potential HH:MM String
+ * @param {string} dtStr potential 24-hour time String
  * @returns {boolean} true if it matches HH:MM
  */
 const is24Hr = function (dtStr) {
@@ -89,6 +78,35 @@ const is12Hr = function (dtStr) {
 };
 
 /**
+ * Parses a string that conforms the ISO8601 standard to a {@link time.ZonedDateTime}.
+ * The following ISO strings are supported:
+ *  - for date: `YYYY-MM-DD`
+ *  - for time: `hh:mm`, `hh:mm:ss`, `hh:mm:ss.f`
+ *  - a combination of these date and time formats
+ *  - full ISO8601: date format + `T` + any time format + offset (e.g. `Z` for UTC or `+01:00` and some other notations)
+ *
+ * @private
+ * @param isoStr
+ * @returns {time.ZonedDateTime|null} {@link time.ZonedDateTime} if parsing was successful, else `null`
+ * @throws `JsJodaException` thrown by the {@link https://js-joda.github.io/js-joda/ JS-Joda library} that signals that string could not be parsed
+ */
+const parseISO8601 = function (isoStr) {
+  const REGEX = {
+    LOCAL_DATE: /^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])$/, // YYYY-MM-DD
+    LOCAL_TIME: /^\d{2}:\d{2}(:\d{2})?(\.\d+)?$/, // hh:mm or hh:mm:ss or hh:mm:ss.f
+    LOCAL_DATE_TIME: /^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T\d{2}:\d{2}(:\d{2})?(\.\d+)?$/, // LOCAL_DATE and LOCAL_TIME connected with "T"
+    ISO_8160_FULL: /^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9])(:[0-5][0-9])?(\.\d+)?(Z|[+-]\d{2}(:\d{2})?)/
+  };
+  switch (true) {
+    case REGEX.LOCAL_DATE.test(isoStr): return time.ZonedDateTime.of(time.LocalDate.parse(isoStr), time.LocalTime.now(), time.ZoneId.SYSTEM);
+    case REGEX.LOCAL_TIME.test(isoStr): return time.ZonedDateTime.of(time.LocalDate.now(), time.LocalTime.parse(isoStr), time.ZoneId.SYSTEM);
+    case REGEX.LOCAL_DATE_TIME.test(isoStr): return time.ZonedDateTime.of(time.LocalDateTime.parse(isoStr), time.ZoneId.SYSTEM);
+    case REGEX.ISO_8160_FULL.test(isoStr): return time.ZonedDateTime.parse(isoStr);
+  }
+  return null;
+};
+
+/**
  * Parses the passed in string based on it's format and converted to a ZonedDateTime.
  * @private
  * @param {string} str string number to try and parse and convert
@@ -98,20 +116,6 @@ const parseString = function (str) {
   // Number
   if (!isNaN(str)) {
     return addMillisToNow(str);
-  }
-
-  // ISO8601
-  if (isISO8601(str)) {
-    throw Error('ISO 8601 strings are not yet supported');
-  }
-
-  // 24 hour time string
-  if (is24Hr(str)) {
-    const parts = str.split(':');
-    return time.ZonedDateTime.now().withHour(parts[0])
-      .withMinute(parts[1])
-      .withSecond(parts[2] || 0)
-      .withNano(0);
   }
 
   // 12 hour time string
@@ -125,15 +129,30 @@ const parseString = function (str) {
       .withNano(0);
   }
 
-  // Java ZonedDateTime's toString format (see monkey patched parse function)
+  // 24-hour time string
+  // This could also be handled by ISO8601, but h:mm string like 0:30 require this code here!
+  if (is24Hr(str)) {
+    const parts = str.split(':');
+    return time.ZonedDateTime.now().withHour(parts[0])
+      .withMinute(parts[1])
+      .withSecond(parts[2] || 0)
+      .withNano(0);
+  }
+
+  // ISO8601 Time, Date, or DateTime string
   try {
-    return time.ZonedDateTime.parse(str);
-  } catch (e) { // Duration string
-    try {
-      return time.ZonedDateTime.now().plus(time.Duration.parse(str));
-    } catch (e) { // Unsupported
-      throw Error('"' + str + '" cannot be parsed into a format that can be converted to a ZonedDateTime');
-    }
+    const zdt = parseISO8601(str);
+    if (zdt !== null) return zdt;
+  } catch (e) {
+    throw Error(`Failed to parse ISO8601 string ${str}: ${e}`);
+  }
+
+  // Possibly ISO8601 Duration string
+  // TODO: Further improvements here
+  try {
+    return time.ZonedDateTime.now().plus(time.Duration.parse(str));
+  } catch (e) { // Unsupported
+    throw Error(`Failed to parse string ${str}: ${e}`);
   }
 };
 
@@ -145,7 +164,6 @@ const parseString = function (str) {
  * @throws error if the Item's state is not supported or the Item itself is not supported
  */
 const convertItem = function (item) {
-  // Uninitialized
   if (item.isUninitialized) {
     throw Error('Item ' + item.name + ' is NULL or UNDEF, cannot convert to a time.ZonedDateTime');
   } else if (item.rawState instanceof DecimalType) { // Number type Items
@@ -173,11 +191,11 @@ const convertItem = function (item) {
  * - QuantityType: if the units are Time, added to now
  * - Item: converts the state of the Item based on the *Type rules described here
  * - String, Java String, StringType: Parsed based on the following rules
- *     - ISO 8601: Not yet implemented
+ *     - ISO 8601 DateTime: any Date, Time or DateTime with optional time offset and/or time zone in the {@link https://en.wikipedia.org/wiki/ISO_8601 ISO8601 calendar system}
+ *     - ISO 8601 Duration: any Duration in the {@link https://en.wikipedia.org/wiki/ISO_8601#Durations ISO8601 calendar system} (e.g. 'PT5H4M3.210S'), also see {@link https://js-joda.github.io/js-joda/class/packages/core/src/Duration.js~Duration.html#static-method-parse JS-Joda : Duration}
  *     - RFC (output from a Java ZonedDateTime.toString()): parsed to time.ZonedDateTime
  *     - HH:mm[:ss] (i.e. 24 hour time): that time with today's date (seconds are optional)
  *     - KK:mm[:ss][ ][aa] (i.e. 12 hour time): that time with today's date (seconds and space between time and am/pm are optional)
- *     - Duration: any duration string supported by time.Duration (e.g. 'PT5H4M3.210S'), see https://js-joda.github.io/js-joda/class/packages/core/src/Duration.js~Duration.html#static-method-parse
  * @memberof time
  * @param {*} when any of the types discussed above
  * @returns time.ZonedDateTime
@@ -194,14 +212,9 @@ const toZDT = function (when) {
     return when;
   }
 
-  // Java ZDT
-  if (when instanceof javaZDT) {
-    return javaZDTtoZDT(when);
-  }
-
-  // DateTimeType, extract the javaZDT and convert to time.ZDT
-  if (when instanceof DateTimeType) {
-    return javaZDTtoZDT(when.getZonedDateTime());
+  // String or StringType
+  if (typeof when === 'string' || when instanceof javaString || when instanceof StringType) {
+    return parseString(when.toString());
   }
 
   // JavaScript Native Date, use the SYSTEM timezone
@@ -221,6 +234,16 @@ const toZDT = function (when) {
     return addMillisToNow(when);
   }
 
+  // Java ZDT
+  if (when instanceof javaZDT) {
+    return javaZDTtoZDT(when);
+  }
+
+  // DateTimeType, extract the javaZDT and convert to time.ZDT
+  if (when instanceof DateTimeType) {
+    return javaZDTtoZDT(when.getZonedDateTime());
+  }
+
   // QuantityType<Time>, add to now
   if (when instanceof QuantityType) {
     return addQuantityType(when);
@@ -229,11 +252,6 @@ const toZDT = function (when) {
   // Java Number of DecimalType, add as millisecs to now
   if (when instanceof javaNumber || when instanceof DecimalType) {
     return addMillisToNow(when.floatValue());
-  }
-
-  // String or StringType
-  if (typeof when === 'string' || when instanceof javaString || when instanceof StringType) {
-    return parseString(when.toString());
   }
 
   // GenericItem
@@ -259,8 +277,8 @@ time.ZonedDateTime.prototype.parse = function (text, formatter = rfcFormatter) {
 
 /**
  * Moves the date portion of the date time to today, accounting for DST
- * @memberof time
- * @returns {time.ZonedDateTime} a new date time with today's date
+ *
+ * @returns {time.ZonedDateTime} a new {@link time.ZonedDateTime} with today's date
  */
 time.ZonedDateTime.prototype.toToday = function () {
   const now = time.ZonedDateTime.now();
@@ -270,25 +288,20 @@ time.ZonedDateTime.prototype.toToday = function () {
 };
 
 /**
- * Compares this ZDT to see if it falls between start and end times,
- * accounting for times that span midnight. start and end can be any type
- * that has a `toZonedDateTime()` method.
- * time.toZDT is called on the arguments. Examples:
+ * Tests whether `this` time.ZonedDateTime is between the passed in start and end.
+ * However, the function only compares the time portion of the three, ignoring the date portion.
+ * The function takes into account times that span midnight.
  *
- * time.ZonedDateTime.now().betweenTimes(items.getItem('Sunset'), "23:30:00") // is now between sunset and 11:00 pm?
- * time.toZDT(items.geItem('MyDateTimeItem')).betweenTimes(time.toZDT(), time.toZDT(1000)) // is the state of MyDateTimeItem between now and a second from now?
- * @memberof time
- * @param {*} start the starting time in anything that can be
- * @param {*} end the ending time
- * @returns {boolean} true if this is between start and end
+ * @param {*} start starting time, anything supported by {@link time.toZDT}
+ * @param {*} end ending time, anything supported by {@link time.toZDT}
+ * @returns {boolean} true if `this` is between start and end
  */
 time.ZonedDateTime.prototype.isBetweenTimes = function (start, end) {
   const startTime = toZDT(start).toLocalTime();
   const endTime = toZDT(end).toLocalTime();
   const currTime = this.toLocalTime();
 
-  // time range spans midnight
-  if (endTime.isBefore(startTime)) {
+  if (endTime.isBefore(startTime)) { // Time range spans midnight
     return currTime.isAfter(startTime) || currTime.isBefore(endTime);
   } else {
     return currTime.isAfter(startTime) && currTime.isBefore(endTime);
@@ -296,9 +309,40 @@ time.ZonedDateTime.prototype.isBetweenTimes = function (start, end) {
 };
 
 /**
+ * Tests whether `this` time.ZonedDateTime is between the passed in start and end.
+ * However, the function only compares the date portion of the three, ignoring the time portion.
+ *
+ * @param {*} start starting date, anything supported by {@link time.toZDT}
+ * @param {*} end ending date, anything supported by {@link time.toZDT}
+ * @returns {boolean} true if `this` is between start and end
+ */
+time.ZonedDateTime.prototype.isBetweenDates = function (start, end) {
+  const startDate = toZDT(start).toLocalDate();
+  const endDate = toZDT(end).toLocalDate();
+  const currDate = this.toLocalDate();
+
+  return currDate.isAfter(startDate) && currDate.isBefore(endDate);
+};
+
+/**
+ * Tests whether `this` time.ZonedDateTime is between the passed in start and end.
+ *
+ * @param {*} start starting DateTime, anything supported by {@link time.toZDT}
+ * @param {*} end ending DateTime, anything supported by {@link time.toZDT}
+ * @returns {boolean} true if `this` is between start and end
+ */
+time.ZonedDateTime.prototype.isBetweenDateTimes = function (start, end) {
+  const startDateTime = toZDT(start).toLocalDateTime();
+  const endDateTime = toZDT(end).toLocalDateTime();
+  const currDateTime = this.toLocalDateTime();
+
+  return currDateTime.isAfter(startDateTime) && currDateTime.isBefore(endDateTime);
+};
+
+/**
  * Tests to see if the difference between this and the passed in ZoneDateTime is
  * within the passed in maxDur.
- * @memberof time
+ *
  * @param {time.ZonedDateTime} zdt the date time to compare to this
  * @param {time.Duration} maxDur the duration to test that the difference between this and zdt is within
  * @returns {boolean} true if the delta between this and zdt is within maxDur
@@ -311,7 +355,6 @@ time.ZonedDateTime.prototype.isClose = function (zdt, maxDur) {
 /**
  * Parses a ZonedDateTime to milliseconds from now until the ZonedDateTime.
  *
- * @memberof time
  * @returns {number} duration from now to the ZonedDateTime in milliseconds
  */
 time.ZonedDateTime.prototype.getMillisFromNow = function () {
@@ -320,5 +363,6 @@ time.ZonedDateTime.prototype.getMillisFromNow = function () {
 
 module.exports = {
   ...time,
-  toZDT
+  toZDT,
+  parseISO8601
 };
