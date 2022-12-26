@@ -11,6 +11,9 @@
 | Enhancement | `time`     | Add `isBetweenDates` & `isBetweenDateTimes` polyfills to `ZonedDateTime` | [#203](https://github.com/openhab/openhab-js/pull/203) | No       |
 | Enhancement | `items`    | ItemHistory: ItemHistory: Add `previousStateTimestamp` method            | [#205](https://github.com/openhab/openhab-js/pull/205) | No       |
 | Enhancement | `Quantity` | Add UoM/Quantity handling functionality by wrapping QuantityType         | [#206](https://github.com/openhab/openhab-js/pull/206) | No       |
+| Fix         | `items`    | Respect the `toString` method of the raw Java Item                       | [#198](https://github.com/openhab/openhab-js/pull/198) | No       |
+| Fix         | `things`   | Respect the `toString` method of the raw Java Thing                      | [#198](https://github.com/openhab/openhab-js/pull/198) | No       |
+| Cleanup     | `things`   | Remove unused ThingBuilder & ChannelBuilder                              | [#198](https://github.com/openhab/openhab-js/pull/198) | No       |
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/10).
 

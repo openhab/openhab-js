@@ -1,13 +1,9 @@
-declare class ThingBuilder {
-    constructor(thingTypeUID: any, thingId: any, bridgeUID: any);
-    thingTypeUID: any;
-    thingId: any;
-    thingUID: any;
-    rawBuilder: any;
-    withChannel(channel: any): ThingBuilder;
-    withLabel(label: any): ThingBuilder;
-    build(): OHThing;
-}
+/**
+ * Things namespace.
+ * This namespace handles querying and editing openHAB Things.
+ *
+ * @namespace things
+ */
 /**
  * Class representing an openHAB Thing
  *
@@ -20,6 +16,10 @@ export class Thing {
        * @hideconstructor
        */
     constructor(rawThing: HostThing);
+    /**
+     * raw Java Thing
+     * @type {HostThing}
+     */
     rawThing: HostThing;
     /**
      * Thing's bridge UID as `String`
@@ -74,6 +74,7 @@ export class Thing {
      * @param {boolean} enabled whether the Thing is enabled or not
      */
     setEnabled(enabled: boolean): void;
+    toString(): any;
 }
 /**
  * Gets an openHAB Thing.
@@ -91,17 +92,4 @@ export function getThing(uid: string, nullIfMissing?: boolean): Thing;
  * @returns {Thing[]} {@link things.Thing}[]: all Things
  */
 export function getThings(): Thing[];
-/**
- * Things namespace.
- * This namespace handles querying and editing openHAB Things.
- *
- * @namespace things
- */
-declare class OHThing {
-    constructor(rawThing: any);
-    rawThing: any;
-}
-export declare function newThingBuilder(thingTypeUID: string, id: string, bridgeUID: string): ThingBuilder;
-export declare function newChannelBuilder(thingUID: string, channelId: string, acceptedItemType: string): ThingBuilder;
-export {};
 //# sourceMappingURL=things.d.ts.map
