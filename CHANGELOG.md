@@ -9,6 +9,7 @@
 | Enhancement | `rules`    | Display `execute` code of `JSRule` in MainUI                             | [#199](https://github.com/openhab/openhab-js/pull/199) | No       |
 | Enhancement | `time`     | Support ISO8601 string parsing in `toZDT`                                | [#202](https://github.com/openhab/openhab-js/pull/202) | No       |
 | Enhancement | `time`     | Add `isBetweenDates` & `isBetweenDateTimes` polyfills to `ZonedDateTime` | [#203](https://github.com/openhab/openhab-js/pull/203) | No       |
+| Enhancement | `items`    | ItemHistory: ItemHistory: Add `previousStateTimestamp` method            | [#205](https://github.com/openhab/openhab-js/pull/205) | No       |
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/10).
 
