@@ -21,7 +21,13 @@ npm run types
 
 This outputs the type definition files (`*.d.ts`) to `/types`.
 
-Pro tip: Add `// @ts-check` to the top of your `.js` files to enable type checking!
+Pro-tip: Add `// @ts-check` to the top of your `.js` files to enable type checking!
+
+To test the generated type definitions for problems, run the test script:
+
+```bash
+npm run types:test
+```
 
 ## Docs
 
