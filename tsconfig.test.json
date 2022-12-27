@@ -1,0 +1,6 @@
+{
+  "include": ["types/**/*.d.ts"],
+  "compilerOptions": {
+    "outDir": "types-test"
+  }
+}

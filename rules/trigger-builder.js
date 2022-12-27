@@ -9,7 +9,8 @@ const conditions = require('./condition-builder');
  */
 class TriggerBuilder {
   constructor (builder) {
-    this.builder = builder;
+    /** @private */
+    this._builder = builder;
   }
 
   _setTrigger (trigger) {
@@ -18,25 +19,25 @@ class TriggerBuilder {
   }
 
   _or () {
-    this.builder.addTrigger(this.currentTigger);
+    this._builder.addTrigger(this.currentTigger);
     return this;
   }
 
   _then (fn) {
     this._or();
-    return new operations.OperationBuilder(this.builder, fn);
+    return new operations.OperationBuilder(this._builder, fn);
   }
 
   _if (fn) {
     this._or();
-    return new conditions.ConditionBuilder(this.builder, fn);
+    return new conditions.ConditionBuilder(this._builder, fn);
   }
 
   /**
      * Specifies a channel event as a source for the rule to fire.
      *
      * @param {string} channelName the name of the channel
-     * @returns {TriggerBuilder.ChannelTriggerConfig} the trigger config
+     * @returns {ChannelTriggerConfig} the trigger config
      */
   channel (s) {
     return this._setTrigger(new ChannelTriggerConfig(s, this));
@@ -46,7 +47,7 @@ class TriggerBuilder {
      * Specifies a cron schedule for the rule to fire.
      *
      * @param {string} cronExpression the cron expression
-     * @returns {TriggerBuilder.CronTriggerConfig} the trigger config
+     * @returns {CronTriggerConfig} the trigger config
      */
   cron (s) {
     return this._setTrigger(new CronTriggerConfig(s, this));
@@ -56,7 +57,7 @@ class TriggerBuilder {
      * Specifies an item as the source of changes to trigger a rule.
      *
      * @param {string} itemName the name of the item
-     * @returns {TriggerBuilder.ItemTriggerConfig} the trigger config
+     * @returns {ItemTriggerConfig} the trigger config
      */
   item (s) {
     return this._setTrigger(new ItemTriggerConfig(s, false, this));
@@ -66,7 +67,7 @@ class TriggerBuilder {
      * Specifies an group member as the source of changes to trigger a rule.
      *
      * @param {string} groupName the name of the group
-     * @returns {TriggerBuilder.ItemTriggerConfig} the trigger config
+     * @returns {ItemTriggerConfig} the trigger config
      */
   memberOf (s) {
     return this._setTrigger(new ItemTriggerConfig(s, true, this));
@@ -76,7 +77,7 @@ class TriggerBuilder {
      * Specifies a Thing status event as a source for the rule to fire.
      *
      * @param {string} thingUID the UID of the Thing
-     * @returns {TriggerBuilder.ThingTriggerConfig} the trigger config
+     * @returns {ThingTriggerConfig} the trigger config
      */
   thing (s) {
     return this._setTrigger(new ThingTriggerConfig(s, this));
@@ -86,7 +87,7 @@ class TriggerBuilder {
      * Specifies a system event as a source for the rule to fire.
      *
      * @memberof TriggerBuilder
-     * @returns {TriggerBuilder.SystemTriggerConfig} the trigger config
+     * @returns {SystemTriggerConfig} the trigger config
      */
   system () {
     return this._setTrigger(new SystemTriggerConfig(this));
@@ -115,7 +116,7 @@ class TriggerConf {
      * Move to the rule operations
      *
      * @param {*} function the optional function to execute
-     * @returns {OperationBuilder}
+     * @returns {operations.OperationBuilder}
      */
   then (fn) {
     return this.triggerBuilder._then(fn);
@@ -125,7 +126,7 @@ class TriggerConf {
      * Move to the rule condition
      *
      * @param {*} function the optional function to execute
-     * @returns {ConditionBuilder}
+     * @returns {conditions.ConditionBuilder}
      */
   if (fn) {
     return this.triggerBuilder._if(fn);
@@ -134,7 +135,7 @@ class TriggerConf {
 
 /**
  * @memberof TriggerBuilder
- * @extends TriggerBuilder.TriggerConf
+ * @extends TriggerConf
  * @hideconstructor
  */
 class ChannelTriggerConfig extends TriggerConf {
@@ -156,7 +157,7 @@ class ChannelTriggerConfig extends TriggerConf {
      * trigger a specific event name
      *
      * @param {string} eventName
-     * @returns {TriggerBuilder.ChannelTriggerConfig}
+     * @returns {ChannelTriggerConfig}
      */
   to (eventName) {
     return this.triggered(eventName);
@@ -166,7 +167,7 @@ class ChannelTriggerConfig extends TriggerConf {
      * trigger a specific event name
      *
      * @param {string} eventName
-     * @returns {TriggerBuilder.ChannelTriggerConfig}
+     * @returns {ChannelTriggerConfig}
      */
   triggered (eventName) {
     this.eventName = eventName || '';
@@ -182,7 +183,7 @@ class ChannelTriggerConfig extends TriggerConf {
  * Cron based trigger
  *
  * @memberof TriggerBuilder
- * @extends TriggerBuilder.TriggerConf
+ * @extends TriggerConf
  * @hideconstructor
  */
 class CronTriggerConfig extends TriggerConf {
@@ -199,7 +200,7 @@ class CronTriggerConfig extends TriggerConf {
  * item based trigger
  *
  * @memberof TriggerBuilder
- * @extends TriggerBuilder.TriggerConf
+ * @extends TriggerConf
  * @hideconstructor
  */
 class ItemTriggerConfig extends TriggerConf {
@@ -219,7 +220,7 @@ class ItemTriggerConfig extends TriggerConf {
      * Item to
      *
      * @param {*} value this item should be triggered to
-     * @returns {TriggerBuilder.ItemTriggerConfig}
+     * @returns {ItemTriggerConfig}
      */
   to (value) {
     this.to_value = value;
@@ -229,7 +230,7 @@ class ItemTriggerConfig extends TriggerConf {
   /**
      * Item from
      * @param {*} value this items should be triggered from
-     * @returns {TriggerBuilder.ItemTriggerConfig}
+     * @returns {ItemTriggerConfig}
      */
   from (value) {
     if (this.op_type !== 'changed') {
@@ -242,7 +243,7 @@ class ItemTriggerConfig extends TriggerConf {
   /**
      * item changed to OFF
      *
-     * @returns {TriggerBuilder.ItemTriggerConfig}
+     * @returns {ItemTriggerConfig}
      */
   toOff () {
     return this.to('OFF');
@@ -251,7 +252,7 @@ class ItemTriggerConfig extends TriggerConf {
   /**
      * item changed to ON
      *
-     * @returns {TriggerBuilder.ItemTriggerConfig}
+     * @returns {ItemTriggerConfig}
      */
   toOn () {
     return this.to('ON');
@@ -260,7 +261,7 @@ class ItemTriggerConfig extends TriggerConf {
   /**
      * item recieved command
      *
-     * @returns {TriggerBuilder.ItemTriggerConfig}
+     * @returns {ItemTriggerConfig}
      */
   receivedCommand () {
     this.op_type = 'receivedCommand';
@@ -270,7 +271,7 @@ class ItemTriggerConfig extends TriggerConf {
   /**
      * item recieved update
      *
-     * @returns {TriggerBuilder.ItemTriggerConfig}
+     * @returns {ItemTriggerConfig}
      */
   receivedUpdate () {
     this.op_type = 'receivedUpdate';
@@ -280,7 +281,7 @@ class ItemTriggerConfig extends TriggerConf {
   /**
      * item changed state
      *
-     * @returns {TriggerBuilder.ItemTriggerConfig}
+     * @returns {ItemTriggerConfig}
      */
   changed () {
     this.op_type = 'changed';
@@ -290,7 +291,7 @@ class ItemTriggerConfig extends TriggerConf {
   /**
      * For timespan
      * @param {*} timespan
-     * @returns {TriggerBuilder.ItemTriggerConfig}
+     * @returns {ItemTriggerConfig}
      */
   for (timespan) {
     return new operations.TimingItemStateOperation(this, timespan);
@@ -380,7 +381,7 @@ class ItemTriggerConfig extends TriggerConf {
  * Thing based trigger
  *
  * @memberof TriggerBuilder
- * @extends TriggerBuilder.TriggerConf
+ * @extends TriggerConf
  * @hideconstructor
  */
 class ThingTriggerConfig extends TriggerConf {
@@ -417,7 +418,7 @@ class ThingTriggerConfig extends TriggerConf {
   /**
      * thing changed
      *
-     * @returns {TriggerBuilder.ThingTriggerConfig}
+     * @returns {ThingTriggerConfig}
      */
   changed () {
     this.op_type = 'changed';
@@ -427,7 +428,7 @@ class ThingTriggerConfig extends TriggerConf {
   /**
      * thing updates
      *
-     * @returns {TriggerBuilder.ThingTriggerConfig}
+     * @returns {ThingTriggerConfig}
      */
   updated () {
     this.op_type = 'updated';
@@ -437,7 +438,7 @@ class ThingTriggerConfig extends TriggerConf {
   /**
      * thing status changed from
      *
-     * @returns {TriggerBuilder.ThingTriggerConfig}
+     * @returns {ThingTriggerConfig}
      */
   from (value) {
     if (this.op_type !== 'changed') {
@@ -450,7 +451,7 @@ class ThingTriggerConfig extends TriggerConf {
   /**
      * thing status changed to
      *
-     * @returns {TriggerBuilder.ThingTriggerConfig}
+     * @returns {ThingTriggerConfig}
      */
   to (value) {
     this.to_value = value;
@@ -473,7 +474,7 @@ class ThingTriggerConfig extends TriggerConf {
  * System based trigger
  *
  * @memberof TriggerBuilder
- * @extends TriggerBuilder.TriggerConf
+ * @extends TriggerConf
  * @hideconstructor
  */
 class SystemTriggerConfig extends TriggerConf {
@@ -490,7 +491,7 @@ class SystemTriggerConfig extends TriggerConf {
   /**
      * System trigger
      *
-     * @returns {TriggerBuilder.SystemTriggerConfig}
+     * @returns {SystemTriggerConfig}
      */
   rulesLoaded () {
     return this.startLevel(40);
@@ -499,7 +500,7 @@ class SystemTriggerConfig extends TriggerConf {
   /**
      * System trigger
      *
-     * @returns {TriggerBuilder.SystemTriggerConfig}
+     * @returns {SystemTriggerConfig}
      */
   ruleEngineStarted () {
     return this.startLevel(50);
@@ -508,7 +509,7 @@ class SystemTriggerConfig extends TriggerConf {
   /**
      * System trigger
      *
-     * @returns {TriggerBuilder.SystemTriggerConfig}
+     * @returns {SystemTriggerConfig}
      */
   userInterfacesStarted () {
     return this.startLevel(70);
@@ -517,7 +518,7 @@ class SystemTriggerConfig extends TriggerConf {
   /**
      * System trigger
      *
-     * @returns {TriggerBuilder.SystemTriggerConfig}
+     * @returns {SystemTriggerConfig}
      */
   thingsInitialized () {
     return this.startLevel(80);
@@ -526,7 +527,7 @@ class SystemTriggerConfig extends TriggerConf {
   /**
      * System trigger
      *
-     * @returns {TriggerBuilder.SystemTriggerConfig}
+     * @returns {SystemTriggerConfig}
      */
   startupComplete () {
     return this.startLevel(100);
@@ -535,7 +536,7 @@ class SystemTriggerConfig extends TriggerConf {
   /**
      * System trigger
      *
-     * @returns {TriggerBuilder.SystemTriggerConfig}
+     * @returns {SystemTriggerConfig}
      */
   startLevel (level) {
     if (typeof (this.level) !== 'undefined') {

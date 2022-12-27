@@ -9,6 +9,7 @@ const conditions = require('./condition-builder');
  */
 class RuleBuilder {
   constructor (toggleable) {
+    /** @private */
     this._triggerConfs = [];
     this.toggleable = toggleable || false;
   }
@@ -16,7 +17,7 @@ class RuleBuilder {
   /**
      * Specifies when the rule should occur. Will create a standard rule.
      *
-     * @returns {TriggerBuilder} rule builder
+     * @returns {triggers.TriggerBuilder} rule builder
      */
   when () {
     return new triggers.TriggerBuilder(this);
@@ -119,7 +120,7 @@ module.exports = {
      *
      * @memberof rules
      * @param {boolean} [withToggle=false] rule can be toggled on or off (optional)
-     * @returns {TriggerBuilder} rule builder
+     * @returns {triggers.TriggerBuilder} rule builder
      */
   when: (withToggle) => new RuleBuilder(withToggle).when()
 };

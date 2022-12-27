@@ -1,33 +1,46 @@
 // Manually written type defintions to avoid problems with lazy loading in index.js
-
-/**
- * Native Java openHAB State (instance of {@link https ://www.openhab.org/javadoc/latest/org/openhab/core/types/state org.openhab.core.types.State})
- */
-export type HostState = object;
-/**
- * Native Java openHAB Item (instance of {@link https ://www.openhab.org/javadoc/latest/org/openhab/core/items/item org.openhab.core.items.Item})
- */
-export type HostItem = object;
-/**
- * Native Java Class Object (instance of java.lang.Class)
- */
-export type HostClass = object;
-/**
- * Native Jave openHAB Rule (instance of {@link https ://www.openhab.org/javadoc/latest/org/openhab/core/automation/rule org.openhab.core.automation.Rule})
- */
-export type HostRule = object;
-/**
- * Native Jave openHAB Trigger (instance of {@link https ://www.openhab.org/javadoc/latest/org/openhab/core/automation/trigger org.openhab.core.automation.Trigger})
- */
-export type HostTrigger = object;
-/**
- * Native Java openHAB Thing (instance of {@link https ://www.openhab.org/javadoc/latest/org/openhab/core/thing/thing org.openhab.core.thing.Thing})
- */
-export type HostThing = object;
+declare global {
+  /**
+   * Native Java Class Object (instance of {@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Class.html java.lang.Class})
+   */
+  type JavaClass = object;
+  /**
+   * Native Java Set Object (instance of {@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html java.util.Set})
+   */
+  type JavaSet = object;
+  /**
+   * Native Java List Object (instance of {@link @link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/List.html java.util.List})
+   */
+  type JavaList = object;
+  /**
+   * Native Java openHAB State (instance of {@link https://www.openhab.org/javadoc/latest/org/openhab/core/types/state org.openhab.core.types.State})
+   */
+  type HostState = object;
+  /**
+   * Native Java openHAB Item (instance of {@link https://www.openhab.org/javadoc/latest/org/openhab/core/items/item org.openhab.core.items.Item})
+   */
+  type HostItem = object;
+  /**
+   * Native Javea openHAB Rule (instance of {@link https://www.openhab.org/javadoc/latest/org/openhab/core/automation/rule org.openhab.core.automation.Rule})
+   */
+  type HostRule = object;
+  /**
+   * Native Java openHAB Trigger (instance of {@link https://www.openhab.org/javadoc/latest/org/openhab/core/automation/trigger org.openhab.core.automation.Trigger})
+   */
+  type HostTrigger = object;
+  /**
+   * Native Java openHAB Thing (instance of {@link https://www.openhab.org/javadoc/latest/org/openhab/core/thing/thing org.openhab.core.thing.Thing})
+   */
+  type HostThing = object;
+  /**
+   * Native Java openHAB GroupFunction (instance of {@link https://www.openhab.org/javadoc/latest/org/openhab/core/items/groupfunction org.openhab.core.items.GroupFunction})
+   */
+  type HostGroupFunction = object;
+}
 export const log: typeof import("./log");
 export const rules: typeof import("./rules/rules");
 export const items: typeof import("./items/items");
-export const things: typeof import("./things/things");
+export const things: typeof import("./things");
 export const metadata: typeof import("./metadata/metadata");
 export const triggers: typeof import("./triggers");
 export const actions: typeof import("./actions");

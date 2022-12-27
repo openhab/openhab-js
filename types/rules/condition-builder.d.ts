@@ -54,16 +54,18 @@ export class ItemStateConditionConf {
  */
 export class ConditionBuilder {
     constructor(builder: any, fn: any);
-    builder: any;
-    fn: any;
+    /** @private */
+    private _builder;
+    /** @private */
+    private _fn;
     _then(condition: any, fn: any): operations.OperationBuilder;
     /**
-       * Move to the rule operations
-       *
-       * @param {*} function the optional function to execute
-       * @returns {OperationBuilder}
-       */
-    then(fn: any): OperationBuilder;
+     * Move to the rule operations
+     *
+     * @param {*} function the optional function to execute
+     * @returns {operations.OperationBuilder}
+     */
+    then(fn: any): operations.OperationBuilder;
     /**
       * Condition of an item in determining whether to process rule.
       *

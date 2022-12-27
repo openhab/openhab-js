@@ -25,7 +25,8 @@
         "lint": "npx standardx | snazzy",
         "lint:fix": "npx standardx --fix",
         "webpack": "webpack",
-        "types": "tsc"
+        "types": "tsc",
+        "types:test": "tsc --project tsconfig.test.json"
     },
     "devDependencies": {
         "@types/jest": "^28.1.8",

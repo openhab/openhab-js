@@ -171,23 +171,23 @@ export class ScriptExecution {
     /**
      * Schedules a function for later execution.
      *
-     * @param {string} [identifier] an optional identifier
-     * @param {ZonedDateTime} instant the point in time when the code should be executed
+     * @param {string} identifier an optional identifier
+     * @param {time.ZonedDateTime} instant the point in time when the code should be executed
      * @param {function} closure the code block to execute
      * @returns {*} a native openHAB Timer
      */
-    static createTimer(identifier?: string, instant: ZonedDateTime, closure: Function): any;
+    static createTimer(identifier: string, instant: time.ZonedDateTime, closure: Function): any;
     /**
      * Schedules a function (with argument) for later execution
      *
      * @deprecated
      * @param string [identifier] an optional identifier
-     * @param {ZonedDateTime} instant the point in time when the code should be executed
+     * @param {time.ZonedDateTime} instant the point in time when the code should be executed
      * @param {*} arg1 the argument to pass to the code block
      * @param {function} closure the code block to execute
      * @returns {*} a native openHAB Timer
      */
-    static createTimerWithArgument(identifier: any, instant: ZonedDateTime, arg1: any, closure: Function): any;
+    static createTimerWithArgument(identifier: any, instant: time.ZonedDateTime, arg1: any, closure: Function): any;
 }
 /**
  * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/Semantics.html Semantics} Actions
@@ -292,6 +292,9 @@ export const Voice: any;
  * @memberof actions
  */
 export let NotificationAction: any;
+declare namespace time {
+    type ZonedDateTime = import('@js-joda/core').ZonedDateTime;
+}
 export declare function get(bindingId: string, thingUid: string): any;
 export declare function thingActions(bindingId: string, thingUid: string): any;
 export { LogAction as Log, ThingsAction as Things };

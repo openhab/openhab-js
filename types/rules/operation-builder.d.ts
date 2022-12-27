@@ -1,11 +1,12 @@
+export type Item = import("../items/items").Item;
 /**
  * Sends a command or update to an item
  *
  * @memberof OperationBuilder
- * @extends OperationBuilder.OperationConfig
+ * @extends OperationConfig
  * @hideconstructor
  */
-export class SendCommandOrUpdateOperation {
+export class SendCommandOrUpdateOperation extends OperationConfig {
     constructor(operationBuilder: any, dataOrSupplier: any, isCommand: boolean, optionalDesc: any);
     isCommand: boolean;
     dataFn: any;
@@ -13,24 +14,24 @@ export class SendCommandOrUpdateOperation {
     /**
        * Send command to multiple items
        *
-       * @param {items.Item[]|String[]} itemsOrNames the items to send a command to
-       * @returns {OperationBuilder.SendCommandOrUpdateOperation} this
+       * @param {Item[] | string[]} itemsOrNames the items to send a command to
+       * @returns {SendCommandOrUpdateOperation} this
        */
-    toItems(itemsOrNames: items.Item[] | string[]): OperationBuilder.SendCommandOrUpdateOperation;
+    toItems(itemsOrNames: Item[] | string[]): SendCommandOrUpdateOperation;
     toItemNames: any[];
     /**
        * Send command to an item
        *
-       * @param {items.Item|String} itemOrName the item to send a command to
-       * @returns {OperationBuilder.SendCommandOrUpdateOperation} this
+       * @param {Item | string} itemOrName the item to send a command to
+       * @returns {SendCommandOrUpdateOperation} this
        */
-    toItem(itemOrName: items.Item | string): OperationBuilder.SendCommandOrUpdateOperation;
+    toItem(itemOrName: Item | string): SendCommandOrUpdateOperation;
     /**
        * Send another command
        * @param {*} next
-       * @returns {OperationBuilder.SendCommandOrUpdateOperation} this
+       * @returns {SendCommandOrUpdateOperation} this
        */
-    and(next: any): OperationBuilder.SendCommandOrUpdateOperation;
+    and(next: any): SendCommandOrUpdateOperation;
     next: any;
     _run(args: any): void;
     _complete(): boolean;
@@ -40,10 +41,10 @@ export class SendCommandOrUpdateOperation {
  * Timing Item state
  *
  * @memberof OperationBuilder
- * @extends OperationBuilder.OperationConfig
+ * @extends OperationConfig
  * @hideconstructor
  */
-export class TimingItemStateOperation {
+export class TimingItemStateOperation extends OperationConfig {
     constructor(operationBuilder: any, itemChangedTriggerConfig: any, duration: any);
     item_changed_trigger_config: any;
     duration_ms: any;
@@ -59,11 +60,10 @@ export class TimingItemStateOperation {
  * Toggles the state of an item
  *
  * @memberof OperationBuilder
- * @extends OperationBuilder.OperationConfig
+ * @extends OperationConfig
  * @hideconstructor
  */
-export class ToggleOperation {
-    constructor(operationBuilder: any);
+export class ToggleOperation extends OperationConfig {
     next: any;
     /** @type {function} */
     toItem: Function;
@@ -75,18 +75,18 @@ export class ToggleOperation {
     /**
        * Toggle the state of an item
        *
-       * @returns {OperationBuilder.SendCommandOrUpdateOperation} this
+       * @returns {SendCommandOrUpdateOperation} this
        */
-    doToggle(): OperationBuilder.SendCommandOrUpdateOperation;
+    doToggle(): SendCommandOrUpdateOperation;
 }
 /**
  * Copies state from one item to another item
  *
  * @memberof OperationBuilder
- * @extends OperationBuilder.OperationConfig
+ * @extends OperationConfig
  * @hideconstructor
  */
-export class CopyStateOperation {
+export class CopyStateOperation extends OperationConfig {
     /**
        * Creates a new operation. Don't use constructor directly.
        *
@@ -99,23 +99,23 @@ export class CopyStateOperation {
        * Sets the item to copy the state from
        *
        * @param {string} itemName the item to copy state from
-       * @returns {OperationBuilder.CopyStateOperation} this
+       * @returns {CopyStateOperation} this
        */
-    fromItem(itemName: string): OperationBuilder.CopyStateOperation;
+    fromItem(itemName: string): CopyStateOperation;
     from_item: string;
     /**
        * Sets the item to copy the state to
        *
        * @param {string} itemName the item to copy state to
-       * @returns {OperationBuilder.CopyStateOperation} this
+       * @returns {CopyStateOperation} this
        */
-    toItem(itemName: string): OperationBuilder.CopyStateOperation;
+    toItem(itemName: string): CopyStateOperation;
     to_item: string;
     /**
        * Appends another operation to execute when the rule fires
-       * @returns {OperationBuilder.CopyStateOperation} this
+       * @returns {CopyStateOperation} this
        */
-    and(): OperationBuilder.CopyStateOperation;
+    and(): CopyStateOperation;
     next: OperationBuilder;
     /**
        * Runs the operation. Don't call directly.
@@ -140,13 +140,18 @@ export class CopyStateOperation {
     private describe;
 }
 /**
+ * @typedef { import("../items/items").Item } Item
+ */
+/**
  * Operation to execute as part of a rule
  * @hideconstructor
  */
 export class OperationBuilder {
     constructor(builder: any, fn: any);
-    builder: any;
-    fn: any;
+    /** @private */
+    private _builder;
+    /** @private */
+    private _fn;
     _finishErr(): void;
     _then(operation: any, group: any, name: any, description: any, tags: any, id: any): void;
     /**
@@ -170,64 +175,90 @@ export class OperationBuilder {
       * Specifies that a command should be sent as a result of this rule firing.
       *
       * @param {string} command the command to send
-      * @returns {OperationBuilder.SendCommandOrUpdateOperation} the operation
+      * @returns {SendCommandOrUpdateOperation} the operation
       */
-    send(c: any): OperationBuilder.SendCommandOrUpdateOperation;
+    send(c: any): SendCommandOrUpdateOperation;
     /**
        * Specifies that an update should be posted as a result of this rule firing.
        *
        * @param {string} update the update to send
-       * @returns {OperationBuilder.SendCommandOrUpdateOperation} the operation
+       * @returns {SendCommandOrUpdateOperation} the operation
        */
-    postUpdate(c: any): OperationBuilder.SendCommandOrUpdateOperation;
+    postUpdate(c: any): SendCommandOrUpdateOperation;
     /**
        * Specifies the a command 'ON' should be sent as a result of this rule firing.
        *
-       * @returns {OperationBuilder.SendCommandOrUpdateOperation} the operation
+       * @returns {SendCommandOrUpdateOperation} the operation
        */
-    sendOn(): OperationBuilder.SendCommandOrUpdateOperation;
+    sendOn(): SendCommandOrUpdateOperation;
     /**
        * Specifies the a command 'OFF' should be sent as a result of this rule firing.
        *
-       * @returns {OperationBuilder.SendCommandOrUpdateOperation} the operation
+       * @returns {SendCommandOrUpdateOperation} the operation
        */
-    sendOff(): OperationBuilder.SendCommandOrUpdateOperation;
+    sendOff(): SendCommandOrUpdateOperation;
     /**
        * Specifies a command should be sent to toggle the state of the target object
        * as a result of this rule firing.
        *
-       * @returns {OperationBuilder.ToggleOperation} the operation
+       * @returns {ToggleOperation} the operation
        */
-    sendToggle(): OperationBuilder.ToggleOperation;
+    sendToggle(): ToggleOperation;
     /**
        * Specifies a command should be forwarded to the state of the target object
        * as a result of this rule firing. This relies on the trigger being the result
        * of a command itself.
        *
-       * @returns {OperationBuilder.SendCommandOrUpdateOperation} the operation
+       * @returns {SendCommandOrUpdateOperation} the operation
        */
-    sendIt(): OperationBuilder.SendCommandOrUpdateOperation;
+    sendIt(): SendCommandOrUpdateOperation;
     /**
        * Specifies a command state should be posted to the target object
        * as a result of this rule firing. This relies on the trigger being the result
        * of a command itself.
        *
-       * @returns {OperationBuilder.SendCommandOrUpdateOperation} the operation
+       * @returns {SendCommandOrUpdateOperation} the operation
        */
-    postIt(): OperationBuilder.SendCommandOrUpdateOperation;
+    postIt(): SendCommandOrUpdateOperation;
     /**
        * Copies the state from one item to another. Can be used to proxy item state. State is updated, not
        * sent as a command.
        *
-       * @returns {OperationBuilder.CopyStateOperation} the operation config
+       * @returns {CopyStateOperation} the operation config
        */
-    copyState(): OperationBuilder.CopyStateOperation;
+    copyState(): CopyStateOperation;
     /**
        * Sends the state from one item to another. Can be used to proxy item state. State is
        * sent as a command.
        *
-       * @returns {OperationBuilder.CopyStateOperation} the operation config
+       * @returns {CopyStateOperation} the operation config
        */
-    copyAndSendState(): OperationBuilder.CopyStateOperation;
+    copyAndSendState(): CopyStateOperation;
 }
+/**
+ * {RuleBuilder} RuleBuilder triggers
+ * @memberof OperationBuilder
+ */
+declare class OperationConfig {
+    constructor(operationBuilder: any);
+    operationBuilder: any;
+    /**
+       * Specify the rule group for this rule
+       *
+       * @param {string} group the group this rule belongs to.
+       * @returns {OperationBuilder} this
+       */
+    inGroup(group: string): OperationBuilder;
+    group: string;
+    /**
+       * Build this rule
+       *
+       * @param {string} [name] of the rule
+       * @param {string} [description] of the rule
+       * @param {Array<String>} [tags] of the rule
+       * @param {string} [id] of the rule
+       */
+    build(name?: string, description?: string, tags?: Array<string>, id?: string): void;
+}
+export {};
 //# sourceMappingURL=operation-builder.d.ts.map

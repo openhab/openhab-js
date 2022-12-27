@@ -289,8 +289,8 @@ declare class ItemHistory {
      */
     private _decimalOrNull;
 }
-declare namespace ItemHistory {
-    export { time };
+declare namespace time {
+    type ZonedDateTime = import('@js-joda/core').ZonedDateTime;
 }
-type time = typeof JSJoda;
+import time = require("../time");
 //# sourceMappingURL=item-history.d.ts.map

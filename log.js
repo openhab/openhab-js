@@ -32,8 +32,11 @@ class Logger {
      * @param {*} _listener a callback to receive logging calls. Can be used to send calls elsewhere, such as escalate errors.
      */
   constructor (_name, appenderProvider) {
+    /** @private */
     this._name = _name || this._getCallerDetails('', 3).fileName.replace(/\.[^/.]+$/, '');
+    /** @private */
     this.appenderProvider = appenderProvider;
+    /** @private */
     this._logger = Java.type('org.slf4j.LoggerFactory').getLogger(LOGGER_PREFIX + '.' + this.name.toString().toLowerCase());
   }
 
@@ -144,8 +147,8 @@ class Logger {
      *
      *
      * @param {string} level The level at which to log, such as 'INFO', or 'DEBUG'
-     * @param {String|Error} msg the message to log, possibly with object placeholders
-     * @param {Object[]} [objects] the objects to substitute into the log message
+     * @param {string|Error} msg the message to log, possibly with object placeholders
+     * @param {object[]} objects=[] the objects to substitute into the log message
      */
   atLevel (level, msg, ...objects) {
     const titleCase = level[0].toUpperCase() + level.slice(1);
@@ -204,3 +207,4 @@ function newLogger (_name) {
 }
 
 module.exports = newLogger;
+module.exports.Logger = Logger;

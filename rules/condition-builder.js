@@ -8,28 +8,30 @@ const items = require('../items');
  */
 class ConditionBuilder {
   constructor (builder, fn) {
-    this.builder = builder;
-    this.fn = fn;
+    /** @private */
+    this._builder = builder;
+    /** @private */
+    this._fn = fn;
   }
 
   _then (condition, fn) {
-    this.builder.setCondition(condition);
-    return new operations.OperationBuilder(this.builder, fn);
+    this._builder.setCondition(condition);
+    return new operations.OperationBuilder(this._builder, fn);
   }
 
   /**
-     * Move to the rule operations
-     *
-     * @param {*} function the optional function to execute
-     * @returns {OperationBuilder}
-     */
+   * Move to the rule operations
+   *
+   * @param {*} function the optional function to execute
+   * @returns {operations.OperationBuilder}
+   */
   then (fn) {
-    if (this.fn) {
-      this.builder.setCondition(new FunctionConditionConf(this.fn));
+    if (this._fn) {
+      this._builder.setCondition(new FunctionConditionConf(this._fn));
     } else {
       throw new Error("'then' can only be called when 'if' is passed a function");
     }
-    return new operations.OperationBuilder(this.builder, fn);
+    return new operations.OperationBuilder(this._builder, fn);
   }
 
   /**

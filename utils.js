@@ -21,7 +21,7 @@ function getAllPropertyNames (obj) {
  *
  * @memberOf utils
  * @param {Set} set JavaScript Set Object ({@link https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Set})
- * @returns {java.util.Set} Java Set ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html})
+ * @returns {JavaSet} Java Set ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html})
  */
 const jsSetToJavaSet = function (set) {
   const rv = new HashSet();
@@ -36,7 +36,7 @@ const jsSetToJavaSet = function (set) {
  *
  * @memberOf utils
  * @param {Array} arr JavaScript Array
- * @returns {java.util.Set} Java Set ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html})
+ * @returns {JavaSet} Java Set ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html})
  */
 const jsArrayToJavaSet = function (arr) {
   const set = new HashSet();
@@ -53,7 +53,7 @@ const jsArrayToJavaSet = function (arr) {
  *
  * @memberOf utils
  * @param {Array} arr JavaScript Array
- * @returns {java.util.List} Java List ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/List.html})
+ * @returns {JavaList} Java List ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/List.html})
  */
 const jsArrayToJavaList = function (arr) {
   const list = new ArrayList();
@@ -69,7 +69,7 @@ const jsArrayToJavaList = function (arr) {
  * Convert Java List to JavaScript Array.
  *
  * @memberOf utils
- * @param {java.util.List} set Java Set ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/List.html})
+ * @param {JavaList} set Java Set ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/List.html})
  * @returns {Array} JavaScript Array
  */
 const javaListToJsArray = function (list) {
@@ -80,7 +80,7 @@ const javaListToJsArray = function (list) {
  * Convert Java Set to JavaScript Array.
  *
  * @memberOf utils
- * @param {java.util.Set} set Java Set ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html})
+ * @param {JavaSet} set Java Set ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html})
  * @returns {Array} JavaScript Array
  */
 const javaSetToJsArray = function (set) {
@@ -91,7 +91,7 @@ const javaSetToJsArray = function (set) {
  * Convert Java Set to JavaScript Set.
  *
  * @memberOf utils
- * @param {java.util.Set} set Java Set ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html})
+ * @param {JavaSet} set Java Set ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html})
  * @returns {Set} JavaScript Set Object ({@link https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Set})
  */
 const javaSetToJsSet = function (set) {
@@ -169,7 +169,7 @@ const dumpObject = function (obj, dumpProps = false) {
  *
  * @memberOf utils
  * @param {*} instance object
- * @param {java.lang.Class} type Java class ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Class.html})
+ * @param {JavaClass} type Java class ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Class.html})
  * @returns {boolean} whether it is an instance of a Java class
  * @throws error if type is not a java class
  */

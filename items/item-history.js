@@ -1,4 +1,4 @@
-/** @typedef {import('@js-joda/core')} time */
+/** @typedef {import('@js-joda/core').ZonedDateTime} time.ZonedDateTime */
 const time = require('../time');
 const PersistenceExtensions = Java.type('org.openhab.core.persistence.extensions.PersistenceExtensions');
 

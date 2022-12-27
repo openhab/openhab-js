@@ -4,14 +4,15 @@
  */
 export class RuleBuilder {
     constructor(toggleable: any);
-    _triggerConfs: any[];
+    /** @private */
+    private _triggerConfs;
     toggleable: any;
     /**
        * Specifies when the rule should occur. Will create a standard rule.
        *
-       * @returns {TriggerBuilder} rule builder
+       * @returns {triggers.TriggerBuilder} rule builder
        */
-    when(): TriggerBuilder;
+    when(): triggers.TriggerBuilder;
     addTrigger(triggerConf: any): RuleBuilder;
     setCondition(condition: any): RuleBuilder;
     condition: any;
@@ -20,5 +21,6 @@ export class RuleBuilder {
     optionalRuleGroup: any;
     describe(compact: any): string;
 }
-export declare function when(withToggle?: boolean): TriggerBuilder;
+import triggers = require("./trigger-builder");
+export declare function when(withToggle?: boolean): triggers.TriggerBuilder;
 //# sourceMappingURL=rule-builder.d.ts.map

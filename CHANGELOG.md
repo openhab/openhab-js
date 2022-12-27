@@ -2,18 +2,20 @@
 
 ## to be released
 
-| Type        | Namespace  | Description                                                              | Reference                                              | Breaking |
-|-------------|------------|--------------------------------------------------------------------------|--------------------------------------------------------|----------|
-| Enhancement | `triggers` | Add support for `Item` as argument & Add arg type checks                 | [#194](https://github.com/openhab/openhab-js/pull/194) | No       |
-| Enhancement | `items`    | ItemHistory: Add new persistence methods                                 | [#196](https://github.com/openhab/openhab-js/pull/196) | No       |
-| Enhancement | `rules`    | Display `execute` code of `JSRule` in MainUI                             | [#199](https://github.com/openhab/openhab-js/pull/199) | No       |
-| Enhancement | `time`     | Support ISO8601 string parsing in `toZDT`                                | [#202](https://github.com/openhab/openhab-js/pull/202) | No       |
-| Enhancement | `time`     | Add `isBetweenDates` & `isBetweenDateTimes` polyfills to `ZonedDateTime` | [#203](https://github.com/openhab/openhab-js/pull/203) | No       |
-| Enhancement | `items`    | ItemHistory: ItemHistory: Add `previousStateTimestamp` method            | [#205](https://github.com/openhab/openhab-js/pull/205) | No       |
-| Enhancement | `Quantity` | Add UoM/Quantity handling functionality by wrapping QuantityType         | [#206](https://github.com/openhab/openhab-js/pull/206) | No       |
-| Fix         | `items`    | Respect the `toString` method of the raw Java Item                       | [#198](https://github.com/openhab/openhab-js/pull/198) | No       |
-| Fix         | `things`   | Respect the `toString` method of the raw Java Thing                      | [#198](https://github.com/openhab/openhab-js/pull/198) | No       |
-| Cleanup     | `things`   | Remove unused ThingBuilder & ChannelBuilder                              | [#198](https://github.com/openhab/openhab-js/pull/198) | No       |
+| Type        | Namespace  | Description                                                                           | Reference                                                                                               | Breaking |
+|-------------|------------|---------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------|----------|
+| Enhancement | `triggers` | Add support for `Item` as argument & Add arg type checks                              | [#194](https://github.com/openhab/openhab-js/pull/194)                                                  | No       |
+| Enhancement | `items`    | ItemHistory: Add new persistence methods                                              | [#196](https://github.com/openhab/openhab-js/pull/196)                                                  | No       |
+| Enhancement | `rules`    | Display `execute` code of `JSRule` in MainUI                                          | [#199](https://github.com/openhab/openhab-js/pull/199)                                                  | No       |
+| Enhancement | `time`     | Support ISO8601 string parsing in `toZDT`                                             | [#202](https://github.com/openhab/openhab-js/pull/202)                                                  | No       |
+| Enhancement | `time`     | Add `isBetweenDates` & `isBetweenDateTimes` polyfills to `ZonedDateTime`              | [#203](https://github.com/openhab/openhab-js/pull/203)                                                  | No       |
+| Enhancement | `items`    | ItemHistory: ItemHistory: Add `previousStateTimestamp` method                         | [#205](https://github.com/openhab/openhab-js/pull/205)                                                  | No       |
+| Enhancement | `Quantity` | Add UoM/Quantity handling functionality by wrapping QuantityType                      | [#206](https://github.com/openhab/openhab-js/pull/206)                                                  | No       |
+| Fix         | `items`    | Respect the `toString` method of the raw Java Item                                    | [#198](https://github.com/openhab/openhab-js/pull/198)                                                  | No       |
+| Fix         | `things`   | Respect the `toString` method of the raw Java Thing                                   | [#198](https://github.com/openhab/openhab-js/pull/198)                                                  | No       |
+| Cleanup     | `things`   | Remove unused ThingBuilder & ChannelBuilder                                           | [#198](https://github.com/openhab/openhab-js/pull/198)                                                  | No       |
+| Bugfix      | `things`   | Fix `bridgeUID` member of `Thing` not working                                         | Commit [fec416a](https://github.com/openhab/openhab-js/commit/fec416a011f4a1e7453541c5beb17d3fca23ec85) | No       |
+| Bugfix      |            | Fix & Improve type definitions [#209](https://github.com/openhab/openhab-js/pull/209) | No                                                                                                      |
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/10).
 

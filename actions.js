@@ -13,6 +13,7 @@
  * const { actions } = require('openhab');
  * actions.NotificationAction.sendBroadcastNotification("Hello World!")
  */
+/** @typedef {import('@js-joda/core').ZonedDateTime} time.ZonedDateTime */
 
 const typeOfArguments = require('./typeOfArguments');
 const osgi = require('./osgi');
@@ -221,8 +222,8 @@ class ScriptExecution {
   /**
    * Schedules a function for later execution.
    *
-   * @param {string} [identifier] an optional identifier
-   * @param {ZonedDateTime} instant the point in time when the code should be executed
+   * @param {string} identifier an optional identifier
+   * @param {time.ZonedDateTime} instant the point in time when the code should be executed
    * @param {function} closure the code block to execute
    * @returns {*} a native openHAB Timer
    */
@@ -250,7 +251,7 @@ class ScriptExecution {
    *
    * @deprecated
    * @param string [identifier] an optional identifier
-   * @param {ZonedDateTime} instant the point in time when the code should be executed
+   * @param {time.ZonedDateTime} instant the point in time when the code should be executed
    * @param {*} arg1 the argument to pass to the code block
    * @param {function} closure the code block to execute
    * @returns {*} a native openHAB Timer
