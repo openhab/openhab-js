@@ -17,8 +17,8 @@ export function ChannelEventTrigger(channel: string, event: string, triggerName?
  * @example
  * ItemStateChangeTrigger('my_item'); // changed
  * ItemStateChangeTrigger('my_item', 'OFF', 'ON'); // changed from OFF to ON
- * ItemStateChangeTrigger('my_item', null, 'ON'); // changed to ON
- * ItemStateChangeTrigger('my_item', 'OFF', null); // changed from OFF
+ * ItemStateChangeTrigger('my_item', undefined, 'ON'); // changed to ON
+ * ItemStateChangeTrigger('my_item', 'OFF', undefined); // changed from OFF
  *
  * @memberof triggers
  * @param {Item|string} itemOrName the {@link Item} or the name of the Item to monitor for change
@@ -120,13 +120,9 @@ export function ThingStatusChangeTrigger(thingUID: string, status?: string, prev
  *
  * @example
  * SystemStartlevelTrigger(40)  // Rules loaded
- * ...
  * SystemStartlevelTrigger(50)  // Rule engine started
- * ...
  * SystemStartlevelTrigger(70)  // User interfaces started
- * ...
  * SystemStartlevelTrigger(80)  // Things initialized
- * ...
  * SystemStartlevelTrigger(100) // Startup Complete
  *
  * @memberof triggers
@@ -198,7 +194,7 @@ export function PWMTrigger(dutycycleItem: string, interval: number, minDutyCycle
  * rules.JSRule({
  *   name: 'PID rule',
  *   triggers: [
- *     triggers.PIDTrigger('currentTemperature', 'targetTemperature', 1, 1, 1, 1, 10000, null, 1, 100);
+ *     triggers.PIDTrigger('currentTemperature', 'targetTemperature', 1, 1, 1, 1, 10000, undefined, 1, 100);
  *   ],
  *   execute: (event) => {
  *     // Look out what the max value for your Item is!
