@@ -171,12 +171,12 @@ export class ScriptExecution {
     /**
      * Schedules a function for later execution.
      *
-     * @param {string} [identifier] an optional identifier
+     * @param {string} identifier an optional identifier
      * @param {time.ZonedDateTime} instant the point in time when the code should be executed
      * @param {function} closure the code block to execute
      * @returns {*} a native openHAB Timer
      */
-    static createTimer(identifier?: string, instant: time.ZonedDateTime, closure: Function): any;
+    static createTimer(identifier: string, instant: time.ZonedDateTime, closure: Function): any;
     /**
      * Schedules a function (with argument) for later execution
      *
