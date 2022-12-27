@@ -1,5 +1,5 @@
 {
     "name": "rules",
     "version": "0.0.1",
-    "main": "rules.js"
+    "main": "index.js"
 }
