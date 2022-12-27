@@ -64,6 +64,10 @@ describe('actions.js', () => {
   });
 
   describe('Transformation', () => {
+    beforeAll(() => {
+      jest.spyOn(JavaTransformation, 'transform');
+      jest.spyOn(JavaTransformation, 'transformRaw');
+    });
     const type = 'MAP';
     const fn = 'en.map';
     const value = 'ON';

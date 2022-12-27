@@ -31,8 +31,14 @@ class JavaScriptExecution {
 }
 
 // org.openhab.core.transform.actions.Transformation (https://www.openhab.org/javadoc/latest/org/openhab/core/transform/actions/transformation)
-class JavaTransformation {}
-JavaTransformation.transform = jest.fn(() => 'on');
-JavaTransformation.transformRaw = jest.fn(() => 'on');
+class JavaTransformation {
+  static transform () {
+    return 'on';
+  }
+
+  static transformRaw () {
+    return 'on';
+  }
+}
 
 module.exports = { Configuration, MetadataRegistry, ModuleBuilder, JavaScriptExecution, JavaTransformation };
