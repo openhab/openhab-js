@@ -2,12 +2,12 @@
  * Gets a service registered with OSGi. Allows providing multiple classes/names to try for lookup.
  *
  * @memberof osgi
- * @param {Array<String|HostClass>} classOrNames the class of the service to get
+ * @param {Array<String|JavaClass>} classOrNames the class of the service to get
  *
  * @returns an instance of the service, or null if it cannot be found
  * @throws {Error} if no services of the requested type(s) can be found
  */
-export function getService(...classOrNames: Array<string | HostClass>): any;
+export function getService(...classOrNames: Array<string | JavaClass>): any;
 /**
  * Finds services registered with OSGi.
  *
