@@ -454,6 +454,5 @@ module.exports = {
   isEnabled,
   setEnabled,
   JSRule,
-  SwitchableJSRule,
-  when: require('./rule-builder').when
+  SwitchableJSRule
 };
