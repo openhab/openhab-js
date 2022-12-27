@@ -4,25 +4,70 @@ const QuantityType = Java.type('org.openhab.core.library.types.QuantityType');
 const BigDecimal = Java.type('java.math.BigDecimal');
 
 /**
+ * Takes either a {@link Quantity}, a `string` or a `number` and converts it to a {@link QuantityType} or {@link BigDecimal}.
+ * @param {number|string|Quantity} value
+ * @returns {BigDecimal|QuantityType}
+ * @throws {TypeError} if parameter has the wrong type
+ * @private
+ */
+const _stringOrNumberOrQtyToQtyType = (value) => {
+  if (typeof value === 'number') {
+    value = BigDecimal.valueOf(value);
+  } else if (typeof value === 'string') {
+    value = QuantityType.valueOf(value);
+  } else if (value instanceof Quantity) {
+    value = value.raw;
+  } else {
+    throw new TypeError('Argument of wrong type provided, please provide a number or string or Quantity.');
+  }
+  return value;
+};
+
+/**
+ * Takes either a {@link Quantity} or a `string` and converts it to a {@link QuantityType}.
+ * @param {string|Quantity} value
+ * @returns {QuantityType}
+ * @throws {TypeError} if parameter has the wrong type
+ * @private
+ */
+const _stringOrQtyToQtyType = (value) => {
+  if (typeof value === 'string') {
+    value = QuantityType.valueOf(value);
+  } else if (value instanceof Quantity) {
+    value = value.raw;
+  } else {
+    throw new TypeError('Argument of wrong type provided, please provide a string or Quantity.');
+  }
+  return value;
+};
+
+/**
  * Class allowing easy Units of Measurement/Quantity handling by wrapping the openHAB {@link QuantityType}.
  *
  * @hideconstructor
  */
 class Quantity {
   /**
-   * @param {string} value a string consisting of a numeric value and a dimension, e.g. `5.5 m`
+   * @param {string|Quantity|QuantityType} value either a string consisting of a numeric value and a dimension, e.g. `5.5 m`, a {@link Quantity} or a {@link QuantityType}
    */
   constructor (value) {
-    if (typeof value !== 'string') throw new TypeError('Wrong argument provided to factory, provide a string!');
-    /**
-     * @type {QuantityType}
-     * @private
-     */
-    this.raw = new QuantityType(value);
+    if (value instanceof QuantityType) {
+      /**
+       * @type {QuantityType}
+       * @private
+       */
+      this.raw = value;
+    } else {
+      /**
+       * @type {QuantityType}
+       * @private
+       */
+      this.raw = _stringOrQtyToQtyType(value);
+    }
   }
 
   /**
-   * Dimension of this Quantity, e.g. `[L]` for metres or `[L]²` for cubic-metres.
+   * Dimension of this Quantity, e.g. `[L]` for metres or `[L]²` for cubic-metres as `string`
    * @returns {string}
    */
   get dimension () {
@@ -30,7 +75,7 @@ class Quantity {
   }
 
   /**
-   * Unit of this Quantity, e.g. `Metre`.
+   * Unit of this Quantity, e.g. `Metre` as `string` or `null` if not available
    * @returns {string|null}
    */
   get unit () {
@@ -39,7 +84,7 @@ class Quantity {
   }
 
   /**
-   * Unit symbol of this Quantitiy, e.g. `m`.
+   * Unit symbol of this Quantitiy, e.g. `m` as `string` or `null` if not available
    * @returns {string|null}
    */
   get symbol () {
@@ -69,7 +114,7 @@ class Quantity {
    * @returns {Quantity} this Quantity
    */
   add (value) {
-    value = this._stringOrQtyToQtyType(value);
+    value = _stringOrQtyToQtyType(value);
     this.raw = this.raw.add(value);
     return this;
   }
@@ -80,7 +125,7 @@ class Quantity {
    * @returns {Quantity} this Quantity
    */
   divide (value) {
-    value = this._stringOrNumberOrQtyToQtyType(value);
+    value = _stringOrNumberOrQtyToQtyType(value);
     this.raw = this.raw.divide(value);
     return this;
   }
@@ -91,7 +136,7 @@ class Quantity {
    * @returns {Quantity} this Quantity
    */
   multiply (value) {
-    value = this._stringOrNumberOrQtyToQtyType(value);
+    value = _stringOrNumberOrQtyToQtyType(value);
     this.raw = this.raw.multiply(value);
     return this;
   }
@@ -102,7 +147,7 @@ class Quantity {
    * @returns {Quantity} this Quantity
    */
   subtract (value) {
-    value = this._stringOrQtyToQtyType(value);
+    value = _stringOrQtyToQtyType(value);
     this.raw = this.raw.subtract(value);
     return this;
   }
@@ -123,7 +168,7 @@ class Quantity {
    * @returns {boolean}
    */
   equal (value) {
-    value = this._stringOrQtyToQtyType(value);
+    value = _stringOrQtyToQtyType(value);
     return this.raw.compareTo(value) === 0;
   }
 
@@ -133,7 +178,7 @@ class Quantity {
    * @returns {boolean}
    */
   largerThan (value) {
-    value = this._stringOrQtyToQtyType(value);
+    value = _stringOrQtyToQtyType(value);
     return this.raw.compareTo(value) > 0;
   }
 
@@ -143,7 +188,7 @@ class Quantity {
    * @returns {boolean}
    */
   largerThanOrEqual (value) {
-    value = this._stringOrQtyToQtyType(value);
+    value = _stringOrQtyToQtyType(value);
     return this.raw.compareTo(value) >= 0;
   }
 
@@ -153,7 +198,7 @@ class Quantity {
    * @returns {boolean}
    */
   smallerThan (value) {
-    value = this._stringOrQtyToQtyType(value);
+    value = _stringOrQtyToQtyType(value);
     return this.raw.compareTo(value) < 0;
   }
 
@@ -163,57 +208,21 @@ class Quantity {
    * @returns {boolean}
    */
   smallerThanOrEqual (value) {
-    value = this._stringOrQtyToQtyType(value);
+    value = _stringOrQtyToQtyType(value);
     return this.raw.compareTo(value) <= 0;
   }
 
   toString () {
     return this.raw.toString();
   }
-
-  /**
-     * Takes either a {@link Quantity}, a `string` or a `number` and converts it to a {@link QuantityType} or {@link BigDecimal}.
-     * @param {number|string|Quantity} value
-     * @returns {BigDecimal|QuantityType}
-     * @throws {TypeError} if parameter has the wrong type
-     * @private
-     */
-  _stringOrNumberOrQtyToQtyType (value) {
-    if (typeof value === 'number') {
-      value = new BigDecimal(value);
-    } else if (typeof value === 'string') {
-      value = new QuantityType(value);
-    } else if (value instanceof Quantity) {
-      value = value.raw;
-    } else {
-      throw new TypeError('Wrong argument type provided, please provide a number or string or Quantity.');
-    }
-    return value;
-  }
-
-  /**
-     * Takes either a {@link Quantity} or a `string` and converts it to a {@link QuantityType}.
-     * @param {string|Quantity} value
-     * @returns {QuantityType}
-     * @throws {TypeError} if parameter has the wrong type
-     * @private
-     */
-  _stringOrQtyToQtyType (value) {
-    if (typeof value === 'string') {
-      value = new QuantityType(value);
-    } else if (value instanceof Quantity) {
-      value = value.raw;
-    } else {
-      throw new TypeError('Wrong argument type provided, please provide a string or Quantity.');
-    }
-    return value;
-  }
 }
 
 /**
  * The Quantity allows easy Units of Measurement/Quantity handling by wrapping the openHAB {@link QuantityType}.
  *
- * @param {string} value a string consisting of a numeric value and a dimension, e.g. `5.5 m`
+ * @param {string|Quantity|QuantityType} value either a string consisting of a numeric value and a dimension, e.g. `5.5 m`, a {@link Quantity} or a {@link QuantityType}
  * @returns {Quantity}
  */
 module.exports = (value) => new Quantity(value);
+module.exports._stringOrNumberOrQtyToQtyType = _stringOrNumberOrQtyToQtyType;
+module.exports._stringOrQtyToQtyType = _stringOrQtyToQtyType;

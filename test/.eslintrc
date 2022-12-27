@@ -1,5 +1,9 @@
 {
   "env": {
     "jest": true
-  }
+  },
+  "ignorePatterns": [
+    "javax-measure.mock.js",
+    "openhab.mock.js"
+  ]
 }

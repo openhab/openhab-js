@@ -1,3 +1,5 @@
+const { Unit } = require('./javax-measure.mock');
+
 // org.openhab.core.automation.util.ModuleBuilder (https://www.openhab.org/javadoc/latest/org/openhab/core/automation/util/modulebuilder)
 class ModuleBuilder {
   constructor () {
@@ -41,4 +43,20 @@ class JavaTransformation {
   }
 }
 
-module.exports = { Configuration, MetadataRegistry, ModuleBuilder, JavaScriptExecution, JavaTransformation };
+// org.openhab.core.library.types.QuantityType (https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/quantitytype)
+class QuantityType {
+  add = jest.fn()
+  compareTo = jest.fn()
+  divide = jest.fn()
+  doubleValue = jest.fn()
+  getDimension = jest.fn(() => '[Dimension]')
+  getUnit = jest.fn(() => new Unit())
+  longValue = jest.fn()
+  multiply = jest.fn()
+  subtract = jest.fn()
+  toString = jest.fn()
+  toUnit = jest.fn()
+}
+QuantityType.valueOf = jest.fn(() => new QuantityType())
+
+module.exports = { Configuration, MetadataRegistry, ModuleBuilder, JavaScriptExecution, JavaTransformation, QuantityType };

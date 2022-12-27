@@ -1,4 +1,8 @@
-declare function _exports(value: string): Quantity;
+declare function _exports(value: string | Quantity | any): Quantity;
+declare namespace _exports {
+    export { _stringOrNumberOrQtyToQtyType };
+    export { _stringOrQtyToQtyType };
+}
 export = _exports;
 /**
  * Class allowing easy Units of Measurement/Quantity handling by wrapping the openHAB {@link QuantityType}.
@@ -7,26 +11,26 @@ export = _exports;
  */
 declare class Quantity {
     /**
-     * @param {string} value a string consisting of a numeric value and a dimension, e.g. `5.5 m`
+     * @param {string|Quantity|QuantityType} value either a string consisting of a numeric value and a dimension, e.g. `5.5 m`, a {@link Quantity} or a {@link QuantityType}
      */
-    constructor(value: string);
+    constructor(value: string | Quantity | any);
     /**
      * @type {QuantityType}
      * @private
      */
     private raw;
     /**
-     * Dimension of this Quantity, e.g. `[L]` for metres or `[L]²` for cubic-metres.
+     * Dimension of this Quantity, e.g. `[L]` for metres or `[L]²` for cubic-metres as `string`
      * @returns {string}
      */
     get dimension(): string;
     /**
-     * Unit of this Quantity, e.g. `Metre`.
+     * Unit of this Quantity, e.g. `Metre` as `string` or `null` if not available
      * @returns {string|null}
      */
     get unit(): string;
     /**
-     * Unit symbol of this Quantitiy, e.g. `m`.
+     * Unit symbol of this Quantitiy, e.g. `m` as `string` or `null` if not available
      * @returns {string|null}
      */
     get symbol(): string;
@@ -101,21 +105,21 @@ declare class Quantity {
      */
     smallerThanOrEqual(value: string | Quantity): boolean;
     toString(): any;
-    /**
-       * Takes either a {@link Quantity}, a `string` or a `number` and converts it to a {@link QuantityType} or {@link BigDecimal}.
-       * @param {number|string|Quantity} value
-       * @returns {BigDecimal|QuantityType}
-       * @throws {TypeError} if parameter has the wrong type
-       * @private
-       */
-    private _stringOrNumberOrQtyToQtyType;
-    /**
-       * Takes either a {@link Quantity} or a `string` and converts it to a {@link QuantityType}.
-       * @param {string|Quantity} value
-       * @returns {QuantityType}
-       * @throws {TypeError} if parameter has the wrong type
-       * @private
-       */
-    private _stringOrQtyToQtyType;
 }
+/**
+ * Takes either a {@link Quantity}, a `string` or a `number` and converts it to a {@link QuantityType} or {@link BigDecimal}.
+ * @param {number|string|Quantity} value
+ * @returns {BigDecimal|QuantityType}
+ * @throws {TypeError} if parameter has the wrong type
+ * @private
+ */
+declare function _stringOrNumberOrQtyToQtyType(value: number | string | Quantity): any | any;
+/**
+ * Takes either a {@link Quantity} or a `string` and converts it to a {@link QuantityType}.
+ * @param {string|Quantity} value
+ * @returns {QuantityType}
+ * @throws {TypeError} if parameter has the wrong type
+ * @private
+ */
+declare function _stringOrQtyToQtyType(value: string | Quantity): any;
 //# sourceMappingURL=quantity.d.ts.map
