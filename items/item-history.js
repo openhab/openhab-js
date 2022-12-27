@@ -1,10 +1,6 @@
-/** @typedef {import('@js-joda/core')} time */
+/** @typedef {import('@js-joda/core').ZonedDateTime} time.ZonedDateTime */
 const time = require('../time');
 const PersistenceExtensions = Java.type('org.openhab.core.persistence.extensions.PersistenceExtensions');
-
-/**
- * @typedef {import('@js-joda/core').ZonedDateTime} ZonedDateTime
- */
 
 /**
  * Class representing the historic state of an openHAB Item.
