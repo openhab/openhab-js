@@ -170,5 +170,4 @@ export function JSRule(ruleConfig: RuleConfig): HostRule;
   */
 export function SwitchableJSRule(ruleConfig: RuleConfig): HostRule;
 import triggers = require("../triggers");
-export declare const when: (withToggle?: boolean) => import("./trigger-builder").TriggerBuilder;
 //# sourceMappingURL=rules.d.ts.map
