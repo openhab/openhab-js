@@ -148,8 +148,10 @@ export class CopyStateOperation extends OperationConfig {
  */
 export class OperationBuilder {
     constructor(builder: any, fn: any);
-    builder: any;
-    fn: any;
+    /** @private */
+    private _builder;
+    /** @private */
+    private _fn;
     _finishErr(): void;
     _then(operation: any, group: any, name: any, description: any, tags: any, id: any): void;
     /**

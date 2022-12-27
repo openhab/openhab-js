@@ -9,6 +9,7 @@ const conditions = require('./condition-builder');
  */
 class RuleBuilder {
   constructor (toggleable) {
+    /** @private */
     this._triggerConfs = [];
     this.toggleable = toggleable || false;
   }

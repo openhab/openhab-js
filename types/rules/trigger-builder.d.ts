@@ -205,7 +205,8 @@ export class SystemTriggerConfig extends TriggerConf {
  */
 export class TriggerBuilder {
     constructor(builder: any);
-    builder: any;
+    /** @private */
+    private _builder;
     _setTrigger(trigger: any): any;
     currentTigger: any;
     _or(): TriggerBuilder;

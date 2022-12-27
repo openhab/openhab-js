@@ -54,8 +54,10 @@ export class ItemStateConditionConf {
  */
 export class ConditionBuilder {
     constructor(builder: any, fn: any);
-    builder: any;
-    fn: any;
+    /** @private */
+    private _builder;
+    /** @private */
+    private _fn;
     _then(condition: any, fn: any): operations.OperationBuilder;
     /**
      * Move to the rule operations

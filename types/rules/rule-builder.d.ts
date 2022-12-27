@@ -4,7 +4,8 @@
  */
 export class RuleBuilder {
     constructor(toggleable: any);
-    _triggerConfs: any[];
+    /** @private */
+    private _triggerConfs;
     toggleable: any;
     /**
        * Specifies when the rule should occur. Will create a standard rule.

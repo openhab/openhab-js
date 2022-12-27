@@ -11,22 +11,24 @@ const items = require('../items');
  */
 class OperationBuilder {
   constructor (builder, fn) {
-    this.builder = builder;
-    this.fn = fn;
+    /** @private */
+    this._builder = builder;
+    /** @private */
+    this._fn = fn;
   }
 
   _finishErr () {
-    if (this.fn) {
+    if (this._fn) {
       throw new Error('rule already completed');
     }
   }
 
   _then (operation, group, name, description, tags, id) {
-    this.builder.name = name;
-    this.builder.description = description;
-    this.builder.tags = tags;
-    this.builder.id = id;
-    this.builder.setOperation(operation, group);
+    this._builder.name = name;
+    this._builder.description = description;
+    this._builder.tags = tags;
+    this._builder.id = id;
+    this._builder.setOperation(operation, group);
   }
 
   /**
@@ -38,10 +40,10 @@ class OperationBuilder {
      * @param {string} [id] of the rule
      */
   build (name, description, tags, id) {
-    if (!this.fn) {
+    if (!this._fn) {
       throw new Error('Cannot call build without function');
     }
-    this._then(this.fn, this.group, name, description, tags, id);
+    this._then(this._fn, this.group, name, description, tags, id);
   }
 
   /**

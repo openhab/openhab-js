@@ -9,7 +9,8 @@ const conditions = require('./condition-builder');
  */
 class TriggerBuilder {
   constructor (builder) {
-    this.builder = builder;
+    /** @private */
+    this._builder = builder;
   }
 
   _setTrigger (trigger) {
@@ -18,18 +19,18 @@ class TriggerBuilder {
   }
 
   _or () {
-    this.builder.addTrigger(this.currentTigger);
+    this._builder.addTrigger(this.currentTigger);
     return this;
   }
 
   _then (fn) {
     this._or();
-    return new operations.OperationBuilder(this.builder, fn);
+    return new operations.OperationBuilder(this._builder, fn);
   }
 
   _if (fn) {
     this._or();
-    return new conditions.ConditionBuilder(this.builder, fn);
+    return new conditions.ConditionBuilder(this._builder, fn);
   }
 
   /**
