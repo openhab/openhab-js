@@ -22,37 +22,45 @@ export class Thing {
      */
     rawThing: HostThing;
     /**
-     * Thing's bridge UID as `String`
+     * Thing's bridge UID as `string` or `null` if the Thing has no bridge
+     * @returns {string|null}
      */
-    get bridgeUID(): any;
+    get bridgeUID(): string;
     /**
-     * label as `String`
+     * label as `string`
+     * @returns {string}
      */
-    get label(): any;
+    get label(): string;
     /**
-     * physical location as `String`
+     * physical location as `string`
+     * @returns {string}
      */
-    get location(): any;
+    get location(): string;
     /**
-     * status as `String`
+     * status as `string`
+     * @returns {string}
      */
-    get status(): any;
+    get status(): string;
     /**
-     * status info (more detailed status text) as `String`
+     * status info (more detailed status text) as `string`
+     * @returns {string}
      */
-    get statusInfo(): any;
+    get statusInfo(): string;
     /**
-     * Thing type UID as `String`
+     * Thing type UID as `string`
+     * @returns {string}
      */
-    get thingTypeUID(): any;
+    get thingTypeUID(): string;
     /**
-     * Thing UID as `String`
+     * Thing UID as `string`
+     * @returns {string}
      */
-    get uid(): any;
+    get uid(): string;
     /**
-     * whether the Thing is enabled or not (`Boolean`)
+     * whether the Thing is enabled or not (`boolean`)
+     * @returns {boolean}
      */
-    get isEnabled(): any;
+    get isEnabled(): boolean;
     /**
      * Set the label.
      * @param {string} label Thing label

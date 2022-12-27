@@ -1,6 +1,6 @@
-const osgi = require('../osgi');
-const utils = require('../utils');
-const log = require('../log')('things'); // eslint-disable-line no-unused-vars
+const osgi = require('./osgi');
+const utils = require('./utils');
+const log = require('./log')('things'); // eslint-disable-line no-unused-vars
 
 const thingRegistry = osgi.getService('org.openhab.core.thing.ThingRegistry');
 const thingMgr = osgi.getService('org.openhab.core.thing.ThingManager');
@@ -37,60 +37,69 @@ class Thing {
   }
 
   /**
-   * Thing's bridge UID as `String`
+   * Thing's bridge UID as `string` or `null` if the Thing has no bridge
+   * @returns {string|null}
    */
   get bridgeUID () {
     try {
-      return this.rawThing.getBridgeUID().getID();
+      return this.rawThing.getBridgeUID().toString();
     } catch (error) {
       // Thing has no bridge
+      return null;
     }
   }
 
   /**
-   * label as `String`
+   * label as `string`
+   * @returns {string}
    */
   get label () {
     return this.rawThing.getLabel();
   }
 
   /**
-   * physical location as `String`
+   * physical location as `string`
+   * @returns {string}
    */
   get location () {
     return this.rawThing.getLocation();
   }
 
   /**
-   * status as `String`
+   * status as `string`
+   * @returns {string}
    */
   get status () {
     return this.rawThing.getStatus().toString();
   }
 
   /**
-   * status info (more detailed status text) as `String`
+   * status info (more detailed status text) as `string`
+   * @returns {string}
    */
   get statusInfo () {
     return this.rawThing.getStatusInfo().toString();
   }
 
   /**
-   * Thing type UID as `String`
+   * Thing type UID as `string`
+   * @returns {string}
    */
   get thingTypeUID () {
     return this.rawThing.getThingTypeUID().toString();
   }
 
   /**
-   * Thing UID as `String`
+   * Thing UID as `string`
+   * @returns {string}
    */
   get uid () {
     return this.rawThing.getUID().toString();
   }
 
   /**
-   * whether the Thing is enabled or not (`Boolean`)
+   * whether the Thing is enabled or not (`boolean`)
+   * @returns {boolean}
    */
   get isEnabled () {
     return this.rawThing.isEnabled();
