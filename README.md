@@ -36,8 +36,8 @@ binding](https://www.openhab.org/addons/automation/jsscripting/).
   - [Things](#things)
   - [Actions](#actions)
   - [Cache](#cache)
-  - [Log](#log)
   - [Time](#time)
+  - [Log](#log)
   - [Utils](#utils)
 - [File Based Rules](#file-based-rules)
   - [JSRule](#jsrule)
@@ -736,18 +736,6 @@ if (counter === null) {
 console.log('Count', counter.times++);
 ```
 
-### Log
-
-By default, the JS Scripting binding supports console logging like `console.log()` and `console.debug()` to the openHAB default log.
-Additionally, scripts may create their own native openHAB logger using the log namespace.
-
-```javascript
-var logger = log('my_logger');
-
-//prints "Hello World!"
-logger.debug("Hello {}!", "world");
-```
-
 ### Time
 
 openHAB internally makes extensive use of the `java.time` package.
@@ -862,6 +850,18 @@ This method on `time.ZonedDateTime` returns the milliseconds from now to the pas
 ```javascript
 var timestamp = time.ZonedDateTime.now().plusMinutes(5);
 console.log(timestamp.getMillisFromNow());
+```
+
+### Log
+
+By default, the JS Scripting binding supports console logging like `console.log()` and `console.debug()` to the openHAB default log.
+Additionally, scripts may create their own native openHAB logger using the log namespace.
+
+```javascript
+var logger = log('my_logger');
+
+//prints "Hello World!"
+logger.debug("Hello {}!", "world");
 ```
 
 ### Utils
