@@ -1,17 +1,17 @@
 // Manually written type defintions to avoid problems with lazy loading in index.js
 declare global {
   /**
-   * Native Java Class Object (instance of java.lang.Class)
+   * Native Java Class Object (instance of {@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Class.html java.lang.Class})
    */
-  type HostClass = object;
+  type JavaClass = object;
   /**
-   * Native Java Set Object (instance of java.util.Set)
+   * Native Java Set Object (instance of {@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html java.util.Set})
    */
-  type HostSet = object;
+  type JavaSet = object;
   /**
-   * Native Java List Object (instance of java.util.List)
+   * Native Java List Object (instance of {@link @link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/List.html java.util.List})
    */
-  type HostList = object;
+  type JavaList = object;
   /**
    * Native Java openHAB State (instance of {@link https://www.openhab.org/javadoc/latest/org/openhab/core/types/state org.openhab.core.types.State})
    */
@@ -40,7 +40,7 @@ declare global {
 export const log: typeof import("./log");
 export const rules: typeof import("./rules/rules");
 export const items: typeof import("./items/items");
-export const things: typeof import("./things/things");
+export const things: typeof import("./things");
 export const metadata: typeof import("./metadata/metadata");
 export const triggers: typeof import("./triggers");
 export const actions: typeof import("./actions");
