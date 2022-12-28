@@ -37,6 +37,7 @@ binding](https://www.openhab.org/addons/automation/jsscripting/).
   - [Actions](#actions)
   - [Cache](#cache)
   - [Time](#time)
+  - [Quantity](#quantity)
   - [Log](#log)
   - [Utils](#utils)
 - [File Based Rules](#file-based-rules)
@@ -851,6 +852,75 @@ This method on `time.ZonedDateTime` returns the milliseconds from now to the pas
 var timestamp = time.ZonedDateTime.now().plusMinutes(5);
 console.log(timestamp.getMillisFromNow());
 ```
+
+### Quantity
+
+The `Quantity` class greatly simplifies Units of Measurement (UoM)/Quantity handling by providing unit conversion, comparisons and mathematical operations.
+
+Internally using the openHAB `QuantityType`, which relies on [`javax.measure`](https://unitsofmeasurement.github.io/unit-api/), it supports all units and dimensions that openHAB supports - see [Units of Measurement documentation](https://www.openhab.org/docs/concepts/units-of-measurement.html#list-of-units) for an (incomplete) overview.
+If you unit is not listed in the UoM docs, it is very likely that it is still supported, e.g. the Angstrom Å for very small lengths (1 Å = 10 nm).
+
+#### Creation
+
+`Quantity(value)` can be used as a factory (without `new` - don't use it as a constructor), pass an amount **and** a unit to it to create a new `Quantity` object:
+
+
+```javascript
+// Allowed:
+var qty = Quantity('5.75 m');
+qty = Quantity('1 N*m');
+qty = Quantity('1 m/s');
+qty = Quantity('1 m^2/s^2');
+qty = Quantity('1 m^2/s^-2'); // negative powers
+qty = Quantity('1'); // unitless quantity
+
+// Not allowed:
+qty = Quantity('m');
+qty = Quantity('1 N m'); // * is required
+qty = Quantity('1 m^2 s^2'); // / is required
+qty = Quantity(1 m2/s2); // ^ is required
+```
+
+`value` can be a string, a `Quantity` instance or an openHAB Java [`QuantityType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/quantitytype).
+
+`value` strings have the `$amount $unit` format and must follow these rules:
+
+- `$amount` is required and a number as string
+- `$unit` is optional (unitless quantities are possible) and can have a prefix like `m` (milli) or `M` (mega)
+- If a `$unit` contains `*`, `/` and `^`, they are not optional and must be present.
+
+#### Conversion
+
+It is possible to convert a `Quantity` to another unit or get the value as integer or float:
+
+```javascript
+var qty = Quantity('10.2 °C');
+
+qty = qty.toUnit('°F');
+var intValue = qty.int;
+var floatValue = qty.float;
+```
+
+#### Comparison
+
+`Quantity` provides the following methods for comparison:
+
+- `equal(value)` ⇒ `boolean`: this `Quantity` === another `Quantity`
+- `largerThan` ⇒ `boolean`: this `Quantity` > another `Quantity`
+- `largerThanOrEqual` ⇒ `boolean`: this `Quantity` >= another `Quantity`
+- `smallerThan` ⇒ `boolean`: this `Quantity` < another `Quantity`
+- `smallerThanOrEqual` ⇒ `boolean`: this `Quantity` =< another `Quantity`
+
+`value` can be a string or another `Quantity`, for the string the same rules apply as described above.
+
+#### Mathematical Operators
+
+- `add(value)` ⇒ `Quantity`: `value` can be a string or another `Quantity`, for the string the same rules apply as described above
+- `divide(value)` ⇒ `Quantity`: `value` can be a number, a string or another `Quantity`, for the string the same rules apply as described above
+- `multiply(value)` ⇒ `Quantity`: `value` can be a number, astring or another `Quantity`, for the string the same rules apply as described above
+- `subtract(value)` ⇒ `Quantity`: `value` can be a string or another `Quantity`, for the string the same rules apply as described above
+
+See [openhab-js : Quantity](https://openhab.github.io/openhab-js/Quantity.html) for full API documentation.
 
 ### Log
 
