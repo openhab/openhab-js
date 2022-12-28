@@ -98,7 +98,7 @@ const parseISO8601 = function (isoStr) {
     ISO_8160_FULL: /^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9])(:[0-5][0-9])?(\.\d+)?(Z|[+-]\d{2}(:\d{2})?)/
   };
   switch (true) {
-    case REGEX.LOCAL_DATE.test(isoStr): return time.ZonedDateTime.of(time.LocalDate.parse(isoStr), time.LocalTime.now(), time.ZoneId.SYSTEM);
+    case REGEX.LOCAL_DATE.test(isoStr): return time.ZonedDateTime.of(time.LocalDate.parse(isoStr), time.LocalTime.MIDNIGHT, time.ZoneId.SYSTEM);
     case REGEX.LOCAL_TIME.test(isoStr): return time.ZonedDateTime.of(time.LocalDate.now(), time.LocalTime.parse(isoStr), time.ZoneId.SYSTEM);
     case REGEX.LOCAL_DATE_TIME.test(isoStr): return time.ZonedDateTime.of(time.LocalDateTime.parse(isoStr), time.ZoneId.SYSTEM);
     case REGEX.ISO_8160_FULL.test(isoStr): return time.ZonedDateTime.parse(isoStr);
