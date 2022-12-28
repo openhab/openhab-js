@@ -1,11 +1,15 @@
 declare function _exports(value: string | Quantity | any): Quantity;
 declare namespace _exports {
+    export { QuantityError };
     export { _stringOrNumberOrQtyToQtyType };
     export { _stringOrQtyToQtyType };
 }
 export = _exports;
 /**
  * Class allowing easy Units of Measurement/Quantity handling by wrapping the openHAB {@link QuantityType}.
+ *
+ * Throws {@link QuantityError} if Quantity creation or operation failed.
+ * Throws {@link TypeError} if wrong argument type is provided.
  *
  * @hideconstructor
  */
@@ -107,19 +111,32 @@ declare class Quantity {
     toString(): any;
 }
 /**
+ * QuantityError is thrown when {@link Quantity} creation or operation fails.
+ * It is used to wrap the underlying Java Exceptions and add some additional information and a JS stacktrace to it.
+ */
+declare class QuantityError extends Error {
+    /**
+     * @param {string} message
+     */
+    constructor(message: string);
+}
+/**
  * Takes either a {@link Quantity}, a `string` or a `number` and converts it to a {@link QuantityType} or {@link BigDecimal}.
  * @param {number|string|Quantity} value
  * @returns {BigDecimal|QuantityType}
  * @throws {TypeError} if parameter has the wrong type
+ * @throws {Error} if {@link BigDecimal} creation failed
  * @private
  */
 declare function _stringOrNumberOrQtyToQtyType(value: number | string | Quantity): any | any;
 /**
  * Takes either a {@link Quantity} or a `string` and converts it to a {@link QuantityType}.
  * @param {string|Quantity} value
+ * @param {string} [errorMsg] error message to throw if parameter has wrong type
  * @returns {QuantityType}
  * @throws {TypeError} if parameter has the wrong type
+ * @throws {Error} if {@link QuantityType} creation failed
  * @private
  */
-declare function _stringOrQtyToQtyType(value: string | Quantity): any;
+declare function _stringOrQtyToQtyType(value: string | Quantity, errorMsg?: string): any;
 //# sourceMappingURL=quantity.d.ts.map

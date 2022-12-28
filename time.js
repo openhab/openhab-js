@@ -141,7 +141,9 @@ const parseString = function (str) {
 
   // ISO8601 Time, Date, or DateTime string
   try {
-    const zdt = parseISO8601(str);
+    // Blockly compatibility with user input without the "T"
+    const newStr = /^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9]) \d{2}:\d{2}/.test(str) ? str.replace(' ', 'T') : str;
+    const zdt = parseISO8601(newStr);
     if (zdt !== null) return zdt;
   } catch (e) {
     throw Error(`Failed to parse ISO8601 string ${str}: ${e}`);
@@ -364,5 +366,6 @@ time.ZonedDateTime.prototype.getMillisFromNow = function () {
 module.exports = {
   ...time,
   toZDT,
+  parseString,
   parseISO8601
 };

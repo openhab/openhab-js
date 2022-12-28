@@ -1,4 +1,5 @@
 const time = require('../time');
+const { ZonedDateTime } = require('@js-joda/core');
 
 jest.mock('../items', () => ({
   Item: new Object() // eslint-disable-line no-new-object
@@ -17,6 +18,23 @@ describe('time.js', () => {
     });
 
     // TODO: Add remaining possible cases for when
+  });
+
+  describe('parseString', () => {
+    const parseString = time.parseString;
+
+    describe('accepts ISO patterns without the "T" for Blockly', () => {
+      it.each([
+        ['YYYY-MM-DD hh:mm:ss.f+hh:mm', '2016-03-18 12:38:23.561+01:00'],
+        ['YYYY-MM-DD hh:mm:ssZ', '2022-12-24 18:30:35Z'],
+        ['YYYY-MM-DD hh:mm:ss+hh:mm[timezone]', '2017-02-04 17:01:15.846+01:00[Europe/Paris]'],
+        ['YYYY-MM-DD hh:mm', '2022-12-24 18:30'],
+        ['YYYY-MM-DD hh:mm:ss', '2022-12-24 18:30:00'],
+        ['YYYY-MM-DD hh:mm:ss.f', '2022-12-24 18:30:00.5363']
+      ])('accepts pattern %s', (pattern, isoStr) => {
+        expect(parseString(isoStr)).toBeInstanceOf(ZonedDateTime);
+      });
+    });
   });
 
   describe('parseISO8601', () => {

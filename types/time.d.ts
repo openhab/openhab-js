@@ -1,5 +1,6 @@
 declare const _exports: {
     toZDT: (when: any) => time.ZonedDateTime;
+    parseString: (str: string) => time.ZonedDateTime;
     parseISO8601: (isoStr: any) => time.ZonedDateTime | null;
     nativeJs(date: any, zone?: time.ZoneId): time.TemporalAccessor;
     convert(temporal: time.LocalDate | time.Instant | time.ZonedDateTime | time.LocalDateTime, zone?: time.ZoneId): {
