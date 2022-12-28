@@ -2,7 +2,7 @@ const { QuantityType } = require('./openhab.mock');
 const { BigDecimal } = require('./java.mock');
 const { Unit } = require('./javax-measure.mock');
 const Quantity = require('../quantity');
-const { _stringOrNumberOrQtyToQtyType, _stringOrQtyToQtyType } = require('../quantity');
+const { _stringOrNumberOrQtyToQtyType, _stringOrQtyToQtyType, QuantityError } = require('../quantity');
 
 describe('quantity.js', () => {
   const quantityTypeSpy = new QuantityType();
@@ -35,18 +35,28 @@ describe('quantity.js', () => {
 
     it('unit delegates', () => {
       unitSpy.getName.mockImplementation(() => 'Metres');
-      const unit = Quantity('5 m').unit;
-      expect(quantityTypeSpy.getUnit).toHaveBeenCalled();
-      expect(unitSpy.getName).toHaveBeenCalled();
+      let unit = Quantity('5 m').unit;
       expect(unit).toBe('Metres');
+
+      unitSpy.getName.mockImplementation(() => null);
+      unit = Quantity('5 m').unit;
+      expect(unit).toBe(null);
+
+      expect(unitSpy.getName).toHaveBeenCalledTimes(2);
+      expect(quantityTypeSpy.getUnit).toHaveBeenCalledTimes(2);
     });
 
     it('symbol delegates', () => {
       unitSpy.getSymbol.mockImplementation(() => 'm');
-      const symbol = Quantity('5 m').symbol;
-      expect(quantityTypeSpy.getUnit).toHaveBeenCalled();
-      expect(unitSpy.getSymbol).toHaveBeenCalled();
+      let symbol = Quantity('5 m').symbol;
       expect(symbol).toBe('m');
+
+      unitSpy.getSymbol.mockImplementation(() => null);
+      symbol = Quantity('5 m').symbol;
+      expect(symbol).toBe(null);
+
+      expect(quantityTypeSpy.getUnit).toHaveBeenCalledTimes(2);
+      expect(unitSpy.getSymbol).toHaveBeenCalledTimes(2);
     });
 
     it('float delegates', () => {
@@ -86,6 +96,11 @@ describe('quantity.js', () => {
       Quantity('5 m').toUnit(unit);
       expect(quantityTypeSpy.toUnit).toHaveBeenCalledWith(unit);
     });
+    it('toUnit wraps exceptions in QuantityError', () => {
+      quantityTypeSpy.toUnit.mockImplementation(() => { throw new Error(); });
+      expect(() => Quantity('5 m').toUnit('cm')).toThrowError(QuantityError);
+      quantityTypeSpy.toUnit.mockReset();
+    });
     // method name | compareTo returns for true | compareTo returns for false
     it.each([
       ['equal', 0, 1],
@@ -112,17 +127,27 @@ describe('quantity.js', () => {
 
   describe('private method', () => {
     describe('_stringOrNumberOrQtyToQtyType', () => {
-      it('parses number', () => {
+      it('parses number to BigDecimal', () => {
         const value = _stringOrNumberOrQtyToQtyType(10);
         expect(BigDecimal.valueOf).toHaveBeenCalledWith(10);
         expect(value).toBeInstanceOf(BigDecimal);
+      });
+      it('wraps exceptions from BigDecimal in QuantityError', () => {
+        BigDecimal.valueOf.mockImplementation(() => { throw new Error(); });
+        expect(() => _stringOrNumberOrQtyToQtyType(10)).toThrowError(QuantityError);
+        BigDecimal.valueOf.mockImplementation(() => new BigDecimal());
       });
       it('parses string to QuantityType', () => {
         const value = _stringOrNumberOrQtyToQtyType('10 m');
         expect(QuantityType.valueOf).toHaveBeenCalledWith('10 m');
         expect(value).toBeInstanceOf(QuantityType);
       });
-      it('parses Quantity', () => {
+      it('wraps exceptions from QuantityType in QuantityError', () => {
+        QuantityType.valueOf.mockImplementation(() => { throw new Error(); });
+        expect(() => _stringOrNumberOrQtyToQtyType('10 m')).toThrowError(QuantityError);
+        QuantityType.valueOf.mockImplementation(() => new QuantityType());
+      });
+      it('extracts QuantityType from Quantity', () => {
         const value = _stringOrNumberOrQtyToQtyType(Quantity('10 m'));
         expect(value).toBeInstanceOf(QuantityType);
       });
@@ -136,7 +161,12 @@ describe('quantity.js', () => {
         expect(QuantityType.valueOf).toHaveBeenCalledWith('10 m');
         expect(value).toBeInstanceOf(QuantityType);
       });
-      it('parses Quantity', () => {
+      it('wraps exceptions from QuantityType in QuantityError', () => {
+        QuantityType.valueOf.mockImplementation(() => { throw new Error(); });
+        expect(() => _stringOrNumberOrQtyToQtyType('10 m')).toThrowError(QuantityError);
+        QuantityType.valueOf.mockImplementation(() => new QuantityType());
+      });
+      it('extracts QuantityType from Quantity', () => {
         const value = _stringOrQtyToQtyType(Quantity('10 m'));
         expect(value).toBeInstanceOf(QuantityType);
       });

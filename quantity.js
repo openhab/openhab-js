@@ -1,6 +1,12 @@
-/** {@link https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/quantitytype org.openhab.core.library.types.QuantityType} */
+/**
+ * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/quantitytype org.openhab.core.library.types.QuantityType}
+ * @private
+ */
 const QuantityType = Java.type('org.openhab.core.library.types.QuantityType');
-/** {@link https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/math/BigDecimal.html java.math.BigDecimal} */
+/**
+ * {@link https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/math/BigDecimal.html java.math.BigDecimal}
+ * @private
+ */
 const BigDecimal = Java.type('java.math.BigDecimal');
 
 /**
@@ -8,17 +14,18 @@ const BigDecimal = Java.type('java.math.BigDecimal');
  * @param {number|string|Quantity} value
  * @returns {BigDecimal|QuantityType}
  * @throws {TypeError} if parameter has the wrong type
+ * @throws {Error} if {@link BigDecimal} creation failed
  * @private
  */
 const _stringOrNumberOrQtyToQtyType = (value) => {
   if (typeof value === 'number') {
-    value = BigDecimal.valueOf(value);
-  } else if (typeof value === 'string') {
-    value = QuantityType.valueOf(value);
-  } else if (value instanceof Quantity) {
-    value = value.raw;
+    try {
+      value = BigDecimal.valueOf(value);
+    } catch (e) {
+      throw new QuantityError(`Failed to create BigDecimal from ${value}: ${e}`);
+    }
   } else {
-    throw new TypeError('Argument of wrong type provided, please provide a number or string or Quantity.');
+    value = _stringOrQtyToQtyType(value, 'Argument of wrong type provided, required number, string or Quantity.');
   }
   return value;
 };
@@ -26,23 +33,46 @@ const _stringOrNumberOrQtyToQtyType = (value) => {
 /**
  * Takes either a {@link Quantity} or a `string` and converts it to a {@link QuantityType}.
  * @param {string|Quantity} value
+ * @param {string} [errorMsg] error message to throw if parameter has wrong type
  * @returns {QuantityType}
  * @throws {TypeError} if parameter has the wrong type
+ * @throws {Error} if {@link QuantityType} creation failed
  * @private
  */
-const _stringOrQtyToQtyType = (value) => {
+const _stringOrQtyToQtyType = (value, errorMsg = 'Argument of wrong type provided, required string or Quantity.') => {
   if (typeof value === 'string') {
-    value = QuantityType.valueOf(value);
+    try {
+      value = QuantityType.valueOf(value);
+    } catch (e) {
+      throw new QuantityError(`Failed to create QuantityType from ${value}: ${e}`);
+    }
   } else if (value instanceof Quantity) {
     value = value.raw;
   } else {
-    throw new TypeError('Argument of wrong type provided, please provide a string or Quantity.');
+    throw new TypeError(errorMsg);
   }
   return value;
 };
 
 /**
+ * QuantityError is thrown when {@link Quantity} creation or operation fails.
+ * It is used to wrap the underlying Java Exceptions and add some additional information and a JS stacktrace to it.
+ */
+class QuantityError extends Error {
+  /**
+   * @param {string} message
+   */
+  constructor (message) {
+    super(message);
+    super.name = 'QuantityError';
+  }
+}
+
+/**
  * Class allowing easy Units of Measurement/Quantity handling by wrapping the openHAB {@link QuantityType}.
+ *
+ * Throws {@link QuantityError} if Quantity creation or operation failed.
+ * Throws {@link TypeError} if wrong argument type is provided.
  *
  * @hideconstructor
  */
@@ -158,7 +188,11 @@ class Quantity {
    * @returns {Quantity} this with the new unit
    */
   toUnit (unit) {
-    this.raw = this.raw.toUnit(unit);
+    try {
+      this.raw = this.raw.toUnit(unit);
+    } catch (e) {
+      throw new QuantityError(`Failed to convert to unit ${unit}: ${e}`);
+    }
     return this;
   }
 
@@ -222,7 +256,10 @@ class Quantity {
  *
  * @param {string|Quantity|QuantityType} value either a string consisting of a numeric value and a dimension, e.g. `5.5 m`, a {@link Quantity} or a {@link QuantityType}
  * @returns {Quantity}
+ * @throws {QuantityError} if Quantity creation or operation failed
+ * @throws {TypeError} if wrong argument type is provided
  */
 module.exports = (value) => new Quantity(value);
+module.exports.QuantityError = QuantityError;
 module.exports._stringOrNumberOrQtyToQtyType = _stringOrNumberOrQtyToQtyType;
 module.exports._stringOrQtyToQtyType = _stringOrQtyToQtyType;
