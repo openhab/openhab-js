@@ -47,7 +47,7 @@ const _stringOrQtyToQtyType = (value, errorMsg = 'Argument of wrong type provide
       throw new QuantityError(`Failed to create QuantityType from ${value}: ${e}`);
     }
   } else if (value instanceof Quantity) {
-    value = Object.create(value.raw);
+    value = QuantityType.valueOf(value.raw.toString()); // Avoid referencing the same underlying QuantityType, so "clone" it
   } else {
     throw new TypeError(errorMsg);
   }
