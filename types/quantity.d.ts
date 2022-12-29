@@ -1,5 +1,6 @@
 declare function _exports(value: string | Quantity | any): Quantity;
 declare namespace _exports {
+    export { Quantity as QuantityClass };
     export { QuantityError };
     export { _stringOrNumberOrQtyToQtyType };
     export { _stringOrQtyToQtyType };
@@ -50,34 +51,44 @@ declare class Quantity {
     get int(): number;
     /**
      * Add the given value to this Quantity.
-     * @param {string|Quantity} value
-     * @returns {Quantity} this Quantity
+     * @param {string|Quantity} value `string` consisting of amount and unit or a Quantity
+     * @returns {Quantity} result as new Quantity
      */
     add(value: string | Quantity): Quantity;
     /**
      * Divide this Quantity by the given value.
-     * @param {number|string|Quantity} value
-     * @returns {Quantity} this Quantity
+     *
+     * @example
+     * Quantity('20 W').divide(4); // is 5 W
+     * Quantity('20 W').divide('4 W') // is 5
+     *
+     * @param {number|string|Quantity} value usually a number; may also be a `string` consisting of amount and unit or a Quantity, but be careful: 1 W / 5 W = 0.2 which might not be what you want
+     * @returns {Quantity} result as new Quantity
      */
     divide(value: number | string | Quantity): Quantity;
     /**
      * Multiply this Quantity by the given value.
-     * @param {number|string|Quantity} value
-     * @returns {Quantity} this Quantity
+     *
+     * @example
+     * Quantity('20 W').multiply(4); // is 80 W
+     * Quantity('20 W').multiply('4 W') // is 80 W^2
+     *
+     * @param {number|string|Quantity} value usually a number; may also be a `string` consisting of amount and unit or a Quantity, but be careful: 1 W * 5 W = 5 W^2 which might not be what you want
+     * @returns {Quantity} result as new Quantity
      */
     multiply(value: number | string | Quantity): Quantity;
     /**
      * Subtract the given value from this Quantity.
-     * @param {string|Quantity} value
-     * @returns {Quantity} this Quantity
+     * @param {string|Quantity} value `string` consisting of amount and unit or a Quantity
+     * @returns {Quantity} result as new Quantity
      */
     subtract(value: string | Quantity): Quantity;
     /**
      * Convert this Quantity to the given unit.
      * @param {string} unit
-     * @returns {Quantity} this with the new unit
+     * @returns {Quantity|null} a new Quantity with the given unit or `null` if conversion to this unit is not possible
      */
-    toUnit(unit: string): Quantity;
+    toUnit(unit: string): Quantity | null;
     /**
      * Checks whether this Quantity is equal to the passed in value.
      * @param {string|Quantity} value

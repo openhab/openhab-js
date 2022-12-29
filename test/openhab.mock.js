@@ -45,17 +45,17 @@ class JavaTransformation {
 
 // org.openhab.core.library.types.QuantityType (https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/quantitytype)
 class QuantityType {
-  add = jest.fn()
-  compareTo = jest.fn()
-  divide = jest.fn()
+  add = jest.fn(() => new QuantityType())
+  compareTo = jest.fn(() => new QuantityType())
+  divide = jest.fn(() => new QuantityType())
   doubleValue = jest.fn()
   getDimension = jest.fn(() => '[Dimension]')
   getUnit = jest.fn(() => new Unit())
   longValue = jest.fn()
-  multiply = jest.fn()
-  subtract = jest.fn()
-  toString = jest.fn()
-  toUnit = jest.fn()
+  multiply = jest.fn(() => new QuantityType())
+  subtract = jest.fn(() => new QuantityType())
+  toString = jest.fn(() => 'string')
+  toUnit = jest.fn(() => new QuantityType())
 }
 QuantityType.valueOf = jest.fn(() => new QuantityType())
 

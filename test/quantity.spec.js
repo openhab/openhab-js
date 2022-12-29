@@ -2,7 +2,7 @@ const { QuantityType } = require('./openhab.mock');
 const { BigDecimal } = require('./java.mock');
 const { Unit } = require('./javax-measure.mock');
 const Quantity = require('../quantity');
-const { _stringOrNumberOrQtyToQtyType, _stringOrQtyToQtyType, QuantityError } = require('../quantity');
+const { _stringOrNumberOrQtyToQtyType, _stringOrQtyToQtyType, QuantityError, QuantityClass } = require('../quantity');
 
 describe('quantity.js', () => {
   const quantityTypeSpy = new QuantityType();
@@ -10,15 +10,15 @@ describe('quantity.js', () => {
   const unitSpy = new Unit();
   quantityTypeSpy.getUnit.mockImplementation(() => unitSpy);
 
-  describe('constructor', () => {
-    it('accepts string', () => {
-      expect(() => Quantity('5m')).not.toThrowError(TypeError);
+  describe('factory', () => {
+    it('creates Quantity from string', () => {
+      expect(Quantity('5m')).toBeInstanceOf(QuantityClass);
     });
-    it('accepts itself (Quantity)', () => {
-      expect(() => Quantity(Quantity('5m'))).not.toThrowError(TypeError);
+    it('creates Quantity from Quantity', () => {
+      expect(Quantity(Quantity('5m'))).toBeInstanceOf(QuantityClass);
     });
-    it('accepts Java QuantityType', () => {
-      expect(() => Quantity(quantityTypeSpy)).not.toThrowError(TypeError);
+    it('creates Quantity from Java QuantityType', () => {
+      expect(Quantity(quantityTypeSpy)).toBeInstanceOf(QuantityClass);
     });
     it('throws TypeError else', () => {
       expect(() => Quantity(5)).toThrowError(TypeError);
@@ -26,14 +26,14 @@ describe('quantity.js', () => {
   });
 
   describe('member', () => {
-    it('dimension delegates', () => {
+    it('dimension delegates & returns', () => {
       quantityTypeSpy.getDimension.mockImplementation(() => '[L]');
       const dimension = Quantity('5 m').dimension;
       expect(quantityTypeSpy.getDimension).toHaveBeenCalled();
       expect(dimension).toBe('[L]');
     });
 
-    it('unit delegates', () => {
+    it('unit delegates & returns', () => {
       unitSpy.getName.mockImplementation(() => 'Metres');
       let unit = Quantity('5 m').unit;
       expect(unit).toBe('Metres');
@@ -46,7 +46,7 @@ describe('quantity.js', () => {
       expect(quantityTypeSpy.getUnit).toHaveBeenCalledTimes(2);
     });
 
-    it('symbol delegates', () => {
+    it('symbol delegates & returns', () => {
       unitSpy.getSymbol.mockImplementation(() => 'm');
       let symbol = Quantity('5 m').symbol;
       expect(symbol).toBe('m');
@@ -59,14 +59,14 @@ describe('quantity.js', () => {
       expect(unitSpy.getSymbol).toHaveBeenCalledTimes(2);
     });
 
-    it('float delegates', () => {
+    it('float delegates & returns', () => {
       quantityTypeSpy.doubleValue.mockImplementation(() => 1.5);
       const float = Quantity('1.5 m').float;
       expect(quantityTypeSpy.doubleValue).toHaveBeenCalled();
       expect(float).toBe(1.5);
     });
 
-    it('int delegates', () => {
+    it('int delegates & returns', () => {
       quantityTypeSpy.longValue.mockImplementation(() => 5);
       const int = Quantity('5 m').int;
       expect(quantityTypeSpy.longValue).toHaveBeenCalled();
@@ -75,32 +75,39 @@ describe('quantity.js', () => {
   });
 
   describe('method', () => {
-    it('add delegates', () => {
-      Quantity('5 m').add('5 m');
-      expect(quantityTypeSpy.add).toHaveBeenCalled();
+    it.each([
+      ['add'],
+      ['divide'],
+      ['multiply'],
+      ['subtract']
+    ])('%s delegates & returns Quantity', (method) => {
+      const qty = Quantity('5 m')[method]('5 m');
+      expect(quantityTypeSpy[method]).toHaveBeenCalled();
+      expect(qty).toBeInstanceOf(QuantityClass);
     });
-    it('divide delegates', () => {
-      Quantity('5 m').divide(2);
-      expect(quantityTypeSpy.divide).toHaveBeenCalled();
+
+    describe('toUnit', () => {
+      it('delegates & returns Quantity', () => {
+        const unit = 'cm';
+        const qty = Quantity('5 m').toUnit(unit);
+        expect(quantityTypeSpy.toUnit).toHaveBeenCalledWith(unit);
+        expect(qty).toBeInstanceOf(QuantityClass);
+      });
+      it('delegates & returns null', () => {
+        quantityTypeSpy.toUnit.mockImplementation(() => null);
+        const unit = 'cm';
+        const qty = Quantity('5 m').toUnit(unit);
+        expect(quantityTypeSpy.toUnit).toHaveBeenCalledWith(unit);
+        expect(qty).toBe(null);
+        quantityTypeSpy.toUnit.mockImplementation(() => new QuantityType());
+      });
+      it('wraps exceptions in QuantityError', () => {
+        quantityTypeSpy.toUnit.mockImplementation(() => { throw new Error(); });
+        expect(() => Quantity('5 m').toUnit('cm')).toThrowError(QuantityError);
+        quantityTypeSpy.toUnit.mockImplementation(() => new QuantityType());
+      });
     });
-    it('multiply delegates', () => {
-      Quantity('5 m').multiply(2);
-      expect(quantityTypeSpy.multiply).toHaveBeenCalled();
-    });
-    it('subtract delegates', () => {
-      Quantity('5 m').subtract('2 m');
-      expect(quantityTypeSpy.subtract).toHaveBeenCalled();
-    });
-    it('toUnit delegates', () => {
-      const unit = 'cm';
-      Quantity('5 m').toUnit(unit);
-      expect(quantityTypeSpy.toUnit).toHaveBeenCalledWith(unit);
-    });
-    it('toUnit wraps exceptions in QuantityError', () => {
-      quantityTypeSpy.toUnit.mockImplementation(() => { throw new Error(); });
-      expect(() => Quantity('5 m').toUnit('cm')).toThrowError(QuantityError);
-      quantityTypeSpy.toUnit.mockReset();
-    });
+
     // method name | compareTo returns for true | compareTo returns for false
     it.each([
       ['equal', 0, 1],
@@ -108,7 +115,7 @@ describe('quantity.js', () => {
       ['largerThanOrEqual', 0, -1],
       ['smallerThan', -1, 0],
       ['smallerThanOrEqual', 0, 1]
-    ])('%s delegates and compares', (name, mock1, mock2) => {
+    ])('%s delegates, compares & returns correct boolean', (name, mock1, mock2) => {
       quantityTypeSpy.compareTo.mockImplementation(() => mock1);
       let equals = Quantity('5 m')[name]('500 cm');
       expect(equals).toBe(true);
@@ -119,9 +126,10 @@ describe('quantity.js', () => {
 
       expect(quantityTypeSpy.compareTo).toHaveBeenCalledTimes(2);
     });
-    it('toString delegates', () => {
-      Quantity('5 m').toString();
+    it('toString delegates & returns string', () => {
+      const str = Quantity('5 m').toString();
       expect(quantityTypeSpy.toString).toHaveBeenCalled();
+      expect(typeof str).toBe('string');
     });
   });
 
