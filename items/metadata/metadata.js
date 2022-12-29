@@ -71,5 +71,6 @@ const removeMetadata = function (itemName, namespace) {
 module.exports = {
   getMetadata,
   replaceMetadata,
-  removeMetadata
+  removeMetadata,
+  itemchannellink: require('./itemchannellink')
 };

@@ -601,5 +601,6 @@ module.exports = {
 
       throw Error('unsupported function call: ' + name);
     }
-  })
+  }),
+  metadata
 };
