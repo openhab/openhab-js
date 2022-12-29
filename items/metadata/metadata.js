@@ -24,7 +24,7 @@ const getMetadata = function (itemName, namespace) {
   const meta = metadataRegistry.get(key);
   if (meta === null || meta === undefined) return null;
   return {
-    value: meta.getValue().toString(),
+    value: meta.getValue(),
     configuration: meta.getConfiguration()
   };
 };
@@ -45,7 +45,7 @@ const replaceMetadata = function (itemName, namespace, value, configuration) {
   const meta = (metadataRegistry.get(key) === null) ? metadataRegistry.add(newMetadata) : metadataRegistry.update(newMetadata);
   if (meta === null || meta === undefined) return null;
   return {
-    value: meta.getValue().toString(),
+    value: meta.getValue(),
     configuration: meta.getConfiguration()
   };
 };
@@ -63,7 +63,7 @@ const removeMetadata = function (itemName, namespace) {
   const meta = metadataRegistry.remove(key);
   if (meta === null || meta === undefined) return null;
   return {
-    value: meta.getValue().toString(),
+    value: meta.getValue(),
     configuration: meta.getConfiguration()
   };
 };
