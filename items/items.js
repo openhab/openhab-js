@@ -459,7 +459,7 @@ const removeItem = function (itemOrItemName) {
   try { // If the Item is not registered, ItemNotFoundException is thrown.
     getItem(itemName);
   } catch (e) {
-    if (Java.typeName(e.class) === 'org.openhab.core.items.ItemNotFoundException') {
+    if (Java.typeName(e.getClass()) === 'org.openhab.core.items.ItemNotFoundException') {
       log.error('Item {} not registered so cannot be removed: {}', itemName, e.message);
       return false;
     } else { // If exception/error is not ItemNotFouncException, rethrow.
@@ -474,7 +474,7 @@ const removeItem = function (itemOrItemName) {
     log.warn('Failed to remove Item: {}', itemName);
     return false;
   } catch (e) {
-    if (Java.typeName(e.class) === 'org.openhab.core.items.ItemNotFoundException') {
+    if (Java.typeName(e.getClass()) === 'org.openhab.core.items.ItemNotFoundException') {
       return true;
     } else { // If exception/error is not ItemNotFoundException, rethrow.
       throw Error(e);
@@ -498,20 +498,11 @@ const removeItem = function (itemOrItemName) {
  * @throws failed to create Item
  */
 const replaceItem = function (itemConfig) {
-  try {
-    const item = getItem(itemConfig.name);
-    if (typeof item !== 'undefined') {
-      removeItem(itemConfig.name);
-    }
-  } catch (e) {
-    if (('' + e).startsWith('org.openhab.core.items.ItemNotFoundException')) {
-      // Item not present
-    } else {
-      throw e;
-    }
+  const item = getItem(itemConfig.name, true);
+  if (item !== null) {
+    removeItem(itemConfig.name);
   }
-
-  return addItem.apply(this, arguments);
+  return addItem(itemConfig);
 };
 
 /**

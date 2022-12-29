@@ -43,11 +43,11 @@ const _createItemChannelLink = function (itemName, channelUID, conf) {
 const getItemChannelLink = function (itemName, channelUID) {
   log.debug(`Getting ItemChannelLink ${itemName} -> ${channelUID} from provider...`);
   const itemChannelLink = managedItemChannelLinkProvider.get(itemName + ' -> ' + channelUID);
-  if (itemChannelLink === null) return null;
+  if (itemChannelLink === null || itemChannelLink === undefined) return null;
   return {
-    itemName: itemChannelLink.itemName.toString(),
-    channelUID: itemChannelLink.channelUID.toString(),
-    configuration: itemChannelLink.configuration
+    itemName: itemChannelLink.getItemName().toString(),
+    channelUID: itemChannelLink.getLinkedUID().toString(),
+    configuration: itemChannelLink.getConfiguration()
   };
 };
 
@@ -65,9 +65,9 @@ const _addItemChannelLink = function (itemName, channelUID, conf) {
   const itemChannelLink = _createItemChannelLink(itemName, channelUID, conf);
   managedItemChannelLinkProvider.add(itemChannelLink);
   return {
-    itemName: itemChannelLink.itemName.toString(),
-    channelUID: itemChannelLink.channelUID.toString(),
-    configuration: itemChannelLink.configuration
+    itemName: itemChannelLink.getItemName().toString(),
+    channelUID: itemChannelLink.getLinkedUID().toString(),
+    configuration: itemChannelLink.getConfiguration()
   };
 };
 
@@ -84,11 +84,11 @@ const _updateItemChannelLink = function (itemName, channelUID, conf) {
   log.debug(`Updating ItemChannelLink ${itemName} -> ${channelUID} in provider...`);
   const itemChannelLink = _createItemChannelLink(itemName, channelUID, conf);
   managedItemChannelLinkProvider.update(itemChannelLink);
-  if (itemChannelLink === null) return null;
+  if (itemChannelLink === null || itemChannelLink === undefined) return null;
   return {
-    itemName: itemChannelLink.itemName.toString(),
-    channelUID: itemChannelLink.channelUID.toString(),
-    configuration: itemChannelLink.configuration
+    itemName: itemChannelLink.getItemName().toString(),
+    channelUID: itemChannelLink.getLinkedUID().toString(),
+    configuration: itemChannelLink.getConfiguration()
   };
 };
 
@@ -123,11 +123,11 @@ const replaceItemChannelLink = function (itemName, channelUID, conf) {
 const removeItemChannelLink = function (itemName, channelUID) {
   log.debug(`Removing ItemChannelLink ${itemName} -> ${channelUID} from provider...`);
   const itemChannelLink = managedItemChannelLinkProvider.remove(itemName + ' -> ' + channelUID);
-  if (itemChannelLink === null) return null;
+  if (itemChannelLink === null || itemChannelLink === undefined) return null;
   return {
-    itemName: itemChannelLink.itemName.toString(),
-    channelUID: itemChannelLink.channelUID.toString(),
-    configuration: itemChannelLink.configuration
+    itemName: itemChannelLink.getItemName().toString(),
+    channelUID: itemChannelLink.getLinkedUID().toString(),
+    configuration: itemChannelLink.getConfiguration()
   };
 };
 

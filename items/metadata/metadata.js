@@ -21,11 +21,11 @@ const MetadataKey = Java.type('org.openhab.core.items.MetadataKey');
  */
 const getMetadata = function (itemName, namespace) {
   const key = new MetadataKey(namespace, itemName);
-  const metadata = metadataRegistry.get(key);
-  if (metadata === null) return null;
+  const meta = metadataRegistry.get(key);
+  if (meta === null || meta === undefined) return null;
   return {
-    value: metadata.value.toString(),
-    configuration: metadata.configuration
+    value: meta.getValue().toString(),
+    configuration: meta.getConfiguration()
   };
 };
 
@@ -42,11 +42,11 @@ const getMetadata = function (itemName, namespace) {
 const replaceMetadata = function (itemName, namespace, value, configuration) {
   const key = new MetadataKey(namespace, itemName);
   const newMetadata = new Metadata(key, value, configuration);
-  const oldMetadataOrNull = (metadataRegistry.get(key) === null) ? metadataRegistry.add(newMetadata) : metadataRegistry.update(newMetadata);
-  if (oldMetadataOrNull === null) return null;
+  const meta = (metadataRegistry.get(key) === null) ? metadataRegistry.add(newMetadata) : metadataRegistry.update(newMetadata);
+  if (meta === null || meta === undefined) return null;
   return {
-    value: oldMetadataOrNull.value.toString(),
-    configuration: oldMetadataOrNull.configuration
+    value: meta.getValue().toString(),
+    configuration: meta.getConfiguration()
   };
 };
 
@@ -61,10 +61,10 @@ const replaceMetadata = function (itemName, namespace, value, configuration) {
 const removeMetadata = function (itemName, namespace) {
   const key = new MetadataKey(namespace, itemName);
   const meta = metadataRegistry.remove(key);
-  if (meta === null) return null;
+  if (meta === null || meta === undefined) return null;
   return {
-    value: meta.value.toString(),
-    configuration: meta.configuration
+    value: meta.getValue().toString(),
+    configuration: meta.getConfiguration()
   };
 };
 
