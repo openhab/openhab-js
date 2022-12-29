@@ -7,7 +7,7 @@
 const osgi = require('../osgi');
 const utils = require('../utils');
 const log = require('../log')('items');
-const metadata = require('../metadata/metadata');
+const metadata = require('./metadata/metadata');
 const ItemHistory = require('./item-history');
 const ItemSemantics = require('./item-semantics');
 /** @typedef {import('@js-joda/core').ZonedDateTime} time.ZonedDateTime */
@@ -161,42 +161,32 @@ class Item {
   }
 
   /**
-   * Gets metadata values for this Item.
-   * @param {string} namespace The namespace for the metadata to retreive
-   * @returns {string} the metadata associated with this Item and namespace
+   * Gets metadata with the given name for this Item.
+   * @param {string} namespace The namespace for the metadata to retrieve
+   * @returns {{configuration: *, value: string}|null} metadata or null if the Item has no metadata with the given name
    */
-  getMetadataValue (namespace) {
-    return metadata.getValue(this.name, namespace);
+  getMetadata (namespace) {
+    return metadata.getMetadata(this.name, namespace);
   }
 
   /**
-   * Updates metadata values for this Item.
-   * @param {string} namespace The namespace for the metadata to update
-   * @param {string} value the value to update the metadata to
-   * @returns {string} the updated value
+   * Updates or adds the given metadata for this Item.
+   * @param {string} namespace name of the metadata
+   * @param {string} value value for this metadata
+   * @param {object} [configuration] optional metadata configuration
+   * @returns {{configuration: *, value: string}|null} old metadata or `null` if the Item has no metadata with the given name
    */
-  updateMetadataValue (namespace, value) {
-    return metadata.updateValue(this.name, namespace, value);
+  replaceMetadata (namespace, value, configuration) {
+    return metadata.replaceMetadata(this.name, namespace, value, configuration);
   }
 
   /**
-   * Inserts or updates metadata values for this Item.
-   * @param {string} namespace The namespace for the metadata to update
-   * @param {string} value the value to update the metadata to
-   * @returns {boolean} true iff a new value was inserted
+   * Removes metadata with a given name from a given Item.
+   * @param {string} namespace name of the metadata
+   * @returns {{configuration: *, value: string}|null} removed metadata or `null` if the Item has no metadata with the given name
    */
-  upsertMetadataValue (namespace, value) {
-    return metadata.upsertValue(this.name, namespace, value);
-  }
-
-  /**
-   * Updates metadata values for this Item.
-   * @param {Map} namespaceToValues A map of namespaces to values to update
-   */
-  updateMetadataValues (namespaceToValues) {
-    for (const k in namespaceToValues) {
-      metadata.updateValue(this.name, k, namespaceToValues[k]);
-    }
+  removeMetadata (namespace) {
+    return metadata.removeMetadata(this.name, namespace);
   }
 
   /**
@@ -428,19 +418,19 @@ const addItem = function (itemConfig) {
       const namespaceValue = itemConfig.metadata[namespace[i]];
       log.debug('addItem: Processing metadata namespace {}', namespace[i]);
       if (typeof namespaceValue === 'string') { // namespace as key and it's value as value
-        metadata.upsertValue(itemConfig.name, namespace[i], namespaceValue);
+        metadata.replaceMetadata(itemConfig.name, namespace[i], namespaceValue);
       } else if (typeof namespaceValue === 'object') { // namespace as key and { value: 'string', configuration: object } as value
-        metadata.upsertValue(itemConfig.name, namespace[i], namespaceValue.value, namespaceValue.config);
+        metadata.replaceMetadata(itemConfig.name, namespace[i], namespaceValue.value, namespaceValue.config);
       }
     }
   }
 
   if (itemConfig.type !== 'Group') {
     if (typeof itemConfig.channels === 'string') { // single channel link with string
-      metadata.itemchannellink.upsertItemChannelLink(itemConfig.name, itemConfig.channels);
+      metadata.itemchannellink.replaceItemChannelLink(itemConfig.name, itemConfig.channels);
     } else if (typeof itemConfig.channels === 'object') { // multiple/complex channel links with channel as key and config object as value
       const channels = Object.keys(itemConfig.channels);
-      for (const i in channels) metadata.itemchannellink.upsertItemChannelLink(itemConfig.name, channels[i], itemConfig.channels[channels[i]]);
+      for (const i in channels) metadata.itemchannellink.replaceItemChannelLink(itemConfig.name, channels[i], itemConfig.channels[channels[i]]);
     }
   }
 
@@ -493,8 +483,8 @@ const removeItem = function (itemOrItemName) {
 };
 
 /**
- * Replaces (upserts) an Item. If an Item exists with the same name, it will be removed and a new Item with
- * the supplied parameters will be created in it's place. If an Item does not exist with this name, a new
+ * Replaces (or adds) an Item. If an Item exists with the same name, it will be removed and a new Item with
+ * the supplied parameters will be created in its place. If an Item does not exist with this name, a new
  * Item will be created with the supplied parameters.
  *
  * This function can be useful in scripts which create a static set of Items which may need updating either
