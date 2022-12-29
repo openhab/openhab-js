@@ -69,11 +69,14 @@ describe('time.js', () => {
 
     describe('parses ISO DateTime with zone offset and/or time/zone', () => {
       it.each([
-        ['YYYY-MM-DDThh:mm:ss.f+hh:mm[SYSTEM]', '2016-03-18T12:38:23.561+01:00[SYSTEM]'],
-        ['YYYY-MM-DDThh:mm:ss.f+hh:mm', '2016-03-18T12:38:23.561+01:00'],
+        ['YYYY-MM-DDThh:mm:ss.f+HH:mm[SYSTEM]', '2016-03-18T12:38:23.561+01:00[SYSTEM]'],
+        ['YYYY-MM-DDThh:mm:ss.f+HH:mm', '2016-03-18T12:38:23.561+01:00'],
+        ['YYYY-MM-DDThh:mm:ss.f-HH:mm', '2016-03-18T12:38:23.56-04:30'],
+        ['YYYY-MM-DDThh:mm:ss.f+HHmm', '2016-03-18T12:38:23.561+0100'],
+        ['YYYY-MM-DDThh:mm:ss.f-HHmm', '2016-03-18T12:38:23.561-0430'],
         ['YYYY-MM-DDThh:mm:ssZ', '2022-12-24T18:30:35Z'],
-        ['YYYY-MM-DDThh:mm:ss+hh:mm[timezone]', '2017-02-04T17:01:15.846+01:00[Europe/Paris]'],
-        ['YYYY-MM-DDThh:mm:ss+hh:mm[timezone]', '2016-03-18T06:38:23.561-05:00[UTC-05:00]']
+        ['YYYY-MM-DDThh:mm:ss+HH:mm[timezone]', '2017-02-04T17:01:15.846+01:00[Europe/Paris]'],
+        ['YYYY-MM-DDThh:mm:ss+HH:mm[timezone]', '2016-03-18T06:38:23.561-05:00[UTC-05:00]']
       ])('accepts correct pattern %s', (pattern, isoStr) => {
         expect(parseISO8601(isoStr)).toBeInstanceOf(ZonedDateTime);
       });

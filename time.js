@@ -91,6 +91,11 @@ const is12Hr = function (dtStr) {
  * @throws `JsJodaException` thrown by the {@link https://js-joda.github.io/js-joda/ JS-Joda library} that signals that string could not be parsed
  */
 const parseISO8601 = function (isoStr) {
+  // Compatibility with Zone offsets without the ":" -> +HHmm or -HHmm
+  function replacer (match, p1, p2, p3) {
+    return p1 + p2 + ':' + p3;
+  }
+  isoStr = isoStr.replace(/([+|-])(\d{2})(\d{2})/, replacer);
   const REGEX = {
     LOCAL_DATE: /^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])$/, // YYYY-MM-DD
     LOCAL_TIME: /^\d{2}:\d{2}(:\d{2})?(\.\d+)?$/, // hh:mm or hh:mm:ss or hh:mm:ss.f
