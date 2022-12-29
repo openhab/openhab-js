@@ -20,8 +20,8 @@ function getAllPropertyNames (obj) {
  * Convert JavaScript Set to Java Set.
  *
  * @memberOf utils
- * @param {Set} set JavaScript Set Object ({@link https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Set})
- * @returns {JavaSet} Java Set ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html})
+ * @param {Set} set JavaScript Set
+ * @returns {JavaSet} Java Set
  */
 const jsSetToJavaSet = function (set) {
   const rv = new HashSet();
@@ -35,8 +35,8 @@ const jsSetToJavaSet = function (set) {
  * Convert JavaScript Array to Java Set.
  *
  * @memberOf utils
- * @param {Array} arr JavaScript Array
- * @returns {JavaSet} Java Set ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html})
+ * @param {Array} arr
+ * @returns {JavaSet} Java Set
  */
 const jsArrayToJavaSet = function (arr) {
   const set = new HashSet();
@@ -53,7 +53,7 @@ const jsArrayToJavaSet = function (arr) {
  *
  * @memberOf utils
  * @param {Array} arr JavaScript Array
- * @returns {JavaList} Java List ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/List.html})
+ * @returns {JavaList}
  */
 const jsArrayToJavaList = function (arr) {
   const list = new ArrayList();
@@ -69,7 +69,7 @@ const jsArrayToJavaList = function (arr) {
  * Convert Java List to JavaScript Array.
  *
  * @memberOf utils
- * @param {JavaList} set Java Set ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/List.html})
+ * @param {JavaList} list
  * @returns {Array} JavaScript Array
  */
 const javaListToJsArray = function (list) {
@@ -80,11 +80,35 @@ const javaListToJsArray = function (list) {
  * Convert Java Set to JavaScript Array.
  *
  * @memberOf utils
- * @param {JavaSet} set Java Set ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html})
+ * @param {JavaSet} set
  * @returns {Array} JavaScript Array
  */
 const javaSetToJsArray = function (set) {
   return Java.from(new ArrayList(set));
+};
+
+/**
+ * Convert Java Map to JavaScript Map.
+ *
+ * @param {JavaMap} map
+ * @returns {Map<any, any>} JavaScript Map
+ */
+const javaMapToJsMap = function (map) {
+  const js = new Map();
+  javaSetToJsSet(map.keySet()).forEach((key) => js.set(key, map.get(key)));
+  return js;
+};
+
+/**
+ * Convert Java Map to JavaScript Object.
+ *
+ * @param {JavaMap} map
+ * @returns {{}} JavaScript Object
+ */
+const javaMapToJsObj = function (map) {
+  const obj = {};
+  map.forEach((key, val) => { obj[key] = val; });
+  return obj;
 };
 
 /**
@@ -192,6 +216,8 @@ module.exports = {
   javaListToJsArray,
   javaSetToJsArray,
   javaSetToJsSet,
+  javaMapToJsMap,
+  javaMapToJsObj,
   randomUUID,
   dumpObject,
   isJsInstanceOfJava

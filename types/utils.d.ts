@@ -2,16 +2,16 @@
  * Convert JavaScript Set to Java Set.
  *
  * @memberOf utils
- * @param {Set} set JavaScript Set Object ({@link https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Set})
- * @returns {JavaSet} Java Set ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html})
+ * @param {Set} set JavaScript Set
+ * @returns {JavaSet} Java Set
  */
 export function jsSetToJavaSet(set: Set<any>): JavaSet;
 /**
  * Convert JavaScript Array to Java Set.
  *
  * @memberOf utils
- * @param {Array} arr JavaScript Array
- * @returns {JavaSet} Java Set ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html})
+ * @param {Array} arr
+ * @returns {JavaSet} Java Set
  */
 export function jsArrayToJavaSet(arr: any[]): JavaSet;
 /**
@@ -19,22 +19,22 @@ export function jsArrayToJavaSet(arr: any[]): JavaSet;
  *
  * @memberOf utils
  * @param {Array} arr JavaScript Array
- * @returns {JavaList} Java List ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/List.html})
+ * @returns {JavaList}
  */
 export function jsArrayToJavaList(arr: any[]): JavaList;
 /**
  * Convert Java List to JavaScript Array.
  *
  * @memberOf utils
- * @param {JavaList} set Java Set ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/List.html})
+ * @param {JavaList} list
  * @returns {Array} JavaScript Array
  */
-export function javaListToJsArray(list: any): any[];
+export function javaListToJsArray(list: JavaList): any[];
 /**
  * Convert Java Set to JavaScript Array.
  *
  * @memberOf utils
- * @param {JavaSet} set Java Set ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html})
+ * @param {JavaSet} set
  * @returns {Array} JavaScript Array
  */
 export function javaSetToJsArray(set: JavaSet): any[];
@@ -46,6 +46,20 @@ export function javaSetToJsArray(set: JavaSet): any[];
  * @returns {Set} JavaScript Set Object ({@link https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Set})
  */
 export function javaSetToJsSet(set: JavaSet): Set<any>;
+/**
+ * Convert Java Map to JavaScript Map.
+ *
+ * @param {JavaMap} map
+ * @returns {Map<any, any>} JavaScript Map
+ */
+export function javaMapToJsMap(map: JavaMap): Map<any, any>;
+/**
+ * Convert Java Map to JavaScript Object.
+ *
+ * @param {JavaMap} map
+ * @returns {{}} JavaScript Object
+ */
+export function javaMapToJsObj(map: JavaMap): {};
 /**
  * Generate a random UUID.
  *
