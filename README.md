@@ -901,6 +901,8 @@ var intValue = qty.int;
 var floatValue = qty.float;
 ```
 
+`toUnit` returns a new Quantity with the given unit or `null`, if conversion to that unit is not possible.
+
 #### Comparison
 
 `Quantity` provides the following methods for comparison:
