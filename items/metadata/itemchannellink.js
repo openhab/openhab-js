@@ -6,6 +6,7 @@
  */
 
 const osgi = require('../../osgi');
+const utils = require('../../utils');
 const log = require('../../log')('itemchannellink');
 
 const ItemChannelLink = Java.type('org.openhab.core.thing.link.ItemChannelLink');
@@ -47,7 +48,7 @@ const getItemChannelLink = function (itemName, channelUID) {
   return {
     itemName: itemChannelLink.getItemName().toString(),
     channelUID: itemChannelLink.getLinkedUID().toString(),
-    configuration: itemChannelLink.getConfiguration()
+    configuration: utils.javaMapToJsObj(itemChannelLink.getConfiguration().getProperties())
   };
 };
 
@@ -67,7 +68,7 @@ const _addItemChannelLink = function (itemName, channelUID, conf) {
   return {
     itemName: itemChannelLink.getItemName().toString(),
     channelUID: itemChannelLink.getLinkedUID().toString(),
-    configuration: itemChannelLink.getConfiguration()
+    configuration: utils.javaMapToJsObj(itemChannelLink.getConfiguration().getProperties())
   };
 };
 
@@ -88,7 +89,7 @@ const _updateItemChannelLink = function (itemName, channelUID, conf) {
   return {
     itemName: itemChannelLink.getItemName().toString(),
     channelUID: itemChannelLink.getLinkedUID().toString(),
-    configuration: itemChannelLink.getConfiguration()
+    configuration: utils.javaMapToJsObj(itemChannelLink.getConfiguration().getProperties())
   };
 };
 
@@ -127,7 +128,7 @@ const removeItemChannelLink = function (itemName, channelUID) {
   return {
     itemName: itemChannelLink.getItemName().toString(),
     channelUID: itemChannelLink.getLinkedUID().toString(),
-    configuration: itemChannelLink.getConfiguration()
+    configuration: utils.javaMapToJsObj(itemChannelLink.getConfiguration().getProperties())
   };
 };
 
