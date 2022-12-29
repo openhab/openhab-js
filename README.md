@@ -365,10 +365,9 @@ Calling `getItem(...)` returns an `Item` object with the following properties:
   - .isUninitialized ⇒ `boolean`
   - .groupNames ⇒ `Array[string]`
   - .tags ⇒ `Array[string]`
-  - .getMetadataValue(namespace) ⇒ `string`
-  - .updateMetadataValue(namespace, value) ⇒ `string`
-  - .upsertMetadataValue(namespace, value) ⇒ `boolean`
-  - .updateMetadataValues(namespaceToValues)
+  - .getMetadata(namespace) ⇒ `object|null`
+  - .replaceMetadata(namespace, value, configuration) ⇒ `object`
+  - .removeMetadata(namespace) ⇒ `object|null`
   - .sendCommand(value)
   - .sendCommandIfDifferent(value) ⇒ `boolean`
   - .postUpdate(value)
