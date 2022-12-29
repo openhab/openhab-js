@@ -129,7 +129,7 @@ export function getItemsByTag(...tagNames: string[]): Item[];
  * @throws {@link ItemConfig}.name or {@link ItemConfig}.type not set
  * @throws failed to create Item
  */
-export function replaceItem(itemConfig: ItemConfig, ...args: any[]): Item;
+export function replaceItem(itemConfig: ItemConfig): Item;
 /**
  * Creates a new Item object. This Item is not registered with any provider and therefore can not be accessed.
  *
