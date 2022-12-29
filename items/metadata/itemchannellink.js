@@ -2,7 +2,7 @@
  * Item channel link namespace.
  * This namespace provides access to Item channel links.
  *
- * @namespace items.itemchannellink
+ * @namespace items.metadata.itemchannellink
  */
 
 const osgi = require('../../osgi');
@@ -35,7 +35,7 @@ const _createItemChannelLink = function (itemName, channelUID, conf) {
 /**
  * Gets an ItemChannelLink from the provider.
  *
- * @private
+ * @memberof items.metadata.itemchannellink
  * @param {string} itemName the name of the Item
  * @param {string} channelUID
  * @returns {{itemName: string, configuration: *, channelUID: string}|null} the ItemChannelLink or `null` if none exists
@@ -95,7 +95,7 @@ const _updateItemChannelLink = function (itemName, channelUID, conf) {
 /**
  * Adds or updates an ItemChannelLink.
  *
- * @memberof items.itemchannellink
+ * @memberof items.metadata.itemchannellink
  * @param {string} itemName the name of the Item
  * @param {string} channelUID
  * @param {object} [conf] channel configuration
@@ -115,7 +115,7 @@ const replaceItemChannelLink = function (itemName, channelUID, conf) {
 /**
  * Removes an ItemChannelLink from the provider. Therefore, the channel link is removed from the Item.
  *
- * @memberof items.itemchannellink
+ * @memberof items.metadata.itemchannellink
  * @param {string} itemName the name of the Item
  * @param {string} channelUID
  * @returns {{itemName: string, configuration: *, channelUID: string}|null} the removed ItemChannelLink or `null` if none exists
