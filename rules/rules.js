@@ -322,7 +322,12 @@ const SwitchableJSRule = function (ruleConfig) {
 
   if (item.isUninitialized) {
     // possibly load item's prior state
-    const historicState = item.history.latestState();
+    let historicState = null;
+    try {
+      historicState = item.history.latestState();
+    } catch (e) {
+      log.warn(`Failed to get historic state of ${itemName} for rule ${ruleConfig.name}: ${e}`);
+    }
 
     if (historicState !== null) {
       item.postUpdate(historicState);
