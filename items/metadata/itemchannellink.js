@@ -106,11 +106,10 @@ const replaceItemChannelLink = function (itemName, channelUID, conf) {
   const existing = getItemChannelLink(itemName, channelUID);
   if (existing === null) {
     _addItemChannelLink(itemName, channelUID, conf);
-    return null;
   } else {
     _updateItemChannelLink(itemName, channelUID, conf);
-    return existing;
   }
+  return existing;
 };
 
 /**
