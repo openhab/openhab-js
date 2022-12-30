@@ -17,6 +17,7 @@
 | Bugfix      | `things`   | Fix `bridgeUID` member of `Thing` not working                            | Commit [fec416a](https://github.com/openhab/openhab-js/commit/fec416a011f4a1e7453541c5beb17d3fca23ec85) | No       |
 | Bugfix      |            | Fix & Improve type definitions                                           | [#209](https://github.com/openhab/openhab-js/pull/209)                                                  | No       |
 | Bugfix      | `items`    | Fix `time.ZonedDateTime` not working as command or state update          | [#213](https://github.com/openhab/openhab-js/pull/213)                                                  | No       |
+| Bugfix      | `rules`    | Catch persistence exceptions in SwitchableJSRule creation                | [#214](https://github.com/openhab/openhab-js/pull/214)                                                  | No       |
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/10).
 
