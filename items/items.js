@@ -10,6 +10,8 @@ const log = require('../log')('items');
 const metadata = require('../metadata/metadata');
 const ItemHistory = require('./item-history');
 const ItemSemantics = require('./item-semantics');
+/** @typedef {import('@js-joda/core').ZonedDateTime} time.ZonedDateTime */
+const time = require('../time');
 
 const { UnDefType, OnOffType, events, itemRegistry } = require('@runtime');
 
@@ -123,7 +125,7 @@ class Item {
    * @return {HostState} the Item's state
    */
   get rawState () {
-    return this.rawItem.state;
+    return this.rawItem.getState();
   }
 
   /**
@@ -148,9 +150,9 @@ class Item {
    * @returns true iff the Item has not been initialized
    */
   get isUninitialized () {
-    if (this.rawItem.state instanceof UnDefType ||
-            this.rawItem.state.toString() === 'Undefined' ||
-            this.rawItem.state.toString() === 'Uninitialized'
+    if (this.rawItem.getState() instanceof UnDefType ||
+        this.rawItem.getState().toString() === 'Undefined' ||
+        this.rawItem.getState().toString() === 'Uninitialized'
     ) {
       return true;
     } else {
@@ -198,23 +200,26 @@ class Item {
   }
 
   /**
-   * Sends a command to the Item
-   * @param {String|HostState} value the value of the command to send, such as 'ON'
+   * Sends a command to the Item.
+   *
+   * @param {String|time.ZonedDateTime|HostState} value the value of the command to send, such as 'ON'
    * @see sendCommandIfDifferent
    * @see postUpdate
    */
   sendCommand (value) {
+    if (value instanceof time.ZonedDateTime) value = value.toOpenHabString();
     events.sendCommand(this.rawItem, value);
   }
 
   /**
    * Sends a command to the Item, but only if the current state is not what is being sent.
-   * Note
-   * @param {String|HostState} value the value of the command to send, such as 'ON'
+   *
+   * @param {String|time.ZonedDateTime|HostState} value the value of the command to send, such as 'ON'
    * @returns {boolean} true if the command was sent, false otherwise
    * @see sendCommand
    */
   sendCommandIfDifferent (value) {
+    if (value instanceof time.ZonedDateTime) value = value.toOpenHabString();
     if (value.toString() !== this.state.toString()) {
       this.sendCommand(value);
       return true;
@@ -272,11 +277,13 @@ class Item {
   }
 
   /**
-   * Posts an update to the Item
-   * @param {String|HostState} value the value of the command to send, such as 'ON'
+   * Posts an update to the Item.
+   *
+   * @param {String|time.ZonedDateTime|HostState} value the value of the command to send, such as 'ON'
    * @see sendCommand
    */
   postUpdate (value) {
+    if (value instanceof time.ZonedDateTime) value = value.toOpenHabString();
     events.postUpdate(this.rawItem, value);
   }
 
@@ -580,14 +587,14 @@ module.exports = {
   removeItem,
   Item,
   /**
-     * Custom indexer, to allow static Item lookup.
-     * @example
-     * let { my_object_name } = require('openhab').items.objects;
-     * ...
-     * let my_state = my_object_name.state; //my_object_name is an Item
-     *
-     * @returns {object} a collection of items allowing indexing by Item name
-     */
+   * Custom indexer, to allow static Item lookup.
+   * @example
+   * let { my_object_name } = require('openhab').items.objects;
+   * ...
+   * let my_state = my_object_name.state; //my_object_name is an Item
+   *
+   * @returns {object} a collection of items allowing indexing by Item name
+   */
   objects: () => new Proxy({}, {
     get: function (target, name) {
       if (typeof name === 'string' && /^-?\d+$/.test(name)) { return getItem(name); }
