@@ -1,11 +1,14 @@
 /** @typedef {import('@js-joda/core').ZonedDateTime} time.ZonedDateTime */
 const time = require('../time');
+const log = require('../log')('item-history');
 const PersistenceExtensions = Java.type('org.openhab.core.persistence.extensions.PersistenceExtensions');
 
 /**
  * Class representing the historic state of an openHAB Item.
- * If the Item receives it's state from a binding that supports units of measurement, the returned state is in the according base unit, otherwise there is no unit conversion happening.
+ * If the Item receives its state from a binding that supports units of measurement, the returned state is in the according base unit, otherwise there is no unit conversion happening.
  * Wrapping the {@link https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/extensions/persistenceextensions PersistenceExtensions}.
+ *
+ * Be warned: This class can throw several exceptions from the underlying Java layer. It is recommended to wrap the methods of this class inside a try_catch block!
  *
  * @memberOf items
  * @hideconstructor
@@ -202,7 +205,12 @@ class ItemHistory {
    * @returns {(string | null)} state
    */
   historicState (timestamp, serviceId) {
-    return this._stateOrNull(PersistenceExtensions.historicState(this.rawItem, ...arguments));
+    try {
+      return this._stateOrNull(PersistenceExtensions.historicState(this.rawItem, ...arguments));
+    } catch (e) {
+
+    }
+
   }
 
   /**
