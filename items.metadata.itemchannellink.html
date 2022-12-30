@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>rules/trigger-builder.js - Documentation</title>
+    <title>itemchannellink - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -34,576 +34,715 @@
 
 <div id="main">
     
-    <h1 class="page-title">rules/trigger-builder.js</h1>
+    <h1 class="page-title">itemchannellink</h1>
     
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>const triggers = require('../triggers');
-const operations = require('./operation-builder');
-const conditions = require('./condition-builder');
+        <h2>
+            <span class="ancestors"><a href="items.html">items</a><a href="items.metadata.html">.metadata</a>.</span>
+        
+        itemchannellink
+        </h2>
+        
+    
+</header>
 
-/**
- * Builder for rule Triggers
- *
- * @hideconstructor
- */
-class TriggerBuilder {
-  constructor (builder) {
-    /** @private */
-    this._builder = builder;
-  }
+<article>
+    
+        <div class="container-overview">
+        
+            
 
-  _setTrigger (trigger) {
-    this.currentTigger = trigger;
-    return this.currentTigger;
-  }
+<dl class="details">
 
-  _or () {
-    this._builder.addTrigger(this.currentTigger);
-    return this;
-  }
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="items_metadata_itemchannellink.js.html">items/metadata/itemchannellink.js</a>, <a href="items_metadata_itemchannellink.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
 
-  _then (fn) {
-    this._or();
-    return new operations.OperationBuilder(this._builder, fn);
-  }
+    
 
-  _if (fn) {
-    this._or();
-    return new conditions.ConditionBuilder(this._builder, fn);
-  }
+    
 
-  /**
-     * Specifies a channel event as a source for the rule to fire.
-     *
-     * @param {string} channelName the name of the channel
-     * @returns {ChannelTriggerConfig} the trigger config
-     */
-  channel (s) {
-    return this._setTrigger(new ChannelTriggerConfig(s, this));
-  }
+    
 
-  /**
-     * Specifies a cron schedule for the rule to fire.
-     *
-     * @param {string} cronExpression the cron expression
-     * @returns {CronTriggerConfig} the trigger config
-     */
-  cron (s) {
-    return this._setTrigger(new CronTriggerConfig(s, this));
-  }
+    
 
-  /**
-     * Specifies an item as the source of changes to trigger a rule.
-     *
-     * @param {string} itemName the name of the item
-     * @returns {ItemTriggerConfig} the trigger config
-     */
-  item (s) {
-    return this._setTrigger(new ItemTriggerConfig(s, false, this));
-  }
+    
 
-  /**
-     * Specifies an group member as the source of changes to trigger a rule.
-     *
-     * @param {string} groupName the name of the group
-     * @returns {ItemTriggerConfig} the trigger config
-     */
-  memberOf (s) {
-    return this._setTrigger(new ItemTriggerConfig(s, true, this));
-  }
+    
 
-  /**
-     * Specifies a Thing status event as a source for the rule to fire.
-     *
-     * @param {string} thingUID the UID of the Thing
-     * @returns {ThingTriggerConfig} the trigger config
-     */
-  thing (s) {
-    return this._setTrigger(new ThingTriggerConfig(s, this));
-  }
+    
 
-  /**
-     * Specifies a system event as a source for the rule to fire.
-     *
-     * @memberof TriggerBuilder
-     * @returns {SystemTriggerConfig} the trigger config
-     */
-  system () {
-    return this._setTrigger(new SystemTriggerConfig(this));
-  }
-}
+    
 
-/**
- * {RuleBuilder} RuleBuilder triggers
- * @memberof TriggerBuilder
- */
-class TriggerConf {
-  constructor (triggerBuilder) {
-    this.triggerBuilder = triggerBuilder;
-  }
+    
 
-  /**
-     * Add an additional Trigger
-     *
-     * @returns {TriggerBuilder}
-     */
-  or () {
-    return this.triggerBuilder._or();
-  }
+    
 
-  /**
-     * Move to the rule operations
-     *
-     * @param {*} function the optional function to execute
-     * @returns {operations.OperationBuilder}
-     */
-  then (fn) {
-    return this.triggerBuilder._then(fn);
-  }
+    
 
-  /**
-     * Move to the rule condition
-     *
-     * @param {*} function the optional function to execute
-     * @returns {conditions.ConditionBuilder}
-     */
-  if (fn) {
-    return this.triggerBuilder._if(fn);
-  }
-}
+    
 
-/**
- * @memberof TriggerBuilder
- * @extends TriggerConf
- * @hideconstructor
- */
-class ChannelTriggerConfig extends TriggerConf {
-  constructor (channelName, triggerBuilder) {
-    super(triggerBuilder);
-    this.channelName = channelName;
-    this._toOHTriggers = () => [triggers.ChannelEventTrigger(this.channelName, this.eventName)];
-  }
+    
 
-  describe (compact) {
-    if (compact) {
-      return this.channelName + (this.eventName ? `:${this.eventName}` : '');
-    } else {
-      return `matches channel "${this.channelName}"` + (this.eventName ? `for event ${this.eventName}` : '');
-    }
-  }
+    
 
-  /**
-     * trigger a specific event name
-     *
-     * @param {string} eventName
-     * @returns {ChannelTriggerConfig}
-     */
-  to (eventName) {
-    return this.triggered(eventName);
-  }
+    
+</dl>
 
-  /**
-     * trigger a specific event name
-     *
-     * @param {string} eventName
-     * @returns {ChannelTriggerConfig}
-     */
-  triggered (eventName) {
-    this.eventName = eventName || '';
-    return this;
-  }
 
-  _complete () {
-    return typeof (this.eventName) !== 'undefined';
-  }
-}
 
-/**
- * Cron based trigger
- *
- * @memberof TriggerBuilder
- * @extends TriggerConf
- * @hideconstructor
- */
-class CronTriggerConfig extends TriggerConf {
-  constructor (timeStr, triggerBuilder) {
-    super(triggerBuilder);
-    this.timeStr = timeStr;
-    this._complete = () => true;
-    this._toOHTriggers = () => [triggers.GenericCronTrigger(this.timeStr)];
-    this.describe = (compact) => compact ? `cron_${this.timeStr}` : `matches cron "${this.timeStr}"`;
-  }
-}
 
-/**
- * item based trigger
- *
- * @memberof TriggerBuilder
- * @extends TriggerConf
- * @hideconstructor
- */
-class ItemTriggerConfig extends TriggerConf {
-  constructor (itemOrName, isGroup, triggerBuilder) {
-    super(triggerBuilder);
-    this.type = isGroup ? 'memberOf' : 'item';
-    if (typeof itemOrName !== 'string') {
-      itemOrName = itemOrName.name;
-    }
+            
+                <div class="description usertext"><p>Item channel link namespace.
+This namespace provides access to Item channel links.</p></div>
+            
 
-    this.item_name = itemOrName;
-    this.describe = () => `${this.type} ${this.item_name} changed`;
-    this.of = this.to; // receivedCommand().of(..)
-  }
+            
+        
+        </div>
+    
 
-  /**
-     * Item to
-     *
-     * @param {*} value this item should be triggered to
-     * @returns {ItemTriggerConfig}
-     */
-  to (value) {
-    this.to_value = value;
-    return this;
-  }
+    
 
-  /**
-     * Item from
-     * @param {*} value this items should be triggered from
-     * @returns {ItemTriggerConfig}
-     */
-  from (value) {
-    if (this.op_type !== 'changed') {
-      throw Error('.from(..) only available for .changed()');
-    }
-    this.from_value = value;
-    return this;
-  }
+    
 
-  /**
-     * item changed to OFF
-     *
-     * @returns {ItemTriggerConfig}
-     */
-  toOff () {
-    return this.to('OFF');
-  }
+    
+    
+    
 
-  /**
-     * item changed to ON
-     *
-     * @returns {ItemTriggerConfig}
-     */
-  toOn () {
-    return this.to('ON');
-  }
+     
 
-  /**
-     * item recieved command
-     *
-     * @returns {ItemTriggerConfig}
-     */
-  receivedCommand () {
-    this.op_type = 'receivedCommand';
-    return this;
-  }
+    
 
-  /**
-     * item recieved update
-     *
-     * @returns {ItemTriggerConfig}
-     */
-  receivedUpdate () {
-    this.op_type = 'receivedUpdate';
-    return this;
-  }
+    
 
-  /**
-     * item changed state
-     *
-     * @returns {ItemTriggerConfig}
-     */
-  changed () {
-    this.op_type = 'changed';
-    return this;
-  }
+    
+        <h3 class="subsection-title">Methods</h3>
 
-  /**
-     * For timespan
-     * @param {*} timespan
-     * @returns {ItemTriggerConfig}
-     */
-  for (timespan) {
-    return new operations.TimingItemStateOperation(this, timespan);
-  }
+        
+            
 
-  _complete () {
-    return typeof (this.op_type) !== 'undefined';
-  }
+    
 
-  describe (compact) {
-    switch (this.op_type) {
-      case 'changed':
-        if (compact) {
-          let transition = this.from_value + '=>' || '';
-          if (this.to_value) {
-            transition = (transition || '=>') + this.to_value;
-          }
+    <h4 class="name" id=".getItemChannelLink"><span class="type-signature">(static) </span>getItemChannelLink<span class="signature">(itemName, channelUID)</span><span class="type-signature"> &rarr; {Object|null}</span></h4>
 
-          return `${this.item_name} ${transition}/Δ`;
-        } else {
-          let transition = 'changed';
-          if (this.from_value) {
-            transition += ` from ${this.from_value}`;
-          }
+    
 
-          if (this.to_value) {
-            transition += ` to ${this.to_value}`;
-          }
 
-          return `${this.item_name} ${transition}`;
-        }
-      case 'receivedCommand':
-        return compact ? `${this.item_name}/⌘` : `${this.type} ${this.item_name} received command`;
-      case 'receivedUpdate':
-        return compact ? `${this.item_name}/↻` : `${this.type} ${this.item_name} received update`;
-      default:
-        throw Error('Unknown operation type: ' + this.op_type);
-    }
-  }
 
-  _toOHTriggers () {
-    if (this.type === 'memberOf') {
-      switch (this.op_type) {
-        case 'changed':
-          return [triggers.GroupStateChangeTrigger(this.item_name, this.from_value, this.to_value)];
-        case 'receivedCommand':
-          return [triggers.GroupCommandTrigger(this.item_name, this.to_value)];
-        case 'receivedUpdate':
-          return [triggers.GroupStateUpdateTrigger(this.item_name, this.to_value)];
-        default:
-          throw Error('Unknown operation type: ' + this.op_type);
-      }
-    } else {
-      switch (this.op_type) {
-        case 'changed':
-          return [triggers.ItemStateChangeTrigger(this.item_name, this.from_value, this.to_value)];
-        case 'receivedCommand':
-          return [triggers.ItemCommandTrigger(this.item_name, this.to_value)];
-        case 'receivedUpdate':
-          return [triggers.ItemStateUpdateTrigger(this.item_name, this.to_value)];
-        default:
-          throw Error('Unknown operation type: ' + this.op_type);
-      }
-    }
-  }
 
-  _executeHook () {
-    const getReceivedCommand = function (args) {
-      return args.receivedCommand;
-    };
+<dl class="details">
 
-    if (this.op_type === 'receivedCommand') { // add the received command as 'it'
-      return function (next, args) {
-        const it = getReceivedCommand(args);
-        return next({
-          ...args,
-          it
-        });
-      };
-    } else {
-      return null;
-    }
-  }
-}
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="items_metadata_itemchannellink.js.html">items/metadata/itemchannellink.js</a>, <a href="items_metadata_itemchannellink.js.html#line44">line 44</a>
+    </li></ul></dd>
+    
 
-/**
- * Thing based trigger
- *
- * @memberof TriggerBuilder
- * @extends TriggerConf
- * @hideconstructor
- */
-class ThingTriggerConfig extends TriggerConf {
-  constructor (thingUID, triggerBuilder) {
-    super(triggerBuilder);
-    this.thingUID = thingUID;
-  }
+    
 
-  _complete () {
-    return typeof (this.op_type) !== 'undefined';
-  }
+    
 
-  describe (compact) {
-    switch (this.op_type) {
-      case 'changed':
-        let transition = 'changed'; // eslint-disable-line no-case-declarations
+    
 
-        if (this.to_value) {
-          transition += ` to ${this.to_value}`;
-        }
+    
 
-        if (this.from_value) {
-          transition += ` from ${this.from_value}`;
-        }
+    
 
-        return `${this.thingUID} ${transition}`;
-      case 'updated':
-        return compact ? `${this.thingUID}/updated` : `Thing ${this.thingUID} received update`;
-      default:
-        throw Error('Unknown operation type: ' + this.op_type);
-    }
-  }
+    
 
-  /**
-     * thing changed
-     *
-     * @returns {ThingTriggerConfig}
-     */
-  changed () {
-    this.op_type = 'changed';
-    return this;
-  }
+    
 
-  /**
-     * thing updates
-     *
-     * @returns {ThingTriggerConfig}
-     */
-  updated () {
-    this.op_type = 'updated';
-    return this;
-  }
+    
 
-  /**
-     * thing status changed from
-     *
-     * @returns {ThingTriggerConfig}
-     */
-  from (value) {
-    if (this.op_type !== 'changed') {
-      throw Error('.from(..) only available for .changed()');
-    }
-    this.from_value = value;
-    return this;
-  }
+    
 
-  /**
-     * thing status changed to
-     *
-     * @returns {ThingTriggerConfig}
-     */
-  to (value) {
-    this.to_value = value;
-    return this;
-  }
+    
 
-  _toOHTriggers () {
-    switch (this.op_type) {
-      case 'changed':
-        return [triggers.ThingStatusChangeTrigger(this.thingUID, this.to_value, this.from_value)];
-      case 'updated':
-        return [triggers.ThingStatusUpdateTrigger(this.thingUID, this.to_value)];
-      default:
-        throw Error('Unknown operation type: ' + this.op_type);
-    }
-  }
-}
+    
 
-/**
- * System based trigger
- *
- * @memberof TriggerBuilder
- * @extends TriggerConf
- * @hideconstructor
- */
-class SystemTriggerConfig extends TriggerConf {
-  constructor (triggerBuilder) {
-    super(triggerBuilder);
-    this._toOHTriggers = () => [triggers.SystemStartlevelTrigger(this.level)];
-    this.describe = (compact) => compact ? `system:${this.level}` : `system level "${this.level}"`;
-  }
+    
 
-  _complete () {
-    return typeof (this.level) !== 'undefined';
-  }
+    
 
-  /**
-     * System trigger
-     *
-     * @returns {SystemTriggerConfig}
-     */
-  rulesLoaded () {
-    return this.startLevel(40);
-  }
+    
 
-  /**
-     * System trigger
-     *
-     * @returns {SystemTriggerConfig}
-     */
-  ruleEngineStarted () {
-    return this.startLevel(50);
-  }
+    
+</dl>
 
-  /**
-     * System trigger
-     *
-     * @returns {SystemTriggerConfig}
-     */
-  userInterfacesStarted () {
-    return this.startLevel(70);
-  }
 
-  /**
-     * System trigger
-     *
-     * @returns {SystemTriggerConfig}
-     */
-  thingsInitialized () {
-    return this.startLevel(80);
-  }
 
-  /**
-     * System trigger
-     *
-     * @returns {SystemTriggerConfig}
-     */
-  startupComplete () {
-    return this.startLevel(100);
-  }
 
-  /**
-     * System trigger
-     *
-     * @returns {SystemTriggerConfig}
-     */
-  startLevel (level) {
-    if (typeof (this.level) !== 'undefined') {
-      throw Error('Level already set');
-    }
-    this.level = level;
-    return this;
-  }
-}
 
-module.exports = {
-  CronTriggerConfig,
-  ChannelTriggerConfig,
-  ItemTriggerConfig,
-  ThingTriggerConfig,
-  SystemTriggerConfig,
-  TriggerBuilder
-};
-</code></pre>
-        </article>
-    </section>
+<div class="description usertext">
+    <p>Gets an ItemChannelLink from the provider.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>itemName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the name of the Item</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>channelUID</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>the ItemChannelLink or <code>null</code> if none exists</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+|
+
+<span class="param-type">null</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".replaceItemChannelLink"><span class="type-signature">(static) </span>replaceItemChannelLink<span class="signature">(itemName, channelUID, conf<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Object|null}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="items_metadata_itemchannellink.js.html">items/metadata/itemchannellink.js</a>, <a href="items_metadata_itemchannellink.js.html#line105">line 105</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Adds or updates an ItemChannelLink.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>itemName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>the name of the Item</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>channelUID</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>conf</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>channel configuration</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>the old ItemChannelLink or <code>null</code> if it did not exist</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+|
+
+<span class="param-type">null</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".removeItemChannelLink"><span class="type-signature">(static) </span>removeItemChannelLink<span class="signature">(itemName, channelUID)</span><span class="type-signature"> &rarr; {Object|null}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="items_metadata_itemchannellink.js.html">items/metadata/itemchannellink.js</a>, <a href="items_metadata_itemchannellink.js.html#line123">line 123</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Removes an ItemChannelLink from the provider. Therefore, the channel link is removed from the Item.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>itemName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the name of the Item</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>channelUID</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>the removed ItemChannelLink or <code>null</code> if none exists</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+|
+
+<span class="param-type">null</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 
@@ -615,7 +754,7 @@ module.exports = {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.0</a> on Fri Dec 30 2022 17:35:28 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.0</a> on Fri Dec 30 2022 17:35:29 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
