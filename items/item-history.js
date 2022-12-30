@@ -1,6 +1,5 @@
 /** @typedef {import('@js-joda/core').ZonedDateTime} time.ZonedDateTime */
 const time = require('../time');
-const log = require('../log')('item-history');
 const PersistenceExtensions = Java.type('org.openhab.core.persistence.extensions.PersistenceExtensions');
 
 /**
@@ -210,7 +209,6 @@ class ItemHistory {
     } catch (e) {
 
     }
-
   }
 
   /**
