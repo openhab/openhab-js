@@ -442,27 +442,28 @@ const addItem = function (itemConfig) {
  *
  * @memberof items
  * @param {String|HostItem} itemOrItemName the Item or the name of the Item to remove
- * @returns {boolean} true if the Item was actually removed
+ * @returns {Item|null} the Item that has been removed or `null` if it has not been removed
  */
 const removeItem = function (itemOrItemName) {
   let itemName;
 
   if (typeof itemOrItemName === 'string') {
     itemName = itemOrItemName;
-  } else if (itemOrItemName.hasOwnProperty('name')) { // eslint-disable-line no-prototype-builtins
+  } else if (itemOrItemName instanceof Item) {
     itemName = itemOrItemName.name;
   } else {
     log.warn('Item name is undefined (no Item supplied or supplied name is not a string) so cannot be removed');
     return false;
   }
 
+  let item;
   try { // If the Item is not registered, ItemNotFoundException is thrown.
-    getItem(itemName);
+    item = getItem(itemName);
   } catch (e) {
-    if (Java.typeName(e.getClass()) === 'org.openhab.core.items.ItemNotFoundException') {
+    if (e.getClass() === 'org.openhab.core.items.ItemNotFoundException') {
       log.error('Item {} not registered so cannot be removed: {}', itemName, e.message);
-      return false;
-    } else { // If exception/error is not ItemNotFouncException, rethrow.
+      return null;
+    } else { // If exception/error is not ItemNotFoundException, rethrow.
       throw Error(e);
     }
   }
@@ -472,10 +473,10 @@ const removeItem = function (itemOrItemName) {
   try { // If the Item has been successfully removed, ItemNotFoundException is thrown.
     itemRegistry.getItem(itemName);
     log.warn('Failed to remove Item: {}', itemName);
-    return false;
+    return null;
   } catch (e) {
-    if (Java.typeName(e.getClass()) === 'org.openhab.core.items.ItemNotFoundException') {
-      return true;
+    if (e.getClass() === 'org.openhab.core.items.ItemNotFoundException') {
+      return item;
     } else { // If exception/error is not ItemNotFoundException, rethrow.
       throw Error(e);
     }
@@ -493,16 +494,20 @@ const removeItem = function (itemOrItemName) {
  *
  * @memberof items
  * @param {ItemConfig} itemConfig the Item config describing the Item
- * @returns {Item} {@link items.Item}
+ * @returns {Item|null} the old Item or `null` if it did not exist
  * @throws {@link ItemConfig}.name or {@link ItemConfig}.type not set
  * @throws failed to create Item
  */
 const replaceItem = function (itemConfig) {
   const item = getItem(itemConfig.name, true);
-  if (item !== null) {
+  if (item !== null) { // Item already existed
     removeItem(itemConfig.name);
+    addItem(itemConfig);
+    return item;
+  } else { // Item did not exist
+    addItem(itemConfig);
+    return null;
   }
-  return addItem(itemConfig);
 };
 
 /**

@@ -100,16 +100,16 @@ const _updateItemChannelLink = function (itemName, channelUID, conf) {
  * @param {string} itemName the name of the Item
  * @param {string} channelUID
  * @param {object} [conf] channel configuration
- * @returns {boolean} `true` if the channel link was added, `false` if it was updated
+ * @returns {{itemName: string, configuration: *, channelUID: string}|null} the old ItemChannelLink or `null` if it did not exist
  */
 const replaceItemChannelLink = function (itemName, channelUID, conf) {
   const existing = getItemChannelLink(itemName, channelUID);
   if (existing === null) {
     _addItemChannelLink(itemName, channelUID, conf);
-    return true;
+    return null;
   } else {
     _updateItemChannelLink(itemName, channelUID, conf);
-    return false;
+    return existing;
   }
 };
 
