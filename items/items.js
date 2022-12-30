@@ -502,12 +502,9 @@ const replaceItem = function (itemConfig) {
   const item = getItem(itemConfig.name, true);
   if (item !== null) { // Item already existed
     removeItem(itemConfig.name);
-    addItem(itemConfig);
-    return item;
-  } else { // Item did not exist
-    addItem(itemConfig);
-    return null;
   }
+  addItem(itemConfig);
+  return item;
 };
 
 /**
