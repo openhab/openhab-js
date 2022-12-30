@@ -45,7 +45,6 @@ export const log: typeof import("./log");
 export const rules: typeof import("./rules/rules");
 export const items: typeof import("./items/items");
 export const things: typeof import("./things");
-export const metadata: typeof import("./metadata/metadata");
 export const triggers: typeof import("./triggers");
 export const actions: typeof import("./actions");
 export const utils: typeof import("./utils");

@@ -2,8 +2,9 @@
 
 ## to be released
 
-| Type        | Namespace  | Description                                                              | Reference                                                                                               | Breaking |
-|-------------|------------|--------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------|----------|
+| Type        | Namespace | Description                                                                | Reference                                              | Breaking |
+|-------------|-----------|----------------------------------------------------------------------------|--------------------------------------------------------|----------|
+| Enhancement | `items`   | Refactor `metadata` & `itemchannllink` APIs & add additional functionality | [#212](https://github.com/openhab/openhab-js/pull/212) | **Yes**  |
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/11).
 

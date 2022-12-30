@@ -5,7 +5,6 @@ module.exports = {
   get rules () { return require('./rules'); },
   get items () { return require('./items'); },
   get things () { return require('./things'); },
-  get metadata () { return require('./metadata'); },
   get triggers () { return require('./triggers'); },
   get actions () { return require('./actions'); },
   get utils () { return require('./utils'); },

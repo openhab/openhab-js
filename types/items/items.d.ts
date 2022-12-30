@@ -115,8 +115,8 @@ export function addItem(itemConfig: ItemConfig): Item;
  */
 export function getItemsByTag(...tagNames: string[]): Item[];
 /**
- * Replaces (upserts) an Item. If an Item exists with the same name, it will be removed and a new Item with
- * the supplied parameters will be created in it's place. If an Item does not exist with this name, a new
+ * Replaces (or adds) an Item. If an Item exists with the same name, it will be removed and a new Item with
+ * the supplied parameters will be created in its place. If an Item does not exist with this name, a new
  * Item will be created with the supplied parameters.
  *
  * This function can be useful in scripts which create a static set of Items which may need updating either
@@ -125,11 +125,11 @@ export function getItemsByTag(...tagNames: string[]): Item[];
  *
  * @memberof items
  * @param {ItemConfig} itemConfig the Item config describing the Item
- * @returns {Item} {@link items.Item}
+ * @returns {Item|null} the old Item or `null` if it did not exist
  * @throws {@link ItemConfig}.name or {@link ItemConfig}.type not set
  * @throws failed to create Item
  */
-export function replaceItem(itemConfig: ItemConfig, ...args: any[]): Item;
+export function replaceItem(itemConfig: ItemConfig): Item | null;
 /**
  * Creates a new Item object. This Item is not registered with any provider and therefore can not be accessed.
  *
@@ -149,9 +149,9 @@ export function createItem(itemConfig: ItemConfig): Item;
  *
  * @memberof items
  * @param {String|HostItem} itemOrItemName the Item or the name of the Item to remove
- * @returns {boolean} true if the Item was actually removed
+ * @returns {Item|null} the Item that has been removed or `null` if it has not been removed
  */
-export function removeItem(itemOrItemName: string | HostItem): boolean;
+export function removeItem(itemOrItemName: string | HostItem): Item | null;
 /**
  * Class representing an openHAB Item
  *
@@ -221,30 +221,34 @@ export class Item {
      */
     get isUninitialized(): boolean;
     /**
-     * Gets metadata values for this Item.
-     * @param {string} namespace The namespace for the metadata to retreive
-     * @returns {string} the metadata associated with this Item and namespace
+     * Gets metadata with the given name for this Item.
+     * @param {string} namespace The namespace for the metadata to retrieve
+     * @returns {{configuration: *, value: string}|null} metadata or null if the Item has no metadata with the given name
      */
-    getMetadataValue(namespace: string): string;
+    getMetadata(namespace: string): {
+        configuration: any;
+        value: string;
+    } | null;
     /**
-     * Updates metadata values for this Item.
-     * @param {string} namespace The namespace for the metadata to update
-     * @param {string} value the value to update the metadata to
-     * @returns {string} the updated value
+     * Updates or adds the given metadata for this Item.
+     * @param {string} namespace name of the metadata
+     * @param {string} value value for this metadata
+     * @param {object} [configuration] optional metadata configuration
+     * @returns {{configuration: *, value: string}|null} old metadata or `null` if the Item has no metadata with the given name
      */
-    updateMetadataValue(namespace: string, value: string): string;
+    replaceMetadata(namespace: string, value: string, configuration?: object): {
+        configuration: any;
+        value: string;
+    } | null;
     /**
-     * Inserts or updates metadata values for this Item.
-     * @param {string} namespace The namespace for the metadata to update
-     * @param {string} value the value to update the metadata to
-     * @returns {boolean} true iff a new value was inserted
+     * Removes metadata with a given name from a given Item.
+     * @param {string} namespace name of the metadata
+     * @returns {{configuration: *, value: string}|null} removed metadata or `null` if the Item has no metadata with the given name
      */
-    upsertMetadataValue(namespace: string, value: string): boolean;
-    /**
-     * Updates metadata values for this Item.
-     * @param {Map} namespaceToValues A map of namespaces to values to update
-     */
-    updateMetadataValues(namespaceToValues: Map<any, any>): void;
+    removeMetadata(namespace: string): {
+        configuration: any;
+        value: string;
+    } | null;
     /**
      * Sends a command to the Item.
      *
@@ -320,6 +324,7 @@ export class Item {
     removeTags(...tagNames: string[]): void;
     toString(): any;
 }
+import metadata = require("./metadata/metadata");
 import ItemHistory = require("./item-history");
 import ItemSemantics = require("./item-semantics");
 declare namespace time {
@@ -327,5 +332,5 @@ declare namespace time {
 }
 import time = require("../time");
 export declare function objects(): any;
-export {};
+export { metadata };
 //# sourceMappingURL=items.d.ts.map
