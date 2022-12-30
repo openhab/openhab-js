@@ -18,9 +18,13 @@ export function getItemChannelLink(itemName: string, channelUID: string): {
  * @param {string} itemName the name of the Item
  * @param {string} channelUID
  * @param {object} [conf] channel configuration
- * @returns {boolean} `true` if the channel link was added, `false` if it was updated
+ * @returns {{itemName: string, configuration: *, channelUID: string}|null} the old ItemChannelLink or `null` if it did not exist
  */
-export function replaceItemChannelLink(itemName: string, channelUID: string, conf?: object): boolean;
+export function replaceItemChannelLink(itemName: string, channelUID: string, conf?: object): {
+    itemName: string;
+    configuration: any;
+    channelUID: string;
+} | null;
 /**
  * Removes an ItemChannelLink from the provider. Therefore, the channel link is removed from the Item.
  *

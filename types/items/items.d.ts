@@ -125,11 +125,11 @@ export function getItemsByTag(...tagNames: string[]): Item[];
  *
  * @memberof items
  * @param {ItemConfig} itemConfig the Item config describing the Item
- * @returns {Item} {@link items.Item}
+ * @returns {Item|null} the old Item or `null` if it did not exist
  * @throws {@link ItemConfig}.name or {@link ItemConfig}.type not set
  * @throws failed to create Item
  */
-export function replaceItem(itemConfig: ItemConfig): Item;
+export function replaceItem(itemConfig: ItemConfig): Item | null;
 /**
  * Creates a new Item object. This Item is not registered with any provider and therefore can not be accessed.
  *
@@ -149,9 +149,9 @@ export function createItem(itemConfig: ItemConfig): Item;
  *
  * @memberof items
  * @param {String|HostItem} itemOrItemName the Item or the name of the Item to remove
- * @returns {boolean} true if the Item was actually removed
+ * @returns {Item|null} the Item that has been removed or `null` if it has not been removed
  */
-export function removeItem(itemOrItemName: string | HostItem): boolean;
+export function removeItem(itemOrItemName: string | HostItem): Item | null;
 /**
  * Class representing an openHAB Item
  *
