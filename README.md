@@ -915,11 +915,11 @@ var floatValue = qty.float;
 
 `Quantity` provides the following methods for comparison:
 
-- `equal(value)` ⇒ `boolean`: this `Quantity` equals another `Quantity`
-- `largerThan` ⇒ `boolean`: this `Quantity` > another `Quantity`
-- `largerThanOrEqual` ⇒ `boolean`: this `Quantity` >= another `Quantity`
-- `smallerThan` ⇒ `boolean`: this `Quantity` < another `Quantity`
-- `smallerThanOrEqual` ⇒ `boolean`: this `Quantity` =< another `Quantity`
+- `equal(value)` ⇒ `boolean`: this `Quantity` equals to `value`
+- `largerThan` ⇒ `boolean`: this `Quantity` is greater than `value`
+- `largerThanOrEqual` ⇒ `boolean`: this `Quantity` is greater than or equal to `value`
+- `smallerThan` ⇒ `boolean`: this `Quantity` is less than `value`
+- `smallerThanOrEqual` ⇒ `boolean`: this `Quantity` is less than or equal to `value`
 
 `value` can be a string or a `Quantity`, the same rules apply for the string as described above.
 
