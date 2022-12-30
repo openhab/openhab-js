@@ -13,6 +13,10 @@ declare global {
    */
   type JavaList = object;
   /**
+   * Native Java Map Object (implementation of {@link https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html java.util.Map})
+   */
+  type JavaMap = object;
+  /**
    * Native Java openHAB State (instance of {@link https://www.openhab.org/javadoc/latest/org/openhab/core/types/state org.openhab.core.types.State})
    */
   type HostState = object;

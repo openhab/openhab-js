@@ -368,6 +368,17 @@ time.ZonedDateTime.prototype.getMillisFromNow = function () {
   return time.Duration.between(time.ZonedDateTime.now(), this).toMillis();
 };
 
+/**
+ * Stringifies this ZonedDateTime to a format that openHAB accepts for commands and state updates.
+ * openHAB doesn't accept the zone name that is in square brackets, e.g. `[Europe/Berlin]`, so remove it here.
+ * The zone information is also present in the offset, e.g. `+01:00`, so we don't need the time zone string.
+ *
+ * @returns {string}
+ */
+time.ZonedDateTime.prototype.toOpenHabString = function () {
+  return this.toString().replace(/\[[^\]]*\]$/, '');
+};
+
 module.exports = {
   ...time,
   toZDT,

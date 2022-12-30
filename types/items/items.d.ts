@@ -246,20 +246,21 @@ export class Item {
      */
     updateMetadataValues(namespaceToValues: Map<any, any>): void;
     /**
-     * Sends a command to the Item
-     * @param {String|HostState} value the value of the command to send, such as 'ON'
+     * Sends a command to the Item.
+     *
+     * @param {String|time.ZonedDateTime|HostState} value the value of the command to send, such as 'ON'
      * @see sendCommandIfDifferent
      * @see postUpdate
      */
-    sendCommand(value: string | HostState): void;
+    sendCommand(value: string | time.ZonedDateTime | HostState): void;
     /**
      * Sends a command to the Item, but only if the current state is not what is being sent.
-     * Note
-     * @param {String|HostState} value the value of the command to send, such as 'ON'
+     *
+     * @param {String|time.ZonedDateTime|HostState} value the value of the command to send, such as 'ON'
      * @returns {boolean} true if the command was sent, false otherwise
      * @see sendCommand
      */
-    sendCommandIfDifferent(value: string | HostState): boolean;
+    sendCommandIfDifferent(value: string | time.ZonedDateTime | HostState): boolean;
     /**
      * Calculates the toggled state of this Item. For Items like Color and
      * Dimmer, getStateAs(OnOffType) is used and the toggle calculated off
@@ -281,11 +282,12 @@ export class Item {
      */
     postToggleUpdate(): void;
     /**
-     * Posts an update to the Item
-     * @param {String|HostState} value the value of the command to send, such as 'ON'
+     * Posts an update to the Item.
+     *
+     * @param {String|time.ZonedDateTime|HostState} value the value of the command to send, such as 'ON'
      * @see sendCommand
      */
-    postUpdate(value: string | HostState): void;
+    postUpdate(value: string | time.ZonedDateTime | HostState): void;
     /**
      * Gets the tags from this Item
      * @returns {Array<String>} array of group names
@@ -320,5 +322,10 @@ export class Item {
 }
 import ItemHistory = require("./item-history");
 import ItemSemantics = require("./item-semantics");
+declare namespace time {
+    type ZonedDateTime = import('@js-joda/core').ZonedDateTime;
+}
+import time = require("../time");
 export declare function objects(): any;
+export {};
 //# sourceMappingURL=items.d.ts.map
