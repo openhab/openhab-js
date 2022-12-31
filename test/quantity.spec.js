@@ -111,10 +111,10 @@ describe('quantity.js', () => {
     // method name | compareTo returns for true | compareTo returns for false
     it.each([
       ['equal', 0, 1],
-      ['largerThan', 1, 0],
-      ['largerThanOrEqual', 0, -1],
-      ['smallerThan', -1, 0],
-      ['smallerThanOrEqual', 0, 1]
+      ['greaterThan', 1, 0],
+      ['greaterThanOrEqual', 0, -1],
+      ['lessThan', -1, 0],
+      ['lessThanOrEqual', 0, 1]
     ])('%s delegates, compares & returns correct boolean', (name, mock1, mock2) => {
       quantityTypeSpy.compareTo.mockImplementation(() => mock1);
       let equals = Quantity('5 m')[name]('500 cm');

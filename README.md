@@ -916,19 +916,21 @@ var floatValue = qty.float;
 `Quantity` provides the following methods for comparison:
 
 - `equal(value)` ⇒ `boolean`: this `Quantity` equals to `value`
-- `largerThan` ⇒ `boolean`: this `Quantity` is greater than `value`
-- `largerThanOrEqual` ⇒ `boolean`: this `Quantity` is greater than or equal to `value`
-- `smallerThan` ⇒ `boolean`: this `Quantity` is less than `value`
-- `smallerThanOrEqual` ⇒ `boolean`: this `Quantity` is less than or equal to `value`
+- `greaterThan` ⇒ `boolean`: this `Quantity` is greater than `value`
+- `greaterThanOrEqual` ⇒ `boolean`: this `Quantity` is greater than or equal to `value`
+- `lessThan` ⇒ `boolean`: this `Quantity` is less than `value`
+- `lessThanOrEqual` ⇒ `boolean`: this `Quantity` is less than or equal to `value`
 
-`value` can be a string or a `Quantity`, the same rules apply for the string as described above.
+`value` can be a string or a `Quantity`, for the string the same rules apply as described above.
 
 #### Mathematical Operators
 
-- `add(value)` ⇒ `Quantity`: `value` can be a string or a `Quantity`, for the string the same rules apply as described above
-- `divide(value)` ⇒ `Quantity`: `value` can be a number, a string or a `Quantity`, for the string the same rules apply as described above
-- `multiply(value)` ⇒ `Quantity`: `value` can be a number, a string or a `Quantity`, for the string the same rules apply as described above
-- `subtract(value)` ⇒ `Quantity`: `value` can be a string or a `Quantity`, for the string the same rules apply as described above
+- `add(value)` ⇒ `Quantity`: `value` can be a string or a `Quantity`
+- `divide(value)` ⇒ `Quantity`: `value` can be a number, a string or a `Quantity`
+- `multiply(value)` ⇒ `Quantity`: `value` can be a number, a string or a `Quantity`
+- `subtract(value)` ⇒ `Quantity`: `value` can be a string or a `Quantity`
+
+For the string the same rules apply as described above.
 
 See [openhab-js : Quantity](https://openhab.github.io/openhab-js/Quantity.html) for full API documentation.
 
