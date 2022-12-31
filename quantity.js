@@ -218,7 +218,7 @@ class Quantity {
    * @param {string|Quantity} value
    * @returns {boolean}
    */
-  largerThan (value) {
+  greaterThan (value) {
     value = _stringOrQtyToQtyType(value);
     return this.raw.compareTo(value) > 0;
   }
@@ -228,7 +228,7 @@ class Quantity {
    * @param {string|Quantity} value
    * @returns {boolean}
    */
-  largerThanOrEqual (value) {
+  greaterThanOrEqual (value) {
     value = _stringOrQtyToQtyType(value);
     return this.raw.compareTo(value) >= 0;
   }
@@ -238,7 +238,7 @@ class Quantity {
    * @param {string|Quantity} value
    * @returns {boolean}
    */
-  smallerThan (value) {
+  lessThan (value) {
     value = _stringOrQtyToQtyType(value);
     return this.raw.compareTo(value) < 0;
   }
@@ -248,7 +248,7 @@ class Quantity {
    * @param {string|Quantity} value
    * @returns {boolean}
    */
-  smallerThanOrEqual (value) {
+  lessThanOrEqual (value) {
     value = _stringOrQtyToQtyType(value);
     return this.raw.compareTo(value) <= 0;
   }

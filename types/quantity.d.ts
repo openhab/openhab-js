@@ -100,25 +100,25 @@ declare class Quantity {
      * @param {string|Quantity} value
      * @returns {boolean}
      */
-    largerThan(value: string | Quantity): boolean;
+    greaterThan(value: string | Quantity): boolean;
     /**
      * Checks whether this Quantity is larger than or equal to the passed in value.
      * @param {string|Quantity} value
      * @returns {boolean}
      */
-    largerThanOrEqual(value: string | Quantity): boolean;
+    greaterThanOrEqual(value: string | Quantity): boolean;
     /**
      * Checks whether this Quantity is smaller than the passed in value.
      * @param {string|Quantity} value
      * @returns {boolean}
      */
-    smallerThan(value: string | Quantity): boolean;
+    lessThan(value: string | Quantity): boolean;
     /**
      * Checks whether this Quantity is smaller than or equal to the passed in value.
      * @param {string|Quantity} value
      * @returns {boolean}
      */
-    smallerThanOrEqual(value: string | Quantity): boolean;
+    lessThanOrEqual(value: string | Quantity): boolean;
     toString(): any;
 }
 /**
