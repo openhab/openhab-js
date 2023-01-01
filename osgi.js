@@ -16,7 +16,7 @@ const Hashtable = Java.type('java.util.Hashtable');
  */
 const registeredServices = {};
 
-const jsObjectToHashtable = function (obj) {
+const _jsObjectToHashtable = function (obj) {
   if (obj === null) {
     return null;
   }
@@ -32,15 +32,15 @@ const jsObjectToHashtable = function (obj) {
  * Gets a service registered with OSGi.
  *
  * @private
- * @param {String|JavaClass} classOrName the class of the service to get
- * @returns an instance of the service, or null if it cannot be found
+ * @param {string|JavaClass} classOrName the class of the service to get
+ * @returns {*|null} an instance of the service, or `null` if it cannot be found
  */
-const lookupService = function (classOrName) {
+const _lookupService = function (classOrName) {
   let bc = bundleContext;
   if (bundleContext === undefined) {
     log.warn('bundleContext is undefined');
     const FrameworkUtil = Java.type('org.osgi.framework.FrameworkUtil');
-    const _bundle = FrameworkUtil.getBundle(scriptExtension.class); // eslint-disable-line no-undef
+    const _bundle = FrameworkUtil.getBundle(scriptExtension.getClass()); // eslint-disable-line no-undef
     bc = (_bundle !== null) ? _bundle.getBundleContext() : null;
   }
   if (bc !== null) {
@@ -56,7 +56,7 @@ const lookupService = function (classOrName) {
  * @memberof osgi
  * @param {Array<String|JavaClass>} classOrNames the class of the service to get
  *
- * @returns an instance of the service, or null if it cannot be found
+ * @returns {*|null} an instance of the service, or `null` if it cannot be found
  * @throws {Error} if no services of the requested type(s) can be found
  */
 const getService = function (...classOrNames) {
@@ -64,7 +64,7 @@ const getService = function (...classOrNames) {
 
   for (const classOrName of classOrNames) {
     try {
-      rv = lookupService(classOrName);
+      rv = _lookupService(classOrName);
     } catch (e) {
       log.warn(`Failed to get service ${classOrName}: {}`, e);
     }
@@ -83,7 +83,7 @@ const getService = function (...classOrNames) {
  * @memberof osgi
  * @param {string} className the class of the service to get
  * @param {*} [filter] an optional filter used to filter the returned services
- * @returns {Object[]} any instances of the service that can be found
+ * @returns {Array<*>} any instances of the service that can be found
  */
 const findServices = function (className, filter) {
   if (bundleContext !== null) {
@@ -98,7 +98,7 @@ const registerService = function (service, ...interfaceNames) {
 };
 
 const registerPermanentService = function (service, interfaceNames, properties = null) {
-  const registration = bundleContext.registerService(interfaceNames, service, jsObjectToHashtable(properties));
+  const registration = bundleContext.registerService(interfaceNames, service, _jsObjectToHashtable(properties));
 
   for (const interfaceName of interfaceNames) {
     if (typeof registeredServices[interfaceName] === 'undefined') {

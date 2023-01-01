@@ -10,9 +10,9 @@ const ArrayList = Java.type('java.util.ArrayList');
  * @namespace utils
  */
 
-function getAllPropertyNames (obj) {
+function _getAllPropertyNames (obj) {
   const proto = Object.getPrototypeOf(obj);
-  const inherited = (proto) ? getAllPropertyNames(proto) : [];
+  const inherited = (proto) ? _getAllPropertyNames(proto) : [];
   return [...new Set(Object.getOwnPropertyNames(obj).concat(inherited))];
 }
 
@@ -25,9 +25,7 @@ function getAllPropertyNames (obj) {
  */
 const jsSetToJavaSet = function (set) {
   const rv = new HashSet();
-
   set.forEach(e => rv.add(e));
-
   return rv;
 };
 
@@ -40,11 +38,9 @@ const jsSetToJavaSet = function (set) {
  */
 const jsArrayToJavaSet = function (arr) {
   const set = new HashSet();
-
   for (const i of arr) {
     set.add(i);
   }
-
   return set;
 };
 
@@ -57,11 +53,9 @@ const jsArrayToJavaSet = function (arr) {
  */
 const jsArrayToJavaList = function (arr) {
   const list = new ArrayList();
-
   for (const i of arr) {
     list.add(i);
   }
-
   return list;
 };
 
@@ -149,8 +143,8 @@ const dumpObject = function (obj, dumpProps = false) {
       if (isJavaType) {
         log.info('  Java.typeName(obj) = {}', Java.typeName(obj));
       } else {
-        log.info('  Java.typeName(obj.class) = {}', Java.typeName(obj.class));
-        if (Java.typeName(obj.class) === 'java.util.HashMap') {
+        log.info('  Java.typeName(obj.getClass()) = {}', Java.typeName(obj.getClass()));
+        if (Java.typeName(obj.getClass()) === 'java.util.HashMap') {
           log.info('Dumping contents...');
           const keys = obj.keySet().toArray();
           for (const key in keys) {
@@ -171,7 +165,7 @@ const dumpObject = function (obj, dumpProps = false) {
     } else if (typeof obj === 'object' && obj != null) {
       const keys = Object.keys(obj);
       log.info('  getOwnPropertyNames(obj) = {}', keys.toString());
-      log.info('  getAllPropertyNames(obj) = {}', getAllPropertyNames(obj).toString());
+      log.info('  getAllPropertyNames(obj) = {}', _getAllPropertyNames(obj).toString());
       // log.info("obj.toString() = {}", obj.toString());
       // log.info("JSON.stringify(obj) = {}", JSON.stringify(obj));
       if (dumpProps === true) {
@@ -202,11 +196,11 @@ const isJsInstanceOfJava = function (instance, type) {
     throw Error('type is not a java class');
   }
 
-  if (instance === null || instance === undefined || instance.class === null || instance.class === undefined) {
+  if (instance === null || instance === undefined || instance.getClass() === null || instance.getClass() === undefined) {
     return false;
   }
 
-  return type.class.isAssignableFrom(instance.class);
+  return type.getClass().isAssignableFrom(instance.getClass());
 };
 
 module.exports = {

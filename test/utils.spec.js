@@ -101,21 +101,24 @@ describe('utils.js', () => {
       jest.spyOn(Java, 'isType').mockImplementation(() => true);
       expect(isJsInstanceOfJava(null, {})).toBe(false);
       expect(isJsInstanceOfJava(undefined, {})).toBe(false);
-      expect(isJsInstanceOfJava({ class: null }, {})).toBe(false);
-      expect(isJsInstanceOfJava({ class: undefined }, {})).toBe(false);
+      expect(isJsInstanceOfJava({ getClass: () => { return null; } }, {})).toBe(false);
+      expect(isJsInstanceOfJava({ getClass: () => { return undefined; } }, {})).toBe(false);
     });
 
     it("delegates to isAssignableFrom of given type's class", () => {
+      const isAssignableFromMock = jest.fn();
       const javaType = {
-        class: {
-          isAssignableFrom: jest.fn()
+        getClass: () => {
+          return {
+            isAssignableFrom: isAssignableFromMock
+          };
         }
       };
-      const instance = { class: {} };
+      const instance = { getClass: () => 'class' };
       jest.spyOn(Java, 'isType').mockImplementation(() => true);
       isJsInstanceOfJava(instance, javaType);
-      expect(javaType.class.isAssignableFrom).toHaveBeenCalledWith(
-        instance.class
+      expect(isAssignableFromMock).toHaveBeenCalledWith(
+        'class'
       );
     });
   });

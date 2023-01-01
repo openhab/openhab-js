@@ -459,7 +459,7 @@ const removeItem = function (itemOrItemName) {
   try { // If the Item is not registered, ItemNotFoundException is thrown.
     item = getItem(itemName);
   } catch (e) {
-    if (e.getClass() === 'org.openhab.core.items.ItemNotFoundException') {
+    if (Java.typeName(e.getClass()) === 'org.openhab.core.items.ItemNotFoundException') {
       log.error('Item {} not registered so cannot be removed: {}', itemName, e.message);
       return null;
     } else { // If exception/error is not ItemNotFoundException, rethrow.
@@ -474,7 +474,7 @@ const removeItem = function (itemOrItemName) {
     log.warn('Failed to remove Item: {}', itemName);
     return null;
   } catch (e) {
-    if (e.getClass() === 'org.openhab.core.items.ItemNotFoundException') {
+    if (Java.typeName(e.getClass()) === 'org.openhab.core.items.ItemNotFoundException') {
       return item;
     } else { // If exception/error is not ItemNotFoundException, rethrow.
       throw Error(e);
