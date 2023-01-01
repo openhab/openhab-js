@@ -11,10 +11,10 @@
  */
 export class Thing {
     /**
-       * Create an Thing, wrapping a native Java openHAB Thing. Don't use this constructor, instead call {@link getThing}.
-       * @param {HostThing} rawThing Java Thing from Host
-       * @hideconstructor
-       */
+     * Create a Thing, wrapping a native Java openHAB Thing. Don't use this constructor, instead call {@link getThing}.
+     * @param {HostThing} rawThing Java Thing from Host
+     * @hideconstructor
+     */
     constructor(rawThing: HostThing);
     /**
      * raw Java Thing
@@ -23,42 +23,42 @@ export class Thing {
     rawThing: HostThing;
     /**
      * Thing's bridge UID as `string` or `null` if the Thing has no bridge
-     * @returns {string|null}
+     * @type {string|null}
      */
     get bridgeUID(): string;
     /**
-     * label as `string`
-     * @returns {string}
+     * Thing's label
+     * @type {string}
      */
     get label(): string;
     /**
-     * physical location as `string`
-     * @returns {string}
+     * Physical location
+     * @type {string}
      */
     get location(): string;
     /**
-     * status as `string`
-     * @returns {string}
+     * Thing stattus
+     * @type {string}
      */
     get status(): string;
     /**
-     * status info (more detailed status text) as `string`
-     * @returns {string}
+     * Thing status info (more detailed status text)
+     * @type {string}
      */
     get statusInfo(): string;
     /**
-     * Thing type UID as `string`
-     * @returns {string}
+     * Thing type UID
+     * @type {string}
      */
     get thingTypeUID(): string;
     /**
-     * Thing UID as `string`
-     * @returns {string}
+     * Thing UID
+     * @type {string}
      */
     get uid(): string;
     /**
-     * whether the Thing is enabled or not (`boolean`)
-     * @returns {boolean}
+     * Whether the Thing is enabled or not
+     * @type {boolean}
      */
     get isEnabled(): boolean;
     /**

@@ -26,9 +26,9 @@ const managedItemProvider = osgi.getService('org.openhab.core.items.ManagedItemP
  * @property {string} name Item name for the Item to create
  * @property {string} [label] the label for the Item
  * @property {string} [category] the category (icon) for the Item
- * @property {String[]} [groups] an array of groups the Item is a member of
- * @property {String[]} [tags] an array of tags for the Item
- * @property {String|Object} [channels] for single channel link a string or for multiple an object { channeluid: configuration }; configuration is an object
+ * @property {string[]} [groups] an array of groups the Item is a member of
+ * @property {string[]} [tags] an array of tags for the Item
+ * @property {string|Object} [channels] for single channel link a string or for multiple an object { channeluid: configuration }; configuration is an object
  * @property {ItemMetadata} [metadata] either object { namespace: value } or { namespace: { value: value, config: {} } }
  * @property {string} [giBaseType] the group Item base type for the Item
  * @property {HostGroupFunction} [groupFunction] the group function used by the Item
@@ -82,7 +82,7 @@ class Item {
     this.history = new ItemHistory(rawItem);
 
     /**
-     * Access Semantic informations of this Item {@link items.ItemSemantics}
+     * Access Semantic information of this Item {@link items.ItemSemantics}
      * @type {ItemSemantics}
      */
     this.semantics = new ItemSemantics(rawItem);
@@ -90,7 +90,7 @@ class Item {
 
   /**
    * The type of the Item: the Simple (without package) name of the Java Item type, such as 'Switch'.
-   * @return {string} the type
+   * @type {string}
    */
   get type () {
     return this.rawItem.getClass().getSimpleName();
@@ -98,23 +98,23 @@ class Item {
 
   /**
    * The name of the Item.
-   * @return {string} the name
+   * @type {string}
    */
   get name () {
     return this.rawItem.getName();
   }
 
   /**
-   * The label attached to the Item
-   * @return {string} the label
+   * The label attached to the Item.
+   * @type {string}
    */
   get label () {
     return this.rawItem.getLabel();
   }
 
   /**
-   * The state of the Item, as a string.
-   * @return {string} the Item's state
+   * The state of the Item.
+   * @type {string}
    */
   get state () {
     return this.rawState.toString();
@@ -122,7 +122,7 @@ class Item {
 
   /**
    * The raw state of the Item, as a Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/types/state State object}.
-   * @return {HostState} the Item's state
+   * @type {HostState}
    */
   get rawState () {
     return this.rawItem.getState();
@@ -130,7 +130,7 @@ class Item {
 
   /**
    * Members / children / direct descendents of the current group Item (as returned by 'getMembers()'). Must be a group Item.
-   * @returns {Item[]} member Items
+   * @type {Item[]}
    */
   get members () {
     return utils.javaSetToJsArray(this.rawItem.getMembers()).map(raw => new Item(raw));
@@ -138,16 +138,15 @@ class Item {
 
   /**
    * All descendents of the current group Item (as returned by 'getAllMembers()'). Must be a group Item.
-   * @returns {Item[]} all descendent Items
+   * @type {Item[]}
    */
   get descendents () {
     return utils.javaSetToJsArray(this.rawItem.getAllMembers()).map(raw => new Item(raw));
   }
 
   /**
-   * Whether this Item is initialized.
+   * Whether this Item is uninitialized (`true if it has not been initialized`).
    * @type {boolean}
-   * @returns true iff the Item has not been initialized
    */
   get isUninitialized () {
     if (this.rawItem.getState() instanceof UnDefType ||
@@ -192,7 +191,7 @@ class Item {
   /**
    * Sends a command to the Item.
    *
-   * @param {String|time.ZonedDateTime|HostState} value the value of the command to send, such as 'ON'
+   * @param {string|time.ZonedDateTime|HostState} value the value of the command to send, such as 'ON'
    * @see sendCommandIfDifferent
    * @see postUpdate
    */
@@ -204,7 +203,7 @@ class Item {
   /**
    * Sends a command to the Item, but only if the current state is not what is being sent.
    *
-   * @param {String|time.ZonedDateTime|HostState} value the value of the command to send, such as 'ON'
+   * @param {string|time.ZonedDateTime|HostState} value the value of the command to send, such as 'ON'
    * @returns {boolean} true if the command was sent, false otherwise
    * @see sendCommand
    */
@@ -214,7 +213,6 @@ class Item {
       this.sendCommand(value);
       return true;
     }
-
     return false;
   }
 
@@ -269,7 +267,8 @@ class Item {
   /**
    * Posts an update to the Item.
    *
-   * @param {String|time.ZonedDateTime|HostState} value the value of the command to send, such as 'ON'
+   * @param {string|time.ZonedDateTime|HostState} value the value of the command to send, such as 'ON'
+   * @see postToggleUpdate
    * @see sendCommand
    */
   postUpdate (value) {
@@ -278,8 +277,8 @@ class Item {
   }
 
   /**
-   * Gets the tags from this Item
-   * @returns {Array<String>} array of group names
+   * Gets the names of the groups this Item is member of.
+   * @returns {string[]}
    */
   get groupNames () {
     return utils.javaListToJsArray(this.rawItem.getGroupNames());
@@ -287,7 +286,7 @@ class Item {
 
   /**
    * Adds groups to this Item
-   * @param {...String|...Item} groupNamesOrItems one or more names of the groups (or the group Items themselves)
+   * @param {...string|...Item} groupNamesOrItems one or more names of the groups (or the group Items themselves)
    */
   addGroups (...groupNamesOrItems) {
     const groupNames = groupNamesOrItems.map((x) => (typeof x === 'string') ? x : x.name);
@@ -297,7 +296,7 @@ class Item {
 
   /**
    * Removes groups from this Item
-   * @param {...String|...Item} groupNamesOrItems one or more names of the groups (or the group Items themselves)
+   * @param {...string|...Item} groupNamesOrItems one or more names of the groups (or the group Items themselves)
    */
   removeGroups (...groupNamesOrItems) {
     const groupNames = groupNamesOrItems.map((x) => (typeof x === 'string') ? x : x.name);
@@ -309,7 +308,7 @@ class Item {
 
   /**
    * Gets the tags from this Item
-   * @returns {Array<String>} array of tags
+   * @type {string[]}
    */
   get tags () {
     return utils.javaSetToJsArray(this.rawItem.getTags());
@@ -317,7 +316,7 @@ class Item {
 
   /**
    * Adds tags to this Item
-   * @param {...String} tagNames names of the tags to add
+   * @param {...string} tagNames names of the tags to add
    */
   addTags (...tagNames) {
     this.rawItem.addTags(tagNames);
@@ -326,7 +325,7 @@ class Item {
 
   /**
    * Removes tags from this Item
-   * @param {...String} tagNames names of the tags to remove
+   * @param {...string} tagNames names of the tags to remove
    */
   removeTags (...tagNames) {
     for (const tagName of tagNames) {
@@ -350,7 +349,7 @@ class Item {
  * @private
  * @param {ItemConfig} itemConfig the Item config describing the Item
  * @returns {Item} {@link items.Item}
- * @throws {@link ItemConfig}.name or {@link ItemConfig}.type not set
+ * @throws {Error} {@link ItemConfig}.name or {@link ItemConfig}.type not set
  * @throws failed to create Item
  */
 const createItem = function (itemConfig) {
@@ -405,7 +404,7 @@ const createItem = function (itemConfig) {
  * @memberof items
  * @param {ItemConfig} itemConfig the Item config describing the Item
  * @returns {Item} {@link Items.Item}
- * @throws {@link ItemConfig}.name or {@link ItemConfig}.type not set
+ * @throws {Error} {@link ItemConfig}.name or {@link ItemConfig}.type not set
  * @throws failed to create Item
  */
 const addItem = function (itemConfig) {
@@ -441,7 +440,7 @@ const addItem = function (itemConfig) {
  * Removes an Item from openHAB. The Item is removed immediately and cannot be recovered.
  *
  * @memberof items
- * @param {String|HostItem} itemOrItemName the Item or the name of the Item to remove
+ * @param {string|Item} itemOrItemName the Item or the name of the Item to remove
  * @returns {Item|null} the Item that has been removed or `null` if it has not been removed
  */
 const removeItem = function (itemOrItemName) {
@@ -495,7 +494,7 @@ const removeItem = function (itemOrItemName) {
  * @memberof items
  * @param {ItemConfig} itemConfig the Item config describing the Item
  * @returns {Item|null} the old Item or `null` if it did not exist
- * @throws {@link ItemConfig}.name or {@link ItemConfig}.type not set
+ * @throws {Error} {@link ItemConfig}.name or {@link ItemConfig}.type not set
  * @throws failed to create Item
  */
 const replaceItem = function (itemConfig) {
@@ -512,7 +511,7 @@ const replaceItem = function (itemConfig) {
  * @memberof items
  * @param {string} name the name of the Item
  * @param {boolean} [nullIfMissing=false] whether to return null if the Item cannot be found (default is to throw an exception)
- * @returns {Item} {@link items.Item}
+ * @returns {Item|null} {@link items.Item} Item or `null` if `nullIfMissing` is true and Item is missing
  */
 const getItem = (name, nullIfMissing = false) => {
   try {
@@ -542,7 +541,7 @@ const getItems = () => {
  * Gets all openHAB Items with a specific tag.
  *
  * @memberof items
- * @param {...String} tagNames an array of tags to match against
+ * @param {string[]} tagNames an array of tags to match against
  * @returns {Item[]} {@link items.Item}[]: the Items with a tag that is included in the passed tags
  */
 const getItemsByTag = (...tagNames) => {

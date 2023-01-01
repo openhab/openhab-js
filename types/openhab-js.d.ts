@@ -1,21 +1,25 @@
 // Manually written type defintions to avoid problems with lazy loading in index.js
 declare global {
   /**
-   * Native Java Class Object (instance of {@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Class.html java.lang.Class})
+   * Native Java Class Object (instance of {@link https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html java.lang.Class})
    */
   type JavaClass = object;
   /**
-   * Native Java Set Object (instance of {@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html java.util.Set})
+   * Native Java Set Object (instance of {@link https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Set.html java.util.Set})
    */
   type JavaSet = object;
   /**
-   * Native Java List Object (instance of {@link @link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/List.html java.util.List})
+   * Native Java List Object (instance of {@link https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html java.util.List})
    */
   type JavaList = object;
   /**
    * Native Java Map Object (implementation of {@link https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html java.util.Map})
    */
   type JavaMap = object;
+  /**
+   * Native Java ZonedDateTime Object (instance of {@link https://docs.oracle.com/en/java/javase/17/docs/api//java.base/java/time/ZonedDateTime.html java.time.ZonedDateTime})
+   */
+  type JavaZonedDateTime = object;
   /**
    * Native Java openHAB State (instance of {@link https://www.openhab.org/javadoc/latest/org/openhab/core/types/state org.openhab.core.types.State})
    */

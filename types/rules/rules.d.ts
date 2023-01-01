@@ -127,17 +127,16 @@ export function runRule(uid: string, args?: object, cond?: boolean): void;
   * @memberof rules
   * @param {string} uid
   * @returns {boolean} whether or not the rule is enabled
-  * @throws Will throw an error when the rule is not found.
+  * @throws {Error} an error when the rule is not found.
   */
 export function isEnabled(uid: string): boolean;
 /**
-  * Enables or disables the rule with the given UID. Throws an error if the
-  * rule doesn't exist.
+  * Enables or disables the rule with the given UID. Throws an error if the rule doesn't exist.
   *
   * @memberof rules
   * @param {string} uid UID of the rule
   * @param {boolean} isEnabled when true, the rule is enabled, otherwise the rule is disabled
-  * @throws Will throw an error when the rule is not found.
+  * @throws {Error} an error when the rule is not found.
   */
 export function setEnabled(uid: string, isEnabled: boolean): void;
 /**
@@ -156,7 +155,7 @@ export function setEnabled(uid: string, isEnabled: boolean): void;
   * @memberof rules
   * @param {RuleConfig} ruleConfig The rule config describing the rule
   * @returns {HostRule} the created rule
-  * @throws Will throw an error if the rule with the passed in uid already exists
+  * @throws {Error} an error if the rule with the passed in uid already exists and {@link RuleConfig.overwrite} is not `true`
   */
 export function JSRule(ruleConfig: RuleConfig): HostRule;
 /**
@@ -166,7 +165,7 @@ export function JSRule(ruleConfig: RuleConfig): HostRule;
   * @memberof rules
   * @param {RuleConfig} ruleConfig The rule config describing the rule
   * @returns {HostRule} the created rule
-  * @throws Will throw an error is a rule with the given UID already exists.
+  * @throws {Error} an error is a rule with the given UID already exists.
   */
 export function SwitchableJSRule(ruleConfig: RuleConfig): HostRule;
 import triggers = require("../triggers");
