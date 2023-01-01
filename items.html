@@ -233,7 +233,7 @@ This namespace handles querying and updating openHAB Items.</p></div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line411">line 411</a>
+        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line410">line 410</a>
     </li></ul></dd>
     
 
@@ -353,11 +353,28 @@ created with the value <code>DYNAMIC_ITEM_TAG</code>.</p>
 <ul>
         <li>
 
-    <div class="param-desc usertext">
-    
+<dl>
+    <dt>
+        <div class="param-desc usertext">
         <p><a href="global.html#ItemConfig"><code>ItemConfig</code></a>.name or <a href="global.html#ItemConfig"><code>ItemConfig</code></a>.type not set</p>
-    
-    </div>
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl class="param-type">
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">Error</span>
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
 
 </li>
     
@@ -415,7 +432,7 @@ created with the value <code>DYNAMIC_ITEM_TAG</code>.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line447">line 447</a>
+        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line446">line 446</a>
     </li></ul></dd>
     
 
@@ -499,10 +516,10 @@ created with the value <code>DYNAMIC_ITEM_TAG</code>.</p>
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type">string</span>
 |
 
-<span class="param-type">HostItem</span>
+<span class="param-type"><a href="global.html#Item">Item</a></span>
 
 
             
@@ -579,7 +596,7 @@ created with the value <code>DYNAMIC_ITEM_TAG</code>.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line501">line 501</a>
+        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line500">line 500</a>
     </li></ul></dd>
     
 
@@ -702,11 +719,28 @@ that the Items remain up-to-date, but won't fail with issues related to duplicat
 <ul>
         <li>
 
-    <div class="param-desc usertext">
-    
+<dl>
+    <dt>
+        <div class="param-desc usertext">
         <p><a href="global.html#ItemConfig"><code>ItemConfig</code></a>.name or <a href="global.html#ItemConfig"><code>ItemConfig</code></a>.type not set</p>
-    
-    </div>
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl class="param-type">
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">Error</span>
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
 
 </li>
     
@@ -755,7 +789,7 @@ that the Items remain up-to-date, but won't fail with issues related to duplicat
 
     
 
-    <h4 class="name" id=".getItem"><span class="type-signature">(static) </span>getItem<span class="signature">(name, nullIfMissing<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="global.html#Item">Item</a>}</span></h4>
+    <h4 class="name" id=".getItem"><span class="type-signature">(static) </span>getItem<span class="signature">(name, nullIfMissing<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="global.html#Item">Item</a>|null}</span></h4>
 
     
 
@@ -767,7 +801,7 @@ that the Items remain up-to-date, but won't fail with issues related to duplicat
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line517">line 517</a>
+        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line516">line 516</a>
     </li></ul></dd>
     
 
@@ -942,7 +976,7 @@ that the Items remain up-to-date, but won't fail with issues related to duplicat
 
         
 <div class="param-desc">
-    <p><a href="items.Item.html"><code>items.Item</code></a></p>
+    <p><a href="items.Item.html"><code>items.Item</code></a> Item or <code>null</code> if <code>nullIfMissing</code> is true and Item is missing</p>
 </div>
 
 
@@ -954,6 +988,9 @@ that the Items remain up-to-date, but won't fail with issues related to duplicat
     <dd>
         
 <span class="param-type"><a href="global.html#Item">Item</a></span>
+|
+
+<span class="param-type">null</span>
 
 
     </dd>
@@ -980,7 +1017,7 @@ that the Items remain up-to-date, but won't fail with issues related to duplicat
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line537">line 537</a>
+        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line536">line 536</a>
     </li></ul></dd>
     
 
@@ -1089,7 +1126,7 @@ that the Items remain up-to-date, but won't fail with issues related to duplicat
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line548">line 548</a>
+        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line547">line 547</a>
     </li></ul></dd>
     
 
@@ -1175,7 +1212,7 @@ that the Items remain up-to-date, but won't fail with issues related to duplicat
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type">Array.&lt;string></span>
 
 
             
@@ -1259,7 +1296,7 @@ that the Items remain up-to-date, but won't fail with issues related to duplicat
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line558">line 558</a>
+        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line557">line 557</a>
     </li></ul></dd>
     
 
@@ -1420,7 +1457,7 @@ that the Items remain up-to-date, but won't fail with issues related to duplicat
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.0</a> on Sat Dec 31 2022 15:43:52 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.0</a> on Sun Jan 01 2023 16:23:27 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

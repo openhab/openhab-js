@@ -210,21 +210,20 @@ actions.NotificationAction.sendBroadcastNotification("Hello World!")</code></pre
 
 
 
-    <h5>Examples</h5>
+    <h5>Example</h5>
     
-    <pre class="prettyprint"><code>Audio.decreaseMasterVolume​(float percent)
+    <pre class="prettyprint"><code>Audio.decreaseMasterVolume(float percent)
 Audio.getMasterVolume()
-Audio.increaseMasterVolume​(float percent)
-Audio.playSound​(String filename)
-Audio.playSound​(String sink, String filename)
-Audio.playSound​(String sink, String filename, PercentType volume)
-Audio.playSound​(String filename, PercentType volume)
-Audio.playStream​(String url)
-Audio.playStream​(String sink, String url)
-Audio.setMasterVolume​(float volume)
-Audio.setMasterVolume​(PercentType percent)</code></pre>
-
-    <pre class="prettyprint"><code>Audio.decreaseMasterVolume​(1.0)</code></pre>
+Audio.increaseMasterVolume(float percent)
+Audio.playSound(String filename)
+Audio.playSound(String sink, String filename)
+Audio.playSound(String sink, String filename, PercentType volume)
+Audio.playSound(String filename, PercentType volume)
+Audio.playStream(String url)
+Audio.playStream(String sink, String url)
+Audio.setMasterVolume(float volume)
+Audio.setMasterVolume(PercentType percent)
+Audio.decreaseMasterVolume(1.0)</code></pre>
 
 
 
@@ -241,7 +240,7 @@ Audio.setMasterVolume​(PercentType percent)</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions.js.html">actions.js</a>, <a href="actions.js.html#line67">line 67</a>
+        <a href="actions.js.html">actions.js</a>, <a href="actions.js.html#line66">line 66</a>
     </li></ul></dd>
     
 
@@ -293,16 +292,16 @@ Audio.setMasterVolume​(PercentType percent)</code></pre>
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>BusEvent.postUpdate​(String itemName, String stateString)
-BusEvent.postUpdate​(Item item, Number state)
-BusEvent.postUpdate​(Item item, String stateAsString)
-BusEvent.postUpdate​(Item item, State state)
-BusEvent.restoreStates​(Map&lt;Item,​State> statesMap)
-BusEvent.sendCommand​(String itemName, String commandString)
-BusEvent.sendCommand​(Item item, Number number)
-BusEvent.sendCommand​(Item item, String commandString)
-BusEvent.sendCommand​(Item item, Command command)
-BusEvent.storeStates​(Item... items)</code></pre>
+    <pre class="prettyprint"><code>BusEvent.postUpdate(String itemName, String stateString)
+BusEvent.postUpdate(Item item, Number state)
+BusEvent.postUpdate(Item item, String stateAsString)
+BusEvent.postUpdate(Item item, State state)
+BusEvent.restoreStates(Map&lt;Item,​State> statesMap)
+BusEvent.sendCommand(String itemName, String commandString)
+BusEvent.sendCommand(Item item, Number number)
+BusEvent.sendCommand(Item item, String commandString)
+BusEvent.sendCommand(Item item, Command command)
+BusEvent.storeStates(Item... items)</code></pre>
 
 
 
@@ -319,7 +318,7 @@ BusEvent.storeStates​(Item... items)</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions.js.html">actions.js</a>, <a href="actions.js.html#line88">line 88</a>
+        <a href="actions.js.html">actions.js</a>, <a href="actions.js.html#line87">line 87</a>
     </li></ul></dd>
     
 
@@ -372,34 +371,34 @@ BusEvent.storeStates​(Item... items)</code></pre>
     <h5>Example</h5>
     
     <pre class="prettyprint"><code>Ephemeris.getBankHolidayName()
-Ephemeris.getBankHolidayName​(int offset)
-Ephemeris.getBankHolidayName​(int offset, String filename)
-Ephemeris.getBankHolidayName​(String filename)
-Ephemeris.getBankHolidayName​(ZonedDateTime day)
-Ephemeris.getBankHolidayName​(ZonedDateTime day, String filename)
-Ephemeris.getDaysUntil​(String searchedHoliday)
-Ephemeris.getDaysUntil​(String searchedHoliday, String filename)
-Ephemeris.getDaysUntil​(ZonedDateTime day, String searchedHoliday)
-Ephemeris.getDaysUntil​(ZonedDateTime day, String searchedHoliday, String filename)
-Ephemeris.getHolidayDescription​(@Nullable String holiday)
+Ephemeris.getBankHolidayName(int offset)
+Ephemeris.getBankHolidayName(int offset, String filename)
+Ephemeris.getBankHolidayName(String filename)
+Ephemeris.getBankHolidayName(ZonedDateTime day)
+Ephemeris.getBankHolidayName(ZonedDateTime day, String filename)
+Ephemeris.getDaysUntil(String searchedHoliday)
+Ephemeris.getDaysUntil(String searchedHoliday, String filename)
+Ephemeris.getDaysUntil(ZonedDateTime day, String searchedHoliday)
+Ephemeris.getDaysUntil(ZonedDateTime day, String searchedHoliday, String filename)
+Ephemeris.getHolidayDescription(@Nullable String holiday)
 Ephemeris.getNextBankHoliday()
-Ephemeris.getNextBankHoliday​(int offset)
-Ephemeris.getNextBankHoliday​(int offset, String filename)
-Ephemeris.getNextBankHoliday​(String filename)
-Ephemeris.getNextBankHoliday​(ZonedDateTime day)
-Ephemeris.getNextBankHoliday​(ZonedDateTime day, String filename)
+Ephemeris.getNextBankHoliday(int offset)
+Ephemeris.getNextBankHoliday(int offset, String filename)
+Ephemeris.getNextBankHoliday(String filename)
+Ephemeris.getNextBankHoliday(ZonedDateTime day)
+Ephemeris.getNextBankHoliday(ZonedDateTime day, String filename)
 Ephemeris.isBankHoliday()
-Ephemeris.isBankHoliday​(int offset)
-Ephemeris.isBankHoliday​(int offset, String filename)
-Ephemeris.isBankHoliday​(String filename)
-Ephemeris.isBankHoliday​(ZonedDateTime day)
-Ephemeris.isBankHoliday​(ZonedDateTime day, String filename)
-Ephemeris.isInDayset​(String daysetName)
-Ephemeris.isInDayset​(String daysetName, int offset)
-Ephemeris.isInDayset​(String daysetName, ZonedDateTime day)
+Ephemeris.isBankHoliday(int offset)
+Ephemeris.isBankHoliday(int offset, String filename)
+Ephemeris.isBankHoliday(String filename)
+Ephemeris.isBankHoliday(ZonedDateTime day)
+Ephemeris.isBankHoliday(ZonedDateTime day, String filename)
+Ephemeris.isInDayset(String daysetName)
+Ephemeris.isInDayset(String daysetName, int offset)
+Ephemeris.isInDayset(String daysetName, ZonedDateTime day)
 Ephemeris.isWeekend()
-Ephemeris.isWeekend​(int offset)
-Ephemeris.isWeekend​(ZonedDateTime day)</code></pre>
+Ephemeris.isWeekend(int offset)
+Ephemeris.isWeekend(ZonedDateTime day)</code></pre>
 
 
 
@@ -416,7 +415,7 @@ Ephemeris.isWeekend​(ZonedDateTime day)</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions.js.html">actions.js</a>, <a href="actions.js.html#line128">line 128</a>
+        <a href="actions.js.html">actions.js</a>, <a href="actions.js.html#line127">line 127</a>
     </li></ul></dd>
     
 
@@ -468,8 +467,8 @@ Ephemeris.isWeekend​(ZonedDateTime day)</code></pre>
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>Exec.executeCommandLine​(String... commandLine)
-Exec.executeCommandLine​(Duration timeout, String... commandLine)</code></pre>
+    <pre class="prettyprint"><code>Exec.executeCommandLine(String... commandLine)
+Exec.executeCommandLine(Duration timeout, String... commandLine)</code></pre>
 
 
 
@@ -486,7 +485,7 @@ Exec.executeCommandLine​(Duration timeout, String... commandLine)</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions.js.html">actions.js</a>, <a href="actions.js.html#line142">line 142</a>
+        <a href="actions.js.html">actions.js</a>, <a href="actions.js.html#line141">line 141</a>
     </li></ul></dd>
     
 
@@ -538,22 +537,22 @@ Exec.executeCommandLine​(Duration timeout, String... commandLine)</code></pre>
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>HTTP.sendHttpDeleteRequest​(String url)
-HTTP.sendHttpDeleteRequest​(String url, int timeout)
-HTTP.sendHttpDeleteRequest​(String url, Map&lt;String,​String> headers, int timeout)
-HTTP.sendHttpGetRequest​(String url)
-HTTP.sendHttpGetRequest​(String url, int timeout)
-HTTP.sendHttpGetRequest​(String url, Map&lt;String,​String> headers, int timeout)
-HTTP.sendHttpPostRequest​(String url)
-HTTP.sendHttpPostRequest​(String url, int timeout)
-HTTP.sendHttpPostRequest​(String url, String contentType, String content)
-HTTP.sendHttpPostRequest​(String url, String contentType, String content, int timeout)
-HTTP.sendHttpPostRequest​(String url, String contentType, String content, Map&lt;String,​String> headers, int timeout)
-HTTP.sendHttpPutRequest​(String url)
-HTTP.sendHttpPutRequest​(String url, int timeout)
-HTTP.sendHttpPutRequest​(String url, String contentType, String content)
-HTTP.sendHttpPutRequest​(String url, String contentType, String content, int timeout)
-HTTP.sendHttpPutRequest​(String url, String contentType, String content, Map&lt;String,​String> headers, int timeout)</code></pre>
+    <pre class="prettyprint"><code>HTTP.sendHttpDeleteRequest(String url)
+HTTP.sendHttpDeleteRequest(String url, int timeout)
+HTTP.sendHttpDeleteRequest(String url, Map&lt;String, String> headers, int timeout)
+HTTP.sendHttpGetRequest(String url)
+HTTP.sendHttpGetRequest(String url, int timeout)
+HTTP.sendHttpGetRequest(String url, Map&lt;String, String> headers, int timeout)
+HTTP.sendHttpPostRequest(String url)
+HTTP.sendHttpPostRequest(String url, int timeout)
+HTTP.sendHttpPostRequest(String url, String contentType, String content)
+HTTP.sendHttpPostRequest(String url, String contentType, String content, int timeout)
+HTTP.sendHttpPostRequest(String url, String contentType, String content, Map&lt;String, String> headers, int timeout)
+HTTP.sendHttpPutRequest(String url)
+HTTP.sendHttpPutRequest(String url, int timeout)
+HTTP.sendHttpPutRequest(String url, String contentType, String content)
+HTTP.sendHttpPutRequest(String url, String contentType, String content, int timeout)
+HTTP.sendHttpPutRequest(String url, String contentType, String content, Map&lt;String, String> headers, int timeout)</code></pre>
 
 
 
@@ -570,7 +569,7 @@ HTTP.sendHttpPutRequest​(String url, String contentType, String content, Map&l
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions.js.html">actions.js</a>, <a href="actions.js.html#line170">line 170</a>
+        <a href="actions.js.html">actions.js</a>, <a href="actions.js.html#line169">line 169</a>
     </li></ul></dd>
     
 
@@ -622,10 +621,10 @@ HTTP.sendHttpPutRequest​(String url, String contentType, String content, Map&l
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>Log.logDebug​(String loggerName, String format, Object... args)
-Log.logError​(String loggerName, String format, Object... args)
-Log.logInfo​(String loggerName, String format, Object... args)
-Log.logWarn​(String loggerName, String format, Object... args)</code></pre>
+    <pre class="prettyprint"><code>Log.logDebug(String loggerName, String format, Object... args)
+Log.logError(String loggerName, String format, Object... args)
+Log.logInfo(String loggerName, String format, Object... args)
+Log.logWarn(String loggerName, String format, Object... args)</code></pre>
 
 
 
@@ -642,7 +641,7 @@ Log.logWarn​(String loggerName, String format, Object... args)</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions.js.html">actions.js</a>, <a href="actions.js.html#line186">line 186</a>
+        <a href="actions.js.html">actions.js</a>, <a href="actions.js.html#line185">line 185</a>
     </li></ul></dd>
     
 
@@ -694,7 +693,7 @@ Log.logWarn​(String loggerName, String format, Object... args)</code></pre>
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>Ping.checkVitality​(String host, int port, int timeout)</code></pre>
+    <pre class="prettyprint"><code>Ping.checkVitality(String host, int port, int timeout)</code></pre>
 
 
 
@@ -711,7 +710,7 @@ Log.logWarn​(String loggerName, String format, Object... args)</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions.js.html">actions.js</a>, <a href="actions.js.html#line270">line 270</a>
+        <a href="actions.js.html">actions.js</a>, <a href="actions.js.html#line269">line 269</a>
     </li></ul></dd>
     
 
@@ -763,16 +762,16 @@ Log.logWarn​(String loggerName, String format, Object... args)</code></pre>
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>Semantics.getEquipment​(Item item)
-Semantics.getEquipmentType​(Item item)
-Semantics.getLocation​(Item item)
-Semantics.getLocationType​(Item item)
-Semantics.getPointType​(Item item)
-Semantics.getPropertyType​(Item item)
-Semantics.getSemanticType​(Item item)
-Semantics.isEquipment​(Item item)
-Semantics.isLocation​(Item item)
-Semantics.isPoint​(Item item)</code></pre>
+    <pre class="prettyprint"><code>Semantics.getEquipment(Item item)
+Semantics.getEquipmentType(Item item)
+Semantics.getLocation(Item item)
+Semantics.getLocationType(Item item)
+Semantics.getPointType(Item item)
+Semantics.getPropertyType(Item item)
+Semantics.getSemanticType(Item item)
+Semantics.isEquipment(Item item)
+Semantics.isLocation(Item item)
+Semantics.isPoint(Item item)</code></pre>
 
 
 
@@ -789,7 +788,7 @@ Semantics.isPoint​(Item item)</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions.js.html">actions.js</a>, <a href="actions.js.html#line292">line 292</a>
+        <a href="actions.js.html">actions.js</a>, <a href="actions.js.html#line291">line 291</a>
     </li></ul></dd>
     
 
@@ -841,8 +840,8 @@ Semantics.isPoint​(Item item)</code></pre>
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>Things.getActions​(String bindingId, String thingUid)
-Things.getThingStatusInfo​(String thingUid)</code></pre>
+    <pre class="prettyprint"><code>Things.getActions(String bindingId, String thingUid)
+Things.getThingStatusInfo(String thingUid)</code></pre>
 
 
 
@@ -911,15 +910,15 @@ Things.getThingStatusInfo​(String thingUid)</code></pre>
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>Voice.interpret​(Object text)
-Voice.interpret​(Object text, String interpreter)
-Voice.interpret​(Object text, String interpreter, String sink)
-Voice.say​(Object text)
-Voice.say​(Object text, String voice)
-Voice.say​(Object text, String voice, String sink)
-Voice.say​(Object text, String voice, String sink, PercentType volume)
-Voice.say​(Object text, String voice, PercentType volume)
-Voice.say​(Object text, PercentType volume)</code></pre>
+    <pre class="prettyprint"><code>Voice.interpret(Object text)
+Voice.interpret(Object text, String interpreter)
+Voice.interpret(Object text, String interpreter, String sink)
+Voice.say(Object text)
+Voice.say(Object text, String voice)
+Voice.say(Object text, String voice, String sink)
+Voice.say(Object text, String voice, String sink, PercentType volume)
+Voice.say(Object text, String voice, PercentType volume)
+Voice.say(Object text, PercentType volume)</code></pre>
 
 
 
@@ -1386,7 +1385,7 @@ Duplicate of <a href="actions.html#.get"><code>actions.get()</code></a> and <a h
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.0</a> on Sat Dec 31 2022 15:43:52 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.0</a> on Sun Jan 01 2023 16:23:27 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

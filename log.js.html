@@ -72,11 +72,11 @@ const MessageFormatter = Java.type('org.slf4j.helpers.MessageFormatter');
  */
 class Logger {
   /**
-     * Creates a new logger. Don't use directly, use {@link log} on module.
-     *
-     * @param {string} _name the name of the logger. Will be prefixed by {@link LOGGER_PREFIX}
-     * @param {*} _listener a callback to receive logging calls. Can be used to send calls elsewhere, such as escalate errors.
-     */
+   * Creates a new logger. Don't use directly, use {@link log} on module.
+   *
+   * @param {string} _name the name of the logger. Will be prefixed by {@link LOGGER_PREFIX}
+   * @param {*} _listener a callback to receive logging calls. Can be used to send calls elsewhere, such as escalate errors.
+   */
   constructor (_name, appenderProvider) {
     /** @private */
     this._name = _name || this._getCallerDetails('', 3).fileName.replace(/\.[^/.]+$/, '');
@@ -87,13 +87,13 @@ class Logger {
   }
 
   /**
-     * Method to determine caller. Don't use directly.
-     *
-     * @private
-     * @param {object} msg the message to get caller details for
-     * @param {number} ignoreStackDepth the number of stack frames which to ignore in calculating caller
-     * @returns {Error} message as an error object, with fileName, caller and optional lineNumber properties
-     */
+   * Method to determine caller. Don't use directly.
+   *
+   * @private
+   * @param {object} msg the message to get caller details for
+   * @param {number} ignoreStackDepth the number of stack frames which to ignore in calculating caller
+   * @returns {Error} message as an error object, with fileName, caller and optional lineNumber properties
+   */
   _getCallerDetails (msg, ignoreStackDepth) {
     let stackLine = null;
 
@@ -128,15 +128,15 @@ class Logger {
   }
 
   /**
-     * Method to format a log message. Don't use directly.
-     *
-     * @private
-     * @param {object} msg the message to get caller details for
-     * @param {string} levelString the level being logged at
-     * @param {number} ignoreStackDepth the number of stack frames which to ignore in calculating caller
-     * @param {string} [prefix=log] the prefix type, such as none, level, short or log.
-     * @returns {Error} message with 'message' String property
-     */
+   * Method to format a log message. Don't use directly.
+   *
+   * @private
+   * @param {object} msg the message to get caller details for
+   * @param {string} levelString the level being logged at
+   * @param {number} ignoreStackDepth the number of stack frames which to ignore in calculating caller
+   * @param {string} [prefix=log] the prefix type, such as none, level, short or log.
+   * @returns {string} message with 'message' String property
+   */
   _formatLogMessage (msg, levelString, ignoreStackDepth, prefix = 'none') {
     const clazz = this;
     const msgData = {
@@ -159,9 +159,9 @@ class Logger {
   }
 
   /**
-     * Logs at ERROR level.
-     * @see atLevel
-     */
+   * Logs at ERROR level.
+   * @see atLevel
+   */
   error () { this.atLevel('error', ...arguments); }
   /**
      * Logs at ERROR level.
@@ -169,33 +169,33 @@ class Logger {
      */
   warn () { this.atLevel('warn', ...arguments); }
   /**
-     * Logs at INFO level.
-     * @see atLevel
-     */
+   * Logs at INFO level.
+   * @see atLevel
+   */
   info () { this.atLevel('info', ...arguments); }
   /**
-     * Logs at DEBUG level.
-     * @see atLevel
-     */
+   * Logs at DEBUG level.
+   * @see atLevel
+   */
   debug () { this.atLevel('debug', ...arguments); }
   /**
-     * Logs at TRACE level.
-     * @see atLevel
-     */
+   * Logs at TRACE level.
+   * @see atLevel
+   */
   trace () { this.atLevel('trace', ...arguments); }
 
   /**
-     * Logs a message at the supplied level. The message may include placeholders {} which
-     * will be substituted into the message string only if the message is actually logged.
-     *
-     * @example
-     * log.atLevel('INFO', 'The widget was created as {}', widget);
-     *
-     *
-     * @param {string} level The level at which to log, such as 'INFO', or 'DEBUG'
-     * @param {string|Error} msg the message to log, possibly with object placeholders
-     * @param {object[]} objects=[] the objects to substitute into the log message
-     */
+   * Logs a message at the supplied level. The message may include placeholders {} which
+   * will be substituted into the message string only if the message is actually logged.
+   *
+   * @example
+   * log.atLevel('INFO', 'The widget was created as {}', widget);
+   *
+   *
+   * @param {string} level The level at which to log, such as 'INFO', or 'DEBUG'
+   * @param {string|Error} msg the message to log, possibly with object placeholders
+   * @param {object[]} objects=[] the objects to substitute into the log message
+   */
   atLevel (level, msg, ...objects) {
     const titleCase = level[0].toUpperCase() + level.slice(1);
     try {
@@ -230,15 +230,15 @@ class Logger {
   }
 
   /**
-     * The listener function attached to this logger.
-     * @return {*} the listener function
-     */
+   * The listener function attached to this logger.
+   * @return {*} the listener function
+   */
   get listener () { return this._listener; }
 
   /**
-     * The name of this logger
-     * @return {string} the logger name
-     */
+   * The name of this logger
+   * @return {string} the logger name
+   */
   get name () { return this._name; }
 }
 
@@ -268,7 +268,7 @@ module.exports.Logger = Logger;
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.0</a> on Sat Dec 31 2022 15:43:52 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.0</a> on Sun Jan 01 2023 16:23:27 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

@@ -60,15 +60,16 @@ const javaDuration = Java.type('java.time.Duration');
 const javaString = Java.type('java.lang.String');
 const javaNumber = Java.type('java.lang.Number');
 const { DateTimeType, DecimalType, StringType, QuantityType } = require('@runtime');
+const { QuantityClass } = require('./quantity');
 const ohItem = Java.type('org.openhab.core.items.Item');
 
 /**
- * Converts the Java ZonedDateTime to a time.ZonedDateTime
+ * Converts the Java ZonedDateTime to a time.ZonedDateTime.
  * @private
- * @param {java.time.ZonedDateTime} zdt date time to convert to a time.ZonedDateTime
+ * @param {JavaZonedDateTime} zdt date time to convert to a time.ZonedDateTime
  * @returns {time.ZonedDateTime}
  */
-const javaZDTtoZDT = function (zdt) {
+const _javaZDTtoZDT = function (zdt) {
   const epoch = zdt.toInstant().toEpochMilli();
   const instant = time.Instant.ofEpochMilli(epoch);
   const zone = time.ZoneId.of(zdt.getZone().toString());
@@ -76,12 +77,12 @@ const javaZDTtoZDT = function (zdt) {
 };
 
 /**
- * Adds millis to the passed in ZDT as milliseconds. The millis is rounded
- * first. If millis is negative they will be subtracted.
+ * Adds millis to the passed in ZDT as milliseconds. The millis is rounded first.
+ * If millis is negative they will be subtracted.
  * @private
  * @param {number|bigint} millis number of milliseconds to add
  */
-const addMillisToNow = function (millis) {
+const _addMillisToNow = function (millis) {
   return time.ZonedDateTime.now().plus(Math.round(millis), time.ChronoUnit.MILLIS);
 };
 
@@ -92,7 +93,7 @@ const addMillisToNow = function (millis) {
  * @returns now plus the time length in the quantityType
  * @throws error when the units for the quantity type are not one of the Time units
  */
-const addQuantityType = function (quantityType) {
+const _addQuantityType = function (quantityType) {
   const secs = quantityType.toUnit('s');
   if (secs) {
     return time.ZonedDateTime.now().plusSeconds(secs.doubleValue());
@@ -107,7 +108,7 @@ const addQuantityType = function (quantityType) {
  * @param {string} dtStr potential 24-hour time String
  * @returns {boolean} true if it matches HH:MM
  */
-const is24Hr = function (dtStr) {
+const _is24Hr = function (dtStr) {
   const regex = /^(0?[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){1,2}$/;
   return regex.test(dtStr);
 };
@@ -118,7 +119,7 @@ const is24Hr = function (dtStr) {
  * @param {string} dtStr potential hh:MM aa string
  * @returns {boolean} true if it matches hh:mm aa
  */
-const is12Hr = function (dtStr) {
+const _is12Hr = function (dtStr) {
   const regex = /^(0?[0-9]|1[0-2])(:[0-5][0-9]){1,2} ?[a|p|A|P]\.?[m|M]\.?$/;
   return regex.test(dtStr);
 };
@@ -136,7 +137,7 @@ const is12Hr = function (dtStr) {
  * @returns {time.ZonedDateTime|null} {@link time.ZonedDateTime} if parsing was successful, else `null`
  * @throws `JsJodaException` thrown by the {@link https://js-joda.github.io/js-joda/ JS-Joda library} that signals that string could not be parsed
  */
-const parseISO8601 = function (isoStr) {
+const _parseISO8601 = function (isoStr) {
   // Compatibility with Zone offsets without the ":" -> +HHmm or -HHmm
   function replacer (match, p1, p2, p3) {
     return p1 + p2 + ':' + p3;
@@ -163,14 +164,14 @@ const parseISO8601 = function (isoStr) {
  * @param {string} str string number to try and parse and convert
  * @throws Error when the string cannot be parsed
  */
-const parseString = function (str) {
+const _parseString = function (str) {
   // Number
   if (!isNaN(str)) {
-    return addMillisToNow(str);
+    return _addMillisToNow(str);
   }
 
   // 12 hour time string
-  if (is12Hr(str)) {
+  if (_is12Hr(str)) {
     const parts = str.split(':');
     let hr = parseInt(parts[0]);
     hr = (str.contains('p') || str.contains('P')) ? hr + 12 : hr;
@@ -182,7 +183,7 @@ const parseString = function (str) {
 
   // 24-hour time string
   // This could also be handled by ISO8601, but h:mm string like 0:30 require this code here!
-  if (is24Hr(str)) {
+  if (_is24Hr(str)) {
     const parts = str.split(':');
     return time.ZonedDateTime.now().withHour(parts[0])
       .withMinute(parts[1])
@@ -194,7 +195,7 @@ const parseString = function (str) {
   try {
     // Blockly compatibility with user input without the "T"
     const newStr = /^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9]) \d{2}:\d{2}/.test(str) ? str.replace(' ', 'T') : str;
-    const zdt = parseISO8601(newStr);
+    const zdt = _parseISO8601(newStr);
     if (zdt !== null) return zdt;
   } catch (e) {
     throw Error(`Failed to parse ISO8601 string ${str}: ${e}`);
@@ -216,17 +217,17 @@ const parseString = function (str) {
  * @returns {time.ZonedDateTime}
  * @throws error if the Item's state is not supported or the Item itself is not supported
  */
-const convertItem = function (item) {
+const _convertItem = function (item) {
   if (item.isUninitialized) {
     throw Error('Item ' + item.name + ' is NULL or UNDEF, cannot convert to a time.ZonedDateTime');
   } else if (item.rawState instanceof DecimalType) { // Number type Items
-    return addMillisToNow(item.rawState.floatValue());
+    return _addMillisToNow(item.rawState.floatValue());
   } else if (item.rawState instanceof StringType) { // String type Items
-    return parseString(item.state);
+    return _parseString(item.state);
   } else if (item.rawState instanceof DateTimeType) { // DateTime Items
-    return javaZDTtoZDT(item.rawState.getZonedDateTime());
+    return _javaZDTtoZDT(item.rawState.getZonedDateTime());
   } else if (item.rawState instanceof QuantityType) { // Number:Time type Items
-    return addQuantityType(item.rawState);
+    return _addQuantityType(item.rawState);
   } else {
     throw Error(item.type + ' is not supported for conversion to time.ZonedDateTime');
   }
@@ -267,7 +268,7 @@ const toZDT = function (when) {
 
   // String or StringType
   if (typeof when === 'string' || when instanceof javaString || when instanceof StringType) {
-    return parseString(when.toString());
+    return _parseString(when.toString());
   }
 
   // JavaScript Native Date, use the SYSTEM timezone
@@ -284,44 +285,49 @@ const toZDT = function (when) {
 
   // JavaScript number of bigint, add as millisecs to now
   if (typeof when === 'number' || typeof when === 'bigint') {
-    return addMillisToNow(when);
+    return _addMillisToNow(when);
   }
 
   // Java ZDT
   if (when instanceof javaZDT) {
-    return javaZDTtoZDT(when);
+    return _javaZDTtoZDT(when);
   }
 
   // DateTimeType, extract the javaZDT and convert to time.ZDT
   if (when instanceof DateTimeType) {
-    return javaZDTtoZDT(when.getZonedDateTime());
+    return _javaZDTtoZDT(when.getZonedDateTime());
   }
 
   // QuantityType&lt;Time>, add to now
   if (when instanceof QuantityType) {
-    return addQuantityType(when);
+    return _addQuantityType(when);
   }
 
   // Java Number of DecimalType, add as millisecs to now
   if (when instanceof javaNumber || when instanceof DecimalType) {
-    return addMillisToNow(when.floatValue());
+    return _addMillisToNow(when.floatValue());
   }
 
   // GenericItem
   if (when instanceof ohItem) {
-    return convertItem(items.getItem(when.name));
+    return _convertItem(items.getItem(when.name));
   }
 
   // items.Item
   if (when.constructor.name === 'Item') {
-    return convertItem(when);
+    return _convertItem(when);
+  }
+
+  // Quantity
+  if (when instanceof QuantityClass) {
+    return _addQuantityType(when.raw);
   }
 
   // Unsupported
   throw Error('"' + when + '" is an unsupported type for conversion to time.ZonedDateTime');
 };
 
-// openHAB uses a RFC DateTime string, js-joda defaults to the ISO version, this defaults RFC instead
+// openHAB uses an RFC DateTime string, js-joda defaults to the ISO version, this defaults RFC instead
 const rfcFormatter = time.DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ss.SSS[xxxx][xxxxx]");
 const targetParse = time.ZonedDateTime.prototype.parse;
 time.ZonedDateTime.prototype.parse = function (text, formatter = rfcFormatter) {
@@ -428,8 +434,8 @@ time.ZonedDateTime.prototype.toOpenHabString = function () {
 module.exports = {
   ...time,
   toZDT,
-  parseString,
-  parseISO8601
+  parseString: _parseString,
+  parseISO8601: _parseISO8601
 };
 </code></pre>
         </article>
@@ -445,7 +451,7 @@ module.exports = {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.0</a> on Sat Dec 31 2022 15:43:52 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.0</a> on Sun Jan 01 2023 16:23:27 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

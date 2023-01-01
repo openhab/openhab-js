@@ -76,7 +76,10 @@ binding</a>.</p>
 <ul>
 <li><a href="#default-installation">Default Installation</a></li>
 <li><a href="#custom-installation">Custom Installation</a></li>
-<li><a href="#configuration">Configuration</a></li>
+</ul>
+</li>
+<li><a href="#configuration">Configuration</a>
+<ul>
 <li><a href="#ui-based-rules">UI Based Rules</a></li>
 <li><a href="#adding-triggers">Adding Triggers</a></li>
 <li><a href="#adding-actions">Adding Actions</a></li>
@@ -348,10 +351,10 @@ Parameters are injected into the script and can be referenced like variables.</p
 <h2>Standard Library</h2>
 <p>Full documentation for the openHAB JavaScript library can be found at <a href="https://openhab.github.io/openhab-js">openhab-js</a>.</p>
 <p>The openHAB JavaScript library provides type definitions for most of its APIs to enable code completion is IDEs like <a href="https://code.visualstudio.com">VS Code</a>.
-To use the type definitions, install the <a href="https://npmjs.com/openhab"><code>openhab</code> npm package</a> (read the <a href="https://github.com/openhab/openhab-js#custom-installation">installation guide</a> for more information).
+To use the type definitions, install the <a href="https://npmjs.com/openhab"><code>openhab</code> npm package</a> (read the <a href="https://github.com/openhab/openhab-js#custom-installation">installation guide</a> for more information), and import the used namespaces with <code>const { rules, triggers, items } = require('openhab');</code> (adjust this to your needs).
 If an API does not provide type definitions and therefore autocompletion won't work, the documentation will include a note.</p>
 <h3>Items</h3>
-<p>The items namespace allows interactions with openHAB items.</p>
+<p>The Items namespace allows interactions with openHAB items.</p>
 <p>See <a href="https://openhab.github.io/openhab-js/items.html">openhab-js : items</a> for full API documentation.</p>
 <ul>
 <li>items : <code>object</code>
@@ -390,9 +393,9 @@ console.log(&quot;Kitchen Light State&quot;, item.state);
 <li>.getMetadata(namespace) ⇒ <code>object|null</code></li>
 <li>.replaceMetadata(namespace, value, configuration) ⇒ <code>object</code></li>
 <li>.removeMetadata(namespace) ⇒ <code>object|null</code></li>
-<li>.sendCommand(value)</li>
-<li>.sendCommandIfDifferent(value) ⇒ <code>boolean</code></li>
-<li>.postUpdate(value)</li>
+<li>.sendCommand(value): <code>value</code> can be a string or a <a href="#time"><code>time.ZonedDateTime</code></a></li>
+<li>.sendCommandIfDifferent(value) ⇒ <code>boolean</code>: <code>value</code> can be a string or a <a href="#time"><code>time.ZonedDateTime</code></a></li>
+<li>.postUpdate(value): <code>value</code> can be a string or a <a href="#time"><code>time.ZonedDateTime</code></a></li>
 <li>.addGroups(...groupNamesOrItems)</li>
 <li>.removeGroups(...groupNamesOrItems)</li>
 <li>.addTags(...tagNames)</li>
@@ -406,8 +409,9 @@ item.sendCommand(&quot;ON&quot;);
 // Post an update
 item.postUpdate(&quot;OFF&quot;);
 // Get state
-console.log(&quot;KitchenLight state&quot;, item.state)
+console.log(&quot;KitchenLight state&quot;, item.state);
 </code></pre>
+<p>See <a href="https://openhab.github.io/openhab-js/items.Item.html">openhab-js : Item</a> for full API documentation.</p>
 <h4><code>itemConfig</code></h4>
 <p>Calling <code>addItem(itemConfig)</code> or <code>replaceItem(itemConfig)</code> requires the <code>itemConfig</code> object with the following properties:</p>
 <ul>
@@ -877,10 +881,10 @@ var floatValue = qty.float;
 <p><code>Quantity</code> provides the following methods for comparison:</p>
 <ul>
 <li><code>equal(value)</code> ⇒ <code>boolean</code>: this <code>Quantity</code> equals to <code>value</code></li>
-<li><code>greaterThan</code> ⇒ <code>boolean</code>: this <code>Quantity</code> is greater than <code>value</code></li>
-<li><code>greaterThanOrEqual</code> ⇒ <code>boolean</code>: this <code>Quantity</code> is greater than or equal to <code>value</code></li>
-<li><code>lessThan</code> ⇒ <code>boolean</code>: this <code>Quantity</code> is less than <code>value</code></li>
-<li><code>lessThanOrEqual</code> ⇒ <code>boolean</code>: this <code>Quantity</code> is less than or equal to <code>value</code></li>
+<li><code>greaterThan(value)</code> ⇒ <code>boolean</code>: this <code>Quantity</code> is greater than <code>value</code></li>
+<li><code>greaterThanOrEqual(value)</code> ⇒ <code>boolean</code>: this <code>Quantity</code> is greater than or equal to <code>value</code></li>
+<li><code>lessThan(value)</code> ⇒ <code>boolean</code>: this <code>Quantity</code> is less than <code>value</code></li>
+<li><code>lessThanOrEqual(value)</code> ⇒ <code>boolean</code>: this <code>Quantity</code> is less than or equal to <code>value</code></li>
 </ul>
 <p><code>value</code> can be a string or a <code>Quantity</code>, for the string the same rules apply as described above.</p>
 <h4>Mathematical Operators</h4>
@@ -1512,7 +1516,7 @@ Generally speaking, you should prefer to use <a href="#standard-library">Standar
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.0</a> on Sat Dec 31 2022 15:43:52 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.0</a> on Sun Jan 01 2023 16:23:27 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
