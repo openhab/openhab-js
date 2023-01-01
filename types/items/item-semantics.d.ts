@@ -9,28 +9,28 @@ declare class ItemSemantics {
     constructor(rawItem: any);
     rawItem: any;
     /**
-     * The type of the semantic equipment.
-     * @returns {string|null} equipment type or null if no equipment is set
+     * The type of the semantic equipment or `null` if none is set.
+     * @type {string|null}
      */
     get equipmentType(): string;
     /**
-     * The type of the semantic location.
-     * @returns {string|null} location type of null if no location is set
+     * The type of the semantic location or `null` if none is set.
+     * @type {string|null}
      */
     get locationType(): string;
     /**
-     * The type of the semantic point.
-     * @return {string|null} point type or null if no point is set
+     * The type of the semantic point or `null` if none is set.
+     * @type {string|null}
      */
     get pointType(): string;
     /**
-     * The type of the semantic property.
-     * @return {string|null} property type or null if no property is set
+     * The type of the semantic property or `null` if none is set.
+     * @type {string|null}
      */
     get propertyType(): string;
     /**
-     * Determines the semantic type (i.e. a sub-type of Location, Equipment or Point).
-     * @returns {string|null} semantic type or null if no semantics is set
+     * Determines the semantic type (i.e. a subtype of Location, Equipment or Point) or `null` if no semantics are set.
+     * @type {string|null}
      */
     get semanticType(): string;
 }

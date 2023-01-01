@@ -83,9 +83,9 @@ export function safeItemName(s: string): string;
  * @memberof items
  * @param {string} name the name of the Item
  * @param {boolean} [nullIfMissing=false] whether to return null if the Item cannot be found (default is to throw an exception)
- * @returns {Item} {@link items.Item}
+ * @returns {Item|null} {@link items.Item} Item or `null` if `nullIfMissing` is true and Item is missing
  */
-export function getItem(name: string, nullIfMissing?: boolean): Item;
+export function getItem(name: string, nullIfMissing?: boolean): Item | null;
 /**
  * Gets all openHAB Items.
  *
@@ -102,7 +102,7 @@ export function getItems(): Item[];
  * @memberof items
  * @param {ItemConfig} itemConfig the Item config describing the Item
  * @returns {Item} {@link Items.Item}
- * @throws {@link ItemConfig}.name or {@link ItemConfig}.type not set
+ * @throws {Error} {@link ItemConfig}.name or {@link ItemConfig}.type not set
  * @throws failed to create Item
  */
 export function addItem(itemConfig: ItemConfig): Item;
@@ -110,7 +110,7 @@ export function addItem(itemConfig: ItemConfig): Item;
  * Gets all openHAB Items with a specific tag.
  *
  * @memberof items
- * @param {...String} tagNames an array of tags to match against
+ * @param {string[]} tagNames an array of tags to match against
  * @returns {Item[]} {@link items.Item}[]: the Items with a tag that is included in the passed tags
  */
 export function getItemsByTag(...tagNames: string[]): Item[];
@@ -126,7 +126,7 @@ export function getItemsByTag(...tagNames: string[]): Item[];
  * @memberof items
  * @param {ItemConfig} itemConfig the Item config describing the Item
  * @returns {Item|null} the old Item or `null` if it did not exist
- * @throws {@link ItemConfig}.name or {@link ItemConfig}.type not set
+ * @throws {Error} {@link ItemConfig}.name or {@link ItemConfig}.type not set
  * @throws failed to create Item
  */
 export function replaceItem(itemConfig: ItemConfig): Item | null;
@@ -140,7 +140,7 @@ export function replaceItem(itemConfig: ItemConfig): Item | null;
  * @private
  * @param {ItemConfig} itemConfig the Item config describing the Item
  * @returns {Item} {@link items.Item}
- * @throws {@link ItemConfig}.name or {@link ItemConfig}.type not set
+ * @throws {Error} {@link ItemConfig}.name or {@link ItemConfig}.type not set
  * @throws failed to create Item
  */
 export function createItem(itemConfig: ItemConfig): Item;
@@ -148,10 +148,10 @@ export function createItem(itemConfig: ItemConfig): Item;
  * Removes an Item from openHAB. The Item is removed immediately and cannot be recovered.
  *
  * @memberof items
- * @param {String|HostItem} itemOrItemName the Item or the name of the Item to remove
+ * @param {string|Item} itemOrItemName the Item or the name of the Item to remove
  * @returns {Item|null} the Item that has been removed or `null` if it has not been removed
  */
-export function removeItem(itemOrItemName: string | HostItem): Item | null;
+export function removeItem(itemOrItemName: string | Item): Item | null;
 /**
  * Class representing an openHAB Item
  *
@@ -175,49 +175,48 @@ export class Item {
      */
     history: ItemHistory;
     /**
-     * Access Semantic informations of this Item {@link items.ItemSemantics}
+     * Access Semantic information of this Item {@link items.ItemSemantics}
      * @type {ItemSemantics}
      */
     semantics: ItemSemantics;
     /**
      * The type of the Item: the Simple (without package) name of the Java Item type, such as 'Switch'.
-     * @return {string} the type
+     * @type {string}
      */
     get type(): string;
     /**
      * The name of the Item.
-     * @return {string} the name
+     * @type {string}
      */
     get name(): string;
     /**
-     * The label attached to the Item
-     * @return {string} the label
+     * The label attached to the Item.
+     * @type {string}
      */
     get label(): string;
     /**
-     * The state of the Item, as a string.
-     * @return {string} the Item's state
+     * The state of the Item.
+     * @type {string}
      */
     get state(): string;
     /**
      * The raw state of the Item, as a Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/types/state State object}.
-     * @return {HostState} the Item's state
+     * @type {HostState}
      */
     get rawState(): HostState;
     /**
      * Members / children / direct descendents of the current group Item (as returned by 'getMembers()'). Must be a group Item.
-     * @returns {Item[]} member Items
+     * @type {Item[]}
      */
     get members(): Item[];
     /**
      * All descendents of the current group Item (as returned by 'getAllMembers()'). Must be a group Item.
-     * @returns {Item[]} all descendent Items
+     * @type {Item[]}
      */
     get descendents(): Item[];
     /**
-     * Whether this Item is initialized.
+     * Whether this Item is uninitialized (`true if it has not been initialized`).
      * @type {boolean}
-     * @returns true iff the Item has not been initialized
      */
     get isUninitialized(): boolean;
     /**
@@ -252,7 +251,7 @@ export class Item {
     /**
      * Sends a command to the Item.
      *
-     * @param {String|time.ZonedDateTime|HostState} value the value of the command to send, such as 'ON'
+     * @param {string|time.ZonedDateTime|HostState} value the value of the command to send, such as 'ON'
      * @see sendCommandIfDifferent
      * @see postUpdate
      */
@@ -260,7 +259,7 @@ export class Item {
     /**
      * Sends a command to the Item, but only if the current state is not what is being sent.
      *
-     * @param {String|time.ZonedDateTime|HostState} value the value of the command to send, such as 'ON'
+     * @param {string|time.ZonedDateTime|HostState} value the value of the command to send, such as 'ON'
      * @returns {boolean} true if the command was sent, false otherwise
      * @see sendCommand
      */
@@ -288,38 +287,39 @@ export class Item {
     /**
      * Posts an update to the Item.
      *
-     * @param {String|time.ZonedDateTime|HostState} value the value of the command to send, such as 'ON'
+     * @param {string|time.ZonedDateTime|HostState} value the value of the command to send, such as 'ON'
+     * @see postToggleUpdate
      * @see sendCommand
      */
     postUpdate(value: string | time.ZonedDateTime | HostState): void;
     /**
-     * Gets the tags from this Item
-     * @returns {Array<String>} array of group names
+     * Gets the names of the groups this Item is member of.
+     * @returns {string[]}
      */
     get groupNames(): string[];
     /**
      * Adds groups to this Item
-     * @param {...String|...Item} groupNamesOrItems one or more names of the groups (or the group Items themselves)
+     * @param {...string|...Item} groupNamesOrItems one or more names of the groups (or the group Items themselves)
      */
     addGroups(...groupNamesOrItems: any[]): void;
     /**
      * Removes groups from this Item
-     * @param {...String|...Item} groupNamesOrItems one or more names of the groups (or the group Items themselves)
+     * @param {...string|...Item} groupNamesOrItems one or more names of the groups (or the group Items themselves)
      */
     removeGroups(...groupNamesOrItems: any[]): void;
     /**
      * Gets the tags from this Item
-     * @returns {Array<String>} array of tags
+     * @type {string[]}
      */
     get tags(): string[];
     /**
      * Adds tags to this Item
-     * @param {...String} tagNames names of the tags to add
+     * @param {...string} tagNames names of the tags to add
      */
     addTags(...tagNames: string[]): void;
     /**
      * Removes tags from this Item
-     * @param {...String} tagNames names of the tags to remove
+     * @param {...string} tagNames names of the tags to remove
      */
     removeTags(...tagNames: string[]): void;
     toString(): any;

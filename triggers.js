@@ -21,14 +21,13 @@ const Configuration = Java.type('org.openhab.core.config.core.Configuration');
 /**
  * Creates a trigger. Internal function, instead use predefined trigger types.
  *
- * @memberof triggers
  * @private
  * @param {string} typeString the type of trigger to create
  * @param {string} [name] the name of the trigger
- * @param {Configuration} config the trigger configuration
+ * @param {object} config the trigger configuration
  * @returns {HostTrigger} {@link HostTrigger}
  */
-const createTrigger = function (typeString, name, config) {
+const _createTrigger = function (typeString, name, config) {
   if (typeof name === 'undefined' || name === null) {
     name = utils.randomUUID().toString();
   }
@@ -54,7 +53,7 @@ const createTrigger = function (typeString, name, config) {
  */
 const ChannelEventTrigger = (channel, event, triggerName) => {
   typeOfArguments([channel, event, triggerName], ['string', 'string', 'string|undefined']);
-  return createTrigger('core.ChannelEventTrigger', triggerName, {
+  return _createTrigger('core.ChannelEventTrigger', triggerName, {
     channelUID: channel,
     event: event
   });
@@ -77,7 +76,7 @@ const ChannelEventTrigger = (channel, event, triggerName) => {
  */
 const ItemStateChangeTrigger = (itemOrName, oldState, newState, triggerName) => {
   typeOfArguments([itemOrName, oldState, newState, triggerName], ['string|Item', 'string|undefined', 'string|undefined', 'string|undefined']);
-  return createTrigger('core.ItemStateChangeTrigger', triggerName, {
+  return _createTrigger('core.ItemStateChangeTrigger', triggerName, {
     itemName: (itemOrName instanceof Item) ? itemOrName.name : itemOrName,
     state: newState,
     previousState: oldState
@@ -98,7 +97,7 @@ const ItemStateChangeTrigger = (itemOrName, oldState, newState, triggerName) => 
  */
 const ItemStateUpdateTrigger = (itemOrName, state, triggerName) => {
   typeOfArguments([itemOrName, state, triggerName], ['string|Item', 'string|undefined', 'string|undefined']);
-  return createTrigger('core.ItemStateUpdateTrigger', triggerName, {
+  return _createTrigger('core.ItemStateUpdateTrigger', triggerName, {
     itemName: (itemOrName instanceof Item) ? itemOrName.name : itemOrName,
     state: state
   });
@@ -118,7 +117,7 @@ const ItemStateUpdateTrigger = (itemOrName, state, triggerName) => {
  */
 const ItemCommandTrigger = (itemOrName, command, triggerName) => {
   typeOfArguments([itemOrName, command, triggerName], ['string|Item', 'string|undefined', 'string|undefined']);
-  return createTrigger('core.ItemCommandTrigger', triggerName, {
+  return _createTrigger('core.ItemCommandTrigger', triggerName, {
     itemName: (itemOrName instanceof Item) ? itemOrName.name : itemOrName,
     command: command
   });
@@ -138,7 +137,7 @@ const ItemCommandTrigger = (itemOrName, command, triggerName) => {
  */
 const GroupStateChangeTrigger = (groupOrName, oldState, newState, triggerName) => {
   typeOfArguments([groupOrName, oldState, newState, triggerName], ['string|Item', 'string|undefined', 'string|undefined', 'string|undefined']);
-  return createTrigger('core.GroupStateChangeTrigger', triggerName, {
+  return _createTrigger('core.GroupStateChangeTrigger', triggerName, {
     groupName: (groupOrName instanceof Item) ? groupOrName.name : groupOrName,
     state: newState,
     previousState: oldState
@@ -158,7 +157,7 @@ const GroupStateChangeTrigger = (groupOrName, oldState, newState, triggerName) =
  */
 const GroupStateUpdateTrigger = (groupOrName, state, triggerName) => {
   typeOfArguments([groupOrName, state, triggerName], ['string|Item', 'string|undefined', 'string|undefined']);
-  return createTrigger('core.GroupStateUpdateTrigger', triggerName, {
+  return _createTrigger('core.GroupStateUpdateTrigger', triggerName, {
     groupName: (groupOrName instanceof Item) ? groupOrName.name : groupOrName,
     state: state
   });
@@ -177,7 +176,7 @@ const GroupStateUpdateTrigger = (groupOrName, state, triggerName) => {
  */
 const GroupCommandTrigger = (groupOrName, command, triggerName) => {
   typeOfArguments([groupOrName, command, triggerName], ['string|Item', 'string|undefined', 'string|undefined']);
-  return createTrigger('core.GroupCommandTrigger', triggerName, {
+  return _createTrigger('core.GroupCommandTrigger', triggerName, {
     groupName: (groupOrName instanceof Item) ? groupOrName.name : groupOrName,
     command: command
   });
@@ -196,7 +195,7 @@ const GroupCommandTrigger = (groupOrName, command, triggerName) => {
  */
 const ThingStatusUpdateTrigger = (thingUID, status, triggerName) => {
   typeOfArguments([thingUID, status, triggerName], ['string', 'string|undefined', 'string|undefined']);
-  return createTrigger('core.ThingStatusUpdateTrigger', triggerName, {
+  return _createTrigger('core.ThingStatusUpdateTrigger', triggerName, {
     thingUID: thingUID,
     status: status
   });
@@ -216,7 +215,7 @@ const ThingStatusUpdateTrigger = (thingUID, status, triggerName) => {
  */
 const ThingStatusChangeTrigger = (thingUID, status, previousStatus, triggerName) => {
   typeOfArguments([thingUID, status, previousStatus, triggerName], ['string', 'string|undefined', 'string|undefined', 'string|undefined']);
-  return createTrigger('core.ThingStatusChangeTrigger', triggerName, {
+  return _createTrigger('core.ThingStatusChangeTrigger', triggerName, {
     thingUID: thingUID,
     status: status,
     previousStatus: previousStatus
@@ -239,7 +238,7 @@ const ThingStatusChangeTrigger = (thingUID, status, previousStatus, triggerName)
  */
 const SystemStartlevelTrigger = (startlevel, triggerName) => {
   typeOfArguments([startlevel, triggerName], ['string|number', 'string|undefined']);
-  return createTrigger('core.SystemStartlevelTrigger', triggerName, {
+  return _createTrigger('core.SystemStartlevelTrigger', triggerName, {
     startlevel: startlevel.toString()
   });
 };
@@ -256,7 +255,7 @@ const SystemStartlevelTrigger = (startlevel, triggerName) => {
  */
 const GenericCronTrigger = (expression, triggerName) => {
   typeOfArguments([expression, triggerName], ['string', 'string|undefined']);
-  return createTrigger('timer.GenericCronTrigger', triggerName, {
+  return _createTrigger('timer.GenericCronTrigger', triggerName, {
     cronExpression: expression
   });
 };
@@ -273,7 +272,7 @@ const GenericCronTrigger = (expression, triggerName) => {
  */
 const TimeOfDayTrigger = (time, triggerName) => {
   typeOfArguments([time, triggerName], ['string', 'string|undefined']);
-  return createTrigger('timer.TimeOfDayTrigger', triggerName, {
+  return _createTrigger('timer.TimeOfDayTrigger', triggerName, {
     time: time
   });
 };
@@ -291,7 +290,7 @@ const TimeOfDayTrigger = (time, triggerName) => {
  */
 const DateTimeTrigger = (itemName, timeOnly = false, triggerName) => {
   typeOfArguments([itemName, timeOnly, triggerName], ['string', 'boolean|undefined', 'string|undefined']);
-  return createTrigger('timer.DateTimeTrigger', triggerName, {
+  return _createTrigger('timer.DateTimeTrigger', triggerName, {
     itemName: itemName,
     timeOnly: timeOnly
   });
@@ -319,7 +318,7 @@ const DateTimeTrigger = (itemName, timeOnly = false, triggerName) => {
  * @param {number} [deadManSwitch] output will be switched off, when the duty cycle is not updated within this time (in ms)
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-const PWMTrigger = (dutycycleItem, interval, minDutyCycle, maxDutyCycle, deadManSwitch, triggerName) => createTrigger('pwm.trigger', triggerName, {
+const PWMTrigger = (dutycycleItem, interval, minDutyCycle, maxDutyCycle, deadManSwitch, triggerName) => _createTrigger('pwm.trigger', triggerName, {
   dutycycleItem: dutycycleItem,
   interval: interval,
   minDutyCycle: minDutyCycle,
@@ -360,7 +359,7 @@ const PWMTrigger = (dutycycleItem, interval, minDutyCycle, maxDutyCycle, deadMan
  * @param {string} [errorInspectorItem] name of the debug Item for the current regulation difference (error)
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-const PIDTrigger = (inputItem, setpointItem, kp = 1, ki = 1, kd = 1, kdTimeConstant = 1, loopTime = 1000, commandItem, integralMinValue, integralMaxValue, pInspectorItem, iInspectorItem, dInspectorItem, errorInspectorItem, triggerName) => createTrigger('pidcontroller.trigger', triggerName, {
+const PIDTrigger = (inputItem, setpointItem, kp = 1, ki = 1, kd = 1, kdTimeConstant = 1, loopTime = 1000, commandItem, integralMinValue, integralMaxValue, pInspectorItem, iInspectorItem, dInspectorItem, errorInspectorItem, triggerName) => _createTrigger('pidcontroller.trigger', triggerName, {
   input: inputItem,
   setpoint: setpointItem,
   kp: kp,
