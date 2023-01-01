@@ -19,7 +19,7 @@ binding](https://www.openhab.org/addons/automation/jsscripting/).
 - [Installation](#installation)
   - [Default Installation](#default-installation)
   - [Custom Installation](#custom-installation)
-  - [Configuration](#configuration)
+- [Configuration](#configuration)
   - [UI Based Rules](#ui-based-rules)
   - [Adding Triggers](#adding-triggers)
   - [Adding Actions](#adding-actions)
@@ -325,12 +325,12 @@ Use the `SCRIPT` transformation with JavaScript Scripting by:
 Full documentation for the openHAB JavaScript library can be found at [openhab-js](https://openhab.github.io/openhab-js).
 
 The openHAB JavaScript library provides type definitions for most of its APIs to enable code completion is IDEs like [VS Code](https://code.visualstudio.com).
-To use the type definitions, install the [`openhab` npm package](https://npmjs.com/openhab) (read the [installation guide](https://github.com/openhab/openhab-js#custom-installation) for more information).
+To use the type definitions, install the [`openhab` npm package](https://npmjs.com/openhab) (read the [installation guide](https://github.com/openhab/openhab-js#custom-installation) for more information), and import the used namespaces with `const { rules, triggers, items } = require('openhab');` (adjust this to your needs).
 If an API does not provide type definitions and therefore autocompletion won't work, the documentation will include a note.
 
 ### Items
 
-The items namespace allows interactions with openHAB items.
+The Items namespace allows interactions with openHAB items.
 
 See [openhab-js : items](https://openhab.github.io/openhab-js/items.html) for full API documentation.
 
@@ -369,9 +369,9 @@ Calling `getItem(...)` returns an `Item` object with the following properties:
   - .getMetadata(namespace) ⇒ `object|null`
   - .replaceMetadata(namespace, value, configuration) ⇒ `object`
   - .removeMetadata(namespace) ⇒ `object|null`
-  - .sendCommand(value)
-  - .sendCommandIfDifferent(value) ⇒ `boolean`
-  - .postUpdate(value)
+  - .sendCommand(value): `value` can be a string or a [`time.ZonedDateTime`](#time)
+  - .sendCommandIfDifferent(value) ⇒ `boolean`: `value` can be a string or a [`time.ZonedDateTime`](#time)
+  - .postUpdate(value): `value` can be a string or a [`time.ZonedDateTime`](#time)
   - .addGroups(...groupNamesOrItems)
   - .removeGroups(...groupNamesOrItems)
   - .addTags(...tagNames)
@@ -384,8 +384,10 @@ item.sendCommand("ON");
 // Post an update
 item.postUpdate("OFF");
 // Get state
-console.log("KitchenLight state", item.state)
+console.log("KitchenLight state", item.state);
 ```
+
+See [openhab-js : Item](https://openhab.github.io/openhab-js/items.Item.html) for full API documentation.
 
 #### `itemConfig`
 
@@ -916,10 +918,10 @@ var floatValue = qty.float;
 `Quantity` provides the following methods for comparison:
 
 - `equal(value)` ⇒ `boolean`: this `Quantity` equals to `value`
-- `greaterThan` ⇒ `boolean`: this `Quantity` is greater than `value`
-- `greaterThanOrEqual` ⇒ `boolean`: this `Quantity` is greater than or equal to `value`
-- `lessThan` ⇒ `boolean`: this `Quantity` is less than `value`
-- `lessThanOrEqual` ⇒ `boolean`: this `Quantity` is less than or equal to `value`
+- `greaterThan(value)` ⇒ `boolean`: this `Quantity` is greater than `value`
+- `greaterThanOrEqual(value)` ⇒ `boolean`: this `Quantity` is greater than or equal to `value`
+- `lessThan(value)` ⇒ `boolean`: this `Quantity` is less than `value`
+- `lessThanOrEqual(value)` ⇒ `boolean`: this `Quantity` is less than or equal to `value`
 
 `value` can be a string or a `Quantity`, for the string the same rules apply as described above.
 
