@@ -274,8 +274,8 @@ const JSRule = function (ruleConfig) {
   }
 
   // Add config to the action so that MainUI can show the script
-  const actionConfiguration = rule.actions.get(0).configuration;
-  actionConfiguration.put('type', 'application/javascript;version=ECMAScript-2021');
+  const actionConfiguration = rule.actions.get(0).getConfiguration();
+  actionConfiguration.put('type', 'application/javascript;version=ECMAScript-2021'); // TODO: Update MIME type at some time
   actionConfiguration.put('script', '// Code to run when the rule fires:\n// Note that Rule Builder is currently not supported!\n\n' + ruleConfig.execute.toString());
 
   return rule;
@@ -367,7 +367,7 @@ const _getTriggeredData = function (input) {
 
   // Only with event data (for Item, Thing & Channel triggers)
   if (event) {
-    switch (Java.typeName(event.class)) {
+    switch (Java.typeName(event.getClass())) {
       case 'org.openhab.core.items.events.GroupItemCommandEvent':
       case 'org.openhab.core.items.events.ItemCommandEvent':
         data.itemName = event.getItemName();
@@ -423,7 +423,7 @@ const _getTriggeredData = function (input) {
         );
         break;
     }
-    data.eventClass = Java.typeName(event.class);
+    data.eventClass = Java.typeName(event.getClass());
     try {
       if (event.getPayload()) {
         data.payload = JSON.parse(event.getPayload());
