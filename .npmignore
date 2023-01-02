@@ -1,6 +1,5 @@
 # WARNING: Please keep in mind that npm disregards .gitignore when there is a .npmignore file!
 
-@openhab-globals.js
 .github
 .idea
 .markdownlint.yaml
