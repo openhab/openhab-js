@@ -2,18 +2,18 @@
 
 ## Webpack
 
-openhab-js can be compiled into a single JS file, which is connivent for deploying locally and also how we ship the library with the JS Scripting binding in openHAB.
+openhab-js and it's injection script can be compiled into a single JS file, which is how we ship the library with the JS Scripting automation addon in openHAB.
 
 ```bash
 npm run webpack
 ```
 
-This outputs the library as a single JS file to `dist/openhab.js`.
+This outputs the library, and it's injection script as a single JS file to `dist/@openhab-globals.js`.
 
 ## TypeScript type definitions
 
 openhab-js has included type definitions which are generated from JSDoc using the [`typescript`](https://www.npmjs.com/package/typescript) npm module.
-Type definitons allow supercharged auto-completion in your IDE.
+Type definitions allow supercharged auto-completion in your IDE.
 
 ```bash
 npm run types

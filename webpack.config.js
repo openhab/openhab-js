@@ -1,8 +1,13 @@
 const path = require('path');
 
 module.exports = {
-  entry: './index.js',
-  mode: 'development',
+  entry: './@openhab-globals.js',
+  mode: 'production',
+  performance: {
+    hints: false,
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000
+  },
   externals: [
     {
       '@runtime': {
@@ -45,9 +50,9 @@ module.exports = {
   ],
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'openhab.js',
+    filename: '@openhab-globals.js',
     library: {
-      name: 'openhab',
+      name: '@openhab-globals',
       type: 'umd'
     },
     globalObject: 'this'
