@@ -1,8 +1,9 @@
 # WARNING: Please keep in mind that npm disregards .gitignore when there is a .npmignore file!
 
 .github
-.vscode
 .idea
+.markdownlint.yaml
+.vscode
 coverage
 DEPLOY.md
 doc
@@ -14,4 +15,4 @@ jest.config.js
 openhab-*.tgz
 out
 test
-.markdownlint.yaml
+
