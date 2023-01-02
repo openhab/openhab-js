@@ -24,7 +24,7 @@
         "deploy": "npm test && npm run docs && npm run webpack",
         "lint": "npx standardx | snazzy",
         "lint:fix": "npx standardx --fix",
-        "webpack": "webpack",
+        "webpack": "webpack && webpack -c @injection-webpack.config.js",
         "types": "tsc",
         "types:test": "tsc --project tsconfig.test.json"
     },

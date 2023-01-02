@@ -2,13 +2,13 @@
 
 ## Webpack
 
-openhab-js and it's injection script can be compiled into a single JS file, which is how we ship the library with the JS Scripting automation addon in openHAB.
+Both openhab-js and it's injection script can be compiled into a single JS file, which is very convenient for deploying locally and which is how we ship the library with the JS Scripting automation addon in openHAB.
 
 ```bash
 npm run webpack
 ```
 
-This outputs the library, and it's injection script as a single JS file to `dist/@openhab-globals.js`.
+This outputs the library as a single JS file to `dist/openhab.js`, and it's injection script as a single JS file to `dist/@openhab-injection.js`.
 
 ## TypeScript type definitions
 
