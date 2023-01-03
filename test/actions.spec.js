@@ -73,13 +73,6 @@ describe('actions.js', () => {
     const value = 'ON';
 
     describe('transform', () => {
-      it('throws TypeError when a wrong argument is passed.', () => {
-        expect(() => Transformation.transform({}, fn, value)).toThrow(TypeError);
-        expect(() => Transformation.transform(type, {}, value)).toThrow(TypeError);
-        expect(() => Transformation.transform(type, fn, { value })).toThrow(TypeError);
-        expect(JavaTransformation.transform).not.toHaveBeenCalled();
-      });
-
       it('delegates to Java Transformation.', () => {
         Transformation.transform(type, fn, value);
 
@@ -88,13 +81,6 @@ describe('actions.js', () => {
     });
 
     describe('transformRaw', () => {
-      it('throws TypeError when a wrong argument is passed.', () => {
-        expect(() => Transformation.transformRaw({}, fn, value)).toThrow(TypeError);
-        expect(() => Transformation.transformRaw(type, {}, value)).toThrow(TypeError);
-        expect(() => Transformation.transformRaw(type, fn, { value })).toThrow(TypeError);
-        expect(JavaTransformation.transformRaw).not.toHaveBeenCalled();
-      });
-
       it('delegates to Java Transformation.', () => {
         Transformation.transformRaw(type, fn, value);
 

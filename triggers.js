@@ -7,7 +7,6 @@
  * @namespace triggers
  */
 
-const typeOfArguments = require('./typeOfArguments');
 const utils = require('./utils');
 /**
  * @type {Item}
@@ -21,14 +20,13 @@ const Configuration = Java.type('org.openhab.core.config.core.Configuration');
 /**
  * Creates a trigger. Internal function, instead use predefined trigger types.
  *
- * @memberof triggers
  * @private
  * @param {string} typeString the type of trigger to create
  * @param {string} [name] the name of the trigger
- * @param {Configuration} config the trigger configuration
+ * @param {object} config the trigger configuration
  * @returns {HostTrigger} {@link HostTrigger}
  */
-const createTrigger = function (typeString, name, config) {
+const _createTrigger = function (typeString, name, config) {
   if (typeof name === 'undefined' || name === null) {
     name = utils.randomUUID().toString();
   }
@@ -52,13 +50,11 @@ const createTrigger = function (typeString, name, config) {
  * @param {string} [triggerName] the optional name of the trigger to create
  *
  */
-const ChannelEventTrigger = (channel, event, triggerName) => {
-  typeOfArguments([channel, event, triggerName], ['string', 'string', 'string|undefined']);
-  return createTrigger('core.ChannelEventTrigger', triggerName, {
+const ChannelEventTrigger = (channel, event, triggerName) =>
+  _createTrigger('core.ChannelEventTrigger', triggerName, {
     channelUID: channel,
     event: event
   });
-};
 
 /**
  * Creates a trigger that fires upon an Item changing state.
@@ -75,14 +71,12 @@ const ChannelEventTrigger = (channel, event, triggerName) => {
  * @param {string} [newState] the new state of the Item
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-const ItemStateChangeTrigger = (itemOrName, oldState, newState, triggerName) => {
-  typeOfArguments([itemOrName, oldState, newState, triggerName], ['string|Item', 'string|undefined', 'string|undefined', 'string|undefined']);
-  return createTrigger('core.ItemStateChangeTrigger', triggerName, {
+const ItemStateChangeTrigger = (itemOrName, oldState, newState, triggerName) =>
+  _createTrigger('core.ItemStateChangeTrigger', triggerName, {
     itemName: (itemOrName instanceof Item) ? itemOrName.name : itemOrName,
     state: newState,
     previousState: oldState
   });
-};
 
 /**
  * Creates a trigger that fires upon an Item receiving a state update. Note that the Item does not need to change state.
@@ -96,13 +90,11 @@ const ItemStateChangeTrigger = (itemOrName, oldState, newState, triggerName) => 
  * @param {string} [state] the new state of the Item
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-const ItemStateUpdateTrigger = (itemOrName, state, triggerName) => {
-  typeOfArguments([itemOrName, state, triggerName], ['string|Item', 'string|undefined', 'string|undefined']);
-  return createTrigger('core.ItemStateUpdateTrigger', triggerName, {
+const ItemStateUpdateTrigger = (itemOrName, state, triggerName) =>
+  _createTrigger('core.ItemStateUpdateTrigger', triggerName, {
     itemName: (itemOrName instanceof Item) ? itemOrName.name : itemOrName,
     state: state
   });
-};
 
 /**
  * Creates a trigger that fires upon an Item receiving a command. Note that the Item does not need to change state.
@@ -116,13 +108,11 @@ const ItemStateUpdateTrigger = (itemOrName, state, triggerName) => {
  * @param {string} [command] the command received
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-const ItemCommandTrigger = (itemOrName, command, triggerName) => {
-  typeOfArguments([itemOrName, command, triggerName], ['string|Item', 'string|undefined', 'string|undefined']);
-  return createTrigger('core.ItemCommandTrigger', triggerName, {
+const ItemCommandTrigger = (itemOrName, command, triggerName) =>
+  _createTrigger('core.ItemCommandTrigger', triggerName, {
     itemName: (itemOrName instanceof Item) ? itemOrName.name : itemOrName,
     command: command
   });
-};
 
 /**
  * Creates a trigger that fires upon a member of a group changing state. Note that group Item does not need to change state.
@@ -136,14 +126,12 @@ const ItemCommandTrigger = (itemOrName, command, triggerName) => {
  * @param {string} [newState] the new state of the group
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-const GroupStateChangeTrigger = (groupOrName, oldState, newState, triggerName) => {
-  typeOfArguments([groupOrName, oldState, newState, triggerName], ['string|Item', 'string|undefined', 'string|undefined', 'string|undefined']);
-  return createTrigger('core.GroupStateChangeTrigger', triggerName, {
+const GroupStateChangeTrigger = (groupOrName, oldState, newState, triggerName) =>
+  _createTrigger('core.GroupStateChangeTrigger', triggerName, {
     groupName: (groupOrName instanceof Item) ? groupOrName.name : groupOrName,
     state: newState,
     previousState: oldState
   });
-};
 
 /**
  * Creates a trigger that fires upon a member of a group receiving a state update. Note that group Item does not need to change state.
@@ -156,13 +144,11 @@ const GroupStateChangeTrigger = (groupOrName, oldState, newState, triggerName) =
  * @param {string} [state] the new state of the group
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-const GroupStateUpdateTrigger = (groupOrName, state, triggerName) => {
-  typeOfArguments([groupOrName, state, triggerName], ['string|Item', 'string|undefined', 'string|undefined']);
-  return createTrigger('core.GroupStateUpdateTrigger', triggerName, {
+const GroupStateUpdateTrigger = (groupOrName, state, triggerName) =>
+  _createTrigger('core.GroupStateUpdateTrigger', triggerName, {
     groupName: (groupOrName instanceof Item) ? groupOrName.name : groupOrName,
     state: state
   });
-};
 
 /**
  * Creates a trigger that fires upon a member of a group receiving a command. Note that the group Item does not need to change state.
@@ -175,13 +161,11 @@ const GroupStateUpdateTrigger = (groupOrName, state, triggerName) => {
  * @param {string} [command] the command received
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-const GroupCommandTrigger = (groupOrName, command, triggerName) => {
-  typeOfArguments([groupOrName, command, triggerName], ['string|Item', 'string|undefined', 'string|undefined']);
-  return createTrigger('core.GroupCommandTrigger', triggerName, {
+const GroupCommandTrigger = (groupOrName, command, triggerName) =>
+  _createTrigger('core.GroupCommandTrigger', triggerName, {
     groupName: (groupOrName instanceof Item) ? groupOrName.name : groupOrName,
     command: command
   });
-};
 
 /**
  * Creates a trigger that fires upon a Thing status updating.
@@ -194,13 +178,11 @@ const GroupCommandTrigger = (groupOrName, command, triggerName) => {
  * @param {string} [status] the optional status to monitor for
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-const ThingStatusUpdateTrigger = (thingUID, status, triggerName) => {
-  typeOfArguments([thingUID, status, triggerName], ['string', 'string|undefined', 'string|undefined']);
-  return createTrigger('core.ThingStatusUpdateTrigger', triggerName, {
+const ThingStatusUpdateTrigger = (thingUID, status, triggerName) =>
+  _createTrigger('core.ThingStatusUpdateTrigger', triggerName, {
     thingUID: thingUID,
     status: status
   });
-};
 
 /**
  * Creates a trigger that fires upon a Thing status changing.
@@ -214,14 +196,12 @@ const ThingStatusUpdateTrigger = (thingUID, status, triggerName) => {
  * @param {string} [previousStatus] the optional previous state to monitor from
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-const ThingStatusChangeTrigger = (thingUID, status, previousStatus, triggerName) => {
-  typeOfArguments([thingUID, status, previousStatus, triggerName], ['string', 'string|undefined', 'string|undefined', 'string|undefined']);
-  return createTrigger('core.ThingStatusChangeTrigger', triggerName, {
+const ThingStatusChangeTrigger = (thingUID, status, previousStatus, triggerName) =>
+  _createTrigger('core.ThingStatusChangeTrigger', triggerName, {
     thingUID: thingUID,
     status: status,
     previousStatus: previousStatus
   });
-};
 
 /**
  * Creates a trigger that fires if a given start level is reached by the system
@@ -237,12 +217,10 @@ const ThingStatusChangeTrigger = (thingUID, status, previousStatus, triggerName)
  * @param {string|number} startlevel the system start level to be triggered on
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-const SystemStartlevelTrigger = (startlevel, triggerName) => {
-  typeOfArguments([startlevel, triggerName], ['string|number', 'string|undefined']);
-  return createTrigger('core.SystemStartlevelTrigger', triggerName, {
+const SystemStartlevelTrigger = (startlevel, triggerName) =>
+  _createTrigger('core.SystemStartlevelTrigger', triggerName, {
     startlevel: startlevel.toString()
   });
-};
 
 /**
  * Creates a trigger that fires on a cron schedule. The supplied cron expression defines when the trigger will fire.
@@ -254,12 +232,10 @@ const SystemStartlevelTrigger = (startlevel, triggerName) => {
  * @param {string} expression the cron expression defining the triggering schedule
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-const GenericCronTrigger = (expression, triggerName) => {
-  typeOfArguments([expression, triggerName], ['string', 'string|undefined']);
-  return createTrigger('timer.GenericCronTrigger', triggerName, {
+const GenericCronTrigger = (expression, triggerName) =>
+  _createTrigger('timer.GenericCronTrigger', triggerName, {
     cronExpression: expression
   });
-};
 
 /**
  * Creates a trigger that fires daily at a specific time. The supplied time defines when the trigger will fire.
@@ -271,12 +247,10 @@ const GenericCronTrigger = (expression, triggerName) => {
  * @param {string} time the time expression defining the triggering schedule
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-const TimeOfDayTrigger = (time, triggerName) => {
-  typeOfArguments([time, triggerName], ['string', 'string|undefined']);
-  return createTrigger('timer.TimeOfDayTrigger', triggerName, {
+const TimeOfDayTrigger = (time, triggerName) =>
+  _createTrigger('timer.TimeOfDayTrigger', triggerName, {
     time: time
   });
-};
 
 /**
  * Creates a trigger that fires at a (optional) date and time specified in an DateTime Item.
@@ -285,17 +259,15 @@ const TimeOfDayTrigger = (time, triggerName) => {
  * DateTimeTrigger('MyDateTimeItem');
  *
  * @memberof triggers
- * @param {string} itemName the name of the DateTime Item
+ * @param {Item|string} itemOrName the {@link Item} or the name of the Item to monitor for change
  * @param {boolean} [timeOnly=false] Specifies whether only the time of the Item should be compared or the date and time.
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-const DateTimeTrigger = (itemName, timeOnly = false, triggerName) => {
-  typeOfArguments([itemName, timeOnly, triggerName], ['string', 'boolean|undefined', 'string|undefined']);
-  return createTrigger('timer.DateTimeTrigger', triggerName, {
-    itemName: itemName,
+const DateTimeTrigger = (itemOrName, timeOnly = false, triggerName) =>
+  _createTrigger('timer.DateTimeTrigger', triggerName, {
+    itemName: (itemOrName instanceof Item) ? itemOrName.name : itemOrName,
     timeOnly: timeOnly
   });
-};
 
 /**
  * Creates a trigger for the {@link https://openhab.org/addons/automation/pwm/ Pulse Width Modulation (PWM) Automation} add-on.
@@ -319,13 +291,14 @@ const DateTimeTrigger = (itemName, timeOnly = false, triggerName) => {
  * @param {number} [deadManSwitch] output will be switched off, when the duty cycle is not updated within this time (in ms)
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-const PWMTrigger = (dutycycleItem, interval, minDutyCycle, maxDutyCycle, deadManSwitch, triggerName) => createTrigger('pwm.trigger', triggerName, {
-  dutycycleItem: dutycycleItem,
-  interval: interval,
-  minDutyCycle: minDutyCycle,
-  maxDutyCycle: maxDutyCycle,
-  deadManSwitch: deadManSwitch
-});
+const PWMTrigger = (dutycycleItem, interval, minDutyCycle, maxDutyCycle, deadManSwitch, triggerName) =>
+  _createTrigger('pwm.trigger', triggerName, {
+    dutycycleItem: dutycycleItem,
+    interval: interval,
+    minDutyCycle: minDutyCycle,
+    maxDutyCycle: maxDutyCycle,
+    deadManSwitch: deadManSwitch
+  });
 
 /**
  * Creates a trigger for the {@link https://www.openhab.org/addons/automation/pidcontroller/ PID Controller Automation} add-on.
@@ -360,22 +333,23 @@ const PWMTrigger = (dutycycleItem, interval, minDutyCycle, maxDutyCycle, deadMan
  * @param {string} [errorInspectorItem] name of the debug Item for the current regulation difference (error)
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-const PIDTrigger = (inputItem, setpointItem, kp = 1, ki = 1, kd = 1, kdTimeConstant = 1, loopTime = 1000, commandItem, integralMinValue, integralMaxValue, pInspectorItem, iInspectorItem, dInspectorItem, errorInspectorItem, triggerName) => createTrigger('pidcontroller.trigger', triggerName, {
-  input: inputItem,
-  setpoint: setpointItem,
-  kp: kp,
-  ki: ki,
-  kd: kd,
-  kdTimeConstant: kdTimeConstant,
-  loopTime: loopTime,
-  commandItem: commandItem,
-  integralMinValue: integralMinValue,
-  integralMaxValue: integralMaxValue,
-  pInspector: pInspectorItem,
-  iInspector: iInspectorItem,
-  dInspector: dInspectorItem,
-  eInspector: errorInspectorItem
-});
+const PIDTrigger = (inputItem, setpointItem, kp = 1, ki = 1, kd = 1, kdTimeConstant = 1, loopTime = 1000, commandItem, integralMinValue, integralMaxValue, pInspectorItem, iInspectorItem, dInspectorItem, errorInspectorItem, triggerName) =>
+  _createTrigger('pidcontroller.trigger', triggerName, {
+    input: inputItem,
+    setpoint: setpointItem,
+    kp: kp,
+    ki: ki,
+    kd: kd,
+    kdTimeConstant: kdTimeConstant,
+    loopTime: loopTime,
+    commandItem: commandItem,
+    integralMinValue: integralMinValue,
+    integralMaxValue: integralMaxValue,
+    pInspector: pInspectorItem,
+    iInspector: iInspectorItem,
+    dInspector: dInspectorItem,
+    eInspector: errorInspectorItem
+  });
 
 /* not yet tested
 ItemStateCondition: (itemName, state, triggerName) => createTrigger("core.ItemStateCondition", triggerName, {
