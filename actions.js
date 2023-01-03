@@ -15,7 +15,6 @@
  */
 /** @typedef {import('@js-joda/core').ZonedDateTime} time.ZonedDateTime */
 
-const typeOfArguments = require('./typeOfArguments');
 const osgi = require('./osgi');
 // See https://github.com/openhab/openhab-core/blob/main/bundles/org.openhab.core.automation.module.script/src/main/java/org/openhab/core/automation/module/script/internal/defaultscope/ScriptThingActionsImpl.java
 const { actions } = require('@runtime/Defaults');
@@ -324,7 +323,6 @@ class Transformation {
    * @returns {string} the transformed value or the original one, if there was no service registered for the given type or a transformation exception occurred
    */
   static transform (type, fn, value) {
-    typeOfArguments([type, fn, value], ['string', 'string', 'string']);
     return JavaTransformation.transform(type, fn, value).toString();
   }
 
@@ -338,7 +336,6 @@ class Transformation {
    * @throws Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/transform/TransformationException.html TransformationException}
    */
   static transformRaw (type, fn, value) {
-    typeOfArguments([type, fn, value], ['string', 'string', 'string']);
     // Wrap exception to enable JS stack traces
     try {
       return JavaTransformation.transformRaw(type, fn, value).toString();
