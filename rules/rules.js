@@ -82,7 +82,7 @@ const _linkItemToRule = function (rule, item) {
     ],
     execute: function (data) {
       try {
-        const itemState = data.state;
+        const itemState = data.receivedState;
         log.debug('Rule toggle Item state received as ' + itemState);
         RuleManager.setEnabled(rule.getUID(), itemState !== 'OFF');
         log.info((itemState === 'OFF' ? 'Disabled' : 'Enabled') + ' rule ' + rule.getName() + ' [' + rule.getUID() + ']');
