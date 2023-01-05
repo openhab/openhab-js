@@ -140,8 +140,20 @@ const removeItemChannelLink = function (itemOrName, channelUID) {
   };
 };
 
+/**
+ * Removes all ItemChannelLinks from the given Item.
+ *
+ * @memberof items.metadata.itemchannellink
+ * @param {string} itemName the name of the Item
+ * @returns {number} number of links removed
+ */
+const removeLinksForItem = function (itemName) {
+  return itemChannelLinkRegistry.removeLinksForItem(itemName);
+}
+
 module.exports = {
   getItemChannelLink,
   replaceItemChannelLink,
-  removeItemChannelLink
+  removeItemChannelLink,
+  removeLinksForItem,
 };
