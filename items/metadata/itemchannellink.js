@@ -15,10 +15,10 @@ const utils = require('../../utils');
 const log = require('../../log')('itemchannellink');
 const { _getItemName } = require('../../helpers');
 
+const itemChannelLinkRegistry = osgi.getService('org.openhab.core.thing.link.ItemChannelLinkRegistry');
 const ItemChannelLink = Java.type('org.openhab.core.thing.link.ItemChannelLink');
 const ChannelUID = Java.type('org.openhab.core.thing.ChannelUID');
 const Configuration = Java.type('org.openhab.core.config.core.Configuration');
-const managedItemChannelLinkProvider = osgi.getService('org.openhab.core.thing.link.ManagedItemChannelLinkProvider');
 
 /**
  * Creates a new ItemChannelLink object.
@@ -40,7 +40,7 @@ const _createItemChannelLink = function (itemName, channelUID, conf) {
 };
 
 /**
- * Gets an ItemChannelLink from the provider.
+ * Gets an ItemChannelLink.
  *
  * @memberof items.metadata.itemchannellink
  * @param {Item|string} itemOrName {@link Item} or the name of the Item
@@ -50,7 +50,7 @@ const _createItemChannelLink = function (itemName, channelUID, conf) {
 const getItemChannelLink = function (itemOrName, channelUID) {
   const itemName = _getItemName(itemOrName);
   log.debug(`Getting ItemChannelLink ${itemName} -> ${channelUID} from provider...`);
-  const itemChannelLink = managedItemChannelLinkProvider.get(itemName + ' -> ' + channelUID);
+  const itemChannelLink = itemChannelLinkRegistry.get(itemName + ' -> ' + channelUID);
   if (itemChannelLink === null || itemChannelLink === undefined) return null;
   return {
     itemName: itemChannelLink.getItemName().toString(),
@@ -60,7 +60,7 @@ const getItemChannelLink = function (itemOrName, channelUID) {
 };
 
 /**
- * Adds a new ItemChannelLink to the provider. Therefore, it adds a channel link to an Item.
+ * Adds a new ItemChannelLink. Therefore, it adds a channel link to an Item.
  *
  * @private
  * @param {string} itemName the name of the Item
@@ -71,7 +71,7 @@ const getItemChannelLink = function (itemOrName, channelUID) {
 const _addItemChannelLink = function (itemName, channelUID, conf) {
   log.debug(`Adding ItemChannelLink ${itemName} -> ${channelUID} to provider...`);
   const itemChannelLink = _createItemChannelLink(itemName, channelUID, conf);
-  managedItemChannelLinkProvider.add(itemChannelLink);
+  itemChannelLinkRegistry.add(itemChannelLink);
   return {
     itemName: itemChannelLink.getItemName().toString(),
     channelUID: itemChannelLink.getLinkedUID().toString(),
@@ -80,7 +80,7 @@ const _addItemChannelLink = function (itemName, channelUID, conf) {
 };
 
 /**
- * Update an ItemChannelLink in the provider. Therefore, it updates the channel link of an Item.
+ * Updates an ItemChannelLink. Therefore, it updates the channel link of an Item.
  *
  * @private
  * @param {string} itemName the name of the Item
@@ -91,7 +91,7 @@ const _addItemChannelLink = function (itemName, channelUID, conf) {
 const _updateItemChannelLink = function (itemName, channelUID, conf) {
   log.debug(`Updating ItemChannelLink ${itemName} -> ${channelUID} in provider...`);
   const itemChannelLink = _createItemChannelLink(itemName, channelUID, conf);
-  managedItemChannelLinkProvider.update(itemChannelLink);
+  itemChannelLinkRegistry.update(itemChannelLink);
   if (itemChannelLink === null || itemChannelLink === undefined) return null;
   return {
     itemName: itemChannelLink.getItemName().toString(),
@@ -121,7 +121,7 @@ const replaceItemChannelLink = function (itemOrName, channelUID, conf) {
 };
 
 /**
- * Removes an ItemChannelLink from the provider. Therefore, the channel link is removed from the Item.
+ * Removes an ItemChannelLink. Therefore, the channel link is removed from the Item.
  *
  * @memberof items.metadata.itemchannellink
  * @param {Item|string} itemOrName {@link Item} or the name of the Item
@@ -131,7 +131,7 @@ const replaceItemChannelLink = function (itemOrName, channelUID, conf) {
 const removeItemChannelLink = function (itemOrName, channelUID) {
   const itemName = _getItemName(itemOrName);
   log.debug(`Removing ItemChannelLink ${itemName} -> ${channelUID} from provider...`);
-  const itemChannelLink = managedItemChannelLinkProvider.remove(itemName + ' -> ' + channelUID);
+  const itemChannelLink = itemChannelLinkRegistry.remove(itemName + ' -> ' + channelUID);
   if (itemChannelLink === null || itemChannelLink === undefined) return null;
   return {
     itemName: itemChannelLink.getItemName().toString(),
