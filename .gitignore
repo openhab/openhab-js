@@ -7,8 +7,8 @@ node_modules
 openhab-*.tgz
 out
 coverage
+types/@globals-webpack.config.d.ts
+types/@globals-webpack.config.d.ts.map
+types/@openhab-globals.d.ts
+types/@openhab-globals.d.ts.map
 types/typeOfArguments.*
-/types/@globals-webpack.config.d.ts
-/types/@globals-webpack.config.d.ts.map
-/types/@openhab-globals.d.ts
-/types/@openhab-globals.d.ts.map
