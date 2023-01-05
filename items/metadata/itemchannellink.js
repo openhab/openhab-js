@@ -151,9 +151,20 @@ const removeLinksForItem = function (itemName) {
   return itemChannelLinkRegistry.removeLinksForItem(itemName);
 }
 
+/*
+ * Removes all orphaned (Item or channel missing) links.
+ *
+ * @memberof items.metadata.itemchannellink
+ * @returns {number} number of links removed
+ */
+const removeOrphanedItemChannelLinks = function () {
+  return itemChannelLinkRegistry.purge();
+}
+
 module.exports = {
   getItemChannelLink,
   replaceItemChannelLink,
   removeItemChannelLink,
   removeLinksForItem,
+  removeOrphanedItemChannelLinks
 };
