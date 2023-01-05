@@ -18,6 +18,8 @@ const metadataRegistry = osgi.getService('org.openhab.core.items.MetadataRegistr
 const Metadata = Java.type('org.openhab.core.items.Metadata');
 const MetadataKey = Java.type('org.openhab.core.items.MetadataKey');
 
+const Collector = Java.type('java.util.stream.Collectors');
+
 /**
  * Gets metadata with the given name from the given Item.
  *
@@ -74,9 +76,37 @@ const removeMetadata = function (itemOrName, namespace) {
   };
 };
 
+// TODO: Move implementation to openHAB Core
+/**
+ * Get all metadata from a given Item.
+ *
+ * @memberof items.metadata
+ * @param {string} itemName the name of the Item
+ * @returns {Array<{configuration: object, value: string}>} Array of metadata
+ */
+const getItemMetadata = function (itemName) {
+  const metadata = utils.javaSetToJsArray(metadataRegistry.stream().filter((key) => key.getItemName().equals(itemName)).collect(Collectors.toSet()));
+  return metadata.map((meta) => {
+    value: meta.getValue(),
+    configuration: utils.javaMapToJsObj(meta.getConfiguration())
+  });
+}
+
+/**
+ * Remove all metadata from a given Item.
+ *
+ * @memberof items.metadata
+ * @param {string} itemName the name of the Item
+ */
+const removeItemMetadata = function (itemName) {
+  metadataRegistry.removeItemMetadata(itemName);
+}
+
 module.exports = {
   getMetadata,
   replaceMetadata,
   removeMetadata,
+  getItemMetadata,
+  removeItemMetadata,
   itemchannellink: require('./itemchannellink')
 };
