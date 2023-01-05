@@ -57,9 +57,9 @@ export function javaMapToJsMap(map: JavaMap): Map<any, any>;
  * Convert Java Map to JavaScript Object.
  *
  * @param {JavaMap} map
- * @returns {{}} JavaScript Object
+ * @returns {object} JavaScript Object
  */
-export function javaMapToJsObj(map: JavaMap): {};
+export function javaMapToJsObj(map: JavaMap): object;
 /**
  * Generate a random UUID.
  *

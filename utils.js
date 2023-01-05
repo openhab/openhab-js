@@ -97,7 +97,7 @@ const javaMapToJsMap = function (map) {
  * Convert Java Map to JavaScript Object.
  *
  * @param {JavaMap} map
- * @returns {{}} JavaScript Object
+ * @returns {object} JavaScript Object
  */
 const javaMapToJsObj = function (map) {
   const obj = {};

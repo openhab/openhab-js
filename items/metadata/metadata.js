@@ -6,6 +6,7 @@
  */
 
 const osgi = require('../../osgi');
+const utils = require('../../utils');
 
 const metadataRegistry = osgi.getService('org.openhab.core.items.MetadataRegistry');
 const Metadata = Java.type('org.openhab.core.items.Metadata');
@@ -17,7 +18,7 @@ const MetadataKey = Java.type('org.openhab.core.items.MetadataKey');
  * @memberOf items.metadata
  * @param {string} itemName the name of the Item
  * @param {string} namespace name of the metadata
- * @returns {{configuration: *, value: string}|null} metadata or `null` if the Item has no metadata with the given name
+ * @returns {{configuration: object, value: string}|null} metadata or `null` if the Item has no metadata with the given name
  */
 const getMetadata = function (itemName, namespace) {
   const key = new MetadataKey(namespace, itemName);
@@ -25,7 +26,7 @@ const getMetadata = function (itemName, namespace) {
   if (meta === null || meta === undefined) return null;
   return {
     value: meta.getValue(),
-    configuration: meta.getConfiguration()
+    configuration: utils.javaMapToJsObj(meta.getConfiguration())
   };
 };
 
@@ -37,7 +38,7 @@ const getMetadata = function (itemName, namespace) {
  * @param {string} namespace name of the metadata
  * @param {string} value value for this metadata
  * @param {object} [configuration] optional metadata configuration
- * @returns {{configuration: *, value: string}|null} old metadata or `null` if the Item has no metadata with the given name
+ * @returns {{configuration: object, value: string}|null} old metadata or `null` if the Item has no metadata with the given name
  */
 const replaceMetadata = function (itemName, namespace, value, configuration) {
   const key = new MetadataKey(namespace, itemName);
@@ -46,7 +47,7 @@ const replaceMetadata = function (itemName, namespace, value, configuration) {
   if (meta === null || meta === undefined) return null;
   return {
     value: meta.getValue(),
-    configuration: meta.getConfiguration()
+    configuration: utils.javaMapToJsObj(meta.getConfiguration())
   };
 };
 
@@ -56,7 +57,7 @@ const replaceMetadata = function (itemName, namespace, value, configuration) {
  * @memberof items.metadata
  * @param {string} itemName the name of the Item
  * @param {string} namespace name of the metadata
- * @returns {{configuration: *, value: string}|null} removed metadata or `null` if the Item has no metadata with the given name
+ * @returns {{configuration: object, value: string}|null} removed metadata or `null` if the Item has no metadata with the given name
  */
 const removeMetadata = function (itemName, namespace) {
   const key = new MetadataKey(namespace, itemName);
@@ -64,7 +65,7 @@ const removeMetadata = function (itemName, namespace) {
   if (meta === null || meta === undefined) return null;
   return {
     value: meta.getValue(),
-    configuration: meta.getConfiguration()
+    configuration: utils.javaMapToJsObj(meta.getConfiguration())
   };
 };
 

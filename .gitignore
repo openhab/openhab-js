@@ -7,4 +7,6 @@ node_modules
 openhab-*.tgz
 out
 coverage
+types/@globals-webpack.config.*
+types/@openhab-globals.*
 types/typeOfArguments.*
