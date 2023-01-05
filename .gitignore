@@ -8,3 +8,7 @@ openhab-*.tgz
 out
 coverage
 types/typeOfArguments.*
+/types/@globals-webpack.config.d.ts
+/types/@globals-webpack.config.d.ts.map
+/types/@openhab-globals.d.ts
+/types/@openhab-globals.d.ts.map
