@@ -40,7 +40,7 @@ const _createItemChannelLink = function (itemName, channelUID, conf) {
 };
 
 /**
- * Gets an ItemChannelLink.
+ * Gets a channel link of from an Item.
  *
  * @memberof items.metadata.itemchannellink
  * @param {Item|string} itemOrName {@link Item} or the name of the Item
@@ -60,7 +60,7 @@ const getItemChannelLink = function (itemOrName, channelUID) {
 };
 
 /**
- * Adds a new ItemChannelLink. Therefore, it adds a channel link to an Item.
+ * Adds a new channel link to an Item.
  *
  * @private
  * @param {string} itemName the name of the Item
@@ -80,13 +80,13 @@ const _addItemChannelLink = function (itemName, channelUID, conf) {
 };
 
 /**
- * Updates an ItemChannelLink. Therefore, it updates the channel link of an Item.
+ * Updates a channel link of an Item.
  *
  * @private
  * @param {string} itemName the name of the Item
  * @param {string} channelUID
  * @param {object} [conf] channel configuration
- * @returns {{itemName: string, configuration: *, channelUID: string}|null} the old ItemChannelLink or `null` if none exists
+ * @returns {{itemName: string, configuration: object, channelUID: string}|null} the old ItemChannelLink or `null` if none exists
  */
 const _updateItemChannelLink = function (itemName, channelUID, conf) {
   log.debug(`Updating ItemChannelLink ${itemName} -> ${channelUID} in provider...`);
@@ -101,13 +101,13 @@ const _updateItemChannelLink = function (itemName, channelUID, conf) {
 };
 
 /**
- * Adds or updates an ItemChannelLink.
+ * Adds or updates a channel link of an Item.
  *
  * @memberof items.metadata.itemchannellink
  * @param {Item|string} itemOrName {@link Item} or the name of the Item
  * @param {string} channelUID
  * @param {object} [conf] channel configuration
- * @returns {{itemName: string, configuration: *, channelUID: string}|null} the old ItemChannelLink or `null` if it did not exist
+ * @returns {{itemName: string, configuration: object, channelUID: string}|null} the old ItemChannelLink or `null` if it did not exist
  */
 const replaceItemChannelLink = function (itemOrName, channelUID, conf) {
   const itemName = _getItemName(itemOrName);
@@ -121,12 +121,12 @@ const replaceItemChannelLink = function (itemOrName, channelUID, conf) {
 };
 
 /**
- * Removes an ItemChannelLink. Therefore, the channel link is removed from the Item.
+ * Removes a channel link from an Item.
  *
  * @memberof items.metadata.itemchannellink
  * @param {Item|string} itemOrName {@link Item} or the name of the Item
  * @param {string} channelUID
- * @returns {{itemName: string, configuration: *, channelUID: string}|null} the removed ItemChannelLink or `null` if none exists
+ * @returns {{itemName: string, configuration: object, channelUID: string}|null} the removed ItemChannelLink or `null` if none exists
  */
 const removeItemChannelLink = function (itemOrName, channelUID) {
   const itemName = _getItemName(itemOrName);
@@ -141,7 +141,7 @@ const removeItemChannelLink = function (itemOrName, channelUID) {
 };
 
 /**
- * Removes all ItemChannelLinks from the given Item.
+ * Removes all channel links from the given Item.
  *
  * @memberof items.metadata.itemchannellink
  * @param {string} itemName the name of the Item
@@ -149,7 +149,7 @@ const removeItemChannelLink = function (itemOrName, channelUID) {
  */
 const removeLinksForItem = function (itemName) {
   return itemChannelLinkRegistry.removeLinksForItem(itemName);
-}
+};
 
 /*
  * Removes all orphaned (Item or channel missing) links.
@@ -159,7 +159,7 @@ const removeLinksForItem = function (itemName) {
  */
 const removeOrphanedItemChannelLinks = function () {
   return itemChannelLinkRegistry.purge();
-}
+};
 
 module.exports = {
   getItemChannelLink,

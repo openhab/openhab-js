@@ -18,7 +18,7 @@ const metadataRegistry = osgi.getService('org.openhab.core.items.MetadataRegistr
 const Metadata = Java.type('org.openhab.core.items.Metadata');
 const MetadataKey = Java.type('org.openhab.core.items.MetadataKey');
 
-const Collector = Java.type('java.util.stream.Collectors');
+const Collectors = Java.type('java.util.stream.Collectors');
 
 /**
  * Gets metadata with the given name from the given Item.
@@ -87,10 +87,12 @@ const removeMetadata = function (itemOrName, namespace) {
 const getItemMetadata = function (itemName) {
   const metadata = utils.javaSetToJsArray(metadataRegistry.stream().filter((key) => key.getItemName().equals(itemName)).collect(Collectors.toSet()));
   return metadata.map((meta) => {
-    value: meta.getValue(),
-    configuration: utils.javaMapToJsObj(meta.getConfiguration())
+    return {
+      value: meta.getValue(),
+      configuration: utils.javaMapToJsObj(meta.getConfiguration())
+    };
   });
-}
+};
 
 /**
  * Remove all metadata from a given Item.
@@ -100,7 +102,7 @@ const getItemMetadata = function (itemName) {
  */
 const removeItemMetadata = function (itemName) {
   metadataRegistry.removeItemMetadata(itemName);
-}
+};
 
 module.exports = {
   getMetadata,
