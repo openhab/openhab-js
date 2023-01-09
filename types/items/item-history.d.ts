@@ -1,23 +1,11 @@
 export = ItemHistory;
-
 /**
- * Item state with timestamp
+ * @typedef {object} HistoricItem
+ * @property {string} state Item state
+ * @property {HostState} rawState Raw Java state
+ * @property {number|null} numericState Numeric representation of Item state, or null if state is not numeric
+ * @property {time.ZonedDateTime} timestamp timestamp of historic item
  */
-export type HistoricItem = {
-    /**
-     * State converted to string
-     */
-    state: string;
-    /**
-     * Raw (Java) state
-     */
-    rawState: any;
-    /**
-     * Timestamp
-     */
-    timestamp: time.ZonedDateTime;
-};
-
 /**
  * Class representing the historic state of an openHAB Item.
  * If the Item receives its state from a binding that supports units of measurement, the returned state is in the according base unit, otherwise there is no unit conversion happening.
@@ -169,7 +157,7 @@ declare class ItemHistory {
      *
      * @param {(time.ZonedDateTime | Date)} timestamp
      * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
-     * @returns {(HistoricItem | null)} historic item or null
+     * @returns {(HistoricItem | null)} historic item
      */
     historicState(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (HistoricItem | null);
     /**
@@ -288,22 +276,39 @@ declare class ItemHistory {
     /**
      * @private
      */
-    private _stateOrNull;
-    /**
-     * @private
-     */
-    private _timestampOrNull;
-    /**
-     * @private
-     */
     private _dateOrNull;
     /**
      * @private
      */
     private _decimalOrNull;
+    /**
+     * @private
+     */
+    private _historicItemOrNull;
+}
+declare namespace ItemHistory {
+    export { HistoricItem };
 }
 declare namespace time {
     type ZonedDateTime = import('@js-joda/core').ZonedDateTime;
 }
 import time = require("../time");
+type HistoricItem = {
+    /**
+     * Item state
+     */
+    state: string;
+    /**
+     * Raw Java state
+     */
+    rawState: HostState;
+    /**
+     * Numeric representation of Item state, or null if state is not numeric
+     */
+    numericState: number | null;
+    /**
+     * timestamp of historic item
+     */
+    timestamp: time.ZonedDateTime;
+};
 //# sourceMappingURL=item-history.d.ts.map

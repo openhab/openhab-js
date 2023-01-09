@@ -490,6 +490,19 @@ var item = items.getItem('KitchenDimmer');
 console.log('KitchenDimmer averageSince', item.history.averageSince(yesterday));
 ```
 
+The `HistoricItem` object contains the the Item state in various representations and a timestamp.
+
+```javascript
+var midnight = time.toZDT('00:00');
+var historic = items.getItem('KitchenDimmer').history.maximumSince(midnight);
+console.log('KitchenDimmer maximum was ', historic.state, ' at ', historic.timestamp);
+```
+
+The possible state representations are:
+- `state`: State as string
+- `numericState`: State as number, if state can be represented as number, or null if that's not the case
+- `rawState`: State as Java `State` object
+
 See [openhab-js : ItemHistory](https://openhab.github.io/openhab-js/items.ItemHistory.html) for full API documentation.
 
 ### Things

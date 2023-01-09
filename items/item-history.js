@@ -3,6 +3,14 @@ const time = require('../time');
 const PersistenceExtensions = Java.type('org.openhab.core.persistence.extensions.PersistenceExtensions');
 
 /**
+ * @typedef {object} HistoricItem
+ * @property {string} state Item state
+ * @property {HostState} rawState Raw Java state
+ * @property {number|null} numericState Numeric representation of Item state, or null if state is not numeric
+ * @property {time.ZonedDateTime} timestamp timestamp of historic item
+ */
+
+/**
  * Class representing the historic state of an openHAB Item.
  * If the Item receives its state from a binding that supports units of measurement, the returned state is in the according base unit, otherwise there is no unit conversion happening.
  * Wrapping the {@link https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/extensions/persistenceextensions PersistenceExtensions}.
@@ -201,7 +209,7 @@ class ItemHistory {
    *
    * @param {(time.ZonedDateTime | Date)} timestamp
    * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
-   * @returns {(string | null)} state
+   * @returns {(HistoricItem | null)} historic item
    */
   historicState (timestamp, serviceId) {
     try {
@@ -369,13 +377,6 @@ class ItemHistory {
   /**
    * @private
    */
-  _stateOrNull (result) {
-    return result === null ? null : result.getState().toString();
-  }
-
-  /**
-   * @private
-   */
   _dateOrNull (result) {
     return result === null ? null : time.ZonedDateTime.parse(result.toString());
   }
@@ -394,9 +395,12 @@ class ItemHistory {
     if (result === null) {
       return null;
     }
+    const rawState = result.getState();
+    const numericState = parseFloat(rawState.toString());
     return {
-      state: result.getState().toString(),
-      rawState: result.getState(),
+      state: rawState.toString(),
+      rawState: rawState,
+      numericState: numericState == NaN ? null : numericState,
       timestamp: time.ZonedDateTime.parse(result.getTimestamp().toString())
     };
   }
