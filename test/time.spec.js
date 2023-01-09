@@ -104,6 +104,56 @@ describe('time.js', () => {
         expect(newZdt.toLocalDate().toString()).toBe(time.LocalDate.now().toString());
       });
 
+      describe('isBeforeTime and isAfterTime', () => {
+        const zdt1 = time.toZDT('14:30');
+        const zdt2 = time.toZDT('16:30');
+        it('returns true if before/after', () => {
+          expect(zdt1.isBeforeTime(zdt2)).toBe(true);
+          expect(zdt2.isAfterTime(zdt1)).toBe(true);
+        });
+        it('returns false if not before/after', () => {
+          expect(zdt2.isBeforeTime(zdt1)).toBe(false);
+          expect(zdt1.isBeforeTime(zdt1)).toBe(false);
+          expect(zdt1.isAfterTime(zdt2)).toBe(false);
+          expect(zdt1.isAfterTime(zdt1)).toBe(false);
+        });
+      });
+
+      describe('isBeforeDate and isAfterDate', () => {
+        const zdt1 = time.toZDT('2022-12-01');
+        const zdt2 = time.toZDT('2022-12-06');
+        it('returns true if before/after', () => {
+          expect(zdt1.isBeforeDate(zdt2)).toBe(true);
+          expect(zdt2.isAfterDate(zdt1)).toBe(true);
+        });
+        it('returns false if not before/after', () => {
+          expect(zdt2.isBeforeDate(zdt1)).toBe(false);
+          expect(zdt1.isBeforeDate(zdt1)).toBe(false);
+          expect(zdt1.isAfterDate(zdt2)).toBe(false);
+          expect(zdt1.isAfterDate(zdt1)).toBe(false);
+        });
+      });
+
+      describe('isBeforeDateTime and isAfterDateTime', () => {
+        const zdt1 = time.toZDT('2022-12-01T14:30Z');
+        const zdt2 = time.toZDT('2022-12-01T16:30Z');
+        const zdt3 = time.toZDT('2022-12-02T16:30Z');
+        it('returns true if before/after', () => {
+          expect(zdt1.isBeforeDateTime(zdt2)).toBe(true);
+          expect(zdt2.isBeforeDateTime(zdt3)).toBe(true);
+          expect(zdt2.isAfterDateTime(zdt1)).toBe(true);
+          expect(zdt3.isAfterDateTime(zdt2)).toBe(true);
+        });
+        it('returns false if not before/after', () => {
+          expect(zdt2.isBeforeDateTime(zdt1)).toBe(false);
+          expect(zdt3.isBeforeDateTime(zdt2)).toBe(false);
+          expect(zdt1.isBeforeDateTime(zdt1)).toBe(false);
+          expect(zdt1.isAfterDateTime(zdt2)).toBe(false);
+          expect(zdt2.isAfterDateTime(zdt3)).toBe(false);
+          expect(zdt1.isAfterDateTime(zdt1)).toBe(false);
+        });
+      });
+
       describe('isBetweenTimes', () => {
         const zdt1 = time.toZDT('14:30');
         const zdt2 = time.toZDT('16:30');
