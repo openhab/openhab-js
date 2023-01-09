@@ -205,7 +205,7 @@ class ItemHistory {
    */
   historicState (timestamp, serviceId) {
     try {
-      return this._stateOrNull(PersistenceExtensions.historicState(this.rawItem, ...arguments));
+      return this._historicItemOrNull(PersistenceExtensions.historicState(this.rawItem, ...arguments));
     } catch (e) {
 
     }
@@ -237,12 +237,10 @@ class ItemHistory {
    * @param {(time.ZonedDateTime | Date)} begin begin
    * @param {(time.ZonedDateTime | Date)} end end
    * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
-   * @returns {(number | null)} state or null
+   * @returns {(HistoricItem | null)} historic item or null
    */
   maximumBetween (begin, end, serviceId) {
-    const state = this._stateOrNull(PersistenceExtensions.maximumBetween(this.rawItem, ...arguments));
-    if (state === null) return null;
-    return parseFloat(state);
+    return this._historicItemOrNull(PersistenceExtensions.maximumBetween(this.rawItem, ...arguments));
   }
 
   /**
@@ -250,12 +248,10 @@ class ItemHistory {
    *
    * @param {(time.ZonedDateTime | Date)} timestamp
    * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
-   * @returns {(number | null)} state or null
+   * @returns {(HistoricItem | null)} historic item or null
    */
   maximumSince (timestamp, serviceId) {
-    const state = this._stateOrNull(PersistenceExtensions.maximumSince(this.rawItem, ...arguments));
-    if (state === null) return null;
-    return parseFloat(state);
+    return this._historicItemOrNull(PersistenceExtensions.maximumSince(this.rawItem, ...arguments));
   }
 
   /**
@@ -264,12 +260,10 @@ class ItemHistory {
    * @param {(time.ZonedDateTime | Date)} begin begin
    * @param {(time.ZonedDateTime | Date)} end end
    * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
-   * @returns {(number | null)} state or null
+   * @returns {(HistoricItem | null)} historic item or null
    */
   minimumBetween (begin, end, serviceId) {
-    const state = this._stateOrNull(PersistenceExtensions.minimumBetween(this.rawItem, ...arguments));
-    if (state === null) return null;
-    return parseFloat(state);
+    return this._historicItemOrNull(PersistenceExtensions.minimumBetween(this.rawItem, ...arguments));
   }
 
   /**
@@ -277,12 +271,10 @@ class ItemHistory {
    *
    * @param {(time.ZonedDateTime | Date)} timestamp
    * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
-   * @returns {(number | null)} state or null
+   * @returns {(HistoricItem | null)} historic item or null
    */
   minimumSince (timestamp, serviceId) {
-    const state = this._stateOrNull(PersistenceExtensions.minimumSince(this.rawItem, ...arguments));
-    if (state === null) return null;
-    return parseFloat(state);
+    return this._historicItemOrNull(PersistenceExtensions.minimumSince(this.rawItem, ...arguments));
   }
 
   /**
@@ -299,21 +291,10 @@ class ItemHistory {
    *
    * @param {boolean} [skipEqual] optional, if true, skips equal state values and searches the first state not equal the current state
    * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
-   * @returns {(string | null)} state or null
+   * @returns {(HistoricItem | null)} historic item or null
    */
   previousState (skipEqual, serviceId) {
-    return this._stateOrNull(PersistenceExtensions.previousState(this.rawItem, ...arguments));
-  }
-
-  /**
-   * Returns the time when the previous state of a given Item was persisted.
-   *
-   * @param {boolean} [skipEqual] optional, if true, skips equal state values and searches the first state not equal the current state
-   * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
-   * @returns {(time.ZonedDateTime | null)} {@link time.ZonedDateTime} or null
-   */
-  previousStateTimestamp (skipEqual, serviceId) {
-    return this._timestampOrNull(PersistenceExtensions.previousState(this.rawItem, ...arguments));
+    return this._historicItemOrNull(PersistenceExtensions.previousState(this.rawItem, ...arguments));
   }
 
   /**
@@ -395,13 +376,6 @@ class ItemHistory {
   /**
    * @private
    */
-  _timestampOrNull (result) {
-    return result === null ? null : time.ZonedDateTime.parse(result.getTimestamp().toString());
-  }
-
-  /**
-   * @private
-   */
   _dateOrNull (result) {
     return result === null ? null : time.ZonedDateTime.parse(result.toString());
   }
@@ -411,6 +385,20 @@ class ItemHistory {
    */
   _decimalOrNull (result) {
     return result === null ? null : result.toBigDecimal();
+  }
+
+  /**
+   * @private
+   */
+  _historicItemOrNull (result) {
+    if (result === null) {
+      return null;
+    }
+    return {
+      state: result.getState().toString(),
+      rawState: result.getState(),
+      timestamp: time.ZonedDateTime.parse(result.getTimestamp().toString())
+    };
   }
 }
 

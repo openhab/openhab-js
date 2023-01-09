@@ -466,16 +466,15 @@ Calling `Item.history` returns a `ItemHistory` object with the following functio
   - .deviationSince(timestamp, serviceId) ⇒ `number | null`
   - .evolutionRateBetween(begin, end, serviceId) ⇒ `number | null`
   - .evolutionRateSince(timestamp, serviceId) ⇒ `number | null`
-  - .historicState(timestamp, serviceId) ⇒ `string | null`
+  - .historicState(timestamp, serviceId) ⇒ `HistoricItem | null`
   - .lastUpdate(serviceId) ⇒ `ZonedDateTime | null`
   - .latestState(serviceId) ⇒ `string | null`
-  - .maximumBetween(begin, end, serviceId) ⇒ `string | null`
-  - .maximumSince(timestamp,serviceId) ⇒ `string | null`
-  - .minimumSince(begin, end, serviceId) ⇒ `string | null`
-  - .minimumSince(timestamp, serviceId) ⇒ `string | null`
+  - .maximumBetween(begin, end, serviceId) ⇒ `HistoricItem | null`
+  - .maximumSince(timestamp,serviceId) ⇒ `HistoricItem | null`
+  - .minimumSince(begin, end, serviceId) ⇒ `HistoricItem | null`
+  - .minimumSince(timestamp, serviceId) ⇒ `HistoricItem | null`
   - .persist(serviceId)
-  - .previousState(skipEqual, serviceId) ⇒ `string | null`
-  - .previousStateTimestamp(skipEqual, serviceId) ⇒ `time.ZonedDateTime | null`
+  - .previousState(skipEqual, serviceId) ⇒ `HistoricItem | null`
   - .sumBetween(begin, end, serviceId) ⇒ `number | null`
   - .sumSince(timestamp, serviceId) ⇒ `number | null`
   - .updatedBetween(begin, end, serviceId) ⇒ `boolean`
