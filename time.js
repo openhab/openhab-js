@@ -301,6 +301,32 @@ time.ZonedDateTime.prototype.toToday = function () {
 };
 
 /**
+ * Tests whether `this` time.ZonedDateTime is before the passed in timestamp.
+ * However, the function only compares the time portion of both, ignoring the date portion.
+ *
+ * @param {*} timestamp Time for comparison, anything supported by {@link time.toZDT}
+ * @returns {boolean} true if `this` is before timestamp
+ */
+time.ZonedDateTime.prototype.isBeforeTime = function (timestamp) {
+  const comparisonTime = toZDT(timestamp).toLocalTime();
+  const currTime = this.toLocalTime();
+  return currTime.isBefore(comparisonTime);
+};
+
+/**
+ * Tests whether `this` time.ZonedDateTime is after the passed in timestamp.
+ * However, the function only compares the time portion of both, ignoring the date portion.
+ *
+ * @param {*} timestamp Time for comparison, anything supported by {@link time.toZDT}
+ * @returns {boolean} true if `this` is after timestamp
+ */
+time.ZonedDateTime.prototype.isAfterTime = function (timestamp) {
+  const comparisonTime = toZDT(timestamp).toLocalTime();
+  const currTime = this.toLocalTime();
+  return currTime.isAfter(comparisonTime);
+};
+
+/**
  * Tests whether `this` time.ZonedDateTime is between the passed in start and end.
  * However, the function only compares the time portion of the three, ignoring the date portion.
  * The function takes into account times that span midnight.
@@ -322,6 +348,32 @@ time.ZonedDateTime.prototype.isBetweenTimes = function (start, end) {
 };
 
 /**
+ * Tests whether `this` time.ZonedDateTime is before the passed in timestamp.
+ * However, the function only compares the date portion of both, ignoring the time portion.
+ *
+ * @param {*} timestamp Time for comparison, anything supported by {@link time.toZDT}
+ * @returns {boolean} true if `this` is before timestamp
+ */
+time.ZonedDateTime.prototype.isBeforeDate = function (timestamp) {
+  const comparisonTime = toZDT(timestamp).toLocalDate();
+  const currTime = this.toLocalDate();
+  return currTime.isBefore(comparisonTime);
+};
+
+/**
+ * Tests whether `this` time.ZonedDateTime is after the passed in timestamp.
+ * However, the function only compares the date portion of both, ignoring the time portion.
+ *
+ * @param {*} timestamp Time for comparison, anything supported by {@link time.toZDT}
+ * @returns {boolean} true if `this` is after timestamp
+ */
+time.ZonedDateTime.prototype.isAfterDate = function (timestamp) {
+  const comparisonTime = toZDT(timestamp).toLocalDate();
+  const currTime = this.toLocalDate();
+  return currTime.isAfter(comparisonTime);
+};
+
+/**
  * Tests whether `this` time.ZonedDateTime is between the passed in start and end.
  * However, the function only compares the date portion of the three, ignoring the time portion.
  *
@@ -335,6 +387,30 @@ time.ZonedDateTime.prototype.isBetweenDates = function (start, end) {
   const currDate = this.toLocalDate();
 
   return currDate.isAfter(startDate) && currDate.isBefore(endDate);
+};
+
+/**
+ * Tests whether `this` time.ZonedDateTime is before the passed in timestamp.
+ *
+ * @param {*} timestamp Time for comparison, anything supported by {@link time.toZDT}
+ * @returns {boolean} true if `this` is before timestamp
+ */
+time.ZonedDateTime.prototype.isBeforeDateTime = function (timestamp) {
+  const comparisonTime = toZDT(timestamp).toLocalDateTime();
+  const currTime = this.toLocalDateTime();
+  return currTime.isBefore(comparisonTime);
+};
+
+/**
+ * Tests whether `this` time.ZonedDateTime is after the passed in timestamp.
+ *
+ * @param {*} timestamp Time for comparison, anything supported by {@link time.toZDT}
+ * @returns {boolean} true if `this` is after timestamp
+ */
+time.ZonedDateTime.prototype.isAfterDateTime = function (timestamp) {
+  const comparisonTime = toZDT(timestamp).toLocalDateTime();
+  const currTime = this.toLocalDateTime();
+  return currTime.isAfter(comparisonTime);
 };
 
 /**
