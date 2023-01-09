@@ -355,9 +355,9 @@ time.ZonedDateTime.prototype.isBetweenTimes = function (start, end) {
  * @returns {boolean} true if `this` is before timestamp
  */
 time.ZonedDateTime.prototype.isBeforeDate = function (timestamp) {
-  const comparisonTime = toZDT(timestamp).toLocalDate();
-  const currTime = this.toLocalDate();
-  return currTime.isBefore(comparisonTime);
+  const comparisonDate = toZDT(timestamp).toLocalDate();
+  const currDate = this.toLocalDate();
+  return currDate.isBefore(comparisonTime);
 };
 
 /**
@@ -368,9 +368,9 @@ time.ZonedDateTime.prototype.isBeforeDate = function (timestamp) {
  * @returns {boolean} true if `this` is after timestamp
  */
 time.ZonedDateTime.prototype.isAfterDate = function (timestamp) {
-  const comparisonTime = toZDT(timestamp).toLocalDate();
-  const currTime = this.toLocalDate();
-  return currTime.isAfter(comparisonTime);
+  const comparisonDate = toZDT(timestamp).toLocalDate();
+  const currDate = this.toLocalDate();
+  return currDate.isAfter(comparisonTime);
 };
 
 /**
@@ -396,9 +396,9 @@ time.ZonedDateTime.prototype.isBetweenDates = function (start, end) {
  * @returns {boolean} true if `this` is before timestamp
  */
 time.ZonedDateTime.prototype.isBeforeDateTime = function (timestamp) {
-  const comparisonTime = toZDT(timestamp).toLocalDateTime();
-  const currTime = this.toLocalDateTime();
-  return currTime.isBefore(comparisonTime);
+  const comparisonDateTime = toZDT(timestamp).toLocalDateTime();
+  const currDateTime = this.toLocalDateTime();
+  return currDateTime.isBefore(comparisonTime);
 };
 
 /**
@@ -408,9 +408,9 @@ time.ZonedDateTime.prototype.isBeforeDateTime = function (timestamp) {
  * @returns {boolean} true if `this` is after timestamp
  */
 time.ZonedDateTime.prototype.isAfterDateTime = function (timestamp) {
-  const comparisonTime = toZDT(timestamp).toLocalDateTime();
-  const currTime = this.toLocalDateTime();
-  return currTime.isAfter(comparisonTime);
+  const comparisonDateTime = toZDT(timestamp).toLocalDateTime();
+  const currDateTime = this.toLocalDateTime();
+  return currDateTime.isAfter(comparisonTime);
 };
 
 /**

@@ -796,6 +796,36 @@ var alarm = items.getItem('Alarm');
 alarm.postUpdate(time.toZDT(alarm).toToday());
 ```
 
+#### `isBeforeTime(timestamp)`, `isBeforeDate(timestamp)`, `isBeforeDateTime(timestamp)`
+
+Tests whether this `time.ZonedDateTime` is before the time passed in `timestamp`, tested in various ways:
+- `isBeforeTime` only compares the time portion of both, ignoring the date portion
+- `isBeforeDate` only compares the date portion of both, ignoring the time portion
+- `isBeforeDateTime` compares both date and time portions
+
+`timestamp` can be anything supported by `time.toZDT()`.
+
+Examples:
+
+```javascript
+time.toZDT('22:00').isBeforeTime('23:00')
+time.toZDT('2022-12-01T12:00Z').isBeforeDateTime('2022-12-02T13:00Z')
+```
+
+#### `isAfterTime(timestamp)`, `isAfterDate(timestamp)`, `isAfterDateTime(timestamp)`
+
+Tests whether this `time.ZonedDateTime` is after the time passed in `timestamp`, tested in various ways:
+- `isBeforeTime` only compares the time portion of both, ignoring the date portion
+- `isBeforeDate` only compares the date portion of both, ignoring the time portion
+- `isBeforeDateTime` compares both date and time portions
+
+`timestamp` can be anything supported by `time.toZDT()`.
+
+```javascript
+time.toZDT().isAfterTime(items.getItem('Sunset')) // is now after sunset?
+time.toZDT().isAfterDateTime('2022-12-01T12:00Z') // is now after 2022-12-01 noon?
+```
+
 #### `isBetweenTimes(start, end)`
 
 Tests whether this `time.ZonedDateTime` is between the passed in `start` and `end`.
