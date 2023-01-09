@@ -815,9 +815,9 @@ time.toZDT('2022-12-01T12:00Z').isBeforeDateTime('2022-12-02T13:00Z')
 #### `isAfterTime(timestamp)`, `isAfterDate(timestamp)`, `isAfterDateTime(timestamp)`
 
 Tests whether this `time.ZonedDateTime` is after the time passed in `timestamp`, tested in various ways:
-- `isBeforeTime` only compares the time portion of both, ignoring the date portion
-- `isBeforeDate` only compares the date portion of both, ignoring the time portion
-- `isBeforeDateTime` compares both date and time portions
+- `isAfterTime` only compares the time portion of both, ignoring the date portion
+- `isAfterDate` only compares the date portion of both, ignoring the time portion
+- `isAfterDateTime` compares both date and time portions
 
 `timestamp` can be anything supported by `time.toZDT()`.
 

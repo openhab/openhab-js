@@ -357,7 +357,7 @@ time.ZonedDateTime.prototype.isBetweenTimes = function (start, end) {
 time.ZonedDateTime.prototype.isBeforeDate = function (timestamp) {
   const comparisonDate = toZDT(timestamp).toLocalDate();
   const currDate = this.toLocalDate();
-  return currDate.isBefore(comparisonTime);
+  return currDate.isBefore(comparisonDate);
 };
 
 /**
@@ -370,7 +370,7 @@ time.ZonedDateTime.prototype.isBeforeDate = function (timestamp) {
 time.ZonedDateTime.prototype.isAfterDate = function (timestamp) {
   const comparisonDate = toZDT(timestamp).toLocalDate();
   const currDate = this.toLocalDate();
-  return currDate.isAfter(comparisonTime);
+  return currDate.isAfter(comparisonDate);
 };
 
 /**
@@ -398,7 +398,7 @@ time.ZonedDateTime.prototype.isBetweenDates = function (start, end) {
 time.ZonedDateTime.prototype.isBeforeDateTime = function (timestamp) {
   const comparisonDateTime = toZDT(timestamp).toLocalDateTime();
   const currDateTime = this.toLocalDateTime();
-  return currDateTime.isBefore(comparisonTime);
+  return currDateTime.isBefore(comparisonDateTime);
 };
 
 /**
@@ -410,7 +410,7 @@ time.ZonedDateTime.prototype.isBeforeDateTime = function (timestamp) {
 time.ZonedDateTime.prototype.isAfterDateTime = function (timestamp) {
   const comparisonDateTime = toZDT(timestamp).toLocalDateTime();
   const currDateTime = this.toLocalDateTime();
-  return currDateTime.isAfter(comparisonTime);
+  return currDateTime.isAfter(comparisonDateTime);
 };
 
 /**
