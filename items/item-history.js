@@ -400,7 +400,7 @@ class ItemHistory {
     return {
       state: rawState.toString(),
       rawState: rawState,
-      numericState: numericState == NaN ? null : numericState,
+      numericState: isNaN(numericState) ? null : numericState,
       timestamp: time.ZonedDateTime.parse(result.getTimestamp().toString())
     };
   }
