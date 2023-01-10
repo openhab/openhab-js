@@ -491,6 +491,7 @@ console.log('KitchenDimmer averageSince', item.history.averageSince(yesterday));
 ```
 
 The `HistoricItem` object contains the following properties, representing Item state and the respective timestamp:
+
 - `state`: State as string
 - `numericState`: State as number, if state can be represented as number, or null if that's not the case
 - `rawState`: State as Java `State` object
