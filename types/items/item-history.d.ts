@@ -1,5 +1,12 @@
 export = ItemHistory;
 /**
+ * @typedef {object} HistoricItem
+ * @property {string} state Item state
+ * @property {HostState} rawState Raw Java state
+ * @property {number|null} numericState Numeric representation of Item state, or null if state is not numeric
+ * @property {time.ZonedDateTime} timestamp timestamp of historic item
+ */
+/**
  * Class representing the historic state of an openHAB Item.
  * If the Item receives its state from a binding that supports units of measurement, the returned state is in the according base unit, otherwise there is no unit conversion happening.
  * Wrapping the {@link https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/extensions/persistenceextensions PersistenceExtensions}.
@@ -150,9 +157,9 @@ declare class ItemHistory {
      *
      * @param {(time.ZonedDateTime | Date)} timestamp
      * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
-     * @returns {(string | null)} state
+     * @returns {(HistoricItem | null)} historic item
      */
-    historicState(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (string | null);
+    historicState(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (HistoricItem | null);
     /**
      * Query the last update time of a given Item.
      *
@@ -173,34 +180,34 @@ declare class ItemHistory {
      * @param {(time.ZonedDateTime | Date)} begin begin
      * @param {(time.ZonedDateTime | Date)} end end
      * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
-     * @returns {(number | null)} state or null
+     * @returns {(HistoricItem | null)} historic item or null
      */
-    maximumBetween(begin: (time.ZonedDateTime | Date), end: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (number | null);
+    maximumBetween(begin: (time.ZonedDateTime | Date), end: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (HistoricItem | null);
     /**
      * Gets the state with the maximum value of a given Item since a certain point in time.
      *
      * @param {(time.ZonedDateTime | Date)} timestamp
      * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
-     * @returns {(number | null)} state or null
+     * @returns {(HistoricItem | null)} historic item or null
      */
-    maximumSince(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (number | null);
+    maximumSince(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (HistoricItem | null);
     /**
      * Gets the state with the minimum value of a given Item between two certain points in time.
      *
      * @param {(time.ZonedDateTime | Date)} begin begin
      * @param {(time.ZonedDateTime | Date)} end end
      * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
-     * @returns {(number | null)} state or null
+     * @returns {(HistoricItem | null)} historic item or null
      */
-    minimumBetween(begin: (time.ZonedDateTime | Date), end: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (number | null);
+    minimumBetween(begin: (time.ZonedDateTime | Date), end: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (HistoricItem | null);
     /**
      * Gets the state with the minimum value of a given Item since a certain point in time.
      *
      * @param {(time.ZonedDateTime | Date)} timestamp
      * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
-     * @returns {(number | null)} state or null
+     * @returns {(HistoricItem | null)} historic item or null
      */
-    minimumSince(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (number | null);
+    minimumSince(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (HistoricItem | null);
     /**
      * Persists the state of a given Item.
      *
@@ -212,17 +219,9 @@ declare class ItemHistory {
      *
      * @param {boolean} [skipEqual] optional, if true, skips equal state values and searches the first state not equal the current state
      * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
-     * @returns {(string | null)} state or null
+     * @returns {(HistoricItem | null)} historic item or null
      */
-    previousState(skipEqual?: boolean, serviceId?: string, ...args: any[]): (string | null);
-    /**
-     * Returns the time when the previous state of a given Item was persisted.
-     *
-     * @param {boolean} [skipEqual] optional, if true, skips equal state values and searches the first state not equal the current state
-     * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
-     * @returns {(time.ZonedDateTime | null)} {@link time.ZonedDateTime} or null
-     */
-    previousStateTimestamp(skipEqual?: boolean, serviceId?: string, ...args: any[]): (time.ZonedDateTime | null);
+    previousState(skipEqual?: boolean, serviceId?: string, ...args: any[]): (HistoricItem | null);
     /**
      * Gets the sum of the states of a given Item between two certain points in time.
      *
@@ -277,22 +276,39 @@ declare class ItemHistory {
     /**
      * @private
      */
-    private _stateOrNull;
-    /**
-     * @private
-     */
-    private _timestampOrNull;
-    /**
-     * @private
-     */
     private _dateOrNull;
     /**
      * @private
      */
     private _decimalOrNull;
+    /**
+     * @private
+     */
+    private _historicItemOrNull;
+}
+declare namespace ItemHistory {
+    export { HistoricItem };
 }
 declare namespace time {
     type ZonedDateTime = import('@js-joda/core').ZonedDateTime;
 }
 import time = require("../time");
+type HistoricItem = {
+    /**
+     * Item state
+     */
+    state: string;
+    /**
+     * Raw Java state
+     */
+    rawState: HostState;
+    /**
+     * Numeric representation of Item state, or null if state is not numeric
+     */
+    numericState: number | null;
+    /**
+     * timestamp of historic item
+     */
+    timestamp: time.ZonedDateTime;
+};
 //# sourceMappingURL=item-history.d.ts.map
