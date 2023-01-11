@@ -9,7 +9,7 @@
 | Bugfix      | `actions` & `triggers` | Remove arg type checks as they cause trouble & addon now logs stack on `IllegalArgumentException` | Commit [9975507](https://github.com/openhab/openhab-js/commit/99755070df9b4fa3d96157f74bbeb3809ae22514) | No       |
 | Bugfix      | `rules`                | `SwitchableJSRule`: Fix deprecation warning of EventObj                                           | Commit [0df9462](https://github.com/openhab/openhab-js/commit/0df946213a0ebf17f4ec4cec3ea12b6d08a483c8) | No       |
 | Bugfix      | `items`                | Metadata: Return configuration as JS obj instead of Java Map                                      | [#222](https://github.com/openhab/openhab-js/pull/222)                                                  | No       |
-| Enhancement | `time`                 | Add isBefore[Date|Time|DateTime] and isAfter[Date|Time|DateTime] methods to ZonedDateTime         | [#227](https://github.com/openhab/openhab-js/pull/227)                                                  | No       |
+| Enhancement | `time`                 | Add isBefore(Date/Time/DateTime) and isAfter(Date/Time/DateTime)                                  | [#227](https://github.com/openhab/openhab-js/pull/227)                                                  | No       |
 | Enhancement | `items`                | ItemHistory: return an object with state and timestamp instead of just state where applicable     | [#228](https://github.com/openhab/openhab-js/pull/228)                                                  | **Yes**  |
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/11).

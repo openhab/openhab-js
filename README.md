@@ -14,7 +14,7 @@ This library aims to be a fairly high-level ES6 library to support automation in
 It provides convenient access to common openHAB functionality within rules including items, things, actions, logging and more.
 
 This library is included by default in the openHAB [JavaScript
-binding](https://www.openhab.org/addons/automation/jsscripting/).
+Scripting add-on](https://www.openhab.org/addons/automation/jsscripting/).
 
 - [Installation](#installation)
   - [Default Installation](#default-installation)
@@ -52,13 +52,16 @@ binding](https://www.openhab.org/addons/automation/jsscripting/).
 
 ### Default Installation
 
-Install the openHAB [JavaScript binding](https://www.openhab.org/addons/automation/jsscripting/), a version of this library will be automatically installed and available to ECMAScript 2021+ rules created using [File Based Rules](#file-based-rules) or [UI Based Rules](#ui-based-rules).
+Install the openHAB [JavaScript Scripting add-on](https://www.openhab.org/addons/automation/jsscripting/), a version of this library will be automatically installed and available to ECMAScript 2022+ rules created using [File Based Rules](#file-based-rules) or [UI Based Rules](#ui-based-rules).
 
-By default, openHAB ships with an older JavaScript runtime based on the Nashorn JavaScript engine which is part of the standard JDK.  This is referred to as `ECMA - 262 Edition 5.1` or `application/javascript` in the Main UI.
-
+<!-- TODO: Update link to stable when openHAB 4.0 is released -->
+openHAB also provides the [JavaScript Scripting (Nashorn) add-on](https://next.openhab.org/addons/automation/jsscriptingnashorn/), which is based on the older Nashorn JavaScript engine. This is referred to as `ECMA - 262 Edition 5.1` or `application/javascript;version=ECMAScript-5.1` in the Main UI.
 *This library is not compatible with this older runtime.*
 
 ### Custom Installation
+
+<!-- TODO: Update link to stable when openHAB 4.0 is released -->
+If you want to install the openHAB JavaScript library manually, you need to disable the caching of the internal library in the [add-on's settings](https://next.openhab.org/addons/automation/jsscripting/#configuration).
 
 On openHABian:
 
@@ -780,20 +783,20 @@ There will be times when this automatic conversion is not available (for example
 To ease having to deal with these cases a `time.toZDT()` function will accept almost any type that can be converted to a `time.ZonedDateTime`.
 The following rules are used during the conversion:
 
-| Argument Type                                                                | Rule                                                                                                            | Examples                                            |
-|------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|-----------------------------------------------------|
-| `null` or `undefined`                                                        | `time.ZonedDateTime.now()`                                                                                      | `time.toZDT();`                                     |
-| `time.ZonedDateTime`                                                         | passed through unmodified                                                                                       |                                                     |
-| `java.time.ZonedDateTime`                                                    | converted to the `time.ZonedDateTime` equivalent                                                                |                                                     |
-| JavaScript native `Date`                                                     | converted to the equivalent `time.ZonedDateTime` using `SYSTEM` as the timezone                                 |                                                     |
-| `number`, `bingint`, `java.lang.Number`, `DecimalType`                       | rounded to the nearest integer and added to `now` as milliseconds                                               | `time.toZDT(1000);`                                 |
-| `QuantityType`                                                               | if the units are `Time`, that time is added to `now`                                                            | `time.toZDT(item.getItem('MyTimeItem').rawState);`  |
-| `items.Item` or `org.openhab.core.types.Item`                                | if the state is supported (see the `Type` rules in this table, e.g. `DecimalType`), the state is converted      | `time.toZDT(items.getItem('MyItem'));`              |
-| `String`, `java.lang.String`, `StringType`                                   | parsed based on the following rules                                                                             |                                                     |
-| [ISO8601 Date/Time](https://en.wikipedia.org/wiki/ISO_8601) String           | parsed, depending on the provided data: if no date is passed, today's date; if no time is passed, midnight time | `time.toZDT('2022-12-24');`, `time.toZDT('12:34');` |
-| RFC String (output from a Java `ZonedDateTime.toString()`)                   | parsed                                                                                                          | `time.toZDT('2019-10-12T07:20:50.52Z');`            |
-| `"kk:mm[:ss][ ]a"` (12 hour time)                                            | today's date with the time indicated, the space between the time and am/pm and seconds are optional             | `time.toZDT('1:23:45 PM');`                         |
-| [ISO 8601 Duration](https://en.wikipedia.org/wiki/ISO_8601#Durations) String | added to `now`                                                                                                  | `time.toZDT('PT1H4M6.789S');`                       |
+| Argument Type                                                                | Rule                                                                                                            | Examples                                                                               |
+|------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|
+| `null` or `undefined`                                                        | `time.ZonedDateTime.now()`                                                                                      | `time.toZDT();`                                                                        |
+| `time.ZonedDateTime`                                                         | passed through unmodified                                                                                       |                                                                                        |
+| `java.time.ZonedDateTime`                                                    | converted to the `time.ZonedDateTime` equivalent                                                                |                                                                                        |
+| JavaScript native `Date`                                                     | converted to the equivalent `time.ZonedDateTime` using `SYSTEM` as the timezone                                 |                                                                                        |
+| `number`, `bingint`, `java.lang.Number`, `DecimalType`                       | rounded to the nearest integer and added to `now` as milliseconds                                               | `time.toZDT(1000);`                                                                    |
+| [`Quantity`](#quantity) or `QuantityType`                                    | if the units are `Time`, that time is added to `now`                                                            | `time.toZDT(item.getItem('MyTimeItem').rawState);`, `time.toZDT(Quantity('10 min'));`  |
+| `items.Item` or `org.openhab.core.types.Item`                                | if the state is supported (see the `Type` rules in this table, e.g. `DecimalType`), the state is converted      | `time.toZDT(items.getItem('MyItem'));`                                                 |
+| `String`, `java.lang.String`, `StringType`                                   | parsed based on the following rules                                                                             |                                                                                        |
+| [ISO8601 Date/Time](https://en.wikipedia.org/wiki/ISO_8601) String           | parsed, depending on the provided data: if no date is passed, today's date; if no time is passed, midnight time | `time.toZDT('00:00');`, `time.toZDT('2022-12-24');`, `time.toZDT('2022-12-24T18:30');` |
+| RFC String (output from a Java `ZonedDateTime.toString()`)                   | parsed                                                                                                          | `time.toZDT('2019-10-12T07:20:50.52Z');`                                               |
+| `"kk:mm[:ss][ ]a"` (12 hour time)                                            | today's date with the time indicated, the space between the time and am/pm and seconds are optional             | `time.toZDT('1:23:45 PM');`                                                            |
+| [ISO 8601 Duration](https://en.wikipedia.org/wiki/ISO_8601#Durations) String | added to `now`                                                                                                  | `time.toZDT('PT1H4M6.789S');`                                                          |
 
 When a type or string that cannot be handled is encountered, an error is thrown.
 

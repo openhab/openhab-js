@@ -252,6 +252,11 @@ const toZDT = function (when) {
     return _javaZDTtoZDT(when.getZonedDateTime());
   }
 
+  // Quantity
+  if (when instanceof QuantityClass) {
+    return _addQuantityType(when.raw);
+  }
+
   // QuantityType<Time>, add to now
   if (when instanceof QuantityType) {
     return _addQuantityType(when);
@@ -270,11 +275,6 @@ const toZDT = function (when) {
   // items.Item
   if (when.constructor.name === 'Item') {
     return _convertItem(when);
-  }
-
-  // Quantity
-  if (when instanceof QuantityClass) {
-    return _addQuantityType(when.raw);
   }
 
   // Unsupported
@@ -458,7 +458,7 @@ time.ZonedDateTime.prototype.getMillisFromNow = function () {
  * @returns {string}
  */
 time.ZonedDateTime.prototype.toOpenHabString = function () {
-  return this.toString().replace(/\[[^\]]*\]$/, '');
+  return this.toString().replace(/\[[^\]]*]$/, '');
 };
 
 module.exports = {
