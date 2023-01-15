@@ -582,19 +582,14 @@ See [openhab-js : actions.Exec](https://openhab.github.io/openhab-js/actions.htm
 Execute a command line.
 
 ```javascript
-
 // Execute command line.
 actions.Exec.executeCommandLine('echo', 'Hello World!');
 
 // Execute command line with timeout.
-var Duration = Java.type('java.time.Duration');
-actions.Exec.executeCommandLine(Duration.ofSeconds(20), 'echo', 'Hello World!');
-
-// Get response from command line.
-var response = actions.Exec.executeCommandLine('echo', 'Hello World!');
+actions.Exec.executeCommandLine(time.Duration.ofSeconds(20), 'echo', 'Hello World!');
 
 // Get response from command line with timeout.
-response = actions.Exec.executeCommandLine(Duration.ofSeconds(20), 'echo', 'Hello World!');
+var response = actions.Exec.executeCommandLine(time.Duration.ofSeconds(20), 'echo', 'Hello World!');
 ```
 
 #### HTTP Actions
