@@ -78,7 +78,7 @@ export type RuleConfig = {
     /**
      * which will fire the rule
      */
-    triggers: typeof triggers | (typeof triggers)[];
+    triggers: HostTrigger | HostTrigger[];
     /**
      * callback to run when the rule fires
      */
@@ -168,5 +168,4 @@ export function JSRule(ruleConfig: RuleConfig): HostRule;
   * @throws {Error} an error is a rule with the given UID already exists.
   */
 export function SwitchableJSRule(ruleConfig: RuleConfig): HostRule;
-import triggers = require("../triggers");
 //# sourceMappingURL=rules.d.ts.map

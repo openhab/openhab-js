@@ -37,7 +37,7 @@
  * @typedef {object} RuleConfig configuration for {@link rules.JSRule}
  * @property {string} name name of the rule (used in UI)
  * @property {string} [description] description of the rule (used in UI)
- * @property {triggers|triggers[]} triggers which will fire the rule
+ * @property {HostTrigger|HostTrigger[]} triggers which will fire the rule
  * @property {RuleCallback} execute callback to run when the rule fires
  * @property {string} [id] UID of the rule, if not provided, one is generated
  * @property {string[]} [tags] tags for the rule (used in UI)
