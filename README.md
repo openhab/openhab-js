@@ -184,7 +184,8 @@ log:set TRACE org.openhab.automation.script
 log:set DEFAULT org.openhab.automation.script
 ```
 
-The default logger name prefix is `org.openhab.automation.script`, this can be changed by assigning a new string to the `loggerName` property of the console:
+The default logger name consists of the prefix `org.openhab.automation.script` and the script’s individual part `.file.filename` or `.ui.ruleUID`.
+This logger name can be changed by assigning a new string to the `loggerName` property of the console:
 
 ```javascript
 console.loggerName = 'org.openhab.custom';
