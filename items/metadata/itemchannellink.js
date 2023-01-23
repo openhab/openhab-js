@@ -1,3 +1,5 @@
+/** @typedef {import('../items').Item} Item */
+
 /**
  * Item channel link namespace.
  * This namespace provides access to Item channel links.
@@ -8,6 +10,7 @@
 const osgi = require('../../osgi');
 const utils = require('../../utils');
 const log = require('../../log')('itemchannellink');
+const { _getItemName } = require('../../helpers');
 
 const ItemChannelLink = Java.type('org.openhab.core.thing.link.ItemChannelLink');
 const ChannelUID = Java.type('org.openhab.core.thing.ChannelUID');
@@ -37,11 +40,12 @@ const _createItemChannelLink = function (itemName, channelUID, conf) {
  * Gets an ItemChannelLink from the provider.
  *
  * @memberof items.metadata.itemchannellink
- * @param {string} itemName the name of the Item
+ * @param {Item|string} itemOrName {@link Item} or the name of the Item
  * @param {string} channelUID
  * @returns {{itemName: string, configuration: *, channelUID: string}|null} the ItemChannelLink or `null` if none exists
  */
-const getItemChannelLink = function (itemName, channelUID) {
+const getItemChannelLink = function (itemOrName, channelUID) {
+  const itemName = _getItemName(itemOrName);
   log.debug(`Getting ItemChannelLink ${itemName} -> ${channelUID} from provider...`);
   const itemChannelLink = managedItemChannelLinkProvider.get(itemName + ' -> ' + channelUID);
   if (itemChannelLink === null || itemChannelLink === undefined) return null;
@@ -97,12 +101,13 @@ const _updateItemChannelLink = function (itemName, channelUID, conf) {
  * Adds or updates an ItemChannelLink.
  *
  * @memberof items.metadata.itemchannellink
- * @param {string} itemName the name of the Item
+ * @param {Item|string} itemOrName {@link Item} or the name of the Item
  * @param {string} channelUID
  * @param {object} [conf] channel configuration
  * @returns {{itemName: string, configuration: *, channelUID: string}|null} the old ItemChannelLink or `null` if it did not exist
  */
-const replaceItemChannelLink = function (itemName, channelUID, conf) {
+const replaceItemChannelLink = function (itemOrName, channelUID, conf) {
+  const itemName = _getItemName(itemOrName);
   const existing = getItemChannelLink(itemName, channelUID);
   if (existing === null) {
     _addItemChannelLink(itemName, channelUID, conf);
@@ -116,11 +121,12 @@ const replaceItemChannelLink = function (itemName, channelUID, conf) {
  * Removes an ItemChannelLink from the provider. Therefore, the channel link is removed from the Item.
  *
  * @memberof items.metadata.itemchannellink
- * @param {string} itemName the name of the Item
+ * @param {Item|string} itemOrName {@link Item} or the name of the Item
  * @param {string} channelUID
  * @returns {{itemName: string, configuration: *, channelUID: string}|null} the removed ItemChannelLink or `null` if none exists
  */
-const removeItemChannelLink = function (itemName, channelUID) {
+const removeItemChannelLink = function (itemOrName, channelUID) {
+  const itemName = _getItemName(itemOrName);
   log.debug(`Removing ItemChannelLink ${itemName} -> ${channelUID} from provider...`);
   const itemChannelLink = managedItemChannelLinkProvider.remove(itemName + ' -> ' + channelUID);
   if (itemChannelLink === null || itemChannelLink === undefined) return null;
