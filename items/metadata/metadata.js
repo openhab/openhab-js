@@ -1,3 +1,5 @@
+/** @typedef {import('../items').Item} Item */
+
 /**
  * Item metadata namespace.
  * This namespace provides access to Item metadata.
@@ -7,18 +9,14 @@
 
 const osgi = require('../../osgi');
 const utils = require('../../utils');
-/**
- * @type {Item}
- * @private
- */
-const Item = require('../items').Item;
 
 const metadataRegistry = osgi.getService('org.openhab.core.items.MetadataRegistry');
 const Metadata = Java.type('org.openhab.core.items.Metadata');
 const MetadataKey = Java.type('org.openhab.core.items.MetadataKey');
 
 const _getItemName = function (itemOrName) {
-  if (itemOrName instanceof Item) return itemOrName.name;
+  // Somehow instanceof check doesn't work here, so workaround the problem
+  if (itemOrName.rawItem !== undefined) return itemOrName.name;
   return itemOrName;
 };
 

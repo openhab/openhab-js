@@ -1,3 +1,4 @@
+export type Item = import('../items').Item;
 /**
  * Gets metadata with the given name from the given Item.
  *
@@ -6,7 +7,7 @@
  * @param {string} namespace name of the metadata
  * @returns {{configuration: object, value: string}|null} metadata or `null` if the Item has no metadata with the given name
  */
-export function getMetadata(itemOrName: any | string, namespace: string): {
+export function getMetadata(itemOrName: Item | string, namespace: string): {
     configuration: object;
     value: string;
 } | null;
@@ -19,7 +20,7 @@ export function getMetadata(itemOrName: any | string, namespace: string): {
  * @param {object} [configuration] optional metadata configuration
  * @returns {{configuration: object, value: string}|null} old metadata or `null` if the Item has no metadata with the given name
  */
-export function replaceMetadata(itemOrName: any | string, namespace: string, value: string, configuration?: object): {
+export function replaceMetadata(itemOrName: Item | string, namespace: string, value: string, configuration?: object): {
     configuration: object;
     value: string;
 } | null;
@@ -31,7 +32,7 @@ export function replaceMetadata(itemOrName: any | string, namespace: string, val
  * @param {string} namespace name of the metadata
  * @returns {{configuration: object, value: string}|null} removed metadata or `null` if the Item has no metadata with the given name
  */
-export function removeMetadata(itemOrName: any | string, namespace: string): {
+export function removeMetadata(itemOrName: Item | string, namespace: string): {
     configuration: object;
     value: string;
 } | null;
