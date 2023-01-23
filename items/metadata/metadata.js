@@ -9,16 +9,11 @@
 
 const osgi = require('../../osgi');
 const utils = require('../../utils');
+const { _getItemName } = require('../../helpers');
 
 const metadataRegistry = osgi.getService('org.openhab.core.items.MetadataRegistry');
 const Metadata = Java.type('org.openhab.core.items.Metadata');
 const MetadataKey = Java.type('org.openhab.core.items.MetadataKey');
-
-const _getItemName = function (itemOrName) {
-  // Somehow instanceof check doesn't work here, so workaround the problem
-  if (itemOrName.rawItem !== undefined) return itemOrName.name;
-  return itemOrName;
-};
 
 /**
  * Gets metadata with the given name from the given Item.
