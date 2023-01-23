@@ -9,4 +9,5 @@ out
 coverage
 types/@globals-webpack.config.*
 types/@openhab-globals.*
+types/helpers.*
 types/typeOfArguments.*
