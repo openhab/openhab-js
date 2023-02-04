@@ -837,6 +837,7 @@ Tests whether this `time.ZonedDateTime` is after the time passed in `timestamp`,
 `timestamp` can be anything supported by `time.toZDT()`.
 
 ```javascript
+// Equivalent to items.Sunset
 time.toZDT().isAfterTime(items.getItem('Sunset')) // is now after sunset?
 time.toZDT().isAfterDateTime('2022-12-01T12:00Z') // is now after 2022-12-01 noon?
 ```
@@ -852,7 +853,9 @@ Examples:
 
 ```javascript
 time.toZDT().isBetweenTimes('22:00', '05:00') // currently between 11:00 pm and 5:00 am
+// Equivalent to items.Sunset
 time.toZDT().isBetweenTimes(items.getItem('Sunset'), '11:30 PM') // is now between sunset and 11:30 PM?
+// Equivalent to items.StartTime
 time.toZDT(items.getItem('StartTime')).isBetweenTimes(time.toZDT(), 'PT1H'); // is the state of StartTime between now and one hour from now
 ```
 
@@ -1022,6 +1025,7 @@ rules.JSRule({
   description: "Light will turn on when it's 5:00pm",
   triggers: [triggers.GenericCronTrigger("0 0 17 * * ?")],
   execute: (event) => {
+    // Equivalent to items.BalconyLights.sendCommand("ON")
     items.getItem("BalconyLights").sendCommand("ON");
     actions.NotificationAction.sendNotification(email, "Balcony lights are ON");
   },
