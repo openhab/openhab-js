@@ -13,6 +13,7 @@
 | Enhancement | `items`                | ItemHistory: return an object with state and timestamp instead of just state where applicable     | [#228](https://github.com/openhab/openhab-js/pull/228)                                                  | **Yes**  |
 | Enhancement | `items`                | Metadata: Accept Item as param in addition to Item name                                           | [#230](https://github.com/openhab/openhab-js/pull/230)                                                  | No       |
 | Enhancement | `items`                | Allow Item lookup by name directly on the `items` namespace                                       | [#233](https://github.com/openhab/openhab-js/pull/233)                                                  | No       |
+| Enhancement | `items`                | Add `numericState` & `quantityState` properties to `Item` & `HistoricItem`                        | [#234](https://github.com/openhab/openhab-js/pull/234)                                                  | No       |
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/11).
 
