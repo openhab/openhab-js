@@ -574,11 +574,13 @@ const itemProperties = {
 /**
  * Gets an openHAB Item by name directly on the {@link items} namespace.
  * Equivalent to {@link items.getItem}
+ *
  * @example
- * //retrieve item by name directly on the item namespace
+ * // retrieve item by name directly on the items namespace
  * console.log(items.KitchenLight.state) // returns 'ON'
  * // equivalent to
  * console.log(items.getItem('KitchenLight').state) // returns 'ON'
+ *
  * @name NAME
  * @memberof items
  * @function
