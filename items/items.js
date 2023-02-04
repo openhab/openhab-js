@@ -582,7 +582,7 @@ const itemProperties = {
  * @name NAME
  * @memberof items
  * @function
- * @returns {Item|null} {@link items.Item} Item or `null` if `nullIfMissing` is true and Item is missing
+ * @returns {Item|null} {@link items.Item} Item or `null` if Item is missing
  */
 module.exports = new Proxy(itemProperties, {
   get: function (target, prop) {
