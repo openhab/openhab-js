@@ -132,7 +132,7 @@ class Item {
   }
 
   /**
-   * Representation of Item state as {@link Quantity} or `null` if state is not Quantity-compatible
+   * Item state as {@link Quantity} or `null` if state is not Quantity-compatible
    * @type {Quantity|null}
    */
   get quantityState () {

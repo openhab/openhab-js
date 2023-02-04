@@ -365,6 +365,8 @@ Calling `getItem(...)` or `...` returns an `Item` object with the following prop
   - .name ⇒ `string`
   - .label ⇒ `string`
   - .state ⇒ `string`
+  - .numericState ⇒ `number|null`: State as number, if state can be represented as number, or `null` if that's not the case
+  - .quantityState ⇒ [`Quantity|null`](#quantity): Item state as Quantity or `null` if state is not Quantity-compatible
   - .rawState ⇒ `HostState`
   - .members ⇒ `Array[Item]`
   - .descendents ⇒ `Array[Item]`
@@ -499,7 +501,8 @@ console.log('KitchenDimmer averageSince', item.history.averageSince(yesterday));
 The `HistoricItem` object contains the following properties, representing Item state and the respective timestamp:
 
 - `state`: State as string
-- `numericState`: State as number, if state can be represented as number, or null if that's not the case
+- `numericState`: State as number, if state can be represented as number, or `null` if that's not the case
+- `quantityState`: Item state as [`Quantity`](#quantity) or `null` if state is not Quantity-compatible
 - `rawState`: State as Java `State` object
 - `timestamp`: Timestamp as [`time.ZonedDateTime`](#time)
 

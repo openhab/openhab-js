@@ -9,7 +9,7 @@ const PersistenceExtensions = Java.type('org.openhab.core.persistence.extensions
  * @property {string} state Item state
  * @property {HostState} rawState Raw Java state
  * @property {number|null} numericState Numeric representation of Item state, or `null` if state is not numeric
- * @property {Quantity|null} quantityState Representation of Item state as {@link Quantity} or `null` if state is not Quantity-compatible
+ * @property {Quantity|null} quantityState Item state as {@link Quantity} or `null` if state is not Quantity-compatible
  * @property {time.ZonedDateTime} timestamp timestamp of historic item
  */
 
