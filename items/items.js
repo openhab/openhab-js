@@ -10,6 +10,8 @@ const log = require('../log')('items');
 const metadata = require('./metadata/metadata');
 const ItemHistory = require('./item-history');
 const ItemSemantics = require('./item-semantics');
+const Quantity = require('../quantity');
+const { QuantityError } = require('../quantity');
 /** @typedef {import('@js-joda/core').ZonedDateTime} time.ZonedDateTime */
 const time = require('../time');
 
@@ -89,7 +91,7 @@ class Item {
   }
 
   /**
-   * The type of the Item: the Simple (without package) name of the Java Item type, such as 'Switch'.
+   * Type of Item: the Simple (without package) name of the Java Item type, such as 'Switch'.
    * @type {string}
    */
   get type () {
@@ -97,7 +99,7 @@ class Item {
   }
 
   /**
-   * The name of the Item.
+   * Name of Item
    * @type {string}
    */
   get name () {
@@ -105,7 +107,7 @@ class Item {
   }
 
   /**
-   * The label attached to the Item.
+   * Label attached to Item
    * @type {string}
    */
   get label () {
@@ -113,7 +115,7 @@ class Item {
   }
 
   /**
-   * The state of the Item.
+   * String representation of the Item state.
    * @type {string}
    */
   get state () {
@@ -121,7 +123,29 @@ class Item {
   }
 
   /**
-   * The raw state of the Item, as a Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/types/state State object}.
+   * Numeric representation of Item state, or `null` if state is not numeric
+   * @type {number|null}
+   */
+  get numericState () {
+    const numericState = parseFloat(this.rawState.toString());
+    return isNaN(numericState) ? null : numericState;
+  }
+
+  /**
+   * Representation of Item state as {@link Quantity} or `null` if state is not Quantity-compatible
+   * @type {Quantity|null}
+   */
+  get quantityState () {
+    try {
+      return Quantity(this.rawState.toString());
+    } catch (e) {
+      if (e instanceof QuantityError) return null;
+      throw Error('Failed to get "quantityState": ' + e);
+    }
+  }
+
+  /**
+   * Raw state of Item, as a Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/types/state State object}
    * @type {HostState}
    */
   get rawState () {
