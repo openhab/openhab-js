@@ -3,6 +3,7 @@ const items = require('../items');
 
 /**
  * @typedef { import("../items/items").Item } Item
+ * @private
  */
 
 /**

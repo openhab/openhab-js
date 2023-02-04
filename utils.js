@@ -84,6 +84,7 @@ const javaSetToJsArray = function (set) {
 /**
  * Convert Java Map to JavaScript Map.
  *
+ * @memberof utils
  * @param {JavaMap} map
  * @returns {Map<any, any>} JavaScript Map
  */
@@ -96,6 +97,7 @@ const javaMapToJsMap = function (map) {
 /**
  * Convert Java Map to JavaScript Object.
  *
+ * @memberof utils
  * @param {JavaMap} map
  * @returns {object} JavaScript Object
  */

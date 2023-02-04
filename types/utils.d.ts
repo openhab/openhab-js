@@ -49,6 +49,7 @@ export function javaSetToJsSet(set: JavaSet): Set<any>;
 /**
  * Convert Java Map to JavaScript Map.
  *
+ * @memberof utils
  * @param {JavaMap} map
  * @returns {Map<any, any>} JavaScript Map
  */
@@ -56,6 +57,7 @@ export function javaMapToJsMap(map: JavaMap): Map<any, any>;
 /**
  * Convert Java Map to JavaScript Object.
  *
+ * @memberof utils
  * @param {JavaMap} map
  * @returns {object} JavaScript Object
  */

@@ -1,4 +1,7 @@
-/** @typedef {import('../items').Item} Item */
+/**
+ * @typedef {import('../items').Item} Item
+ * @private
+ */
 
 /**
  * Item metadata namespace.

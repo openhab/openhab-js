@@ -141,6 +141,7 @@ export class CopyStateOperation extends OperationConfig {
 }
 /**
  * @typedef { import("../items/items").Item } Item
+ * @private
  */
 /**
  * Operation to execute as part of a rule
