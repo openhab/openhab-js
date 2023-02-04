@@ -575,6 +575,20 @@ const itemProperties = {
  * This allows access to items by name directly on the item namespace, Ex: items.F1_kitchen
  * and items.getItem('F1_kitchen') would both retrieve the same object.
  */
+
+/**
+ * Gets an openHAB Item by name, 'itemByName' is replaced with the name of an item.
+ * Equivalent to items.getItem('itemByName')
+ * @example
+ * //retrieve item by name directly on the item namespace
+ * console.log(items.F1_kitchen.state) // returns 'ON'
+ * // equivalent to
+ * console.log(items.getItem('F1_kitchen').state) // returns 'ON'
+ * @name itemByName
+ * @memberof items
+ * @function
+ * @returns {Item|null} {@link items.Item} Item or `null` if `nullIfMissing` is true and Item is missing
+ */
 module.exports = new Proxy(itemProperties, {
   get: function (target, prop) {
     return target[prop] || target.getItem(prop);
