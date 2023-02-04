@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>ItemStateConditionConf - Documentation</title>
+    <title>Quantity - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -34,7 +34,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">ItemStateConditionConf</h1>
+    <h1 class="page-title">Quantity</h1>
     
 
     
@@ -47,29 +47,18 @@
 <header>
     
         <h2>
-            <span class="ancestors"><a href="ConditionBuilder.html">ConditionBuilder</a>.</span>
-        
-        ItemStateConditionConf
+        Quantity
         </h2>
         
-            <div class="class-description usertext"><p>Condition that wraps a function to determine whether if passes</p></div>
+            <div class="class-description usertext"><p>Class allowing easy Units of Measurement/Quantity handling by wrapping the openHAB <code>QuantityType</code>.</p>
+<p>Throws <a href="QuantityError.html"><code>QuantityError</code></a> if Quantity creation or operation failed.
+Throws <code>TypeError</code> if wrong argument type is provided.</p></div>
         
     
 </header>
 
 <article>
     
-
-    
-        <h3 class="subsection-title">Extends</h3>
-
-        
-
-
-    <ul>
-        <li><a href="ConditionBuilder.ConditionConf.html">ConditionBuilder.ConditionConf</a></li>
-    </ul>
-
 
     
 
@@ -84,18 +73,12 @@
     
 
     
-
-    
-        <h3 class="subsection-title">Methods</h3>
+        <h3 class="subsection-title">Members</h3>
 
         
             
+<h4 class="name" id="dimension"><span class="type-signature"></span>dimension<span class="type-signature"></span></h4>
 
-    
-
-    <h4 class="name" id="is"><span class="type-signature"></span>is<span class="signature">(value)</span><span class="type-signature"> &rarr; {this}</span></h4>
-
-    
 
 
 
@@ -105,7 +88,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="rules_condition-builder.js.html">rules/condition-builder.js</a>, <a href="rules_condition-builder.js.html#line118">line 118</a>
+        <a href="quantity.js.html">quantity.js</a>, <a href="quantity.js.html#line103">line 103</a>
     </li></ul></dd>
     
 
@@ -145,7 +128,332 @@
 
 
 <div class="description usertext">
-    <p>Checks if item state is equal to vlaue</p>
+    <p>Dimension of this Quantity, e.g. <code>[L]</code> for metres or <code>[L]²</code> for cubic-metres as <code>string</code></p>
+</div>
+
+
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="unit"><span class="type-signature"></span>unit<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="quantity.js.html">quantity.js</a>, <a href="quantity.js.html#line111">line 111</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Unit of this Quantity, e.g. <code>Metre</code> as <code>string</code> or <code>null</code> if not available</p>
+</div>
+
+
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="symbol"><span class="type-signature"></span>symbol<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="quantity.js.html">quantity.js</a>, <a href="quantity.js.html#line120">line 120</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Unit symbol of this Quantitiy, e.g. <code>m</code> as <code>string</code> or <code>null</code> if not available</p>
+</div>
+
+
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="float"><span class="type-signature"></span>float<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="quantity.js.html">quantity.js</a>, <a href="quantity.js.html#line129">line 129</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Float (decimal number) value of this Quantity.</p>
+</div>
+
+
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="int"><span class="type-signature"></span>int<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="quantity.js.html">quantity.js</a>, <a href="quantity.js.html#line137">line 137</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Integer (non-decimal number) value of this Quantity.</p>
+</div>
+
+
+
+
+
+
+
+
+        
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id="add"><span class="type-signature"></span>add<span class="signature">(value)</span><span class="type-signature"> &rarr; {<a href="global.html#Quantity">Quantity</a>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="quantity.js.html">quantity.js</a>, <a href="quantity.js.html#line146">line 146</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Add the given value to this Quantity.</p>
 </div>
 
 
@@ -189,7 +497,10 @@
             <td class="type">
             
                 
-<span class="param-type">*</span>
+<span class="param-type">string</span>
+|
+
+<span class="param-type"><a href="global.html#Quantity">Quantity</a></span>
 
 
             
@@ -199,7 +510,7 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last"><p><code>string</code> consisting of amount and unit or a Quantity</p></td>
         </tr>
 
     
@@ -224,6 +535,10 @@
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    <p>result as new Quantity</p>
+</div>
+
 
 
 <dl class="param-type">
@@ -232,7 +547,7 @@
     </dt>
     <dd>
         
-<span class="param-type">this</span>
+<span class="param-type"><a href="global.html#Quantity">Quantity</a></span>
 
 
     </dd>
@@ -247,7 +562,7 @@
 
     
 
-    <h4 class="name" id="in"><span class="type-signature"></span>in<span class="signature">(&hellip;values)</span><span class="type-signature"> &rarr; {this}</span></h4>
+    <h4 class="name" id="divide"><span class="type-signature"></span>divide<span class="signature">(value)</span><span class="type-signature"> &rarr; {<a href="global.html#Quantity">Quantity</a>}</span></h4>
 
     
 
@@ -259,7 +574,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="rules_condition-builder.js.html">rules/condition-builder.js</a>, <a href="rules_condition-builder.js.html#line128">line 128</a>
+        <a href="quantity.js.html">quantity.js</a>, <a href="quantity.js.html#line161">line 161</a>
     </li></ul></dd>
     
 
@@ -299,7 +614,347 @@
 
 
 <div class="description usertext">
-    <p>Checks if item state matches any array of values</p>
+    <p>Divide this Quantity by the given value.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>Quantity('20 W').divide(4); // is 5 W
+Quantity('20 W').divide('4 W') // is 5</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+|
+
+<span class="param-type">string</span>
+|
+
+<span class="param-type"><a href="global.html#Quantity">Quantity</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>usually a number; may also be a <code>string</code> consisting of amount and unit or a Quantity, but be careful: 1 W / 5 W = 0.2 which might not be what you want</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>result as new Quantity</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="global.html#Quantity">Quantity</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="multiply"><span class="type-signature"></span>multiply<span class="signature">(value)</span><span class="type-signature"> &rarr; {<a href="global.html#Quantity">Quantity</a>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="quantity.js.html">quantity.js</a>, <a href="quantity.js.html#line176">line 176</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Multiply this Quantity by the given value.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>Quantity('20 W').multiply(4); // is 80 W
+Quantity('20 W').multiply('4 W') // is 80 W^2</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+|
+
+<span class="param-type">string</span>
+|
+
+<span class="param-type"><a href="global.html#Quantity">Quantity</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>usually a number; may also be a <code>string</code> consisting of amount and unit or a Quantity, but be careful: 1 W * 5 W = 5 W^2 which might not be what you want</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>result as new Quantity</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="global.html#Quantity">Quantity</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="subtract"><span class="type-signature"></span>subtract<span class="signature">(value)</span><span class="type-signature"> &rarr; {<a href="global.html#Quantity">Quantity</a>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="quantity.js.html">quantity.js</a>, <a href="quantity.js.html#line186">line 186</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Subtract the given value from this Quantity.</p>
 </div>
 
 
@@ -325,7 +980,166 @@
         <th>Type</th>
 
         
-        <th>Attributes</th>
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type"><a href="global.html#Quantity">Quantity</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p><code>string</code> consisting of amount and unit or a Quantity</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>result as new Quantity</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="global.html#Quantity">Quantity</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="toUnit"><span class="type-signature"></span>toUnit<span class="signature">(unit)</span><span class="type-signature"> &rarr; {<a href="global.html#Quantity">Quantity</a>|null}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="quantity.js.html">quantity.js</a>, <a href="quantity.js.html#line196">line 196</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Convert this Quantity to the given unit.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
         
 
         
@@ -339,28 +1153,182 @@
 
         <tr>
             
-                <td class="name"><code>values</code></td>
+                <td class="name"><code>unit</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">any</span>
+<span class="param-type">string</span>
 
 
             
             </td>
 
             
-                <td class="attributes">
-                
 
-                
+            
 
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>a new Quantity with the given unit or <code>null</code> if conversion to this unit is not possible</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="global.html#Quantity">Quantity</a></span>
+|
+
+<span class="param-type">null</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="equal"><span class="type-signature"></span>equal<span class="signature">(value)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="quantity.js.html">quantity.js</a>, <a href="quantity.js.html#line211">line 211</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Checks whether this Quantity is equal to the passed in value.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
                 
-                    &lt;repeatable><br>
-                
-                </td>
+<span class="param-type">string</span>
+|
+
+<span class="param-type"><a href="global.html#Quantity">Quantity</a></span>
+
+
+            
+            </td>
+
             
 
             
@@ -398,7 +1366,7 @@
     </dt>
     <dd>
         
-<span class="param-type">this</span>
+<span class="param-type">boolean</span>
 
 
     </dd>
@@ -413,7 +1381,7 @@
 
     
 
-    <h4 class="name" id="then"><span class="type-signature"></span>then<span class="signature">(function)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="greaterThan"><span class="type-signature"></span>greaterThan<span class="signature">(value)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -425,7 +1393,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="rules_condition-builder.js.html">rules/condition-builder.js</a>, <a href="rules_condition-builder.js.html#line64">line 64</a>
+        <a href="quantity.js.html">quantity.js</a>, <a href="quantity.js.html#line221">line 221</a>
     </li></ul></dd>
     
 
@@ -435,11 +1403,6 @@
 
     
 
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="ConditionBuilder.ConditionConf.html#then">ConditionBuilder.ConditionConf#then</a>
-    </li></ul></dd>
     
 
     
@@ -468,6 +1431,10 @@
 
 
 
+
+<div class="description usertext">
+    <p>Checks whether this Quantity is larger than the passed in value.</p>
+</div>
 
 
 
@@ -504,13 +1471,16 @@
 
         <tr>
             
-                <td class="name"><code>function</code></td>
+                <td class="name"><code>value</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">*</span>
+<span class="param-type">string</span>
+|
+
+<span class="param-type"><a href="global.html#Quantity">Quantity</a></span>
 
 
             
@@ -520,7 +1490,7 @@
 
             
 
-            <td class="description last"><p>an optional function</p></td>
+            <td class="description last"></td>
         </tr>
 
     
@@ -545,11 +1515,490 @@
 <h5>Returns:</h5>
 
         
-<div class="param-desc">
-    <p>ConditionBuilder</p>
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="greaterThanOrEqual"><span class="type-signature"></span>greaterThanOrEqual<span class="signature">(value)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="quantity.js.html">quantity.js</a>, <a href="quantity.js.html#line231">line 231</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Checks whether this Quantity is larger than or equal to the passed in value.</p>
 </div>
 
 
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type"><a href="global.html#Quantity">Quantity</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="lessThan"><span class="type-signature"></span>lessThan<span class="signature">(value)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="quantity.js.html">quantity.js</a>, <a href="quantity.js.html#line241">line 241</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Checks whether this Quantity is smaller than the passed in value.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type"><a href="global.html#Quantity">Quantity</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="lessThanOrEqual"><span class="type-signature"></span>lessThanOrEqual<span class="signature">(value)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="quantity.js.html">quantity.js</a>, <a href="quantity.js.html#line251">line 251</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Checks whether this Quantity is smaller than or equal to the passed in value.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type"><a href="global.html#Quantity">Quantity</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
 
     
 
