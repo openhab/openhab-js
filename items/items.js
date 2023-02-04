@@ -581,9 +581,9 @@ const itemProperties = {
  * Equivalent to items.getItem('itemByName')
  * @example
  * //retrieve item by name directly on the item namespace
- * console.log(items.F1_kitchen.state) // returns 'ON'
+ * console.log(items.KitchenLight.state) // returns 'ON'
  * // equivalent to
- * console.log(items.getItem('F1_kitchen').state) // returns 'ON'
+ * console.log(items.getItem('KitchenLight').state) // returns 'ON'
  * @name itemByName
  * @memberof items
  * @function
