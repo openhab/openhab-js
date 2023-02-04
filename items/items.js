@@ -588,6 +588,6 @@ const itemProperties = {
  */
 module.exports = new Proxy(itemProperties, {
   get: function (target, prop) {
-    return target[prop] || target.getItem(prop);
+    return target[prop] || target.getItem(prop, true);
   }
 });
