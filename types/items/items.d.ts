@@ -331,6 +331,5 @@ declare namespace time {
     type ZonedDateTime = import('@js-joda/core').ZonedDateTime;
 }
 import time = require("../time");
-export declare function objects(): any;
 export { metadata };
 //# sourceMappingURL=items.d.ts.map

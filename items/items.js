@@ -558,7 +558,7 @@ const safeItemName = s => s
   .replace(/["']/g, '') // delete
   .replace(/[^a-zA-Z0-9]/g, '_'); // replace with underscore
 
-module.exports = {
+const itemProperties = {
   safeItemName,
   getItem,
   getItems,
@@ -568,21 +568,26 @@ module.exports = {
   createItem,
   removeItem,
   Item,
-  /**
-   * Custom indexer, to allow static Item lookup.
-   * @example
-   * let { my_object_name } = require('openhab').items.objects;
-   * ...
-   * let my_state = my_object_name.state; //my_object_name is an Item
-   *
-   * @returns {object} a collection of items allowing indexing by Item name
-   */
-  objects: () => new Proxy({}, {
-    get: function (target, name) {
-      if (typeof name === 'string' && /^-?\d+$/.test(name)) { return getItem(name); }
-
-      throw Error('unsupported function call: ' + name);
-    }
-  }),
   metadata
 };
+
+/**
+ * Gets an openHAB Item by name directly on the {@link items} namespace.
+ * Equivalent to {@link items.getItem}
+ *
+ * @example
+ * // retrieve item by name directly on the items namespace
+ * console.log(items.KitchenLight.state) // returns 'ON'
+ * // equivalent to
+ * console.log(items.getItem('KitchenLight').state) // returns 'ON'
+ *
+ * @name NAME
+ * @memberof items
+ * @function
+ * @returns {Item|null} {@link items.Item} Item or `null` if Item is missing
+ */
+module.exports = new Proxy(itemProperties, {
+  get: function (target, prop) {
+    return target[prop] || target.getItem(prop, true);
+  }
+});
