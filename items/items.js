@@ -577,14 +577,14 @@ const itemProperties = {
  */
 
 /**
- * Gets an openHAB Item by name, 'itemByName' is replaced with the name of an item.
- * Equivalent to items.getItem('itemByName')
+ * Gets an openHAB Item by name directly on the {@link items} namespace.
+ * Equivalent to {@link items.getItem}
  * @example
  * //retrieve item by name directly on the item namespace
  * console.log(items.KitchenLight.state) // returns 'ON'
  * // equivalent to
  * console.log(items.getItem('KitchenLight').state) // returns 'ON'
- * @name itemByName
+ * @name NAME
  * @memberof items
  * @function
  * @returns {Item|null} {@link items.Item} Item or `null` if `nullIfMissing` is true and Item is missing

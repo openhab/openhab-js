@@ -110,8 +110,8 @@ You can now write rules using standard ES6 JavaScript along with the included op
 For example, turning a light on:
 
 ```javascript
-items.getItem("KitchenLight").sendCommand("ON");
-console.log("Kitchen Light State", items.getItem("KitchenLight").state);
+items.KitchenLight.sendCommand("ON");
+console.log("Kitchen Light State", items.KitchenLight.state);
 ```
 
 Sending a notification
@@ -339,6 +339,7 @@ The Items namespace allows interactions with openHAB items.
 See [openhab-js : items](https://openhab.github.io/openhab-js/items.html) for full API documentation.
 
 - items : `object`
+  - .NAME ⇒ `Item`
   - .getItem(name, nullIfMissing) ⇒ `Item`
   - .getItems() ⇒ `Array[Item]`
   - .getItemsByTag(...tagNames) ⇒ `Array[Item]`
@@ -348,13 +349,13 @@ See [openhab-js : items](https://openhab.github.io/openhab-js/items.html) for fu
   - .safeItemName(s) ⇒ `string`
 
 ```javascript
-var item = items.getItem("KitchenLight");
+var item = items.KitchenLight;
 console.log("Kitchen Light State", item.state);
 ```
 
 #### `getItem(name, nullIfMissing)`
 
-Calling `getItem(...)` returns an `Item` object with the following properties:
+Calling `getItem(...)` or `...` returns an `Item` object with the following properties:
 
 - Item : `object`
   - .rawItem ⇒ `HostItem`
@@ -382,6 +383,7 @@ Calling `getItem(...)` returns an `Item` object with the following properties:
   - .removeTags(...tagNames)
 
 ```javascript
+// Equivalent to items.KitchenLight
 var item = items.getItem("KitchenLight");
 // Send an ON command
 item.sendCommand("ON");
@@ -490,7 +492,7 @@ Note: `serviceId` is optional, if omitted, the default persistence service will 
 
 ```javascript
 var yesterday = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
-var item = items.getItem('KitchenDimmer');
+var item = items.KitchenDimmer;
 console.log('KitchenDimmer averageSince', item.history.averageSince(yesterday));
 ```
 
@@ -503,7 +505,7 @@ The `HistoricItem` object contains the following properties, representing Item s
 
 ```javascript
 var midnight = time.toZDT('00:00');
-var historic = items.getItem('KitchenDimmer').history.maximumSince(midnight);
+var historic = items.KitchenDimmer.history.maximumSince(midnight);
 console.log('KitchenDimmer maximum was ', historic.state, ' at ', historic.timestamp);
 ```
 
@@ -763,7 +765,7 @@ Examples:
 ```javascript
 var now = time.ZonedDateTime.now();
 var yesterday = time.ZonedDateTime.now().minusHours(24);
-var item = items.getItem("Kitchen");
+var item = items.Kitchen;
 console.log("averageSince", item.history.averageSince(yesterday));
 ```
 
@@ -803,7 +805,7 @@ When you have a `time.ZonedDateTime`, a new `toToday()` method was added which w
 For example, if the time was 13:45 and today was a DST changeover, the time will still be 13:45 instead of one hour off.
 
 ```javascript
-var alarm = items.getItem('Alarm');
+var alarm = items.Alarm;
 alarm.postUpdate(time.toZDT(alarm).toToday());
 ```
 
