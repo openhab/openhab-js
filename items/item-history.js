@@ -1,12 +1,15 @@
 /** @typedef {import('@js-joda/core').ZonedDateTime} time.ZonedDateTime */
 const time = require('../time');
+const Quantity = require('../quantity');
+const { QuantityError } = require('../quantity');
 const PersistenceExtensions = Java.type('org.openhab.core.persistence.extensions.PersistenceExtensions');
 
 /**
  * @typedef {object} HistoricItem
  * @property {string} state Item state
  * @property {HostState} rawState Raw Java state
- * @property {number|null} numericState Numeric representation of Item state, or null if state is not numeric
+ * @property {number|null} numericState Numeric representation of Item state, or `null` if state is not numeric
+ * @property {Quantity|null} quantityState Representation of Item state as {@link Quantity} or `null` if state is not Quantity-compatible
  * @property {time.ZonedDateTime} timestamp timestamp of historic item
  */
 
@@ -397,10 +400,18 @@ class ItemHistory {
     }
     const rawState = result.getState();
     const numericState = parseFloat(rawState.toString());
+    let quantityState;
+    try {
+      quantityState = Quantity(rawState.toString());
+    } catch (e) {
+      if (e instanceof QuantityError) quantityState = null;
+      throw Error('Failed to create "quantityState": ' + e);
+    }
     return {
       state: rawState.toString(),
       rawState: rawState,
       numericState: isNaN(numericState) ? null : numericState,
+      quantityState: quantityState,
       timestamp: time.ZonedDateTime.parse(result.getTimestamp().toString())
     };
   }
