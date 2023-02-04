@@ -572,11 +572,6 @@ const itemProperties = {
 };
 
 /**
- * This allows access to items by name directly on the item namespace, Ex: items.F1_kitchen
- * and items.getItem('F1_kitchen') would both retrieve the same object.
- */
-
-/**
  * Gets an openHAB Item by name directly on the {@link items} namespace.
  * Equivalent to {@link items.getItem}
  * @example
