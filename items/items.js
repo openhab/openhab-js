@@ -10,6 +10,9 @@ const log = require('../log')('items');
 const metadata = require('./metadata/metadata');
 const ItemHistory = require('./item-history');
 const ItemSemantics = require('./item-semantics');
+/**
+ * @type {import('../quantity').QuantityClass}
+ */
 const Quantity = require('../quantity');
 const { QuantityError } = require('../quantity');
 /** @typedef {import('@js-joda/core').ZonedDateTime} time.ZonedDateTime */

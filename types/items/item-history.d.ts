@@ -3,7 +3,8 @@ export = ItemHistory;
  * @typedef {object} HistoricItem
  * @property {string} state Item state
  * @property {HostState} rawState Raw Java state
- * @property {number|null} numericState Numeric representation of Item state, or null if state is not numeric
+ * @property {number|null} numericState Numeric representation of Item state, or `null` if state is not numeric
+ * @property {Quantity|null} quantityState Item state as {@link Quantity} or `null` if state is not Quantity-compatible
  * @property {time.ZonedDateTime} timestamp timestamp of historic item
  */
 /**
@@ -303,9 +304,13 @@ type HistoricItem = {
      */
     rawState: HostState;
     /**
-     * Numeric representation of Item state, or null if state is not numeric
+     * Numeric representation of Item state, or `null` if state is not numeric
      */
     numericState: number | null;
+    /**
+     * Item state as {@link Quantity } or `null` if state is not Quantity-compatible
+     */
+    quantityState: import("../quantity").QuantityClass | null;
     /**
      * timestamp of historic item
      */
