@@ -18,8 +18,6 @@ const metadataRegistry = osgi.getService('org.openhab.core.items.MetadataRegistr
 const Metadata = Java.type('org.openhab.core.items.Metadata');
 const MetadataKey = Java.type('org.openhab.core.items.MetadataKey');
 
-const Collectors = Java.type('java.util.stream.Collectors');
-
 /**
  * Gets metadata with the given name from the given Item.
  *
@@ -80,18 +78,24 @@ const removeMetadata = function (itemOrName, namespace) {
 /**
  * Get all metadata from a given Item.
  *
+ * @example
+ * var meta = items.metadata.getItemMetadata('Kitchen_Light');
+ * var namespaces = Array.from(meta.keys());
+ * var stateDescription = meta.get('stateDescription');
+ *
  * @memberof items.metadata
  * @param {string} itemName the name of the Item
- * @returns {Array<{configuration: object, value: string}>} Array of metadata
+ * @returns {Map<string, {configuration: object, value: string}>} Map of metadata
  */
 const getItemMetadata = function (itemName) {
-  const metadata = utils.javaSetToJsArray(metadataRegistry.stream().filter((key) => key.getItemName().equals(itemName)).collect(Collectors.toSet()));
-  return metadata.map((meta) => {
-    return {
+  const metadata = new Map();
+  metadataRegistry.stream().filter((meta) => meta.getUID().getItemName().equals(itemName)).forEach((meta) => {
+    metadata.set(meta.getUID().getNamespace(), {
       value: meta.getValue(),
       configuration: utils.javaMapToJsObj(meta.getConfiguration())
-    };
+    });
   });
+  return metadata;
 };
 
 /**
