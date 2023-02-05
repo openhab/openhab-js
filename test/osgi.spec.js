@@ -1,7 +1,7 @@
 const { getService, findServices, unregisterService, registerPermanentService, registerService } = require('../osgi');
 const { Hashtable } = require('./java.mock');
 const bundleContext = require('@runtime/osgi').bundleContext;
-const lifecycle = require('@runtime/osgi').lifecycle;
+const lifecycleTracker = require('@runtime').lifecycleTracker;
 
 describe('osgi.js', () => {
   describe('getService', () => {
@@ -162,7 +162,7 @@ describe('osgi.js', () => {
 
       registerService(service, ...interfaceNames);
 
-      expect(lifecycle.addDisposeHook).toHaveBeenCalled();
+      expect(lifecycleTracker.addDisposeHook).toHaveBeenCalled();
     });
 
     it('regsiters given service.', () => {

@@ -6,7 +6,7 @@
  */
 const log = require('./log')('osgi');
 const bundleContext = require('@runtime/osgi').bundleContext;
-const lifecycle = require('@runtime/osgi').lifecycle;
+const lifecycleTracker = require('@runtime').lifecycleTracker;
 const Hashtable = Java.type('java.util.Hashtable');
 
 /**
@@ -93,7 +93,7 @@ const findServices = function (className, filter) {
 };
 
 const registerService = function (service, ...interfaceNames) {
-  lifecycle.addDisposeHook(() => unregisterService(service));
+  lifecycleTracker.addDisposeHook(() => unregisterService(service));
   registerPermanentService(service, interfaceNames, null);
 };
 
