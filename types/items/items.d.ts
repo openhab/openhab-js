@@ -1,3 +1,4 @@
+export type ItemMetadata = import('./metadata/metadata').ItemMetadata;
 /**
  * configuration describing an Item
  */

@@ -27,6 +27,11 @@ const managedItemProvider = osgi.getService('org.openhab.core.items.ManagedItemP
 
 // typedefs need to be global for TypeScript to fully work
 /**
+ * @typedef {import('./metadata/metadata').ItemMetadata} ItemMetadata
+ * @private
+ */
+
+/**
  * @typedef {object} ItemConfig configuration describing an Item
  * @property {string} type the type of the Item
  * @property {string} name Item name for the Item to create
