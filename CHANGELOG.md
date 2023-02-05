@@ -4,6 +4,13 @@
 
 | Type        | Namespace              | Description                                                                                       | Reference                                                                                               | Breaking |
 |-------------|------------------------|---------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------|----------|
+
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/12).
+
+## 4.0.0
+
+| Type        | Namespace              | Description                                                                                       | Reference                                                                                               | Breaking |
+|-------------|------------------------|---------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------|----------|
 | Enhancement | `items`                | Refactor `metadata` & `itemchannllink` APIs & add additional functionality                        | [#212](https://github.com/openhab/openhab-js/pull/212)                                                  | **Yes**  |
 | Enhancement | `Quantity`             | Rename comparison methods                                                                         | [#211](https://github.com/openhab/openhab-js/pull/211)                                                  | **Yes**  |
 | Bugfix      | `actions` & `triggers` | Remove arg type checks as they cause trouble & addon now logs stack on `IllegalArgumentException` | Commit [9975507](https://github.com/openhab/openhab-js/commit/99755070df9b4fa3d96157f74bbeb3809ae22514) | No       |
