@@ -12,6 +12,7 @@ const ItemHistory = require('./item-history');
 const ItemSemantics = require('./item-semantics');
 /**
  * @type {import('../quantity').QuantityClass}
+ * @private
  */
 const Quantity = require('../quantity');
 const { QuantityError } = require('../quantity');
@@ -26,6 +27,11 @@ const managedItemProvider = osgi.getService('org.openhab.core.items.ManagedItemP
 
 // typedefs need to be global for TypeScript to fully work
 /**
+ * @typedef {import('./metadata/metadata').ItemMetadata} ItemMetadata
+ * @private
+ */
+
+/**
  * @typedef {object} ItemConfig configuration describing an Item
  * @property {string} type the type of the Item
  * @property {string} name Item name for the Item to create
@@ -34,22 +40,9 @@ const managedItemProvider = osgi.getService('org.openhab.core.items.ManagedItemP
  * @property {string[]} [groups] an array of groups the Item is a member of
  * @property {string[]} [tags] an array of tags for the Item
  * @property {string|Object} [channels] for single channel link a string or for multiple an object { channeluid: configuration }; configuration is an object
- * @property {ItemMetadata} [metadata] either object { namespace: value } or { namespace: { value: value, config: {} } }
+ * @property {*} [metadata] either object `{ namespace: value }` or `{ namespace: `{@link ItemMetadata}` }`
  * @property {string} [giBaseType] the group Item base type for the Item
  * @property {HostGroupFunction} [groupFunction] the group function used by the Item
- */
-
-/**
- * @typedef {object} ItemMetadata Item metadata configuration, not fully documented
- * @property {object} [stateDescription] `stateDescription` configuration, required for most UIs
- * @property {object} [stateDescription.config] config of this metadata namespace
- * @property {string} [stateDescription.config.pattern] state formatting pattern, required for most UIs, see {@link https://www.openhab.org/docs/configuration/items.html#state-presentation}
- * @property {object} [expire] `expire` configuration, see {@link https://www.openhab.org/docs/configuration/items.html#parameter-expire}
- * @property {string} [expire.value] e.g. `0h30m0s,command=OFF`
- * @property {object} [expire.config]
- * @property {string} [expire.config.ignoreStateUpdates] If the ignore state updates checkbox is set, only state changes will reset the timer; `true` or `false`
- * @property {object} [autoupdate] `autoupdate` configuration, see {@link https://www.openhab.org/docs/configuration/items.html#parameter-expire}
- * @property {string} [autoupdate.value] `true` or `false`
  */
 
 /**
@@ -187,16 +180,27 @@ class Item {
   }
 
   /**
-   * Gets metadata with the given name for this Item.
-   * @param {string} namespace The namespace for the metadata to retrieve
-   * @returns {{configuration: *, value: string}|null} metadata or null if the Item has no metadata with the given name
+   * Gets metadata of a single namespace or of all namespaces from this Item.
+   *
+   * @example
+   * // Get metadata of ALL namespaces
+   * var meta = Item.getMetadata();
+   * var namespaces = Object.keys(meta); // Get metadata namespaces
+   * // Get metadata of a single namespace
+   * meta = Item.getMetadata('expire');
+   *
+   * @see items.metadata.getMetadata
+   * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is returned, else all metadata is returned
+   * @returns {{ namespace: ItemMetadata }|ItemMetadata|null} all metadata as an object with the namespaces as properties OR metadata of a single namespace or `null` if that namespace doesn't exist; the metadata itself is of type {@link ItemMetadata}
    */
   getMetadata (namespace) {
     return metadata.getMetadata(this.name, namespace);
   }
 
   /**
-   * Updates or adds the given metadata for this Item.
+   * Updates or adds metadata of a single namespace to this Item.
+   *
+   * @see items.metadata.replaceMetadata
    * @param {string} namespace name of the metadata
    * @param {string} value value for this metadata
    * @param {object} [configuration] optional metadata configuration
@@ -207,9 +211,11 @@ class Item {
   }
 
   /**
-   * Removes metadata with a given name from a given Item.
-   * @param {string} namespace name of the metadata
-   * @returns {{configuration: *, value: string}|null} removed metadata or `null` if the Item has no metadata with the given name
+   * Removes metadata of a single namespace from this Item.
+   *
+   * @see items.metadata.removeMetadata
+   * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is removed, else all metadata is removed
+   * @returns {ItemMetadata|null} removed metadata OR `null` if the Item has no metadata under the given namespace or all metadata was removed
    */
   removeMetadata (namespace) {
     return metadata.removeMetadata(this.name, namespace);
