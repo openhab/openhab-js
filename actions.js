@@ -270,6 +270,8 @@ class ScriptExecution {
  *
  * The static methods of this class are made available as functions in the scripts. This allows a script to use Semantics features.
  *
+ * Instead of using the Semantics actions, it is recommended to use the the {@link items.ItemSemantics} available through the `semantics` property of an {@link items.Item}.
+ *
  * @example
  * Semantics.getEquipment(Item item)
  * Semantics.getEquipmentType(Item item)
@@ -386,7 +388,7 @@ let NotificationAction;
 try {
   NotificationAction = Java.type('org.openhab.io.openhabcloud.NotificationAction');
 } catch (error) {
-  if (error.name !== 'TypeError') throw Error(error);
+  if (error.name !== 'TypeError') throw new Error(error);
 }
 
 module.exports = Object.assign(dynamicExports, {
