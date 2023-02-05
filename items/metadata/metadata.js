@@ -76,9 +76,10 @@ const _getSingleItemMetadata = function (itemName, namespace) {
  * // Get metadata of a single namespace
  * meta = items.metadata.getMetadata(items.Hallway_Light, 'expire');
  *
+ * @see items.Item.getMetadata
  * @memberOf items.metadata
  * @param {Item|string} itemOrName {@link Item} or the name of the Item
- * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is returned, if not provided, all metadata is returned
+ * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is returned, else all metadata is returned
  * @returns {{ namespace: ItemMetadata }|ItemMetadata|null} all metadata as an object with the namespaces as properties OR metadata of a single namespace or `null` if that namespace doesn't exist; the metadata itself is of type {@link ItemMetadata}
  */
 const getMetadata = function (itemOrName, namespace) {
@@ -90,8 +91,10 @@ const getMetadata = function (itemOrName, namespace) {
 /**
  * Updates or adds metadata of a single namespace to an Item.
  *
+ * @see items.Item.replaceMetadata
  * @memberof items.metadata
  * @param {Item|string} itemOrName {@link Item} or the name of the Item * @param {string} namespace name of the metadata
+ * @param {string} namespace name of the metadata
  * @param {string} value value for this metadata
  * @param {object} [configuration] optional metadata configuration
  * @returns {ItemMetadata|null} old metadata or `null` if the Item has no metadata with the given name
@@ -108,37 +111,33 @@ const replaceMetadata = function (itemOrName, namespace, value, configuration) {
 };
 
 /**
- * Removes metadata of a single namespace from a given Item.
+ * Removes metadata of a single namespace or of all namespaces from a given Item.
  *
+ * @see items.Item.removeMetadata
  * @memberof items.metadata
  * @param {Item|string} itemOrName {@link Item} or the name of the Item
- * @param {string} namespace name of the metadata
- * @returns {ItemMetadata|null} removed metadata or `null` if the Item has no metadata with the given name
+ * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is removed, else all metadata is removed
+ * @returns {ItemMetadata|null} removed metadata OR `null` if the Item has no metadata under the given namespace or all metadata was removed
  */
 const removeMetadata = function (itemOrName, namespace) {
-  const key = new MetadataKey(namespace, _getItemName(itemOrName));
-  const meta = metadataRegistry.remove(key);
-  if (meta === null || meta === undefined) return null;
-  return {
-    value: meta.getValue(),
-    configuration: utils.javaMapToJsObj(meta.getConfiguration())
-  };
-};
+  const itemName = _getItemName(itemOrName);
 
-/**
- * Removes metadata of all namespaces from a given Item.
- *
- * @memberof items.metadata
- * @param {string} itemName the name of the Item
- */
-const removeItemMetadata = function (itemName) {
-  metadataRegistry.removeItemMetadata(itemName);
+  if (namespace !== undefined) {
+    const key = new MetadataKey(namespace, itemName);
+    const meta = metadataRegistry.remove(key);
+    if (meta === null || meta === undefined) return null;
+    return {
+      value: meta.getValue(),
+      configuration: utils.javaMapToJsObj(meta.getConfiguration())
+    };
+  } else {
+    return metadataRegistry.removeItemMetadata(itemName);
+  }
 };
 
 module.exports = {
   getMetadata,
   replaceMetadata,
   removeMetadata,
-  removeItemMetadata,
   itemchannellink: require('./itemchannellink')
 };
