@@ -79,7 +79,7 @@ const _getSingleItemMetadata = function (itemName, namespace) {
  * @memberOf items.metadata
  * @param {Item|string} itemOrName {@link Item} or the name of the Item
  * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is returned, if not provided, all metadata is returned
- * @returns {{ namespace: ItemMetadata }|ItemMetadata|null} all metadata as an object with the namespaces as properties or metadata of a single namespace or `null` if that namespace doesn't exist; both times metadata is of type {@link ItemMetadata}
+ * @returns {{ namespace: ItemMetadata }|ItemMetadata|null} all metadata as an object with the namespaces as properties OR metadata of a single namespace or `null` if that namespace doesn't exist; the metadata itself is of type {@link ItemMetadata}
  */
 const getMetadata = function (itemOrName, namespace) {
   const itemName = _getItemName(itemOrName);

@@ -34,22 +34,9 @@ const managedItemProvider = osgi.getService('org.openhab.core.items.ManagedItemP
  * @property {string[]} [groups] an array of groups the Item is a member of
  * @property {string[]} [tags] an array of tags for the Item
  * @property {string|Object} [channels] for single channel link a string or for multiple an object { channeluid: configuration }; configuration is an object
- * @property {ItemMetadata} [metadata] either object { namespace: value } or { namespace: { value: value, config: {} } }
+ * @property {*} [metadata] either object `{ namespace: value }` or `{ namespace: { value: value, config: {} } }`
  * @property {string} [giBaseType] the group Item base type for the Item
  * @property {HostGroupFunction} [groupFunction] the group function used by the Item
- */
-
-/**
- * @typedef {object} ItemMetadata Item metadata configuration, not fully documented
- * @property {object} [stateDescription] `stateDescription` configuration, required for most UIs
- * @property {object} [stateDescription.config] config of this metadata namespace
- * @property {string} [stateDescription.config.pattern] state formatting pattern, required for most UIs, see {@link https://www.openhab.org/docs/configuration/items.html#state-presentation}
- * @property {object} [expire] `expire` configuration, see {@link https://www.openhab.org/docs/configuration/items.html#parameter-expire}
- * @property {string} [expire.value] e.g. `0h30m0s,command=OFF`
- * @property {object} [expire.config]
- * @property {string} [expire.config.ignoreStateUpdates] If the ignore state updates checkbox is set, only state changes will reset the timer; `true` or `false`
- * @property {object} [autoupdate] `autoupdate` configuration, see {@link https://www.openhab.org/docs/configuration/items.html#parameter-expire}
- * @property {string} [autoupdate.value] `true` or `false`
  */
 
 /**
