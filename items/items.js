@@ -12,6 +12,7 @@ const ItemHistory = require('./item-history');
 const ItemSemantics = require('./item-semantics');
 /**
  * @type {import('../quantity').QuantityClass}
+ * @private
  */
 const Quantity = require('../quantity');
 const { QuantityError } = require('../quantity');

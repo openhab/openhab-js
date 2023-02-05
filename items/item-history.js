@@ -2,6 +2,7 @@
 const time = require('../time');
 /**
  * @type {import('../quantity').QuantityClass}
+ * @private
  */
 const Quantity = require('../quantity');
 const { QuantityError } = require('../quantity');
