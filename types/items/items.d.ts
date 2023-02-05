@@ -31,9 +31,9 @@ export type ItemConfig = {
      */
     channels?: string | any;
     /**
-     * either object { namespace: value } or { namespace: { value: value, config: {} } }
+     * either object `{ namespace: value }` or `{ namespace: `{@link ItemMetadata }` }`
      */
-    metadata?: ItemMetadata;
+    metadata?: any;
     /**
      * the group Item base type for the Item
      */
@@ -42,34 +42,6 @@ export type ItemConfig = {
      * the group function used by the Item
      */
     groupFunction?: HostGroupFunction;
-};
-/**
- * Item metadata configuration, not fully documented
- */
-export type ItemMetadata = {
-    /**
-     * `stateDescription` configuration, required for most UIs
-     */
-    stateDescription?: {
-        config?: {
-            pattern?: string;
-        };
-    };
-    /**
-     * `expire` configuration, see {@link https://www.openhab.org/docs/configuration/items.html#parameter-expire}
-     */
-    expire?: {
-        value?: string;
-        config?: {
-            ignoreStateUpdates?: string;
-        };
-    };
-    /**
-     * `autoupdate` configuration, see {@link https://www.openhab.org/docs/configuration/items.html#parameter-expire}
-     */
-    autoupdate?: {
-        value?: string;
-    };
 };
 /**
  * Helper function to ensure an Item name is valid. All invalid characters are replaced with an underscore.
@@ -230,16 +202,26 @@ export class Item {
      */
     get isUninitialized(): boolean;
     /**
-     * Gets metadata with the given name for this Item.
-     * @param {string} namespace The namespace for the metadata to retrieve
-     * @returns {{configuration: *, value: string}|null} metadata or null if the Item has no metadata with the given name
+     * Gets metadata of a single namespace or of all namespaces from this Item.
+     *
+     * @example
+     * // Get metadata of ALL namespaces
+     * var meta = Item.getMetadata();
+     * var namespaces = Object.keys(meta); // Get metadata namespaces
+     * // Get metadata of a single namespace
+     * meta = Item.getMetadata('expire');
+     *
+     * @see items.metadata.getMetadata
+     * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is returned, else all metadata is returned
+     * @returns {{ namespace: ItemMetadata }|ItemMetadata|null} all metadata as an object with the namespaces as properties OR metadata of a single namespace or `null` if that namespace doesn't exist; the metadata itself is of type {@link ItemMetadata}
      */
-    getMetadata(namespace: string): {
-        configuration: any;
-        value: string;
-    } | null;
+    getMetadata(namespace?: string): {
+        namespace: ItemMetadata;
+    } | ItemMetadata | null;
     /**
-     * Updates or adds the given metadata for this Item.
+     * Updates or adds metadata of a single namespace to this Item.
+     *
+     * @see items.metadata.replaceMetadata
      * @param {string} namespace name of the metadata
      * @param {string} value value for this metadata
      * @param {object} [configuration] optional metadata configuration
@@ -250,14 +232,13 @@ export class Item {
         value: string;
     } | null;
     /**
-     * Removes metadata with a given name from a given Item.
-     * @param {string} namespace name of the metadata
-     * @returns {{configuration: *, value: string}|null} removed metadata or `null` if the Item has no metadata with the given name
+     * Removes metadata of a single namespace from this Item.
+     *
+     * @see items.metadata.removeMetadata
+     * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is removed, else all metadata is removed
+     * @returns {ItemMetadata|null} removed metadata OR `null` if the Item has no metadata under the given namespace or all metadata was removed
      */
-    removeMetadata(namespace: string): {
-        configuration: any;
-        value: string;
-    } | null;
+    removeMetadata(namespace?: string): ItemMetadata | null;
     /**
      * Sends a command to the Item.
      *
