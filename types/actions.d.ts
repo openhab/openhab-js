@@ -193,6 +193,8 @@ export class ScriptExecution {
  *
  * The static methods of this class are made available as functions in the scripts. This allows a script to use Semantics features.
  *
+ * Instead of using the Semantics actions, it is recommended to use the the {@link items.ItemSemantics} available through the `semantics` property of an {@link items.Item}.
+ *
  * @example
  * Semantics.getEquipment(Item item)
  * Semantics.getEquipmentType(Item item)
