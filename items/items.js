@@ -135,8 +135,12 @@ class Item {
     try {
       return Quantity(this.rawState.toString());
     } catch (e) {
-      if (e instanceof QuantityError) return null;
-      throw Error('Failed to get "quantityState": ' + e);
+      if (e instanceof QuantityError) {
+        log.debug(`Failed to create "quantityState" for Item ${this.name}:`, e);
+        return null;
+      } else {
+        throw Error('Failed to create "quantityState": ' + e);
+      } 
     }
   }
 

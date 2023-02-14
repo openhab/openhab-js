@@ -1,5 +1,6 @@
 /** @typedef {import('@js-joda/core').ZonedDateTime} time.ZonedDateTime */
 const time = require('../time');
+const log = require('../log')('items');
 /**
  * @type {import('../quantity').QuantityClass}
  * @private
@@ -408,8 +409,12 @@ class ItemHistory {
     try {
       quantityState = Quantity(rawState.toString());
     } catch (e) {
-      if (e instanceof QuantityError) quantityState = null;
-      throw Error('Failed to create "quantityState": ' + e);
+      if (e instanceof QuantityError) {
+        log.debug(`Failed to create "quantityState" for Item ${this.name}:`, e);
+        quantityState = null;
+      } else { 
+        throw Error('Failed to create "quantityState": ' + e);
+      } 
     }
     return {
       state: rawState.toString(),
