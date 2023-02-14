@@ -1,3 +1,4 @@
+const VERSION = require('./package.json').version;
 const log = require('./log')('utils');
 
 const HashSet = Java.type('java.util.HashSet');
@@ -216,5 +217,6 @@ module.exports = {
   javaMapToJsObj,
   randomUUID,
   dumpObject,
-  isJsInstanceOfJava
+  isJsInstanceOfJava,
+  OPENHAB_JS_VERSION: VERSION
 };
