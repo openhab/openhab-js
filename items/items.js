@@ -140,7 +140,7 @@ class Item {
         return null;
       } else {
         throw Error('Failed to create "quantityState": ' + e);
-      } 
+      }
     }
   }
 

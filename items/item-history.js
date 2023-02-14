@@ -412,9 +412,9 @@ class ItemHistory {
       if (e instanceof QuantityError) {
         log.debug(`Failed to create "quantityState" for Item ${this.name}:`, e);
         quantityState = null;
-      } else { 
+      } else {
         throw Error('Failed to create "quantityState": ' + e);
-      } 
+      }
     }
     return {
       state: rawState.toString(),
