@@ -1,3 +1,8 @@
+/**
+ * openHAB JavaScript library version
+ *
+ * @type {string}
+ */
 const VERSION = require('./package.json').version;
 const log = require('./log')('utils');
 
