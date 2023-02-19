@@ -4,6 +4,7 @@
 
 | Type        | Namespace              | Description                                                                                       | Reference                                                                                               | Breaking |
 |-------------|------------------------|---------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------|----------|
+| Enhancement | `utils`                | Add access to library version                                                                     | [#244](https://github.com/openhab/openhab-js/pull/244)                                                  | No       |
 | Bugfix      | `items`                | Fix error handling for `quantityState`                                                            | [#243](https://github.com/openhab/openhab-js/pull/243)                                                  | No       |
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/12).

@@ -87,4 +87,11 @@ export function dumpObject(obj: any, dumpProps?: boolean): void;
  * @throws error if type is not a java class
  */
 export function isJsInstanceOfJava(instance: any, type: JavaClass): boolean;
+/**
+ * openHAB JavaScript library version
+ *
+ * @type {string}
+ */
+declare const VERSION: string;
+export { VERSION as OPENHAB_JS_VERSION };
 //# sourceMappingURL=utils.d.ts.map
