@@ -408,8 +408,11 @@ class ItemHistory {
     try {
       quantityState = Quantity(rawState.toString());
     } catch (e) {
-      if (e instanceof QuantityError) quantityState = null;
-      throw Error('Failed to create "quantityState": ' + e);
+      if (e instanceof QuantityError) {
+        quantityState = null;
+      } else {
+        throw Error('Failed to create "quantityState": ' + e);
+      }
     }
     return {
       state: rawState.toString(),
