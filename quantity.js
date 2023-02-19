@@ -97,16 +97,16 @@ class Quantity {
   }
 
   /**
-   * Dimension of this Quantity, e.g. `[L]` for metres or `[L]²` for cubic-metres as `string`
-   * @returns {string}
+   * Dimension of this Quantity, e.g. `[L]` for metres or `[L]²` for cubic-metres
+   * @type {string}
    */
   get dimension () {
     return this.raw.getDimension().toString();
   }
 
   /**
-   * Unit of this Quantity, e.g. `Metre` as `string` or `null` if not available
-   * @returns {string|null}
+   * Unit of this Quantity, e.g. `Metre`, or `null` if not available
+   * @type {string|null}
    */
   get unit () {
     const unit = this.raw.getUnit().getName();
@@ -114,8 +114,8 @@ class Quantity {
   }
 
   /**
-   * Unit symbol of this Quantitiy, e.g. `m` as `string` or `null` if not available
-   * @returns {string|null}
+   * Unit symbol of this Quantity, e.g. `m`, or `null` if not available
+   * @type {string|null}
    */
   get symbol () {
     const symbol = this.raw.getUnit().getSymbol();
@@ -123,16 +123,16 @@ class Quantity {
   }
 
   /**
-   * Float (decimal number) value of this Quantity.
-   * @returns {number}
+   * Float (decimal number) value of this Quantity
+   * @type {number}
    */
   get float () {
     return parseFloat(this.raw.doubleValue());
   }
 
   /**
-   * Integer (non-decimal number) value of this Quantity.
-   * @returns {number}
+   * Integer (non-decimal number) value of this Quantity
+   * @type {number}
    */
   get int () {
     return parseInt(this.raw.longValue());
@@ -140,6 +140,7 @@ class Quantity {
 
   /**
    * Add the given value to this Quantity.
+   *
    * @param {string|Quantity} value `string` consisting of amount and unit or a Quantity
    * @returns {Quantity} result as new Quantity
    */
@@ -180,6 +181,7 @@ class Quantity {
 
   /**
    * Subtract the given value from this Quantity.
+   *
    * @param {string|Quantity} value `string` consisting of amount and unit or a Quantity
    * @returns {Quantity} result as new Quantity
    */
@@ -190,6 +192,7 @@ class Quantity {
 
   /**
    * Convert this Quantity to the given unit.
+   *
    * @param {string} unit
    * @returns {Quantity|null} a new Quantity with the given unit or `null` if conversion to this unit is not possible
    */
@@ -205,6 +208,7 @@ class Quantity {
 
   /**
    * Checks whether this Quantity is equal to the passed in value.
+   *
    * @param {string|Quantity} value
    * @returns {boolean}
    */
@@ -215,6 +219,7 @@ class Quantity {
 
   /**
    * Checks whether this Quantity is larger than the passed in value.
+   *
    * @param {string|Quantity} value
    * @returns {boolean}
    */
@@ -225,6 +230,7 @@ class Quantity {
 
   /**
    * Checks whether this Quantity is larger than or equal to the passed in value.
+   *
    * @param {string|Quantity} value
    * @returns {boolean}
    */
@@ -235,6 +241,7 @@ class Quantity {
 
   /**
    * Checks whether this Quantity is smaller than the passed in value.
+   *
    * @param {string|Quantity} value
    * @returns {boolean}
    */
@@ -245,6 +252,7 @@ class Quantity {
 
   /**
    * Checks whether this Quantity is smaller than or equal to the passed in value.
+   *
    * @param {string|Quantity} value
    * @returns {boolean}
    */

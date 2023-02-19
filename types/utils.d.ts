@@ -90,6 +90,8 @@ export function isJsInstanceOfJava(instance: any, type: JavaClass): boolean;
 /**
  * openHAB JavaScript library version
  *
+ * @memberof utils
+ * @name OPENHAB_JS_VERSION
  * @type {string}
  */
 declare const VERSION: string;

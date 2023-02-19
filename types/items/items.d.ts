@@ -233,7 +233,7 @@ export class Item {
         value: string;
     } | null;
     /**
-     * Removes metadata of a single namespace from this Item.
+     * Removes metadata of a single namespace or of all namespaces from a given Item.
      *
      * @see items.metadata.removeMetadata
      * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is removed, else all metadata is removed
