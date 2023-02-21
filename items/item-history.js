@@ -28,7 +28,7 @@ const PersistenceExtensions = Java.type('org.openhab.core.persistence.extensions
  * @hideconstructor
  */
 class ItemHistory {
-  constructor (rawItem) {
+  constructor(rawItem) {
     this.rawItem = rawItem;
   }
 
@@ -40,7 +40,7 @@ class ItemHistory {
    * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
    * @returns {(number | null)}
    */
-  averageBetween (begin, end, serviceId) {
+  averageBetween(begin, end, serviceId) {
     return this._decimalOrNull(PersistenceExtensions.averageBetween(this.rawItem, ...arguments));
   }
 
@@ -56,7 +56,7 @@ class ItemHistory {
    * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
    * @returns {(number | null)}
    */
-  averageSince (timestamp, serviceId) {
+  averageSince(timestamp, serviceId) {
     return this._decimalOrNull(PersistenceExtensions.averageSince(this.rawItem, ...arguments));
   }
 
@@ -68,7 +68,7 @@ class ItemHistory {
    * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
    * @returns {boolean}
    */
-  changedBetween (begin, end, serviceId) {
+  changedBetween(begin, end, serviceId) {
     return PersistenceExtensions.changedBetween(this.rawItem, ...arguments);
   }
 
@@ -79,7 +79,7 @@ class ItemHistory {
    * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
    * @returns {boolean}
    */
-  changedSince (timestamp, serviceId) {
+  changedSince(timestamp, serviceId) {
     return PersistenceExtensions.changedSince(this.rawItem, ...arguments);
   }
 
@@ -91,7 +91,7 @@ class ItemHistory {
    * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
    * @returns {number}
    */
-  countBetween (begin, end, serviceId) {
+  countBetween(begin, end, serviceId) {
     return PersistenceExtensions.countBetween(this.rawItem, ...arguments);
   }
 
@@ -102,7 +102,7 @@ class ItemHistory {
    * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
    * @returns {number}
    */
-  countSince (timestamp, serviceId) {
+  countSince(timestamp, serviceId) {
     return PersistenceExtensions.countSince(this.rawItem, ...arguments);
   }
 
@@ -114,7 +114,7 @@ class ItemHistory {
    * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
    * @returns {number}
    */
-  countStateChangesBetween (begin, end, serviceId) {
+  countStateChangesBetween(begin, end, serviceId) {
     return PersistenceExtensions.countStateChangesBetween(this.rawItem, ...arguments);
   }
 
@@ -125,7 +125,7 @@ class ItemHistory {
    * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
    * @returns {number}
    */
-  countStateChangesSince (timestamp, serviceId) {
+  countStateChangesSince(timestamp, serviceId) {
     return PersistenceExtensions.countStateChangesSince(this.rawItem, ...arguments);
   }
 
@@ -137,7 +137,7 @@ class ItemHistory {
    * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
    * @returns {(number | null)}
    */
-  deltaBetween (begin, end, serviceId) {
+  deltaBetween(begin, end, serviceId) {
     return this._decimalOrNull(PersistenceExtensions.deltaBetween(this.rawItem, ...arguments));
   }
 
@@ -148,7 +148,7 @@ class ItemHistory {
    * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
    * @returns {(number | null)}
    */
-  deltaSince (timestamp, serviceId) {
+  deltaSince(timestamp, serviceId) {
     return this._decimalOrNull(PersistenceExtensions.deltaSince(this.rawItem, ...arguments));
   }
 
@@ -160,7 +160,7 @@ class ItemHistory {
    * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
    * @returns {(number | null)}
    */
-  deviationBetween (begin, end, serviceId) {
+  deviationBetween(begin, end, serviceId) {
     return this._decimalOrNull(PersistenceExtensions.deviationBetween(this.rawItem, ...arguments));
   }
 
@@ -171,7 +171,7 @@ class ItemHistory {
    * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
    * @returns {(number | null)}
    */
-  deviationSince (timestamp, serviceId) {
+  deviationSince(timestamp, serviceId) {
     return this._decimalOrNull(PersistenceExtensions.deviationSince(this.rawItem, ...arguments));
   }
 
@@ -183,7 +183,7 @@ class ItemHistory {
    * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
    * @returns {(number | null)}
    */
-  evolutionRate (timestamp, serviceId) {
+  evolutionRate(timestamp, serviceId) {
     console.warn('"evolutionRate" is deprecated and will be removed in the future. Use "evolutionRateSince" instead.');
     return this._decimalOrNull(PersistenceExtensions.evolutionRate(this.rawItem, ...arguments));
   }
@@ -196,7 +196,7 @@ class ItemHistory {
    * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
    * @returns {(number | null)}
    */
-  evolutionRateBetween (begin, end, serviceId) {
+  evolutionRateBetween(begin, end, serviceId) {
     return this._decimalOrNull(PersistenceExtensions.evolutionRate(this.rawItem, ...arguments));
   }
 
@@ -207,7 +207,7 @@ class ItemHistory {
    * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
    * @returns {(number | null)}
    */
-  evolutionRateSince (timestamp, serviceId) {
+  evolutionRateSince(timestamp, serviceId) {
     return this._decimalOrNull(PersistenceExtensions.evolutionRate(this.rawItem, ...arguments));
   }
 
@@ -218,7 +218,7 @@ class ItemHistory {
    * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
    * @returns {(HistoricItem | null)} historic item
    */
-  historicState (timestamp, serviceId) {
+  historicState(timestamp, serviceId) {
     try {
       return this._historicItemOrNull(PersistenceExtensions.historicState(this.rawItem, ...arguments));
     } catch (e) {
@@ -232,7 +232,7 @@ class ItemHistory {
    * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
    * @returns {(time.ZonedDateTime | null)}
    */
-  lastUpdate (serviceId) {
+  lastUpdate(serviceId) {
     return this._dateOrNull(PersistenceExtensions.lastUpdate(this.rawItem, ...arguments));
   }
 
@@ -242,7 +242,7 @@ class ItemHistory {
    * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
    * @returns {(string | null)} state
    */
-  latestState (serviceId) {
+  latestState(serviceId) {
     return this.historicState(time.ZonedDateTime.now(), ...arguments);
   }
 
@@ -254,7 +254,7 @@ class ItemHistory {
    * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
    * @returns {(HistoricItem | null)} historic item or null
    */
-  maximumBetween (begin, end, serviceId) {
+  maximumBetween(begin, end, serviceId) {
     return this._historicItemOrNull(PersistenceExtensions.maximumBetween(this.rawItem, ...arguments));
   }
 
@@ -265,7 +265,7 @@ class ItemHistory {
    * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
    * @returns {(HistoricItem | null)} historic item or null
    */
-  maximumSince (timestamp, serviceId) {
+  maximumSince(timestamp, serviceId) {
     return this._historicItemOrNull(PersistenceExtensions.maximumSince(this.rawItem, ...arguments));
   }
 
@@ -277,7 +277,7 @@ class ItemHistory {
    * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
    * @returns {(HistoricItem | null)} historic item or null
    */
-  minimumBetween (begin, end, serviceId) {
+  minimumBetween(begin, end, serviceId) {
     return this._historicItemOrNull(PersistenceExtensions.minimumBetween(this.rawItem, ...arguments));
   }
 
@@ -288,7 +288,7 @@ class ItemHistory {
    * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
    * @returns {(HistoricItem | null)} historic item or null
    */
-  minimumSince (timestamp, serviceId) {
+  minimumSince(timestamp, serviceId) {
     return this._historicItemOrNull(PersistenceExtensions.minimumSince(this.rawItem, ...arguments));
   }
 
@@ -297,7 +297,7 @@ class ItemHistory {
    *
    * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
    */
-  persist (serviceId) {
+  persist(serviceId) {
     PersistenceExtensions.persist(this.rawItem, ...arguments);
   }
 
@@ -308,7 +308,7 @@ class ItemHistory {
    * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
    * @returns {(HistoricItem | null)} historic item or null
    */
-  previousState (skipEqual, serviceId) {
+  previousState(skipEqual, serviceId) {
     return this._historicItemOrNull(PersistenceExtensions.previousState(this.rawItem, ...arguments));
   }
 
@@ -320,7 +320,7 @@ class ItemHistory {
    * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
    * @returns {(number | null)}
    */
-  sumBetween (begin, end, serviceId) {
+  sumBetween(begin, end, serviceId) {
     return this._decimalOrNull(PersistenceExtensions.sumBetween(this.rawItem, ...arguments));
   }
 
@@ -331,7 +331,7 @@ class ItemHistory {
    * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
    * @returns {(number | null)}
    */
-  sumSince (timestamp, serviceId) {
+  sumSince(timestamp, serviceId) {
     return this._decimalOrNull(PersistenceExtensions.sumSince(this.rawItem, ...arguments));
   }
 
@@ -343,7 +343,7 @@ class ItemHistory {
    * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
    * @returns {boolean}
    */
-  updatedBetween (begin, end, serviceId) {
+  updatedBetween(begin, end, serviceId) {
     return PersistenceExtensions.updatedBetween(this.rawItem, ...arguments);
   }
 
@@ -354,7 +354,7 @@ class ItemHistory {
    * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
    * @returns {boolean}
    */
-  updatedSince (timestamp, serviceId) {
+  updatedSince(timestamp, serviceId) {
     return PersistenceExtensions.updatedSince(this.rawItem, ...arguments);
   }
 
@@ -366,7 +366,7 @@ class ItemHistory {
    * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
    * @returns {(number | null)}
    */
-  varianceBetween (begin, end, serviceId) {
+  varianceBetween(begin, end, serviceId) {
     return this._decimalOrNull(PersistenceExtensions.varianceBetween(this.rawItem, ...arguments));
   }
 
@@ -377,28 +377,28 @@ class ItemHistory {
    * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
    * @returns {(number | null)}
    */
-  varianceSince (timestamp, serviceId) {
+  varianceSince(timestamp, serviceId) {
     return this._decimalOrNull(PersistenceExtensions.varianceSince(this.rawItem, ...arguments));
   }
 
   /**
    * @private
    */
-  _dateOrNull (result) {
+  _dateOrNull(result) {
     return result === null ? null : time.ZonedDateTime.parse(result.toString());
   }
 
   /**
    * @private
    */
-  _decimalOrNull (result) {
+  _decimalOrNull(result) {
     return result === null ? null : result.toBigDecimal();
   }
 
   /**
    * @private
    */
-  _historicItemOrNull (result) {
+  _historicItemOrNull(result) {
     if (result === null) {
       return null;
     }
@@ -410,8 +410,6 @@ class ItemHistory {
     } catch (e) {
       if (e instanceof QuantityError) {
         quantityState = null;
-      } else {
-        throw Error('Failed to create "quantityState": ' + e);
       }
     }
     return {
