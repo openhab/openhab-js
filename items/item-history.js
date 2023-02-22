@@ -219,11 +219,7 @@ class ItemHistory {
    * @returns {(HistoricItem | null)} historic item
    */
   historicState (timestamp, serviceId) {
-    try {
-      return this._historicItemOrNull(PersistenceExtensions.historicState(this.rawItem, ...arguments));
-    } catch (e) {
-
-    }
+    return this._historicItemOrNull(PersistenceExtensions.historicState(this.rawItem, ...arguments));
   }
 
   /**
