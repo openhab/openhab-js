@@ -28,7 +28,7 @@ const PersistenceExtensions = Java.type('org.openhab.core.persistence.extensions
  * @hideconstructor
  */
 class ItemHistory {
-  constructor(rawItem) {
+  constructor (rawItem) {
     this.rawItem = rawItem;
   }
 
