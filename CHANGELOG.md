@@ -2,11 +2,12 @@
 
 ## to be released
 
-| Type        | Namespace | Description                                       | Reference                                              | Breaking |
-|-------------|-----------|---------------------------------------------------|--------------------------------------------------------|----------|
-| Enhancement | `utils`   | Add access to library version                     | [#244](https://github.com/openhab/openhab-js/pull/244) | No       |
-| Bugfix      | `items`   | Fix error handling for `quantityState`            | [#243](https://github.com/openhab/openhab-js/pull/243) | No       |
-| Bugfix      | `items`   | Fix silent failure of `ItemHistory.historicState` | [#248](https://github.com/openhab/openhab-js/pull/248) | No       |
+| Type        | Namespace | Description                                         | Reference                                              | Breaking |
+|-------------|-----------|-----------------------------------------------------|--------------------------------------------------------|----------|
+| Enhancement | `utils`   | Add access to library version                       | [#244](https://github.com/openhab/openhab-js/pull/244) | No       |
+| Bugfix      | `items`   | Fix error handling for `quantityState`              | [#243](https://github.com/openhab/openhab-js/pull/243) | No       |
+| Bugfix      | `items`   | Fix silent failure of `ItemHistory.historicState`   | [#248](https://github.com/openhab/openhab-js/pull/248) | No       |
+| Bugfix      | `items`   | Fix `ItemHistory.latestState` doesn’t return string | [#249](https://github.com/openhab/openhab-js/pull/249) | No       |
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/12).
 

@@ -169,7 +169,7 @@ declare class ItemHistory {
      */
     lastUpdate(serviceId?: string, ...args: any[]): (time.ZonedDateTime | null);
     /**
-     * Retrieves the historic item state for a given Item at the current point in time.
+     * Retrieves the historic Item state for a given Item at the current point in time.
      *
      * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
      * @returns {(string | null)} state
