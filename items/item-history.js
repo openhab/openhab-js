@@ -233,13 +233,14 @@ class ItemHistory {
   }
 
   /**
-   * Retrieves the historic item state for a given Item at the current point in time.
+   * Retrieves the historic Item state for a given Item at the current point in time.
    *
    * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
    * @returns {(string | null)} state
    */
   latestState (serviceId) {
-    return this.historicState(time.ZonedDateTime.now(), ...arguments);
+    const result = this.historicState(time.ZonedDateTime.now(), ...arguments);
+    return (result === null) ? null : result.state;
   }
 
   /**
