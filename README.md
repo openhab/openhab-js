@@ -19,6 +19,7 @@ Scripting add-on](https://www.openhab.org/addons/automation/jsscripting/).
 - [Installation](#installation)
   - [Default Installation](#default-installation)
   - [Custom Installation](#custom-installation)
+- [Compatibility](#compatibility)
 - [Configuration](#configuration)
   - [UI Based Rules](#ui-based-rules)
   - [Adding Triggers](#adding-triggers)
@@ -78,6 +79,11 @@ Manually:
 
 NPM will create a `node_modules` directory containing the latest version of this library.
 This will be used instead of the binding provided version.
+
+## Compatibility
+
+All `openhab-js` versions (latest is `4.1.0` as of writing) are fully compatible with openHAB 3.1.0 or newer.
+openHAB 3.4.0 or newer requires at least `openhab-js` 3.1.0!
 
 ## Configuration
 
