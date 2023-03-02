@@ -33,5 +33,30 @@ declare class ItemSemantics {
      * @type {string|null}
      */
     get semanticType(): string;
+    /**
+     * Whether the Item is a Location
+     * @type {boolean}
+     */
+    get isLocation(): boolean;
+    /**
+     * Whether the Item is an Equipment
+     * @type {boolean}
+     */
+    get isEquipment(): boolean;
+    /**
+     * Whether the Item is a Point
+     * @type {boolean}
+     */
+    get isPoint(): boolean;
+    /**
+     * The Location Item where this Item is situated or `null` if it's not in a Location.
+     * @type {Item|null}
+     */
+    get location(): any;
+    /**
+     * The Equipment Item where this Item is situated or `null` if it's not in an Equipment.
+     * @type {Item|null}
+     */
+    get equipment(): any;
 }
 //# sourceMappingURL=item-semantics.d.ts.map

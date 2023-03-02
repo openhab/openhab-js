@@ -1,3 +1,4 @@
+const items = require('./items');
 const Semantics = Java.type('org.openhab.core.model.script.actions.Semantics');
 
 /**
@@ -73,6 +74,48 @@ class ItemSemantics {
     } else {
       return null;
     }
+  }
+
+  /**
+   * Whether the Item is a Location
+   * @type {boolean}
+   */
+  get isLocation () {
+    return Semantics.isLocation(this.rawItem);
+  }
+
+  /**
+   * Whether the Item is an Equipment
+   * @type {boolean}
+   */
+  get isEquipment () {
+    return Semantics.isEquipment(this.rawItem);
+  }
+
+  /**
+   * Whether the Item is a Point
+   * @type {boolean}
+   */
+  get isPoint () {
+    return Semantics.isPoint(this.rawItem);
+  }
+
+  /**
+   * The Location Item where this Item is situated or `null` if it's not in a Location.
+   * @type {Item|null}
+   */
+  get location () {
+    const rawLoc = Semantics.getLocation(this.rawItem);
+    return (rawLoc === null) ? null : items.getItem(rawLoc.getName());
+  }
+
+  /**
+   * The Equipment Item where this Item is situated or `null` if it's not in an Equipment.
+   * @type {Item|null}
+   */
+  get equipment () {
+    const rawEqu = Semantics.getEquipment(this.rawItem);
+    return (rawEqu === null) ? null : items.getItem(rawEqu.getName());
   }
 }
 
