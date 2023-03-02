@@ -106,7 +106,7 @@ class ItemSemantics {
    */
   get location () {
     const rawLoc = Semantics.getLocation(this.rawItem);
-    return (rawLoc === null) ? null :  items.getItem(rawLoc.getName());
+    return (rawLoc === null) ? null : items.getItem(rawLoc.getName());
   }
 
   /**
