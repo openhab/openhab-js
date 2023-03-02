@@ -4,6 +4,7 @@
 
 | Type        | Namespace | Description                                       | Reference                                              | Breaking |
 |-------------|-----------|---------------------------------------------------|--------------------------------------------------------|----------|
+| Enhancement | `items`   | Add missing semantic actions to `ItemSemantics`   | [#252](https://github.com/openhab/openhab-js/pull/252) | No       |
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/13).
 
