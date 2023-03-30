@@ -118,7 +118,7 @@ class Quantity {
    * @type {string|null}
    */
   get symbol () {
-    const symbol = this.raw.getUnit().getSymbol();
+    const symbol = this.raw.getUnit();
     return (symbol === null) ? null : symbol.toString();
   }
 
