@@ -17,7 +17,6 @@ const ItemSemantics = require('./item-semantics');
 const Quantity = require('../quantity');
 const { QuantityError } = require('../quantity');
 /** @typedef {import('@js-joda/core').ZonedDateTime} time.ZonedDateTime */
-const time = require('../time');
 
 const { UnDefType, OnOffType, events, itemRegistry } = require('@runtime');
 
@@ -51,6 +50,27 @@ const managedItemProvider = osgi.getService('org.openhab.core.items.ManagedItemP
  * @memberof items
  */
 const DYNAMIC_ITEM_TAG = '_DYNAMIC_';
+
+/**
+ * Helper function to convert JS types to openHAB command/state types' string representation.
+ *
+ * Numbers and strings are passed.
+ * Objects should implement `toOpenHabString` (prioritized) or `toString` to return a openHAB compatible representation.
+ *
+ * @private
+ * @param {*} value
+ * @returns {*}
+ */
+const _toOpenhabString = (value) => {
+  if (typeof value === 'number' || typeof value === 'string') {
+    return value;
+  } else if (typeof value.toOpenHabString === 'function') {
+    return value.toOpenHabString();
+  } else if (typeof value.toString === 'function') {
+    return value.toString();
+  }
+  return value;
+};
 
 /**
  * Class representing an openHAB Item
@@ -227,25 +247,24 @@ class Item {
   /**
    * Sends a command to the Item.
    *
-   * @param {string|time.ZonedDateTime|HostState} value the value of the command to send, such as 'ON'
+   * @param {string|time.ZonedDateTime|Quantity|HostState} value the value of the command to send, such as 'ON'
    * @see sendCommandIfDifferent
    * @see postUpdate
    */
   sendCommand (value) {
-    if (value instanceof time.ZonedDateTime) value = value.toOpenHabString();
-    events.sendCommand(this.rawItem, value);
+    events.sendCommand(this.rawItem, _toOpenhabString(value));
   }
 
   /**
    * Sends a command to the Item, but only if the current state is not what is being sent.
    *
-   * @param {string|time.ZonedDateTime|HostState} value the value of the command to send, such as 'ON'
+   * @param {string|time.ZonedDateTime|Quantity|HostState} value the value of the command to send, such as 'ON'
    * @returns {boolean} true if the command was sent, false otherwise
    * @see sendCommand
    */
   sendCommandIfDifferent (value) {
-    if (value instanceof time.ZonedDateTime) value = value.toOpenHabString();
-    if (value.toString() !== this.state.toString()) {
+    value = _toOpenhabString(value);
+    if (value.toString() !== this.state) {
       this.sendCommand(value);
       return true;
     }
@@ -303,13 +322,12 @@ class Item {
   /**
    * Posts an update to the Item.
    *
-   * @param {string|time.ZonedDateTime|HostState} value the value of the command to send, such as 'ON'
+   * @param {string|time.ZonedDateTime|Quantity|HostState} value the value of the command to send, such as 'ON'
    * @see postToggleUpdate
    * @see sendCommand
    */
   postUpdate (value) {
-    if (value instanceof time.ZonedDateTime) value = value.toOpenHabString();
-    events.postUpdate(this.rawItem, value);
+    events.postUpdate(this.rawItem, _toOpenhabString(value));
   }
 
   /**
