@@ -113,17 +113,14 @@ const _parseISO8601 = function (isoStr) {
 };
 
 /**
- * Parses the passed in string based on it's format and converted to a ZonedDateTime.
+ * Parses the passed in string based on it's format and converts it to a ZonedDateTime.
+ * If no timezone is specified, `SYSTEM` is used.
  * @private
- * @param {string} str string number to try and parse and convert
+ * @param {string} str string to parse and convert
+ * @returns {time.ZonedDateTime}
  * @throws Error when the string cannot be parsed
  */
 const _parseString = function (str) {
-  // Number
-  if (!isNaN(str)) {
-    return _addMillisToNow(str);
-  }
-
   // 12 hour time string
   if (_is12Hr(str)) {
     const parts = str.split(':');
@@ -193,12 +190,12 @@ const _convertItem = function (item) {
  *
  * - null, undefined: time.ZonedDateTime.now()
  * - time.ZonedDateTime: unmodified
- * - Java ZonedDateTime, DateTimeType: converted to time.ZonedDateTime equivalnet
- * - JavaScript native Date: converted to a time.ZonedDateTime using SYSTEM as the timezone
- * - number, bigint, Java Number, DecimalType: rounded and added to time.ZonedDateTime.now() as milliseconds
- * - QuantityType: if the units are Time, added to now
+ * - Java ZonedDateTime, DateTimeType: converted to time.ZonedDateTime equivalent
+ * - JavaScript native {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date Date}: converted to a `time.ZonedDateTime` using system timezone
+ * - number, bigint, Java Number, DecimalType: rounded and added to `time.ZonedDateTime.now()` as milliseconds
+ * - {@link Quantity} & QuantityType: if the unit is time-compatible, added to `time.ZonedDateTime.now()`
  * - Item: converts the state of the Item based on the *Type rules described here
- * - String, Java String, StringType: Parsed based on the following rules
+ * - String, Java String, StringType: parsed based on the following rules; if no timezone is specified system timezone is used
  *     - ISO 8601 DateTime: any Date, Time or DateTime with optional time offset and/or time zone in the {@link https://en.wikipedia.org/wiki/ISO_8601 ISO8601 calendar system}
  *     - ISO 8601 Duration: any Duration in the {@link https://en.wikipedia.org/wiki/ISO_8601#Durations ISO8601 calendar system} (e.g. 'PT5H4M3.210S'), also see {@link https://js-joda.github.io/js-joda/class/packages/core/src/Duration.js~Duration.html#static-method-parse JS-Joda : Duration}
  *     - RFC (output from a Java ZonedDateTime.toString()): parsed to time.ZonedDateTime
@@ -206,7 +203,7 @@ const _convertItem = function (item) {
  *     - KK:mm[:ss][ ][aa] (i.e. 12 hour time): that time with today's date (seconds and space between time and am/pm are optional)
  * @memberof time
  * @param {*} when any of the types discussed above
- * @returns time.ZonedDateTime
+ * @returns {time.ZonedDateTime}
  * @throws error if the type, format, or contents of when are not supported
  */
 const toZDT = function (when) {
@@ -238,7 +235,7 @@ const toZDT = function (when) {
   }
 
   // JavaScript number of bigint, add as millisecs to now
-  if (typeof when === 'number' || typeof when === 'bigint') {
+  if (typeof when === 'number' || typeof when === 'bigint' || !isNaN(when)) {
     return _addMillisToNow(when);
   }
 
