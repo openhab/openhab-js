@@ -47,16 +47,17 @@ describe('quantity.js', () => {
     });
 
     it('symbol delegates & returns', () => {
-      unitSpy.getSymbol.mockImplementation(() => 'm');
+      quantityTypeSpy.getUnit.mockImplementation(() => 'm');
       let symbol = Quantity('5 m').symbol;
       expect(symbol).toBe('m');
 
-      unitSpy.getSymbol.mockImplementation(() => null);
+      quantityTypeSpy.getUnit.mockImplementation(() => null);
       symbol = Quantity('5 m').symbol;
       expect(symbol).toBe(null);
 
       expect(quantityTypeSpy.getUnit).toHaveBeenCalledTimes(2);
-      expect(unitSpy.getSymbol).toHaveBeenCalledTimes(2);
+
+      quantityTypeSpy.getUnit.mockImplementation(() => unitSpy);
     });
 
     it('float delegates & returns', () => {
