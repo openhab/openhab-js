@@ -2,9 +2,18 @@
 
 ## to be released
 
-| Type        | Namespace | Description                                       | Reference                                              | Breaking |
-|-------------|-----------|---------------------------------------------------|--------------------------------------------------------|----------|
-| Enhancement | `items`   | Add missing semantic actions to `ItemSemantics`   | [#252](https://github.com/openhab/openhab-js/pull/252) | No       |
+| Type        | Namespace  | Description                                                    | Reference                                                                                        | Breaking |
+|-------------|------------|----------------------------------------------------------------|--------------------------------------------------------------------------------------------------|----------|
+
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/14).
+
+## 4.2.0
+
+| Type        | Namespace  | Description                                                    | Reference                                                                                        | Breaking |
+|-------------|------------|----------------------------------------------------------------|--------------------------------------------------------------------------------------------------|----------|
+| Enhancement | `items`    | Add missing semantic actions to `ItemSemantics`                | [#252](https://github.com/openhab/openhab-js/pull/252)                                           | No       |
+| Bugfix      | `Quantity` | Improve availablity of `symbol` property                       | [c03241d](https://github.com/openhab/openhab-js/commit/c03241d9acdc7cd23694d441bb9b1a2214580a80) | No       |
+| Bugfix      | `items`    | Accept `Quantity` as argument for `postUpdate` & `sendCommand` | [bdd1b98](https://github.com/openhab/openhab-js/commit/bdd1b9846dadbe432a5c3bf5b148d59367531439) | No       |
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/13).
 

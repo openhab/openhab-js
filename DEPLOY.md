@@ -43,14 +43,12 @@ This also happens automatically on every push to `main` and is published using G
 
 ## Publish to NPM
 
-We have a Github action which will publish this library automatically when a version tag is pushed.
+We have a GitHub action which will publish this library automatically when a version tag is pushed.
+Use the [npm version](https://docs.npmjs.com/cli/v9/commands/npm-version) command to bump the version, commit and tag:
 
 ```bash
-npm test
-export OHJS=2.x.x # replace 2.x.x with version
-git checkout main
-git pull origin
-npm version $OHJS 
-git push origin  # push changes
-git push origin v${OHJS} # push tag
+npm run deploy # Perform tests etc.
+npm version [major | minor | patch] # Select one of the commands
 ```
+
+Push changes and tag to the remote.
