@@ -26,8 +26,9 @@ Scripting add-on](https://www.openhab.org/addons/automation/jsscripting/).
   - [Adding Actions](#adding-actions)
   - [UI Event Object](#ui-event-object)
 - [Scripting Basics](#scripting-basics)
-  - [Require](#require)
-  - [Console](#console)
+  - [`let` and `const`](#let-and-const)
+  - [`require`](#require)
+  - [`console`](#console)
   - [Timers](#timers)
   - [Paths](#paths)
   - [Deinitialization Hook](#deinitialization-hook)
@@ -138,6 +139,8 @@ See [openhab-js](https://openhab.github.io/openhab-js) for a complete list of fu
 ### UI Event Object
 
 **NOTE**: Note that `event` object is different in UI based rules and file based rules! This section is only valid for UI based rules. If you use file based rules, refer to [file based rules event object documentation](#event-object).
+Note that `event` object is only available when the UI based rule was triggered by an event and is not manually run!
+Trying to access `event` on manual run does not work (and will lead to an error), use `this.event` instead (will be `undefined` in case of manual run).
 
 When you use "Item event" as trigger (i.e. "[item] received a command", "[item] was updated", "[item] changed"), there is additional context available for the action in a variable called `event`.
 
@@ -173,13 +176,33 @@ console.log(event.itemState.toString() == "test") // OK
 
 The openHAB JavaScript Scripting runtime attempts to provide a familiar environment to JavaScript developers.
 
-### Require
+### `let` and `const`
+
+Due to the way how openHAB runs UI based scripts, `let`, `const` and `class` are not supported at top-level.
+Use `var` instead or wrap your script inside a self-invoking function:
+
+```javascript
+// Wrap script inside a self-invoking function:
+(function (data) {
+  const C = 'Hello world';
+  console.log(C);
+})(this.event);
+
+// Defining a class using var:
+var Tree = class {
+  constructor (height) {
+    this.height = height;
+  }
+}
+```
+
+### `require`
 
 Scripts may include standard NPM based libraries by using CommonJS `require`.
 The library search will look in the path `automation/js/node_modules` in the user configuration directory.
 See [libraries](#libraries) for more information.
 
-### Console
+### `console`
 
 The JS Scripting binding supports the standard `console` object for logging.
 Script logging is enabled by default at the `INFO` level (messages from `console.debug` and `console.trace` won't be displayed), but can be configured using the [openHAB console](https://www.openhab.org/docs/administration/console.html):
@@ -222,7 +245,7 @@ JS Scripting provides access to the global `setTimeout`, `setInterval`, `clearTi
 
 When a script is unloaded, all created timeouts and intervals are automatically cancelled.
 
-#### SetTimeout
+#### 'setTimeout'
 
 The global [`setTimeout()`](https://developer.mozilla.org/en-US/docs/Web/API/setTimeout) method sets a timer which executes a function once the timer expires.
 `setTimeout()` returns a `timeoutId` (a positive integer value) which identifies the timer created.
@@ -235,7 +258,7 @@ var timeoutId = setTimeout(callbackFunction, delay);
 
 The global [`clearTimeout(timeoutId)`](https://developer.mozilla.org/en-US/docs/Web/API/clearTimeout) method cancels a timeout previously established by calling `setTimeout()`.
 
-#### SetInterval
+#### `setInterval`
 
 The global [`setInterval()`](https://developer.mozilla.org/en-US/docs/Web/API/setInterval) method repeatedly calls a function, with a fixed time delay between each call.
 `setInterval()` returns an `intervalId` (a positive integer value) which identifies the interval created.
