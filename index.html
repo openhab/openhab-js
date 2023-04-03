@@ -43,7 +43,7 @@
 
 
     <section class="package">
-        <h3>openhab 4.1.0</h3>		
+        <h3>openhab 4.2.0</h3>		
     </section>
 
 
@@ -89,8 +89,9 @@ Scripting add-on</a>.</p>
 </li>
 <li><a href="#scripting-basics">Scripting Basics</a>
 <ul>
-<li><a href="#require">Require</a></li>
-<li><a href="#console">Console</a></li>
+<li><a href="#let-and-const"><code>let</code> and <code>const</code></a></li>
+<li><a href="#require"><code>require</code></a></li>
+<li><a href="#console"><code>console</code></a></li>
 <li><a href="#timers">Timers</a></li>
 <li><a href="#paths">Paths</a></li>
 <li><a href="#deinitialization-hook">Deinitialization Hook</a></li>
@@ -178,7 +179,9 @@ console.log(&quot;Thing status&quot;,thingStatusInfo.getStatus());
 </code></pre>
 <p>See <a href="https://openhab.github.io/openhab-js">openhab-js</a> for a complete list of functionality.</p>
 <h3>UI Event Object</h3>
-<p><strong>NOTE</strong>: Note that <code>event</code> object is different in UI based rules and file based rules! This section is only valid for UI based rules. If you use file based rules, refer to <a href="#event-object">file based rules event object documentation</a>.</p>
+<p><strong>NOTE</strong>: Note that <code>event</code> object is different in UI based rules and file based rules! This section is only valid for UI based rules. If you use file based rules, refer to <a href="#event-object">file based rules event object documentation</a>.
+Note that <code>event</code> object is only available when the UI based rule was triggered by an event and is not manually run!
+Trying to access <code>event</code> on manual run does not work (and will lead to an error), use <code>this.event</code> instead (will be <code>undefined</code> in case of manual run).</p>
 <p>When you use &quot;Item event&quot; as trigger (i.e. &quot;[item] received a command&quot;, &quot;[item] was updated&quot;, &quot;[item] changed&quot;), there is additional context available for the action in a variable called <code>event</code>.</p>
 <p>This table gives an overview over the <code>event</code> object for most common trigger types:</p>
 <table>
@@ -243,11 +246,27 @@ console.log(event.itemState.toString() == &quot;test&quot;) // OK
 </code></pre>
 <h2>Scripting Basics</h2>
 <p>The openHAB JavaScript Scripting runtime attempts to provide a familiar environment to JavaScript developers.</p>
-<h3>Require</h3>
+<h3><code>let</code> and <code>const</code></h3>
+<p>Due to the way how openHAB runs UI based scripts, <code>let</code>, <code>const</code> and <code>class</code> are not supported at top-level.
+Use <code>var</code> instead or wrap your script inside a self-invoking function:</p>
+<pre class="prettyprint source lang-javascript"><code>// Wrap script inside a self-invoking function:
+(function (data) {
+  const C = 'Hello world';
+  console.log(C);
+})(this.event);
+
+// Defining a class using var:
+var Tree = class {
+  constructor (height) {
+    this.height = height;
+  }
+}
+</code></pre>
+<h3><code>require</code></h3>
 <p>Scripts may include standard NPM based libraries by using CommonJS <code>require</code>.
 The library search will look in the path <code>automation/js/node_modules</code> in the user configuration directory.
 See <a href="#libraries">libraries</a> for more information.</p>
-<h3>Console</h3>
+<h3><code>console</code></h3>
 <p>The JS Scripting binding supports the standard <code>console</code> object for logging.
 Script logging is enabled by default at the <code>INFO</code> level (messages from <code>console.debug</code> and <code>console.trace</code> won't be displayed), but can be configured using the <a href="https://www.openhab.org/docs/administration/console.html">openHAB console</a>:</p>
 <pre class="prettyprint source lang-text"><code>log:set DEBUG org.openhab.automation.script
@@ -276,14 +295,14 @@ The string representations of each of these objects are appended together in the
 <h3>Timers</h3>
 <p>JS Scripting provides access to the global <code>setTimeout</code>, <code>setInterval</code>, <code>clearTimeout</code> and <code>clearInterval</code> methods specified in the <a href="https://developer.mozilla.org/en-US/docs/Web/API">Web APIs</a>.</p>
 <p>When a script is unloaded, all created timeouts and intervals are automatically cancelled.</p>
-<h4>SetTimeout</h4>
+<h4>'setTimeout'</h4>
 <p>The global <a href="https://developer.mozilla.org/en-US/docs/Web/API/setTimeout"><code>setTimeout()</code></a> method sets a timer which executes a function once the timer expires.
 <code>setTimeout()</code> returns a <code>timeoutId</code> (a positive integer value) which identifies the timer created.</p>
 <pre class="prettyprint source lang-javascript"><code>var timeoutId = setTimeout(callbackFunction, delay);
 </code></pre>
 <p><code>delay</code> is an integer value that represents the amount of milliseconds to wait before the timer expires.</p>
 <p>The global <a href="https://developer.mozilla.org/en-US/docs/Web/API/clearTimeout"><code>clearTimeout(timeoutId)</code></a> method cancels a timeout previously established by calling <code>setTimeout()</code>.</p>
-<h4>SetInterval</h4>
+<h4><code>setInterval</code></h4>
 <p>The global <a href="https://developer.mozilla.org/en-US/docs/Web/API/setInterval"><code>setInterval()</code></a> method repeatedly calls a function, with a fixed time delay between each call.
 <code>setInterval()</code> returns an <code>intervalId</code> (a positive integer value) which identifies the interval created.</p>
 <pre class="prettyprint source lang-javascript"><code>var intervalId = setInterval(callbackFunction, delay);
@@ -1563,7 +1582,7 @@ Generally speaking, you should prefer to use <a href="#standard-library">Standar
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.0</a> on Sun Apr 02 2023 11:32:57 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.0</a> on Mon Apr 03 2023 11:44:12 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
