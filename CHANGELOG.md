@@ -8,6 +8,8 @@
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/14).
 
+Please note that openHAB >= 4.0.0(.M2) (or >= `SNAPSHOT #3391`) requires at least this version.
+
 ## 4.2.0
 
 | Type        | Namespace  | Description                                                    | Reference                                                                                        | Breaking |
