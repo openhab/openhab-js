@@ -380,6 +380,9 @@ const _getTriggeredData = function (input) {
         data.eventType = 'change';
         data.triggerType = 'ItemStateChangeTrigger';
         break;
+      case 'org.openhab.core.items.events.ItemStateUpdatedEvent':
+      case 'org.openhab.core.items.events.GroupStateUpdatedEvent':
+      // **StateEvents replaced by **StateUpdatedEvents in https://github.com/openhab/openhab-core/pull/3141
       case 'org.openhab.core.items.events.GroupItemStateEvent':
       case 'org.openhab.core.items.events.ItemStateEvent':
         data.itemName = event.getItemName();
