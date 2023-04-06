@@ -2,10 +2,13 @@
 
 ## to be released
 
-| Type        | Namespace  | Description                                                    | Reference                                                                                        | Breaking |
-|-------------|------------|----------------------------------------------------------------|--------------------------------------------------------------------------------------------------|----------|
+| Type        | Namespace  | Description                                                    | Reference                                              | Breaking |
+|-------------|------------|----------------------------------------------------------------|--------------------------------------------------------|----------|
+| Bugfix      | `rules`    | Adjust `event` object for recent core changes                  | [#260](https://github.com/openhab/openhab-js/pull/260) | No       |
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/14).
+
+Please note that openHAB >= 4.0.0(.M2) (or >= `SNAPSHOT #3391`) requires at least this version.
 
 ## 4.2.0
 
