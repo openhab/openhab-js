@@ -4,6 +4,13 @@
 
 | Type        | Namespace  | Description                                                    | Reference                                              | Breaking |
 |-------------|------------|----------------------------------------------------------------|--------------------------------------------------------|----------|
+
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/15).
+
+## 4.2.1
+
+| Type        | Namespace  | Description                                                    | Reference                                              | Breaking |
+|-------------|------------|----------------------------------------------------------------|--------------------------------------------------------|----------|
 | Bugfix      | `rules`    | Adjust `event` object for recent core changes                  | [#260](https://github.com/openhab/openhab-js/pull/260) | No       |
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/14).
