@@ -7,11 +7,11 @@ description: "Fairly high-level ES6 library to support automation in openHAB. It
 
 # openHAB Javascript Library
 
-[![Build
-Status](https://github.com/openhab/openhab-js/actions/workflows/build.yaml/badge.svg)](https://github.com/openhab/openhab-js/actions/workflows/build.yaml) [![npm version](https://badge.fury.io/js/openhab.svg)](https://badge.fury.io/js/openhab)
+[![Build Status](https://github.com/openhab/openhab-js/actions/workflows/build.yaml/badge.svg)](https://github.com/openhab/openhab-js/actions/workflows/build.yaml)
+[![npm version](https://badge.fury.io/js/openhab.svg)](https://badge.fury.io/js/openhab)
 
 This library aims to be a fairly high-level ES6 library to support automation in openHAB.
-It provides convenient access to common openHAB functionality within rules including items, things, actions, logging and more.
+It provides convenient access to common openHAB functionality within rules including Items, Things, actions, logging and more.
 
 This library is included by default in the openHAB [JavaScript
 Scripting add-on](https://www.openhab.org/addons/automation/jsscripting/).
@@ -247,7 +247,7 @@ JS Scripting provides access to the global `setTimeout`, `setInterval`, `clearTi
 
 When a script is unloaded, all created timeouts and intervals are automatically cancelled.
 
-#### 'setTimeout'
+#### `setTimeout`
 
 The global [`setTimeout()`](https://developer.mozilla.org/en-US/docs/Web/API/setTimeout) method sets a timer which executes a function once the timer expires.
 `setTimeout()` returns a `timeoutId` (a positive integer value) which identifies the timer created.
@@ -259,6 +259,8 @@ var timeoutId = setTimeout(callbackFunction, delay);
 `delay` is an integer value that represents the amount of milliseconds to wait before the timer expires.
 
 The global [`clearTimeout(timeoutId)`](https://developer.mozilla.org/en-US/docs/Web/API/clearTimeout) method cancels a timeout previously established by calling `setTimeout()`.
+
+If you need a more verbose way of creating timers, consider to use [`createTimer`](#createtimer) instead.
 
 #### `setInterval`
 
@@ -649,7 +651,7 @@ You can also create timers using the [native JS methods for timer creation](#tim
 Sometimes, using `setTimer` is much faster and easier, but other times, you need the versatility that `createTimer` provides.
 
 Keep in mind that you should somehow manage the timers you create using `createTimer`, otherwise you could end up with unmanageable timers running until you restart openHAB.
-A possible solution is to store all timers in an array and cancel all timers in the [Deinitialization Hook](#deinitialization-hook).
+A possible solution is to store all timers in the [private cache](#cache) and let openHAB automatically cancel them when the script is unloaded and the cache is cleared.
 
 ##### `createTimer`
 
@@ -747,7 +749,7 @@ The cache namespace provides both a private and a shared cache that can be used 
 
 The private cache can only be accessed by the same script and is cleared when the script is unloaded.
 You can use it to e.g. store timers or counters between subsequent runs of that script.
-When a script is unloaded and its cache is cleared, all timers (see [ScriptExecution Actions](#scriptexecution-actions)) stored in its private cache are cancelled.
+When a script is unloaded and its cache is cleared, all timers (see [`createTimer`](#createtimer)) stored in its private cache are automatically cancelled.
 
 The shared cache is shared across all rules and scripts, it can therefore be accessed from any automation language.
 The access to every key is tracked and the key is removed when all scripts that ever accessed that key are unloaded.
