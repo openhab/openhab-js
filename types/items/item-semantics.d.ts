@@ -6,8 +6,9 @@ export = ItemSemantics;
  * @hideconstructor
  */
 declare class ItemSemantics {
-    constructor(rawItem: any);
+    constructor(rawItem: any, getItem: any);
     rawItem: any;
+    getItem: any;
     /**
      * The type of the semantic equipment or `null` if none is set.
      * @type {string|null}

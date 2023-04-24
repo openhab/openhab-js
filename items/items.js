@@ -105,7 +105,7 @@ class Item {
      * Access Semantic information of this Item {@link items.ItemSemantics}
      * @type {ItemSemantics}
      */
-    this.semantics = new ItemSemantics(rawItem);
+    this.semantics = new ItemSemantics(rawItem, getItem);
   }
 
   /**
