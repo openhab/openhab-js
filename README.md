@@ -32,7 +32,7 @@ Scripting add-on](https://www.openhab.org/addons/automation/jsscripting/).
   - [Timers](#timers)
   - [Paths](#paths)
   - [Deinitialization Hook](#deinitialization-hook)
-- [`SCRIPT` Transformation](#script-transformation)
+- [`JS` Transformation](#js-transformation)
 - [Standard Library](#standard-library)
   - [Items](#items)
   - [Things](#things)
@@ -335,27 +335,30 @@ require('@runtime').lifecycleTracker.addDisposeHook(() => {
 });
 ```
 
-## `SCRIPT` Transformation
+## `JS` Transformation
 
-openHAB provides several [data transformation services](https://www.openhab.org/addons/#transform) as well as the `SCRIPT` transformation, that is available from the framework and needs no additional installation.
+openHAB provides several [data transformation services](https://www.openhab.org/addons/#transform) as well as the script transformations, that are available from the framework and need no additional installation.
 It allows transforming values using any of the available scripting languages, which means JavaScript Scripting is supported as well.
-See the [transformation docs](https://openhab.org/docs/configuration/transformations.html#script-transformation) for more general information on the usage of `SCRIPT` transformation.
+See the [transformation docs](https://openhab.org/docs/configuration/transformations.html#script-transformation) for more general information on the usage of script transformations.
 
-Use the `SCRIPT` transformation with JavaScript Scripting by:
+Use JavaScript Scripting as script transformation by:
 
-1. Creating a script in the `$OPENHAB_CONF/transform` folder with the `.script` extension.
+1. Creating a script in the `$OPENHAB_CONF/transform` folder with the `.js` extension.
    The script should take one argument `input` and return a value that supports `toString()` or `null`:
 
    ```javascript
    (function(data) {
-     // Do some data transformation here
-     return data;
+     // Do some data transformation here, e.g.
+     return "String has" + data.length + "characters";
    })(input);
    ```
 
-2. Using `SCRIPT(js:<scriptname>.script):%s` as the transformation profile, e.g. on an Item.
-3. Passing parameters is also possible by using a URL like syntax: `SCRIPT(js:<scriptname>.script?arg=value):%s`.
+2. Using `JS(<scriptname>.js):%s` as Item state transformation.
+3. Passing parameters is also possible by using a URL like syntax: `JS(<scriptname>.js?arg=value)`.
    Parameters are injected into the script and can be referenced like variables.
+
+Simple transformations can aso be given as an inline script: `JS(|...)`, e.g. `JS(|"String has " + input.length + "characters")`.
+It should start with the `|` character, quotes within the script may need to be escaped with a backslash `\` when used with another quoted string as in text configurations.
 
 ## Standard Library
 
