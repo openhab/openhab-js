@@ -1,4 +1,5 @@
 export type ItemMetadata = import('./metadata/metadata').ItemMetadata;
+export type Quantity = import('../quantity').Quantity;
 /**
  * configuration describing an Item
  */
@@ -181,7 +182,7 @@ export class Item {
      * Item state as {@link Quantity} or `null` if state is not Quantity-compatible
      * @type {Quantity|null}
      */
-    get quantityState(): import("../quantity").QuantityClass;
+    get quantityState(): import("../quantity").Quantity;
     /**
      * Raw state of Item, as a Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/types/state State object}
      * @type {HostState}
@@ -247,7 +248,7 @@ export class Item {
      * @see sendCommandIfDifferent
      * @see postUpdate
      */
-    sendCommand(value: string | time.ZonedDateTime | import("../quantity").QuantityClass | HostState): void;
+    sendCommand(value: string | time.ZonedDateTime | Quantity | HostState): void;
     /**
      * Sends a command to the Item, but only if the current state is not what is being sent.
      *
@@ -255,7 +256,7 @@ export class Item {
      * @returns {boolean} true if the command was sent, false otherwise
      * @see sendCommand
      */
-    sendCommandIfDifferent(value: string | time.ZonedDateTime | import("../quantity").QuantityClass | HostState): boolean;
+    sendCommandIfDifferent(value: string | time.ZonedDateTime | Quantity | HostState): boolean;
     /**
      * Calculates the toggled state of this Item. For Items like Color and
      * Dimmer, getStateAs(OnOffType) is used and the toggle calculated off
@@ -283,7 +284,7 @@ export class Item {
      * @see postToggleUpdate
      * @see sendCommand
      */
-    postUpdate(value: string | time.ZonedDateTime | import("../quantity").QuantityClass | HostState): void;
+    postUpdate(value: string | time.ZonedDateTime | Quantity | HostState): void;
     /**
      * Gets the names of the groups this Item is member of.
      * @returns {string[]}

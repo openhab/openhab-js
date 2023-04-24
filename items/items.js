@@ -10,13 +10,7 @@ const log = require('../log')('items');
 const metadata = require('./metadata/metadata');
 const ItemHistory = require('./item-history');
 const ItemSemantics = require('./item-semantics');
-/**
- * @type {import('../quantity').QuantityClass}
- * @private
- */
-const Quantity = require('../quantity');
-const { QuantityError } = require('../quantity');
-/** @typedef {import('@js-joda/core').ZonedDateTime} time.ZonedDateTime */
+const { getQuantity, QuantityError } = require('../quantity');
 
 const { UnDefType, OnOffType, events, itemRegistry } = require('@runtime');
 
@@ -27,6 +21,14 @@ const managedItemProvider = osgi.getService('org.openhab.core.items.ManagedItemP
 // typedefs need to be global for TypeScript to fully work
 /**
  * @typedef {import('./metadata/metadata').ItemMetadata} ItemMetadata
+ * @private
+ */
+/**
+ * @typedef {import('@js-joda/core').ZonedDateTime} time.ZonedDateTime
+ * @private
+ */
+/**
+ * @typedef {import('../quantity').Quantity} Quantity
  * @private
  */
 
@@ -153,7 +155,7 @@ class Item {
    */
   get quantityState () {
     try {
-      return Quantity(this.rawState.toString());
+      return getQuantity(this.rawState.toString());
     } catch (e) {
       if (e instanceof QuantityError) {
         return null;

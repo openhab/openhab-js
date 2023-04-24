@@ -1,11 +1,13 @@
-/** @typedef {import('@js-joda/core').ZonedDateTime} time.ZonedDateTime */
-const time = require('../time');
 /**
- * @type {import('../quantity').QuantityClass}
+ * @typedef {import('@js-joda/core').ZonedDateTime} time.ZonedDateTime
  * @private
  */
-const Quantity = require('../quantity');
-const { QuantityError } = require('../quantity');
+const time = require('../time');
+/**
+ * @typedef {import('../quantity').Quantity} Quantity
+ * @private
+ */
+const { getQuantity, QuantityError } = require('../quantity');
 const PersistenceExtensions = Java.type('org.openhab.core.persistence.extensions.PersistenceExtensions');
 
 /**
@@ -403,7 +405,7 @@ class ItemHistory {
     const numericState = parseFloat(rawState.toString());
     let quantityState;
     try {
-      quantityState = Quantity(rawState.toString());
+      quantityState = getQuantity(rawState.toString());
     } catch (e) {
       if (e instanceof QuantityError) {
         quantityState = null;

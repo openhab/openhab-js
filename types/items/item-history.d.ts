@@ -288,7 +288,7 @@ declare class ItemHistory {
     private _historicItemOrNull;
 }
 declare namespace ItemHistory {
-    export { HistoricItem };
+    export { Quantity, HistoricItem };
 }
 declare namespace time {
     type ZonedDateTime = import('@js-joda/core').ZonedDateTime;
@@ -310,10 +310,11 @@ type HistoricItem = {
     /**
      * Item state as {@link Quantity } or `null` if state is not Quantity-compatible
      */
-    quantityState: import("../quantity").QuantityClass | null;
+    quantityState: Quantity | null;
     /**
      * timestamp of historic item
      */
     timestamp: time.ZonedDateTime;
 };
+type Quantity = import('../quantity').Quantity;
 //# sourceMappingURL=item-history.d.ts.map

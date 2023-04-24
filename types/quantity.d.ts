@@ -1,11 +1,13 @@
-declare function _exports(value: string | Quantity | any): Quantity;
-declare namespace _exports {
-    export { Quantity as QuantityClass };
-    export { QuantityError };
-    export { _stringOrNumberOrQtyToQtyType };
-    export { _stringOrQtyToQtyType };
-}
-export = _exports;
+/**
+ * The Quantity allows easy Units of Measurement/Quantity handling by wrapping the openHAB {@link QuantityType}.
+ *
+ * @private
+ * @param {string|Quantity|QuantityType} value either a string consisting of a numeric value and a dimension, e.g. `5.5 m`, a {@link Quantity} or a {@link QuantityType}
+ * @returns {Quantity}
+ * @throws {QuantityError} if Quantity creation or operation failed
+ * @throws {TypeError} if wrong argument type is provided
+ */
+export function getQuantity(value: string | Quantity | any): Quantity;
 /**
  * Class allowing easy Units of Measurement/Quantity handling by wrapping the openHAB {@link QuantityType}.
  *
@@ -14,7 +16,7 @@ export = _exports;
  *
  * @hideconstructor
  */
-declare class Quantity {
+export class Quantity {
     /**
      * @param {string|Quantity|QuantityType} value either a string consisting of a numeric value and a dimension, e.g. `5.5 m`, a {@link Quantity} or a {@link QuantityType}
      */
@@ -133,21 +135,12 @@ declare class Quantity {
  * QuantityError is thrown when {@link Quantity} creation or operation fails.
  * It is used to wrap the underlying Java Exceptions and add some additional information and a JS stacktrace to it.
  */
-declare class QuantityError extends Error {
+export class QuantityError extends Error {
     /**
      * @param {string} message
      */
     constructor(message: string);
 }
-/**
- * Takes either a {@link Quantity}, a `string` or a `number` and converts it to a {@link QuantityType} or {@link BigDecimal}.
- * @param {number|string|Quantity} value
- * @returns {BigDecimal|QuantityType}
- * @throws {TypeError} if parameter has the wrong type
- * @throws {Error} if {@link BigDecimal} creation failed
- * @private
- */
-declare function _stringOrNumberOrQtyToQtyType(value: number | string | Quantity): any | any;
 /**
  * Takes either a {@link Quantity} or a `string` and converts it to a {@link QuantityType}.
  * @param {string|Quantity} value
@@ -157,5 +150,14 @@ declare function _stringOrNumberOrQtyToQtyType(value: number | string | Quantity
  * @throws {Error} if {@link QuantityType} creation failed
  * @private
  */
-declare function _stringOrQtyToQtyType(value: string | Quantity, errorMsg?: string): any;
+export function _stringOrQtyToQtyType(value: string | Quantity, errorMsg?: string): any;
+/**
+ * Takes either a {@link Quantity}, a `string` or a `number` and converts it to a {@link QuantityType} or {@link BigDecimal}.
+ * @param {number|string|Quantity} value
+ * @returns {BigDecimal|QuantityType}
+ * @throws {TypeError} if parameter has the wrong type
+ * @throws {Error} if {@link BigDecimal} creation failed
+ * @private
+ */
+export function _stringOrNumberOrQtyToQtyType(value: number | string | Quantity): any | any;
 //# sourceMappingURL=quantity.d.ts.map

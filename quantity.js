@@ -269,13 +269,17 @@ class Quantity {
 /**
  * The Quantity allows easy Units of Measurement/Quantity handling by wrapping the openHAB {@link QuantityType}.
  *
+ * @private
  * @param {string|Quantity|QuantityType} value either a string consisting of a numeric value and a dimension, e.g. `5.5 m`, a {@link Quantity} or a {@link QuantityType}
  * @returns {Quantity}
  * @throws {QuantityError} if Quantity creation or operation failed
  * @throws {TypeError} if wrong argument type is provided
  */
-module.exports = (value) => new Quantity(value);
-module.exports.QuantityClass = Quantity;
-module.exports.QuantityError = QuantityError;
-module.exports._stringOrNumberOrQtyToQtyType = _stringOrNumberOrQtyToQtyType;
-module.exports._stringOrQtyToQtyType = _stringOrQtyToQtyType;
+const getQuantity = (value) => new Quantity(value);
+module.exports = {
+  getQuantity,
+  Quantity,
+  QuantityError,
+  _stringOrQtyToQtyType,
+  _stringOrNumberOrQtyToQtyType
+};

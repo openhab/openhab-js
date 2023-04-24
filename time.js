@@ -14,7 +14,7 @@ const javaDuration = Java.type('java.time.Duration');
 const javaString = Java.type('java.lang.String');
 const javaNumber = Java.type('java.lang.Number');
 const { DateTimeType, DecimalType, StringType, QuantityType } = require('@runtime');
-const { QuantityClass } = require('./quantity');
+const { Quantity } = require('./quantity');
 const ohItem = Java.type('org.openhab.core.items.Item');
 
 /**
@@ -250,7 +250,7 @@ const toZDT = function (when) {
   }
 
   // Quantity
-  if (when instanceof QuantityClass) {
+  if (when instanceof Quantity) {
     return _addQuantityType(when.raw);
   }
 
