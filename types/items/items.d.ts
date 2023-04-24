@@ -215,7 +215,7 @@ export class Item {
      *
      * @see items.metadata.getMetadata
      * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is returned, else all metadata is returned
-     * @returns {{ namespace: ItemMetadata }|ItemMetadata|null} all metadata as an object with the namespaces as properties OR metadata of a single namespace or `null` if that namespace doesn't exist; the metadata itself is of type {@link ItemMetadata}
+     * @returns {{ namespace: ItemMetadata }|ItemMetadata|null} all metadata as an object with the namespaces as properties OR metadata of a single namespace or `null` if that namespace doesn't exist; the metadata itself is of type {@link items.metadata.ItemMetadata}
      */
     getMetadata(namespace?: string): {
         namespace: ItemMetadata;
@@ -227,7 +227,7 @@ export class Item {
      * @param {string} namespace name of the metadata
      * @param {string} value value for this metadata
      * @param {object} [configuration] optional metadata configuration
-     * @returns {{configuration: *, value: string}|null} old metadata or `null` if the Item has no metadata with the given name
+     * @returns {{configuration: *, value: string}|null} old {@link items.metadata.ItemMetadata} or `null` if the Item has no metadata with the given name
      */
     replaceMetadata(namespace: string, value: string, configuration?: object): {
         configuration: any;
@@ -238,7 +238,7 @@ export class Item {
      *
      * @see items.metadata.removeMetadata
      * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is removed, else all metadata is removed
-     * @returns {ItemMetadata|null} removed metadata OR `null` if the Item has no metadata under the given namespace or all metadata was removed
+     * @returns {ItemMetadata|null} removed {@link items.metadata.ItemMetadata} OR `null` if the Item has no metadata under the given namespace or all metadata was removed
      */
     removeMetadata(namespace?: string): ItemMetadata | null;
     /**
@@ -318,7 +318,7 @@ export class Item {
     toString(): any;
 }
 import metadata = require("./metadata/metadata");
-import ItemHistory = require("./item-history");
+import { ItemHistory } from "./item-history";
 import ItemSemantics = require("./item-semantics");
 declare namespace time {
     type ZonedDateTime = import('@js-joda/core').ZonedDateTime;

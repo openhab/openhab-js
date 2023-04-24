@@ -1,12 +1,4 @@
-export = ItemHistory;
-/**
- * @typedef {object} HistoricItem
- * @property {string} state Item state
- * @property {HostState} rawState Raw Java state
- * @property {number|null} numericState Numeric representation of Item state, or `null` if state is not numeric
- * @property {Quantity|null} quantityState Item state as {@link Quantity} or `null` if state is not Quantity-compatible
- * @property {time.ZonedDateTime} timestamp timestamp of historic item
- */
+export type Quantity = import('../quantity').Quantity;
 /**
  * Class representing the historic state of an openHAB Item.
  * If the Item receives its state from a binding that supports units of measurement, the returned state is in the according base unit, otherwise there is no unit conversion happening.
@@ -17,7 +9,7 @@ export = ItemHistory;
  * @memberOf items
  * @hideconstructor
  */
-declare class ItemHistory {
+export class ItemHistory {
     constructor(rawItem: any);
     rawItem: any;
     /**
@@ -287,34 +279,46 @@ declare class ItemHistory {
      */
     private _historicItemOrNull;
 }
-declare namespace ItemHistory {
-    export { Quantity, HistoricItem };
+/**
+ * Class representing an openHAB HistoricItem
+ *
+ * @memberof items
+ * @hideconstructor
+ */
+export class HistoricItem {
+    /**
+     * @param {*} rawHistoricItem {@link https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/historicitem org.openhab.core.persistence.HistoricItem}
+     */
+    constructor(rawHistoricItem: any);
+    /**
+     * Item state
+     * @type {string}
+     */
+    state: string;
+    /**
+     * Raw Java Item state
+     * @type {HostState}
+     */
+    rawState: HostState;
+    /**
+     * Numeric representation of Item state, or `null` if state is not numeric
+     * @type {number|null}
+     */
+    numericState: number | null;
+    /**
+     * Item state as {@link Quantity} or `null` if state is not Quantity-compatible
+     * @type {Quantity|null}
+     */
+    quantityState: Quantity | null;
+    /**
+     * timestamp of persisted Item
+     * @type {time.ZonedDateTime}
+     */
+    timestamp: time.ZonedDateTime;
 }
 declare namespace time {
     type ZonedDateTime = import('@js-joda/core').ZonedDateTime;
 }
 import time = require("../time");
-type HistoricItem = {
-    /**
-     * Item state
-     */
-    state: string;
-    /**
-     * Raw Java state
-     */
-    rawState: HostState;
-    /**
-     * Numeric representation of Item state, or `null` if state is not numeric
-     */
-    numericState: number | null;
-    /**
-     * Item state as {@link Quantity } or `null` if state is not Quantity-compatible
-     */
-    quantityState: Quantity | null;
-    /**
-     * timestamp of historic item
-     */
-    timestamp: time.ZonedDateTime;
-};
-type Quantity = import('../quantity').Quantity;
+export {};
 //# sourceMappingURL=item-history.d.ts.map

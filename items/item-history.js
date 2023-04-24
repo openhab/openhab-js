@@ -11,13 +11,52 @@ const { getQuantity, QuantityError } = require('../quantity');
 const PersistenceExtensions = Java.type('org.openhab.core.persistence.extensions.PersistenceExtensions');
 
 /**
- * @typedef {object} HistoricItem
- * @property {string} state Item state
- * @property {HostState} rawState Raw Java state
- * @property {number|null} numericState Numeric representation of Item state, or `null` if state is not numeric
- * @property {Quantity|null} quantityState Item state as {@link Quantity} or `null` if state is not Quantity-compatible
- * @property {time.ZonedDateTime} timestamp timestamp of historic item
+ * Class representing an openHAB HistoricItem
+ *
+ * @memberof items
+ * @hideconstructor
  */
+class HistoricItem {
+  /**
+   * @param {*} rawHistoricItem {@link https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/historicitem org.openhab.core.persistence.HistoricItem}
+   */
+  constructor (rawHistoricItem) {
+    /**
+     * Raw Java Item state
+     * @type {HostState}
+     */
+    this.rawState = rawHistoricItem.getState();
+    /**
+     * Item state
+     * @type {string}
+     */
+    this.state = this.rawState.toString();
+    const numeric = parseFloat(this.state.toString());
+    /**
+     * Numeric representation of Item state, or `null` if state is not numeric
+     * @type {number|null}
+     */
+    this.numericState = isNaN(numeric) ? null : numeric;
+    let quantity = null;
+    try {
+      quantity = getQuantity(this.state);
+    } catch (e) {
+      if (!(e instanceof QuantityError)) {
+        throw Error('Failed to create "quantityState": ' + e);
+      }
+    }
+    /**
+     * Item state as {@link Quantity} or `null` if state is not Quantity-compatible
+     * @type {Quantity|null}
+     */
+    this.quantityState = quantity;
+    /**
+     * timestamp of persisted Item
+     * @type {time.ZonedDateTime}
+     */
+    this.timestamp = time.ZonedDateTime.parse(rawHistoricItem.getTimestamp().toString());
+  }
+}
 
 /**
  * Class representing the historic state of an openHAB Item.
@@ -401,26 +440,11 @@ class ItemHistory {
     if (result === null) {
       return null;
     }
-    const rawState = result.getState();
-    const numericState = parseFloat(rawState.toString());
-    let quantityState;
-    try {
-      quantityState = getQuantity(rawState.toString());
-    } catch (e) {
-      if (e instanceof QuantityError) {
-        quantityState = null;
-      } else {
-        throw Error('Failed to create "quantityState": ' + e);
-      }
-    }
-    return {
-      state: rawState.toString(),
-      rawState: rawState,
-      numericState: isNaN(numericState) ? null : numericState,
-      quantityState: quantityState,
-      timestamp: time.ZonedDateTime.parse(result.getTimestamp().toString())
-    };
+    return new HistoricItem(result);
   }
 }
 
-module.exports = ItemHistory;
+module.exports = {
+  ItemHistory,
+  HistoricItem
+};

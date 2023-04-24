@@ -8,7 +8,7 @@ const osgi = require('../osgi');
 const utils = require('../utils');
 const log = require('../log')('items');
 const metadata = require('./metadata/metadata');
-const ItemHistory = require('./item-history');
+const { ItemHistory } = require('./item-history');
 const ItemSemantics = require('./item-semantics');
 const { getQuantity, QuantityError } = require('../quantity');
 
@@ -216,7 +216,7 @@ class Item {
    *
    * @see items.metadata.getMetadata
    * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is returned, else all metadata is returned
-   * @returns {{ namespace: ItemMetadata }|ItemMetadata|null} all metadata as an object with the namespaces as properties OR metadata of a single namespace or `null` if that namespace doesn't exist; the metadata itself is of type {@link ItemMetadata}
+   * @returns {{ namespace: ItemMetadata }|ItemMetadata|null} all metadata as an object with the namespaces as properties OR metadata of a single namespace or `null` if that namespace doesn't exist; the metadata itself is of type {@link items.metadata.ItemMetadata}
    */
   getMetadata (namespace) {
     return metadata.getMetadata(this.name, namespace);
@@ -229,7 +229,7 @@ class Item {
    * @param {string} namespace name of the metadata
    * @param {string} value value for this metadata
    * @param {object} [configuration] optional metadata configuration
-   * @returns {{configuration: *, value: string}|null} old metadata or `null` if the Item has no metadata with the given name
+   * @returns {{configuration: *, value: string}|null} old {@link items.metadata.ItemMetadata} or `null` if the Item has no metadata with the given name
    */
   replaceMetadata (namespace, value, configuration) {
     return metadata.replaceMetadata(this.name, namespace, value, configuration);
@@ -240,7 +240,7 @@ class Item {
    *
    * @see items.metadata.removeMetadata
    * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is removed, else all metadata is removed
-   * @returns {ItemMetadata|null} removed metadata OR `null` if the Item has no metadata under the given namespace or all metadata was removed
+   * @returns {ItemMetadata|null} removed {@link items.metadata.ItemMetadata} OR `null` if the Item has no metadata under the given namespace or all metadata was removed
    */
   removeMetadata (namespace) {
     return metadata.removeMetadata(this.name, namespace);
