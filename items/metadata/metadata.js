@@ -19,10 +19,28 @@ const Metadata = Java.type('org.openhab.core.items.Metadata');
 const MetadataKey = Java.type('org.openhab.core.items.MetadataKey');
 
 /**
- * @typedef {object} ItemMetadata a single metadata namespace of an Item
- * @property {object} configuration metadata namespace's configuration
- * @property {string} value metadata namespace's value
+ * Class representing an openHAB Item metadata namespace
+ *
+ * @memberof items.metadata
+ * @hideconstructor
  */
+class ItemMetadata {
+  /**
+   * @param {*} rawMetadata {@link https://www.openhab.org/javadoc/latest/org/openhab/core/items/metadata org.openhab.core.items.Metadata}
+   */
+  constructor (rawMetadata) {
+    /**
+     * metadata namespace's value
+     * @type {string}
+     */
+    this.value = rawMetadata.getValue();
+    /**
+     * metadata namespace's configuration
+     * @type {object}
+     */
+    this.configuration = utils.javaMapToJsObj(rawMetadata.getConfiguration());
+  }
+}
 
 /**
  * Gets all metadata from a given Item.
@@ -40,10 +58,7 @@ const _getAllItemMetadata = function (itemName) {
   const metadata = {};
   // TODO: Move implementation to openHAB Core
   metadataRegistry.stream().filter((meta) => meta.getUID().getItemName().equals(itemName)).forEach((meta) => {
-    metadata[meta.getUID().getNamespace()] = {
-      value: meta.getValue(),
-      configuration: utils.javaMapToJsObj(meta.getConfiguration())
-    };
+    metadata[meta.getUID().getNamespace()] = new ItemMetadata(meta);
   });
   return metadata;
 };
@@ -60,10 +75,7 @@ const _getSingleItemMetadata = function (itemName, namespace) {
   const key = new MetadataKey(namespace, itemName);
   const meta = metadataRegistry.get(key);
   if (meta === null || meta === undefined) return null;
-  return {
-    value: meta.getValue(),
-    configuration: utils.javaMapToJsObj(meta.getConfiguration())
-  };
+  return new ItemMetadata(meta);
 };
 
 /**
@@ -104,10 +116,7 @@ const replaceMetadata = function (itemOrName, namespace, value, configuration) {
   const newMetadata = new Metadata(key, value, configuration);
   const meta = (metadataRegistry.get(key) === null) ? metadataRegistry.add(newMetadata) : metadataRegistry.update(newMetadata);
   if (meta === null || meta === undefined) return null;
-  return {
-    value: meta.getValue(),
-    configuration: utils.javaMapToJsObj(meta.getConfiguration())
-  };
+  return new ItemMetadata(meta);
 };
 
 /**
@@ -126,10 +135,7 @@ const removeMetadata = function (itemOrName, namespace) {
     const key = new MetadataKey(namespace, itemName);
     const meta = metadataRegistry.remove(key);
     if (meta === null || meta === undefined) return null;
-    return {
-      value: meta.getValue(),
-      configuration: utils.javaMapToJsObj(meta.getConfiguration())
-    };
+    return new ItemMetadata(meta);
   } else {
     return metadataRegistry.removeItemMetadata(itemName);
   }
@@ -139,5 +145,6 @@ module.exports = {
   getMetadata,
   replaceMetadata,
   removeMetadata,
-  itemchannellink: require('./itemchannellink')
+  itemchannellink: require('./itemchannellink'),
+  ItemMetadata
 };

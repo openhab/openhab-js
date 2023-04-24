@@ -1,18 +1,5 @@
 export type Item = import('../items').Item;
 /**
- * a single metadata namespace of an Item
- */
-export type ItemMetadata = {
-    /**
-     * metadata namespace's configuration
-     */
-    configuration: object;
-    /**
-     * metadata namespace's value
-     */
-    value: string;
-};
-/**
  * Gets metadata of a single namespace or of all namespaces from a given Item.
  *
  * @example
@@ -53,5 +40,27 @@ export function replaceMetadata(itemOrName: Item | string, namespace: string, va
  * @returns {ItemMetadata|null} removed metadata OR `null` if the Item has no metadata under the given namespace or all metadata was removed
  */
 export function removeMetadata(itemOrName: Item | string, namespace?: string): ItemMetadata | null;
+/**
+ * Class representing an openHAB Item metadata namespace
+ *
+ * @memberof items.metadata
+ * @hideconstructor
+ */
+export class ItemMetadata {
+    /**
+     * @param {*} rawMetadata {@link https://www.openhab.org/javadoc/latest/org/openhab/core/items/metadata org.openhab.core.items.Metadata}
+     */
+    constructor(rawMetadata: any);
+    /**
+     * metadata namespace's value
+     * @type {string}
+     */
+    value: string;
+    /**
+     * metadata namespace's configuration
+     * @type {object}
+     */
+    configuration: object;
+}
 export declare const itemchannellink: typeof import("./itemchannellink");
 //# sourceMappingURL=metadata.d.ts.map
