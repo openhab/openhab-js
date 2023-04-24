@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>triggers.js - Documentation</title>
+    <title>HistoricItem - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -34,402 +34,429 @@
 
 <div id="main">
     
-    <h1 class="page-title">triggers.js</h1>
+    <h1 class="page-title">HistoricItem</h1>
     
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>/**
- * Triggers namespace.
- * This namespace allows creation of openHAB rule triggers.
- *
- * It is possible to skip parameter configuration in triggers by using `undefined`.
- *
- * @namespace triggers
- */
+        <h2>
+            <span class="ancestors"><a href="items.html">items</a>.</span>
+        
+        HistoricItem
+        </h2>
+        
+            <div class="class-description usertext"><p>Class representing an openHAB HistoricItem</p></div>
+        
+    
+</header>
 
-const utils = require('./utils');
-/**
- * @type {Item}
- * @private
- */
-const Item = require('./items').Item;
+<article>
+    
 
-const ModuleBuilder = Java.type('org.openhab.core.automation.util.ModuleBuilder');
-const Configuration = Java.type('org.openhab.core.config.core.Configuration');
+    
 
-/**
- * Creates a trigger. Internal function, instead use predefined trigger types.
- *
- * @private
- * @param {string} typeString the type of trigger to create
- * @param {string} [name] the name of the trigger
- * @param {object} config the trigger configuration
- * @returns {HostTrigger} {@link HostTrigger}
- */
-const _createTrigger = function (typeString, name, config) {
-  if (typeof name === 'undefined' || name === null) {
-    name = utils.randomUUID().toString();
-  }
+    
 
-  return ModuleBuilder.createTrigger()
-    .withId(name)
-    .withTypeUID(typeString)
-    .withConfiguration(new Configuration(config))
-    .build();
-};
+    
+    
+    
 
-/**
- * Creates a trigger that fires upon specific events in a channel.
- *
- * @example
- * ChannelEventTrigger('astro:sun:local:rise#event', 'START');
- *
- * @memberof triggers
- * @param {string} channel the name of the channel
- * @param {string} event the name of the event to listen for
- * @param {string} [triggerName] the optional name of the trigger to create
- *
- */
-const ChannelEventTrigger = (channel, event, triggerName) =>
-  _createTrigger('core.ChannelEventTrigger', triggerName, {
-    channelUID: channel,
-    event: event
-  });
+     
 
-/**
- * Creates a trigger that fires upon an Item changing state.
- *
- * @example
- * ItemStateChangeTrigger('my_item'); // changed
- * ItemStateChangeTrigger('my_item', 'OFF', 'ON'); // changed from OFF to ON
- * ItemStateChangeTrigger('my_item', undefined, 'ON'); // changed to ON
- * ItemStateChangeTrigger('my_item', 'OFF', undefined); // changed from OFF
- *
- * @memberof triggers
- * @param {Item|string} itemOrName the {@link Item} or the name of the Item to monitor for change
- * @param {string} [oldState] the previous state of the Item
- * @param {string} [newState] the new state of the Item
- * @param {string} [triggerName] the optional name of the trigger to create
- */
-const ItemStateChangeTrigger = (itemOrName, oldState, newState, triggerName) =>
-  _createTrigger('core.ItemStateChangeTrigger', triggerName, {
-    itemName: (itemOrName instanceof Item) ? itemOrName.name : itemOrName,
-    state: newState,
-    previousState: oldState
-  });
+    
 
-/**
- * Creates a trigger that fires upon an Item receiving a state update. Note that the Item does not need to change state.
- *
- * @example
- * ItemStateUpdateTrigger('my_item'); // received update
- * ItemStateUpdateTrigger('my_item', 'OFF'); // received update OFF
- *
- * @memberof triggers
- * @param {Item|string} itemOrName the {@link Item} or the name of the Item to monitor for change
- * @param {string} [state] the new state of the Item
- * @param {string} [triggerName] the optional name of the trigger to create
- */
-const ItemStateUpdateTrigger = (itemOrName, state, triggerName) =>
-  _createTrigger('core.ItemStateUpdateTrigger', triggerName, {
-    itemName: (itemOrName instanceof Item) ? itemOrName.name : itemOrName,
-    state: state
-  });
+    
+        <h3 class="subsection-title">Members</h3>
 
-/**
- * Creates a trigger that fires upon an Item receiving a command. Note that the Item does not need to change state.
- *
- * @example
- * ItemCommandTrigger('my_item'); // received command
- * ItemCommandTrigger('my_item', 'OFF'); // received command OFF
- *
- * @memberof triggers
- * @param {Item|string} itemOrName the {@link Item} or the name of the Item to monitor for change
- * @param {string} [command] the command received
- * @param {string} [triggerName] the optional name of the trigger to create
- */
-const ItemCommandTrigger = (itemOrName, command, triggerName) =>
-  _createTrigger('core.ItemCommandTrigger', triggerName, {
-    itemName: (itemOrName instanceof Item) ? itemOrName.name : itemOrName,
-    command: command
-  });
+        
+            
+<h4 class="name" id="rawState"><span class="type-signature"></span>rawState<span class="type-signature"> :HostState</span></h4>
 
-/**
- * Creates a trigger that fires upon a member of a group changing state. Note that group Item does not need to change state.
- *
- * @example
- * GroupStateChangeTrigger('my_group', 'OFF', 'ON');
- *
- * @memberof triggers
- * @param {Item|string} groupOrName the group {@link Item} or the name of the group to monitor for change
- * @param {string} [oldState] the previous state of the group
- * @param {string} [newState] the new state of the group
- * @param {string} [triggerName] the optional name of the trigger to create
- */
-const GroupStateChangeTrigger = (groupOrName, oldState, newState, triggerName) =>
-  _createTrigger('core.GroupStateChangeTrigger', triggerName, {
-    groupName: (groupOrName instanceof Item) ? groupOrName.name : groupOrName,
-    state: newState,
-    previousState: oldState
-  });
 
-/**
- * Creates a trigger that fires upon a member of a group receiving a state update. Note that group Item does not need to change state.
- *
- * @example
- * GroupStateUpdateTrigger('my_group', 'OFF');
- *
- * @memberof triggers
- * @param {Item|string} groupOrName the group {@link Item} or the name of the group to monitor for change
- * @param {string} [state] the new state of the group
- * @param {string} [triggerName] the optional name of the trigger to create
- */
-const GroupStateUpdateTrigger = (groupOrName, state, triggerName) =>
-  _createTrigger('core.GroupStateUpdateTrigger', triggerName, {
-    groupName: (groupOrName instanceof Item) ? groupOrName.name : groupOrName,
-    state: state
-  });
 
-/**
- * Creates a trigger that fires upon a member of a group receiving a command. Note that the group Item does not need to change state.
- *
- * @example
- * GroupCommandTrigger('my_group', 'OFF');
- *
- * @memberof triggers
- * @param {Item|string} groupOrName the group {@link Item} or the name of the group to monitor for commands
- * @param {string} [command] the command received
- * @param {string} [triggerName] the optional name of the trigger to create
- */
-const GroupCommandTrigger = (groupOrName, command, triggerName) =>
-  _createTrigger('core.GroupCommandTrigger', triggerName, {
-    groupName: (groupOrName instanceof Item) ? groupOrName.name : groupOrName,
-    command: command
-  });
 
-/**
- * Creates a trigger that fires upon a Thing status updating.
- *
- * @example
- * ThingStatusUpdateTrigger('some:thing:uuid', 'OFFLINE');
- *
- * @memberof triggers
- * @param {string} thingUID the name of the thing to monitor for a status updating
- * @param {string} [status] the optional status to monitor for
- * @param {string} [triggerName] the optional name of the trigger to create
- */
-const ThingStatusUpdateTrigger = (thingUID, status, triggerName) =>
-  _createTrigger('core.ThingStatusUpdateTrigger', triggerName, {
-    thingUID: thingUID,
-    status: status
-  });
 
-/**
- * Creates a trigger that fires upon a Thing status changing.
- *
- * @example
- * ThingStatusChangeTrigger('some:thing:uuid', 'ONLINE', 'OFFLINE');
- *
- * @memberof triggers
- * @param {string} thingUID the name of the thing to monitor for a status change
- * @param {string} [status] the optional status to monitor for
- * @param {string} [previousStatus] the optional previous state to monitor from
- * @param {string} [triggerName] the optional name of the trigger to create
- */
-const ThingStatusChangeTrigger = (thingUID, status, previousStatus, triggerName) =>
-  _createTrigger('core.ThingStatusChangeTrigger', triggerName, {
-    thingUID: thingUID,
-    status: status,
-    previousStatus: previousStatus
-  });
+<dl class="details">
 
-/**
- * Creates a trigger that fires if a given start level is reached by the system
- *
- * @example
- * SystemStartlevelTrigger(40)  // Rules loaded
- * SystemStartlevelTrigger(50)  // Rule engine started
- * SystemStartlevelTrigger(70)  // User interfaces started
- * SystemStartlevelTrigger(80)  // Things initialized
- * SystemStartlevelTrigger(100) // Startup Complete
- *
- * @memberof triggers
- * @param {string|number} startlevel the system start level to be triggered on
- * @param {string} [triggerName] the optional name of the trigger to create
- */
-const SystemStartlevelTrigger = (startlevel, triggerName) =>
-  _createTrigger('core.SystemStartlevelTrigger', triggerName, {
-    startlevel: startlevel.toString()
-  });
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="items_item-history.js.html">items/item-history.js</a>, <a href="items_item-history.js.html#line28">line 28</a>
+    </li></ul></dd>
+    
 
-/**
- * Creates a trigger that fires on a cron schedule. The supplied cron expression defines when the trigger will fire.
- *
- * @example
- * GenericCronTrigger('0 30 16 * * ? *');
- *
- * @memberof triggers
- * @param {string} expression the cron expression defining the triggering schedule
- * @param {string} [triggerName] the optional name of the trigger to create
- */
-const GenericCronTrigger = (expression, triggerName) =>
-  _createTrigger('timer.GenericCronTrigger', triggerName, {
-    cronExpression: expression
-  });
+    
 
-/**
- * Creates a trigger that fires daily at a specific time. The supplied time defines when the trigger will fire.
- *
- * @example
- * TimeOfDayTrigger('19:00');
- *
- * @memberof triggers
- * @param {string} time the time expression defining the triggering schedule
- * @param {string} [triggerName] the optional name of the trigger to create
- */
-const TimeOfDayTrigger = (time, triggerName) =>
-  _createTrigger('timer.TimeOfDayTrigger', triggerName, {
-    time: time
-  });
+    
 
-/**
- * Creates a trigger that fires at a (optional) date and time specified in an DateTime Item.
- *
- * @example
- * DateTimeTrigger('MyDateTimeItem');
- *
- * @memberof triggers
- * @param {Item|string} itemOrName the {@link Item} or the name of the Item to monitor for change
- * @param {boolean} [timeOnly=false] Specifies whether only the time of the Item should be compared or the date and time.
- * @param {string} [triggerName] the optional name of the trigger to create
- */
-const DateTimeTrigger = (itemOrName, timeOnly = false, triggerName) =>
-  _createTrigger('timer.DateTimeTrigger', triggerName, {
-    itemName: (itemOrName instanceof Item) ? itemOrName.name : itemOrName,
-    timeOnly: timeOnly
-  });
+    
 
-/**
- * Creates a trigger for the {@link https://openhab.org/addons/automation/pwm/ Pulse Width Modulation (PWM) Automation} add-on.
- *
- * @example
- * rules.JSRule({
- *   name: 'PWM rule',
- *   triggers: [
- *     triggers.PWMTrigger('pwm_dimmer', 10);
- *   ],
- *   execute: (event) => {
- *     items.getItem('pwm_switch').sendCommand(event.receivedCommand);
- *   }
- * });
- *
- * @memberof triggers
- * @param {string} dutycycleItem Item (PercentType) to read the duty cycle from
- * @param {number} interval constant interval in which the output is switch ON and OFF again (in sec)
- * @param {number} [minDutyCycle] any duty cycle below this value will be increased to this value
- * @param {number} [maxDutyCycle] any duty cycle above this value will be decreased to this value
- * @param {number} [deadManSwitch] output will be switched off, when the duty cycle is not updated within this time (in ms)
- * @param {string} [triggerName] the optional name of the trigger to create
- */
-const PWMTrigger = (dutycycleItem, interval, minDutyCycle, maxDutyCycle, deadManSwitch, triggerName) =>
-  _createTrigger('pwm.trigger', triggerName, {
-    dutycycleItem: dutycycleItem,
-    interval: interval,
-    minDutyCycle: minDutyCycle,
-    maxDutyCycle: maxDutyCycle,
-    deadManSwitch: deadManSwitch
-  });
+    
 
-/**
- * Creates a trigger for the {@link https://www.openhab.org/addons/automation/pidcontroller/ PID Controller Automation} add-on.
- *
- * @example
- * rules.JSRule({
- *   name: 'PID rule',
- *   triggers: [
- *     triggers.PIDTrigger('currentTemperature', 'targetTemperature', 1, 1, 1, 1, 10000, undefined, 1, 100);
- *   ],
- *   execute: (event) => {
- *     // Look out what the max value for your Item is!
- *     const command = parseInt(event.receivedCommand) > 100 ? '100' : event.receivedCommand;
- *     items.getItem('thermostat').sendCommand(command);
- *   }
- * });
- *
- * @memberof triggers
- * @param {string} inputItem name of the input Item (e.g. temperature sensor value)
- * @param {string} setpointItem name of the setpoint Item (e.g. desired room temperature)
- * @param {number} kp P: {@link https://www.openhab.org/addons/automation/pidcontroller/#proportional-p-gain-parameter Proportional Gain} parameter
- * @param {number} ki I: {@link https://www.openhab.org/addons/automation/pidcontroller/#integral-i-gain-parameter Integral Gain} parameter
- * @param {number} kd D: {@link https://www.openhab.org/addons/automation/pidcontroller/#derivative-d-gain-parameter Deritative Gain} parameter
- * @param {number} kdTimeConstant D-T1: {@link https://www.openhab.org/addons/automation/pidcontroller/#derivative-time-constant-d-t1-parameter Derivative Gain Time Constant} in sec
- * @param {number} loopTime The interval the output value will be updated in milliseconds. Note: the output will also be updated when the input value or the setpoint changes.
- * @param {string} [commandItem] Name of the item to send a String "RESET" to reset the I- and the D-part to 0.
- * @param {number} [integralMinValue] The I-part will be limited (min) to this value.
- * @param {number} [integralMaxValue] The I-part will be limited (max) to this value.
- * @param {string} [pInspectorItem] name of the debug Item for the current P-part
- * @param {string} [iInspectorItem] name of the debug Item for the current I-part
- * @param {string} [dInspectorItem] name of the debug Item for the current D-part
- * @param {string} [errorInspectorItem] name of the debug Item for the current regulation difference (error)
- * @param {string} [triggerName] the optional name of the trigger to create
- */
-const PIDTrigger = (inputItem, setpointItem, kp = 1, ki = 1, kd = 1, kdTimeConstant = 1, loopTime = 1000, commandItem, integralMinValue, integralMaxValue, pInspectorItem, iInspectorItem, dInspectorItem, errorInspectorItem, triggerName) =>
-  _createTrigger('pidcontroller.trigger', triggerName, {
-    input: inputItem,
-    setpoint: setpointItem,
-    kp: kp,
-    ki: ki,
-    kd: kd,
-    kdTimeConstant: kdTimeConstant,
-    loopTime: loopTime,
-    commandItem: commandItem,
-    integralMinValue: integralMinValue,
-    integralMaxValue: integralMaxValue,
-    pInspector: pInspectorItem,
-    iInspector: iInspectorItem,
-    dInspector: dInspectorItem,
-    eInspector: errorInspectorItem
-  });
+    
 
-/* not yet tested
-ItemStateCondition: (itemName, state, triggerName) => createTrigger("core.ItemStateCondition", triggerName, {
-    "itemName": itemName,
-    "operator": "=",
-    "state": state
-}
-GenericCompareCondition: (itemName, state, operator, triggerName) => createTrigger("core.GenericCompareCondition", triggerName, {
-        "itemName": itemName,
-        "operator": operator,// matches, ==, &lt;, >, =&lt;, =>
-        "state": state
-})
-*/
+    
 
-module.exports = {
-  ChannelEventTrigger,
-  ItemStateChangeTrigger,
-  ItemStateUpdateTrigger,
-  ItemCommandTrigger,
-  GroupStateChangeTrigger,
-  GroupStateUpdateTrigger,
-  GroupCommandTrigger,
-  ThingStatusUpdateTrigger,
-  ThingStatusChangeTrigger,
-  SystemStartlevelTrigger,
-  GenericCronTrigger,
-  TimeOfDayTrigger,
-  DateTimeTrigger,
-  PWMTrigger,
-  PIDTrigger
-};
-</code></pre>
-        </article>
-    </section>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Raw Java Item state</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">HostState</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="state"><span class="type-signature"></span>state<span class="type-signature"> :string</span></h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="items_item-history.js.html">items/item-history.js</a>, <a href="items_item-history.js.html#line33">line 33</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Item state</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="numericState"><span class="type-signature"></span>numericState<span class="type-signature"> :number|null</span></h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="items_item-history.js.html">items/item-history.js</a>, <a href="items_item-history.js.html#line39">line 39</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Numeric representation of Item state, or <code>null</code> if state is not numeric</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">number</span>
+|
+
+<span class="param-type">null</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="quantityState"><span class="type-signature"></span>quantityState<span class="type-signature"> :<a href="Quantity.html">Quantity</a>|null</span></h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="items_item-history.js.html">items/item-history.js</a>, <a href="items_item-history.js.html#line52">line 52</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Item state as <a href="Quantity.html"><code>Quantity</code></a> or <code>null</code> if state is not Quantity-compatible</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><a href="Quantity.html">Quantity</a></span>
+|
+
+<span class="param-type">null</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="timestamp"><span class="type-signature"></span>timestamp<span class="type-signature"> :<a href="time.html#.ZonedDateTime">time.ZonedDateTime</a></span></h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="items_item-history.js.html">items/item-history.js</a>, <a href="items_item-history.js.html#line57">line 57</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>timestamp of persisted Item</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><a href="time.html#.ZonedDateTime">time.ZonedDateTime</a></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 
