@@ -2,8 +2,11 @@
 
 ## to be released
 
-| Type        | Namespace  | Description                                                    | Reference                                              | Breaking |
-|-------------|------------|----------------------------------------------------------------|--------------------------------------------------------|----------|
+| Type        | Namespace  | Description                                                                          | Reference                                                                                                                                                                                           | Breaking |
+|-------------|------------|--------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
+| Enhancement | `Quantity` | Refactor exports for better internal use                                             | [b77b6e3](https://github.com/openhab/openhab-js/commit/b77b6e376549181b53ea19911fb94e87dae01253)                                                                                                    | No       |
+| Enhancement | `items`    | Use data type classes instead of type definitons for `ItemMetadata` & `HistoricItem` | [e0f0ca1](https://github.com/openhab/openhab-js/commit/e0f0ca162c8cf1d5d4c1b99695d49f614631ae12) & [858ce86](https://github.com/openhab/openhab-js/commit/858ce860bc28c69eb41dc27fd548cdd24d1399ef) | No       |
+| Bugfix      | `items`    | Fix Item semantics `location` & `equipment`                                          | [#261](https://github.com/openhab/openhab-js/pull/261)                                                                                                                                              | No       |
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/15).
 
@@ -22,7 +25,7 @@ Please note that openHAB >= 4.0.0(.M2) (or >= `SNAPSHOT #3391`) requires at leas
 | Type        | Namespace  | Description                                                    | Reference                                                                                        | Breaking |
 |-------------|------------|----------------------------------------------------------------|--------------------------------------------------------------------------------------------------|----------|
 | Enhancement | `items`    | Add missing semantic actions to `ItemSemantics`                | [#252](https://github.com/openhab/openhab-js/pull/252)                                           | No       |
-| Bugfix      | `Quantity` | Improve availablity of `symbol` property                       | [c03241d](https://github.com/openhab/openhab-js/commit/c03241d9acdc7cd23694d441bb9b1a2214580a80) | No       |
+| Bugfix      | `Quantity` | Improve availability of `symbol` property                      | [c03241d](https://github.com/openhab/openhab-js/commit/c03241d9acdc7cd23694d441bb9b1a2214580a80) | No       |
 | Bugfix      | `items`    | Accept `Quantity` as argument for `postUpdate` & `sendCommand` | [bdd1b98](https://github.com/openhab/openhab-js/commit/bdd1b9846dadbe432a5c3bf5b148d59367531439) | No       |
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/13).
