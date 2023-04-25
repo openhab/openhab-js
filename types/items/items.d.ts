@@ -105,20 +105,6 @@ export function getItemsByTag(...tagNames: string[]): Item[];
  */
 export function replaceItem(itemConfig: ItemConfig): Item | null;
 /**
- * Creates a new Item object. This Item is not registered with any provider and therefore can not be accessed.
- *
- * Note that all Items created this way have an additional tag attached, for simpler retrieval later. This tag is
- * created with the value {@link DYNAMIC_ITEM_TAG}.
- *
- * @memberof items
- * @private
- * @param {ItemConfig} itemConfig the Item config describing the Item
- * @returns {Item} {@link items.Item}
- * @throws {Error} {@link ItemConfig}.name or {@link ItemConfig}.type not set
- * @throws failed to create Item
- */
-export function createItem(itemConfig: ItemConfig): Item;
-/**
  * Removes an Item from openHAB. The Item is removed immediately and cannot be recovered.
  *
  * @memberof items
