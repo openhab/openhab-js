@@ -1,4 +1,3 @@
-const items = require('./items');
 const Semantics = Java.type('org.openhab.core.model.script.actions.Semantics');
 
 /**
@@ -8,8 +7,9 @@ const Semantics = Java.type('org.openhab.core.model.script.actions.Semantics');
  * @hideconstructor
  */
 class ItemSemantics {
-  constructor (rawItem) {
+  constructor (rawItem, getItem) {
     this.rawItem = rawItem;
+    this.getItem = getItem;
   }
 
   /**
@@ -106,7 +106,7 @@ class ItemSemantics {
    */
   get location () {
     const rawLoc = Semantics.getLocation(this.rawItem);
-    return (rawLoc === null) ? null : items.getItem(rawLoc.getName());
+    return (rawLoc === null) ? null : this.getItem(rawLoc.getName());
   }
 
   /**
@@ -115,7 +115,7 @@ class ItemSemantics {
    */
   get equipment () {
     const rawEqu = Semantics.getEquipment(this.rawItem);
-    return (rawEqu === null) ? null : items.getItem(rawEqu.getName());
+    return (rawEqu === null) ? null : this.getItem(rawEqu.getName());
   }
 }
 

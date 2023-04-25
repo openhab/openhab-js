@@ -291,15 +291,15 @@ export class HistoricItem {
      */
     constructor(rawHistoricItem: any);
     /**
-     * Item state
-     * @type {string}
-     */
-    state: string;
-    /**
      * Raw Java Item state
      * @type {HostState}
      */
     rawState: HostState;
+    /**
+     * Item state
+     * @type {string}
+     */
+    state: string;
     /**
      * Numeric representation of Item state, or `null` if state is not numeric
      * @type {number|null}
