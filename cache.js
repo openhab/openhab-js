@@ -10,9 +10,9 @@ const addonSharedCache = require('@runtime').sharedcache; // The old cache from 
 
 const coreCacheAvail = Java.isJavaObject(privateCache) && Java.isJavaObject(sharedCache);
 
-const logDeprecationWarning = (funcName) => {
+function logDeprecationWarning (funcName) {
   console.warn(`"cache.${funcName}" has been deprecated and will be removed in a future release. Use "cache.private.${funcName}" or "cache.shared.${funcName}" instead. Visit the JavaScript Scripting Automation addon docs for more information about the cache.`);
-};
+}
 
 /**
  * The {@link JSCache} can be used by to share information between subsequent runs of the same script or between scripts (depending on implementation).

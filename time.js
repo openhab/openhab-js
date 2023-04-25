@@ -23,12 +23,12 @@ const ohItem = Java.type('org.openhab.core.items.Item');
  * @param {JavaZonedDateTime} zdt date time to convert to a time.ZonedDateTime
  * @returns {time.ZonedDateTime}
  */
-const _javaZDTtoZDT = function (zdt) {
+function _javaZDTtoZDT (zdt) {
   const epoch = zdt.toInstant().toEpochMilli();
   const instant = time.Instant.ofEpochMilli(epoch);
   const zone = time.ZoneId.of(zdt.getZone().toString());
   return time.ZonedDateTime.ofInstant(instant, zone);
-};
+}
 
 /**
  * Adds millis to the passed in ZDT as milliseconds. The millis is rounded first.
@@ -36,9 +36,9 @@ const _javaZDTtoZDT = function (zdt) {
  * @private
  * @param {number|bigint} millis number of milliseconds to add
  */
-const _addMillisToNow = function (millis) {
+function _addMillisToNow (millis) {
   return time.ZonedDateTime.now().plus(Math.round(millis), time.ChronoUnit.MILLIS);
-};
+}
 
 /**
  * Adds the passed in QuantityType<Time> to now.
@@ -47,14 +47,14 @@ const _addMillisToNow = function (millis) {
  * @returns now plus the time length in the quantityType
  * @throws error when the units for the quantity type are not one of the Time units
  */
-const _addQuantityType = function (quantityType) {
+function _addQuantityType (quantityType) {
   const secs = quantityType.toUnit('s');
   if (secs) {
     return time.ZonedDateTime.now().plusSeconds(secs.doubleValue());
   } else {
     throw Error('Only Time units are supported to convert QuantityTypes to a ZonedDateTime: ' + quantityType.toString());
   }
-};
+}
 
 /**
  * Tests the string to see if it matches a 24-hour clock time like `hh:mm`, `hh:mm:ss`, `h:mm`, `h:mm:ss`
@@ -62,10 +62,10 @@ const _addQuantityType = function (quantityType) {
  * @param {string} dtStr potential 24-hour time String
  * @returns {boolean} true if it matches HH:MM
  */
-const _is24Hr = function (dtStr) {
+function _is24Hr (dtStr) {
   const regex = /^(0?[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){1,2}$/;
   return regex.test(dtStr);
-};
+}
 
 /**
  * Tests the string to see if it matches a 12 hour clock time
@@ -73,10 +73,10 @@ const _is24Hr = function (dtStr) {
  * @param {string} dtStr potential hh:MM aa string
  * @returns {boolean} true if it matches hh:mm aa
  */
-const _is12Hr = function (dtStr) {
+function _is12Hr (dtStr) {
   const regex = /^(0?[0-9]|1[0-2])(:[0-5][0-9]){1,2} ?[a|p|A|P]\.?[m|M]\.?$/;
   return regex.test(dtStr);
-};
+}
 
 /**
  * Parses a string that conforms the ISO8601 standard to a {@link time.ZonedDateTime}.
@@ -91,7 +91,7 @@ const _is12Hr = function (dtStr) {
  * @returns {time.ZonedDateTime|null} {@link time.ZonedDateTime} if parsing was successful, else `null`
  * @throws `JsJodaException` thrown by the {@link https://js-joda.github.io/js-joda/ JS-Joda library} that signals that string could not be parsed
  */
-const _parseISO8601 = function (isoStr) {
+function _parseISO8601 (isoStr) {
   // Compatibility with Zone offsets without the ":" -> +HHmm or -HHmm
   function replacer (match, p1, p2, p3) {
     return p1 + p2 + ':' + p3;
@@ -110,7 +110,7 @@ const _parseISO8601 = function (isoStr) {
     case REGEX.ISO_8160_FULL.test(isoStr): return time.ZonedDateTime.parse(isoStr);
   }
   return null;
-};
+}
 
 /**
  * Parses the passed in string based on it's format and converts it to a ZonedDateTime.
@@ -120,7 +120,7 @@ const _parseISO8601 = function (isoStr) {
  * @returns {time.ZonedDateTime}
  * @throws Error when the string cannot be parsed
  */
-const _parseString = function (str) {
+function _parseString (str) {
   // 12 hour time string
   if (_is12Hr(str)) {
     const parts = str.split(':');
@@ -159,7 +159,7 @@ const _parseString = function (str) {
   } catch (e) { // Unsupported
     throw Error(`Failed to parse string ${str}: ${e}`);
   }
-};
+}
 
 /**
  * Converts the state of the passed in Item to a time.ZonedDateTime
@@ -168,7 +168,7 @@ const _parseString = function (str) {
  * @returns {time.ZonedDateTime}
  * @throws error if the Item's state is not supported or the Item itself is not supported
  */
-const _convertItem = function (item) {
+function _convertItem (item) {
   if (item.isUninitialized) {
     throw Error('Item ' + item.name + ' is NULL or UNDEF, cannot convert to a time.ZonedDateTime');
   } else if (item.rawState instanceof DecimalType) { // Number type Items
@@ -182,7 +182,7 @@ const _convertItem = function (item) {
   } else {
     throw Error(item.type + ' is not supported for conversion to time.ZonedDateTime');
   }
-};
+}
 
 /**
  * Converts the passed in when to a time.ZonedDateTime based on the following
@@ -206,7 +206,7 @@ const _convertItem = function (item) {
  * @returns {time.ZonedDateTime}
  * @throws error if the type, format, or contents of when are not supported
  */
-const toZDT = function (when) {
+function toZDT (when) {
   // If when is not supplied or null, return now
   if (when === undefined || when === null) {
     return time.ZonedDateTime.now();
@@ -276,7 +276,7 @@ const toZDT = function (when) {
 
   // Unsupported
   throw Error('"' + when + '" is an unsupported type for conversion to time.ZonedDateTime');
-};
+}
 
 // openHAB uses an RFC DateTime string, js-joda defaults to the ISO version, this defaults RFC instead
 const rfcFormatter = time.DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ss.SSS[xxxx][xxxxx]");

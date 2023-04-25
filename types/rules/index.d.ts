@@ -1,11 +1,11 @@
 declare const _exports: {
     when: (withToggle?: boolean) => import("./trigger-builder").TriggerBuilder;
-    removeRule: (uid: string) => boolean;
-    runRule: (uid: string, args?: any, cond?: boolean) => void;
-    isEnabled: (uid: string) => boolean;
-    setEnabled: (uid: string, isEnabled: boolean) => void;
-    JSRule: (ruleConfig: import("./rules").RuleConfig) => HostRule;
-    SwitchableJSRule: (ruleConfig: import("./rules").RuleConfig) => HostRule;
+    removeRule: typeof import("./rules").removeRule;
+    runRule: typeof import("./rules").runRule;
+    isEnabled: typeof import("./rules").isEnabled;
+    setEnabled: typeof import("./rules").setEnabled;
+    JSRule: typeof import("./rules").JSRule;
+    SwitchableJSRule: typeof import("./rules").SwitchableJSRule;
 };
 export = _exports;
 //# sourceMappingURL=index.d.ts.map

@@ -54,14 +54,14 @@ class ItemMetadata {
  * @param {string} itemName the name of the Item
  * @returns {{ namespace: ItemMetadata }} object of all Item metadata with one property for each namespace; each namespace is of type {@link ItemMetadata}
  */
-const _getAllItemMetadata = function (itemName) {
+function _getAllItemMetadata (itemName) {
   const metadata = {};
   // TODO: Move implementation to openHAB Core
   metadataRegistry.stream().filter((meta) => meta.getUID().getItemName().equals(itemName)).forEach((meta) => {
     metadata[meta.getUID().getNamespace()] = new ItemMetadata(meta);
   });
   return metadata;
-};
+}
 
 /**
  * Gets metadata of a single namespace from the given Item.
@@ -71,12 +71,12 @@ const _getAllItemMetadata = function (itemName) {
  * @param {string} namespace namespace of the metadata
  * @returns {ItemMetadata|null} metadata or `null` if the Item has no metadata under the given namespace
  */
-const _getSingleItemMetadata = function (itemName, namespace) {
+function _getSingleItemMetadata (itemName, namespace) {
   const key = new MetadataKey(namespace, itemName);
   const meta = metadataRegistry.get(key);
   if (meta === null || meta === undefined) return null;
   return new ItemMetadata(meta);
-};
+}
 
 /**
  * Gets metadata of a single namespace or of all namespaces from a given Item.
@@ -94,11 +94,11 @@ const _getSingleItemMetadata = function (itemName, namespace) {
  * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is returned, else all metadata is returned
  * @returns {{ namespace: ItemMetadata }|ItemMetadata|null} all metadata as an object with the namespaces as properties OR metadata of a single namespace or `null` if that namespace doesn't exist; the metadata itself is of type {@link ItemMetadata}
  */
-const getMetadata = function (itemOrName, namespace) {
+function getMetadata (itemOrName, namespace) {
   const itemName = _getItemName(itemOrName);
   if (namespace !== undefined) return _getSingleItemMetadata(itemName, namespace);
   return _getAllItemMetadata(itemName);
-};
+}
 
 /**
  * Updates or adds metadata of a single namespace to an Item.
@@ -111,13 +111,13 @@ const getMetadata = function (itemOrName, namespace) {
  * @param {object} [configuration] optional metadata configuration
  * @returns {ItemMetadata|null} old metadata or `null` if the Item has no metadata with the given name
  */
-const replaceMetadata = function (itemOrName, namespace, value, configuration) {
+function replaceMetadata (itemOrName, namespace, value, configuration) {
   const key = new MetadataKey(namespace, _getItemName(itemOrName));
   const newMetadata = new Metadata(key, value, configuration);
   const meta = (metadataRegistry.get(key) === null) ? metadataRegistry.add(newMetadata) : metadataRegistry.update(newMetadata);
   if (meta === null || meta === undefined) return null;
   return new ItemMetadata(meta);
-};
+}
 
 /**
  * Removes metadata of a single namespace or of all namespaces from a given Item.
@@ -128,7 +128,7 @@ const replaceMetadata = function (itemOrName, namespace, value, configuration) {
  * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is removed, else all metadata is removed
  * @returns {ItemMetadata|null} removed metadata OR `null` if the Item has no metadata under the given namespace or all metadata was removed
  */
-const removeMetadata = function (itemOrName, namespace) {
+function removeMetadata (itemOrName, namespace) {
   const itemName = _getItemName(itemOrName);
 
   if (namespace !== undefined) {
@@ -139,7 +139,7 @@ const removeMetadata = function (itemOrName, namespace) {
   } else {
     return metadataRegistry.removeItemMetadata(itemName);
   }
-};
+}
 
 module.exports = {
   getMetadata,

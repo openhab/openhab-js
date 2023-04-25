@@ -359,9 +359,7 @@ class ItemTriggerConfig extends TriggerConf {
   }
 
   _executeHook () {
-    const getReceivedCommand = function (args) {
-      return args.receivedCommand;
-    };
+    const getReceivedCommand = (args) => args.receivedCommand;
 
     if (this.op_type === 'receivedCommand') { // add the received command as 'it'
       return function (next, args) {

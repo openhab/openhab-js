@@ -63,7 +63,7 @@ const DYNAMIC_ITEM_TAG = '_DYNAMIC_';
  * @param {*} value
  * @returns {*}
  */
-const _toOpenhabString = (value) => {
+function _toOpenhabString (value) {
   if (typeof value === 'number' || typeof value === 'string') {
     return value;
   } else if (typeof value.toOpenHabString === 'function') {
@@ -72,7 +72,7 @@ const _toOpenhabString = (value) => {
     return value.toString();
   }
   return value;
-};
+}
 
 /**
  * Class representing an openHAB Item
@@ -401,14 +401,13 @@ class Item {
  * Note that all Items created this way have an additional tag attached, for simpler retrieval later. This tag is
  * created with the value {@link DYNAMIC_ITEM_TAG}.
  *
- * @memberof items
  * @private
  * @param {ItemConfig} itemConfig the Item config describing the Item
  * @returns {Item} {@link items.Item}
  * @throws {Error} {@link ItemConfig}.name or {@link ItemConfig}.type not set
  * @throws failed to create Item
  */
-const createItem = function (itemConfig) {
+function _createItem (itemConfig) {
   if (typeof itemConfig.name !== 'string' || typeof itemConfig.type !== 'string') throw Error('itemConfig.name or itemConfig.type not set');
 
   itemConfig.name = safeItemName(itemConfig.name);
@@ -449,7 +448,7 @@ const createItem = function (itemConfig) {
     log.error('Failed to create Item: ' + e);
     throw e;
   }
-};
+}
 
 /**
  * Creates a new Item within OpenHab. This Item will persist to the provider regardless of the lifecycle of the script creating it.
@@ -463,8 +462,8 @@ const createItem = function (itemConfig) {
  * @throws {Error} {@link ItemConfig}.name or {@link ItemConfig}.type not set
  * @throws failed to create Item
  */
-const addItem = function (itemConfig) {
-  const item = createItem(itemConfig);
+function addItem (itemConfig) {
+  const item = _createItem(itemConfig);
   managedItemProvider.add(item.rawItem);
 
   if (typeof itemConfig.metadata === 'object') {
@@ -490,7 +489,7 @@ const addItem = function (itemConfig) {
   }
 
   return getItem(itemConfig.name);
-};
+}
 
 /**
  * Removes an Item from openHAB. The Item is removed immediately and cannot be recovered.
@@ -499,7 +498,7 @@ const addItem = function (itemConfig) {
  * @param {string|Item} itemOrItemName the Item or the name of the Item to remove
  * @returns {Item|null} the Item that has been removed or `null` if it has not been removed
  */
-const removeItem = function (itemOrItemName) {
+function removeItem (itemOrItemName) {
   let itemName;
 
   if (typeof itemOrItemName === 'string') {
@@ -536,7 +535,7 @@ const removeItem = function (itemOrItemName) {
       throw Error(e);
     }
   }
-};
+}
 
 /**
  * Replaces (or adds) an Item. If an Item exists with the same name, it will be removed and a new Item with
@@ -553,14 +552,14 @@ const removeItem = function (itemOrItemName) {
  * @throws {Error} {@link ItemConfig}.name or {@link ItemConfig}.type not set
  * @throws failed to create Item
  */
-const replaceItem = function (itemConfig) {
+function replaceItem (itemConfig) {
   const item = getItem(itemConfig.name, true);
   if (item !== null) { // Item already existed
     removeItem(itemConfig.name);
   }
   addItem(itemConfig);
   return item;
-};
+}
 
 /**
  * Gets an openHAB Item.
@@ -569,7 +568,7 @@ const replaceItem = function (itemConfig) {
  * @param {boolean} [nullIfMissing=false] whether to return null if the Item cannot be found (default is to throw an exception)
  * @returns {Item|null} {@link items.Item} Item or `null` if `nullIfMissing` is true and Item is missing
  */
-const getItem = (name, nullIfMissing = false) => {
+function getItem (name, nullIfMissing = false) {
   try {
     if (typeof name === 'string' || name instanceof String) {
       return new Item(itemRegistry.getItem(name));
@@ -581,7 +580,7 @@ const getItem = (name, nullIfMissing = false) => {
       throw e;
     }
   }
-};
+}
 
 /**
  * Gets all openHAB Items.
@@ -589,9 +588,9 @@ const getItem = (name, nullIfMissing = false) => {
  * @memberof items
  * @returns {Item[]} {@link items.Item}[]: all Items
  */
-const getItems = () => {
+function getItems () {
   return utils.javaSetToJsArray(itemRegistry.getItems()).map(i => new Item(i));
-};
+}
 
 /**
  * Gets all openHAB Items with a specific tag.
@@ -600,9 +599,9 @@ const getItems = () => {
  * @param {string[]} tagNames an array of tags to match against
  * @returns {Item[]} {@link items.Item}[]: the Items with a tag that is included in the passed tags
  */
-const getItemsByTag = (...tagNames) => {
+function getItemsByTag (...tagNames) {
   return utils.javaSetToJsArray(itemRegistry.getItemsByTag(tagNames)).map(i => new Item(i));
-};
+}
 
 /**
  * Helper function to ensure an Item name is valid. All invalid characters are replaced with an underscore.
@@ -610,7 +609,7 @@ const getItemsByTag = (...tagNames) => {
  * @param {string} s the name to make value
  * @returns {string} a valid Item name
  */
-const safeItemName = s => s
+const safeItemName = (s) => s
   .replace(/["']/g, '') // delete
   .replace(/[^a-zA-Z0-9]/g, '_'); // replace with underscore
 
@@ -621,7 +620,6 @@ const itemProperties = {
   addItem,
   getItemsByTag,
   replaceItem,
-  createItem,
   removeItem,
   Item,
   metadata

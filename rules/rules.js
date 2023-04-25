@@ -62,9 +62,7 @@ const RuleManager = osgi.getService('org.openhab.core.automation.RuleManager');
   * @private
   * @param {object} ruleConfig The rule config
   */
-const _itemNameForRule = function (ruleConfig) {
-  return 'vRuleItemFor' + items.safeItemName(ruleConfig.name);
-};
+const _itemNameForRule = (ruleConfig) => 'vRuleItemFor' + items.safeItemName(ruleConfig.name);
 
 /**
   * Links an Item to a rule. When the Item is switched on or off, so will the rule be.
@@ -73,7 +71,7 @@ const _itemNameForRule = function (ruleConfig) {
   * @param {HostRule} rule The rule to link to the Item.
   * @param {items.Item} item the Item to link to the rule.
   */
-const _linkItemToRule = function (rule, item) {
+function _linkItemToRule (rule, item) {
   JSRule({
     name: 'vProxyRuleFor' + rule.getName(),
     description: 'Generated Rule to toggle real rule for ' + rule.getName(),
@@ -91,7 +89,7 @@ const _linkItemToRule = function (rule, item) {
       }
     }
   });
-};
+}
 
 /**
   * Gets the groups that a rule-toggling Item should be a member of. Will create the group Item if necessary.
@@ -100,7 +98,7 @@ const _linkItemToRule = function (rule, item) {
   * @param {RuleConfig} ruleConfig The rule config describing the rule
   * @returns {string} the group name to put the Item in
   */
-const _getGroupForItem = function (ruleConfig) {
+function _getGroupForItem (ruleConfig) {
   if (ruleConfig.ruleGroup) {
     const groupName = 'gRules' + items.safeItemName(ruleConfig.ruleGroup);
     log.debug('Creating rule group ' + ruleConfig.ruleGroup);
@@ -115,7 +113,7 @@ const _getGroupForItem = function (ruleConfig) {
   }
 
   return 'gRules';
-};
+}
 
 /**
   * Check whether a rule exists.
@@ -125,9 +123,9 @@ const _getGroupForItem = function (ruleConfig) {
   * @param {string} uid the UID of the rule
   * @returns {boolean} whether the rule exists
   */
-const _ruleExists = function (uid) {
+function _ruleExists (uid) {
   return !(RuleManager.getStatusInfo(uid) == null);
-};
+}
 
 /**
   * Remove a rule when it exists. The rule will be immediately removed.
@@ -137,7 +135,7 @@ const _ruleExists = function (uid) {
   * @param {string} uid the UID of the rule
   * @returns {boolean} whether the rule was actually removed
   */
-const removeRule = function (uid) {
+function removeRule (uid) {
   if (_ruleExists(uid)) {
     log.info('Removing rule: {}', ruleRegistry.get(uid).name ? ruleRegistry.get(uid).name : uid);
     ruleRegistry.remove(uid);
@@ -145,7 +143,7 @@ const removeRule = function (uid) {
   } else {
     return false;
   }
-};
+}
 
 /**
   * Runs the rule with the given UID. Throws errors when the rule doesn't exist
@@ -157,7 +155,7 @@ const removeRule = function (uid) {
   * @param {boolean} [cond=true] when true, the called rule will only run if it's conditions are met
   * @throws Will throw an error if the rule does not exist or is not initialized.
   */
-const runRule = function (uid, args = {}, cond = true) {
+function runRule (uid, args = {}, cond = true) {
   const status = RuleManager.getStatus(uid);
   if (!status) {
     throw Error('There is no rule with UID ' + uid);
@@ -167,7 +165,7 @@ const runRule = function (uid, args = {}, cond = true) {
   }
 
   RuleManager.runNow(uid, cond, args);
-};
+}
 
 /**
   * Tests to see if the rule with the given UID is enabled or disabled. Throws
@@ -178,12 +176,12 @@ const runRule = function (uid, args = {}, cond = true) {
   * @returns {boolean} whether or not the rule is enabled
   * @throws {Error} an error when the rule is not found.
   */
-const isEnabled = function (uid) {
+function isEnabled (uid) {
   if (!_ruleExists(uid)) {
     throw Error('There is no rule with UID ' + uid);
   }
   return RuleManager.isEnabled(uid);
-};
+}
 
 /**
   * Enables or disables the rule with the given UID. Throws an error if the rule doesn't exist.
@@ -193,12 +191,12 @@ const isEnabled = function (uid) {
   * @param {boolean} isEnabled when true, the rule is enabled, otherwise the rule is disabled
   * @throws {Error} an error when the rule is not found.
   */
-const setEnabled = function (uid, isEnabled) {
+function setEnabled (uid, isEnabled) {
   if (!_ruleExists(uid)) {
     throw Error('There is no rule with UID ' + uid);
   }
   RuleManager.setEnabled(uid, isEnabled);
-};
+}
 
 /**
   * Creates a rule. The rule will be created and immediately available.
@@ -218,7 +216,7 @@ const setEnabled = function (uid, isEnabled) {
   * @returns {HostRule} the created rule
   * @throws {Error} an error if the rule with the passed in uid already exists and {@link RuleConfig.overwrite} is not `true`
   */
-const JSRule = function (ruleConfig) {
+function JSRule (ruleConfig) {
   const ruleUID = ruleConfig.id || ruleConfig.name.replace(/[^\w]/g, '-') + '-' + utils.randomUUID();
   if (ruleConfig.overwrite === true) {
     removeRule(ruleUID);
@@ -230,7 +228,7 @@ const JSRule = function (ruleConfig) {
 
   const SimpleRule = Java.extend(Java.type('org.openhab.core.automation.module.script.rulesupport.shared.simple.SimpleRule'));
 
-  const doExecute = function (module, input) {
+  function doExecute (module, input) {
     try {
       return ruleConfig.execute(_getTriggeredData(input));
     } catch (error) {
@@ -245,7 +243,7 @@ const JSRule = function (ruleConfig) {
       console.error(msg);
       throw Error(msg);
     }
-  };
+  }
 
   let rule = new SimpleRule({
     execute: doExecute,
@@ -279,7 +277,7 @@ const JSRule = function (ruleConfig) {
   actionConfiguration.put('script', '// Code to run when the rule fires:\n// Note that Rule Builder is currently not supported!\n\n' + ruleConfig.execute.toString());
 
   return rule;
-};
+}
 
 /**
   * Creates a rule, with an associated SwitchItem that can be used to toggle the rule's enabled state.
@@ -290,7 +288,7 @@ const JSRule = function (ruleConfig) {
   * @returns {HostRule} the created rule
   * @throws {Error} an error is a rule with the given UID already exists.
   */
-const SwitchableJSRule = function (ruleConfig) {
+function SwitchableJSRule (ruleConfig) {
   if (!ruleConfig.name) {
     throw Error('No name specified for rule!');
   }
@@ -326,7 +324,7 @@ const SwitchableJSRule = function (ruleConfig) {
       item.sendCommand('ON');
     }
   }
-};
+}
 
 /**
  * Adds a key's value from a Java HashMap to a JavaScript object (as string) if the HashMap has that key.
@@ -337,9 +335,9 @@ const SwitchableJSRule = function (ruleConfig) {
  * @param {string} key key from the HashMap to add to the JS object
  * @param {object} object JavaScript object
  */
-const _addFromHashMap = (hashMap, key, object) => {
+function _addFromHashMap (hashMap, key, object) {
   if (hashMap.containsKey(key)) object[key] = hashMap[key].toString();
-};
+}
 
 /**
  * Get rule trigger data from raw Java input and generate JavaScript object.
@@ -348,7 +346,7 @@ const _addFromHashMap = (hashMap, key, object) => {
  * @param {*} input raw Java input from openHAB core
  * @returns {rules.EventObject}
  */
-const _getTriggeredData = function (input) {
+function _getTriggeredData (input) {
   const event = input.get('event');
   const data = {};
 
@@ -447,7 +445,7 @@ const _getTriggeredData = function (input) {
   }
 
   return data;
-};
+}
 
 module.exports = {
   removeRule,
