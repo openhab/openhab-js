@@ -16,7 +16,7 @@ const Hashtable = Java.type('java.util.Hashtable');
  */
 const registeredServices = {};
 
-const _jsObjectToHashtable = function (obj) {
+function _jsObjectToHashtable (obj) {
   if (obj === null) {
     return null;
   }
@@ -26,7 +26,7 @@ const _jsObjectToHashtable = function (obj) {
     rv.put(k, obj[k]);
   }
   return rv;
-};
+}
 
 /**
  * Gets a service registered with OSGi.
@@ -35,7 +35,7 @@ const _jsObjectToHashtable = function (obj) {
  * @param {string|JavaClass} classOrName the class of the service to get
  * @returns {*|null} an instance of the service, or `null` if it cannot be found
  */
-const _lookupService = function (classOrName) {
+function _lookupService (classOrName) {
   let bc = bundleContext;
   if (bundleContext === undefined) {
     log.warn('bundleContext is undefined');
@@ -48,7 +48,7 @@ const _lookupService = function (classOrName) {
     const ref = bc.getServiceReference(classname);
     return (ref !== null) ? bc.getService(ref) : null;
   }
-};
+}
 
 /**
  * Gets a service registered with OSGi. Allows providing multiple classes/names to try for lookup.
@@ -59,7 +59,7 @@ const _lookupService = function (classOrName) {
  * @returns {*|null} an instance of the service, or `null` if it cannot be found
  * @throws {Error} if no services of the requested type(s) can be found
  */
-const getService = function (...classOrNames) {
+function getService (...classOrNames) {
   let rv = null;
 
   for (const classOrName of classOrNames) {
@@ -75,7 +75,7 @@ const getService = function (...classOrNames) {
   }
 
   throw Error(`Failed to get any services of type(s): ${classOrNames}`);
-};
+}
 
 /**
  * Finds services registered with OSGi.
@@ -85,19 +85,19 @@ const getService = function (...classOrNames) {
  * @param {*} [filter] an optional filter used to filter the returned services
  * @returns {Array<*>} any instances of the service that can be found
  */
-const findServices = function (className, filter) {
+function findServices (className, filter) {
   if (bundleContext !== null) {
     const refs = bundleContext.getAllServiceReferences(className, filter);
     return refs != null ? [...refs].map(ref => bundleContext.getService(ref)) : [];
   }
-};
+}
 
-const registerService = function (service, ...interfaceNames) {
+function registerService (service, ...interfaceNames) {
   lifecycleTracker.addDisposeHook(() => unregisterService(service));
   registerPermanentService(service, interfaceNames, null);
-};
+}
 
-const registerPermanentService = function (service, interfaceNames, properties = null) {
+function registerPermanentService (service, interfaceNames, properties = null) {
   const registration = bundleContext.registerService(interfaceNames, service, _jsObjectToHashtable(properties));
 
   for (const interfaceName of interfaceNames) {
@@ -108,9 +108,9 @@ const registerPermanentService = function (service, interfaceNames, properties =
     log.debug('Registered service {} of as {}', service, interfaceName);
   }
   return registration;
-};
+}
 
-const unregisterService = function (serviceToUnregister) {
+function unregisterService (serviceToUnregister) {
   log.debug('Unregistering service {}', serviceToUnregister);
 
   for (const interfaceName in registeredServices) {
@@ -124,7 +124,7 @@ const unregisterService = function (serviceToUnregister) {
       }
     });
   }
-};
+}
 
 module.exports = {
   getService,

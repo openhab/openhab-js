@@ -28,13 +28,13 @@ const JavaTransformation = Java.type('org.openhab.core.transform.actions.Transfo
 
 // Dynamically export all found actions
 const dynamicExports = {};
-actionServices.forEach(function (item) {
+actionServices.forEach((a) => {
   try {
     // if an action fails to activate, then warn and continue so that other actions are available
-    dynamicExports[item.getActionClass().getSimpleName()] = item.getActionClass().static;
-    log.debug('Successfully activated action {} as {}', item, item.getActionClass().getSimpleName());
+    dynamicExports[a.getActionClass().getSimpleName()] = a.getActionClass().static;
+    log.debug('Successfully activated action {} as {}', a, a.getActionClass().getSimpleName());
   } catch (e) {
-    log.warn('Failed to activate action {} due to {}', item, e);
+    log.warn('Failed to activate action {} due to {}', a, e);
   }
 });
 

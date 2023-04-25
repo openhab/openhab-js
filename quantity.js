@@ -17,7 +17,7 @@ const BigDecimal = Java.type('java.math.BigDecimal');
  * @throws {Error} if {@link BigDecimal} creation failed
  * @private
  */
-const _stringOrNumberOrQtyToQtyType = (value) => {
+function _stringOrNumberOrQtyToQtyType (value) {
   if (typeof value === 'number') {
     try {
       value = BigDecimal.valueOf(value);
@@ -28,7 +28,7 @@ const _stringOrNumberOrQtyToQtyType = (value) => {
     value = _stringOrQtyToQtyType(value, 'Argument of wrong type provided, required number, string or Quantity.');
   }
   return value;
-};
+}
 
 /**
  * Takes either a {@link Quantity} or a `string` and converts it to a {@link QuantityType}.
@@ -39,7 +39,7 @@ const _stringOrNumberOrQtyToQtyType = (value) => {
  * @throws {Error} if {@link QuantityType} creation failed
  * @private
  */
-const _stringOrQtyToQtyType = (value, errorMsg = 'Argument of wrong type provided, required string or Quantity.') => {
+function _stringOrQtyToQtyType (value, errorMsg = 'Argument of wrong type provided, required string or Quantity.') {
   if (typeof value === 'string') {
     try {
       value = QuantityType.valueOf(value);
@@ -52,7 +52,7 @@ const _stringOrQtyToQtyType = (value, errorMsg = 'Argument of wrong type provide
     throw new TypeError(errorMsg);
   }
   return value;
-};
+}
 
 /**
  * QuantityError is thrown when {@link Quantity} creation or operation fails.

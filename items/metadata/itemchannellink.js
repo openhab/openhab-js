@@ -29,7 +29,7 @@ const Configuration = Java.type('org.openhab.core.config.core.Configuration');
  * @param {object} [conf] channel configuration
  * @returns {ItemChannelLink} ItemChannelLink object
  */
-const _createItemChannelLink = function (itemName, channelUID, conf) {
+function _createItemChannelLink (itemName, channelUID, conf) {
   log.debug(`Creating ItemChannelLink ${itemName} -> ${channelUID}...`);
   if (typeof conf === 'object') {
     log.debug(`  .. with configuration ${conf}`);
@@ -37,7 +37,7 @@ const _createItemChannelLink = function (itemName, channelUID, conf) {
   } else {
     return new ItemChannelLink(itemName, new ChannelUID(channelUID));
   }
-};
+}
 
 /**
  * Gets a channel link of from an Item.
@@ -47,7 +47,7 @@ const _createItemChannelLink = function (itemName, channelUID, conf) {
  * @param {string} channelUID
  * @returns {{itemName: string, configuration: *, channelUID: string}|null} the ItemChannelLink or `null` if none exists
  */
-const getItemChannelLink = function (itemOrName, channelUID) {
+function getItemChannelLink (itemOrName, channelUID) {
   const itemName = _getItemName(itemOrName);
   log.debug(`Getting ItemChannelLink ${itemName} -> ${channelUID} from provider...`);
   const itemChannelLink = itemChannelLinkRegistry.get(itemName + ' -> ' + channelUID);
@@ -57,7 +57,7 @@ const getItemChannelLink = function (itemOrName, channelUID) {
     channelUID: itemChannelLink.getLinkedUID().toString(),
     configuration: utils.javaMapToJsObj(itemChannelLink.getConfiguration().getProperties())
   };
-};
+}
 
 /**
  * Adds a new channel link to an Item.
@@ -68,7 +68,7 @@ const getItemChannelLink = function (itemOrName, channelUID) {
  * @param {object} [conf] channel configuration
  * @returns {{itemName: string, configuration: *, channelUID: string}} the ItemChannelLink
  */
-const _addItemChannelLink = function (itemName, channelUID, conf) {
+function _addItemChannelLink (itemName, channelUID, conf) {
   log.debug(`Adding ItemChannelLink ${itemName} -> ${channelUID} to provider...`);
   const itemChannelLink = _createItemChannelLink(itemName, channelUID, conf);
   itemChannelLinkRegistry.add(itemChannelLink);
@@ -77,7 +77,7 @@ const _addItemChannelLink = function (itemName, channelUID, conf) {
     channelUID: itemChannelLink.getLinkedUID().toString(),
     configuration: utils.javaMapToJsObj(itemChannelLink.getConfiguration().getProperties())
   };
-};
+}
 
 /**
  * Updates a channel link of an Item.
@@ -88,7 +88,7 @@ const _addItemChannelLink = function (itemName, channelUID, conf) {
  * @param {object} [conf] channel configuration
  * @returns {{itemName: string, configuration: object, channelUID: string}|null} the old ItemChannelLink or `null` if none exists
  */
-const _updateItemChannelLink = function (itemName, channelUID, conf) {
+function _updateItemChannelLink (itemName, channelUID, conf) {
   log.debug(`Updating ItemChannelLink ${itemName} -> ${channelUID} in provider...`);
   const itemChannelLink = _createItemChannelLink(itemName, channelUID, conf);
   itemChannelLinkRegistry.update(itemChannelLink);
@@ -98,7 +98,7 @@ const _updateItemChannelLink = function (itemName, channelUID, conf) {
     channelUID: itemChannelLink.getLinkedUID().toString(),
     configuration: utils.javaMapToJsObj(itemChannelLink.getConfiguration().getProperties())
   };
-};
+}
 
 /**
  * Adds or updates a channel link of an Item.
@@ -109,7 +109,7 @@ const _updateItemChannelLink = function (itemName, channelUID, conf) {
  * @param {object} [conf] channel configuration
  * @returns {{itemName: string, configuration: object, channelUID: string}|null} the old ItemChannelLink or `null` if it did not exist
  */
-const replaceItemChannelLink = function (itemOrName, channelUID, conf) {
+function replaceItemChannelLink (itemOrName, channelUID, conf) {
   const itemName = _getItemName(itemOrName);
   const existing = getItemChannelLink(itemName, channelUID);
   if (existing === null) {
@@ -118,7 +118,7 @@ const replaceItemChannelLink = function (itemOrName, channelUID, conf) {
     _updateItemChannelLink(itemName, channelUID, conf);
   }
   return existing;
-};
+}
 
 /**
  * Removes a channel link from an Item.
@@ -128,7 +128,7 @@ const replaceItemChannelLink = function (itemOrName, channelUID, conf) {
  * @param {string} channelUID
  * @returns {{itemName: string, configuration: object, channelUID: string}|null} the removed ItemChannelLink or `null` if none exists
  */
-const removeItemChannelLink = function (itemOrName, channelUID) {
+function removeItemChannelLink (itemOrName, channelUID) {
   const itemName = _getItemName(itemOrName);
   log.debug(`Removing ItemChannelLink ${itemName} -> ${channelUID} from provider...`);
   const itemChannelLink = itemChannelLinkRegistry.remove(itemName + ' -> ' + channelUID);
@@ -138,7 +138,7 @@ const removeItemChannelLink = function (itemOrName, channelUID) {
     channelUID: itemChannelLink.getLinkedUID().toString(),
     configuration: utils.javaMapToJsObj(itemChannelLink.getConfiguration().getProperties())
   };
-};
+}
 
 /**
  * Removes all channel links from the given Item.
@@ -147,9 +147,9 @@ const removeItemChannelLink = function (itemOrName, channelUID) {
  * @param {string} itemName the name of the Item
  * @returns {number} number of links removed
  */
-const removeLinksForItem = function (itemName) {
+function removeLinksForItem (itemName) {
   return itemChannelLinkRegistry.removeLinksForItem(itemName);
-};
+}
 
 /**
  * Removes all orphaned (Item or channel missing) links.
@@ -157,9 +157,9 @@ const removeLinksForItem = function (itemName) {
  * @memberof items.metadata.itemchannellink
  * @returns {number} number of links removed
  */
-const removeOrphanedItemChannelLinks = function () {
+function removeOrphanedItemChannelLinks () {
   return itemChannelLinkRegistry.purge();
-};
+}
 
 module.exports = {
   getItemChannelLink,

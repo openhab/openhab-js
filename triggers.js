@@ -26,7 +26,7 @@ const Configuration = Java.type('org.openhab.core.config.core.Configuration');
  * @param {object} config the trigger configuration
  * @returns {HostTrigger} {@link HostTrigger}
  */
-const _createTrigger = function (typeString, name, config) {
+function _createTrigger (typeString, name, config) {
   if (typeof name === 'undefined' || name === null) {
     name = utils.randomUUID().toString();
   }
@@ -36,7 +36,7 @@ const _createTrigger = function (typeString, name, config) {
     .withTypeUID(typeString)
     .withConfiguration(new Configuration(config))
     .build();
-};
+}
 
 /**
  * Creates a trigger that fires upon specific events in a channel.

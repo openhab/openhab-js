@@ -31,11 +31,11 @@ function _getAllPropertyNames (obj) {
  * @param {Set} set JavaScript Set
  * @returns {JavaSet} Java Set
  */
-const jsSetToJavaSet = function (set) {
+function jsSetToJavaSet (set) {
   const rv = new HashSet();
   set.forEach(e => rv.add(e));
   return rv;
-};
+}
 
 /**
  * Convert JavaScript Array to Java Set.
@@ -44,13 +44,13 @@ const jsSetToJavaSet = function (set) {
  * @param {Array} arr
  * @returns {JavaSet} Java Set
  */
-const jsArrayToJavaSet = function (arr) {
+function jsArrayToJavaSet (arr) {
   const set = new HashSet();
   for (const i of arr) {
     set.add(i);
   }
   return set;
-};
+}
 
 /**
  * Convert JavaScript Array to Java List.
@@ -59,13 +59,13 @@ const jsArrayToJavaSet = function (arr) {
  * @param {Array} arr JavaScript Array
  * @returns {JavaList}
  */
-const jsArrayToJavaList = function (arr) {
+function jsArrayToJavaList (arr) {
   const list = new ArrayList();
   for (const i of arr) {
     list.add(i);
   }
   return list;
-};
+}
 
 /**
  * Convert Java List to JavaScript Array.
@@ -74,9 +74,9 @@ const jsArrayToJavaList = function (arr) {
  * @param {JavaList} list
  * @returns {Array} JavaScript Array
  */
-const javaListToJsArray = function (list) {
+function javaListToJsArray (list) {
   return Java.from(list);
-};
+}
 
 /**
  * Convert Java Set to JavaScript Array.
@@ -85,9 +85,9 @@ const javaListToJsArray = function (list) {
  * @param {JavaSet} set
  * @returns {Array} JavaScript Array
  */
-const javaSetToJsArray = function (set) {
+function javaSetToJsArray (set) {
   return Java.from(new ArrayList(set));
-};
+}
 
 /**
  * Convert Java Map to JavaScript Map.
@@ -96,11 +96,11 @@ const javaSetToJsArray = function (set) {
  * @param {JavaMap} map
  * @returns {Map<any, any>} JavaScript Map
  */
-const javaMapToJsMap = function (map) {
+function javaMapToJsMap (map) {
   const js = new Map();
   javaSetToJsSet(map.keySet()).forEach((key) => js.set(key, map.get(key)));
   return js;
-};
+}
 
 /**
  * Convert Java Map to JavaScript Object.
@@ -109,11 +109,11 @@ const javaMapToJsMap = function (map) {
  * @param {JavaMap} map
  * @returns {object} JavaScript Object
  */
-const javaMapToJsObj = function (map) {
+function javaMapToJsObj (map) {
   const obj = {};
   map.forEach((key, val) => { obj[key] = val; });
   return obj;
-};
+}
 
 /**
  * Convert Java Set to JavaScript Set.
@@ -122,9 +122,9 @@ const javaMapToJsObj = function (map) {
  * @param {JavaSet} set Java Set ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html})
  * @returns {Set} JavaScript Set Object ({@link https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Set})
  */
-const javaSetToJsSet = function (set) {
+function javaSetToJsSet (set) {
   return new Set(javaSetToJsArray(set));
-};
+}
 
 /**
  * Generate a random UUID.
@@ -141,7 +141,7 @@ const randomUUID = () => Java.type('java.util.UUID').randomUUID();
  * @param {*} obj object
  * @param {boolean} [dumpProps=false] whether properties also should be dumped
  */
-const dumpObject = function (obj, dumpProps = false) {
+function dumpObject (obj, dumpProps = false) {
   try {
     log.info('Dumping object...');
     log.info('  typeof obj = {}', (typeof obj));
@@ -190,7 +190,7 @@ const dumpObject = function (obj, dumpProps = false) {
   } catch (e) {
     log.info('Failed to dump object: ' + e.message);
   }
-};
+}
 
 /**
  * Checks whether an object is instance of a Java class.
@@ -201,7 +201,7 @@ const dumpObject = function (obj, dumpProps = false) {
  * @returns {boolean} whether it is an instance of a Java class
  * @throws error if type is not a java class
  */
-const isJsInstanceOfJava = function (instance, type) {
+function isJsInstanceOfJava (instance, type) {
   if (!Java.isType(type)) {
     throw Error('type is not a java class');
   }
@@ -211,7 +211,7 @@ const isJsInstanceOfJava = function (instance, type) {
   }
 
   return type.getClass().isAssignableFrom(instance.getClass());
-};
+}
 
 module.exports = {
   jsSetToJavaSet,

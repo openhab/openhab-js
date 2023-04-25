@@ -151,7 +151,7 @@ class Thing {
  * @param {boolean} [nullIfMissing] whether to return null if the Thing cannot be found (default is to throw an exception)
  * @returns {Thing} {@link things.Thing}
  */
-const getThing = function (uid, nullIfMissing) {
+function getThing (uid, nullIfMissing) {
   try {
     if (typeof uid === 'string' || uid instanceof String) {
       return new Thing(thingRegistry.get(new ThingUID(uid)));
@@ -163,7 +163,7 @@ const getThing = function (uid, nullIfMissing) {
       throw e;
     }
   }
-};
+}
 
 /**
  * Gets all openHAB Things.
@@ -171,9 +171,9 @@ const getThing = function (uid, nullIfMissing) {
  * @memberof things
  * @returns {Thing[]} {@link things.Thing}[]: all Things
  */
-const getThings = function () {
+function getThings () {
   return utils.javaSetToJsArray(thingRegistry.getAll()).map(i => new Thing(i));
-};
+}
 
 module.exports = {
   Thing,
