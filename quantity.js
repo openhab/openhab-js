@@ -13,8 +13,8 @@ const BigDecimal = Java.type('java.math.BigDecimal');
  * Takes either a {@link Quantity}, a `string` or a `number` and converts it to a {@link QuantityType} or {@link BigDecimal}.
  * @param {number|string|Quantity} value
  * @returns {BigDecimal|QuantityType}
- * @throws {TypeError} if parameter has the wrong type
- * @throws {Error} if {@link BigDecimal} creation failed
+ * @throws {TypeError} when parameter has the wrong type
+ * @throws {QuantityError} when {@link BigDecimal} creation failed
  * @private
  */
 function _stringOrNumberOrQtyToQtyType (value) {
@@ -35,8 +35,8 @@ function _stringOrNumberOrQtyToQtyType (value) {
  * @param {string|Quantity} value
  * @param {string} [errorMsg] error message to throw if parameter has wrong type
  * @returns {QuantityType}
- * @throws {TypeError} if parameter has the wrong type
- * @throws {Error} if {@link QuantityType} creation failed
+ * @throws {TypeError} when parameter has the wrong type
+ * @throws {QuantityError} when {@link QuantityType} creation failed
  * @private
  */
 function _stringOrQtyToQtyType (value, errorMsg = 'Argument of wrong type provided, required string or Quantity.') {
@@ -71,8 +71,8 @@ class QuantityError extends Error {
 /**
  * Class allowing easy Units of Measurement/Quantity handling by wrapping the openHAB {@link QuantityType}.
  *
- * Throws {@link QuantityError} if Quantity creation or operation failed.
- * Throws {@link TypeError} if wrong argument type is provided.
+ * Throws {@link QuantityError} when Quantity creation or operation failed due to wrong quantity or unit.
+ * Throws {@link TypeError} when wrong argument type is provided.
  *
  * @hideconstructor
  */
@@ -195,14 +195,16 @@ class Quantity {
    *
    * @param {string} unit
    * @returns {Quantity|null} a new Quantity with the given unit or `null` if conversion to this unit is not possible
+   * @throws {QuantityError} when unit cannot be parsed because it is invalid
    */
   toUnit (unit) {
     let qtyType;
     try {
       qtyType = (this.raw.toUnit(unit));
     } catch (e) {
-      throw new QuantityError(`Failed to convert to unit ${unit}: ${e}`);
+      throw new QuantityError(`Failed to parse unit ${unit}: ${e}`);
     }
+    console.warn(`Failed to convert ${this.raw.toString()} to unit ${unit}.`);
     return (qtyType === null) ? null : new Quantity(qtyType);
   }
 
