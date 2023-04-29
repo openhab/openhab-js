@@ -165,7 +165,7 @@ export class Item {
      */
     get numericState(): number;
     /**
-     * Item state as {@link Quantity} or `null` if state is not Quantity-compatible
+     * Item state as {@link Quantity} or `null` if state is not Quantity-compatible or Quantity would be unit-less
      * @type {Quantity|null}
      */
     get quantityState(): import("../quantity").Quantity;

@@ -47,13 +47,13 @@ describe('quantity.js', () => {
 
     describe('symbol returns', () => {
       it.each([
-          ['° C', '56.7 ° C'],
-          ['mm', '575 mm'],
-          [null, '4732']
+        ['° C', '56.7 ° C'],
+        ['mm', '575 mm'],
+        [null, '4732']
       ])('%s for %s', (symbol, value) => {
         quantityTypeSpy.toString.mockImplementation(() => value);
         expect(getQuantity(value).symbol).toBe(symbol);
-      })
+      });
       quantityTypeSpy.toString.mockClear();
     });
 
