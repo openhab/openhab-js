@@ -205,8 +205,11 @@ class Quantity {
     } catch (e) {
       throw new QuantityError(`Failed to parse unit ${unit}: ${e}`);
     }
-    console.warn(`Failed to convert ${this.raw.toString()} to unit ${unit}.`);
-    return (qtyType === null) ? null : new Quantity(qtyType);
+    if (qtyType === null) {
+      console.warn(`Failed to convert ${this.raw.toString()} to unit ${unit}.`);
+      return null;
+    }
+    return new Quantity(qtyType);
   }
 
   /**
