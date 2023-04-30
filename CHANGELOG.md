@@ -7,6 +7,7 @@
 | Enhancement | `Quantity` | Refactor exports for better internal use                                             | [b77b6e3](https://github.com/openhab/openhab-js/commit/b77b6e376549181b53ea19911fb94e87dae01253)                                                                                                    | No       |
 | Enhancement | `items`    | Use data type classes instead of type definitons for `ItemMetadata` & `HistoricItem` | [e0f0ca1](https://github.com/openhab/openhab-js/commit/e0f0ca162c8cf1d5d4c1b99695d49f614631ae12) & [858ce86](https://github.com/openhab/openhab-js/commit/858ce860bc28c69eb41dc27fd548cdd24d1399ef) | No       |
 | Bugfix      | `items`    | Fix Item semantics `location` & `equipment`                                          | [#261](https://github.com/openhab/openhab-js/pull/261)                                                                                                                                              | No       |
+| Enhancement | `Quantity` | Minor improvements & Make `quantityState` `null` when unit is missing                | [#263](https://github.com/openhab/openhab-js/pull/263)                                                                                                                                              | No       |
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/15).
 
