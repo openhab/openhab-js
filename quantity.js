@@ -283,7 +283,7 @@ class Quantity {
  */
 function getQuantity (value) {
   return new Quantity(value);
-};
+}
 module.exports = {
   getQuantity,
   Quantity,
