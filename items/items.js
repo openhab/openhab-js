@@ -156,7 +156,7 @@ class Item {
   get quantityState () {
     try {
       const qty = getQuantity(this.rawState.toString());
-      return (qty !== null && qty.state !== null) ? qty : null;
+      return (qty !== null && qty.symbol !== null) ? qty : null;
     } catch (e) {
       if (e instanceof QuantityError) {
         return null;

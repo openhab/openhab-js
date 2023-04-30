@@ -281,7 +281,9 @@ class Quantity {
  * @throws {QuantityError} if Quantity creation or operation failed
  * @throws {TypeError} if wrong argument type is provided
  */
-const getQuantity = (value) => new Quantity(value);
+function getQuantity (value) {
+  return new Quantity(value);
+};
 module.exports = {
   getQuantity,
   Quantity,
