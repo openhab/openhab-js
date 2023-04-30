@@ -4,6 +4,7 @@
 .idea
 .markdownlint.yaml
 .vscode
+CODEOWNERS
 coverage
 DEPLOY.md
 doc
