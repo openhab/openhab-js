@@ -51,8 +51,8 @@
         </h2>
         
             <div class="class-description usertext"><p>Class allowing easy Units of Measurement/Quantity handling by wrapping the openHAB <code>QuantityType</code>.</p>
-<p>Throws <a href="QuantityError.html"><code>QuantityError</code></a> if Quantity creation or operation failed.
-Throws <code>TypeError</code> if wrong argument type is provided.</p></div>
+<p>Throws <a href="QuantityError.html"><code>QuantityError</code></a> when Quantity creation or operation failed due to wrong quantity or unit.
+Throws <code>TypeError</code> when wrong argument type is provided.</p></div>
         
     
 </header>
@@ -313,7 +313,7 @@ Throws <code>TypeError</code> if wrong argument type is provided.</p></div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="quantity.js.html">quantity.js</a>, <a href="quantity.js.html#line129">line 129</a>
+        <a href="quantity.js.html">quantity.js</a>, <a href="quantity.js.html#line130">line 130</a>
     </li></ul></dd>
     
 
@@ -386,7 +386,7 @@ Throws <code>TypeError</code> if wrong argument type is provided.</p></div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="quantity.js.html">quantity.js</a>, <a href="quantity.js.html#line137">line 137</a>
+        <a href="quantity.js.html">quantity.js</a>, <a href="quantity.js.html#line138">line 138</a>
     </li></ul></dd>
     
 
@@ -469,7 +469,7 @@ Throws <code>TypeError</code> if wrong argument type is provided.</p></div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="quantity.js.html">quantity.js</a>, <a href="quantity.js.html#line147">line 147</a>
+        <a href="quantity.js.html">quantity.js</a>, <a href="quantity.js.html#line148">line 148</a>
     </li></ul></dd>
     
 
@@ -630,7 +630,7 @@ Throws <code>TypeError</code> if wrong argument type is provided.</p></div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="quantity.js.html">quantity.js</a>, <a href="quantity.js.html#line162">line 162</a>
+        <a href="quantity.js.html">quantity.js</a>, <a href="quantity.js.html#line163">line 163</a>
     </li></ul></dd>
     
 
@@ -800,7 +800,7 @@ Quantity('20 W').divide('4 W') // is 5</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="quantity.js.html">quantity.js</a>, <a href="quantity.js.html#line177">line 177</a>
+        <a href="quantity.js.html">quantity.js</a>, <a href="quantity.js.html#line178">line 178</a>
     </li></ul></dd>
     
 
@@ -970,7 +970,7 @@ Quantity('20 W').multiply('4 W') // is 80 W^2</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="quantity.js.html">quantity.js</a>, <a href="quantity.js.html#line188">line 188</a>
+        <a href="quantity.js.html">quantity.js</a>, <a href="quantity.js.html#line189">line 189</a>
     </li></ul></dd>
     
 
@@ -1131,7 +1131,7 @@ Quantity('20 W').multiply('4 W') // is 80 W^2</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="quantity.js.html">quantity.js</a>, <a href="quantity.js.html#line199">line 199</a>
+        <a href="quantity.js.html">quantity.js</a>, <a href="quantity.js.html#line201">line 201</a>
     </li></ul></dd>
     
 
@@ -1245,6 +1245,35 @@ Quantity('20 W').multiply('4 W') // is 80 W^2</code></pre>
 
 
 
+<h5>Throws:</h5>
+
+        
+
+<dl>
+    <dt>
+        <div class="param-desc usertext">
+        <p>when unit cannot be parsed because it is invalid</p>
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl class="param-type">
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type"><a href="QuantityError.html">QuantityError</a></span>
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+
+    
 
 
 <h5>Returns:</h5>
@@ -1292,7 +1321,7 @@ Quantity('20 W').multiply('4 W') // is 80 W^2</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="quantity.js.html">quantity.js</a>, <a href="quantity.js.html#line215">line 215</a>
+        <a href="quantity.js.html">quantity.js</a>, <a href="quantity.js.html#line221">line 221</a>
     </li></ul></dd>
     
 
@@ -1449,7 +1478,7 @@ Quantity('20 W').multiply('4 W') // is 80 W^2</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="quantity.js.html">quantity.js</a>, <a href="quantity.js.html#line226">line 226</a>
+        <a href="quantity.js.html">quantity.js</a>, <a href="quantity.js.html#line232">line 232</a>
     </li></ul></dd>
     
 
@@ -1606,7 +1635,7 @@ Quantity('20 W').multiply('4 W') // is 80 W^2</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="quantity.js.html">quantity.js</a>, <a href="quantity.js.html#line237">line 237</a>
+        <a href="quantity.js.html">quantity.js</a>, <a href="quantity.js.html#line243">line 243</a>
     </li></ul></dd>
     
 
@@ -1763,7 +1792,7 @@ Quantity('20 W').multiply('4 W') // is 80 W^2</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="quantity.js.html">quantity.js</a>, <a href="quantity.js.html#line248">line 248</a>
+        <a href="quantity.js.html">quantity.js</a>, <a href="quantity.js.html#line254">line 254</a>
     </li></ul></dd>
     
 
@@ -1920,7 +1949,7 @@ Quantity('20 W').multiply('4 W') // is 80 W^2</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="quantity.js.html">quantity.js</a>, <a href="quantity.js.html#line259">line 259</a>
+        <a href="quantity.js.html">quantity.js</a>, <a href="quantity.js.html#line265">line 265</a>
     </li></ul></dd>
     
 
@@ -2080,7 +2109,7 @@ Quantity('20 W').multiply('4 W') // is 80 W^2</code></pre>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.0</a> on Wed May 03 2023 16:13:46 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.0</a> on Thu May 04 2023 05:53:03 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
