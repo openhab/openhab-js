@@ -11,8 +11,8 @@ export function getQuantity(value: string | Quantity | any): Quantity;
 /**
  * Class allowing easy Units of Measurement/Quantity handling by wrapping the openHAB {@link QuantityType}.
  *
- * Throws {@link QuantityError} if Quantity creation or operation failed.
- * Throws {@link TypeError} if wrong argument type is provided.
+ * Throws {@link QuantityError} when Quantity creation or operation failed due to wrong quantity or unit.
+ * Throws {@link TypeError} when wrong argument type is provided.
  *
  * @hideconstructor
  */
@@ -92,6 +92,7 @@ export class Quantity {
      *
      * @param {string} unit
      * @returns {Quantity|null} a new Quantity with the given unit or `null` if conversion to this unit is not possible
+     * @throws {QuantityError} when unit cannot be parsed because it is invalid
      */
     toUnit(unit: string): Quantity | null;
     /**
@@ -146,8 +147,8 @@ export class QuantityError extends Error {
  * @param {string|Quantity} value
  * @param {string} [errorMsg] error message to throw if parameter has wrong type
  * @returns {QuantityType}
- * @throws {TypeError} if parameter has the wrong type
- * @throws {Error} if {@link QuantityType} creation failed
+ * @throws {TypeError} when parameter has the wrong type
+ * @throws {QuantityError} when {@link QuantityType} creation failed
  * @private
  */
 export function _stringOrQtyToQtyType(value: string | Quantity, errorMsg?: string): any;
@@ -155,8 +156,8 @@ export function _stringOrQtyToQtyType(value: string | Quantity, errorMsg?: strin
  * Takes either a {@link Quantity}, a `string` or a `number` and converts it to a {@link QuantityType} or {@link BigDecimal}.
  * @param {number|string|Quantity} value
  * @returns {BigDecimal|QuantityType}
- * @throws {TypeError} if parameter has the wrong type
- * @throws {Error} if {@link BigDecimal} creation failed
+ * @throws {TypeError} when parameter has the wrong type
+ * @throws {QuantityError} when {@link BigDecimal} creation failed
  * @private
  */
 export function _stringOrNumberOrQtyToQtyType(value: number | string | Quantity): any | any;

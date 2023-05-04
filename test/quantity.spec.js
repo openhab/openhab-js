@@ -45,18 +45,16 @@ describe('quantity.js', () => {
       expect(quantityTypeSpy.getUnit).toHaveBeenCalledTimes(2);
     });
 
-    it('symbol delegates & returns', () => {
-      quantityTypeSpy.getUnit.mockImplementation(() => 'm');
-      let symbol = getQuantity('5 m').symbol;
-      expect(symbol).toBe('m');
-
-      quantityTypeSpy.getUnit.mockImplementation(() => null);
-      symbol = getQuantity('5 m').symbol;
-      expect(symbol).toBe(null);
-
-      expect(quantityTypeSpy.getUnit).toHaveBeenCalledTimes(2);
-
-      quantityTypeSpy.getUnit.mockImplementation(() => unitSpy);
+    describe('symbol returns', () => {
+      it.each([
+        ['° C', '56.7 ° C'],
+        ['mm', '575 mm'],
+        [null, '4732']
+      ])('%s for %s', (symbol, value) => {
+        quantityTypeSpy.toString.mockImplementation(() => value);
+        expect(getQuantity(value).symbol).toBe(symbol);
+      });
+      quantityTypeSpy.toString.mockClear();
     });
 
     it('float delegates & returns', () => {

@@ -403,7 +403,7 @@ Calling `getItem(...)` or `...` returns an `Item` object with the following prop
   - .label ⇒ `string`
   - .state ⇒ `string`
   - .numericState ⇒ `number|null`: State as number, if state can be represented as number, or `null` if that's not the case
-  - .quantityState ⇒ [`Quantity|null`](#quantity): Item state as Quantity or `null` if state is not Quantity-compatible
+  - .quantityState ⇒ [`Quantity|null`](#quantity): Item state as Quantity or `null` if state is not Quantity-compatible or without unit
   - .rawState ⇒ `HostState`
   - .members ⇒ `Array[Item]`
   - .descendents ⇒ `Array[Item]`
@@ -987,6 +987,8 @@ qty = Quantity('1 m^2 / s^2'); // whitespaces are not allowed
 qty = Quantity('1 m^2 s^2'); // / is required
 qty = Quantity('1 m2/s2'); // ^ is required
 ```
+
+Note: It is possible to create a unit-less (without unit) Quantity, however there is no advantage over using a `number` instead.
 
 #### Conversion
 

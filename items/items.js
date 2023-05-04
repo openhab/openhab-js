@@ -150,12 +150,13 @@ class Item {
   }
 
   /**
-   * Item state as {@link Quantity} or `null` if state is not Quantity-compatible
+   * Item state as {@link Quantity} or `null` if state is not Quantity-compatible or Quantity would be unit-less (without unit)
    * @type {Quantity|null}
    */
   get quantityState () {
     try {
-      return getQuantity(this.rawState.toString());
+      const qty = getQuantity(this.rawState.toString());
+      return (qty !== null && qty.symbol !== null) ? qty : null;
     } catch (e) {
       if (e instanceof QuantityError) {
         return null;
