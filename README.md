@@ -343,7 +343,7 @@ See the [transformation docs](https://openhab.org/docs/configuration/transformat
 
 Use JavaScript Scripting as script transformation by:
 
-1. Creating a script in the `$OPENHAB_CONF/transform` folder with the `.js` extension.
+1. Creating a script in the `$OPENHAB_CONF/transform` folder with the `.js` extension for openHAB before version 4.  In openHAB 4 use the `.script` extension.
    The script should take one argument `input` and return a value that supports `toString()` or `null`:
 
    ```javascript
@@ -353,7 +353,7 @@ Use JavaScript Scripting as script transformation by:
    })(input);
    ```
 
-2. Using `JS(<scriptname>.js):%s` as Item state transformation.
+2. Use `JS(<scriptname>.js):%s` as Item state transformation before openHAB 4.  Since openHAB 4 use `SCRIPT(javascript:<scriptname>.script)`.
 3. Passing parameters is also possible by using a URL like syntax: `JS(<scriptname>.js?arg=value)`.
    Parameters are injected into the script and can be referenced like variables.
 
