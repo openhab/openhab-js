@@ -4,6 +4,28 @@ const { ModuleBuilder, Configuration, JavaScriptExecution, JavaTransformation, Q
 class BigDecimal {}
 BigDecimal.valueOf = jest.fn(() => new BigDecimal());
 
+class Instant {
+  toEpochMilli () {
+    return 0;
+  }
+}
+
+class ZonedDateTime {
+  toInstant () {
+    return new Instant();
+  }
+
+  getZone () {
+    return new ZoneId();
+  }
+}
+
+class ZoneId {
+  toString () {
+    return 'UTC';
+  }
+}
+
 class HashSet {
   add () {}
 }
@@ -65,6 +87,8 @@ Java = {
 module.exports = {
   ArrayList,
   BigDecimal,
+  Instant,
+  ZonedDateTime,
   FrameworkUtil,
   HashSet,
   Hashtable,
