@@ -13,7 +13,10 @@
  * const { actions } = require('openhab');
  * actions.NotificationAction.sendBroadcastNotification("Hello World!")
  */
-/** @typedef {import('@js-joda/core').ZonedDateTime} time.ZonedDateTime */
+/**
+ * @typedef {import('@js-joda/core').ZonedDateTime} time.ZonedDateTime
+ * @private
+ */
 
 const osgi = require('./osgi');
 // See https://github.com/openhab/openhab-core/blob/main/bundles/org.openhab.core.automation.module.script/src/main/java/org/openhab/core/automation/module/script/internal/defaultscope/ScriptThingActionsImpl.java

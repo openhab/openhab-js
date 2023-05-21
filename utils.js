@@ -216,22 +216,22 @@ function isJsInstanceOfJava (instance, type) {
 }
 
 /**
- * Convert {@link https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html Java Instant} to {@link https://js-joda.github.io/js-joda/class/packages/core/src/Instant.js~Instant.html JS-Joda Instant}.
+ * Convert Java Instant to JS-Joda Instant.
  *
  * @memberOf utils
  * @param {JavaInstant} instant {@link https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html java.time.Instant}
- * @returns {time.Instant} {@link time.Instant JS-Joda Instant}
+ * @returns {time.Instant} {@link https://js-joda.github.io/js-joda/class/packages/core/src/Instant.js~Instant.html JS-Joda Instant}
  */
 function javaInstantToJsInstant (instant) {
   return time.Instant.ofEpochMilli(instant.toEpochMilli());
 }
 
 /**
- * Convert {@link https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/ZonedDateTime.html Java ZonedDateTime} to {@link https://js-joda.github.io/js-joda/class/packages/core/src/ZonedDateTime.js~ZonedDateTime.html JS-Joda ZonedDateTime}.
+ * Convert Java ZonedDateTime to JS-Joda.
  *
  * @memberOf utils
  * @param {JavaZonedDateTime} zdt {@link https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/ZonedDateTime.html java.time.ZonedDateTime}
- * @returns {time.ZonedDateTime} {@link time.ZonedDateTime JS-Joda ZonedDateTime}
+ * @returns {time.ZonedDateTime} {@link https://js-joda.github.io/js-joda/class/packages/core/src/ZonedDateTime.js~ZonedDateTime.html JS-Joda ZonedDateTime}
  */
 function javaZDTToJsZDT (zdt) {
   const epoch = zdt.toInstant().toEpochMilli();
