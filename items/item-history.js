@@ -3,6 +3,7 @@
  * @private
  */
 const time = require('../time');
+const utils = require('../utils');
 /**
  * @typedef {import('../quantity').Quantity} Quantity
  * @private
@@ -54,7 +55,7 @@ class HistoricItem {
      * timestamp of persisted Item
      * @type {time.ZonedDateTime}
      */
-    this.timestamp = time.ZonedDateTime.parse(rawHistoricItem.getTimestamp().toString());
+    this.timestamp = utils.javaZDTToJsZDT(rawHistoricItem.getTimestamp());
   }
 }
 

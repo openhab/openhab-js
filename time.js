@@ -8,6 +8,7 @@
 require('@js-joda/timezone');
 const time = require('@js-joda/core');
 const items = require('./items');
+const utils = require('./utils');
 
 const javaZDT = Java.type('java.time.ZonedDateTime');
 const javaDuration = Java.type('java.time.Duration');
@@ -16,19 +17,6 @@ const javaNumber = Java.type('java.lang.Number');
 const { DateTimeType, DecimalType, StringType, QuantityType } = require('@runtime');
 const { Quantity } = require('./quantity');
 const ohItem = Java.type('org.openhab.core.items.Item');
-
-/**
- * Converts the Java ZonedDateTime to a time.ZonedDateTime.
- * @private
- * @param {JavaZonedDateTime} zdt date time to convert to a time.ZonedDateTime
- * @returns {time.ZonedDateTime}
- */
-function _javaZDTtoZDT (zdt) {
-  const epoch = zdt.toInstant().toEpochMilli();
-  const instant = time.Instant.ofEpochMilli(epoch);
-  const zone = time.ZoneId.of(zdt.getZone().toString());
-  return time.ZonedDateTime.ofInstant(instant, zone);
-}
 
 /**
  * Adds millis to the passed in ZDT as milliseconds. The millis is rounded first.
@@ -176,7 +164,7 @@ function _convertItem (item) {
   } else if (item.rawState instanceof StringType) { // String type Items
     return _parseString(item.state);
   } else if (item.rawState instanceof DateTimeType) { // DateTime Items
-    return _javaZDTtoZDT(item.rawState.getZonedDateTime());
+    return utils.javaZDTToJsZDT(item.rawState.getZonedDateTime());
   } else if (item.rawState instanceof QuantityType) { // Number:Time type Items
     return _addQuantityType(item.rawState);
   } else {
@@ -241,12 +229,12 @@ function toZDT (when) {
 
   // Java ZDT
   if (when instanceof javaZDT) {
-    return _javaZDTtoZDT(when);
+    return utils.javaZDTToJsZDT(when);
   }
 
   // DateTimeType, extract the javaZDT and convert to time.ZDT
   if (when instanceof DateTimeType) {
-    return _javaZDTtoZDT(when.getZonedDateTime());
+    return utils.javaZDTToJsZDT(when.getZonedDateTime());
   }
 
   // Quantity
