@@ -1,3 +1,5 @@
+const time = require('@js-joda/core');
+
 /**
  * openHAB JavaScript library version
  *
@@ -213,6 +215,31 @@ function isJsInstanceOfJava (instance, type) {
   return type.getClass().isAssignableFrom(instance.getClass());
 }
 
+/**
+ * Convert {@link https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html Java Instant} to {@link https://js-joda.github.io/js-joda/class/packages/core/src/Instant.js~Instant.html JS-Joda Instant}.
+ *
+ * @memberOf utils
+ * @param {JavaInstant} instant {@link https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html java.time.Instant}
+ * @returns {time.Instant} {@link time.Instant JS-Joda Instant}
+ */
+function javaInstantToJsInstant (instant) {
+  return time.Instant.ofEpochMilli(instant.toEpochMilli());
+}
+
+/**
+ * Convert {@link https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/ZonedDateTime.html Java ZonedDateTime} to {@link https://js-joda.github.io/js-joda/class/packages/core/src/ZonedDateTime.js~ZonedDateTime.html JS-Joda ZonedDateTime}.
+ *
+ * @memberOf utils
+ * @param {JavaZonedDateTime} zdt {@link https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/ZonedDateTime.html java.time.ZonedDateTime}
+ * @returns {time.ZonedDateTime} {@link time.ZonedDateTime JS-Joda ZonedDateTime}
+ */
+function javaZDTToJsZDT (zdt) {
+  const epoch = zdt.toInstant().toEpochMilli();
+  const instant = time.Instant.ofEpochMilli(epoch);
+  const zone = time.ZoneId.of(zdt.getZone().toString());
+  return time.ZonedDateTime.ofInstant(instant, zone);
+}
+
 module.exports = {
   jsSetToJavaSet,
   jsArrayToJavaSet,
@@ -225,5 +252,7 @@ module.exports = {
   randomUUID,
   dumpObject,
   isJsInstanceOfJava,
+  javaInstantToJsInstant,
+  javaZDTToJsZDT,
   OPENHAB_JS_VERSION: VERSION
 };
