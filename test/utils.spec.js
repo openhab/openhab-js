@@ -1,4 +1,4 @@
-const { UUID, HashSet, ArrayList } = require('./java.mock');
+const { UUID, HashSet, ArrayList, Instant, ZonedDateTime } = require('./java.mock');
 const {
   randomUUID,
   jsSetToJavaSet,
@@ -7,8 +7,11 @@ const {
   javaListToJsArray,
   javaSetToJsArray,
   javaSetToJsSet,
-  isJsInstanceOfJava
+  isJsInstanceOfJava,
+  javaInstantToJsInstant,
+  javaZDTToJsZDT
 } = require('../utils');
+const time = require('@js-joda/core');
 
 describe('utils.js', () => {
   describe('randomUUID', () => {
@@ -120,6 +123,18 @@ describe('utils.js', () => {
       expect(isAssignableFromMock).toHaveBeenCalledWith(
         'class'
       );
+    });
+  });
+
+  describe('javaInstantToJsInstant', () => {
+    it('returns JS-Joda Instant', () => {
+      expect(javaInstantToJsInstant(new Instant())).toBeInstanceOf(time.Instant);
+    });
+  });
+
+  describe('javaZDTToJsZDT', () => {
+    it('returns JS-Joda ZonedDateTime', () => {
+      expect(javaZDTToJsZDT(new ZonedDateTime())).toBeInstanceOf(time.ZonedDateTime);
     });
   });
 });

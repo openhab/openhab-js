@@ -2,8 +2,9 @@
 
 ## to be released
 
-| Type        | Namespace  | Description                                                                          | Reference                                                                                                                                                                                           | Breaking |
-|-------------|------------|--------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
+| Type        | Namespace  | Description                                               | Reference                                              | Breaking |
+|-------------|------------|-----------------------------------------------------------|--------------------------------------------------------|----------|
+| Enhancement | `utils`    | Add Java to JS conversion for `Instant` & `ZonedDateTime` | [#267](https://github.com/openhab/openhab-js/pull/267) | No       |
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/16).
 

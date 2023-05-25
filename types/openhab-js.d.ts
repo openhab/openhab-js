@@ -17,7 +17,11 @@ declare global {
    */
   type JavaMap = object;
   /**
-   * Native Java ZonedDateTime Object (instance of {@link https://docs.oracle.com/en/java/javase/17/docs/api//java.base/java/time/ZonedDateTime.html java.time.ZonedDateTime})
+   * Native Java Instant Object (instance of {@link https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html java.time.Instant})
+   */
+  type JavaInstant = object;
+  /**
+   * Native Java ZonedDateTime Object (instance of {@link https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/ZonedDateTime.html java.time.ZonedDateTime})
    */
   type JavaZonedDateTime = object;
   /**
