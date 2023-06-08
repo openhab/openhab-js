@@ -18,6 +18,7 @@
  * @property {string} receivedState only for {@link triggers.ItemStateUpdateTrigger} & {@link triggers.GroupStateUpdateTrigger}: State that triggered event
  * @property {string} receivedCommand only for {@link triggers.ItemCommandTrigger}, {@link triggers.GroupCommandTrigger}, {@link triggers.PWMTrigger} & {@link triggers.PIDTrigger} : Command that triggered event
  * @property {string} itemName for all triggers except {@link triggers.PWMTrigger}: name of Item that triggered event
+ * @property {string} groupName for all `Group****Trigger`s: name of the group whose member triggered event
  * @property {string} receivedEvent only for {@link triggers.ChannelEventTrigger}: Channel event that triggered event
  * @property {string} channelUID only for {@link triggers.ChannelEventTrigger}: UID of channel that triggered event
  * @property {string} oldStatus only for {@link triggers.ThingStatusChangeTrigger}: Previous state of Thing that triggered event
