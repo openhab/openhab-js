@@ -7,6 +7,8 @@
 | Enhancement | `utils`   | Add Java to JS conversion for `Instant` & `ZonedDateTime` | [#267](https://github.com/openhab/openhab-js/pull/267) | No       |
 | Enhancement | `rules`   | Add name of triggering group to event object              | [#268](https://github.com/openhab/openhab-js/pull/268) | No       |
 
+Note: The changes on the event object require openHAB 4.0.0(.M4) or newer.
+
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/16).
 
 ## 4.3.0
