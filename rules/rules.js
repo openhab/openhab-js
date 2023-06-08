@@ -358,6 +358,9 @@ function _getTriggeredData (input) {
   _addFromHashMap(input, 'newState', data);
   if (input.containsKey('state')) data.receivedState = input.get('state').toString();
 
+  // Group Item triggers
+  if (input.containsKey('triggeringGroup')) data.groupName = input.get('triggeringGroup').getName();
+
   // Thing triggers
   _addFromHashMap(input, 'oldStatus', data);
   _addFromHashMap(input, 'newStatus', data);
