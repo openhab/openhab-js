@@ -324,6 +324,7 @@ function SwitchableJSRule (ruleConfig) {
       item.sendCommand('ON');
     }
   }
+
   RuleManager.setEnabled(rule.getUID(), item.state !== 'OFF');
 }
 
