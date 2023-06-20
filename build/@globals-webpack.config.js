@@ -1,12 +1,24 @@
 const path = require('path');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
-  entry: './index.js',
+  entry: './build/@openhab-globals.js',
   mode: 'production',
   performance: {
     hints: false,
     maxEntrypointSize: 512000,
     maxAssetSize: 512000
+  },
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          keep_classnames: true,
+          keep_fnames: true
+        }
+      })
+    ]
   },
   externals: [
     {
@@ -49,10 +61,10 @@ module.exports = {
     }
   ],
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'openhab.js',
+    path: path.resolve(__dirname, '../dist'),
+    filename: '@openhab-globals.js',
     library: {
-      name: 'openhab',
+      name: '@openhab-globals',
       type: 'umd'
     },
     globalObject: 'this'

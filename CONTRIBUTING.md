@@ -130,7 +130,7 @@ then you just add a line to every git commit message:
 ```
 
 using your real name (sorry, no pseudonyms or anonymous contributions.) and an
-e-mail address under which you can be reached (sorry, no github noreply e-mail
+e-mail address under which you can be reached (sorry, no GitHub no-reply e-mail
 addresses (such as username@users.noreply.github.com) or other non-reachable
 addresses are allowed).
 
@@ -162,33 +162,32 @@ After you read the following sections, please read the [deployment instructions]
 
 ### Code style
 
-openhab-js uses [`standardx`](https://github.com/standard/standardx) for code linting and formatting.
+openhab-js is using [`standardx`](https://github.com/standard/standardx) for code linting and formatting.
 
 Code-style is enforced when checks run on a PR.
 
 #### Linting & Formatting
 
 Lint your code with `npm run lint`.
-Fix auto-fixable issuers with `npm run lint:fix`.
+Fix auto-fixable issues with `npm run lint:fix`.
 
 If you want, you can also use the plugin for your editor, see [StandardJS: Are there text editor plugins?](https://standardjs.com/#are-there-text-editor-plugins).
 
-If `standardx` marks an issue that can't be resolved, you can disable the particular rule for the line or a section,
-see [How do I disable a rule?](https://standardjs.com/#how-do-i-disable-a-rule).
+If `standardx` marks an issue that can't be resolved, you can disable the particular rule for the line or a section.
+See [How do I disable a rule?](https://standardjs.com/#how-do-i-disable-a-rule).
 
-When you write a `mocha` test, put the following on top of the file:
+### Unit Tests
 
-```javascript
-/* eslint-env mocha */
-```
+openhab-js is using [Jest](https://jestjs.io/) for unit tests, which are placed in the `test` folder and have the extension `.spec.js`.
+Have a look at the [docs](https://jestjs.io/docs/getting-started) and the existing tests to get an idea how Jest works.
 
 ### Type definitions
 
-openhab-js uses [TypeScript](https://www.typescriptlang.org/) to generate type definitions from the JSDoc comments.
+openhab-js is using [TypeScript](https://www.typescriptlang.org/) to generate type definitions from the JSDoc comments and hence provide great IntelliSense for users in supported IDEs.
 
 ### MainUI code completion
 
-The code completion in the openHAB web UI is working with a so called tern definition.
+The code completion in the openHAB web UI is working with a so-called tern definition.
 This tern definition has to be updated manually when breaking change happens or when a new feature is added,
 it is located at [openhab/openhab-webui:/bundles/org.openhab.ui/web/src/assets/openhab-js-tern-defs.json](https://github.com/openhab/openhab-webui/blob/main/bundles/org.openhab.ui/web/src/assets/openhab-js-tern-defs.json).
 

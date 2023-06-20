@@ -2,7 +2,7 @@
 
 (function (global) {
   'use strict';
-  Object.assign(globalThis, require('./index'));
+  Object.assign(globalThis, require('../index'));
   // Support legacy NodeJS libraries
   globalThis.global = globalThis;
 })(this);
