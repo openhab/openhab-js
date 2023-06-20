@@ -20,7 +20,7 @@
         "test:mocha": "mocha test/**/*.test.js",
         "test:jest": "jest",
         "test": "npm run lint && npm run test:mocha && npm run test:jest",
-        "docs": "rm -Rf ./docs/* && jsdoc --configure jsdoc.conf.json && mv ./docs/$npm_package_name/$npm_package_version/* ./docs/ && rm -Rf ./docs/$npm_package_name/$npm_package_version",
+        "docs": "rm -Rf ./docs/* && jsdoc --configure build/jsdoc.conf.json && mv ./docs/$npm_package_name/$npm_package_version/* ./docs/ && rm -Rf ./docs/$npm_package_name/$npm_package_version",
         "deploy": "npm test && npm run docs && npm run webpack && npm run types && npm run types:test",
         "lint": "npx standardx | snazzy",
         "lint:fix": "npx standardx --fix",
