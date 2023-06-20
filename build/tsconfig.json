@@ -1,14 +1,14 @@
 {
   // Change this to match your project
-  "include": ["**/*.js"],
+  "include": ["../**/*.js"],
   "exclude": [
-    "test/**",
-    "coverage/**",
-    "dist/**",
-    "docs/**",
-    "typeOfArguments.js",
-    "jest.config.js",
-    "webpack.config.js"
+    "../test/**",
+    "../coverage/**",
+    "../dist/**",
+    "../docs/**",
+    "../typeOfArguments.js",
+    "../jest.config.js",
+    "../build"
   ],
   "compilerOptions": {
     // Tells TypeScript to read JS files, as
@@ -22,7 +22,7 @@
     // Types should go into this directory.
     // Removing this would place the .d.ts files
     // next to the .js files
-    "outDir": "types",
+    "outDir": "../types",
     // go to js file when using IDE functions like
     // "Go to Definition" in VSCode
     "declarationMap": true

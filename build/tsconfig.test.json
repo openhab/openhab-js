@@ -1,5 +1,5 @@
 {
-  "include": ["types/**/*.d.ts"],
+  "include": ["../types/**/*.d.ts"],
   "compilerOptions": {
     "outDir": "types-test"
   }
