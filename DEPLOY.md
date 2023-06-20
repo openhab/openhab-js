@@ -1,15 +1,5 @@
 # Deployment Instructions
 
-## Webpack
-
-openhab-js and it's injection script can be compiled into a single JS file, which is how we ship the library with the JS Scripting automation addon in openHAB.
-
-```bash
-npm run webpack
-```
-
-This outputs the library, and it's injection script as a single JS file to `dist/@openhab-globals.js`.
-
 ## TypeScript type definitions
 
 openhab-js has included type definitions which are generated from JSDoc using the [`typescript`](https://www.npmjs.com/package/typescript) npm module.
@@ -31,15 +21,11 @@ npm run types:test
 
 ## Docs
 
-openhab-js uses [JSDocs](https://jsdoc.app/) to produce API documentation.
+Docs are automatically build on every push to `main` and deployed to [GitHub Pages](https://openhab.github.io/openhab-js/).
 
-```bash
-npm run docs
-```
+## Webpack Build
 
-This will output API documentation to `./docs`.
-
-This also happens automatically on every push to `main` and is published using Github Pages, see [openhab-js API Documentation](https://openhab.github.io/openhab-js/) for the latest version.
+The bundled versions of the library are automatically build and included into the JS Scripting add-on in its build process.
 
 ## Publish to NPM
 
@@ -47,8 +33,8 @@ We have a GitHub action which will publish this library automatically when a ver
 Use the [npm version](https://docs.npmjs.com/cli/v9/commands/npm-version) command to bump the version, commit and tag:
 
 ```bash
-npm run deploy # Perform tests etc.
-npm version [major | minor | patch] # Select one of the commands
+npm run deploy # Perform tests, test JSDoc deployment, webpack build, update and test type definitions
+npm version [major | minor | patch] --no-git-tag-version # Select one of the commands
 ```
 
-Push changes and tag to the remote.
+Commit and tag, then push changes and the new tag to the remote.
