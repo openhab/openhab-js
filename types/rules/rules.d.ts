@@ -27,6 +27,10 @@ export type EventObject = {
      */
     itemName: string;
     /**
+     * for all `Group****Trigger`s: name of the group whose member triggered event
+     */
+    groupName: string;
+    /**
      * only for {@link triggers.ChannelEventTrigger }: Channel event that triggered event
      */
     receivedEvent: string;
