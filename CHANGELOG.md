@@ -2,10 +2,12 @@
 
 ## to be released
 
-| Type        | Namespace | Description                                               | Reference                                              | Breaking |
-|-------------|-----------|-----------------------------------------------------------|--------------------------------------------------------|----------|
-| Enhancement | `utils`   | Add Java to JS conversion for `Instant` & `ZonedDateTime` | [#267](https://github.com/openhab/openhab-js/pull/267) | No       |
-| Enhancement | `rules`   | Add name of triggering group to event object              | [#268](https://github.com/openhab/openhab-js/pull/268) | No       |
+| Type        | Namespace | Description                                                   | Reference                                              | Breaking |
+|-------------|-----------|---------------------------------------------------------------|--------------------------------------------------------|----------|
+| Enhancement | `utils`   | Add Java to JS conversion for `Instant` & `ZonedDateTime`     | [#267](https://github.com/openhab/openhab-js/pull/267) | No       |
+| Enhancement |           | Configure webpack to keep class and function names            | [#273](https://github.com/openhab/openhab-js/pull/273) | No       |
+| Enhancement | `rules`   | Add name of triggering group to event object                  | [#268](https://github.com/openhab/openhab-js/pull/268) | No       |
+| Bugfix      | `things`  | Fix Thing.setX methods don't persist changes to ThingRegistry | [#274](https://github.com/openhab/openhab-js/pull/274) | No       |
 
 Note: The changes on the event object require openHAB 4.0.0(.M4) or newer.
 
