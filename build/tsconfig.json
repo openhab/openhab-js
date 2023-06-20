@@ -7,7 +7,6 @@
     "../dist/**",
     "../docs/**",
     "../typeOfArguments.js",
-    "../jest.config.js",
     "../build"
   ],
   "compilerOptions": {
