@@ -111,6 +111,7 @@ class Thing {
    */
   setLabel (label) {
     this.rawThing.setLabel(label);
+    thingRegistry.update(this.rawThing);
   }
 
   /**
@@ -119,6 +120,7 @@ class Thing {
    */
   setLocation (location) {
     this.rawThing.setLocation(location);
+    thingRegistry.update(this.rawThing);
   }
 
   /**
@@ -128,6 +130,7 @@ class Thing {
    */
   setProperty (name, value) {
     this.rawThing.setProperty(name, value);
+    thingRegistry.update(this.rawThing);
   }
 
   /**
