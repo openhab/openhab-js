@@ -168,7 +168,7 @@ export class Item {
      * Item state as {@link Quantity} or `null` if state is not Quantity-compatible or Quantity would be unit-less (without unit)
      * @type {Quantity|null}
      */
-    get quantityState(): any;
+    get quantityState(): import("../quantity").Quantity;
     /**
      * Raw state of Item, as a Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/types/state State object}
      * @type {HostState}
