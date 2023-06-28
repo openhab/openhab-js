@@ -1,3 +1,4 @@
+const { Class, BigDecimal} = require('./java.mock');
 const { Unit } = require('./javax-measure.mock');
 
 // org.openhab.core.automation.util.ModuleBuilder (https://www.openhab.org/javadoc/latest/org/openhab/core/automation/util/modulebuilder)
@@ -43,6 +44,12 @@ class JavaTransformation {
   }
 }
 
+// org.openhab.core.library.types.DecimalType (https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/decimaltype)
+class DecimalType {
+  toBigDecimal = jest.fn(() => new BigDecimal())
+  getClass = () => new Class('org.openhab.core.library.types.DecimalType')
+}
+
 // org.openhab.core.library.types.QuantityType (https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/quantitytype)
 class QuantityType {
   add = jest.fn(() => new QuantityType())
@@ -56,7 +63,16 @@ class QuantityType {
   subtract = jest.fn(() => new QuantityType())
   toString = jest.fn()
   toUnit = jest.fn(() => new QuantityType())
+  getClass = () => new Class('org.openhab.core.library.types.QuantityType')
 }
 QuantityType.valueOf = jest.fn(() => new QuantityType())
 
-module.exports = { Configuration, MetadataRegistry, ModuleBuilder, JavaScriptExecution, JavaTransformation, QuantityType };
+module.exports = {
+  Configuration,
+  MetadataRegistry,
+  ModuleBuilder,
+  JavaScriptExecution,
+  JavaTransformation,
+  DecimalType,
+  QuantityType
+};

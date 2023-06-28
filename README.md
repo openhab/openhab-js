@@ -956,7 +956,7 @@ Anywhere that a native openHAB `QuantityType` is required, the runtime will auto
 
 `Quantity(value)` is used without new (it's a factory, not a constructor), pass an amount **and** a unit to it to create a new `Quantity` object:
 
-The argument `value` can be a string, a `Quantity` instance or an openHAB Java [`QuantityType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/quantitytype).
+The argument `value` can be a Quantity-compatible `Item`, a string, a `Quantity` instance or an openHAB Java [`QuantityType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/quantitytype).
 
 `value` strings have the `$amount $unit` format and must follow these rules:
 
@@ -979,6 +979,7 @@ qty = Quantity('1 m/s');
 qty = Quantity('1 m^2/s^2');
 qty = Quantity('1 m^2/s^-2'); // negative powers
 qty = Quantity('1'); // unitless quantity
+qty = Quantity(items.my_uom_item);
 
 // Not allowed:
 qty = Quantity('m');
@@ -1018,10 +1019,10 @@ var floatValue = qty.float;
 
 #### Mathematical Operators
 
-- `add(value)` ⇒ `Quantity`: `value` can be a string or a `Quantity`
-- `divide(value)` ⇒ `Quantity`: `value` can be a number, a string or a `Quantity`
-- `multiply(value)` ⇒ `Quantity`: `value` can be a number, a string or a `Quantity`
-- `subtract(value)` ⇒ `Quantity`: `value` can be a string or a `Quantity`
+- `add(value)` ⇒ `Quantity`: `value` can be a Quantity-compatible `Item`, a string or a `Quantity`
+- `divide(value)` ⇒ `Quantity`: `value` can be a Quantity-compatible or Number `Item`, a number, a string or a `Quantity`
+- `multiply(value)` ⇒ `Quantity`: `value` can be a Quantity-compatible or Number `Item`, a number, a string or a `Quantity`
+- `subtract(value)` ⇒ `Quantity`: `value` can be a Quantity-compatible `Item`, a string or a `Quantity`
 
 For the string the same rules apply as described above.
 

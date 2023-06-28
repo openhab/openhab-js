@@ -5,6 +5,10 @@ declare global {
    */
   type JavaClass = object;
   /**
+   * Native Java BigDecimal (instance of {@link https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/math/BigDecimal.html java.math.BigDecimal})
+   */
+  type JavaBigDecimal = object;
+  /**
    * Native Java Set Object (instance of {@link https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Set.html java.util.Set})
    */
   type JavaSet = object;
@@ -48,6 +52,10 @@ declare global {
    * Native Java openHAB GroupFunction (instance of {@link https://www.openhab.org/javadoc/latest/org/openhab/core/items/groupfunction org.openhab.core.items.GroupFunction})
    */
   type HostGroupFunction = object;
+  /**
+   * Native Java openHAB QuantityType (instance of {@link https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/quantitytype org.openhab.core.library.types.QuantityType})
+   */
+  type QuantityType = object;
 }
 export const log: typeof import("./log");
 export const rules: typeof import("./rules/rules");
