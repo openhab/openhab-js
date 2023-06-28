@@ -139,6 +139,9 @@ describe('quantity.js', () => {
 
   describe('private method', () => {
     describe('_toBigDecimalOrQtyType', () => {
+      it('extracts BigDecimal from DecimalType Item state', () => {
+        // TODO
+      });
       it('parses number to BigDecimal', () => {
         const value = _toBigDecimalOrQtyType(10);
         expect(BigDecimal.valueOf).toHaveBeenCalledWith(10);

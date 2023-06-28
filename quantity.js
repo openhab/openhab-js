@@ -11,7 +11,8 @@ const BigDecimal = Java.type('java.math.BigDecimal');
  */
 
 /**
- * Takes either a {@link Quantity}, a `string` or a `number` and converts it to a {@link QuantityType} or {@link BigDecimal}.
+ * Takes either a {@link Item}, a `string`, a `number` or a {@link Quantity} and converts it to a {@link QuantityType} or {@link BigDecimal}.
+ * When the Item state is a DecimalType, it is converted to a {@link BigDecimal}, otherwise to a {@link QuantityType}.
  * @param {Item|string|number|Quantity} value
  * @returns {BigDecimal|QuantityType}
  * @throws {TypeError} when parameter has the wrong type
@@ -19,6 +20,13 @@ const BigDecimal = Java.type('java.math.BigDecimal');
  * @private
  */
 function _toBigDecimalOrQtyType (value) {
+  if (value.constructor && value.constructor.name === 'Item' && value.rawState.getClass().getSimpleName() === 'DecimalType') {
+    try {
+      value = value.rawState.toBigDecimal();
+    } catch (e) {
+      throw new QuantityError(`Failed to create BigDecimal from DecimalType Item state ${value.state}: ${e}`);
+    }
+  } else
   if (typeof value === 'number') {
     try {
       value = BigDecimal.valueOf(value);
@@ -42,10 +50,14 @@ function _toBigDecimalOrQtyType (value) {
  */
 function _toQtyType (value, errorMsg = 'Argument of wrong type provided, required string or Quantity.') {
   if (value.constructor && value.constructor.name === 'Item') {
-    try {
-      value = QuantityType.valueOf(value.state);
-    } catch (e) {
-      throw new QuantityError(`Failed to create QuantityType from Item state ${value.state}: ${e}`);
+    if (value.rawState.getClass().getSimpleName() === 'QuantityType') {
+      value = value.rawState;
+    } else {
+      try {
+        value = QuantityType.valueOf(value.state);
+      } catch (e) {
+        throw new QuantityError(`Failed to create QuantityType from Item state ${value.state}: ${e}`);
+      }
     }
   } else if (typeof value === 'string') {
     try {
