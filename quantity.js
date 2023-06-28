@@ -1,23 +1,24 @@
-/**
- * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/quantitytype org.openhab.core.library.types.QuantityType}
- * @private
- */
 const QuantityType = Java.type('org.openhab.core.library.types.QuantityType');
 /**
- * {@link https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/math/BigDecimal.html java.math.BigDecimal}
+ * @type {JavaBigDecimal}
  * @private
  */
 const BigDecimal = Java.type('java.math.BigDecimal');
 
 /**
+ * @typedef {import('./items/items').Item} Item
+ * @private
+ */
+
+/**
  * Takes either a {@link Quantity}, a `string` or a `number` and converts it to a {@link QuantityType} or {@link BigDecimal}.
- * @param {number|string|Quantity} value
+ * @param {Item|string|number|Quantity} value
  * @returns {BigDecimal|QuantityType}
  * @throws {TypeError} when parameter has the wrong type
  * @throws {QuantityError} when {@link BigDecimal} creation failed
  * @private
  */
-function _stringOrNumberOrQtyToQtyType (value) {
+function _toBigDecimalOrQtyType (value) {
   if (typeof value === 'number') {
     try {
       value = BigDecimal.valueOf(value);
@@ -25,22 +26,28 @@ function _stringOrNumberOrQtyToQtyType (value) {
       throw new QuantityError(`Failed to create BigDecimal from ${value}: ${e}`);
     }
   } else {
-    value = _stringOrQtyToQtyType(value, 'Argument of wrong type provided, required number, string or Quantity.');
+    value = _toQtyType(value, 'Argument of wrong type provided, required number, string or Quantity.');
   }
   return value;
 }
 
 /**
  * Takes either a {@link Quantity} or a `string` and converts it to a {@link QuantityType}.
- * @param {string|Quantity} value
+ * @param {Item|string|Quantity} value
  * @param {string} [errorMsg] error message to throw if parameter has wrong type
  * @returns {QuantityType}
  * @throws {TypeError} when parameter has the wrong type
  * @throws {QuantityError} when {@link QuantityType} creation failed
  * @private
  */
-function _stringOrQtyToQtyType (value, errorMsg = 'Argument of wrong type provided, required string or Quantity.') {
-  if (typeof value === 'string') {
+function _toQtyType (value, errorMsg = 'Argument of wrong type provided, required string or Quantity.') {
+  if (value.constructor && value.constructor.name === 'Item') {
+    try {
+      value = QuantityType.valueOf(value.state);
+    } catch (e) {
+      throw new QuantityError(`Failed to create QuantityType from Item state ${value.state}: ${e}`);
+    }
+  } else if (typeof value === 'string') {
     try {
       value = QuantityType.valueOf(value);
     } catch (e) {
@@ -78,7 +85,7 @@ class QuantityError extends Error {
  */
 class Quantity {
   /**
-   * @param {string|Quantity|QuantityType} value either a string consisting of a numeric value and a dimension, e.g. `5.5 m`, a {@link Quantity} or a {@link QuantityType}
+   * @param {Item|string|Quantity|QuantityType} value
    */
   constructor (value) {
     if (value instanceof QuantityType) {
@@ -92,7 +99,7 @@ class Quantity {
        * @type {QuantityType}
        * @private
        */
-      this.raw = _stringOrQtyToQtyType(value);
+      this.raw = _toQtyType(value);
     }
   }
 
@@ -146,7 +153,7 @@ class Quantity {
    * @returns {Quantity} result as new Quantity
    */
   add (value) {
-    value = _stringOrQtyToQtyType(value);
+    value = _toQtyType(value);
     return new Quantity(this.raw.add(value));
   }
 
@@ -161,7 +168,7 @@ class Quantity {
    * @returns {Quantity} result as new Quantity
    */
   divide (value) {
-    value = _stringOrNumberOrQtyToQtyType(value);
+    value = _toBigDecimalOrQtyType(value);
     return new Quantity(this.raw.divide(value));
   }
 
@@ -176,7 +183,7 @@ class Quantity {
    * @returns {Quantity} result as new Quantity
    */
   multiply (value) {
-    value = _stringOrNumberOrQtyToQtyType(value);
+    value = _toBigDecimalOrQtyType(value);
     return new Quantity(this.raw.multiply(value));
   }
 
@@ -187,7 +194,7 @@ class Quantity {
    * @returns {Quantity} result as new Quantity
    */
   subtract (value) {
-    value = _stringOrQtyToQtyType(value);
+    value = _toQtyType(value);
     return new Quantity(this.raw.subtract(value));
   }
 
@@ -219,7 +226,7 @@ class Quantity {
    * @returns {boolean}
    */
   equal (value) {
-    value = _stringOrQtyToQtyType(value);
+    value = _toQtyType(value);
     return this.raw.compareTo(value) === 0;
   }
 
@@ -230,7 +237,7 @@ class Quantity {
    * @returns {boolean}
    */
   greaterThan (value) {
-    value = _stringOrQtyToQtyType(value);
+    value = _toQtyType(value);
     return this.raw.compareTo(value) > 0;
   }
 
@@ -241,7 +248,7 @@ class Quantity {
    * @returns {boolean}
    */
   greaterThanOrEqual (value) {
-    value = _stringOrQtyToQtyType(value);
+    value = _toQtyType(value);
     return this.raw.compareTo(value) >= 0;
   }
 
@@ -252,7 +259,7 @@ class Quantity {
    * @returns {boolean}
    */
   lessThan (value) {
-    value = _stringOrQtyToQtyType(value);
+    value = _toQtyType(value);
     return this.raw.compareTo(value) < 0;
   }
 
@@ -263,7 +270,7 @@ class Quantity {
    * @returns {boolean}
    */
   lessThanOrEqual (value) {
-    value = _stringOrQtyToQtyType(value);
+    value = _toQtyType(value);
     return this.raw.compareTo(value) <= 0;
   }
 
@@ -276,7 +283,7 @@ class Quantity {
  * The Quantity allows easy Units of Measurement/Quantity handling by wrapping the openHAB {@link QuantityType}.
  *
  * @private
- * @param {string|Quantity|QuantityType} value either a string consisting of a numeric value and a dimension, e.g. `5.5 m`, a {@link Quantity} or a {@link QuantityType}
+ * @param {Item|string|Quantity|QuantityType} value either a Quantity-compatible {@link Item}, a string consisting of a numeric value and a dimension, e.g. `5.5 m`, a {@link Quantity} or a {@link QuantityType}
  * @returns {Quantity}
  * @throws {QuantityError} if Quantity creation or operation failed
  * @throws {TypeError} if wrong argument type is provided
@@ -288,6 +295,6 @@ module.exports = {
   getQuantity,
   Quantity,
   QuantityError,
-  _stringOrQtyToQtyType,
-  _stringOrNumberOrQtyToQtyType
+  _toQtyType: _toQtyType,
+  _toBigDecimalOrQtyType: _toBigDecimalOrQtyType
 };

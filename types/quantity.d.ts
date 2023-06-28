@@ -1,13 +1,14 @@
+export type Item = import('./items/items').Item;
 /**
  * The Quantity allows easy Units of Measurement/Quantity handling by wrapping the openHAB {@link QuantityType}.
  *
  * @private
- * @param {string|Quantity|QuantityType} value either a string consisting of a numeric value and a dimension, e.g. `5.5 m`, a {@link Quantity} or a {@link QuantityType}
+ * @param {Item|string|Quantity|QuantityType} value either a Quantity-compatible {@link Item}, a string consisting of a numeric value and a dimension, e.g. `5.5 m`, a {@link Quantity} or a {@link QuantityType}
  * @returns {Quantity}
  * @throws {QuantityError} if Quantity creation or operation failed
  * @throws {TypeError} if wrong argument type is provided
  */
-export function getQuantity(value: string | Quantity | any): Quantity;
+export function getQuantity(value: Item | string | Quantity | any): Quantity;
 /**
  * Class allowing easy Units of Measurement/Quantity handling by wrapping the openHAB {@link QuantityType}.
  *
@@ -18,9 +19,9 @@ export function getQuantity(value: string | Quantity | any): Quantity;
  */
 export class Quantity {
     /**
-     * @param {string|Quantity|QuantityType} value either a string consisting of a numeric value and a dimension, e.g. `5.5 m`, a {@link Quantity} or a {@link QuantityType}
+     * @param {Item|string|Quantity|QuantityType} value
      */
-    constructor(value: string | Quantity | any);
+    constructor(value: Item | string | Quantity | any);
     /**
      * @type {QuantityType}
      * @private
@@ -144,21 +145,25 @@ export class QuantityError extends Error {
 }
 /**
  * Takes either a {@link Quantity} or a `string` and converts it to a {@link QuantityType}.
- * @param {string|Quantity} value
+ * @param {Item|string|Quantity} value
  * @param {string} [errorMsg] error message to throw if parameter has wrong type
  * @returns {QuantityType}
  * @throws {TypeError} when parameter has the wrong type
  * @throws {QuantityError} when {@link QuantityType} creation failed
  * @private
  */
-export function _stringOrQtyToQtyType(value: string | Quantity, errorMsg?: string): any;
+export function _toQtyType(value: Item | string | Quantity, errorMsg?: string): any;
+/**
+ * @typedef {import('./items/items').Item} Item
+ * @private
+ */
 /**
  * Takes either a {@link Quantity}, a `string` or a `number` and converts it to a {@link QuantityType} or {@link BigDecimal}.
- * @param {number|string|Quantity} value
+ * @param {Item|string|number|Quantity} value
  * @returns {BigDecimal|QuantityType}
  * @throws {TypeError} when parameter has the wrong type
  * @throws {QuantityError} when {@link BigDecimal} creation failed
  * @private
  */
-export function _stringOrNumberOrQtyToQtyType(value: number | string | Quantity): any | any;
+export function _toBigDecimalOrQtyType(value: Item | string | number | Quantity): JavaBigDecimal | any;
 //# sourceMappingURL=quantity.d.ts.map
