@@ -26,15 +26,14 @@ function _toBigDecimalOrQtyType (value) {
     } catch (e) {
       throw new QuantityError(`Failed to create BigDecimal from DecimalType Item state ${value.state}: ${e}`);
     }
-  } else
-  if (typeof value === 'number') {
+  } else if (typeof value === 'number') {
     try {
       value = BigDecimal.valueOf(value);
     } catch (e) {
       throw new QuantityError(`Failed to create BigDecimal from ${value}: ${e}`);
     }
   } else {
-    value = _toQtyType(value, 'Argument of wrong type provided, required number, string or Quantity.');
+    value = _toQtyType(value, 'Argument of wrong type provided, required Item, number, string or Quantity.');
   }
   return value;
 }
@@ -48,7 +47,7 @@ function _toBigDecimalOrQtyType (value) {
  * @throws {QuantityError} when {@link QuantityType} creation failed
  * @private
  */
-function _toQtyType (value, errorMsg = 'Argument of wrong type provided, required string or Quantity.') {
+function _toQtyType (value, errorMsg = 'Argument of wrong type provided, required Item, string or Quantity.') {
   if (value.constructor && value.constructor.name === 'Item') {
     if (value.rawState.getClass().getSimpleName() === 'QuantityType') {
       value = value.rawState;
@@ -307,6 +306,6 @@ module.exports = {
   getQuantity,
   Quantity,
   QuantityError,
-  _toQtyType: _toQtyType,
-  _toBigDecimalOrQtyType: _toBigDecimalOrQtyType
+  _toQtyType,
+  _toBigDecimalOrQtyType
 };

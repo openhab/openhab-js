@@ -1,11 +1,11 @@
-const { QuantityType } = require('./openhab.mock');
+const { QuantityType, DecimalType } = require('./openhab.mock');
 const { BigDecimal } = require('./java.mock');
 const { Unit } = require('./javax-measure.mock');
 const { getQuantity, Quantity, QuantityError, _toBigDecimalOrQtyType, _toQtyType } = require('../quantity');
 
 class Item {
-  constructor (state) {
-    this.state = state;
+  constructor (rawState) {
+    this.rawState = rawState;
   }
 }
 
@@ -140,7 +140,9 @@ describe('quantity.js', () => {
   describe('private method', () => {
     describe('_toBigDecimalOrQtyType', () => {
       it('extracts BigDecimal from DecimalType Item state', () => {
-        // TODO
+        const item = new Item(new DecimalType());
+        const value = _toBigDecimalOrQtyType(item);
+        expect(value).toBeInstanceOf(BigDecimal);
       });
       it('parses number to BigDecimal', () => {
         const value = _toBigDecimalOrQtyType(10);
@@ -157,9 +159,8 @@ describe('quantity.js', () => {
       });
     });
     describe('_toQtyType', () => {
-      it('parses QuantityType from Item state', () => {
-        const value = _toQtyType(new Item('100 m'));
-        expect(QuantityType.valueOf).toHaveBeenCalledWith('100 m');
+      it('extracts QuantityType from QuantityType Item state', () => {
+        const value = _toQtyType(new Item(new QuantityType()));
         expect(value).toBeInstanceOf(QuantityType);
       });
       it('parses string to QuantityType', () => {
