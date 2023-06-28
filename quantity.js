@@ -161,7 +161,7 @@ class Quantity {
   /**
    * Add the given value to this Quantity.
    *
-   * @param {string|Quantity} value `string` consisting of amount and unit or a Quantity
+   * @param {Item|string|Quantity} value Quantity-compatible {@link Item}, `string` consisting of amount and unit or a {@link Quantity}
    * @returns {Quantity} result as new Quantity
    */
   add (value) {
@@ -176,7 +176,7 @@ class Quantity {
    * Quantity('20 W').divide(4); // is 5 W
    * Quantity('20 W').divide('4 W') // is 5
    *
-   * @param {number|string|Quantity} value usually a number; may also be a `string` consisting of amount and unit or a Quantity, but be careful: 1 W / 5 W = 0.2 which might not be what you want
+   * @param {Item|number|string|Quantity} value usually a number; may also be a {@link Item} which is either Quantity-compatible or holds a number, a `string` consisting of amount and unit or a {@link Quantity}, but be careful: 1 W / 5 W = 0.2 which might not be what you want
    * @returns {Quantity} result as new Quantity
    */
   divide (value) {
@@ -191,7 +191,7 @@ class Quantity {
    * Quantity('20 W').multiply(4); // is 80 W
    * Quantity('20 W').multiply('4 W') // is 80 W^2
    *
-   * @param {number|string|Quantity} value usually a number; may also be a `string` consisting of amount and unit or a Quantity, but be careful: 1 W * 5 W = 5 W^2 which might not be what you want
+   * @param {Item|number|string|Quantity} value usually a number; may also be a {@link Item} which is either Quantity-compatible or holds a number, a `string` consisting of amount and unit or a {@link Quantity}, but be careful: 1 W * 5 W = 5 W^2 which might not be what you want
    * @returns {Quantity} result as new Quantity
    */
   multiply (value) {
@@ -202,7 +202,7 @@ class Quantity {
   /**
    * Subtract the given value from this Quantity.
    *
-   * @param {string|Quantity} value `string` consisting of amount and unit or a Quantity
+   * @param {Item|string|Quantity} value Quantity-compatible {@link Item}, `string` consisting of amount and unit or a {@link Quantity}
    * @returns {Quantity} result as new Quantity
    */
   subtract (value) {
@@ -234,7 +234,7 @@ class Quantity {
   /**
    * Checks whether this Quantity is equal to the passed in value.
    *
-   * @param {string|Quantity} value
+   * @param {Item|string|Quantity} value Quantity-compatible {@link Item}, `string` consisting of amount and unit or a {@link Quantity}
    * @returns {boolean}
    */
   equal (value) {
@@ -245,7 +245,7 @@ class Quantity {
   /**
    * Checks whether this Quantity is larger than the passed in value.
    *
-   * @param {string|Quantity} value
+   * @param {Item|string|Quantity} value Quantity-compatible {@link Item}, `string` consisting of amount and unit or a {@link Quantity}
    * @returns {boolean}
    */
   greaterThan (value) {
@@ -256,7 +256,7 @@ class Quantity {
   /**
    * Checks whether this Quantity is larger than or equal to the passed in value.
    *
-   * @param {string|Quantity} value
+   * @param {Item|string|Quantity} value Quantity-compatible {@link Item}, `string` consisting of amount and unit or a {@link Quantity}
    * @returns {boolean}
    */
   greaterThanOrEqual (value) {
@@ -267,7 +267,7 @@ class Quantity {
   /**
    * Checks whether this Quantity is smaller than the passed in value.
    *
-   * @param {string|Quantity} value
+   * @param {Item|string|Quantity} value Quantity-compatible {@link Item}, `string` consisting of amount and unit or a {@link Quantity}
    * @returns {boolean}
    */
   lessThan (value) {
@@ -278,7 +278,7 @@ class Quantity {
   /**
    * Checks whether this Quantity is smaller than or equal to the passed in value.
    *
-   * @param {string|Quantity} value
+   * @param {Item|string|Quantity} value Quantity-compatible {@link Item}, `string` consisting of amount and unit or a {@link Quantity}
    * @returns {boolean}
    */
   lessThanOrEqual (value) {
