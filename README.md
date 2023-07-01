@@ -651,7 +651,7 @@ Replace `<url>` with the request url.
 The `ScriptExecution` actions provide the `callScript(string scriptName)` method, which calls a script located at the `$OH_CONF/scripts` folder, as well as the `createTimer` method.
 
 You can also create timers using the [native JS methods for timer creation](#timers), your choice depends on the versatility you need.
-Sometimes, using `setTimer` is much faster and easier, but other times, you need the versatility that `createTimer` provides.
+Sometimes, using `setTimeout` is much faster and easier, but other times, you need the versatility that `createTimer` provides.
 
 Keep in mind that you should somehow manage the timers you create using `createTimer`, otherwise you could end up with unmanageable timers running until you restart openHAB.
 A possible solution is to store all timers in the [private cache](#cache) and let openHAB automatically cancel them when the script is unloaded and the cache is cleared.
