@@ -57,7 +57,7 @@ const DYNAMIC_ITEM_TAG = '_DYNAMIC_';
  * Helper function to convert JS types to openHAB command/state types' string representation.
  *
  * Numbers and strings are passed.
- * Objects should implement `toOpenHabString` (prioritized) or `toString` to return a openHAB compatible representation.
+ * Objects should implement `toOpenHabString` (prioritized) or `toString` to return an openHAB compatible representation.
  *
  * @private
  * @param {*} value

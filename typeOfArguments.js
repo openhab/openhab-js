@@ -21,7 +21,7 @@ class TypeOfArguments {
         if (element === 'null' && givenArgument === null) matchesType = true;
         if (matchesType === true) break;
       }
-      if (matchesType !== true) throw new TypeError(`Invalid argument [${i}]. An argument of type "${actualType}" ${actualClass !== undefined ? `and class "${actualClass}"` : ''} has been passed, while a argument matching expression "${expectedArray[i]}" is expected."`);
+      if (matchesType !== true) throw new TypeError(`Invalid argument [${i}]. An argument of type "${actualType}" ${actualClass !== undefined ? `and class "${actualClass}"` : ''} has been passed, while an argument matching expression "${expectedArray[i]}" is expected."`);
     }
   }
 

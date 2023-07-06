@@ -153,7 +153,7 @@ export function GenericCronTrigger(expression: string, triggerName?: string): Ho
  */
 export function TimeOfDayTrigger(time: string, triggerName?: string): HostTrigger;
 /**
- * Creates a trigger that fires at a (optional) date and time specified in an DateTime Item.
+ * Creates a trigger that fires at an (optional) date and time specified in a DateTime Item.
  *
  * @example
  * DateTimeTrigger('MyDateTimeItem');

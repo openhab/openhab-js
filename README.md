@@ -498,7 +498,7 @@ See [openhab-js : ItemConfig](https://openhab.github.io/openhab-js/global.html#I
 
 #### `ItemHistory`
 
-Calling `Item.history` returns a `ItemHistory` object with the following functions:
+Calling `Item.history` returns an `ItemHistory` object with the following functions:
 
 - ItemHistory :`object`
   - .averageBetween(begin, end, serviceId) ⇒ `number | null`
