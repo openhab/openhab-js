@@ -66,7 +66,7 @@ export class Quantity {
      * Quantity('20 W').divide(4); // is 5 W
      * Quantity('20 W').divide('4 W') // is 5
      *
-     * @param {Item|number|string|Quantity} value usually a number; may also be a {@link Item} which is either Quantity-compatible or holds a number, a `string` consisting of amount and unit or a {@link Quantity}, but be careful: 1 W / 5 W = 0.2 which might not be what you want
+     * @param {Item|number|string|Quantity} value usually a number; may also be an {@link Item} which is either Quantity-compatible or holds a number, a `string` consisting of amount and unit or a {@link Quantity}, but be careful: 1 W / 5 W = 0.2 which might not be what you want
      * @returns {Quantity} result as new Quantity
      */
     divide(value: Item | number | string | Quantity): Quantity;
@@ -77,7 +77,7 @@ export class Quantity {
      * Quantity('20 W').multiply(4); // is 80 W
      * Quantity('20 W').multiply('4 W') // is 80 W^2
      *
-     * @param {Item|number|string|Quantity} value usually a number; may also be a {@link Item} which is either Quantity-compatible or holds a number, a `string` consisting of amount and unit or a {@link Quantity}, but be careful: 1 W * 5 W = 5 W^2 which might not be what you want
+     * @param {Item|number|string|Quantity} value usually a number; may also be an {@link Item} which is either Quantity-compatible or holds a number, a `string` consisting of amount and unit or a {@link Quantity}, but be careful: 1 W * 5 W = 5 W^2 which might not be what you want
      * @returns {Quantity} result as new Quantity
      */
     multiply(value: Item | number | string | Quantity): Quantity;
@@ -158,7 +158,7 @@ export function _toQtyType(value: Item | string | Quantity, errorMsg?: string): 
  * @private
  */
 /**
- * Takes either a {@link Item}, a `string`, a `number` or a {@link Quantity} and converts it to a {@link QuantityType} or {@link BigDecimal}.
+ * Takes either an {@link Item}, a `string`, a `number` or a {@link Quantity} and converts it to a {@link QuantityType} or {@link BigDecimal}.
  * When the Item state is a DecimalType, it is converted to a {@link BigDecimal}, otherwise to a {@link QuantityType}.
  * @param {Item|string|number|Quantity} value
  * @returns {BigDecimal|QuantityType}

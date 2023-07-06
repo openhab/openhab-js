@@ -234,7 +234,7 @@ export class TriggerBuilder {
        */
     item(s: any): ItemTriggerConfig;
     /**
-       * Specifies an group member as the source of changes to trigger a rule.
+       * Specifies a group member as the source of changes to trigger a rule.
        *
        * @param {string} groupName the name of the group
        * @returns {ItemTriggerConfig} the trigger config
