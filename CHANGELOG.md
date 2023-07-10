@@ -5,6 +5,14 @@
 | Type        | Namespace | Description                                                   | Reference                                              | Breaking |
 |-------------|-----------|---------------------------------------------------------------|--------------------------------------------------------|----------|
 
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/18).
+
+## 4.5.0
+
+| Type        | Namespace  | Description                                                      | Reference                                                           | Breaking |
+|-------------|------------|------------------------------------------------------------------|---------------------------------------------------------------------|----------|
+| Enhancement | `Quantity` | Support Item for Quantity construction & divide/multiply methods | [#275](https://github.com/openhab/openhab-js/milestone/17?closed=1) | No       |
+
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/17).
 
 ## 4.4.0
