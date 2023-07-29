@@ -64,6 +64,7 @@ const DYNAMIC_ITEM_TAG = '_DYNAMIC_';
  * @returns {*}
  */
 function _toOpenhabString (value) {
+  if (value === null) return 'NULL';
   if (typeof value === 'number' || typeof value === 'string') {
     return value;
   } else if (typeof value.toOpenHabString === 'function') {
