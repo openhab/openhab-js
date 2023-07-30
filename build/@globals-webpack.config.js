@@ -1,5 +1,4 @@
 const path = require('path');
-const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   entry: './build/@openhab-globals.js',
@@ -9,17 +8,7 @@ module.exports = {
     maxEntrypointSize: 512000,
     maxAssetSize: 512000
   },
-  optimization: {
-    minimize: true,
-    minimizer: [
-      new TerserPlugin({
-        terserOptions: {
-          keep_classnames: true,
-          keep_fnames: true
-        }
-      })
-    ]
-  },
+  // Do NOT set up "minimize" using "TerserPlugin", as this (very) negatively affects performance for the cached version
   externals: [
     {
       '@runtime': {
