@@ -1,9 +1,11 @@
 # Changelog
 
-## to be released
+## 4.5.1
 
-| Type        | Namespace | Description                                                   | Reference                                              | Breaking |
-|-------------|-----------|---------------------------------------------------------------|--------------------------------------------------------|----------|
+| Type   | Namespace      | Description                                                 | Reference                                              | Breaking |
+|--------|----------------|-------------------------------------------------------------|--------------------------------------------------------|----------|
+| Bugfix | `items`        | Fix null handling in sendCommand/postUpdate methods of Item | [#282](https://github.com/openhab/openhab-js/pull/282) | No       |
+| Bugfix | Infrastructure | Disable Webpack TerserPlugin for cached globals injection   | [#283](https://github.com/openhab/openhab-js/pull/283) | No       |
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/18).
 
