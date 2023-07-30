@@ -8,7 +8,7 @@ module.exports = {
     maxEntrypointSize: 512000,
     maxAssetSize: 512000
   },
-  // Do NOT set up "minimize" using "TerserPlugin", as this heavily decreased performance for the cached version
+  // Do NOT set up "minimize" using "TerserPlugin", as this (very) negatively affects performance for the cached version
   externals: [
     {
       '@runtime': {
