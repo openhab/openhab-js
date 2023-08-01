@@ -23,7 +23,7 @@ export type EventObject = {
      */
     receivedCommand: string;
     /**
-     * for all triggers except {@link triggers.PWMTrigger }: name of Item that triggered event
+     * for all Item-related triggers: name of Item that triggered event
      */
     itemName: string;
     /**
@@ -51,13 +51,25 @@ export type EventObject = {
      */
     status: string;
     /**
-     * for all triggers except {@link triggers.PWMTrigger }, {@link triggers.PIDTrigger }, time triggers: Type of event that triggered event (change, command, time, triggered, update)
+     * for {@link triggers.GenericCronTrigger }: cron expression of the trigger
+     */
+    cronExpression: string;
+    /**
+     * for {@link triggers.TimeOfDayTrigger }: time of day value of the trigger
+     */
+    time: string;
+    /**
+     * for all triggers except {@link triggers.PWMTrigger }, {@link triggers.PIDTrigger }: Type of event that triggered event (change, command, time, triggered, update, time)
      */
     eventType: string;
     /**
-     * for all triggers except {@link triggers.PWMTrigger }, {@link triggers.PIDTrigger }, time triggers: Type of trigger that triggered event (for `TimeOfDayTrigger`: `GenericCronTrigger`)
+     * for all triggers except {@link triggers.PWMTrigger }, {@link triggers.PIDTrigger }: Type of trigger that triggered event
      */
     triggerType: string;
+    /**
+     * (user-defined or auto-generated) name of trigger
+     */
+    module: string;
     /**
      * for most triggers
      */
