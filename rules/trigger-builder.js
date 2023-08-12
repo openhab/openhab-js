@@ -58,6 +58,16 @@ class TriggerBuilder {
   }
 
   /**
+   * Specifies a time schedule for the rule to fire.
+   *
+   * @param {string} time the time expression (in `HH:mm`) defining the triggering schedule
+   * @returns {TimeOfDayTriggerConfig} the trigger config
+   */
+  timeOfDay (time) {
+    return this._setTrigger(new TimeOfDayTriggerConfig(time, this));
+  }
+
+  /**
      * Specifies an Item as the source of changes to trigger a rule.
      *
      * @param {string} itemName the name of the Item
@@ -95,6 +105,16 @@ class TriggerBuilder {
      */
   system () {
     return this._setTrigger(new SystemTriggerConfig(this));
+  }
+
+  /**
+   * Specifies a DateTime Item whose (optional) date and time schedule the rule to fire.
+   *
+   * @param {string} itemName the name of the Item to monitor for change
+   * @returns {*}
+   */
+  dateTime (itemName) {
+    return this._setTrigger(new DateTimeTriggerConfig(itemName, this));
   }
 }
 
@@ -204,6 +224,27 @@ class CronTriggerConfig extends TriggerConf {
     this._toOHTriggers = () => [triggers.GenericCronTrigger(this.timeStr)];
     /** @private */
     this.describe = (compact) => compact ? `cron_${this.timeStr}` : `matches cron "${this.timeStr}"`;
+  }
+}
+
+/**
+ * Time of day based trigger
+ *
+ * @memberof TriggerBuilder
+ * @extends TriggerConf
+ * @hideconstructor
+ */
+class TimeOfDayTriggerConfig extends TriggerConf {
+  constructor (timeStr, triggerBuilder) {
+    super(triggerBuilder);
+    /** @private */
+    this.timeStr = timeStr;
+    /** @private */
+    this._complete = () => true;
+    /** @private */
+    this._toOHTriggers = () => [triggers.TimeOfDayTrigger(this.timeStr)];
+    /** @private */
+    this.describe = (compact) => compact ? `timeOfDay_${this.timeStr}` : `matches time of day "${this.timeStr}"`;
   }
 }
 
@@ -563,6 +604,33 @@ class SystemTriggerConfig extends TriggerConf {
       throw Error('Level already set');
     }
     this.level = level;
+    return this;
+  }
+}
+
+class DateTimeTriggerConfig extends TriggerConf {
+  constructor (itemName, triggerBuilder) {
+    super(triggerBuilder);
+    /** @private */
+    this._itemName = itemName;
+    /** @private */
+    this._timeOnly = false;
+    /** @private */
+    this._complete = () => true;
+    /** @private */
+    this._toOHTriggers = () => [triggers.DateTimeTrigger(this._itemName, this._timeOnly)];
+    /** @private */
+    this.describe = (compact) => compact ? `dateTime_${this._itemName}` : `matches ${this._timeOnly ? 'time' : 'date and time'} of Item "${this._itemName}"`;
+  }
+
+  /**
+   * Specifies whether only the time of the Item should be compared or the date and time.
+   *
+   * @param {boolean} [timeOnly=true]
+   * @returns {DateTimeTriggerConfig}
+   */
+  timeOnly (timeOnly = true) {
+    this._timeOnly = timeOnly;
     return this;
   }
 }
