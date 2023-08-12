@@ -244,7 +244,7 @@ const GenericCronTrigger = (expression, triggerName) =>
  * TimeOfDayTrigger('19:00');
  *
  * @memberof triggers
- * @param {string} time the time expression defining the triggering schedule
+ * @param {string} time the time expression (in `HH:mm`) defining the triggering schedule
  * @param {string} [triggerName] the optional name of the trigger to create
  */
 const TimeOfDayTrigger = (time, triggerName) =>
