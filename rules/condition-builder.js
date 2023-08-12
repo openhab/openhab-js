@@ -14,6 +14,7 @@ class ConditionBuilder {
     this._fn = fn;
   }
 
+  /** @private */
   _then (condition, fn) {
     this._builder.setCondition(condition);
     return new operations.OperationBuilder(this._builder, fn);
@@ -22,7 +23,7 @@ class ConditionBuilder {
   /**
    * Move to the rule operations
    *
-   * @param {*} function the optional function to execute
+   * @param {*} fn the optional function to execute
    * @returns {operations.OperationBuilder}
    */
   then (fn) {
@@ -53,12 +54,13 @@ class ConditionBuilder {
  */
 class ConditionConf {
   constructor (conditionBuilder) {
+    /** @private */
     this.conditionBuilder = conditionBuilder;
   }
 
   /**
      *
-     * @param {*} function an optional function
+     * @param {*} fn an optional function
      * @returns ConditionBuilder
      */
   then (fn) {
@@ -81,6 +83,7 @@ class FunctionConditionConf extends ConditionConf {
      */
   constructor (fn, conditionBuilder) {
     super(conditionBuilder);
+    /** @private */
     this.fn = fn;
   }
 
@@ -92,8 +95,7 @@ class FunctionConditionConf extends ConditionConf {
      * @returns {boolean} true only if the operations should be run
      */
   check (...args) {
-    const answer = this.fn(args);
-    return answer;
+    return this.fn(args);
   }
 }
 
@@ -107,11 +109,12 @@ class FunctionConditionConf extends ConditionConf {
 class ItemStateConditionConf extends ConditionConf {
   constructor (itemName, conditionBuilder) {
     super(conditionBuilder);
+    /** @private */
     this.item_name = itemName;
   }
 
   /**
-     * Checks if item state is equal to vlaue
+     * Checks if item state is equal to value
      * @param {*} value
      * @returns {this}
      */

@@ -11,6 +11,7 @@ class RuleBuilder {
   constructor (toggleable) {
     /** @private */
     this._triggerConfs = [];
+    /** @private */
     this.toggleable = toggleable || false;
   }
 
@@ -23,6 +24,7 @@ class RuleBuilder {
     return new triggers.TriggerBuilder(this);
   }
 
+  /** @private */
   addTrigger (triggerConf) {
     if (!triggerConf._complete()) {
       throw Error('Trigger is not complete!');
@@ -31,15 +33,18 @@ class RuleBuilder {
     return this;
   }
 
+  /** @private */
   setCondition (condition) {
     if (typeof condition === 'function') {
       condition = new conditions.FunctionConditionConf(condition);
     }
 
+    /** @private */
     this.condition = condition;
     return this;
   }
 
+  /** @private */
   setOperation (operation, optionalRuleGroup) {
     if (typeof operation === 'function') {
       const operationFunction = operation;
@@ -55,7 +60,9 @@ class RuleBuilder {
       }
     }
 
+    /** @private */
     this.operation = operation;
+    /** @private */
     this.optionalRuleGroup = optionalRuleGroup;
 
     const generatedTriggers = this._triggerConfs.flatMap(x => x._toOHTriggers());
@@ -108,7 +115,7 @@ class RuleBuilder {
 module.exports = {
   RuleBuilder,
   /**
-     * Create a new {RuleBuilder} chain for easily creating rules.
+     * Create a new {@link RuleBuilder} chain for easily creating rules.
      *
      * @example <caption>Basic rule</caption>
      * rules.when().item("F1_Light").changed().then().send("changed").toItem("F2_Light").build("My Rule", "My First Rule");

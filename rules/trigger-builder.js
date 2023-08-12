@@ -13,21 +13,25 @@ class TriggerBuilder {
     this._builder = builder;
   }
 
+  /** @private */
   _setTrigger (trigger) {
-    this.currentTigger = trigger;
-    return this.currentTigger;
+    this.currentTrigger = trigger;
+    return this.currentTrigger;
   }
 
+  /** @private */
   _or () {
-    this._builder.addTrigger(this.currentTigger);
+    this._builder.addTrigger(this.currentTrigger);
     return this;
   }
 
+  /** @private */
   _then (fn) {
     this._or();
     return new operations.OperationBuilder(this._builder, fn);
   }
 
+  /** @private */
   _if (fn) {
     this._or();
     return new conditions.ConditionBuilder(this._builder, fn);
@@ -39,8 +43,8 @@ class TriggerBuilder {
      * @param {string} channelName the name of the channel
      * @returns {ChannelTriggerConfig} the trigger config
      */
-  channel (s) {
-    return this._setTrigger(new ChannelTriggerConfig(s, this));
+  channel (channelName) {
+    return this._setTrigger(new ChannelTriggerConfig(channelName, this));
   }
 
   /**
@@ -49,18 +53,18 @@ class TriggerBuilder {
      * @param {string} cronExpression the cron expression
      * @returns {CronTriggerConfig} the trigger config
      */
-  cron (s) {
-    return this._setTrigger(new CronTriggerConfig(s, this));
+  cron (cronExpression) {
+    return this._setTrigger(new CronTriggerConfig(cronExpression, this));
   }
 
   /**
-     * Specifies an item as the source of changes to trigger a rule.
+     * Specifies an Item as the source of changes to trigger a rule.
      *
-     * @param {string} itemName the name of the item
+     * @param {string} itemName the name of the Item
      * @returns {ItemTriggerConfig} the trigger config
      */
-  item (s) {
-    return this._setTrigger(new ItemTriggerConfig(s, false, this));
+  item (itemName) {
+    return this._setTrigger(new ItemTriggerConfig(itemName, false, this));
   }
 
   /**
@@ -69,8 +73,8 @@ class TriggerBuilder {
      * @param {string} groupName the name of the group
      * @returns {ItemTriggerConfig} the trigger config
      */
-  memberOf (s) {
-    return this._setTrigger(new ItemTriggerConfig(s, true, this));
+  memberOf (groupName) {
+    return this._setTrigger(new ItemTriggerConfig(groupName, true, this));
   }
 
   /**
@@ -79,8 +83,8 @@ class TriggerBuilder {
      * @param {string} thingUID the UID of the Thing
      * @returns {ThingTriggerConfig} the trigger config
      */
-  thing (s) {
-    return this._setTrigger(new ThingTriggerConfig(s, this));
+  thing (thingUID) {
+    return this._setTrigger(new ThingTriggerConfig(thingUID, this));
   }
 
   /**
@@ -100,6 +104,7 @@ class TriggerBuilder {
  */
 class TriggerConf {
   constructor (triggerBuilder) {
+    /** @private */
     this.triggerBuilder = triggerBuilder;
   }
 
@@ -115,7 +120,7 @@ class TriggerConf {
   /**
      * Move to the rule operations
      *
-     * @param {*} function the optional function to execute
+     * @param {*} fn the optional function to execute
      * @returns {operations.OperationBuilder}
      */
   then (fn) {
@@ -125,7 +130,7 @@ class TriggerConf {
   /**
      * Move to the rule condition
      *
-     * @param {*} function the optional function to execute
+     * @param {*} fn the optional function to execute
      * @returns {conditions.ConditionBuilder}
      */
   if (fn) {
@@ -145,6 +150,7 @@ class ChannelTriggerConfig extends TriggerConf {
     this._toOHTriggers = () => [triggers.ChannelEventTrigger(this.channelName, this.eventName)];
   }
 
+  /** @private */
   describe (compact) {
     if (compact) {
       return this.channelName + (this.eventName ? `:${this.eventName}` : '');
@@ -174,6 +180,7 @@ class ChannelTriggerConfig extends TriggerConf {
     return this;
   }
 
+  /** @private */
   _complete () {
     return typeof (this.eventName) !== 'undefined';
   }
@@ -189,15 +196,19 @@ class ChannelTriggerConfig extends TriggerConf {
 class CronTriggerConfig extends TriggerConf {
   constructor (timeStr, triggerBuilder) {
     super(triggerBuilder);
+    /** @private */
     this.timeStr = timeStr;
+    /** @private */
     this._complete = () => true;
+    /** @private */
     this._toOHTriggers = () => [triggers.GenericCronTrigger(this.timeStr)];
+    /** @private */
     this.describe = (compact) => compact ? `cron_${this.timeStr}` : `matches cron "${this.timeStr}"`;
   }
 }
 
 /**
- * item based trigger
+ * Item based trigger
  *
  * @memberof TriggerBuilder
  * @extends TriggerConf
@@ -206,12 +217,14 @@ class CronTriggerConfig extends TriggerConf {
 class ItemTriggerConfig extends TriggerConf {
   constructor (itemOrName, isGroup, triggerBuilder) {
     super(triggerBuilder);
-    this.type = isGroup ? 'memberOf' : 'item';
+    this.type = isGroup ? 'memberOf' : 'Item';
     if (typeof itemOrName !== 'string') {
       itemOrName = itemOrName.name;
     }
 
+    /** @private */
     this.item_name = itemOrName;
+    /** @private */
     this.describe = () => `${this.type} ${this.item_name} changed`;
     this.of = this.to; // receivedCommand().of(..)
   }
@@ -219,7 +232,7 @@ class ItemTriggerConfig extends TriggerConf {
   /**
      * Item to
      *
-     * @param {*} value this item should be triggered to
+     * @param {*} value this Item should be triggered to
      * @returns {ItemTriggerConfig}
      */
   to (value) {
@@ -241,7 +254,7 @@ class ItemTriggerConfig extends TriggerConf {
   }
 
   /**
-     * item changed to OFF
+     * Item changed to OFF
      *
      * @returns {ItemTriggerConfig}
      */
@@ -250,7 +263,7 @@ class ItemTriggerConfig extends TriggerConf {
   }
 
   /**
-     * item changed to ON
+     * Item changed to ON^
      *
      * @returns {ItemTriggerConfig}
      */
@@ -259,7 +272,7 @@ class ItemTriggerConfig extends TriggerConf {
   }
 
   /**
-     * item recieved command
+     * Item received command
      *
      * @returns {ItemTriggerConfig}
      */
@@ -269,7 +282,7 @@ class ItemTriggerConfig extends TriggerConf {
   }
 
   /**
-     * item recieved update
+     * Item received update
      *
      * @returns {ItemTriggerConfig}
      */
@@ -279,7 +292,7 @@ class ItemTriggerConfig extends TriggerConf {
   }
 
   /**
-     * item changed state
+     * Item changed state
      *
      * @returns {ItemTriggerConfig}
      */
@@ -297,10 +310,12 @@ class ItemTriggerConfig extends TriggerConf {
     return new operations.TimingItemStateOperation(this, timespan);
   }
 
+  /** @private */
   _complete () {
     return typeof (this.op_type) !== 'undefined';
   }
 
+  /** @private */
   describe (compact) {
     switch (this.op_type) {
       case 'changed':
@@ -332,6 +347,7 @@ class ItemTriggerConfig extends TriggerConf {
     }
   }
 
+  /** @private */
   _toOHTriggers () {
     if (this.type === 'memberOf') {
       switch (this.op_type) {
@@ -358,6 +374,7 @@ class ItemTriggerConfig extends TriggerConf {
     }
   }
 
+  /** @private */
   _executeHook () {
     const getReceivedCommand = (args) => args.receivedCommand;
 
@@ -385,13 +402,16 @@ class ItemTriggerConfig extends TriggerConf {
 class ThingTriggerConfig extends TriggerConf {
   constructor (thingUID, triggerBuilder) {
     super(triggerBuilder);
+    /** @private */
     this.thingUID = thingUID;
   }
 
+  /** @private */
   _complete () {
     return typeof (this.op_type) !== 'undefined';
   }
 
+  /** @private */
   describe (compact) {
     switch (this.op_type) {
       case 'changed':
@@ -456,6 +476,7 @@ class ThingTriggerConfig extends TriggerConf {
     return this;
   }
 
+  /** @private */
   _toOHTriggers () {
     switch (this.op_type) {
       case 'changed':
@@ -482,6 +503,7 @@ class SystemTriggerConfig extends TriggerConf {
     this.describe = (compact) => compact ? `system:${this.level}` : `system level "${this.level}"`;
   }
 
+  /** @private */
   _complete () {
     return typeof (this.level) !== 'undefined';
   }
