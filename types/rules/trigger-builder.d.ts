@@ -247,6 +247,13 @@ export class TriggerBuilder {
        */
     cron(cronExpression: string): CronTriggerConfig;
     /**
+     * Specifies a time schedule for the rule to fire.
+     *
+     * @param {string} time the time expression (in `HH:mm`) defining the triggering schedule
+     * @returns {TimeOfDayTriggerConfig} the trigger config
+     */
+    timeOfDay(time: string): TimeOfDayTriggerConfig;
+    /**
        * Specifies an Item as the source of changes to trigger a rule.
        *
        * @param {string} itemName the name of the Item
@@ -274,6 +281,13 @@ export class TriggerBuilder {
        * @returns {SystemTriggerConfig} the trigger config
        */
     system(): SystemTriggerConfig;
+    /**
+     * Specifies a DateTime Item whose (optional) date and time schedule the rule to fire.
+     *
+     * @param {string} itemName the name of the Item to monitor for change
+     * @returns {*}
+     */
+    dateTime(itemName: string): any;
 }
 /**
  * {RuleBuilder} RuleBuilder triggers
@@ -303,6 +317,24 @@ declare class TriggerConf {
        * @returns {conditions.ConditionBuilder}
        */
     if(fn: any): conditions.ConditionBuilder;
+}
+/**
+ * Time of day based trigger
+ *
+ * @memberof TriggerBuilder
+ * @extends TriggerConf
+ * @hideconstructor
+ */
+declare class TimeOfDayTriggerConfig extends TriggerConf {
+    constructor(timeStr: any, triggerBuilder: any);
+    /** @private */
+    private timeStr;
+    /** @private */
+    private _complete;
+    /** @private */
+    private _toOHTriggers;
+    /** @private */
+    private describe;
 }
 import operations = require("./operation-builder");
 import conditions = require("./condition-builder");
