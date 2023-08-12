@@ -1,3 +1,4 @@
+const { _isItem } = require('./helpers');
 const QuantityType = Java.type('org.openhab.core.library.types.QuantityType');
 /**
  * @type {JavaBigDecimal}
@@ -20,7 +21,7 @@ const BigDecimal = Java.type('java.math.BigDecimal');
  * @private
  */
 function _toBigDecimalOrQtyType (value) {
-  if (value.constructor && value.constructor.name === 'Item' && value.rawState.getClass().getSimpleName() === 'DecimalType') {
+  if (_isItem(value) && value.rawState.getClass().getSimpleName() === 'DecimalType') {
     try {
       value = value.rawState.toBigDecimal();
     } catch (e) {
@@ -48,7 +49,7 @@ function _toBigDecimalOrQtyType (value) {
  * @private
  */
 function _toQtyType (value, errorMsg = 'Argument of wrong type provided, required Item, string or Quantity.') {
-  if (value.constructor && value.constructor.name === 'Item') {
+  if (_isItem(value)) {
     if (value.rawState.getClass().getSimpleName() === 'QuantityType') {
       value = value.rawState;
     } else {

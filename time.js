@@ -9,6 +9,7 @@ require('@js-joda/timezone');
 const time = require('@js-joda/core');
 const items = require('./items');
 const utils = require('./utils');
+const { _isItem } = require('./helpers');
 
 const javaZDT = Java.type('java.time.ZonedDateTime');
 const javaDuration = Java.type('java.time.Duration');
@@ -254,11 +255,11 @@ function toZDT (when) {
 
   // GenericItem
   if (when instanceof ohItem) {
-    return _convertItem(items.getItem(when.name));
+    return _convertItem(items.getItem(when.getName()));
   }
 
   // items.Item
-  if (when.constructor.name === 'Item') {
+  if (_isItem(when)) {
     return _convertItem(when);
   }
 
