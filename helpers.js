@@ -6,6 +6,21 @@ function _getItemName (itemOrName) {
   return itemOrName;
 }
 
+/**
+ * Checks whether the given object is an instance of {@link items.Item}.
+ *
+ * To be used when instanceof checks don't work because of circular dependencies.
+ * Checks constructor name or unique properties, because constructor name does not work for the webpacked globals injection.
+ *
+ * @param o {*}
+ * @returns {boolean}
+ * @private
+ */
+function _isItem (o) {
+  return ((o.constructor && o.constructor.name === 'Item') || typeof o.rawItem === 'object');
+}
+
 module.exports = {
-  _getItemName
+  _getItemName,
+  _isItem
 };
