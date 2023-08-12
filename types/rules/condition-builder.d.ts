@@ -12,7 +12,8 @@ export class FunctionConditionConf {
        * @param {*} fn callback which determines whether the condition passes
        */
     constructor(fn: any, conditionBuilder: any);
-    fn: any;
+    /** @private */
+    private fn;
     /**
        * Checks whether the rule operations should be run
        *
@@ -31,9 +32,10 @@ export class FunctionConditionConf {
  */
 export class ItemStateConditionConf {
     constructor(itemName: any, conditionBuilder: any);
-    item_name: any;
+    /** @private */
+    private item_name;
     /**
-       * Checks if item state is equal to vlaue
+       * Checks if item state is equal to value
        * @param {*} value
        * @returns {this}
        */
@@ -58,11 +60,12 @@ export class ConditionBuilder {
     private _builder;
     /** @private */
     private _fn;
-    _then(condition: any, fn: any): operations.OperationBuilder;
+    /** @private */
+    private _then;
     /**
      * Move to the rule operations
      *
-     * @param {*} function the optional function to execute
+     * @param {*} fn the optional function to execute
      * @returns {operations.OperationBuilder}
      */
     then(fn: any): operations.OperationBuilder;

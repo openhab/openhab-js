@@ -8,7 +8,8 @@ export type Item = import("../items/items").Item;
  */
 export class SendCommandOrUpdateOperation extends OperationConfig {
     constructor(operationBuilder: any, dataOrSupplier: any, isCommand: boolean, optionalDesc: any);
-    isCommand: boolean;
+    /** @private */
+    private isCommand;
     dataFn: any;
     dataDesc: any;
     /**
@@ -33,9 +34,12 @@ export class SendCommandOrUpdateOperation extends OperationConfig {
        */
     and(next: any): SendCommandOrUpdateOperation;
     next: any;
-    _run(args: any): void;
-    _complete(): boolean;
-    describe(compact: any): string;
+    /** @private */
+    private _run;
+    /** @private */
+    private _complete;
+    /** @private */
+    private describe;
 }
 /**
  * Timing Item state
@@ -46,13 +50,20 @@ export class SendCommandOrUpdateOperation extends OperationConfig {
  */
 export class TimingItemStateOperation extends OperationConfig {
     constructor(operationBuilder: any, itemChangedTriggerConfig: any, duration: any);
-    item_changed_trigger_config: any;
-    duration_ms: any;
-    _complete: any;
-    describe: () => string;
-    _toOHTriggers(): any[];
-    _executeHook(next: any): void;
-    _startWait(next: any): void;
+    /** @private */
+    private item_changed_trigger_config;
+    /** @private */
+    private duration_ms;
+    /** @private */
+    private _complete;
+    /** @private */
+    private describe;
+    /** @private */
+    private _toOHTriggers;
+    /** @private */
+    private _executeHook;
+    /** @private */
+    private _startWait;
     current_wait: NodeJS.Timeout;
     _cancelWait(): void;
 }
@@ -64,14 +75,18 @@ export class TimingItemStateOperation extends OperationConfig {
  * @hideconstructor
  */
 export class ToggleOperation extends OperationConfig {
-    next: any;
+    /** @private */
+    private next;
     /** @type {function} */
     toItem: Function;
     /** @type {function} */
     and: Function;
-    _run: () => any;
-    _complete: () => boolean;
-    describe: () => string;
+    /** @private */
+    private _run;
+    /** @private */
+    private _complete;
+    /** @private */
+    private describe;
     /**
        * Toggle the state of an item
        *
@@ -153,8 +168,10 @@ export class OperationBuilder {
     private _builder;
     /** @private */
     private _fn;
-    _finishErr(): void;
-    _then(operation: any, group: any, name: any, description: any, tags: any, id: any): void;
+    /** @private */
+    private _finishErr;
+    /** @private */
+    private _then;
     /**
        * Build this rule
        *
@@ -178,22 +195,22 @@ export class OperationBuilder {
       * @param {string} command the command to send
       * @returns {SendCommandOrUpdateOperation} the operation
       */
-    send(c: any): SendCommandOrUpdateOperation;
+    send(command: string): SendCommandOrUpdateOperation;
     /**
        * Specifies that an update should be posted as a result of this rule firing.
        *
        * @param {string} update the update to send
        * @returns {SendCommandOrUpdateOperation} the operation
        */
-    postUpdate(c: any): SendCommandOrUpdateOperation;
+    postUpdate(update: string): SendCommandOrUpdateOperation;
     /**
-       * Specifies the a command 'ON' should be sent as a result of this rule firing.
+       * Specifies the command 'ON' should be sent as a result of this rule firing.
        *
        * @returns {SendCommandOrUpdateOperation} the operation
        */
     sendOn(): SendCommandOrUpdateOperation;
     /**
-       * Specifies the a command 'OFF' should be sent as a result of this rule firing.
+       * Specifies the command 'OFF' should be sent as a result of this rule firing.
        *
        * @returns {SendCommandOrUpdateOperation} the operation
        */
