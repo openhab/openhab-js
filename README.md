@@ -1240,16 +1240,19 @@ rules.when().item('BedroomLight1').changed().then(e => {
 rules.when().channel('astro:sun:home:set#event').triggered('START').then().sendOn().toItem('KitchenLight').build('Sunset Rule', 'Turn on the kitchen light at SUNSET');
 
 // Turn off the kitchen light at 9PM and tag rule
-rules.when().cron('0 0 21 * * ?').then().sendOff().toItem('KitchenLight').build('9PM Rule', 'Turn off the kitchen light at 9PM', ['Tag1', 'Tag2']);
+rules.when().timeOfDay('21:00').then().sendOff().toItem('KitchenLight').build('9PM Rule', 'Turn off the kitchen light at 9PM', ['Tag1', 'Tag2']);
 
 // Set the colour of the hall light to pink at 9PM, tag rule and use a custom ID
 rules.when().cron('0 0 21 * * ?').then().send('300,100,100').toItem('HallLight').build('Pink Rule', 'Set the colour of the hall light to pink at 9PM', ['Tag1', 'Tag2'], 'MyCustomID');
 
 // When the switch S1 status changes to ON, then turn on the HallLight
-rules.when().item('S1').changed().toOn().then(sendOn().toItem('HallLight')).build('S1 Rule');
+rules.when().item('S1').changed().toOn().then().sendOn().toItem('HallLight').build('S1 Rule');
 
 // When the HallLight colour changes pink, if the function fn returns true, then toggle the state of the OutsideLight
 rules.when().item('HallLight').changed().to('300,100,100').if(fn).then().sendToggle().toItem('OutsideLight').build();
+
+// Turn on the outdoor lights based on a DateTime Item's time portion
+rules.when().dateTime('OutdoorLights_OffTime').timeOnly().then().sendOff().toItem('OutdoorLights').build('Outdoor Lights off');
 
 // And some rules which can be toggled by the items created in the 'gRules' Group:
 
