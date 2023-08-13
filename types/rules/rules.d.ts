@@ -51,6 +51,10 @@ export type EventObject = {
      */
     status: string;
     /**
+     * for all Thing-related triggers: UID of Thing that triggered event
+     */
+    thingUID: string;
+    /**
      * for {@link triggers.GenericCronTrigger }: cron expression of the trigger
      */
     cronExpression: string;
