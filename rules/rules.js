@@ -24,6 +24,7 @@
  * @property {string} oldStatus only for {@link triggers.ThingStatusChangeTrigger}: Previous state of Thing that triggered event
  * @property {string} newStatus only for {@link triggers.ThingStatusChangeTrigger}: New state of Thing that triggered event
  * @property {string} status only for {@link triggers.ThingStatusUpdateTrigger}: State of Thing that triggered event
+ * @property {string} thingUID for all Thing-related triggers: UID of Thing that triggered event
  * @property {string} cronExpression for {@link triggers.GenericCronTrigger}: cron expression of the trigger
  * @property {string} time for {@link triggers.TimeOfDayTrigger}: time of day value of the trigger
  * @property {string} eventType for all triggers except {@link triggers.PWMTrigger}, {@link triggers.PIDTrigger}: Type of event that triggered event (change, command, time, triggered, update, time)
