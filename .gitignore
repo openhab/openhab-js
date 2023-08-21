@@ -1,11 +1,14 @@
 .DS_Store
-.vscode
 .idea
+.project
+.settings
+.vscode
 dist
 docs
 node_modules
 openhab-*.tgz
 out
+*.iml
 test/coverage
 types/@globals-webpack.config.*
 types/@openhab-globals.*
