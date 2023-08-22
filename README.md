@@ -1243,7 +1243,7 @@ rules.when().cron("0 0 21 * * ?").then().sendOff().toItem("KitchenLight").build(
 rules.when().cron("0 0 21 * * ?").then().send("300,100,100").toItem("HallLight").build("Pink Rule", "set the colour of the hall light to pink at 9PM", ["Tag1", "Tag2"], "MyCustomID");
 
 // When the switch S1 status changes to ON, then turn on the HallLight
-rules.when().item('S1').changed().toOn().then(sendOn().toItem('HallLight')).build("S1 Rule");
+rules.when().item('S1').changed().toOn().then().sendOn().toItem('HallLight').build("S1 Rule");
 
 // When the HallLight colour changes pink, if the function fn returns true, then toggle the state of the OutsideLight
 rules.when().item('HallLight').changed().to("300,100,100").if(fn).then().sendToggle().toItem('OutsideLight').build();
