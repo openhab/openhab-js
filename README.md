@@ -371,7 +371,7 @@ If an API does not provide type definitions and therefore autocompletion won't w
 ### Items
 
 The `items` namespace allows interactions with openHAB Items.
-Anywhere that a native openHAB `Item` is required, the runtime will automatically convert the JS-`Item` to its Java counterpart.
+Anywhere a native openHAB `Item` is required, the runtime will automatically convert the JS-`Item` to its Java counterpart.
 
 See [openhab-js : items](https://openhab.github.io/openhab-js/items.html) for full API documentation.
 
@@ -796,7 +796,7 @@ console.log('Count', counter.times++);
 
 openHAB internally makes extensive use of the `java.time` package.
 openHAB-JS exports the excellent [JS-Joda](https://js-joda.github.io/js-joda/) library via the `time` namespace, which is a native JavaScript port of the same API standard used in Java for `java.time`.
-Anywhere that a native Java `ZonedDateTime` or `Duration` is required, the runtime will automatically convert a JS-Joda `ZonedDateTime` or `Duration` to its Java counterpart.
+Anywhere a native Java `ZonedDateTime` or `Duration` is required, the runtime will automatically convert a JS-Joda `ZonedDateTime` or `Duration` to its Java counterpart.
 
 The exported JS-Joda library is also extended with convenient functions relevant to openHAB usage.
 
@@ -950,7 +950,7 @@ A Quantity consists of a measurement and its [Unit of Measurement (UoM)](https:/
 
 Internally using the openHAB `QuantityType`, which relies on [`javax.measure`](https://unitsofmeasurement.github.io/unit-api/), it supports all units and dimensions that openHAB supports.
 If your unit is not listed in the UoM docs, it is very likely that it is still supported, e.g. the Angstrom Å for very small lengths (1 Å = 10 nm).
-Anywhere that a native openHAB `QuantityType` is required, the runtime will automatically convert the JS-`Quantity` to its Java counterpart.
+Anywhere a native openHAB `QuantityType` is required, the runtime will automatically convert the JS-`Quantity` to its Java counterpart.
 
 #### Creation
 
