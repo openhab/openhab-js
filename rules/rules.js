@@ -17,15 +17,19 @@
  * @property {string} newState only for {@link triggers.ItemStateChangeTrigger} & {@link triggers.GroupStateChangeTrigger}: New state of Item or Group that triggered event
  * @property {string} receivedState only for {@link triggers.ItemStateUpdateTrigger} & {@link triggers.GroupStateUpdateTrigger}: State that triggered event
  * @property {string} receivedCommand only for {@link triggers.ItemCommandTrigger}, {@link triggers.GroupCommandTrigger}, {@link triggers.PWMTrigger} & {@link triggers.PIDTrigger} : Command that triggered event
- * @property {string} itemName for all triggers except {@link triggers.PWMTrigger}: name of Item that triggered event
+ * @property {string} itemName for all Item-related triggers: name of Item that triggered event
  * @property {string} groupName for all `Group****Trigger`s: name of the group whose member triggered event
  * @property {string} receivedEvent only for {@link triggers.ChannelEventTrigger}: Channel event that triggered event
  * @property {string} channelUID only for {@link triggers.ChannelEventTrigger}: UID of channel that triggered event
  * @property {string} oldStatus only for {@link triggers.ThingStatusChangeTrigger}: Previous state of Thing that triggered event
  * @property {string} newStatus only for {@link triggers.ThingStatusChangeTrigger}: New state of Thing that triggered event
  * @property {string} status only for {@link triggers.ThingStatusUpdateTrigger}: State of Thing that triggered event
- * @property {string} eventType for all triggers except {@link triggers.PWMTrigger}, {@link triggers.PIDTrigger}, time triggers: Type of event that triggered event (change, command, time, triggered, update)
- * @property {string} triggerType for all triggers except {@link triggers.PWMTrigger}, {@link triggers.PIDTrigger}, time triggers: Type of trigger that triggered event (for `TimeOfDayTrigger`: `GenericCronTrigger`)
+ * @property {string} thingUID for all Thing-related triggers: UID of Thing that triggered event
+ * @property {string} cronExpression for {@link triggers.GenericCronTrigger}: cron expression of the trigger
+ * @property {string} time for {@link triggers.TimeOfDayTrigger}: time of day value of the trigger
+ * @property {string} eventType for all triggers except {@link triggers.PWMTrigger}, {@link triggers.PIDTrigger}: Type of event that triggered event (change, command, time, triggered, update, time)
+ * @property {string} triggerType for all triggers except {@link triggers.PWMTrigger}, {@link triggers.PIDTrigger}: Type of trigger that triggered event
+ * @property {string} module (user-defined or auto-generated) name of trigger
  * @property {*} payload for most triggers
  */
 
@@ -353,7 +357,19 @@ function _getTriggeredData (input) {
   const event = input.get('event');
   const data = {};
 
-  // Properties of data are dynamically added, depending on their availability
+  // Always
+  data.eventClass = Java.typeName(event.getClass());
+  try {
+    if (event.getPayload()) {
+      data.payload = JSON.parse(event.getPayload());
+      log.debug('Extracted event payload {}', data.payload);
+    }
+  } catch (e) {
+    log.warn('Failed to extract payload: {}', e.message);
+  }
+  _addFromHashMap(input, 'module', data);
+
+  // Dynamically added properties, depending on their availability
 
   // Item triggers
   if (input.containsKey('command')) data.receivedCommand = input.get('command').toString();
@@ -369,9 +385,26 @@ function _getTriggeredData (input) {
   _addFromHashMap(input, 'newStatus', data);
   _addFromHashMap(input, 'status', data);
 
-  // Only with event data (for Item, Thing & Channel triggers)
+  // The source code of the trigger handlers provide an insight into the respective events,
+  // see https://github.com/openhab/openhab-core/tree/main/bundles/org.openhab.core.automation/src/main/java/org/openhab/core/automation/internal/module/handler
   if (event) {
     switch (Java.typeName(event.getClass())) {
+      case 'org.openhab.core.automation.events.ExecutionEvent':
+        data.eventType = event.toString().split(' ').pop();
+        break;
+      case 'org.openhab.core.automation.events.TimerEvent':
+        data.eventType = 'time';
+        if (data.payload.cronExpression) {
+          data.triggerType = 'GenericCronTrigger';
+          data.cronExpression = data.payload.cronExpression.toString();
+        } else if (data.payload.time) {
+          data.triggerType = 'TimeOfDayTrigger';
+          data.time = data.payload.time.toString();
+        } else if (data.payload.itemName) {
+          data.triggerType = 'DateTimeTrigger';
+          data.itemName = data.payload.itemName.toString();
+        }
+        break;
       case 'org.openhab.core.items.events.GroupItemCommandEvent':
       case 'org.openhab.core.items.events.ItemCommandEvent':
         data.itemName = event.getItemName();
@@ -430,24 +463,6 @@ function _getTriggeredData (input) {
         );
         break;
     }
-    data.eventClass = Java.typeName(event.getClass());
-    try {
-      if (event.getPayload()) {
-        data.payload = JSON.parse(event.getPayload());
-        log.debug('Extracted event payload {}', data.payload);
-      }
-    } catch (e) {
-      log.warn('Failed to extract payload: {}', e.message);
-    }
-  }
-
-  // Always
-  _addFromHashMap(input, 'module', data);
-
-  // If the ScriptEngine gets an empty input, the trigger is either time based or the rule is run manually!!
-  if (input.size() === 0) {
-    data.eventType = '';
-    data.triggerType = '';
   }
 
   return data;
