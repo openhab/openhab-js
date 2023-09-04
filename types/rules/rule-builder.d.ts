@@ -6,19 +6,26 @@ export class RuleBuilder {
     constructor(toggleable: any);
     /** @private */
     private _triggerConfs;
-    toggleable: any;
+    /** @private */
+    private toggleable;
     /**
        * Specifies when the rule should occur. Will create a standard rule.
        *
        * @returns {triggers.TriggerBuilder} rule builder
        */
     when(): triggers.TriggerBuilder;
-    addTrigger(triggerConf: any): RuleBuilder;
-    setCondition(condition: any): RuleBuilder;
-    condition: any;
-    setOperation(operation: any, optionalRuleGroup: any): HostRule;
-    operation: any;
-    optionalRuleGroup: any;
+    /** @private */
+    private addTrigger;
+    /** @private */
+    private setCondition;
+    /** @private */
+    private condition;
+    /** @private */
+    private setOperation;
+    /** @private */
+    private operation;
+    /** @private */
+    private optionalRuleGroup;
     describe(compact: any): string;
 }
 import triggers = require("./trigger-builder");

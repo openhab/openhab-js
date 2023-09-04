@@ -1168,7 +1168,8 @@ See [Examples](#rule-builder-examples) for further patterns.
   - `.channel(channelName)` Specifies a channel event as a source for the rule to fire.
     - `.triggered(event)` Trigger on a specific event name
   - `.cron(cronExpression)` Specifies a cron schedule for the rule to fire.
-  - `.item(itemName)` Specifies an item as the source of changes to trigger a rule.
+  - `.timeOfDay(time)` Specifies a time of day in `HH:mm` for the rule to fire.
+  - `.item(itemName)` Specifies an Item as the source of changes to trigger a rule.
     - `.for(duration)`
     - `.from(state)`
     - `.to(state)`
@@ -1176,7 +1177,7 @@ See [Examples](#rule-builder-examples) for further patterns.
     - `.toOn()`
     - `.receivedCommand()`
     - `.receivedUpdate()`
-  - `.memberOf(groupName)`
+  - `.memberOf(groupName)` Specifies a group Item as the source of changes to trigger the rule.
     - `.for(duration)`
     - `.from(state)`
     - `.to(state)`
@@ -1184,18 +1185,20 @@ See [Examples](#rule-builder-examples) for further patterns.
     - `.toOn()`
     - `.receivedCommand()`
     - `.receivedUpdate()`
-  - `.system()`
+  - `.system()` Specifies a system event as a source for the rule to fire.
     - `.ruleEngineStarted()`
     - `.rulesLoaded()`
     - `.startupComplete()`
     - `.thingsInitialized()`
     - `.userInterfacesStarted()`
     - `.startLevel(level)`
-  - `.thing(thingName)`
+  - `.thing(thingName)` Specifies a Thing event as a source for the rule to fire.
     - `changed()`
     - `updated()`
     - `from(state)`
     - `to(state)`
+  - `.dateTime(itemName)` Specifies a DateTime Item whose (optional) date and time schedule the rule to fire.
+    - `.timeOnly()` Only the time of the Item should be compared, the date should be ignored.
 
 Additionally, all the above triggers have the following functions:
 
@@ -1230,31 +1233,34 @@ Additionally, all the above triggers have the following functions:
 ```javascript
 // Basic rule, when the BedroomLight1 is changed, run a custom function
 rules.when().item('BedroomLight1').changed().then(e => {
-    console.log("BedroomLight1 state", e.newState)
+  console.log("BedroomLight1 state", e.newState)
 }).build();
 
-// Turn on the kitchen light at SUNSET
-rules.when().timeOfDay("SUNSET").then().sendOn().toItem("KitchenLight").build("Sunset Rule","turn on the kitchen light at SUNSET");
+// Turn on the kitchen light at SUNSET (using the Astro binding)
+rules.when().channel('astro:sun:home:set#event').triggered('START').then().sendOn().toItem('KitchenLight').build('Sunset Rule', 'Turn on the kitchen light at SUNSET');
 
 // Turn off the kitchen light at 9PM and tag rule
-rules.when().cron("0 0 21 * * ?").then().sendOff().toItem("KitchenLight").build("9PM Rule", "turn off the kitchen light at 9PM", ["Tag1", "Tag2"]);
+rules.when().timeOfDay('21:00').then().sendOff().toItem('KitchenLight').build('9PM Rule', 'Turn off the kitchen light at 9PM', ['Tag1', 'Tag2']);
 
 // Set the colour of the hall light to pink at 9PM, tag rule and use a custom ID
-rules.when().cron("0 0 21 * * ?").then().send("300,100,100").toItem("HallLight").build("Pink Rule", "set the colour of the hall light to pink at 9PM", ["Tag1", "Tag2"], "MyCustomID");
+rules.when().cron('0 0 21 * * ?').then().send('300,100,100').toItem('HallLight').build('Pink Rule', 'Set the colour of the hall light to pink at 9PM', ['Tag1', 'Tag2'], 'MyCustomID');
 
 // When the switch S1 status changes to ON, then turn on the HallLight
-rules.when().item('S1').changed().toOn().then(sendOn().toItem('HallLight')).build("S1 Rule");
+rules.when().item('S1').changed().toOn().then().sendOn().toItem('HallLight').build('S1 Rule');
 
 // When the HallLight colour changes pink, if the function fn returns true, then toggle the state of the OutsideLight
-rules.when().item('HallLight').changed().to("300,100,100").if(fn).then().sendToggle().toItem('OutsideLight').build();
+rules.when().item('HallLight').changed().to('300,100,100').if(fn).then().sendToggle().toItem('OutsideLight').build();
+
+// Turn on the outdoor lights based on a DateTime Item's time portion
+rules.when().dateTime('OutdoorLights_OffTime').timeOnly().then().sendOff().toItem('OutdoorLights').build('Outdoor Lights off');
 
 // And some rules which can be toggled by the items created in the 'gRules' Group:
 
 // When the HallLight receives a command, send the same command to the KitchenLight
-rules.when().item('HallLight').receivedCommand().then().sendIt().toItem('KitchenLight').build("Hall Light", "");
+rules.when(true).item('HallLight').receivedCommand().then().sendIt().toItem('KitchenLight').build('Hall Light to Kitchen Light');
 
 // When the HallLight is updated to ON, make sure that BedroomLight1 is set to the same state as the BedroomLight2
-rules.when().item('HallLight').receivedUpdate().then().copyState().fromItem('BedroomLight1').toItem('BedroomLight2').build();
+rules.when(true).item('HallLight').receivedUpdate().then().copyState().fromItem('BedroomLight1').toItem('BedroomLight2').build();
 ```
 
 ### Event Object

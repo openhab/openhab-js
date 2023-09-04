@@ -8,6 +8,8 @@
  */
 
 const utils = require('./utils');
+const log = require('./log')('triggers');
+
 /**
  * @type {Item}
  * @private
@@ -30,6 +32,8 @@ function _createTrigger (typeString, name, config) {
   if (typeof name === 'undefined' || name === null) {
     name = utils.randomUUID().toString();
   }
+
+  log.debug('Creating {} trigger as {} with config: {}', typeString, name, JSON.stringify(config || {}));
 
   return ModuleBuilder.createTrigger()
     .withId(name)
@@ -244,7 +248,7 @@ const GenericCronTrigger = (expression, triggerName) =>
  * TimeOfDayTrigger('19:00');
  *
  * @memberof triggers
- * @param {string} time the time expression defining the triggering schedule
+ * @param {string} time the time expression (in `HH:mm`) defining the triggering schedule
  * @param {string} [triggerName] the optional name of the trigger to create
  */
 const TimeOfDayTrigger = (time, triggerName) =>

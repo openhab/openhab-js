@@ -18,12 +18,14 @@ class OperationBuilder {
     this._fn = fn;
   }
 
+  /** @private */
   _finishErr () {
     if (this._fn) {
       throw new Error('rule already completed');
     }
   }
 
+  /** @private */
   _then (operation, group, name, description, tags, id) {
     this._builder.name = name;
     this._builder.description = description;
@@ -64,9 +66,9 @@ class OperationBuilder {
     * @param {string} command the command to send
     * @returns {SendCommandOrUpdateOperation} the operation
     */
-  send (c) {
+  send (command) {
     this._finishErr();
-    return new SendCommandOrUpdateOperation(this, c);
+    return new SendCommandOrUpdateOperation(this, command);
   }
 
   /**
@@ -75,13 +77,13 @@ class OperationBuilder {
      * @param {string} update the update to send
      * @returns {SendCommandOrUpdateOperation} the operation
      */
-  postUpdate (c) {
+  postUpdate (update) {
     this._finishErr();
-    return new SendCommandOrUpdateOperation(this, c, false);
+    return new SendCommandOrUpdateOperation(this, update, false);
   }
 
   /**
-     * Specifies the a command 'ON' should be sent as a result of this rule firing.
+     * Specifies the command 'ON' should be sent as a result of this rule firing.
      *
      * @returns {SendCommandOrUpdateOperation} the operation
      */
@@ -91,7 +93,7 @@ class OperationBuilder {
   }
 
   /**
-     * Specifies the a command 'OFF' should be sent as a result of this rule firing.
+     * Specifies the command 'OFF' should be sent as a result of this rule firing.
      *
      * @returns {SendCommandOrUpdateOperation} the operation
      */
@@ -307,6 +309,7 @@ class CopyStateOperation extends OperationConfig {
 class SendCommandOrUpdateOperation extends OperationConfig {
   constructor (operationBuilder, dataOrSupplier, isCommand = true, optionalDesc) {
     super(operationBuilder);
+    /** @private */
     this.isCommand = isCommand;
     if (typeof dataOrSupplier === 'function') {
       this.dataFn = dataOrSupplier;
@@ -349,6 +352,7 @@ class SendCommandOrUpdateOperation extends OperationConfig {
     return this;
   }
 
+  /** @private */
   _run (args) {
     for (const toItemName of this.toItemNames) {
       const item = items.getItem(toItemName);
@@ -363,10 +367,12 @@ class SendCommandOrUpdateOperation extends OperationConfig {
     this.next && this.next.execute(args);
   }
 
+  /** @private */
   _complete () {
     return (typeof this.toItemNames) !== 'undefined';
   }
 
+  /** @private */
   describe (compact) {
     if (compact) {
       return this.dataDesc + (this.isCommand ? '⌘' : '↻') + this.toItemNames + (this.next ? this.next.describe() : '');
@@ -386,6 +392,7 @@ class SendCommandOrUpdateOperation extends OperationConfig {
 class ToggleOperation extends OperationConfig {
   constructor (operationBuilder) {
     super(operationBuilder);
+    /** @private */
     this.next = null;
     /** @type {function} */
     this.toItem = function (itemName) {
@@ -397,8 +404,11 @@ class ToggleOperation extends OperationConfig {
       this.next = next;
       return this;
     };
+    /** @private */
     this._run = () => this.doToggle() && (this.next && this.next.execute());
+    /** @private */
     this._complete = () => true;
+    /** @private */
     this.describe = () => `toggle ${this.itemName}` + (this.next ? ` and ${this.next.describe()}` : '');
   }
 
@@ -426,13 +436,18 @@ class TimingItemStateOperation extends OperationConfig {
       throw Error('Must specify item state value to wait for!');
     }
 
+    /** @private */
     this.item_changed_trigger_config = itemChangedTriggerConfig;
+    /** @private */
     this.duration_ms = (typeof duration === 'number' ? duration : parseDuration.parse(duration));
 
+    /** @private */
     this._complete = itemChangedTriggerConfig._complete;
+    /** @private */
     this.describe = () => itemChangedTriggerConfig.describe() + ' for ' + duration;
   }
 
+  /** @private */
   _toOHTriggers () {
     // each time we're triggered, set a callback.
     // If the item changes to something else, cancel the callback.
@@ -447,6 +462,7 @@ class TimingItemStateOperation extends OperationConfig {
     }
   }
 
+  /** @private */
   _executeHook (next) {
     if (items.get(this.item_changed_trigger_config.item_name).toString() === this.item_changed_trigger_config.to_value) {
       this._startWait(next);
@@ -455,6 +471,7 @@ class TimingItemStateOperation extends OperationConfig {
     }
   }
 
+  /** @private */
   _startWait (next) {
     this.current_wait = setTimeout(next, this.duration_ms);
   }
