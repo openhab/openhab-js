@@ -88,6 +88,18 @@ export class ItemTriggerConfig extends TriggerConf {
      */
     toOn(): ItemTriggerConfig;
     /**
+     * Item changed from OFF
+     *
+     * @returns {ItemTriggerConfig}
+     */
+    fromOff(): ItemTriggerConfig;
+    /**
+     * Item changed from ON
+     *
+     * @returns {ItemTriggerConfig}
+     */
+    fromOn(): ItemTriggerConfig;
+    /**
      * Item received command
      *
      * @returns {ItemTriggerConfig}
