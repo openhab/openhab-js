@@ -313,6 +313,24 @@ class ItemTriggerConfig extends TriggerConf {
   }
 
   /**
+   * Item changed from OFF
+   *
+   * @returns {ItemTriggerConfig}
+   */
+  fromOff () {
+    return this.from('OFF');
+  }
+
+  /**
+   * Item changed from ON
+   *
+   * @returns {ItemTriggerConfig}
+   */
+  fromOn () {
+    return this.from('ON');
+  }
+
+  /**
    * Item received command
    *
    * @returns {ItemTriggerConfig}
