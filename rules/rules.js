@@ -373,7 +373,6 @@ function _getTriggeredData (input) {
   _addFromHashMap(input, 'newStatus', data);
   _addFromHashMap(input, 'status', data);
 
-
   // Properties added if event is available
 
   if (event) {
