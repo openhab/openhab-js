@@ -357,18 +357,6 @@ function _getTriggeredData (input) {
   const event = input.get('event');
   const data = {};
 
-  // Always
-  data.eventClass = Java.typeName(event.getClass());
-  try {
-    if (event.getPayload()) {
-      data.payload = JSON.parse(event.getPayload());
-      log.debug('Extracted event payload {}', data.payload);
-    }
-  } catch (e) {
-    log.warn('Failed to extract payload: {}', e.message);
-  }
-  _addFromHashMap(input, 'module', data);
-
   // Dynamically added properties, depending on their availability
 
   // Item triggers
@@ -385,10 +373,24 @@ function _getTriggeredData (input) {
   _addFromHashMap(input, 'newStatus', data);
   _addFromHashMap(input, 'status', data);
 
-  // The source code of the trigger handlers provide an insight into the respective events,
-  // see https://github.com/openhab/openhab-core/tree/main/bundles/org.openhab.core.automation/src/main/java/org/openhab/core/automation/internal/module/handler
+
+  // Properties added if event is available
+
   if (event) {
-    switch (Java.typeName(event.getClass())) {
+    data.eventClass = Java.typeName(event.getClass());
+
+    try {
+      if (event.getPayload()) {
+        data.payload = JSON.parse(event.getPayload());
+        log.debug('Extracted event payload {}', data.payload);
+      }
+    } catch (e) {
+      log.warn('Failed to extract payload: {}', e.message);
+    }
+
+    // The source code of the trigger handlers provide an insight into the respective events,
+    // see https://github.com/openhab/openhab-core/tree/main/bundles/org.openhab.core.automation/src/main/java/org/openhab/core/automation/internal/module/handler
+    switch (data.eventClass) {
       case 'org.openhab.core.automation.events.ExecutionEvent':
         data.eventType = event.toString().split(' ').pop();
         break;
@@ -464,6 +466,8 @@ function _getTriggeredData (input) {
         break;
     }
   }
+
+  _addFromHashMap(input, 'module', data);
 
   return data;
 }
