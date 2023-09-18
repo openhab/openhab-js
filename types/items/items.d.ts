@@ -68,7 +68,7 @@ export function getItem(name: string, nullIfMissing?: boolean): Item | null;
  */
 export function getItems(): Item[];
 /**
- * Creates a new Item within OpenHab. This Item will persist to the provider regardless of the lifecycle of the script creating it.
+ * Creates a new Item within OpenHab. This Item will persist to the registry, and therefore is independent of the lifecycle of the script creating it.
  *
  * Note that all Items created this way have an additional tag attached, for simpler retrieval later. This tag is
  * created with the value {@link DYNAMIC_ITEM_TAG}.
