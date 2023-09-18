@@ -1172,19 +1172,25 @@ See [Examples](#rule-builder-examples) for further patterns.
   - `.item(itemName)` Specifies an Item as the source of changes to trigger a rule.
     - `.for(duration)`
     - `.from(state)`
-    - `.to(state)`
+    - `.fromOn()`
     - `.fromOff()`
+    - `.to(state)`
     - `.toOn()`
+    - `.toOff()`
     - `.receivedCommand()`
     - `.receivedUpdate()`
+    - `.changed()`
   - `.memberOf(groupName)` Specifies a group Item as the source of changes to trigger the rule.
     - `.for(duration)`
     - `.from(state)`
-    - `.to(state)`
+    - `.fromOn()`
     - `.fromOff()`
+    - `.to(state)`
     - `.toOn()`
+    - `.toOff()`
     - `.receivedCommand()`
     - `.receivedUpdate()`
+    - `.changed()`
   - `.system()` Specifies a system event as a source for the rule to fire.
     - `.ruleEngineStarted()`
     - `.rulesLoaded()`

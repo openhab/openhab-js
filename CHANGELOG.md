@@ -1,5 +1,18 @@
 # Changelog
 
+## 4.6.0
+
+| Type        | Namespace | Description                                                         | Reference                                              | Breaking |
+|-------------|-----------|---------------------------------------------------------------------|--------------------------------------------------------|----------|
+| Bugfix      |           | Fix instance of Item checks don't work                              | [#290](https://github.com/openhab/openhab-js/pull/290) | No       |
+| Enhancement | `rules`   | Rule Builder: Add DateTime & TimeOfDay triggers & Improve type defs | [#291](https://github.com/openhab/openhab-js/pull/291) | No       |
+| Enhancement | `rules`   | Add event information for time-based and manual/run-rule triggers   | [#286](https://github.com/openhab/openhab-js/pull/286) | No       |
+| Enhancement | `rules`   | Rule Builder: Add fromOn & fromOff to Item trigger config           | [#297](https://github.com/openhab/openhab-js/pull/297) | No       |
+| Enhancement | `items`   | Use registry instead of provider                                    | [#298](https://github.com/openhab/openhab-js/pull/298) | No       |
+
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/19).
+
+
 ## 4.5.1
 
 | Type   | Namespace      | Description                                                 | Reference                                              | Breaking |
