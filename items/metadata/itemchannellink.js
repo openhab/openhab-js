@@ -49,7 +49,7 @@ function _createItemChannelLink (itemName, channelUID, conf) {
  */
 function getItemChannelLink (itemOrName, channelUID) {
   const itemName = _getItemName(itemOrName);
-  log.debug(`Getting ItemChannelLink ${itemName} -> ${channelUID} from provider...`);
+  log.debug(`Getting ItemChannelLink ${itemName} -> ${channelUID} from registry...`);
   const itemChannelLink = itemChannelLinkRegistry.get(itemName + ' -> ' + channelUID);
   if (itemChannelLink === null || itemChannelLink === undefined) return null;
   return {
@@ -69,7 +69,7 @@ function getItemChannelLink (itemOrName, channelUID) {
  * @returns {{itemName: string, configuration: *, channelUID: string}} the ItemChannelLink
  */
 function _addItemChannelLink (itemName, channelUID, conf) {
-  log.debug(`Adding ItemChannelLink ${itemName} -> ${channelUID} to provider...`);
+  log.debug(`Adding ItemChannelLink ${itemName} -> ${channelUID} to registry...`);
   const itemChannelLink = _createItemChannelLink(itemName, channelUID, conf);
   itemChannelLinkRegistry.add(itemChannelLink);
   return {
@@ -89,7 +89,7 @@ function _addItemChannelLink (itemName, channelUID, conf) {
  * @returns {{itemName: string, configuration: object, channelUID: string}|null} the old ItemChannelLink or `null` if none exists
  */
 function _updateItemChannelLink (itemName, channelUID, conf) {
-  log.debug(`Updating ItemChannelLink ${itemName} -> ${channelUID} in provider...`);
+  log.debug(`Updating ItemChannelLink ${itemName} -> ${channelUID} in registry...`);
   const itemChannelLink = _createItemChannelLink(itemName, channelUID, conf);
   itemChannelLinkRegistry.update(itemChannelLink);
   if (itemChannelLink === null || itemChannelLink === undefined) return null;
@@ -130,7 +130,7 @@ function replaceItemChannelLink (itemOrName, channelUID, conf) {
  */
 function removeItemChannelLink (itemOrName, channelUID) {
   const itemName = _getItemName(itemOrName);
-  log.debug(`Removing ItemChannelLink ${itemName} -> ${channelUID} from provider...`);
+  log.debug(`Removing ItemChannelLink ${itemName} -> ${channelUID} from registry...`);
   const itemChannelLink = itemChannelLinkRegistry.remove(itemName + ' -> ' + channelUID);
   if (itemChannelLink === null || itemChannelLink === undefined) return null;
   return {

@@ -16,8 +16,6 @@ const { UnDefType, OnOffType, events, itemRegistry } = require('@runtime');
 
 const itemBuilderFactory = osgi.getService('org.openhab.core.items.ItemBuilderFactory');
 
-const managedItemProvider = osgi.getService('org.openhab.core.items.ManagedItemProvider');
-
 // typedefs need to be global for TypeScript to fully work
 /**
  * @typedef {import('./metadata/metadata').ItemMetadata} ItemMetadata
@@ -349,7 +347,7 @@ class Item {
   addGroups (...groupNamesOrItems) {
     const groupNames = groupNamesOrItems.map((x) => (typeof x === 'string') ? x : x.name);
     this.rawItem.addGroupNames(groupNames);
-    managedItemProvider.update(this.rawItem);
+    itemRegistry.update(this.rawItem);
   }
 
   /**
@@ -361,7 +359,7 @@ class Item {
     for (const groupName of groupNames) {
       this.rawItem.removeGroupName(groupName);
     }
-    managedItemProvider.update(this.rawItem);
+    itemRegistry.update(this.rawItem);
   }
 
   /**
@@ -378,7 +376,7 @@ class Item {
    */
   addTags (...tagNames) {
     this.rawItem.addTags(tagNames);
-    managedItemProvider.update(this.rawItem);
+    itemRegistry.update(this.rawItem);
   }
 
   /**
@@ -389,7 +387,7 @@ class Item {
     for (const tagName of tagNames) {
       this.rawItem.removeTag(tagName);
     }
-    managedItemProvider.update(this.rawItem);
+    itemRegistry.update(this.rawItem);
   }
 
   toString () {
@@ -453,7 +451,7 @@ function _createItem (itemConfig) {
 }
 
 /**
- * Creates a new Item within OpenHab. This Item will persist to the provider regardless of the lifecycle of the script creating it.
+ * Creates a new Item within OpenHab. This Item will persist to the registry, and therefore is independent of the lifecycle of the script creating it.
  *
  * Note that all Items created this way have an additional tag attached, for simpler retrieval later. This tag is
  * created with the value {@link DYNAMIC_ITEM_TAG}.
@@ -466,7 +464,7 @@ function _createItem (itemConfig) {
  */
 function addItem (itemConfig) {
   const item = _createItem(itemConfig);
-  managedItemProvider.add(item.rawItem);
+  itemRegistry.add(item.rawItem);
 
   if (typeof itemConfig.metadata === 'object') {
     const namespace = Object.keys(itemConfig.metadata);
@@ -524,7 +522,7 @@ function removeItem (itemOrItemName) {
     }
   }
 
-  managedItemProvider.remove(itemName);
+  itemRegistry.remove(itemName);
 
   try { // If the Item has been successfully removed, ItemNotFoundException is thrown.
     itemRegistry.getItem(itemName);
