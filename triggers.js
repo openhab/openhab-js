@@ -287,7 +287,7 @@ const DateTimeTrigger = (itemOrName, timeOnly = false, triggerName) =>
  * @param {string|array} eventTypes Specifies the event type(s) to match, e.g. ItemStateChangedEvent, ItemAddedEvent, ItemRemovedEvent, ItemUpdatedEvent, ItemCommandEvent, etc
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-const GenericTriggerEvent = (eventTopic, eventSource, eventTypes, triggerName) =>
+const GenericEventTrigger = (eventTopic, eventSource, eventTypes, triggerName) =>
   _createTrigger('core.GenericEventTrigger', triggerName, {
     topic: eventTopic,
     source: eventSource,
@@ -402,6 +402,7 @@ module.exports = {
   ThingStatusChangeTrigger,
   SystemStartlevelTrigger,
   GenericCronTrigger,
+  GenericEventTrigger
   TimeOfDayTrigger,
   DateTimeTrigger,
   PWMTrigger,
