@@ -273,7 +273,29 @@ const DateTimeTrigger = (itemOrName, timeOnly = false, triggerName) =>
     timeOnly: timeOnly
   });
 
-/**
+  /**
+ * Creates a trigger that fires upon a matching event from the event bus. 
+ *
+ * @example
+ * GenericEventTrigger("openhab/items/**","","ItemStateChangedEvent","AllItemStateEvents")
+ * @exmaple 
+ * GenericEventTrigger("openhab/items/**","","ItemAddedEvent","ItemAddedEvent")
+ *
+ * @memberof triggers
+ * @param {string} eventTopic Specifies the event topic to match 
+ * @param {string} eventSource Specifies the event source, Item name, ChannelUID, ThingUID, or empty string for all sources
+ * @param {string|array} eventTypes Specifies the event type(s) to match, e.g. ItemStateChangedEvent, ItemAddedEvent, ItemRemovedEvent, ItemUpdatedEvent, ItemCommandEvent, etc
+ * @param {string} [triggerName] the optional name of the trigger to create
+ */
+const GenericTriggerEvent = (eventTopic, eventSource, eventTypes, triggerName) =>
+  _createTrigger('core.GenericEventTrigger', triggerName, {
+    topic: eventTopic,
+    source: eventSource,
+    types: eventTypes,
+    payload: ""
+  });
+
+  /**
  * Creates a trigger for the {@link https://openhab.org/addons/automation/pwm/ Pulse Width Modulation (PWM) Automation} add-on.
  *
  * @example
