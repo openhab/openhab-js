@@ -273,29 +273,33 @@ const DateTimeTrigger = (itemOrName, timeOnly = false, triggerName) =>
     timeOnly: timeOnly
   });
 
-  /**
- * Creates a trigger that fires upon a matching event from the event bus. 
+/**
+ * Creates a trigger that fires upon a matching event from the event bus.
+ *
+ * Please have a look at the {@link https://www.openhab.org/docs/developer/utils/events.html Event Bus docs} to learn about events.
  *
  * @example
- * GenericEventTrigger("openhab/items/**","","ItemStateChangedEvent","AllItemStateEvents")
- * @exmaple 
- * GenericEventTrigger("openhab/items/**","","ItemAddedEvent","ItemAddedEvent")
+ * // Triggers when an Item is added or removed
+ * GenericEventTrigger('openhab/items/**', '', ['ItemAddedEvent', 'ItemRemovedEvent'])
+ * // Triggers when the Item "OutdoorLights" is commanded by expire
+ * GenericEventTrigger('openhab/items/OutdoorLights/*', 'org.openhab.core.expire', 'ItemCommandEvent')
+ *
  *
  * @memberof triggers
- * @param {string} eventTopic Specifies the event topic to match 
- * @param {string} eventSource Specifies the event source, Item name, ChannelUID, ThingUID, or empty string for all sources
- * @param {string|array} eventTypes Specifies the event type(s) to match, e.g. ItemStateChangedEvent, ItemAddedEvent, ItemRemovedEvent, ItemUpdatedEvent, ItemCommandEvent, etc
+ * @param {string} eventTopic Specifies the event topic to match, asa file-system style glob (`*` and `**` operators)
+ * @param {string} eventSource Specifies the event source such as `org.openhab.core.expire`,
+ * @param {string|string[]} eventTypes Specifies the event type(s) to match, e.g. `ItemAddedEvent`, `ItemRemovedEvent`, `ItemCommandEvent`, etc.
  * @param {string} [triggerName] the optional name of the trigger to create
  */
 const GenericEventTrigger = (eventTopic, eventSource, eventTypes, triggerName) =>
   _createTrigger('core.GenericEventTrigger', triggerName, {
     topic: eventTopic,
     source: eventSource,
-    types: eventTypes,
-    payload: ""
+    types: (Array.isArray(eventTypes) ? eventTypes.join(',') : eventTypes),
+    payload: ''
   });
 
-  /**
+/**
  * Creates a trigger for the {@link https://openhab.org/addons/automation/pwm/ Pulse Width Modulation (PWM) Automation} add-on.
  *
  * @example
@@ -402,7 +406,7 @@ module.exports = {
   ThingStatusChangeTrigger,
   SystemStartlevelTrigger,
   GenericCronTrigger,
-  GenericEventTrigger
+  GenericEventTrigger,
   TimeOfDayTrigger,
   DateTimeTrigger,
   PWMTrigger,
