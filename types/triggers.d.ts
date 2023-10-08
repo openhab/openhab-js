@@ -142,6 +142,25 @@ export function SystemStartlevelTrigger(startlevel: string | number, triggerName
  */
 export function GenericCronTrigger(expression: string, triggerName?: string): HostTrigger;
 /**
+ * Creates a trigger that fires upon a matching event from the event bus.
+ *
+ * Please have a look at the {@link https://www.openhab.org/docs/developer/utils/events.html Event Bus docs} to learn about events.
+ *
+ * @example
+ * // Triggers when an Item is added or removed
+ * GenericEventTrigger('openhab/items/**', '', ['ItemAddedEvent', 'ItemRemovedEvent'])
+ * // Triggers when the Item "OutdoorLights" is commanded by expire
+ * GenericEventTrigger('openhab/items/OutdoorLights/*', 'org.openhab.core.expire', 'ItemCommandEvent')
+ *
+ *
+ * @memberof triggers
+ * @param {string} eventTopic Specifies the event topic to match, asa file-system style glob (`*` and `**` operators)
+ * @param {string} eventSource Specifies the event source such as `org.openhab.core.expire`,
+ * @param {string|string[]} eventTypes Specifies the event type(s) to match, e.g. `ItemAddedEvent`, `ItemRemovedEvent`, `ItemCommandEvent`, etc.
+ * @param {string} [triggerName] the optional name of the trigger to create
+ */
+export function GenericEventTrigger(eventTopic: string, eventSource: string, eventTypes: string | string[], triggerName?: string): HostTrigger;
+/**
  * Creates a trigger that fires daily at a specific time. The supplied time defines when the trigger will fire.
  *
  * @example
