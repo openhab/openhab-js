@@ -90,13 +90,13 @@ function _parseISO8601 (isoStr) {
     LOCAL_DATE: /^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])$/, // YYYY-MM-DD
     LOCAL_TIME: /^\d{2}:\d{2}(:\d{2})?(\.\d+)?$/, // hh:mm or hh:mm:ss or hh:mm:ss.f
     LOCAL_DATE_TIME: /^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T\d{2}:\d{2}(:\d{2})?(\.\d+)?$/, // LOCAL_DATE and LOCAL_TIME connected with "T"
-    ISO_8160_FULL: /^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9])(:[0-5][0-9])?(\.\d+)?(Z|[+-]\d{2}(:\d{2})?)/
+    ISO_8601_FULL: /^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9])(:[0-5][0-9])?(\.\d+)?(Z|[+-]\d{2}(:\d{2})?)/
   };
   switch (true) {
     case REGEX.LOCAL_DATE.test(isoStr): return time.ZonedDateTime.of(time.LocalDate.parse(isoStr), time.LocalTime.MIDNIGHT, time.ZoneId.SYSTEM);
     case REGEX.LOCAL_TIME.test(isoStr): return time.ZonedDateTime.of(time.LocalDate.now(), time.LocalTime.parse(isoStr), time.ZoneId.SYSTEM);
     case REGEX.LOCAL_DATE_TIME.test(isoStr): return time.ZonedDateTime.of(time.LocalDateTime.parse(isoStr), time.ZoneId.SYSTEM);
-    case REGEX.ISO_8160_FULL.test(isoStr): return time.ZonedDateTime.parse(isoStr);
+    case REGEX.ISO_8601_FULL.test(isoStr): return time.ZonedDateTime.parse(isoStr).withZoneSameLocal(time.ZoneId.SYSTEM);
   }
   return null;
 }
