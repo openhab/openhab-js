@@ -90,13 +90,15 @@ function _parseISO8601 (isoStr) {
     LOCAL_DATE: /^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])$/, // YYYY-MM-DD
     LOCAL_TIME: /^\d{2}:\d{2}(:\d{2})?(\.\d+)?$/, // hh:mm or hh:mm:ss or hh:mm:ss.f
     LOCAL_DATE_TIME: /^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T\d{2}:\d{2}(:\d{2})?(\.\d+)?$/, // LOCAL_DATE and LOCAL_TIME connected with "T"
-    ISO_8601_FULL: /^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9])(:[0-5][0-9])?(\.\d+)?(Z|[+-]\d{2}(:\d{2})?)/
+    ISO_8601_FULL:   /^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9])(:[0-5][0-9])?(\.\d+)?(Z|[+-]\d{2}(:\d{2})?\[[\w]*\])*\]?$/, // With Zone ID
+    ISO_8601_OFFSET: /^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9])(:[0-5][0-9])?(\.\d+)?(Z|[+-]\d{2}(:\d{2})?)$/ // Offset only
   };
   switch (true) {
     case REGEX.LOCAL_DATE.test(isoStr): return time.ZonedDateTime.of(time.LocalDate.parse(isoStr), time.LocalTime.MIDNIGHT, time.ZoneId.SYSTEM);
     case REGEX.LOCAL_TIME.test(isoStr): return time.ZonedDateTime.of(time.LocalDate.now(), time.LocalTime.parse(isoStr), time.ZoneId.SYSTEM);
     case REGEX.LOCAL_DATE_TIME.test(isoStr): return time.ZonedDateTime.of(time.LocalDateTime.parse(isoStr), time.ZoneId.SYSTEM);
-    case REGEX.ISO_8601_FULL.test(isoStr): return time.ZonedDateTime.parse(isoStr).withZoneSameLocal(time.ZoneId.SYSTEM);
+    case REGEX.ISO_8601_OFFSET.test(isoStr): return time.ZonedDateTime.parse(isoStr).withZoneSameLocal(time.ZoneId.SYSTEM);
+    case REGEX.ISO_8601_FULL.test(isoStr): return time.ZonedDateTime.parse(isoStr);
   }
   return null;
 }
@@ -134,7 +136,7 @@ function _parseString (str) {
   // ISO8601 Time, Date, or DateTime string
   try {
     // Blockly compatibility with user input without the "T"
-    const newStr = /^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9]) \d{2}:\d{2}/.test(str) ? str.replace(' ', 'T') : str;
+    const newStr = /^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9]) \d{2}:\d{2}?\[[\w/]*\])*\]?/.test(str) ? str.replace(' ', 'T') : str;
     const zdt = _parseISO8601(newStr);
     if (zdt !== null) return zdt;
   } catch (e) {
