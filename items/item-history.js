@@ -85,6 +85,16 @@ function _historicItemOrNull (result) {
   return new HistoricItem(result);
 }
 
+function _javaIterableOfJavaHistoricItemsToJsArrayOfHistoricItems (result) {
+  if (result === null) return null;
+
+  const historicItems = [];
+  result.forEach((hi) => {
+    const historicItem = _historicItemOrNull(hi);
+    if (historicItem !== null) historicItems.push(historicItem);
+  });
+  return historicItems;
+}
 
 /**
  * Class representing the historic state of an openHAB Item.
@@ -279,6 +289,28 @@ class ItemHistory {
   evolutionRateSince (timestamp, serviceId) {
     return _decimalOrNull(PersistenceExtensions.evolutionRate(this.rawItem, ...arguments));
   }
+
+  /**
+   * Retrieves the {@link HistoricItems} for for a given Item between two certain points in time.
+   *
+   * @param {(time.ZonedDateTime | Date)} begin begin
+   * @param {(time.ZonedDateTime | Date)} end end
+   * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
+   * @returns {HistoricItem[]}
+   */
+  getAllStatesBetween (begin, end, serviceId) {
+    return _javaIterableOfJavaHistoricItemsToJsArrayOfHistoricItems(PersistenceExtensions.getAllStatesBetween(this.rawItem, ...arguments));
+  }
+
+  /**
+   * Retrieves the {@link HistoricItems} for for a given Item since a certain point in time.
+   *
+   * @param {(time.ZonedDateTime | Date)} timestamp
+   * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
+   * @returns {HistoricItem[]}
+   */
+  getAllStatesSince (timestamp, serviceId) {
+    return _javaIterableOfJavaHistoricItemsToJsArrayOfHistoricItems(PersistenceExtensions.getAllStatesSince(this.rawItem, ...arguments));
   }
 
   /**
