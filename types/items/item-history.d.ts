@@ -146,6 +146,23 @@ export class ItemHistory {
      */
     evolutionRateSince(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (number | null);
     /**
+     * Retrieves the {@link HistoricItems} for for a given Item between two certain points in time.
+     *
+     * @param {(time.ZonedDateTime | Date)} begin begin
+     * @param {(time.ZonedDateTime | Date)} end end
+     * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
+     * @returns {HistoricItem[]}
+     */
+    getAllStatesBetween(begin: (time.ZonedDateTime | Date), end: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): HistoricItem[];
+    /**
+     * Retrieves the {@link HistoricItems} for for a given Item since a certain point in time.
+     *
+     * @param {(time.ZonedDateTime | Date)} timestamp
+     * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
+     * @returns {HistoricItem[]}
+     */
+    getAllStatesSince(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): HistoricItem[];
+    /**
      * Retrieves the historic state for a given Item at a certain point in time.
      *
      * @param {(time.ZonedDateTime | Date)} timestamp
@@ -266,18 +283,6 @@ export class ItemHistory {
      * @returns {(number | null)}
      */
     varianceSince(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (number | null);
-    /**
-     * @private
-     */
-    private _dateOrNull;
-    /**
-     * @private
-     */
-    private _decimalOrNull;
-    /**
-     * @private
-     */
-    private _historicItemOrNull;
 }
 /**
  * Class representing an openHAB HistoricItem
@@ -290,31 +295,32 @@ export class HistoricItem {
      * @param {*} rawHistoricItem {@link https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/historicitem org.openhab.core.persistence.HistoricItem}
      */
     constructor(rawHistoricItem: any);
+    rawHistoricItem: any;
     /**
      * Raw Java Item state
      * @type {HostState}
      */
     rawState: HostState;
     /**
-     * Item state
+     * String representation of the Item state.
      * @type {string}
      */
-    state: string;
+    get state(): string;
     /**
      * Numeric representation of Item state, or `null` if state is not numeric
      * @type {number|null}
      */
-    numericState: number | null;
+    get numericState(): number;
     /**
-     * Item state as {@link Quantity} or `null` if state is not Quantity-compatible
+     * Item state as {@link Quantity} or `null` if state is not Quantity-compatible or Quantity would be unit-less (without unit)
      * @type {Quantity|null}
      */
-    quantityState: Quantity | null;
+    get quantityState(): import("../quantity").Quantity;
     /**
-     * timestamp of persisted Item
+     * Timestamp of persisted Item.
      * @type {time.ZonedDateTime}
      */
-    timestamp: time.ZonedDateTime;
+    get timestamp(): JSJoda.ZonedDateTime;
 }
 declare namespace time {
     type ZonedDateTime = import('@js-joda/core').ZonedDateTime;
