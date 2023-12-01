@@ -22,6 +22,7 @@ class HistoricItem {
    * @param {*} rawHistoricItem {@link https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/historicitem org.openhab.core.persistence.HistoricItem}
    */
   constructor (rawHistoricItem) {
+    this.rawHistoricItem = rawHistoricItem;
     /**
      * Raw Java Item state
      * @type {HostState}
@@ -68,7 +69,7 @@ class HistoricItem {
    * @type {time.ZonedDateTime}
    */
   get timestamp () {
-    return utils.javaZDTToJsZDT(rawHistoricItem.getTimestamp());
+    return utils.javaZDTToJsZDT(this.rawHistoricItem.getTimestamp());
   }
 }
 
