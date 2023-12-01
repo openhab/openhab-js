@@ -72,6 +72,20 @@ class HistoricItem {
   }
 }
 
+function _ZDTOrNull (result) {
+  return result === null ? null : time.ZonedDateTime.parse(result.toString());
+}
+
+function _decimalOrNull (result) {
+  return result === null ? null : result.toBigDecimal();
+}
+
+function _historicItemOrNull (result) {
+  if (result === null) return null;
+  return new HistoricItem(result);
+}
+
+
 /**
  * Class representing the historic state of an openHAB Item.
  * If the Item receives its state from a binding that supports units of measurement, the returned state is in the according base unit, otherwise there is no unit conversion happening.
@@ -96,7 +110,7 @@ class ItemHistory {
    * @returns {(number | null)}
    */
   averageBetween (begin, end, serviceId) {
-    return this._decimalOrNull(PersistenceExtensions.averageBetween(this.rawItem, ...arguments));
+    return _decimalOrNull(PersistenceExtensions.averageBetween(this.rawItem, ...arguments));
   }
 
   /**
@@ -112,7 +126,7 @@ class ItemHistory {
    * @returns {(number | null)}
    */
   averageSince (timestamp, serviceId) {
-    return this._decimalOrNull(PersistenceExtensions.averageSince(this.rawItem, ...arguments));
+    return _decimalOrNull(PersistenceExtensions.averageSince(this.rawItem, ...arguments));
   }
 
   /**
@@ -193,7 +207,7 @@ class ItemHistory {
    * @returns {(number | null)}
    */
   deltaBetween (begin, end, serviceId) {
-    return this._decimalOrNull(PersistenceExtensions.deltaBetween(this.rawItem, ...arguments));
+    return _decimalOrNull(PersistenceExtensions.deltaBetween(this.rawItem, ...arguments));
   }
 
   /**
@@ -204,7 +218,7 @@ class ItemHistory {
    * @returns {(number | null)}
    */
   deltaSince (timestamp, serviceId) {
-    return this._decimalOrNull(PersistenceExtensions.deltaSince(this.rawItem, ...arguments));
+    return _decimalOrNull(PersistenceExtensions.deltaSince(this.rawItem, ...arguments));
   }
 
   /**
@@ -216,7 +230,7 @@ class ItemHistory {
    * @returns {(number | null)}
    */
   deviationBetween (begin, end, serviceId) {
-    return this._decimalOrNull(PersistenceExtensions.deviationBetween(this.rawItem, ...arguments));
+    return _decimalOrNull(PersistenceExtensions.deviationBetween(this.rawItem, ...arguments));
   }
 
   /**
@@ -227,7 +241,7 @@ class ItemHistory {
    * @returns {(number | null)}
    */
   deviationSince (timestamp, serviceId) {
-    return this._decimalOrNull(PersistenceExtensions.deviationSince(this.rawItem, ...arguments));
+    return _decimalOrNull(PersistenceExtensions.deviationSince(this.rawItem, ...arguments));
   }
 
   /**
@@ -240,7 +254,7 @@ class ItemHistory {
    */
   evolutionRate (timestamp, serviceId) {
     console.warn('"evolutionRate" is deprecated and will be removed in the future. Use "evolutionRateSince" instead.');
-    return this._decimalOrNull(PersistenceExtensions.evolutionRate(this.rawItem, ...arguments));
+    return _decimalOrNull(PersistenceExtensions.evolutionRate(this.rawItem, ...arguments));
   }
 
   /**
@@ -252,7 +266,7 @@ class ItemHistory {
    * @returns {(number | null)}
    */
   evolutionRateBetween (begin, end, serviceId) {
-    return this._decimalOrNull(PersistenceExtensions.evolutionRate(this.rawItem, ...arguments));
+    return _decimalOrNull(PersistenceExtensions.evolutionRate(this.rawItem, ...arguments));
   }
 
   /**
@@ -263,7 +277,8 @@ class ItemHistory {
    * @returns {(number | null)}
    */
   evolutionRateSince (timestamp, serviceId) {
-    return this._decimalOrNull(PersistenceExtensions.evolutionRate(this.rawItem, ...arguments));
+    return _decimalOrNull(PersistenceExtensions.evolutionRate(this.rawItem, ...arguments));
+  }
   }
 
   /**
@@ -274,7 +289,7 @@ class ItemHistory {
    * @returns {(HistoricItem | null)} historic item
    */
   historicState (timestamp, serviceId) {
-    return this._historicItemOrNull(PersistenceExtensions.historicState(this.rawItem, ...arguments));
+    return _historicItemOrNull(PersistenceExtensions.historicState(this.rawItem, ...arguments));
   }
 
   /**
@@ -284,7 +299,7 @@ class ItemHistory {
    * @returns {(time.ZonedDateTime | null)}
    */
   lastUpdate (serviceId) {
-    return this._dateOrNull(PersistenceExtensions.lastUpdate(this.rawItem, ...arguments));
+    return _ZDTOrNull(PersistenceExtensions.lastUpdate(this.rawItem, ...arguments));
   }
 
   /**
@@ -307,7 +322,7 @@ class ItemHistory {
    * @returns {(HistoricItem | null)} historic item or null
    */
   maximumBetween (begin, end, serviceId) {
-    return this._historicItemOrNull(PersistenceExtensions.maximumBetween(this.rawItem, ...arguments));
+    return _historicItemOrNull(PersistenceExtensions.maximumBetween(this.rawItem, ...arguments));
   }
 
   /**
@@ -318,7 +333,7 @@ class ItemHistory {
    * @returns {(HistoricItem | null)} historic item or null
    */
   maximumSince (timestamp, serviceId) {
-    return this._historicItemOrNull(PersistenceExtensions.maximumSince(this.rawItem, ...arguments));
+    return _historicItemOrNull(PersistenceExtensions.maximumSince(this.rawItem, ...arguments));
   }
 
   /**
@@ -330,7 +345,7 @@ class ItemHistory {
    * @returns {(HistoricItem | null)} historic item or null
    */
   minimumBetween (begin, end, serviceId) {
-    return this._historicItemOrNull(PersistenceExtensions.minimumBetween(this.rawItem, ...arguments));
+    return _historicItemOrNull(PersistenceExtensions.minimumBetween(this.rawItem, ...arguments));
   }
 
   /**
@@ -341,7 +356,7 @@ class ItemHistory {
    * @returns {(HistoricItem | null)} historic item or null
    */
   minimumSince (timestamp, serviceId) {
-    return this._historicItemOrNull(PersistenceExtensions.minimumSince(this.rawItem, ...arguments));
+    return _historicItemOrNull(PersistenceExtensions.minimumSince(this.rawItem, ...arguments));
   }
 
   /**
@@ -361,7 +376,7 @@ class ItemHistory {
    * @returns {(HistoricItem | null)} historic item or null
    */
   previousState (skipEqual, serviceId) {
-    return this._historicItemOrNull(PersistenceExtensions.previousState(this.rawItem, ...arguments));
+    return _historicItemOrNull(PersistenceExtensions.previousState(this.rawItem, ...arguments));
   }
 
   /**
@@ -373,7 +388,7 @@ class ItemHistory {
    * @returns {(number | null)}
    */
   sumBetween (begin, end, serviceId) {
-    return this._decimalOrNull(PersistenceExtensions.sumBetween(this.rawItem, ...arguments));
+    return _decimalOrNull(PersistenceExtensions.sumBetween(this.rawItem, ...arguments));
   }
 
   /**
@@ -384,7 +399,7 @@ class ItemHistory {
    * @returns {(number | null)}
    */
   sumSince (timestamp, serviceId) {
-    return this._decimalOrNull(PersistenceExtensions.sumSince(this.rawItem, ...arguments));
+    return _decimalOrNull(PersistenceExtensions.sumSince(this.rawItem, ...arguments));
   }
 
   /**
@@ -419,7 +434,7 @@ class ItemHistory {
    * @returns {(number | null)}
    */
   varianceBetween (begin, end, serviceId) {
-    return this._decimalOrNull(PersistenceExtensions.varianceBetween(this.rawItem, ...arguments));
+    return _decimalOrNull(PersistenceExtensions.varianceBetween(this.rawItem, ...arguments));
   }
 
   /**
@@ -430,31 +445,7 @@ class ItemHistory {
    * @returns {(number | null)}
    */
   varianceSince (timestamp, serviceId) {
-    return this._decimalOrNull(PersistenceExtensions.varianceSince(this.rawItem, ...arguments));
-  }
-
-  /**
-   * @private
-   */
-  _dateOrNull (result) {
-    return result === null ? null : time.ZonedDateTime.parse(result.toString());
-  }
-
-  /**
-   * @private
-   */
-  _decimalOrNull (result) {
-    return result === null ? null : result.toBigDecimal();
-  }
-
-  /**
-   * @private
-   */
-  _historicItemOrNull (result) {
-    if (result === null) {
-      return null;
-    }
-    return new HistoricItem(result);
+    return _decimalOrNull(PersistenceExtensions.varianceSince(this.rawItem, ...arguments));
   }
 }
 
