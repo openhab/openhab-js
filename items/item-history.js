@@ -27,35 +27,48 @@ class HistoricItem {
      * @type {HostState}
      */
     this.rawState = rawHistoricItem.getState();
-    /**
-     * Item state
-     * @type {string}
-     */
-    this.state = this.rawState.toString();
-    const numeric = parseFloat(this.state.toString());
-    /**
-     * Numeric representation of Item state, or `null` if state is not numeric
-     * @type {number|null}
-     */
-    this.numericState = isNaN(numeric) ? null : numeric;
-    let quantity = null;
+  }
+
+  /**
+   * String representation of the Item state.
+   * @type {string}
+   */
+  get state () {
+    return this.rawState.toString();
+  }
+
+  /**
+   * Numeric representation of Item state, or `null` if state is not numeric
+   * @type {number|null}
+   */
+  get numericState () {
+    const numericState = parseFloat(this.rawState.toString());
+    return isNaN(numericState) ? null : numericState;
+  }
+
+  /**
+   * Item state as {@link Quantity} or `null` if state is not Quantity-compatible or Quantity would be unit-less (without unit)
+   * @type {Quantity|null}
+   */
+  get quantityState () {
     try {
-      quantity = getQuantity(this.state);
+      const qty = getQuantity(this.rawState.toString());
+      return (qty !== null && qty.symbol !== null) ? qty : null;
     } catch (e) {
-      if (!(e instanceof QuantityError)) {
+      if (e instanceof QuantityError) {
+        return null;
+      } else {
         throw Error('Failed to create "quantityState": ' + e);
       }
     }
-    /**
-     * Item state as {@link Quantity} or `null` if state is not Quantity-compatible
-     * @type {Quantity|null}
-     */
-    this.quantityState = quantity;
-    /**
-     * timestamp of persisted Item
-     * @type {time.ZonedDateTime}
-     */
-    this.timestamp = utils.javaZDTToJsZDT(rawHistoricItem.getTimestamp());
+  }
+
+  /**
+   * Timestamp of persisted Item.
+   * @type {time.ZonedDateTime}
+   */
+  get timestamp () {
+    return utils.javaZDTToJsZDT(rawHistoricItem.getTimestamp());
   }
 }
 
