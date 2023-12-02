@@ -67,7 +67,7 @@ describe('time.js', () => {
       });
     });
 
-    describe('parses ISO DateTime with zone offset and time zone', () => {
+    describe('parses ISO DateTime with zone offset and timezone', () => {
       it.each([
         ['YYYY-MM-DDThh:mm:ss.f+HH:mm[SYSTEM]', '2016-03-18T12:38:23.561+01:00[SYSTEM]'],
         ['YYYY-MM-DDThh:mm:ssZ', '2022-12-24T18:30:35Z'],
@@ -78,7 +78,7 @@ describe('time.js', () => {
       });
     });
 
-    describe('parses ISO DateTime with zone offset and without time zone and defaults to SYSTEM time zone', () => {
+    describe('parses ISO DateTime with zone offset and without time zone and defaults to SYSTEM timezone', () => {
       it.each([
         ['YYYY-MM-DDThh:mm:ss.f+HH:mm', '2016-03-18T12:38:23.561+01:00'],
         ['YYYY-MM-DDThh:mm:ss.f-HH:mm', '2016-03-18T12:38:23.56-04:30'],
