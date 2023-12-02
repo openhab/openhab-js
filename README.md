@@ -511,6 +511,8 @@ Calling `Item.history` returns an `ItemHistory` object with the following functi
   - .deviationSince(timestamp, serviceId) ⇒ `number | null`
   - .evolutionRateBetween(begin, end, serviceId) ⇒ `number | null`
   - .evolutionRateSince(timestamp, serviceId) ⇒ `number | null`
+  - .getAllStatesBetween(begin, end, serviceId)  ⇒ `Array[HistoricItem]`
+  - .getAllStatesSince(timestamp, serviceId)  ⇒ `Array[HistoricItem]`
   - .historicState(timestamp, serviceId) ⇒ `HistoricItem | null`
   - .lastUpdate(serviceId) ⇒ `ZonedDateTime | null`
   - .latestState(serviceId) ⇒ `string | null`
