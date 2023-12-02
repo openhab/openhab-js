@@ -167,7 +167,7 @@ function _convertItem (item) {
   } else if (item.rawState instanceof StringType) { // String type Items
     return _parseString(item.state);
   } else if (item.rawState instanceof DateTimeType) { // DateTime Items
-    return utils.javaZDTToJsZDT(item.rawState.getZonedDateTime());
+    return utils.javaZDTToJsZDTWithDefaultZoneSystem(item.rawState.getZonedDateTime());
   } else if (item.rawState instanceof QuantityType) { // Number:Time type Items
     return _addQuantityType(item.rawState);
   } else {
@@ -232,12 +232,12 @@ function toZDT (when) {
 
   // Java ZDT
   if (when instanceof javaZDT) {
-    return utils.javaZDTToJsZDT(when);
+    return utils.javaZDTToJsZDTWithDefaultZoneSystem(when);
   }
 
   // DateTimeType, extract the javaZDT and convert to time.ZDT
   if (when instanceof DateTimeType) {
-    return utils.javaZDTToJsZDT(when.getZonedDateTime());
+    return utils.javaZDTToJsZDTWithDefaultZoneSystem(when.getZonedDateTime());
   }
 
   // Quantity
