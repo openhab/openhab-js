@@ -227,7 +227,7 @@ function javaInstantToJsInstant (instant) {
 }
 
 /**
- * Convert Java ZonedDateTime to JS-Joda.
+ * Convert Java ZonedDateTime to JS-Joda ZonedDateTime.
  *
  * @memberOf utils
  * @param {JavaZonedDateTime} zdt {@link https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/ZonedDateTime.html java.time.ZonedDateTime}
@@ -238,6 +238,21 @@ function javaZDTToJsZDT (zdt) {
   const instant = time.Instant.ofEpochMilli(epoch);
   const zone = time.ZoneId.of(zdt.getZone().toString());
   return time.ZonedDateTime.ofInstant(instant, zone);
+}
+
+/**
+ * Convert Java ZonedDateTime to JS-Joda ZonedDateTime and default to SYSTEM timezone if not explicitly set.
+ *
+ * @memberOf utils
+ * @param {JavaZonedDateTime} zdt {@link https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/ZonedDateTime.html java.time.ZonedDateTime}
+ * @returns {time.ZonedDateTime} {@link https://js-joda.github.io/js-joda/class/packages/core/src/ZonedDateTime.js~ZonedDateTime.html JS-Joda ZonedDateTime}
+ */
+function javaZDTToJsZDTWithDefaultZoneSystem (zdt) {
+  const jsZDT = javaZDTToJsZDT(zdt);
+  if (/^[+-]*/.test(jsZDT.zone().toString())) {
+    return jsZDT.withZoneSameLocal(time.ZoneId.SYSTEM);
+  }
+  return jsZDT;
 }
 
 module.exports = {
@@ -254,5 +269,6 @@ module.exports = {
   isJsInstanceOfJava,
   javaInstantToJsInstant,
   javaZDTToJsZDT,
+  javaZDTToJsZDTWithDefaultZoneSystem,
   OPENHAB_JS_VERSION: VERSION
 };

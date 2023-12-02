@@ -90,13 +90,15 @@ function _parseISO8601 (isoStr) {
     LOCAL_DATE: /^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])$/, // YYYY-MM-DD
     LOCAL_TIME: /^\d{2}:\d{2}(:\d{2})?(\.\d+)?$/, // hh:mm or hh:mm:ss or hh:mm:ss.f
     LOCAL_DATE_TIME: /^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T\d{2}:\d{2}(:\d{2})?(\.\d+)?$/, // LOCAL_DATE and LOCAL_TIME connected with "T"
-    ISO_8160_FULL: /^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9])(:[0-5][0-9])?(\.\d+)?(Z|[+-]\d{2}(:\d{2})?)/
+    ISO_8601_FULL: /^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9])(:[0-5][0-9])?(\.\d+)?(Z|[+-]\d{2}(:\d{2})?\[.*\])/, // with Zone ID
+    ISO_8601_OFFSET: /^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9])(:[0-5][0-9])?(\.\d+)?(Z|[+-]\d{2}(:\d{2})$)/ // offset only
   };
   switch (true) {
     case REGEX.LOCAL_DATE.test(isoStr): return time.ZonedDateTime.of(time.LocalDate.parse(isoStr), time.LocalTime.MIDNIGHT, time.ZoneId.SYSTEM);
     case REGEX.LOCAL_TIME.test(isoStr): return time.ZonedDateTime.of(time.LocalDate.now(), time.LocalTime.parse(isoStr), time.ZoneId.SYSTEM);
     case REGEX.LOCAL_DATE_TIME.test(isoStr): return time.ZonedDateTime.of(time.LocalDateTime.parse(isoStr), time.ZoneId.SYSTEM);
-    case REGEX.ISO_8160_FULL.test(isoStr): return time.ZonedDateTime.parse(isoStr);
+    case REGEX.ISO_8601_FULL.test(isoStr): return time.ZonedDateTime.parse(isoStr);
+    case REGEX.ISO_8601_OFFSET.test(isoStr): return time.ZonedDateTime.parse(isoStr).withZoneSameLocal(time.ZoneId.SYSTEM);
   }
   return null;
 }
@@ -165,7 +167,7 @@ function _convertItem (item) {
   } else if (item.rawState instanceof StringType) { // String type Items
     return _parseString(item.state);
   } else if (item.rawState instanceof DateTimeType) { // DateTime Items
-    return utils.javaZDTToJsZDT(item.rawState.getZonedDateTime());
+    return utils.javaZDTToJsZDTWithDefaultZoneSystem(item.rawState.getZonedDateTime());
   } else if (item.rawState instanceof QuantityType) { // Number:Time type Items
     return _addQuantityType(item.rawState);
   } else {
@@ -230,12 +232,12 @@ function toZDT (when) {
 
   // Java ZDT
   if (when instanceof javaZDT) {
-    return utils.javaZDTToJsZDT(when);
+    return utils.javaZDTToJsZDTWithDefaultZoneSystem(when);
   }
 
   // DateTimeType, extract the javaZDT and convert to time.ZDT
   if (when instanceof DateTimeType) {
-    return utils.javaZDTToJsZDT(when.getZonedDateTime());
+    return utils.javaZDTToJsZDTWithDefaultZoneSystem(when.getZonedDateTime());
   }
 
   // Quantity

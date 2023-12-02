@@ -96,13 +96,21 @@ export function isJsInstanceOfJava(instance: any, type: JavaClass): boolean;
  */
 export function javaInstantToJsInstant(instant: JavaInstant): time.Instant;
 /**
- * Convert Java ZonedDateTime to JS-Joda.
+ * Convert Java ZonedDateTime to JS-Joda ZonedDateTime.
  *
  * @memberOf utils
  * @param {JavaZonedDateTime} zdt {@link https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/ZonedDateTime.html java.time.ZonedDateTime}
  * @returns {time.ZonedDateTime} {@link https://js-joda.github.io/js-joda/class/packages/core/src/ZonedDateTime.js~ZonedDateTime.html JS-Joda ZonedDateTime}
  */
 export function javaZDTToJsZDT(zdt: JavaZonedDateTime): time.ZonedDateTime;
+/**
+ * Convert Java ZonedDateTime to JS-Joda ZonedDateTime and default to SYSTEM timezone if not explicitly set.
+ *
+ * @memberOf utils
+ * @param {JavaZonedDateTime} zdt {@link https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/ZonedDateTime.html java.time.ZonedDateTime}
+ * @returns {time.ZonedDateTime} {@link https://js-joda.github.io/js-joda/class/packages/core/src/ZonedDateTime.js~ZonedDateTime.html JS-Joda ZonedDateTime}
+ */
+export function javaZDTToJsZDTWithDefaultZoneSystem(zdt: JavaZonedDateTime): time.ZonedDateTime;
 /**
  * openHAB JavaScript library version
  *
