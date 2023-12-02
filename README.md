@@ -836,6 +836,7 @@ The following rules are used during the conversion:
 | `"kk:mm[:ss][ ]a"` (12 hour time)                                            | today's date with the time indicated, the space between the time and am/pm and seconds are optional             | `time.toZDT('1:23:45 PM');`                                                            |
 | [ISO 8601 Duration](https://en.wikipedia.org/wiki/ISO_8601#Durations) String | added to `now`                                                                                                  | `time.toZDT('PT1H4M6.789S');`                                                          |
 
+If no time zone is explicitly set, the system default time zone is used.
 When a type or string that cannot be handled is encountered, an error is thrown.
 
 #### `toToday()`
