@@ -299,17 +299,19 @@ The string representations of each of these objects are appended together in the
 <h4><code>setTimeout</code></h4>
 <p>The global <a href="https://developer.mozilla.org/en-US/docs/Web/API/setTimeout"><code>setTimeout()</code></a> method sets a timer which executes a function once the timer expires.
 <code>setTimeout()</code> returns a <code>timeoutId</code> (a positive integer value) which identifies the timer created.</p>
-<pre class="prettyprint source lang-javascript"><code>var timeoutId = setTimeout(callbackFunction, delay);
+<pre class="prettyprint source lang-javascript"><code>var timeoutId = setTimeout(callbackFunction, delay, param1, /* ... */ paramN);
 </code></pre>
-<p><code>delay</code> is an integer value that represents the amount of milliseconds to wait before the timer expires.</p>
+<p><code>delay</code> is an integer value that represents the amount of milliseconds to wait before the timer expires.
+<code>param1</code> ... <code>paramN</code> are optional, additional arguments which are passed through to the <code>callbackFunction</code>.</p>
 <p>The global <a href="https://developer.mozilla.org/en-US/docs/Web/API/clearTimeout"><code>clearTimeout(timeoutId)</code></a> method cancels a timeout previously established by calling <code>setTimeout()</code>.</p>
 <p>If you need a more verbose way of creating timers, consider to use <a href="#createtimer"><code>createTimer</code></a> instead.</p>
 <h4><code>setInterval</code></h4>
 <p>The global <a href="https://developer.mozilla.org/en-US/docs/Web/API/setInterval"><code>setInterval()</code></a> method repeatedly calls a function, with a fixed time delay between each call.
 <code>setInterval()</code> returns an <code>intervalId</code> (a positive integer value) which identifies the interval created.</p>
-<pre class="prettyprint source lang-javascript"><code>var intervalId = setInterval(callbackFunction, delay);
+<pre class="prettyprint source lang-javascript"><code>var intervalId = setInterval(callbackFunction, delay, param1, /* ... */ paramN);
 </code></pre>
-<p><code>delay</code> is an integer value that represents the amount of milliseconds to wait before the timer expires.</p>
+<p><code>delay</code> is an integer value that represents the amount of milliseconds to wait before the timer expires.
+<code>param1</code> ... <code>paramN</code> are optional, additional arguments which are passed through to the <code>callbackFunction</code>.</p>
 <p>The global <a href="https://developer.mozilla.org/en-US/docs/Web/API/clearInterval"><code>clearInterval(intervalId)</code></a> method cancels a timed, repeating action which was previously established by a call to <code>setInterval()</code>.</p>
 <h4>Accessing Variables</h4>
 <p>You can access all variables of the current context in the created timers.</p>
@@ -319,26 +321,38 @@ Be aware that this can lead to unattended side effects, e.g. when you change the
 
 // Schedule a timer that expires in ten seconds
 setTimeout(() => {
-  console.info(`Timer expired with myVar = &quot;${myVar}&quot;`);
-}, 10000);
+  console.info(`Timer expired with variable value = &quot;${myVar}&quot;`);
+}, 1000);
 
 myVar = 'Hello mutation!'; // When the timer runs, it will log &quot;Hello mutation!&quot; instead of &quot;Hello world!&quot;
 </code></pre>
-<p>If you need to pass some variables to the timer but avoid that they can get mutated, use a function generator.</p>
+<p>If you need to pass some variables to the timer but avoid that they can get mutated, use a function generator or pass those variables as parameters to <code>setTimeout</code>/<code>setInterval</code>.</p>
 <p><strong>Pass variables using a function generator</strong> <!-- markdownlint-disable-line MD036 --></p>
 <p>This allows you to pass variables to the timer's callback function during timer creation.
 The variables can NOT be mutated after the timer function generator was used to create the callback function.</p>
 <pre class="prettyprint source lang-javascript"><code>// Function generator for the timer's callback function
 function cbFuncGen (myVariable) {
   return function () {
-    console.info(`Timer expired with myVar = &quot;${myVariable}&quot;`);
+    console.info(`Timer expired with variable value = &quot;${myVariable}&quot;`);
   };
 }
 
 var myVar = 'Hello world!';
 
 // Schedule a timer that expires in ten seconds
-setTimeout(cbFuncGen(myVar), 10000);
+setTimeout(cbFuncGen(myVar), 1000);
+
+myVar = 'Hello mutation!'; // When the timer runs, it will log &quot;Hello world!&quot;
+</code></pre>
+<p>This also works for timers created with <a href="#createtimer"><code>actions.ScriptExecution.createTimer</code></a>.</p>
+<p><strong>Pass variables as parameters to <code>setTimeout</code>/<code>setInterval</code></strong> <!-- markdownlint-disable-line MD036 --></p>
+<p>Another and more user friendly-way to avoid having variables mutated is to pass those variables as parameters to <code>setTimeout</code>/<code>setInterval</code>.</p>
+<pre class="prettyprint source lang-javascript"><code>var myVar = 'Hello world!';
+
+// Schedule a timer that expires in ten seconds
+setTimeout((myVariable) => {
+  console.info(`Timer expired with variable value = &quot;${myVariable}&quot;`);
+}, 1000, myVar); // Pass one or more variables as parameters here. They are passed through to the callback function.
 
 myVar = 'Hello mutation!'; // When the timer runs, it will log &quot;Hello world!&quot;
 </code></pre>
@@ -637,7 +651,8 @@ var response = actions.HTTP.sendHttpGetRequest('&lt;url>');
 <p>You can also create timers using the <a href="#timers">native JS methods for timer creation</a>, your choice depends on the versatility you need.
 Sometimes, using <code>setTimeout</code> is much faster and easier, but other times, you need the versatility that <code>createTimer</code> provides.</p>
 <p>Keep in mind that you should somehow manage the timers you create using <code>createTimer</code>, otherwise you could end up with unmanageable timers running until you restart openHAB.
-A possible solution is to store all timers in the <a href="#cache">private cache</a> and let openHAB automatically cancel them when the script is unloaded and the cache is cleared.</p>
+A possible solution is to store all timers in the <a href="#cache">private cache</a> and let openHAB automatically cancel them when the script is unloaded and the cache is cleared.
+When using <code>createTimer</code>, please read <a href="#accessing-variables">Accessing Variables</a> to avoid having unexpected results when using variables in timers.</p>
 <h5><code>createTimer</code></h5>
 <pre class="prettyprint source lang-javascript"><code>actions.ScriptExecution.createTimer(time.ZonedDateTime instant, function callback);
 
@@ -1630,7 +1645,7 @@ Generally speaking, you should prefer to use <a href="#standard-library">Standar
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.0</a> on Sat Dec 02 2023 00:57:27 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.0</a> on Sun Dec 03 2023 09:04:01 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
