@@ -253,10 +253,11 @@ The global [`setTimeout()`](https://developer.mozilla.org/en-US/docs/Web/API/set
 `setTimeout()` returns a `timeoutId` (a positive integer value) which identifies the timer created.
 
 ```javascript
-var timeoutId = setTimeout(callbackFunction, delay);
+var timeoutId = setTimeout(callbackFunction, delay, param1, /* ... */ paramN);
 ```
 
 `delay` is an integer value that represents the amount of milliseconds to wait before the timer expires.
+`param1` ... `paramN` are optional, additional arguments which are passed through to the `callbackFunction`.
 
 The global [`clearTimeout(timeoutId)`](https://developer.mozilla.org/en-US/docs/Web/API/clearTimeout) method cancels a timeout previously established by calling `setTimeout()`.
 
@@ -268,10 +269,11 @@ The global [`setInterval()`](https://developer.mozilla.org/en-US/docs/Web/API/se
 `setInterval()` returns an `intervalId` (a positive integer value) which identifies the interval created.
 
 ```javascript
-var intervalId = setInterval(callbackFunction, delay);
+var intervalId = setInterval(callbackFunction, delay, param1, /* ... */ paramN);
 ```
 
 `delay` is an integer value that represents the amount of milliseconds to wait before the timer expires.
+`param1` ... `paramN` are optional, additional arguments which are passed through to the `callbackFunction`.
 
 The global [`clearInterval(intervalId)`](https://developer.mozilla.org/en-US/docs/Web/API/clearInterval) method cancels a timed, repeating action which was previously established by a call to `setInterval()`.
 
@@ -287,13 +289,13 @@ var myVar = 'Hello world!';
 
 // Schedule a timer that expires in ten seconds
 setTimeout(() => {
-  console.info(`Timer expired with myVar = "${myVar}"`);
-}, 10000);
+  console.info(`Timer expired with variable value = "${myVar}"`);
+}, 1000);
 
 myVar = 'Hello mutation!'; // When the timer runs, it will log "Hello mutation!" instead of "Hello world!"
 ```
 
-If you need to pass some variables to the timer but avoid that they can get mutated, use a function generator.
+If you need to pass some variables to the timer but avoid that they can get mutated, use a function generator or pass those variables as parameters to `setTimeout`/`setInterval`.
 
 **Pass variables using a function generator** <!-- markdownlint-disable-line MD036 -->
 
@@ -304,14 +306,31 @@ The variables can NOT be mutated after the timer function generator was used to 
 // Function generator for the timer's callback function
 function cbFuncGen (myVariable) {
   return function () {
-    console.info(`Timer expired with myVar = "${myVariable}"`);
+    console.info(`Timer expired with variable value = "${myVariable}"`);
   };
 }
 
 var myVar = 'Hello world!';
 
 // Schedule a timer that expires in ten seconds
-setTimeout(cbFuncGen(myVar), 10000);
+setTimeout(cbFuncGen(myVar), 1000);
+
+myVar = 'Hello mutation!'; // When the timer runs, it will log "Hello world!"
+```
+
+This also works for timers created with [`actions.ScriptExecution.createTimer`](#createtimer).
+
+**Pass variables as parameters to `setTimeout`/`setInterval`** <!-- markdownlint-disable-line MD036 -->
+
+Another and more user friendly-way to avoid having variables mutated is to pass those variables as parameters to `setTimeout`/`setInterval`.
+
+```javascript
+var myVar = 'Hello world!';
+
+// Schedule a timer that expires in ten seconds
+setTimeout((myVariable) => {
+  console.info(`Timer expired with variable value = "${myVariable}"`);
+}, 1000, myVar); // Pass one or more variables as parameters here. They are passed through to the callback function.
 
 myVar = 'Hello mutation!'; // When the timer runs, it will log "Hello world!"
 ```
@@ -657,6 +676,7 @@ Sometimes, using `setTimeout` is much faster and easier, but other times, you ne
 
 Keep in mind that you should somehow manage the timers you create using `createTimer`, otherwise you could end up with unmanageable timers running until you restart openHAB.
 A possible solution is to store all timers in the [private cache](#cache) and let openHAB automatically cancel them when the script is unloaded and the cache is cleared.
+When using `createTimer`, please read [Accessing Variables](#accessing-variables) to avoid having unexpected results when using variables in timers.
 
 ##### `createTimer`
 
