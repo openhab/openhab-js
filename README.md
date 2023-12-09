@@ -295,34 +295,8 @@ setTimeout(() => {
 myVar = 'Hello mutation!'; // When the timer runs, it will log "Hello mutation!" instead of "Hello world!"
 ```
 
-If you need to pass some variables to the timer but avoid that they can get mutated, use a function generator or pass those variables as parameters to `setTimeout`/`setInterval`.
+If you need to pass some variables to the timer but avoid that they can get mutated, pass those variables as parameters to `setTimeout`/`setInterval` or `createTimer`:
 
-**Pass variables using a function generator** <!-- markdownlint-disable-line MD036 -->
-
-This allows you to pass variables to the timer's callback function during timer creation.
-The variables can NOT be mutated after the timer function generator was used to create the callback function.
-
-```javascript
-// Function generator for the timer's callback function
-function cbFuncGen (myVariable) {
-  return function () {
-    console.info(`Timer expired with variable value = "${myVariable}"`);
-  };
-}
-
-var myVar = 'Hello world!';
-
-// Schedule a timer that expires in ten seconds
-setTimeout(cbFuncGen(myVar), 1000);
-
-myVar = 'Hello mutation!'; // When the timer runs, it will log "Hello world!"
-```
-
-This also works for timers created with [`actions.ScriptExecution.createTimer`](#createtimer).
-
-**Pass variables as parameters to `setTimeout`/`setInterval`** <!-- markdownlint-disable-line MD036 -->
-
-Another and more user friendly-way to avoid having variables mutated is to pass those variables as parameters to `setTimeout`/`setInterval`.
 
 ```javascript
 var myVar = 'Hello world!';
@@ -334,6 +308,8 @@ setTimeout((myVariable) => {
 
 myVar = 'Hello mutation!'; // When the timer runs, it will log "Hello world!"
 ```
+
+This also works for timers created with [`actions.ScriptExecution.createTimer`](#createtimer).
 
 ### Paths
 
@@ -681,16 +657,17 @@ When using `createTimer`, please read [Accessing Variables](#accessing-variables
 ##### `createTimer`
 
 ```javascript
-actions.ScriptExecution.createTimer(time.ZonedDateTime instant, function callback);
+actions.ScriptExecution.createTimer(time.ZonedDateTime zdt, function functionRef, any param1, /* ... */ paramN);
 
-actions.ScriptExecution.createTimer(string identifier, time.ZonedDateTime instant, function callback);
+actions.ScriptExecution.createTimer(string identifier, time.ZonedDateTime zdt, function functionRef, any param1, /* ... */ paramN);
 ```
 
 `createTimer` accepts the following arguments:
 
 - `string` identifier (optional): Identifies the timer by a string, used e.g. for logging errors that occur during the callback execution.
-- [`time.ZonedDateTime`](#timetozdt) instant: Point in time when the callback should be executed.
-- `function` callback: Callback function to execute when the timer expires.
+- [`time.ZonedDateTime`](#timetozdt) zdt: Point in time when the callback should be executed.
+- `function` functionRef: Callback function to execute when the timer expires.
+- `*` param1, ..., paramN: Additional arguments which are passed through to the function specified by `functionRef`.
 
 `createTimer` returns an openHAB Timer, that provides the following methods:
 

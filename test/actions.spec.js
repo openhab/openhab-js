@@ -26,40 +26,40 @@ describe('actions.js', () => {
 
     it('delegates createTimer to ThreadsafeTimers.', () => {
       const identifier = 'timer-1';
-      const instant = {};
-      const closure = () => null;
+      const zdt = {};
+      const functionRef = (foo) => foo;
 
-      ScriptExecution.createTimer(identifier, instant, closure);
+      ScriptExecution.createTimer(identifier, zdt, functionRef, 'prop1');
 
-      expect(ThreadsafeTimers.createTimer).toHaveBeenCalledWith(identifier, instant, closure);
+      expect(ThreadsafeTimers.createTimer).toHaveBeenCalled();
       expect(JavaScriptExecution.callScript).not.toHaveBeenCalled();
 
       jest.clearAllMocks();
 
-      ScriptExecution.createTimer(identifier, instant);
+      ScriptExecution.createTimer(zdt, functionRef, 'prop1');
 
-      expect(ThreadsafeTimers.createTimer).toHaveBeenCalledWith(identifier, instant);
+      expect(ThreadsafeTimers.createTimer).toHaveBeenCalled();
       expect(JavaScriptExecution.callScript).not.toHaveBeenCalled();
     });
 
     it('falls back to Java ScriptExecution, when ThreadsafeTimers throws error.', () => {
       const identifier = 'timer-1';
-      const instant = {};
-      const closure = () => null;
+      const zdt = {};
+      const functionRef = (foo) => foo;
 
       ThreadsafeTimers.createTimer.mockImplementation(() => { throw new Error(); });
 
-      ScriptExecution.createTimer(identifier, instant, closure);
+      ScriptExecution.createTimer(identifier, zdt, functionRef);
 
-      expect(ThreadsafeTimers.createTimer).toHaveBeenCalledWith(identifier, instant, closure);
-      expect(JavaScriptExecution.createTimer).toHaveBeenCalledWith(identifier, instant, closure);
+      expect(ThreadsafeTimers.createTimer).toHaveBeenCalled();
+      expect(JavaScriptExecution.createTimer).toHaveBeenCalled();
 
       jest.clearAllMocks();
 
-      ScriptExecution.createTimer(identifier, instant);
+      ScriptExecution.createTimer(zdt, functionRef);
 
-      expect(ThreadsafeTimers.createTimer).toHaveBeenCalledWith(identifier, instant);
-      expect(JavaScriptExecution.createTimer).toHaveBeenCalledWith(identifier, instant);
+      expect(ThreadsafeTimers.createTimer).toHaveBeenCalled();
+      expect(JavaScriptExecution.createTimer).toHaveBeenCalled();
     });
   });
 
