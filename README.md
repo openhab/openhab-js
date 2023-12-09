@@ -295,11 +295,8 @@ setTimeout(() => {
 myVar = 'Hello mutation!'; // When the timer runs, it will log "Hello mutation!" instead of "Hello world!"
 ```
 
-If you need to pass some variables to the timer but avoid that they can get mutated, pass those variables as parameters to `setTimeout`/`setInterval` or `createTimer`.
+If you need to pass some variables to the timer but avoid that they can get mutated, pass those variables as parameters to `setTimeout`/`setInterval` or `createTimer`:
 
-**Pass variables as parameters to `setTimeout`/`setInterval` or `createTimer`** <!-- markdownlint-disable-line MD036 -->
-
-Another and more user friendly-way to avoid having variables mutated is to pass those variables as parameters to `setTimeout`/`setInterval`:
 
 ```javascript
 var myVar = 'Hello world!';
