@@ -1322,9 +1322,14 @@ This table gives an overview over the `event` object:
 | `time`            | `TimeOfDayTrigger`                                  | Time of day value of the trigger                                              | N/A                    |
 | `eventType`       | all except `PWMTrigger`, `PIDTrigger`               | Type of event that triggered event (change, command, triggered, update, time) | N/A                    |
 | `triggerType`     | all except `PWMTrigger`, `PIDTrigger`               | Type of trigger that triggered event                                          | N/A                    |
+| `eventClass`      | all                                                 | Java class name of the triggering event                                       | N/A                    |
 | `module`          | all                                                 | (user-defined or auto-generated) name of trigger                              | N/A                    |
 
 All properties are typeof `string`.
+
+Please note that when using `GenericEventTrigger`, the available properties depend on the chosen event types.
+It is not possible for the openhab-js library to provide type conversions for all properties of all openHAB events, as those are too many.
+In case the event object does not provide type-conversed properties for your chosen event type, use the `payload` property to gain access to the event's (Java data type) payload.
 
 **NOTE:**
 `Group****Trigger`s use the equivalent `Item****Trigger` as trigger for each member.

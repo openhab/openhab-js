@@ -29,8 +29,9 @@
  * @property {string} time for {@link triggers.TimeOfDayTrigger}: time of day value of the trigger
  * @property {string} eventType for all triggers except {@link triggers.PWMTrigger}, {@link triggers.PIDTrigger}: Type of event that triggered event (change, command, time, triggered, update, time)
  * @property {string} triggerType for all triggers except {@link triggers.PWMTrigger}, {@link triggers.PIDTrigger}: Type of trigger that triggered event
+ * @property {string} eventClass for all triggers: Java class name of the triggering event
  * @property {string} module (user-defined or auto-generated) name of trigger
- * @property {*} payload for most triggers
+ * @property {*} payload if provided by event: payload of event in Java data types
  */
 
 /**

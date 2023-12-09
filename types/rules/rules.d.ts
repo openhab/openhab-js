@@ -71,11 +71,15 @@ export type EventObject = {
      */
     triggerType: string;
     /**
+     * for all triggers: Java class name of the triggering event
+     */
+    eventClass: string;
+    /**
      * (user-defined or auto-generated) name of trigger
      */
     module: string;
     /**
-     * for most triggers
+     * if provided by event: payload of event in Java data types
      */
     payload: any;
 };
