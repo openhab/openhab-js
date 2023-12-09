@@ -223,26 +223,34 @@ class ScriptExecution {
   /**
    * Schedules a function for later execution.
    *
-   * @param {string} identifier an optional identifier
-   * @param {time.ZonedDateTime} instant the point in time when the code should be executed
-   * @param {function} closure the code block to execute
+   * @example
+   * actions.ScriptExecution.createTimer(time.toZDT().plusSeconds(10), (foo, bar) => {
+   *   console.log(foo + bar);
+   * }, 'Hello', 'openHAB');
+   *
+   * @param {string} identifier an optional identifier, e.g. user for logging
+   * @param {time.ZonedDateTime} zdt the point in time when the callback function should be executed
+   * @param {function} functionRef callback function to execute when the timer expires
+   * @param {...*} params additional arguments which are passed through to the function specified by `functionRef`
    * @returns {*} a native openHAB Timer
    */
-  static createTimer (identifier, instant, closure) {
+  static createTimer (identifier, zdt, functionRef, ...params) {
     // Support method overloading as identifier is optional
-    if (typeof identifier === 'string' && closure != null) {
+    if (typeof identifier === 'string' && functionRef != null) {
+      const callbackFn = () => functionRef(...params);
       // Try to access the createTimer method of ThreadsafeTimers
       try {
-        return ThreadsafeTimers.createTimer(identifier, instant, closure); // eslint-disable-line no-undef
+        return ThreadsafeTimers.createTimer(identifier, zdt, callbackFn); // eslint-disable-line no-undef
       } catch {
-        return JavaScriptExecution.createTimer(identifier, instant, closure);
+        return JavaScriptExecution.createTimer(identifier, zdt, callbackFn);
       }
     } else {
+      const callbackFn = () => zdt(functionRef, ...params);
       // Try to access the createTimer method of ThreadsafeTimers
       try {
-        return ThreadsafeTimers.createTimer(identifier, instant); // eslint-disable-line no-undef
+        return ThreadsafeTimers.createTimer(identifier, callbackFn); // eslint-disable-line no-undef
       } catch {
-        return JavaScriptExecution.createTimer(identifier, instant);
+        return JavaScriptExecution.createTimer(identifier, callbackFn);
       }
     }
   }
