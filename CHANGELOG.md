@@ -1,5 +1,17 @@
 # Changelog
 
+## 4.7.0
+
+| Type        | Namespace  | Description                                                                  | Reference                                                                                        | Breaking |
+|-------------|------------|------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|----------|
+| Enhancement | `triggers` | Add `GenericEventTrigger`                                                    | [#300](https://github.com/openhab/openhab-js/pull/300)                                           | No       |
+| Bugfix      | `rules`    | Fix Rule Builder type defs not available                                     | [5ad1938](https://github.com/openhab/openhab-js/commit/5ad1938f4cb6c8f54a507b5bd2fe1a20c5c27dba) | No       |
+| Enhancement | `items`    | ItemHistory: Add `getAllStatesBetween` & `getAllStatesSince` methods         | [#309](https://github.com/openhab/openhab-js/pull/309)                                           | No       |
+| Bugfix      | `time`     | Default to system timezone in `toZDT` if zone is not explicitly provided     | [#307](https://github.com/openhab/openhab-js/pull/307)                                           | No       |
+| Enhancement | `actions`  | ScriptExecution: Support passing params to createTimer in `setTimeout`-style | [#311](https://github.com/openhab/openhab-js/pull/311)                                           | No       |
+
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/20).
+
 ## 4.6.0
 
 | Type        | Namespace | Description                                                         | Reference                                              | Breaking |
