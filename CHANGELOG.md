@@ -1,5 +1,13 @@
 # Changelog
 
+## 4.7.1
+
+| Type   | Namespace | Description                                                                              | Reference                                              | Breaking |
+|--------|-----------|------------------------------------------------------------------------------------------|--------------------------------------------------------|----------|
+| Bugfix | `time`    | Fix `toZDT` fails when injection caching is enabled because instanceof checks don't work | [#312](https://github.com/openhab/openhab-js/pull/312) | No       |
+
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/21).
+
 ## 4.7.0
 
 | Type        | Namespace  | Description                                                                  | Reference                                                                                        | Breaking |
