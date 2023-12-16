@@ -203,16 +203,16 @@ function dumpObject (obj, dumpProps = false) {
  * @returns {boolean} whether it is an instance of a Java class
  * @throws error if type is not a java class
  */
-function isJsInstanceOfJava (instance, type) {
+function isJsInstanceOfJavaType (instance, type) {
   if (!Java.isType(type)) {
-    throw Error('type is not a java class');
+    throw Error('type is not a Java type');
   }
 
-  if (instance === null || instance === undefined || instance.getClass() === null || instance.getClass() === undefined) {
+  if (instance === null || instance === undefined || !instance.getClass || !instance.getClass()) {
     return false;
   }
 
-  return type.getClass().isAssignableFrom(instance.getClass());
+  return Java.typeName(type) === instance.getClass().getName();
 }
 
 /**
@@ -266,7 +266,7 @@ module.exports = {
   javaMapToJsObj,
   randomUUID,
   dumpObject,
-  isJsInstanceOfJava,
+  isJsInstanceOfJavaType,
   javaInstantToJsInstant,
   javaZDTToJsZDT,
   javaZDTToJsZDTWithDefaultZoneSystem,

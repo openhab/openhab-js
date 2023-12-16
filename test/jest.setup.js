@@ -20,6 +20,7 @@ const TYPES = {
 /* eslint-disable-next-line no-global-assign */
 Java = {
   type: (type) => TYPES[type],
+  typeName: jest.fn(),
   from: jest.fn(),
   isType: jest.fn(),
   isJavaObject: jest.fn()
