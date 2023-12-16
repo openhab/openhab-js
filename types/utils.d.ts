@@ -86,7 +86,7 @@ export function dumpObject(obj: any, dumpProps?: boolean): void;
  * @returns {boolean} whether it is an instance of a Java class
  * @throws error if type is not a java class
  */
-export function isJsInstanceOfJava(instance: any, type: JavaClass): boolean;
+export function isJsInstanceOfJavaType(instance: any, type: JavaClass): boolean;
 /**
  * Convert Java Instant to JS-Joda Instant.
  *
