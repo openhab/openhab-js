@@ -212,7 +212,7 @@ function toZDT (when) {
   }
   // Convert Java ZonedDateTime
   if (when instanceof javaZDT) {
-    log.debug('toZTD: Converting Java ZonedDateTime ' + when);
+    log.debug('toZTD: Converting Java ZonedDateTime ' + when.toString());
     return utils.javaZDTToJsZDTWithDefaultZoneSystem(when);
   }
 
