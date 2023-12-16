@@ -7,17 +7,18 @@
 
 require('@js-joda/timezone');
 const time = require('@js-joda/core');
+
+const log = require('./log')('time');
 const items = require('./items');
 const utils = require('./utils');
-const { _isItem } = require('./helpers');
+const { _isItem, _isZonedDateTime, _isDuration, _isQuantity } = require('./helpers');
 
 const javaZDT = Java.type('java.time.ZonedDateTime');
 const javaDuration = Java.type('java.time.Duration');
 const javaString = Java.type('java.lang.String');
 const javaNumber = Java.type('java.lang.Number');
-const { DateTimeType, DecimalType, StringType, QuantityType } = require('@runtime');
-const { Quantity } = require('./quantity');
 const ohItem = Java.type('org.openhab.core.items.Item');
+const { DateTimeType, DecimalType, StringType, QuantityType } = require('@runtime');
 
 /**
  * Adds millis to the passed in ZDT as milliseconds. The millis is rounded first.
@@ -200,69 +201,72 @@ function _convertItem (item) {
 function toZDT (when) {
   // If when is not supplied or null, return now
   if (when === undefined || when === null) {
+    log.debug('toZDT: Returning ZonedDateTime.now()');
     return time.ZonedDateTime.now();
   }
 
   // Pass through if already a time.ZonedDateTime
-  if (when instanceof time.ZonedDateTime) {
+  if (_isZonedDateTime(when)) {
+    log.debug('toZDT: Passing trough ' + when);
     return when;
+  }
+  // Convert Java ZonedDateTime
+  if (when instanceof javaZDT) {
+    log.debug('toZTD: Converting Java ZonedDateTime ' + when);
+    return utils.javaZDTToJsZDTWithDefaultZoneSystem(when);
   }
 
   // String or StringType
   if (typeof when === 'string' || when instanceof javaString || when instanceof StringType) {
+    log.debug('toZDT: Parsing string ' + when);
     return _parseString(when.toString());
   }
 
   // JavaScript Native Date, use the SYSTEM timezone
   if (when instanceof Date) {
+    log.debug('toZDT: Converting JS native Date ' + when);
     const native = time.nativeJs(when);
     const instant = time.Instant.from(native);
     return time.ZonedDateTime.ofInstant(instant, time.ZoneId.SYSTEM);
   }
 
   // Duration, add to now
-  if (when instanceof time.Duration || when instanceof javaDuration) {
+  if (_isDuration(when) || when instanceof javaDuration) {
+    log.debug('toZDT: Adding duration ' + when + ' to now');
     return time.ZonedDateTime.now().plus(time.Duration.parse(when.toString()));
   }
 
-  // JavaScript number of bigint, add as millisecs to now
-  if (typeof when === 'number' || typeof when === 'bigint' || !isNaN(when)) {
+  // Add JavaScript's number or JavaScript BigInt or Java Number or Java DecimalType as milliseconds to now
+  if (typeof when === 'number' || typeof when === 'bigint') {
+    log.debug('toZDT: Adding milliseconds ' + when + ' to now');
     return _addMillisToNow(when);
-  }
-
-  // Java ZDT
-  if (when instanceof javaZDT) {
-    return utils.javaZDTToJsZDTWithDefaultZoneSystem(when);
+  } else if (when instanceof javaNumber || when instanceof DecimalType) {
+    log.debug('toZDT: Adding Java number or DecimalType ' + when.floatValue() + ' to now');
+    return _addMillisToNow(when.floatValue());
   }
 
   // DateTimeType, extract the javaZDT and convert to time.ZDT
   if (when instanceof DateTimeType) {
+    log.debug('toZTD: Converting DateTimeType ' + when);
     return utils.javaZDTToJsZDTWithDefaultZoneSystem(when.getZonedDateTime());
   }
 
-  // Quantity
-  if (when instanceof Quantity) {
+  // Add Quantity or QuantityType<Time> to now
+  if (_isQuantity(when)) {
+    log.debug('toZDT: Adding Quantity ' + when + ' to now');
     return _addQuantityType(when.raw);
-  }
-
-  // QuantityType<Time>, add to now
-  if (when instanceof QuantityType) {
+  } else if (when instanceof QuantityType) {
+    log.debug('toZDT: Adding QuantityType ' + when + ' to now');
     return _addQuantityType(when);
   }
 
-  // Java Number of DecimalType, add as millisecs to now
-  if (when instanceof javaNumber || when instanceof DecimalType) {
-    return _addMillisToNow(when.floatValue());
-  }
-
-  // GenericItem
-  if (when instanceof ohItem) {
-    return _convertItem(items.getItem(when.getName()));
-  }
-
-  // items.Item
+  // Convert items.Item or raw Item
   if (_isItem(when)) {
+    log.debug('toZDT: Converting Item ' + when);
     return _convertItem(when);
+  } else if (when instanceof ohItem) {
+    log.debug('toZDT: Converting raw Item ' + when);
+    return _convertItem(items.getItem(when.getName()));
   }
 
   // Unsupported
