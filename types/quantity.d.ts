@@ -26,7 +26,7 @@ export class Quantity {
      * @type {QuantityType}
      * @private
      */
-    private raw;
+    private rawQtyType;
     /**
      * Dimension of this Quantity, e.g. `[L]` for metres or `[L]²` for cubic-metres
      * @type {string}

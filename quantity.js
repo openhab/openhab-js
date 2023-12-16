@@ -66,7 +66,7 @@ function _toQtyType (value, errorMsg = 'Argument of wrong type provided, require
       throw new QuantityError(`Failed to create QuantityType from ${value}: ${e}`);
     }
   } else if (value instanceof Quantity) {
-    value = QuantityType.valueOf(value.raw.toString()); // Avoid referencing the same underlying QuantityType, so "clone" it
+    value = QuantityType.valueOf(value.rawQtyType.toString()); // Avoid referencing the same underlying QuantityType, so "clone" it
   } else {
     throw new TypeError(errorMsg);
   }
@@ -105,13 +105,13 @@ class Quantity {
        * @type {QuantityType}
        * @private
        */
-      this.raw = value;
+      this.rawQtyType = value;
     } else {
       /**
        * @type {QuantityType}
        * @private
        */
-      this.raw = _toQtyType(value);
+      this.rawQtyType = _toQtyType(value);
     }
   }
 
@@ -120,7 +120,7 @@ class Quantity {
    * @type {string}
    */
   get dimension () {
-    return this.raw.getDimension().toString();
+    return this.rawQtyType.getDimension().toString();
   }
 
   /**
@@ -128,7 +128,7 @@ class Quantity {
    * @type {string|null}
    */
   get unit () {
-    const unit = this.raw.getUnit().getName();
+    const unit = this.rawQtyType.getUnit().getName();
     return (unit === null) ? null : unit.toString();
   }
 
@@ -137,7 +137,7 @@ class Quantity {
    * @type {string|null}
    */
   get symbol () {
-    const str = this.raw.toString();
+    const str = this.rawQtyType.toString();
     const i = str.indexOf(' ');
     return (i !== -1) ? str.substring(i + 1) : null;
   }
@@ -147,7 +147,7 @@ class Quantity {
    * @type {number}
    */
   get float () {
-    return parseFloat(this.raw.doubleValue());
+    return parseFloat(this.rawQtyType.doubleValue());
   }
 
   /**
@@ -155,7 +155,7 @@ class Quantity {
    * @type {number}
    */
   get int () {
-    return parseInt(this.raw.longValue());
+    return parseInt(this.rawQtyType.longValue());
   }
 
   /**
@@ -166,7 +166,7 @@ class Quantity {
    */
   add (value) {
     value = _toQtyType(value);
-    return new Quantity(this.raw.add(value));
+    return new Quantity(this.rawQtyType.add(value));
   }
 
   /**
@@ -181,7 +181,7 @@ class Quantity {
    */
   divide (value) {
     value = _toBigDecimalOrQtyType(value);
-    return new Quantity(this.raw.divide(value));
+    return new Quantity(this.rawQtyType.divide(value));
   }
 
   /**
@@ -196,7 +196,7 @@ class Quantity {
    */
   multiply (value) {
     value = _toBigDecimalOrQtyType(value);
-    return new Quantity(this.raw.multiply(value));
+    return new Quantity(this.rawQtyType.multiply(value));
   }
 
   /**
@@ -207,7 +207,7 @@ class Quantity {
    */
   subtract (value) {
     value = _toQtyType(value);
-    return new Quantity(this.raw.subtract(value));
+    return new Quantity(this.rawQtyType.subtract(value));
   }
 
   /**
@@ -220,12 +220,12 @@ class Quantity {
   toUnit (unit) {
     let qtyType;
     try {
-      qtyType = (this.raw.toUnit(unit));
+      qtyType = (this.rawQtyType.toUnit(unit));
     } catch (e) {
       throw new QuantityError(`Failed to parse unit ${unit}: ${e}`);
     }
     if (qtyType === null) {
-      console.warn(`Failed to convert ${this.raw.toString()} to unit ${unit}.`);
+      console.warn(`Failed to convert ${this.rawQtyType.toString()} to unit ${unit}.`);
       return null;
     }
     return new Quantity(qtyType);
@@ -239,7 +239,7 @@ class Quantity {
    */
   equal (value) {
     value = _toQtyType(value);
-    return this.raw.compareTo(value) === 0;
+    return this.rawQtyType.compareTo(value) === 0;
   }
 
   /**
@@ -250,7 +250,7 @@ class Quantity {
    */
   greaterThan (value) {
     value = _toQtyType(value);
-    return this.raw.compareTo(value) > 0;
+    return this.rawQtyType.compareTo(value) > 0;
   }
 
   /**
@@ -261,7 +261,7 @@ class Quantity {
    */
   greaterThanOrEqual (value) {
     value = _toQtyType(value);
-    return this.raw.compareTo(value) >= 0;
+    return this.rawQtyType.compareTo(value) >= 0;
   }
 
   /**
@@ -272,7 +272,7 @@ class Quantity {
    */
   lessThan (value) {
     value = _toQtyType(value);
-    return this.raw.compareTo(value) < 0;
+    return this.rawQtyType.compareTo(value) < 0;
   }
 
   /**
@@ -283,11 +283,11 @@ class Quantity {
    */
   lessThanOrEqual (value) {
     value = _toQtyType(value);
-    return this.raw.compareTo(value) <= 0;
+    return this.rawQtyType.compareTo(value) <= 0;
   }
 
   toString () {
-    return this.raw.toString();
+    return this.rawQtyType.toString();
   }
 }
 
