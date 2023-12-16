@@ -249,7 +249,7 @@ function javaZDTToJsZDT (zdt) {
  */
 function javaZDTToJsZDTWithDefaultZoneSystem (zdt) {
   const jsZDT = javaZDTToJsZDT(zdt);
-  if (/^[+-]*/.test(jsZDT.zone().toString())) {
+  if (/^[+-]/.test(jsZDT.zone().toString())) {
     return jsZDT.withZoneSameLocal(time.ZoneId.SYSTEM);
   }
   return jsZDT;
