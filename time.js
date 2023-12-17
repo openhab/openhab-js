@@ -254,7 +254,7 @@ function toZDT (when) {
   // Add Quantity or QuantityType<Time> to now
   if (_isQuantity(when)) {
     log.debug('toZDT: Adding Quantity ' + when + ' to now');
-    return _addQuantityType(when.raw);
+    return _addQuantityType(when.rawQtyType);
   } else if (when instanceof QuantityType) {
     log.debug('toZDT: Adding QuantityType ' + when + ' to now');
     return _addQuantityType(when);
