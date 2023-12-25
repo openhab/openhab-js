@@ -555,12 +555,12 @@ The Things namespace allows to interact with openHAB Things.
 See [openhab-js : things](https://openhab.github.io/openhab-js/things.html) for full API documentation.
 
 - things : <code>object</code>
-  - .getThing(uid, nullIfMissing) ⇒ <code>Thing</code>
-  - .getThings() ⇒ <code>Array.&lt;Thing&gt;</code>
+  - .getThing(uid) ⇒ <code>Thing|null</code>
+  - .getThings() ⇒ <code>Array[Thing]</code>
 
 #### `getThing(uid, nullIfMissing)`
 
-Calling `getThing(...)` returns a `Thing` object with the following properties:
+Calling `getThing(uid)` returns a `Thing` object with the following properties:
 
 - Thing : <code>object</code>
   - .bridgeUID ⇒ <code>String</code>

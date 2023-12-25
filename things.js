@@ -1,6 +1,5 @@
 const osgi = require('./osgi');
 const utils = require('./utils');
-const log = require('./log')('things'); // eslint-disable-line no-unused-vars
 
 const thingRegistry = osgi.getService('org.openhab.core.thing.ThingRegistry');
 const thingMgr = osgi.getService('org.openhab.core.thing.ThingManager');
@@ -148,24 +147,16 @@ class Thing {
 
 /**
  * Gets an openHAB Thing.
+ * Returns `null` if no Thing with the given UID exists.
  *
  * @memberof things
  * @param {string} uid UID of the thing
- * @param {boolean} [nullIfMissing] whether to return null if the Thing cannot be found (default is to throw an exception)
  * @returns {Thing} {@link things.Thing}
  */
-function getThing (uid, nullIfMissing) {
-  try {
-    if (typeof uid === 'string' || uid instanceof String) {
-      return new Thing(thingRegistry.get(new ThingUID(uid)));
-    }
-  } catch (e) {
-    if (nullIfMissing) {
-      return null;
-    } else {
-      throw e;
-    }
-  }
+function getThing (uid) {
+  const rawThing = thingRegistry.get(new ThingUID(uid));
+  if (rawThing === null) return null;
+  return new Thing(rawThing);
 }
 
 /**
@@ -175,7 +166,7 @@ function getThing (uid, nullIfMissing) {
  * @returns {Thing[]} {@link things.Thing}[]: all Things
  */
 function getThings () {
-  return utils.javaSetToJsArray(thingRegistry.getAll()).map(i => new Thing(i));
+  return utils.javaSetToJsArray(thingRegistry.getAll()).map(t => new Thing(t));
 }
 
 module.exports = {
