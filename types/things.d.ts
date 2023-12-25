@@ -86,13 +86,13 @@ export class Thing {
 }
 /**
  * Gets an openHAB Thing.
+ * Returns `null` if no Thing with the given UID exists.
  *
  * @memberof things
  * @param {string} uid UID of the thing
- * @param {boolean} [nullIfMissing] whether to return null if the Thing cannot be found (default is to throw an exception)
  * @returns {Thing} {@link things.Thing}
  */
-export function getThing(uid: string, nullIfMissing?: boolean): Thing;
+export function getThing(uid: string): Thing;
 /**
  * Gets all openHAB Things.
  *
