@@ -571,9 +571,7 @@ function replaceItem (itemConfig) {
  */
 function getItem (name, nullIfMissing = false) {
   try {
-    if (typeof name === 'string' || name instanceof String) {
-      return new Item(itemRegistry.getItem(name));
-    }
+    return new Item(itemRegistry.getItem(name));
   } catch (e) {
     if (nullIfMissing) {
       return null;
