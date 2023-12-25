@@ -1,5 +1,14 @@
 # Changelog
 
+## 4.7.3
+
+| Type   | Namespace | Description                                                   | Reference                                                                                        | Breaking |
+|--------|-----------|---------------------------------------------------------------|--------------------------------------------------------------------------------------------------|----------|
+| Bugfix | `items`   | Fix updating/commanding Item with `undefined` fails           | [b30c794](https://github.com/openhab/openhab-js/commit/b30c794160e7bad9533afcd08911a6d45fd98278) | No       |
+| Bugfix | `things`  | Fix `getThing` doesn't return `null` if Thing is not existent | [#315](https://github.com/openhab/openhab-js/pull/315)                                           | No       |
+
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/22).
+
 ## 4.7.1
 
 | Type   | Namespace | Description                                                                              | Reference                                              | Breaking |
