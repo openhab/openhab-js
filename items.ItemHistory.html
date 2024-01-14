@@ -5250,7 +5250,7 @@ console.log('KitchenDimmer average since yesterday', item.history.averageSince(y
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_item-history.js.html">items/item-history.js</a>, <a href="items_item-history.js.html#line400">line 400</a>
+        <a href="items_item-history.js.html">items/item-history.js</a>, <a href="items_item-history.js.html#line408">line 408</a>
     </li></ul></dd>
     
 
@@ -5291,6 +5291,9 @@ console.log('KitchenDimmer average since yesterday', item.history.averageSince(y
 
 <div class="description usertext">
     <p>Persists the state of a given Item.</p>
+<p>Tells the persistence service to store the current state of the Item, which is then performed asynchronously.
+This has the side effect, that if the Item state changes shortly after <code>.persist</code> has been called, the new state will be persisted.
+To work around that side effect, you might add <code>java.lang.Thread.sleep</code> to your code:</p>
 </div>
 
 
@@ -5299,6 +5302,13 @@ console.log('KitchenDimmer average since yesterday', item.history.averageSince(y
 
 
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>items.MyItem.history.persist(); // Tell persistence to store the current Item state
+java.lang.Thread.sleep(100); // Wait 100 ms to make sure persistence has enough time to store the current Item state
+items.MyItem.postUpdate(0); // Now set the Item state to a new value</code></pre>
 
 
 
@@ -5398,7 +5408,7 @@ console.log('KitchenDimmer average since yesterday', item.history.averageSince(y
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_item-history.js.html">items/item-history.js</a>, <a href="items_item-history.js.html#line411">line 411</a>
+        <a href="items_item-history.js.html">items/item-history.js</a>, <a href="items_item-history.js.html#line419">line 419</a>
     </li></ul></dd>
     
 
@@ -5604,7 +5614,7 @@ console.log('KitchenDimmer average since yesterday', item.history.averageSince(y
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_item-history.js.html">items/item-history.js</a>, <a href="items_item-history.js.html#line423">line 423</a>
+        <a href="items_item-history.js.html">items/item-history.js</a>, <a href="items_item-history.js.html#line431">line 431</a>
     </li></ul></dd>
     
 
@@ -5841,7 +5851,7 @@ console.log('KitchenDimmer average since yesterday', item.history.averageSince(y
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_item-history.js.html">items/item-history.js</a>, <a href="items_item-history.js.html#line434">line 434</a>
+        <a href="items_item-history.js.html">items/item-history.js</a>, <a href="items_item-history.js.html#line442">line 442</a>
     </li></ul></dd>
     
 
@@ -6044,7 +6054,7 @@ console.log('KitchenDimmer average since yesterday', item.history.averageSince(y
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_item-history.js.html">items/item-history.js</a>, <a href="items_item-history.js.html#line446">line 446</a>
+        <a href="items_item-history.js.html">items/item-history.js</a>, <a href="items_item-history.js.html#line454">line 454</a>
     </li></ul></dd>
     
 
@@ -6278,7 +6288,7 @@ console.log('KitchenDimmer average since yesterday', item.history.averageSince(y
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_item-history.js.html">items/item-history.js</a>, <a href="items_item-history.js.html#line457">line 457</a>
+        <a href="items_item-history.js.html">items/item-history.js</a>, <a href="items_item-history.js.html#line465">line 465</a>
     </li></ul></dd>
     
 
@@ -6478,7 +6488,7 @@ console.log('KitchenDimmer average since yesterday', item.history.averageSince(y
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_item-history.js.html">items/item-history.js</a>, <a href="items_item-history.js.html#line469">line 469</a>
+        <a href="items_item-history.js.html">items/item-history.js</a>, <a href="items_item-history.js.html#line477">line 477</a>
     </li></ul></dd>
     
 
@@ -6715,7 +6725,7 @@ console.log('KitchenDimmer average since yesterday', item.history.averageSince(y
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_item-history.js.html">items/item-history.js</a>, <a href="items_item-history.js.html#line480">line 480</a>
+        <a href="items_item-history.js.html">items/item-history.js</a>, <a href="items_item-history.js.html#line488">line 488</a>
     </li></ul></dd>
     
 
@@ -6921,7 +6931,7 @@ console.log('KitchenDimmer average since yesterday', item.history.averageSince(y
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.0</a> on Mon Dec 25 2023 19:08:52 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.0</a> on Sun Jan 14 2024 11:52:59 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
