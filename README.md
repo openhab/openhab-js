@@ -517,7 +517,8 @@ Calling `Item.history` returns an `ItemHistory` object with the following functi
   - .maximumSince(timestamp,serviceId) ⇒ `HistoricItem | null`
   - .minimumSince(begin, end, serviceId) ⇒ `HistoricItem | null`
   - .minimumSince(timestamp, serviceId) ⇒ `HistoricItem | null`
-  - .persist(serviceId)
+  - .persist(serviceId): Tells the persistence service to store the current Item state, which is then done asynchronously.
+    **Warning:** This has the side effect, that if the Item state changes shortly after `.persist` has been called, the new Item state will be persisted. See [JSDoc](https://openhab.github.io/openhab-js/items.ItemHistory.html#persist) for a possible work-around.
   - .previousState(skipEqual, serviceId) ⇒ `HistoricItem | null`
   - .sumBetween(begin, end, serviceId) ⇒ `number | null`
   - .sumSince(timestamp, serviceId) ⇒ `number | null`

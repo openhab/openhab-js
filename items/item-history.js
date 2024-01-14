@@ -395,6 +395,14 @@ class ItemHistory {
   /**
    * Persists the state of a given Item.
    *
+   * Tells the persistence service to store the current state of the Item, which is then performed asynchronously.
+   * This has the side effect, that if the Item state changes shortly after `.persist` has been called, the new state will be persisted.
+   * To work around that side effect, you might add `java.lang.Thread.sleep` to your code:
+   * @example
+   * items.MyItem.history.persist(); // Tell persistence to store the current Item state
+   * java.lang.Thread.sleep(100); // Wait 100 ms to make sure persistence has enough time to store the current Item state
+   * items.MyItem.postUpdate(0); // Now set the Item state to a new value
+   *
    * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
    */
   persist (serviceId) {
