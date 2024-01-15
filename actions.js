@@ -265,20 +265,10 @@ class ScriptExecution {
     // Support method overloading as identifier is optional
     if (typeof identifier === 'string' && functionRef != null) {
       const callbackFn = () => functionRef(...params);
-      // Try to access the createTimer method of ThreadsafeTimers
-      try {
-        return ThreadsafeTimers.createTimer(identifier, zdt, callbackFn); // eslint-disable-line no-undef
-      } catch {
-        return JavaScriptExecution.createTimer(identifier, zdt, callbackFn);
-      }
+      return ThreadsafeTimers.createTimer(identifier, zdt, callbackFn); // eslint-disable-line no-undef
     } else {
       const callbackFn = () => zdt(functionRef, ...params);
-      // Try to access the createTimer method of ThreadsafeTimers
-      try {
-        return ThreadsafeTimers.createTimer(identifier, callbackFn); // eslint-disable-line no-undef
-      } catch {
-        return JavaScriptExecution.createTimer(identifier, callbackFn);
-      }
+      return ThreadsafeTimers.createTimer(identifier, callbackFn); // eslint-disable-line no-undef
     }
   }
 
