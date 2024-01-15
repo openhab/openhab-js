@@ -84,7 +84,9 @@ This will be used instead of the binding provided version.
 ## Compatibility
 
 All `openhab-js` versions until 4.7.0 are fully compatible with openHAB 3.1.0 or newer!
+
 `openhab-js` 4.7.1 or newer requires openHAB 4.1.1 or newer for full compatibility!
+`actions.ScriptExecution.createTimer` and type conversion when passing `Quantity` to a Java method expecting a `QuantityType` are known to not work.
 
 openHAB 3.4.0 or newer requires at least `openhab-js` 3.1.0!
 openHAB 4.0.0(.M2) (or >= `SNAPSHOT #3391`) or newer requires at least `openhab-js` 4.2.1!
