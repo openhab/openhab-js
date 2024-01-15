@@ -42,6 +42,25 @@ export const Audio: any;
  */
 export const BusEvent: any;
 /**
+ * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/coreutil CoreUtil} Actions
+ *
+ * This class provides static methods mapping methods from package {@link https://www.openhab.org/javadoc/latest/org/openhab/core/util/package-summary org.openhab.core.util}.
+ *
+ * Its functionality includes:
+ * @example
+ * CoreUtil.hsbToRgb(HSBType hsb) -> int[]
+ * CoreUtil.hsbToRgbPercent(HSBType hsb) -> PercentType[]
+ * CoreUtil.hsbTosRGB(HSBType hsb) -> int
+ * CoreUtil.hsbToRgbw(HSBType hsb) -> int[]
+ * CoreUtil.hsbToRgbwPercent(HSBType hsb) -> PercentType[]
+ * CoreUtil.rgbToHsb(int[] rgb) -> HSBType
+ * CoreUtil.rgbToHsb(PercentType[] rgb) -> HSBType
+ *
+ * @name CoreUtil
+ * @memberof actions
+ */
+export const CoreUtil: any;
+/**
  * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/ephemeris Ephemeris} Actions
  *
  * The static methods of this class are made available as functions in the scripts. This allows a script to use ephemeris features.
@@ -175,7 +194,7 @@ export class ScriptExecution {
      *   console.log(foo + bar);
      * }, 'Hello', 'openHAB');
      *
-     * @param {string} identifier an optional identifier, e.g. user for logging
+     * @param {string} identifier an optional identifier, e.g. used for logging
      * @param {time.ZonedDateTime} zdt the point in time when the callback function should be executed
      * @param {function} functionRef callback function to execute when the timer expires
      * @param {...*} params additional arguments which are passed through to the function specified by `functionRef`
@@ -186,7 +205,7 @@ export class ScriptExecution {
      * Schedules a function (with argument) for later execution
      *
      * @deprecated
-     * @param {string} identifier an optional identifier
+     * @param {string} identifier an optional identifier, e.g. used for logging
      * @param {time.ZonedDateTime} instant the point in time when the code should be executed
      * @param {*} arg1 the argument to pass to the code block
      * @param {function} closure the code block to execute
@@ -199,7 +218,7 @@ export class ScriptExecution {
  *
  * The static methods of this class are made available as functions in the scripts. This allows a script to use Semantics features.
  *
- * Instead of using the Semantics actions, it is recommended to use the the {@link items.ItemSemantics} available through the `semantics` property of an {@link items.Item}.
+ * Instead of using the Semantics actions, it is recommended to use the {@link items.ItemSemantics} available through the `semantics` property of an {@link items.Item}.
  *
  * @example
  * Semantics.getEquipment(Item item)

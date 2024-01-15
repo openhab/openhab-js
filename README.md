@@ -593,7 +593,10 @@ thing.setEnabled(false);
 The actions namespace allows interactions with openHAB actions.
 The following are a list of standard actions.
 
-Note that most of the actions currently do **not** provide type definitions and therefore auto-completion does not work.
+**Warning:** Please be aware, that (unless not explicitly noted) there is **no** type conversion from Java to JavaScript types for the return values of actions.
+Read the JavaDoc linked from the JSDoc to learn about the returned Java types.
+
+Please note that most of the actions currently do **not** provide type definitions and therefore auto-completion does not work.
 
 See [openhab-js : actions](https://openhab.github.io/openhab-js/actions.html) for full API documentation and additional actions.
 
@@ -601,9 +604,16 @@ See [openhab-js : actions](https://openhab.github.io/openhab-js/actions.html) fo
 
 See [openhab-js : actions.Audio](https://openhab.github.io/openhab-js/actions.html#.Audio) for complete documentation.
 
-#### BusEvent
+#### BusEvent Actions
 
 See [openhab-js : actions.BusEvent](https://openhab.github.io/openhab-js/actions.html#.BusEvent) for complete documentation.
+
+#### CoreUtil Actions
+
+See [openhab-js : actions.CoreUtil](https://openhab.github.io/openhab-js/actions.html#.CoreUtil) for complete documentation.
+
+The `CoreUtil` actions provide access to parts of the utilities included in openHAB core, see [org.openhab.core.util](https://www.openhab.org/javadoc/latest/org/openhab/core/util/package-summary).
+These include several methods to convert between color types like HSB, RGB, sRGB, RGBW and XY.
 
 #### Ephemeris Actions
 
