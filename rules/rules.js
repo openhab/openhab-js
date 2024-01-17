@@ -279,7 +279,7 @@ function JSRule (ruleConfig) {
 
   // Add config to the action so that MainUI can show the script
   const actionConfiguration = rule.actions.get(0).getConfiguration();
-  actionConfiguration.put('type', 'application/javascript;version=ECMAScript-2021'); // TODO: Update MIME type at some time
+  actionConfiguration.put('type', 'application/javascript');
   actionConfiguration.put('script', '// Code to run when the rule fires:\n// Note that Rule Builder is currently not supported!\n\n' + ruleConfig.execute.toString());
 
   return rule;
