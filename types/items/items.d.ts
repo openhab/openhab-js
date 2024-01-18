@@ -230,19 +230,19 @@ export class Item {
     /**
      * Sends a command to the Item.
      *
-     * @param {string|time.ZonedDateTime|Quantity|HostState} value the value of the command to send, such as 'ON'
+     * @param {string|number|time.ZonedDateTime|Quantity|HostState} value the value of the command to send, such as 'ON'
      * @see sendCommandIfDifferent
      * @see postUpdate
      */
-    sendCommand(value: string | time.ZonedDateTime | Quantity | HostState): void;
+    sendCommand(value: string | number | time.ZonedDateTime | Quantity | HostState): void;
     /**
      * Sends a command to the Item, but only if the current state is not what is being sent.
      *
-     * @param {string|time.ZonedDateTime|Quantity|HostState} value the value of the command to send, such as 'ON'
+     * @param {string|number|time.ZonedDateTime|Quantity|HostState} value the value of the command to send, such as 'ON'
      * @returns {boolean} true if the command was sent, false otherwise
      * @see sendCommand
      */
-    sendCommandIfDifferent(value: string | time.ZonedDateTime | Quantity | HostState): boolean;
+    sendCommandIfDifferent(value: string | number | time.ZonedDateTime | Quantity | HostState): boolean;
     /**
      * Calculates the toggled state of this Item. For Items like Color and
      * Dimmer, getStateAs(OnOffType) is used and the toggle calculated off
@@ -266,11 +266,11 @@ export class Item {
     /**
      * Posts an update to the Item.
      *
-     * @param {string|time.ZonedDateTime|Quantity|HostState} value the value of the command to send, such as 'ON'
+     * @param {string|number|time.ZonedDateTime|Quantity|HostState} value the value of the command to send, such as 'ON'
      * @see postToggleUpdate
      * @see sendCommand
      */
-    postUpdate(value: string | time.ZonedDateTime | Quantity | HostState): void;
+    postUpdate(value: string | number | time.ZonedDateTime | Quantity | HostState): void;
     /**
      * Gets the names of the groups this Item is member of.
      * @returns {string[]}

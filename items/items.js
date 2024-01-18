@@ -250,7 +250,7 @@ class Item {
   /**
    * Sends a command to the Item.
    *
-   * @param {string|time.ZonedDateTime|Quantity|HostState} value the value of the command to send, such as 'ON'
+   * @param {string|number|time.ZonedDateTime|Quantity|HostState} value the value of the command to send, such as 'ON'
    * @see sendCommandIfDifferent
    * @see postUpdate
    */
@@ -261,7 +261,7 @@ class Item {
   /**
    * Sends a command to the Item, but only if the current state is not what is being sent.
    *
-   * @param {string|time.ZonedDateTime|Quantity|HostState} value the value of the command to send, such as 'ON'
+   * @param {string|number|time.ZonedDateTime|Quantity|HostState} value the value of the command to send, such as 'ON'
    * @returns {boolean} true if the command was sent, false otherwise
    * @see sendCommand
    */
@@ -325,7 +325,7 @@ class Item {
   /**
    * Posts an update to the Item.
    *
-   * @param {string|time.ZonedDateTime|Quantity|HostState} value the value of the command to send, such as 'ON'
+   * @param {string|number|time.ZonedDateTime|Quantity|HostState} value the value of the command to send, such as 'ON'
    * @see postToggleUpdate
    * @see sendCommand
    */
