@@ -1,7 +1,7 @@
 const { QuantityType, DecimalType } = require('./openhab.mock');
 const { BigDecimal } = require('./java.mock');
 const { Unit } = require('./javax-measure.mock');
-const { getQuantity, Quantity, QuantityError, _toBigDecimalOrQtyType, _toQtyType } = require('../quantity');
+const { getQuantity, Quantity, QuantityError, _toBigDecimalOrQtyType, _toQtyType } = require('../src/quantity');
 
 class Item {
   constructor (rawState) {

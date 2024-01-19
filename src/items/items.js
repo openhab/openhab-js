@@ -18,7 +18,7 @@ const itemBuilderFactory = osgi.getService('org.openhab.core.items.ItemBuilderFa
 
 // typedefs need to be global for TypeScript to fully work
 /**
- * @typedef {import('./metadata/metadata').ItemMetadata} ItemMetadata
+ * @typedef {import('../items/metadata/metadata').ItemMetadata} ItemMetadata
  * @private
  */
 /**

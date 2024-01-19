@@ -53,7 +53,7 @@
 
 const GENERATED_RULE_ITEM_TAG = 'GENERATED_RULE_ITEM';
 
-const items = require('../items');
+const items = require('../items/items');
 const utils = require('../utils');
 const log = require('../log')('rules');
 const osgi = require('../osgi');

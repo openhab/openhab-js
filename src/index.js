@@ -1,4 +1,3 @@
-
 // lazy getters to avoid any reference loading all submodules
 module.exports = {
   get log () { return require('./log'); },

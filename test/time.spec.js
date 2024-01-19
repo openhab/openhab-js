@@ -1,11 +1,11 @@
-const time = require('../time');
+const time = require('../src/time');
 const { ZonedDateTime, ZoneId } = require('@js-joda/core');
 
-jest.mock('../items', () => ({
+jest.mock('../src/items', () => ({
   Item: new Object() // eslint-disable-line no-new-object
 }));
 
-jest.mock('../utils', () => ({
+jest.mock('../src/utils', () => ({
   isJsInstanceOfJavaType: () => false
 }));
 

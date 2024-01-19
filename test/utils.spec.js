@@ -10,7 +10,7 @@ const {
   isJsInstanceOfJavaType,
   javaInstantToJsInstant,
   javaZDTToJsZDT
-} = require('../utils');
+} = require('../src/utils');
 const time = require('@js-joda/core');
 
 describe('utils.js', () => {

@@ -1,5 +1,5 @@
 const parseDuration = require('parse-duration');
-const items = require('../items');
+const items = require('../items/items');
 
 /**
  * @typedef { import("../items/items").Item } Item

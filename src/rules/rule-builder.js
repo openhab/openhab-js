@@ -1,4 +1,4 @@
-const items = require('../items');
+const items = require('../items/items');
 const rules = require('./rules');
 const triggers = require('./trigger-builder');
 const conditions = require('./condition-builder');
