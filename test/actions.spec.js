@@ -1,9 +1,9 @@
 /* eslint-disable no-undef */
 
-const { ScriptExecution, Transformation } = require('../actions');
+const { ScriptExecution, Transformation } = require('../src/actions');
 const { JavaScriptExecution, JavaTransformation } = require('./openhab.mock');
 
-jest.mock('../osgi');
+jest.mock('../src/osgi');
 
 describe('actions.js', () => {
   describe('ScriptExecution', () => {

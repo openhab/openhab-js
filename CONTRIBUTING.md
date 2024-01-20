@@ -162,7 +162,7 @@ After you read the following sections, please read the [deployment instructions]
 
 ### Code style
 
-openhab-js is using [`standardx`](https://github.com/standard/standardx) for code linting and formatting.
+openhab-js is using [`eslint`](https://eslint.org/) with the rules from [JavaScript standard style](https://standardjs.com/) and some overrides for code linting and formatting.
 
 Code-style is enforced when checks run on a PR.
 

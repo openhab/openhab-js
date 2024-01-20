@@ -16,16 +16,16 @@ const {
   DateTimeTrigger,
   PWMTrigger,
   PIDTrigger
-} = require('../triggers');
+} = require('../src/triggers');
 
-jest.mock('../items', () => ({
+jest.mock('../src/items', () => ({
   Item: class {
     constructor (name) {
       this.name = name;
     }
   }
 }));
-const Item = require('../items').Item;
+const Item = require('../src/items').Item;
 
 describe('triggers.js', () => {
   const moduleBuilderSpy = new ModuleBuilder();

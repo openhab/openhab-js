@@ -1,4 +1,4 @@
-export type ItemMetadata = import('./metadata/metadata').ItemMetadata;
+export type ItemMetadata = import('../items/metadata/metadata').ItemMetadata;
 export type Quantity = import('../quantity').Quantity;
 /**
  * configuration describing an Item

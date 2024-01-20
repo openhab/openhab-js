@@ -7,7 +7,7 @@ const time = require('@js-joda/core');
  * @name OPENHAB_JS_VERSION
  * @type {string}
  */
-const VERSION = require('./package.json').version;
+const VERSION = require('../package.json').version;
 const log = require('./log')('utils');
 
 const HashSet = Java.type('java.util.HashSet');

@@ -1,6 +1,6 @@
 {
   // Change this to match your project
-  "include": ["../**/*.js"],
+  "include": ["../src/**/*.js"],
   "exclude": [
     "../test/**",
     "../coverage/**",

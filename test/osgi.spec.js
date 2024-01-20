@@ -1,4 +1,4 @@
-const { getService, findServices, unregisterService, registerPermanentService, registerService } = require('../osgi');
+const { getService, findServices, unregisterService, registerPermanentService, registerService } = require('../src/osgi');
 const { Hashtable } = require('./java.mock');
 const bundleContext = require('@runtime/osgi').bundleContext;
 const lifecycleTracker = require('@runtime').lifecycleTracker;

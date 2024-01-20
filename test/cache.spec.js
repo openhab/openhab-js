@@ -10,7 +10,7 @@ describe('cache.js', () => {
 
     jest.mock('@runtime/cache', () => ({}), { virtual: true });
 
-    const { JSCache } = require('../cache');
+    const { JSCache } = require('../src/cache');
     const cache = new JSCache({
       exists: (...args) => mockExists(...args),
       get: (...args) => mockGet(...args),
