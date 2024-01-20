@@ -57,7 +57,7 @@ function _createTrigger (typeString, name, config) {
 const ChannelEventTrigger = (channel, event, triggerName) =>
   _createTrigger('core.ChannelEventTrigger', triggerName, {
     channelUID: channel,
-    event: event
+    event
   });
 
 /**
@@ -97,7 +97,7 @@ const ItemStateChangeTrigger = (itemOrName, oldState, newState, triggerName) =>
 const ItemStateUpdateTrigger = (itemOrName, state, triggerName) =>
   _createTrigger('core.ItemStateUpdateTrigger', triggerName, {
     itemName: (itemOrName instanceof Item) ? itemOrName.name : itemOrName,
-    state: state
+    state
   });
 
 /**
@@ -115,7 +115,7 @@ const ItemStateUpdateTrigger = (itemOrName, state, triggerName) =>
 const ItemCommandTrigger = (itemOrName, command, triggerName) =>
   _createTrigger('core.ItemCommandTrigger', triggerName, {
     itemName: (itemOrName instanceof Item) ? itemOrName.name : itemOrName,
-    command: command
+    command
   });
 
 /**
@@ -151,7 +151,7 @@ const GroupStateChangeTrigger = (groupOrName, oldState, newState, triggerName) =
 const GroupStateUpdateTrigger = (groupOrName, state, triggerName) =>
   _createTrigger('core.GroupStateUpdateTrigger', triggerName, {
     groupName: (groupOrName instanceof Item) ? groupOrName.name : groupOrName,
-    state: state
+    state
   });
 
 /**
@@ -168,7 +168,7 @@ const GroupStateUpdateTrigger = (groupOrName, state, triggerName) =>
 const GroupCommandTrigger = (groupOrName, command, triggerName) =>
   _createTrigger('core.GroupCommandTrigger', triggerName, {
     groupName: (groupOrName instanceof Item) ? groupOrName.name : groupOrName,
-    command: command
+    command
   });
 
 /**
@@ -184,8 +184,8 @@ const GroupCommandTrigger = (groupOrName, command, triggerName) =>
  */
 const ThingStatusUpdateTrigger = (thingUID, status, triggerName) =>
   _createTrigger('core.ThingStatusUpdateTrigger', triggerName, {
-    thingUID: thingUID,
-    status: status
+    thingUID,
+    status
   });
 
 /**
@@ -202,9 +202,9 @@ const ThingStatusUpdateTrigger = (thingUID, status, triggerName) =>
  */
 const ThingStatusChangeTrigger = (thingUID, status, previousStatus, triggerName) =>
   _createTrigger('core.ThingStatusChangeTrigger', triggerName, {
-    thingUID: thingUID,
-    status: status,
-    previousStatus: previousStatus
+    thingUID,
+    status,
+    previousStatus
   });
 
 /**
@@ -253,7 +253,7 @@ const GenericCronTrigger = (expression, triggerName) =>
  */
 const TimeOfDayTrigger = (time, triggerName) =>
   _createTrigger('timer.TimeOfDayTrigger', triggerName, {
-    time: time
+    time
   });
 
 /**
@@ -270,7 +270,7 @@ const TimeOfDayTrigger = (time, triggerName) =>
 const DateTimeTrigger = (itemOrName, timeOnly = false, triggerName) =>
   _createTrigger('timer.DateTimeTrigger', triggerName, {
     itemName: (itemOrName instanceof Item) ? itemOrName.name : itemOrName,
-    timeOnly: timeOnly
+    timeOnly
   });
 
 /**
@@ -323,11 +323,11 @@ const GenericEventTrigger = (eventTopic, eventSource, eventTypes, triggerName) =
  */
 const PWMTrigger = (dutycycleItem, interval, minDutyCycle, maxDutyCycle, deadManSwitch, triggerName) =>
   _createTrigger('pwm.trigger', triggerName, {
-    dutycycleItem: dutycycleItem,
-    interval: interval,
-    minDutyCycle: minDutyCycle,
-    maxDutyCycle: maxDutyCycle,
-    deadManSwitch: deadManSwitch
+    dutycycleItem,
+    interval,
+    minDutyCycle,
+    maxDutyCycle,
+    deadManSwitch
   });
 
 /**
@@ -367,14 +367,14 @@ const PIDTrigger = (inputItem, setpointItem, kp = 1, ki = 1, kd = 1, kdTimeConst
   _createTrigger('pidcontroller.trigger', triggerName, {
     input: inputItem,
     setpoint: setpointItem,
-    kp: kp,
-    ki: ki,
-    kd: kd,
-    kdTimeConstant: kdTimeConstant,
-    loopTime: loopTime,
-    commandItem: commandItem,
-    integralMinValue: integralMinValue,
-    integralMaxValue: integralMaxValue,
+    kp,
+    ki,
+    kd,
+    kdTimeConstant,
+    loopTime,
+    commandItem,
+    integralMinValue,
+    integralMaxValue,
     pInspector: pInspectorItem,
     iInspector: iInspectorItem,
     dInspector: dInspectorItem,
