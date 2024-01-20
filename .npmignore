@@ -2,18 +2,21 @@
 
 .github
 .idea
-.markdownlint.yaml
 .vscode
-CODEOWNERS
-coverage
-DEPLOY.md
+build
+dist
 doc
 docs
-docs_config.json
-dist
-images
-jest.config.js
-openhab-*.tgz
-out
 test
 
+types/index.d.ts*
+
+.eslintrc.js
+.gitignore
+.markdownlint.yaml
+.nvmrc
+CODEOWNERS
+CONTRIBUTING.md
+DEPLOY.md
+openhab-*.tgz
+typeOfArguments.js
