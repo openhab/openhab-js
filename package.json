@@ -30,6 +30,7 @@
     },
     "devDependencies": {
         "@types/jest": "^29.5.2",
+        "@types/node": "^20.11.5",
         "acorn": "^8.6.0",
         "docdash": "^1.2.0",
         "eslint": "^8.56.0",
