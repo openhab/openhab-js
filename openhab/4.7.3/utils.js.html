@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>utils.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="actions.html">actions</a><ul class='members'><li data-type='member'><a href="actions.html#.Audio">Audio</a></li><li data-type='member'><a href="actions.html#.BusEvent">BusEvent</a></li><li data-type='member'><a href="actions.html#.CoreUtil">CoreUtil</a></li><li data-type='member'><a href="actions.html#.Ephemeris">Ephemeris</a></li><li data-type='member'><a href="actions.html#.Exec">Exec</a></li><li data-type='member'><a href="actions.html#.HTTP">HTTP</a></li><li data-type='member'><a href="actions.html#.Log">Log</a></li><li data-type='member'><a href="actions.html#.NotificationAction">NotificationAction</a></li><li data-type='member'><a href="actions.html#.Ping">Ping</a></li><li data-type='member'><a href="actions.html#.Semantics">Semantics</a></li><li data-type='member'><a href="actions.html#.Things">Things</a></li><li data-type='member'><a href="actions.html#.Voice">Voice</a></li></ul><ul class='methods'><li data-type='method'><a href="actions.html#.get">get</a></li><li data-type='method'><a href="actions.html#.thingActions">thingActions</a></li></ul></li><li><a href="cache.html">cache</a><ul class='members'><li data-type='member'><a href="cache.html#.private">private</a></li><li data-type='member'><a href="cache.html#.shared">shared</a></li></ul></li><li><a href="items.html">items</a><ul class='members'><li data-type='member'><a href="items.html#.DYNAMIC_ITEM_TAG">DYNAMIC_ITEM_TAG</a></li></ul><ul class='methods'><li data-type='method'><a href="items.html#.NAME">NAME</a></li><li data-type='method'><a href="items.html#.addItem">addItem</a></li><li data-type='method'><a href="items.html#.getItem">getItem</a></li><li data-type='method'><a href="items.html#.getItems">getItems</a></li><li data-type='method'><a href="items.html#.getItemsByTag">getItemsByTag</a></li><li data-type='method'><a href="items.html#.removeItem">removeItem</a></li><li data-type='method'><a href="items.html#.replaceItem">replaceItem</a></li><li data-type='method'><a href="items.html#.safeItemName">safeItemName</a></li></ul></li><li><a href="items.metadata.html">metadata</a><ul class='methods'><li data-type='method'><a href="items.metadata.html#.getMetadata">getMetadata</a></li><li data-type='method'><a href="items.metadata.html#.removeMetadata">removeMetadata</a></li><li data-type='method'><a href="items.metadata.html#.replaceMetadata">replaceMetadata</a></li></ul></li><li><a href="items.metadata.itemchannellink.html">itemchannellink</a><ul class='methods'><li data-type='method'><a href="items.metadata.itemchannellink.html#.getItemChannelLink">getItemChannelLink</a></li><li data-type='method'><a href="items.metadata.itemchannellink.html#.removeItemChannelLink">removeItemChannelLink</a></li><li data-type='method'><a href="items.metadata.itemchannellink.html#.removeLinksForItem">removeLinksForItem</a></li><li data-type='method'><a href="items.metadata.itemchannellink.html#.removeOrphanedItemChannelLinks">removeOrphanedItemChannelLinks</a></li><li data-type='method'><a href="items.metadata.itemchannellink.html#.replaceItemChannelLink">replaceItemChannelLink</a></li></ul></li><li><a href="log.html">log</a><ul class='members'><li data-type='member'><a href="log.html#.LOGGER_PREFIX">LOGGER_PREFIX</a></li></ul><ul class='methods'><li data-type='method'><a href="log.html#.newLogger">newLogger</a></li></ul></li><li><a href="osgi.html">osgi</a><ul class='methods'><li data-type='method'><a href="osgi.html#.findServices">findServices</a></li><li data-type='method'><a href="osgi.html#.getService">getService</a></li></ul></li><li><a href="rules.html">rules</a><ul class='methods'><li data-type='method'><a href="rules.html#.JSRule">JSRule</a></li><li data-type='method'><a href="rules.html#.SwitchableJSRule">SwitchableJSRule</a></li><li data-type='method'><a href="rules.html#.isEnabled">isEnabled</a></li><li data-type='method'><a href="rules.html#.removeRule">removeRule</a></li><li data-type='method'><a href="rules.html#.runRule">runRule</a></li><li data-type='method'><a href="rules.html#.setEnabled">setEnabled</a></li><li data-type='method'><a href="rules.html#.when">when</a></li></ul></li><li><a href="things.html">things</a><ul class='methods'><li data-type='method'><a href="things.html#.getThing">getThing</a></li><li data-type='method'><a href="things.html#.getThings">getThings</a></li></ul></li><li><a href="time.html">time</a><ul class='methods'><li data-type='method'><a href="time.html#.toZDT">toZDT</a></li></ul></li><li><a href="triggers.html">triggers</a><ul class='methods'><li data-type='method'><a href="triggers.html#.ChannelEventTrigger">ChannelEventTrigger</a></li><li data-type='method'><a href="triggers.html#.DateTimeTrigger">DateTimeTrigger</a></li><li data-type='method'><a href="triggers.html#.GenericCronTrigger">GenericCronTrigger</a></li><li data-type='method'><a href="triggers.html#.GenericEventTrigger">GenericEventTrigger</a></li><li data-type='method'><a href="triggers.html#.GroupCommandTrigger">GroupCommandTrigger</a></li><li data-type='method'><a href="triggers.html#.GroupStateChangeTrigger">GroupStateChangeTrigger</a></li><li data-type='method'><a href="triggers.html#.GroupStateUpdateTrigger">GroupStateUpdateTrigger</a></li><li data-type='method'><a href="triggers.html#.ItemCommandTrigger">ItemCommandTrigger</a></li><li data-type='method'><a href="triggers.html#.ItemStateChangeTrigger">ItemStateChangeTrigger</a></li><li data-type='method'><a href="triggers.html#.ItemStateUpdateTrigger">ItemStateUpdateTrigger</a></li><li data-type='method'><a href="triggers.html#.PIDTrigger">PIDTrigger</a></li><li data-type='method'><a href="triggers.html#.PWMTrigger">PWMTrigger</a></li><li data-type='method'><a href="triggers.html#.SystemStartlevelTrigger">SystemStartlevelTrigger</a></li><li data-type='method'><a href="triggers.html#.ThingStatusChangeTrigger">ThingStatusChangeTrigger</a></li><li data-type='method'><a href="triggers.html#.ThingStatusUpdateTrigger">ThingStatusUpdateTrigger</a></li><li data-type='method'><a href="triggers.html#.TimeOfDayTrigger">TimeOfDayTrigger</a></li></ul></li><li><a href="utils.html">utils</a><ul class='members'><li data-type='member'><a href="utils.html#.OPENHAB_JS_VERSION">OPENHAB_JS_VERSION</a></li></ul><ul class='methods'><li data-type='method'><a href="utils.html#.dumpObject">dumpObject</a></li><li data-type='method'><a href="utils.html#.isJsInstanceOfJavaType">isJsInstanceOfJavaType</a></li><li data-type='method'><a href="utils.html#.javaInstantToJsInstant">javaInstantToJsInstant</a></li><li data-type='method'><a href="utils.html#.javaListToJsArray">javaListToJsArray</a></li><li data-type='method'><a href="utils.html#.javaMapToJsMap">javaMapToJsMap</a></li><li data-type='method'><a href="utils.html#.javaMapToJsObj">javaMapToJsObj</a></li><li data-type='method'><a href="utils.html#.javaSetToJsArray">javaSetToJsArray</a></li><li data-type='method'><a href="utils.html#.javaSetToJsSet">javaSetToJsSet</a></li><li data-type='method'><a href="utils.html#.javaZDTToJsZDT">javaZDTToJsZDT</a></li><li data-type='method'><a href="utils.html#.javaZDTToJsZDTWithDefaultZoneSystem">javaZDTToJsZDTWithDefaultZoneSystem</a></li><li data-type='method'><a href="utils.html#.jsArrayToJavaList">jsArrayToJavaList</a></li><li data-type='method'><a href="utils.html#.jsArrayToJavaSet">jsArrayToJavaSet</a></li><li data-type='method'><a href="utils.html#.jsSetToJavaSet">jsSetToJavaSet</a></li><li data-type='method'><a href="utils.html#.randomUUID">randomUUID</a></li></ul></li></ul><h3>Classes</h3><ul><li><a href="ConditionBuilder.html">ConditionBuilder</a><ul class='methods'><li data-type='method'><a href="ConditionBuilder.html#stateOfItem">stateOfItem</a></li><li data-type='method'><a href="ConditionBuilder.html#then">then</a></li></ul></li><li><a href="ConditionBuilder.ConditionConf.html">ConditionConf</a><ul class='methods'><li data-type='method'><a href="ConditionBuilder.ConditionConf.html#then">then</a></li></ul></li><li><a href="ConditionBuilder.FunctionConditionConf.html">FunctionConditionConf</a><ul class='methods'><li data-type='method'><a href="ConditionBuilder.FunctionConditionConf.html#then">then</a></li></ul></li><li><a href="ConditionBuilder.ItemStateConditionConf.html">ItemStateConditionConf</a><ul class='methods'><li data-type='method'><a href="ConditionBuilder.ItemStateConditionConf.html#in">in</a></li><li data-type='method'><a href="ConditionBuilder.ItemStateConditionConf.html#is">is</a></li><li data-type='method'><a href="ConditionBuilder.ItemStateConditionConf.html#then">then</a></li></ul></li><li><a href="JSCache.html">JSCache</a><ul class='methods'><li data-type='method'><a href="JSCache.html#exists">exists</a></li><li data-type='method'><a href="JSCache.html#get">get</a></li><li data-type='method'><a href="JSCache.html#put">put</a></li><li data-type='method'><a href="JSCache.html#remove">remove</a></li></ul></li><li><a href="OperationBuilder.html">OperationBuilder</a><ul class='methods'><li data-type='method'><a href="OperationBuilder.html#build">build</a></li><li data-type='method'><a href="OperationBuilder.html#copyAndSendState">copyAndSendState</a></li><li data-type='method'><a href="OperationBuilder.html#copyState">copyState</a></li><li data-type='method'><a href="OperationBuilder.html#inGroup">inGroup</a></li><li data-type='method'><a href="OperationBuilder.html#postIt">postIt</a></li><li data-type='method'><a href="OperationBuilder.html#postUpdate">postUpdate</a></li><li data-type='method'><a href="OperationBuilder.html#send">send</a></li><li data-type='method'><a href="OperationBuilder.html#sendIt">sendIt</a></li><li data-type='method'><a href="OperationBuilder.html#sendOff">sendOff</a></li><li data-type='method'><a href="OperationBuilder.html#sendOn">sendOn</a></li><li data-type='method'><a href="OperationBuilder.html#sendToggle">sendToggle</a></li></ul></li><li><a href="OperationBuilder.CopyStateOperation.html">CopyStateOperation</a><ul class='methods'><li data-type='method'><a href="OperationBuilder.CopyStateOperation.html#and">and</a></li><li data-type='method'><a href="OperationBuilder.CopyStateOperation.html#fromItem">fromItem</a></li><li data-type='method'><a href="OperationBuilder.CopyStateOperation.html#toItem">toItem</a></li></ul></li><li><a href="OperationBuilder.OperationConfig.html">OperationConfig</a><ul class='methods'><li data-type='method'><a href="OperationBuilder.OperationConfig.html#build">build</a></li><li data-type='method'><a href="OperationBuilder.OperationConfig.html#inGroup">inGroup</a></li></ul></li><li><a href="OperationBuilder.SendCommandOrUpdateOperation.html">SendCommandOrUpdateOperation</a><ul class='methods'><li data-type='method'><a href="OperationBuilder.SendCommandOrUpdateOperation.html#and">and</a></li><li data-type='method'><a href="OperationBuilder.SendCommandOrUpdateOperation.html#toItem">toItem</a></li><li data-type='method'><a href="OperationBuilder.SendCommandOrUpdateOperation.html#toItems">toItems</a></li></ul></li><li><a href="OperationBuilder.TimingItemStateOperation.html">TimingItemStateOperation</a></li><li><a href="OperationBuilder.ToggleOperation.html">ToggleOperation</a><ul class='methods'><li data-type='method'><a href="OperationBuilder.ToggleOperation.html#and">and</a></li><li data-type='method'><a href="OperationBuilder.ToggleOperation.html#doToggle">doToggle</a></li><li data-type='method'><a href="OperationBuilder.ToggleOperation.html#toItem">toItem</a></li></ul></li><li><a href="Quantity.html">Quantity</a><ul class='methods'><li data-type='method'><a href="Quantity.html#add">add</a></li><li data-type='method'><a href="Quantity.html#divide">divide</a></li><li data-type='method'><a href="Quantity.html#equal">equal</a></li><li data-type='method'><a href="Quantity.html#greaterThan">greaterThan</a></li><li data-type='method'><a href="Quantity.html#greaterThanOrEqual">greaterThanOrEqual</a></li><li data-type='method'><a href="Quantity.html#lessThan">lessThan</a></li><li data-type='method'><a href="Quantity.html#lessThanOrEqual">lessThanOrEqual</a></li><li data-type='method'><a href="Quantity.html#multiply">multiply</a></li><li data-type='method'><a href="Quantity.html#subtract">subtract</a></li><li data-type='method'><a href="Quantity.html#toUnit">toUnit</a></li></ul></li><li><a href="QuantityError.html">QuantityError</a></li><li><a href="RuleBuilder.html">RuleBuilder</a><ul class='methods'><li data-type='method'><a href="RuleBuilder.html#when">when</a></li></ul></li><li><a href="TriggerBuilder.html">TriggerBuilder</a><ul class='methods'><li data-type='method'><a href="TriggerBuilder.html#channel">channel</a></li><li data-type='method'><a href="TriggerBuilder.html#cron">cron</a></li><li data-type='method'><a href="TriggerBuilder.html#dateTime">dateTime</a></li><li data-type='method'><a href="TriggerBuilder.html#item">item</a></li><li data-type='method'><a href="TriggerBuilder.html#memberOf">memberOf</a></li><li data-type='method'><a href="TriggerBuilder.html#system">system</a></li><li data-type='method'><a href="TriggerBuilder.html#thing">thing</a></li><li data-type='method'><a href="TriggerBuilder.html#timeOfDay">timeOfDay</a></li></ul></li><li><a href="TriggerBuilder.ChannelTriggerConfig.html">ChannelTriggerConfig</a><ul class='methods'><li data-type='method'><a href="TriggerBuilder.ChannelTriggerConfig.html#to">to</a></li><li data-type='method'><a href="TriggerBuilder.ChannelTriggerConfig.html#triggered">triggered</a></li></ul></li><li><a href="TriggerBuilder.CronTriggerConfig.html">CronTriggerConfig</a></li><li><a href="TriggerBuilder.DateTimeTriggerConfig.html">DateTimeTriggerConfig</a><ul class='methods'><li data-type='method'><a href="TriggerBuilder.DateTimeTriggerConfig.html#timeOnly">timeOnly</a></li></ul></li><li><a href="TriggerBuilder.ItemTriggerConfig.html">ItemTriggerConfig</a><ul class='methods'><li data-type='method'><a href="TriggerBuilder.ItemTriggerConfig.html#changed">changed</a></li><li data-type='method'><a href="TriggerBuilder.ItemTriggerConfig.html#for">for</a></li><li data-type='method'><a href="TriggerBuilder.ItemTriggerConfig.html#from">from</a></li><li data-type='method'><a href="TriggerBuilder.ItemTriggerConfig.html#fromOff">fromOff</a></li><li data-type='method'><a href="TriggerBuilder.ItemTriggerConfig.html#fromOn">fromOn</a></li><li data-type='method'><a href="TriggerBuilder.ItemTriggerConfig.html#receivedCommand">receivedCommand</a></li><li data-type='method'><a href="TriggerBuilder.ItemTriggerConfig.html#receivedUpdate">receivedUpdate</a></li><li data-type='method'><a href="TriggerBuilder.ItemTriggerConfig.html#to">to</a></li><li data-type='method'><a href="TriggerBuilder.ItemTriggerConfig.html#toOff">toOff</a></li><li data-type='method'><a href="TriggerBuilder.ItemTriggerConfig.html#toOn">toOn</a></li></ul></li><li><a href="TriggerBuilder.SystemTriggerConfig.html">SystemTriggerConfig</a><ul class='methods'><li data-type='method'><a href="TriggerBuilder.SystemTriggerConfig.html#ruleEngineStarted">ruleEngineStarted</a></li><li data-type='method'><a href="TriggerBuilder.SystemTriggerConfig.html#rulesLoaded">rulesLoaded</a></li><li data-type='method'><a href="TriggerBuilder.SystemTriggerConfig.html#startLevel">startLevel</a></li><li data-type='method'><a href="TriggerBuilder.SystemTriggerConfig.html#startupComplete">startupComplete</a></li><li data-type='method'><a href="TriggerBuilder.SystemTriggerConfig.html#thingsInitialized">thingsInitialized</a></li><li data-type='method'><a href="TriggerBuilder.SystemTriggerConfig.html#userInterfacesStarted">userInterfacesStarted</a></li></ul></li><li><a href="TriggerBuilder.ThingTriggerConfig.html">ThingTriggerConfig</a><ul class='methods'><li data-type='method'><a href="TriggerBuilder.ThingTriggerConfig.html#changed">changed</a></li><li data-type='method'><a href="TriggerBuilder.ThingTriggerConfig.html#from">from</a></li><li data-type='method'><a href="TriggerBuilder.ThingTriggerConfig.html#to">to</a></li><li data-type='method'><a href="TriggerBuilder.ThingTriggerConfig.html#updated">updated</a></li></ul></li><li><a href="TriggerBuilder.TimeOfDayTriggerConfig.html">TimeOfDayTriggerConfig</a></li><li><a href="TriggerBuilder.TriggerConf.html">TriggerConf</a><ul class='methods'><li data-type='method'><a href="TriggerBuilder.TriggerConf.html#if">if</a></li><li data-type='method'><a href="TriggerBuilder.TriggerConf.html#or">or</a></li><li data-type='method'><a href="TriggerBuilder.TriggerConf.html#then">then</a></li></ul></li><li><a href="actions.ScriptExecution.html">ScriptExecution</a><ul class='methods'><li data-type='method'><a href="actions.ScriptExecution.html#.callScript">callScript</a></li><li data-type='method'><a href="actions.ScriptExecution.html#.createTimer">createTimer</a></li><li data-type='method'><a href="actions.ScriptExecution.html#.createTimerWithArgument">createTimerWithArgument</a></li></ul></li><li><a href="actions.Transformation.html">Transformation</a><ul class='methods'><li data-type='method'><a href="actions.Transformation.html#.transform">transform</a></li><li data-type='method'><a href="actions.Transformation.html#.transformRaw">transformRaw</a></li></ul></li><li><a href="items.HistoricItem.html">HistoricItem</a></li><li><a href="items.Item.html">Item</a><ul class='methods'><li data-type='method'><a href="items.Item.html#addGroups">addGroups</a></li><li data-type='method'><a href="items.Item.html#addTags">addTags</a></li><li data-type='method'><a href="items.Item.html#getMetadata">getMetadata</a></li><li data-type='method'><a href="items.Item.html#getToggleState">getToggleState</a></li><li data-type='method'><a href="items.Item.html#postToggleUpdate">postToggleUpdate</a></li><li data-type='method'><a href="items.Item.html#postUpdate">postUpdate</a></li><li data-type='method'><a href="items.Item.html#removeGroups">removeGroups</a></li><li data-type='method'><a href="items.Item.html#removeMetadata">removeMetadata</a></li><li data-type='method'><a href="items.Item.html#removeTags">removeTags</a></li><li data-type='method'><a href="items.Item.html#replaceMetadata">replaceMetadata</a></li><li data-type='method'><a href="items.Item.html#sendCommand">sendCommand</a></li><li data-type='method'><a href="items.Item.html#sendCommandIfDifferent">sendCommandIfDifferent</a></li><li data-type='method'><a href="items.Item.html#sendToggleCommand">sendToggleCommand</a></li></ul></li><li><a href="items.ItemHistory.html">ItemHistory</a><ul class='methods'><li data-type='method'><a href="items.ItemHistory.html#averageBetween">averageBetween</a></li><li data-type='method'><a href="items.ItemHistory.html#averageSince">averageSince</a></li><li data-type='method'><a href="items.ItemHistory.html#changedBetween">changedBetween</a></li><li data-type='method'><a href="items.ItemHistory.html#changedSince">changedSince</a></li><li data-type='method'><a href="items.ItemHistory.html#countBetween">countBetween</a></li><li data-type='method'><a href="items.ItemHistory.html#countSince">countSince</a></li><li data-type='method'><a href="items.ItemHistory.html#countStateChangesBetween">countStateChangesBetween</a></li><li data-type='method'><a href="items.ItemHistory.html#countStateChangesSince">countStateChangesSince</a></li><li data-type='method'><a href="items.ItemHistory.html#deltaBetween">deltaBetween</a></li><li data-type='method'><a href="items.ItemHistory.html#deltaSince">deltaSince</a></li><li data-type='method'><a href="items.ItemHistory.html#deviationBetween">deviationBetween</a></li><li data-type='method'><a href="items.ItemHistory.html#deviationSince">deviationSince</a></li><li data-type='method'><a href="items.ItemHistory.html#evolutionRate">evolutionRate</a></li><li data-type='method'><a href="items.ItemHistory.html#evolutionRateBetween">evolutionRateBetween</a></li><li data-type='method'><a href="items.ItemHistory.html#evolutionRateSince">evolutionRateSince</a></li><li data-type='method'><a href="items.ItemHistory.html#getAllStatesBetween">getAllStatesBetween</a></li><li data-type='method'><a href="items.ItemHistory.html#getAllStatesSince">getAllStatesSince</a></li><li data-type='method'><a href="items.ItemHistory.html#historicState">historicState</a></li><li data-type='method'><a href="items.ItemHistory.html#lastUpdate">lastUpdate</a></li><li data-type='method'><a href="items.ItemHistory.html#latestState">latestState</a></li><li data-type='method'><a href="items.ItemHistory.html#maximumBetween">maximumBetween</a></li><li data-type='method'><a href="items.ItemHistory.html#maximumSince">maximumSince</a></li><li data-type='method'><a href="items.ItemHistory.html#minimumBetween">minimumBetween</a></li><li data-type='method'><a href="items.ItemHistory.html#minimumSince">minimumSince</a></li><li data-type='method'><a href="items.ItemHistory.html#persist">persist</a></li><li data-type='method'><a href="items.ItemHistory.html#previousState">previousState</a></li><li data-type='method'><a href="items.ItemHistory.html#sumBetween">sumBetween</a></li><li data-type='method'><a href="items.ItemHistory.html#sumSince">sumSince</a></li><li data-type='method'><a href="items.ItemHistory.html#updatedBetween">updatedBetween</a></li><li data-type='method'><a href="items.ItemHistory.html#updatedSince">updatedSince</a></li><li data-type='method'><a href="items.ItemHistory.html#varianceBetween">varianceBetween</a></li><li data-type='method'><a href="items.ItemHistory.html#varianceSince">varianceSince</a></li></ul></li><li><a href="items.ItemSemantics.html">ItemSemantics</a></li><li><a href="items.metadata.ItemMetadata.html">ItemMetadata</a></li><li><a href="log.Logger.html">Logger</a><ul class='methods'><li data-type='method'><a href="log.Logger.html#atLevel">atLevel</a></li><li data-type='method'><a href="log.Logger.html#debug">debug</a></li><li data-type='method'><a href="log.Logger.html#error">error</a></li><li data-type='method'><a href="log.Logger.html#info">info</a></li><li data-type='method'><a href="log.Logger.html#trace">trace</a></li><li data-type='method'><a href="log.Logger.html#warn">warn</a></li></ul></li><li><a href="things.Thing.html">Thing</a><ul class='methods'><li data-type='method'><a href="things.Thing.html#setEnabled">setEnabled</a></li><li data-type='method'><a href="things.Thing.html#setLabel">setLabel</a></li><li data-type='method'><a href="things.Thing.html#setLocation">setLocation</a></li><li data-type='method'><a href="things.Thing.html#setProperty">setProperty</a></li></ul></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">utils.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const time = require('@js-joda/core');
+
+/**
+ * openHAB JavaScript library version
+ *
+ * @memberof utils
+ * @name OPENHAB_JS_VERSION
+ * @type {string}
+ */
+const VERSION = require('../package.json').version;
+const log = require('./log')('utils');
+
+const HashSet = Java.type('java.util.HashSet');
+const ArrayList = Java.type('java.util.ArrayList');
+
+/**
+ * Utils namespace.
+ * This namespace handles utilities, especially for conversion from and to Java data types.
+ *
+ * @namespace utils
+ */
+
+function _getAllPropertyNames (obj) {
+  const proto = Object.getPrototypeOf(obj);
+  const inherited = (proto) ? _getAllPropertyNames(proto) : [];
+  return [...new Set(Object.getOwnPropertyNames(obj).concat(inherited))];
+}
+
+/**
+ * Convert JavaScript Set to Java Set.
+ *
+ * @memberOf utils
+ * @param {Set} set JavaScript Set
+ * @returns {JavaSet} Java Set
+ */
+function jsSetToJavaSet (set) {
+  const rv = new HashSet();
+  set.forEach(e => rv.add(e));
+  return rv;
+}
+
+/**
+ * Convert JavaScript Array to Java Set.
+ *
+ * @memberOf utils
+ * @param {Array} arr
+ * @returns {JavaSet} Java Set
+ */
+function jsArrayToJavaSet (arr) {
+  const set = new HashSet();
+  for (const i of arr) {
+    set.add(i);
+  }
+  return set;
+}
+
+/**
+ * Convert JavaScript Array to Java List.
+ *
+ * @memberOf utils
+ * @param {Array} arr JavaScript Array
+ * @returns {JavaList}
+ */
+function jsArrayToJavaList (arr) {
+  const list = new ArrayList();
+  for (const i of arr) {
+    list.add(i);
+  }
+  return list;
+}
+
+/**
+ * Convert Java List to JavaScript Array.
+ *
+ * @memberOf utils
+ * @param {JavaList} list
+ * @returns {Array} JavaScript Array
+ */
+function javaListToJsArray (list) {
+  return Java.from(list);
+}
+
+/**
+ * Convert Java Set to JavaScript Array.
+ *
+ * @memberOf utils
+ * @param {JavaSet} set
+ * @returns {Array} JavaScript Array
+ */
+function javaSetToJsArray (set) {
+  return Java.from(new ArrayList(set));
+}
+
+/**
+ * Convert Java Map to JavaScript Map.
+ *
+ * @memberof utils
+ * @param {JavaMap} map
+ * @returns {Map&lt;any, any>} JavaScript Map
+ */
+function javaMapToJsMap (map) {
+  const js = new Map();
+  javaSetToJsSet(map.keySet()).forEach((key) => js.set(key, map.get(key)));
+  return js;
+}
+
+/**
+ * Convert Java Map to JavaScript Object.
+ *
+ * @memberof utils
+ * @param {JavaMap} map
+ * @returns {object} JavaScript Object
+ */
+function javaMapToJsObj (map) {
+  const obj = {};
+  map.forEach((key, val) => { obj[key] = val; });
+  return obj;
+}
+
+/**
+ * Convert Java Set to JavaScript Set.
+ *
+ * @memberOf utils
+ * @param {JavaSet} set Java Set ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html})
+ * @returns {Set} JavaScript Set Object ({@link https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Set})
+ */
+function javaSetToJsSet (set) {
+  return new Set(javaSetToJsArray(set));
+}
+
+/**
+ * Generate a random UUID.
+ *
+ * @memberOf utils
+ * @returns {string} random UUID
+ */
+const randomUUID = () => Java.type('java.util.UUID').randomUUID();
+
+/**
+ * Outputs all members and properties of an object and whether it is a JS or a Java Object to the log.
+ *
+ * @memberOf utils
+ * @param {*} obj object
+ * @param {boolean} [dumpProps=false] whether properties also should be dumped
+ */
+function dumpObject (obj, dumpProps = false) {
+  try {
+    log.info('Dumping object...');
+    log.info('  typeof obj = {}', (typeof obj));
+    const isJavaObject = Java.isJavaObject(obj);
+    log.info('  Java.isJavaObject(obj) = {}', isJavaObject);
+    const isJavaType = Java.isType(obj);
+    log.info('  Java.isType(obj) = {}', isJavaType);
+    if (isJavaObject) {
+      if (isJavaType) {
+        log.info('  Java.typeName(obj) = {}', Java.typeName(obj));
+      } else {
+        log.info('  Java.typeName(obj.getClass()) = {}', Java.typeName(obj.getClass()));
+        if (Java.typeName(obj.getClass()) === 'java.util.HashMap') {
+          log.info('Dumping contents...');
+          const keys = obj.keySet().toArray();
+          for (const key in keys) {
+            log.info('{}({}) = {}({})', keys[key], typeof keys[key], obj.get(keys[key]), typeof obj.get(keys[key]));
+            if (typeof keys[key] === 'object') {
+              log.info('Dumping key {} ...', keys[key]);
+              dumpObject(keys[key]);
+            }
+          }
+        }
+      }
+    } else if (typeof obj === 'string') {
+      log.info('  string value = ' + obj);
+    } else if (typeof obj === 'boolean') {
+      log.info('  boolean value = ' + obj);
+    } else if (typeof obj === 'number') {
+      log.info('  number value = ' + obj);
+    } else if (typeof obj === 'object' &amp;&amp; obj != null) {
+      const keys = Object.keys(obj);
+      log.info('  getOwnPropertyNames(obj) = {}', keys.toString());
+      log.info('  getAllPropertyNames(obj) = {}', _getAllPropertyNames(obj).toString());
+      // log.info("obj.toString() = {}", obj.toString());
+      // log.info("JSON.stringify(obj) = {}", JSON.stringify(obj));
+      if (dumpProps === true) {
+        for (const key in keys) {
+          log.info('Dumping property {} ...', keys[key]);
+          dumpObject(obj[keys[key]]);
+        }
+      }
+    } else {
+      log.info('  value = ' + obj);
+    }
+  } catch (e) {
+    log.info('Failed to dump object: ' + e.message);
+  }
+}
+
+/**
+ * Checks whether an object is instance of a Java class.
+ *
+ * @memberOf utils
+ * @param {*} instance object
+ * @param {JavaClass} type Java class ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Class.html})
+ * @returns {boolean} whether it is an instance of a Java class
+ * @throws error if type is not a java class
+ */
+function isJsInstanceOfJavaType (instance, type) {
+  if (!Java.isType(type)) {
+    throw Error('type is not a Java type');
+  }
+
+  if (instance === null || instance === undefined || !instance.getClass || !instance.getClass()) {
+    return false;
+  }
+
+  return Java.typeName(type) === instance.getClass().getName();
+}
+
+/**
+ * Convert Java Instant to JS-Joda Instant.
+ *
+ * @memberOf utils
+ * @param {JavaInstant} instant {@link https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html java.time.Instant}
+ * @returns {time.Instant} {@link https://js-joda.github.io/js-joda/class/packages/core/src/Instant.js~Instant.html JS-Joda Instant}
+ */
+function javaInstantToJsInstant (instant) {
+  return time.Instant.ofEpochMilli(instant.toEpochMilli());
+}
+
+/**
+ * Convert Java ZonedDateTime to JS-Joda ZonedDateTime.
+ *
+ * @memberOf utils
+ * @param {JavaZonedDateTime} zdt {@link https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/ZonedDateTime.html java.time.ZonedDateTime}
+ * @returns {time.ZonedDateTime} {@link https://js-joda.github.io/js-joda/class/packages/core/src/ZonedDateTime.js~ZonedDateTime.html JS-Joda ZonedDateTime}
+ */
+function javaZDTToJsZDT (zdt) {
+  const epoch = zdt.toInstant().toEpochMilli();
+  const instant = time.Instant.ofEpochMilli(epoch);
+  const zone = time.ZoneId.of(zdt.getZone().toString());
+  return time.ZonedDateTime.ofInstant(instant, zone);
+}
+
+/**
+ * Convert Java ZonedDateTime to JS-Joda ZonedDateTime and default to SYSTEM timezone if not explicitly set.
+ *
+ * @memberOf utils
+ * @param {JavaZonedDateTime} zdt {@link https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/ZonedDateTime.html java.time.ZonedDateTime}
+ * @returns {time.ZonedDateTime} {@link https://js-joda.github.io/js-joda/class/packages/core/src/ZonedDateTime.js~ZonedDateTime.html JS-Joda ZonedDateTime}
+ */
+function javaZDTToJsZDTWithDefaultZoneSystem (zdt) {
+  const jsZDT = javaZDTToJsZDT(zdt);
+  if (/^[+-]/.test(jsZDT.zone().toString())) {
+    return jsZDT.withZoneSameLocal(time.ZoneId.SYSTEM);
+  }
+  return jsZDT;
+}
+
+module.exports = {
+  jsSetToJavaSet,
+  jsArrayToJavaSet,
+  jsArrayToJavaList,
+  javaListToJsArray,
+  javaSetToJsArray,
+  javaSetToJsSet,
+  javaMapToJsMap,
+  javaMapToJsObj,
+  randomUUID,
+  dumpObject,
+  isJsInstanceOfJavaType,
+  javaInstantToJsInstant,
+  javaZDTToJsZDT,
+  javaZDTToJsZDTWithDefaultZoneSystem,
+  OPENHAB_JS_VERSION: VERSION
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.0</a> on Sat Jan 20 2024 10:41:48 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+</body>
+</html>
