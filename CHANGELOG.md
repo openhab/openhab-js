@@ -1,5 +1,14 @@
 # Changelog
 
+## 4.8.0
+
+| Type        | Namespace | Description                                | Reference                                                                                        | Breaking |
+|-------------|-----------|--------------------------------------------|--------------------------------------------------------------------------------------------------|----------|
+| Enhancement | `actions` | Export `CoreUtil` actions                  | [#319](https://github.com/openhab/openhab-js/pull/319)                                           | No       |
+| Enhancement | `rules`   | `JSRule`: Update MIME type shown in the UI | [c8c664a](https://github.com/openhab/openhab-js/commit/c8c644a109fa8555485e38b25322ad94adbe6fa9) | No       |
+
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/23).
+
 ## 4.7.3
 
 | Type   | Namespace | Description                                                   | Reference                                                                                        | Breaking |
