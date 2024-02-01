@@ -1,9 +1,9 @@
 # WARNING: Please keep in mind that npm disregards .gitignore when there is a .npmignore file!
+# Do NOT ignore the build directory as the JS Scripting add-on build needs the webpack config.
 
 .github
 .idea
 .vscode
-build
 dist
 doc
 docs
