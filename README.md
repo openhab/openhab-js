@@ -840,7 +840,7 @@ Therefore if you attempt to use the `DateTimeFormatter` and receive an error say
 Each loacle consists of a two letter language indicator followed by a "-" and a two letter dialect indicator: e.g. "EN-US".
 Installing a locale can be done through the command `npm install @js-joda/locale_de-de` from the *$OPENHAB_CONF/automation/js* folder.
 
-To import and use a local into your rule you need to require it and create a `DateTimeFormatter` that uses it.
+To import and use a local into your rule you need to require it and create a `DateTimeFormatter` that uses it:
 
 ```javascript
 var Locale = require('@js-joda/locale_de-de').Locale.GERMAN;
