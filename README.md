@@ -844,7 +844,7 @@ To import and use a local into your rule you need to require it and create a `Da
 
 ```javascript
 var Locale = require('@js-joda/locale_de-de').Locale.GERMAN;
-var formatter = time.DateTimeFormatter.ofPattern('MM/dd/yy HH:mm').withLocale(Locale);
+var formatter = time.DateTimeFormatter.ofPattern('dd.MM.yyyy HH:mm').withLocale(Locale);
 ```
 
 #### `time.toZDT()`
