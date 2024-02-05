@@ -829,7 +829,7 @@ actions.Exec.executeCommandLine(time.Duration.ofSeconds(20), 'echo', 'Hello Worl
 
 See [JS-Joda](https://js-joda.github.io/js-joda/) for more examples and complete API usage.
 
-### Parsing and Formatting
+#### Parsing and Formatting
 
 Occasionally, one will need to parse a non-supported date time string or generate one from a ZonedDateTime.
 To do this you will use [JS-Joda DateTimeFormatter and potentially your Locale](https://js-joda.github.io/js-joda/manual/formatting.html).
