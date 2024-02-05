@@ -834,7 +834,7 @@ See [JS-Joda](https://js-joda.github.io/js-joda/) for more examples and complete
 Occasionally, one will need to parse a non-supported date time string or generate one from a ZonedDateTime.
 To do this you will use [JS-Joda DateTimeFormatter and potentially your Locale](https://js-joda.github.io/js-joda/manual/formatting.html).
 However, all the locales combine to a unacceptibly large size to ship them with the openhab-js library.
-Therefore if you attempt to use the `DateTimeFormatter` and receive an error saying it cannot find your locale, you will need to install your locale and import it into your rule.
+Therefore if you attempt to use the `DateTimeFormatter` and receive an error saying it cannot find your locale, you will need to manually install your locale and import it into your rule.
 
 [JS-Joda Locales](https://github.com/js-joda/js-joda/tree/master/packages/locale#use-prebuilt-locale-packages) includes a list of all the supported locales.
 Each loacle consists of a two letter language indicator followed by a "-" and a two letter dialect indicator: e.g. "EN-US".
