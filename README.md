@@ -829,6 +829,24 @@ actions.Exec.executeCommandLine(time.Duration.ofSeconds(20), 'echo', 'Hello Worl
 
 See [JS-Joda](https://js-joda.github.io/js-joda/) for more examples and complete API usage.
 
+#### Parsing and Formatting
+
+Occasionally, one will need to parse a non-supported date time string or generate one from a ZonedDateTime.
+To do this you will use [JS-Joda DateTimeFormatter and potentially your Locale](https://js-joda.github.io/js-joda/manual/formatting.html).
+However, shipping all the locales with the openhab-js library would lead to an unacceptable large size.
+Therefore if you attempt to use the `DateTimeFormatter` and receive an error saying it cannot find your locale, you will need to manually install your locale and import it into your rule.
+
+[JS-Joda Locales](https://github.com/js-joda/js-joda/tree/master/packages/locale#use-prebuilt-locale-packages) includes a list of all the supported locales.
+Each loacle consists of a two letter language indicator followed by a "-" and a two letter dialect indicator: e.g. "EN-US".
+Installing a locale can be done through the command `npm install @js-joda/locale_de-de` from the *$OPENHAB_CONF/automation/js* folder.
+
+To import and use a local into your rule you need to require it and create a `DateTimeFormatter` that uses it:
+
+```javascript
+var Locale = require('@js-joda/locale_de-de').Locale.GERMAN;
+var formatter = time.DateTimeFormatter.ofPattern('dd.MM.yyyy HH:mm').withLocale(Locale);
+```
+
 #### `time.toZDT()`
 
 There will be times when this automatic conversion is not available (for example when working with date times within a rule).
