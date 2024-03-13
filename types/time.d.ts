@@ -2,7 +2,7 @@ declare const _exports: {
     toZDT: typeof toZDT;
     parseString: typeof _parseString;
     parseISO8601: typeof _parseISO8601;
-    nativeJs(date: any, zone?: time.ZoneId): time.TemporalAccessor;
+    nativeJs(date: any, zone?: time.ZoneId): time.ZonedDateTime;
     convert(temporal: time.LocalDate | time.Instant | time.ZonedDateTime | time.LocalDateTime, zone?: time.ZoneId): {
         toDate: () => Date;
         toEpochMilli: () => number;
