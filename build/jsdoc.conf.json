@@ -7,7 +7,7 @@
     },
     "source": {
         "include": [
-            ".",
+            "src",
             "package.json",
             "README.md"
         ],
