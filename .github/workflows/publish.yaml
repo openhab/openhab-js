@@ -1,19 +1,27 @@
 name: publish
-on:  
+on:
   push:
     tags:
       - 'v*'
+
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - uses: actions/checkout@v2
-      # Setup .npmrc file to publish to npm
-      - uses: actions/setup-node@v2
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: '16.17.1'
           registry-url: 'https://registry.npmjs.org'
-      - run: npm install
-      - run: npm publish --access=public
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Publish npm package
+        run: npm publish --access=public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
