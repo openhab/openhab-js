@@ -1,39 +1,32 @@
 # Contributing to openHAB
 
-Want to hack on openHAB? Awesome! Here are instructions to get you
-started. They are probably not perfect, please let us know if anything
-feels wrong or incomplete.
+Want to hack on openHAB? Awesome!
+Here are instructions to get you started.
+They are probably not perfect, please let us know if anything feels wrong or incomplete.
 
-## Contribution guidelines
+## Contribution Guidelines
 
 ### Pull requests are always welcome
 
-We are always thrilled to receive pull requests, and do our best to
-process them as fast as possible. Not sure if that typo is worth a pull
-request? Do it! We will appreciate it.
+We are always thrilled to receive pull requests, and do our best to process them as fast as possible.
+Not sure if that typo is worth a pull request? Do it! We will appreciate it.
 
-If your pull request is not accepted on the first try, don't be
-discouraged! If there's a problem with the implementation, hopefully you
-received feedback on what to improve.
+If your pull request is not accepted on the first try, don't be discouraged!
+If there's a problem with the implementation, hopefully you received feedback on what to improve.
 
-We're trying very hard to keep openHAB lean and focused. We don't want it
-to do everything for everybody. This means that we might decide against
-incorporating a new feature. However, there might be a way to implement
-that feature *on top of* openHAB.
+We're trying very hard to keep openHAB lean and focused.
+We don't want it to do everything for everybody.
+This means that we might decide against incorporating a new feature.
+However, there might be a way to implement that feature *on top of* openHAB.
 
 ### Discuss your design in the discussion forum
 
-We recommend discussing your plans [in the discussion forum](https://community.openhab.org/tags/c/setup-configuration-and-use/scripts-rules/jsscripting)
-before starting to code - especially for more ambitious contributions.
-This gives other contributors a chance to point you in the right
-direction, give feedback on your design, and maybe point out if someone
-else is working on the same thing.
+We recommend discussing your plans in [a GitHub issue](https://github.com/openhab/openhab-js/issues) before starting to code - especially for more ambitious contributions.
+This gives other contributors a chance to point you in the right direction, give feedback on your design, and maybe point out if someone else is working on the same thing.
 
 ### Create issues...
 
-Any significant improvement should be documented as [a GitHub
-issue](https://github.com/openhab/openhab-js/issues?labels=enhancement&page=1&state=open) before anybody
-starts working on it.
+Any significant improvement should be documented as [a GitHub issue](https://github.com/openhab/openhab-js/issues?labels=enhancement&page=1&state=open) before anybody starts working on it.
 
 ### ...but check for existing issues first!
 
@@ -46,43 +39,38 @@ help prioritize the most common problems and requests.
 
 Fork the repo and make changes on your fork in a feature branch.
 
-<!-- Submit unit tests for your changes.  openHAB has a great test framework built in; use
-it! Take a look at existing tests for inspiration. Run the full test suite on
-your branch before submitting a pull request. -->
+Submit unit tests for your changes.
+openhab-js has a great test framework built in; use it!
+Take a look at existing tests for inspiration.
+Run the full test suite on your branch before submitting a pull request.
+See [Unit Tests](#unit-tests).
 
-Update the documentation when creating or modifying features. Test
-your documentation changes for clarity, concision, and correctness, as
-well as a clean documentation build.
+Update the documentation when creating or modifying features.
+Test  your documentation changes for clarity, concision, and correctness.
 
 Write clean code.
 Universally formatted code promotes ease of writing, reading, and maintenance.
-See [code style](#code-style).
+See [Code Style](#code-style).
 
-Pull requests descriptions should be as clear as possible and include a
-reference to all the issues that they address.
+Pull requests descriptions should be as clear as possible and include a reference to all the issues that they address.
 
 Pull requests must not contain commits from other users or branches.
 
-Commit messages must start with a capitalized and short summary (max. 50
-chars) written in the imperative, followed by an optional, more detailed
-explanatory text which is separated from the summary by an empty line.
+Commit messages must start with a capitalized and short summary (max. 50 chars) written in the imperative, 
+followed by an optional, more detailed explanatory text which is separated from the summary by an empty line.
 
-Code review comments may be added to your pull request. Discuss, then make the
-suggested modifications and push additional commits to your feature branch. Be
-sure to post a comment after pushing. The new commits will show up in the pull
-request automatically, but the reviewers will not be notified unless you
-comment.
+Code review comments may be added to your pull request.
+Discuss, then make the  suggested modifications and push additional commits to your feature branch.
+Be  sure to post a comment after pushing.
+The new commits will show up in the pull request automatically, but the reviewers will not be notified unless you comment.
 
-Commits that fix or close an issue should include a reference like `Fixes #XXX`,
-which will automatically close the issue when merged.
+Commits that fix or close an issue should include a reference like `Fixes #XXX`, which will automatically close the issue when merged.
 
 ### Sign your work
 
-The sign-off is a simple line at the end of the explanation for the
-patch, which certifies that you wrote it or otherwise have the right to
-pass it on as an open-source patch.  The rules are pretty simple: if you
-can certify the below (from
-[developercertificate.org](https://developercertificate.org/)):
+The sign-off is a simple line at the end of the explanation for the patch,
+which certifies that you wrote it or otherwise have the right to pass it on as an open-source patch.
+The rules are pretty simple: if you can certify the below (from [developercertificate.org](https://developercertificate.org/)):
 
 ```text
 Developer Certificate of Origin
@@ -146,13 +134,13 @@ Don't forget: being a maintainer is a time investment.
 Make sure you will have time to make yourself available.
 You don't have to be a maintainer to make a difference on the project!
 
-## Build system
+## Build System
 
-openhab-js is developed on NodeJS version 16.17.1.
+openhab-js is developed on [Node.js](https://nodejs.org/) version `16.17.1`.
 It is required to use this version as well in your development environment, otherwise you could cause trouble.
 
-Maintainers recommend to use a NodeJS version manager, see [nvm-sh/nvm](https://github.com/nvm-sh/nvm).
-After you've installed, run `nvm use` to use the correct NodeJS version.
+Maintainers therefore recommend to use a Node.js version manager, e.g. [nvm-sh/nvm](https://github.com/nvm-sh/nvm).
+After you've installed it, run `nvm use` to use the correct Node.js version.
 
 openhab-js has several (development) dependencies which are required.
 
@@ -160,7 +148,7 @@ Run `npm install` to install those dependencies.
 
 After you read the following sections, please read the [deployment instructions](./DEPLOY.md) as well.
 
-### Code style
+### Code Style
 
 openhab-js is using [`eslint`](https://eslint.org/) with the rules from [JavaScript standard style](https://standardjs.com/) and some overrides for code linting and formatting.
 
@@ -171,21 +159,21 @@ Code-style is enforced when checks run on a PR.
 Lint your code with `npm run lint`.
 Fix auto-fixable issues with `npm run lint:fix`.
 
-If you want, you can also use the plugin for your editor, see [StandardJS: Are there text editor plugins?](https://standardjs.com/#are-there-text-editor-plugins).
+If you want, you can also use the plugin for your editor, see [ESLint: Integrations](https://eslint.org/docs/latest/use/integrations).
 
-If `standardx` marks an issue that can't be resolved, you can disable the particular rule for the line or a section.
-See [How do I disable a rule?](https://standardjs.com/#how-do-i-disable-a-rule).
+If `eslint` marks an issue that can't be resolved, you can disable the particular rule for the line or a section.
+See [ESLint: Disabling Rules](https://eslint.org/docs/latest/use/configure/rules#disabling-rules).
 
 ### Unit Tests
 
 openhab-js is using [Jest](https://jestjs.io/) for unit tests, which are placed in the `test` folder and have the extension `.spec.js`.
 Have a look at the [docs](https://jestjs.io/docs/getting-started) and the existing tests to get an idea how Jest works.
 
-### Type definitions
+### Type Definitions
 
 openhab-js is using [TypeScript](https://www.typescriptlang.org/) to generate type definitions from the JSDoc comments and hence provide great IntelliSense for users in supported IDEs.
 
-### MainUI code completion
+### Main UI Code Completion
 
 The code completion in the openHAB web UI is working with a so-called tern definition.
 This tern definition has to be updated manually when breaking change happens or when a new feature is added,
@@ -193,25 +181,23 @@ it is located at [openhab/openhab-webui:/bundles/org.openhab.ui/web/src/assets/o
 
 ## Community Guidelines
 
-We want to keep the openHAB community awesome, growing and collaborative. We
-need your help to keep it that way. To help with this we have come up with some
-general guidelines for the community as a whole:
+We want to keep the openHAB community awesome, growing and collaborative.
+We need your help to keep it that way.
+To help with this we have come up with some general guidelines for the community as a whole:
 
-- Be nice: Be courteous, respectful and polite to fellow community members: no
-  regional, racial, gender, or other abuse will be tolerated. We like nice people
-  way better than mean ones!
+- Be nice: Be courteous, respectful and polite to fellow community members:
+  No regional, racial, gender, or other abuse will be tolerated.
+  We like nice people way better than mean ones!
 
-- Encourage diversity and participation: Make everyone in our community
-  feel welcome, regardless of their background and the extent of their
-  contributions, and do everything possible to encourage participation in
-  our community.
+- Encourage diversity and participation:
+  Make everyone in our community feel welcome, regardless of their background and the extent of their contributions,
+  and do everything possible to encourage participation in our community.
 
-- Keep it legal: Basically, don't get us in trouble. Share only content that
-  you own, do not share private or sensitive information, and don't break the
-  law.
+- Keep it legal: Basically, don't get us in trouble.
+  Share only content that you own, do not share private or sensitive information, and don't break the law.
 
-- Stay on topic: Make sure that you are posting to the correct channel
-  and avoid off-topic discussions. Remember when you update an issue or
-  respond to an email you are potentially sending to a large number of
-  people.  Please consider this before you update.  Also remember that
-  nobody likes spam.
+- Stay on topic:
+  Make sure that you are posting to the correct channel and avoid off-topic discussions.
+  Remember when you update an issue or respond to an email you are potentially sending to a large number of people.
+  Please consider this before you update.
+  Also remember that nobody likes spam.
