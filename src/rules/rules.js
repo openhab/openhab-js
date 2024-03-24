@@ -299,6 +299,7 @@ function SwitchableJSRule (ruleConfig) {
   // First create a toggling Item
   const itemName = ruleConfig.switchItemName || 'vRuleItemFor' + items.safeItemName(ruleConfig.name);
   if (!items.existsItem(itemName)) {
+    log.info(`Creating Item: ${itemName}`);
     items.addItem({
       name: itemName,
       type: 'Switch',
