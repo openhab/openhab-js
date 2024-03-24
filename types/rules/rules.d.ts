@@ -123,6 +123,10 @@ export type RuleConfig = {
      * whether to overwrite an existing rule with the same UID
      */
     overwrite?: boolean;
+    /**
+     * (optional and only for {@link SwitchableJSRule }) name of the switch Item, which will get created automatically if it is not existent
+     */
+    switchItemName?: string;
 };
 /**
   * Remove a rule when it exists. The rule will be immediately removed.
@@ -183,13 +187,14 @@ export function setEnabled(uid: string, isEnabled: boolean): void;
   */
 export function JSRule(ruleConfig: RuleConfig): HostRule;
 /**
-  * Creates a rule, with an associated SwitchItem that can be used to toggle the rule's enabled state.
-  * The rule will be created and immediately available.
-  *
-  * @memberof rules
-  * @param {RuleConfig} ruleConfig The rule config describing the rule
-  * @returns {HostRule} the created rule
-  * @throws {Error} an error is a rule with the given UID already exists.
-  */
+ * Creates a rule, with an associated Switch Item that can be used to toggle the rule's enabled state.
+ * The rule will be created and immediately available.
+ * The Switch Item will be created automatically unless you pass a {@link RuleConfig}`switchItemName` and an Item with that name already exists.
+ *
+ * @memberof rules
+ * @param {RuleConfig} ruleConfig The rule config describing the rule
+ * @returns {HostRule} the created rule
+ * @throws {Error} an error is a rule with the given UID already exists.
+ */
 export function SwitchableJSRule(ruleConfig: RuleConfig): HostRule;
 //# sourceMappingURL=rules.d.ts.map
