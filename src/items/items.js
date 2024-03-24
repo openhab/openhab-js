@@ -563,6 +563,21 @@ function replaceItem (itemConfig) {
 }
 
 /**
+ * Whether an Item with the given name exists.
+ * @memberof items
+ * @param {string} name the name of the Item
+ * @returns {boolean} whether the Item exists
+ */
+function existsItem (name) {
+  try {
+    itemRegistry.getItem(name);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+/**
  * Gets an openHAB Item.
  * @memberof items
  * @param {string} name the name of the Item
@@ -614,6 +629,7 @@ const safeItemName = (s) => s
 
 const itemProperties = {
   safeItemName,
+  existsItem,
   getItem,
   getItems,
   addItem,
