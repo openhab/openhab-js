@@ -76,8 +76,8 @@ export function getItems(): Item[];
  * @memberof items
  * @param {ItemConfig} itemConfig the Item config describing the Item
  * @returns {Item} {@link Items.Item}
- * @throws {Error} {@link ItemConfig}.name or {@link ItemConfig}.type not set
- * @throws failed to create Item
+ * @throws {Error} if {@link ItemConfig}.name or {@link ItemConfig}.type is not set
+ * @throws {Error} if failed to create Item
  */
 export function addItem(itemConfig: ItemConfig): Item;
 /**
