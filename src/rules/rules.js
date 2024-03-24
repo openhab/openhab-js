@@ -49,6 +49,7 @@
  * @property {string[]} [tags] tags for the rule (used in UI)
  * @property {string} [ruleGroup] name of rule group to use
  * @property {boolean} [overwrite=false] whether to overwrite an existing rule with the same UID
+ * @property {string} [switchItemName] (optional and only for {@link SwitchableJSRule}) name of the switch Item, which will get created automatically if it is not existent
  */
 
 const GENERATED_RULE_ITEM_TAG = 'GENERATED_RULE_ITEM';
@@ -63,14 +64,6 @@ const { automationManager, ruleRegistry } = require('@runtime/RuleSupport');
 const RuleManager = osgi.getService('org.openhab.core.automation.RuleManager');
 
 /**
-  * Generates an Item name given the rule configuration.
-  *
-  * @private
-  * @param {object} ruleConfig The rule config
-  */
-const _itemNameForRule = (ruleConfig) => 'vRuleItemFor' + items.safeItemName(ruleConfig.name);
-
-/**
   * Links an Item to a rule. When the Item is switched on or off, so will the rule be.
   *
   * @private
@@ -78,6 +71,9 @@ const _itemNameForRule = (ruleConfig) => 'vRuleItemFor' + items.safeItemName(rul
   * @param {items.Item} item the Item to link to the rule.
   */
 function _linkItemToRule (rule, item) {
+  if (item.type !== 'Switch') {
+    throw new Error('The linked Item for SwitchableJSRule must be a Switch Item!');
+  }
   JSRule({
     name: 'vProxyRuleFor' + rule.getName(),
     description: 'Generated Rule to toggle real rule for ' + rule.getName(),
@@ -286,28 +282,33 @@ function JSRule (ruleConfig) {
 }
 
 /**
-  * Creates a rule, with an associated SwitchItem that can be used to toggle the rule's enabled state.
-  * The rule will be created and immediately available.
-  *
-  * @memberof rules
-  * @param {RuleConfig} ruleConfig The rule config describing the rule
-  * @returns {HostRule} the created rule
-  * @throws {Error} an error is a rule with the given UID already exists.
-  */
+ * Creates a rule, with an associated Switch Item that can be used to toggle the rule's enabled state.
+ * The rule will be created and immediately available.
+ * The Switch Item will be created automatically unless you pass a {@link RuleConfig}`switchItemName` and an Item with that name already exists.
+ *
+ * @memberof rules
+ * @param {RuleConfig} ruleConfig The rule config describing the rule
+ * @returns {HostRule} the created rule
+ * @throws {Error} an error is a rule with the given UID already exists.
+ */
 function SwitchableJSRule (ruleConfig) {
   if (!ruleConfig.name) {
     throw Error('No name specified for rule!');
   }
 
   // First create a toggling Item
-  const itemName = _itemNameForRule(ruleConfig);
-  const item = items.replaceItem({
-    name: itemName,
-    type: 'Switch',
-    groups: [_getGroupForItem(ruleConfig)],
-    label: ruleConfig.description,
-    tags: [GENERATED_RULE_ITEM_TAG]
-  });
+  const itemName = ruleConfig.switchItemName || 'vRuleItemFor' + items.safeItemName(ruleConfig.name);
+  if (!items.existsItem(itemName)) {
+    log.info(`Creating Item: ${itemName}`);
+    items.addItem({
+      name: itemName,
+      type: 'Switch',
+      groups: [_getGroupForItem(ruleConfig)],
+      label: ruleConfig.description,
+      tags: [GENERATED_RULE_ITEM_TAG]
+    });
+  }
+  const item = items.getItem(itemName);
 
   // create the real rule
   const rule = JSRule(ruleConfig);
@@ -321,7 +322,7 @@ function SwitchableJSRule (ruleConfig) {
     try {
       historicState = item.history.latestState();
     } catch (e) {
-      log.warn(`Failed to get historic state of ${itemName} for rule ${ruleConfig.name}: ${e}`);
+      log.warn(`Failed to get historic state of ${item.name} for rule ${ruleConfig.name}: ${e}`);
     }
 
     if (historicState !== null) {

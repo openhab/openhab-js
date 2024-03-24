@@ -53,6 +53,13 @@ export type ItemConfig = {
  */
 export function safeItemName(s: string): string;
 /**
+ * Whether an Item with the given name exists.
+ * @memberof items
+ * @param {string} name the name of the Item
+ * @returns {boolean} whether the Item exists
+ */
+export function existsItem(name: string): boolean;
+/**
  * Gets an openHAB Item.
  * @memberof items
  * @param {string} name the name of the Item
@@ -76,8 +83,8 @@ export function getItems(): Item[];
  * @memberof items
  * @param {ItemConfig} itemConfig the Item config describing the Item
  * @returns {Item} {@link Items.Item}
- * @throws {Error} {@link ItemConfig}.name or {@link ItemConfig}.type not set
- * @throws failed to create Item
+ * @throws {Error} if {@link ItemConfig}.name or {@link ItemConfig}.type is not set
+ * @throws {Error} if failed to create Item
  */
 export function addItem(itemConfig: ItemConfig): Item;
 /**

@@ -113,7 +113,7 @@ class Item {
    * @type {string}
    */
   get type () {
-    return this.rawItem.getClass().getSimpleName();
+    return this.rawItem.getType().toString();
   }
 
   /**
@@ -460,8 +460,8 @@ function _createItem (itemConfig) {
  * @memberof items
  * @param {ItemConfig} itemConfig the Item config describing the Item
  * @returns {Item} {@link Items.Item}
- * @throws {Error} {@link ItemConfig}.name or {@link ItemConfig}.type not set
- * @throws failed to create Item
+ * @throws {Error} if {@link ItemConfig}.name or {@link ItemConfig}.type is not set
+ * @throws {Error} if failed to create Item
  */
 function addItem (itemConfig) {
   const item = _createItem(itemConfig);
@@ -563,6 +563,21 @@ function replaceItem (itemConfig) {
 }
 
 /**
+ * Whether an Item with the given name exists.
+ * @memberof items
+ * @param {string} name the name of the Item
+ * @returns {boolean} whether the Item exists
+ */
+function existsItem (name) {
+  try {
+    itemRegistry.getItem(name);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+/**
  * Gets an openHAB Item.
  * @memberof items
  * @param {string} name the name of the Item
@@ -614,6 +629,7 @@ const safeItemName = (s) => s
 
 const itemProperties = {
   safeItemName,
+  existsItem,
   getItem,
   getItems,
   addItem,

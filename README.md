@@ -376,6 +376,7 @@ See [openhab-js : items](https://openhab.github.io/openhab-js/items.html) for fu
 
 - items : `object`
   - .NAME ⇒ `Item`
+  - .existsItem(name) ⇒ `boolean`
   - .getItem(name, nullIfMissing) ⇒ `Item`
   - .getItems() ⇒ `Array[Item]`
   - .getItemsByTag(...tagNames) ⇒ `Array[Item]`
@@ -1092,7 +1093,7 @@ See [openhab-js : rules](https://openhab.github.io/openhab-js/rules.html) for fu
 
 ### JSRule
 
-JSRules provides a simple, declarative syntax for defining rules that will be executed based on a trigger condition
+`JSRule` provides a simple, declarative syntax for defining rules that will be executed based on a trigger condition:
 
 ```javascript
 var email = "juliet@capulet.org"
@@ -1155,6 +1156,9 @@ triggers.DateTimeTrigger('MyDateTimeItem');
 ```
 
 You can use `null` for a trigger parameter to skip its configuration.
+
+You may use `SwitchableJSRule` to create a rule that can be enabled and disabled with a Switch Item.
+As an extension to `JSRule`, its syntax is the same, however you can specify an Item name (using the `switchItemName` rule config property) if you don't like the automatically created Item's name.
 
 See [openhab-js : triggers](https://openhab.github.io/openhab-js/triggers.html) in the API documentation for a full list of all triggers.
 
