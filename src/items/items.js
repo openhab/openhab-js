@@ -113,7 +113,7 @@ class Item {
    * @type {string}
    */
   get type () {
-    return this.rawItem.getClass().getSimpleName();
+    return this.rawItem.getType().toString();
   }
 
   /**
