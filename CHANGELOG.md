@@ -6,6 +6,7 @@
 |-------------|-----------|---------------------------------------------------------------|--------------------------------------------------------|----------|
 | Enhancement | `time`    | Upgrade JS-Joda (date & time library)                         | [#323](https://github.com/openhab/openhab-js/pull/323) | No       |
 | Enhancement | `rules`   | `SwitchableJSRule`: Add option to specify name of Switch item | [#325](https://github.com/openhab/openhab-js/pull/325) | No       |
+| Enhancement | `items`   | Remove the `Item` suffix from Item.type                       | [#325](https://github.com/openhab/openhab-js/pull/325) | **Yes**  |
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/24).
 
