@@ -33,7 +33,7 @@ We have a GitHub action which will publish this library automatically when a ver
 Use the [npm version](https://docs.npmjs.com/cli/v9/commands/npm-version) command to bump the version, commit and tag:
 
 ```bash
-npm run deploy # Perform tests, test JSDoc deployment, webpack build, update and test type definitions
+npm run build # Perform a local build: Lint, run tests, bundle with webpack, update & test type definitions, build JSDoc
 npm version [major | minor | patch] --no-git-tag-version # Select one of the commands
 ```
 

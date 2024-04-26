@@ -17,16 +17,19 @@
         "parse-duration": "^0.1.1"
     },
     "scripts": {
-        "test:mocha": "mocha test/**/*.test.js",
-        "test:jest": "jest --config test/jest.config.js",
-        "test": "npm run lint && npm run test:mocha && npm run test:jest",
-        "docs": "rm -Rf ./docs/* && jsdoc --configure build/jsdoc.conf.json",
-        "deploy": "npm test && npm run docs && npm run webpack && npm run types && npm run types:test",
         "lint": "npx eslint src",
         "lint:fix": "npx eslint --fix src",
-        "webpack": "webpack -c build/webpack.config.js && webpack -c build/@globals-webpack.config.js",
+        "pretest": "npm run lint",
+        "test:mocha": "mocha test/**/*.test.js",
+        "test:jest": "jest --config test/jest.config.js",
+        "test": "npm run test:mocha && npm run test:jest",
         "types": "tsc --project ./build/tsconfig.json",
-        "types:test": "tsc --project ./build/tsconfig.test.json"
+        "types:test": "tsc --project ./build/tsconfig.test.json",
+        "webpack": "webpack -c build/webpack.config.js && webpack -c build/@globals-webpack.config.js",
+        "docs": "rm -Rf ./docs/* && jsdoc --configure build/jsdoc.conf.json",
+        "prebuild": "npm run test",
+        "build": "npm run webpack && npm run types && npm run types:test",
+        "postbuild": "npm run docs"
     },
     "devDependencies": {
         "@types/jest": "^29.5.12",

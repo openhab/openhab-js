@@ -34,7 +34,7 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
 
-      - run: npm run deploy
+      - run: npm run build
 
       - name: Publish Docs
         if: github.ref == 'refs/heads/main'
