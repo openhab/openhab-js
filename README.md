@@ -396,7 +396,7 @@ Calling `getItem(...)` or `...` returns an `Item` object with the following prop
 
 - Item : `object`
   - .rawItem ⇒ `HostItem`
-  - .history ⇒ [`ItemHistory`](#itemhistory)
+  - .persistence ⇒ [`ItemPersistence`](#itempersistence)
   - .semantics ⇒ [`ItemSemantics`](https://openhab.github.io/openhab-js/items.ItemSemantics.html)
   - .type ⇒ `string`
   - .name ⇒ `string`
@@ -496,46 +496,64 @@ items.replaceItem({
 
 See [openhab-js : ItemConfig](https://openhab.github.io/openhab-js/global.html#ItemConfig) for full API documentation.
 
-#### `ItemHistory`
+#### `ItemPersistence`
 
-Calling `Item.history` returns an `ItemHistory` object with the following functions:
+Calling `Item.history` returns an `ItemPersistence` object with the following functions:
 
-- ItemHistory :`object`
-  - .averageBetween(begin, end, serviceId) ⇒ `number | null`
-  - .averageSince(timestamp, serviceId) ⇒ `number | null`
-  - .changedBetween(begin, end, serviceId) ⇒ `boolean`
+- ItemPersistence :`object`
+  - .averageSince(timestamp, serviceId) ⇒ `string | null`
+  - .averageUntil(timestamp, serviceId) ⇒ `string | null`
+  - .averageBetween(begin, end, serviceId) ⇒ `string | null`
   - .changedSince(timestamp, serviceId) ⇒ `boolean`
-  - .deltaBetween(begin, end, serviceId) ⇒ `number | null`
-  - .deltaSince(timestamp, serviceId) ⇒ `number | null`
-  - .deviationBetween(begin, end, serviceId) ⇒ `number | null`
-  - .deviationSince(timestamp, serviceId) ⇒ `number | null`
-  - .evolutionRateBetween(begin, end, serviceId) ⇒ `number | null`
+  - .changedUntil(timestamp, serviceId) ⇒ `boolean`
+  - .changedBetween(begin, end, serviceId) ⇒ `boolean`
+  - .countSince(timestamp, serviceId) ⇒ `number`
+  - .countUntil(timestamp, serviceId) ⇒ `number`
+  - .countBetween(begin, end, serviceId) ⇒ `number`
+  - .countStateChangesSince(timestamp, serviceId) ⇒ `number`
+  - .countStateChangesUntil(timestamp, serviceId) ⇒ `number`
+  - .countStateChangesBetween(begin, end, serviceId) ⇒ `number`
+  - .deltaSince(timestamp, serviceId) ⇒ `string | null`
+  - .deltaUntil(timestamp, serviceId) ⇒ `string | null`
+  - .deltaBetween(begin, end, serviceId) ⇒ `string | null`
+  - .deviationSince(timestamp, serviceId) ⇒ `string | null`
+  - .deviationUntil(timestamp, serviceId) ⇒ `string | null`
+  - .deviationBetween(begin, end, serviceId) ⇒ `string | null`
   - .evolutionRateSince(timestamp, serviceId) ⇒ `number | null`
-  - .getAllStatesBetween(begin, end, serviceId)  ⇒ `Array[HistoricItem]`
+  - .evolutionRateUntil(timestamp, serviceId) ⇒ `number | null`
+  - .evolutionRateBetween(begin, end, serviceId) ⇒ `number | null`
   - .getAllStatesSince(timestamp, serviceId)  ⇒ `Array[HistoricItem]`
-  - .historicState(timestamp, serviceId) ⇒ `HistoricItem | null`
+  - .getAllStatesUntil(timestamp, serviceId)  ⇒ `Array[HistoricItem]`
+  - .getAllStatesBetween(begin, end, serviceId)  ⇒ `Array[HistoricItem]`
   - .lastUpdate(serviceId) ⇒ `ZonedDateTime | null`
-  - .latestState(serviceId) ⇒ `string | null`
-  - .maximumBetween(begin, end, serviceId) ⇒ `HistoricItem | null`
+  - .nextUpdate(serviceId)  ⇒ `ZonedDateTime | null`
   - .maximumSince(timestamp,serviceId) ⇒ `HistoricItem | null`
-  - .minimumSince(begin, end, serviceId) ⇒ `HistoricItem | null`
+  - .maximumUntil(timestamp,serviceId) ⇒ `HistoricItem | null`
+  - .maximumBetween(begin, end, serviceId) ⇒ `HistoricItem | null`
   - .minimumSince(timestamp, serviceId) ⇒ `HistoricItem | null`
+  - .minimumUntil(timestamp, serviceId) ⇒ `HistoricItem | null`
+  - .minimumBetween(begin, end, serviceId) ⇒ `HistoricItem | null`
   - .persist(serviceId): Tells the persistence service to store the current Item state, which is then done asynchronously.
     **Warning:** This has the side effect, that if the Item state changes shortly after `.persist` has been called, the new Item state will be persisted. See [JSDoc](https://openhab.github.io/openhab-js/items.ItemHistory.html#persist) for a possible work-around.
+  - .persistedState(timestamp, serviceId) ⇒ `HistoricItem | null`
   - .previousState(skipEqual, serviceId) ⇒ `HistoricItem | null`
-  - .sumBetween(begin, end, serviceId) ⇒ `number | null`
-  - .sumSince(timestamp, serviceId) ⇒ `number | null`
-  - .updatedBetween(begin, end, serviceId) ⇒ `boolean`
+  - .nextState(skipEqual, serviceId) ⇒ `HistoricItem | null`
+  - .sumSince(timestamp, serviceId) ⇒ `string | null`
+  - .sumUntil(timestamp, serviceId) ⇒ `string | null`
+  - .sumBetween(begin, end, serviceId) ⇒ `string | null`
   - .updatedSince(timestamp, serviceId) ⇒ `boolean`
-  - .varianceBetween(begin, end, serviceId) ⇒ `number | null`
-  - .varianceSince(timestamp, serviceId) ⇒ `number | null`
+  - .updatedUntil(timestamp, serviceId) ⇒ `boolean`
+  - .updatedBetween(begin, end, serviceId) ⇒ `boolean`
+  - .varianceSince(timestamp, serviceId) ⇒ `string | null`
+  - .varianceUntil(timestamp, serviceId) ⇒ `string | null`
+  - .varianceBetween(begin, end, serviceId) ⇒ `string | null`
 
 Note: `serviceId` is optional, if omitted, the default persistence service will be used.
 
 ```javascript
 var yesterday = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
 var item = items.KitchenDimmer;
-console.log('KitchenDimmer averageSince', item.history.averageSince(yesterday));
+console.log('KitchenDimmer averageSince', item.persistence.averageSince(yesterday));
 ```
 
 The `HistoricItem` object contains the following properties, representing Item state and the respective timestamp:
@@ -548,11 +566,11 @@ The `HistoricItem` object contains the following properties, representing Item s
 
 ```javascript
 var midnight = time.toZDT('00:00');
-var historic = items.KitchenDimmer.history.maximumSince(midnight);
+var historic = items.KitchenDimmer.persistence.maximumSince(midnight);
 console.log('KitchenDimmer maximum was ', historic.state, ' at ', historic.timestamp);
 ```
 
-See [openhab-js : ItemHistory](https://openhab.github.io/openhab-js/items.ItemHistory.html) for full API documentation.
+See [openhab-js : ItemPersistence](https://openhab.github.io/openhab-js/items.ItemHistory.html) for full API documentation.
 
 ### Things
 
@@ -822,7 +840,7 @@ Examples:
 var now = time.ZonedDateTime.now();
 var yesterday = time.ZonedDateTime.now().minusHours(24);
 var item = items.Kitchen;
-console.log("averageSince", item.history.averageSince(yesterday));
+console.log("averageSince", item.persistence.averageSince(yesterday));
 ```
 
 ```javascript
