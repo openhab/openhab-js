@@ -107,7 +107,7 @@ function _javaIterableOfJavaHistoricItemsToJsArrayOfHistoricItems (result) {
  * @memberOf items
  * @hideconstructor
  */
-class ItemHistory {
+class ItemPersistence {
   constructor (rawItem) {
     this.rawItem = rawItem;
   }
@@ -130,7 +130,7 @@ class ItemHistory {
    * @example
    * var yesterday = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
    * var item = items.getItem('KitchenDimmer');
-   * console.log('KitchenDimmer average since yesterday', item.history.averageSince(yesterday));
+   * console.log('KitchenDimmer average since yesterday', item.persistence.averageSince(yesterday));
    *
    * @param {(time.ZonedDateTime | Date)} timestamp
    * @param {string} [serviceId] Optional persistence service ID, if omitted, the default persistence service will be used.
@@ -399,7 +399,7 @@ class ItemHistory {
    * This has the side effect, that if the Item state changes shortly after `.persist` has been called, the new state will be persisted.
    * To work around that side effect, you might add `java.lang.Thread.sleep` to your code:
    * @example
-   * items.MyItem.history.persist(); // Tell persistence to store the current Item state
+   * items.MyItem.persistence.persist(); // Tell persistence to store the current Item state
    * java.lang.Thread.sleep(100); // Wait 100 ms to make sure persistence has enough time to store the current Item state
    * items.MyItem.postUpdate(0); // Now set the Item state to a new value
    *
@@ -491,6 +491,6 @@ class ItemHistory {
 }
 
 module.exports = {
-  ItemHistory,
+  ItemPersistence,
   HistoricItem
 };

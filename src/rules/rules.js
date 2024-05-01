@@ -320,7 +320,7 @@ function SwitchableJSRule (ruleConfig) {
     // possibly load item's prior state
     let historicState = null;
     try {
-      historicState = item.history.latestState();
+      historicState = item.persistence.latestState();
     } catch (e) {
       log.warn(`Failed to get historic state of ${item.name} for rule ${ruleConfig.name}: ${e}`);
     }

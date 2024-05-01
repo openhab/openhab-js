@@ -8,7 +8,7 @@ const osgi = require('../osgi');
 const utils = require('../utils');
 const log = require('../log')('items');
 const metadata = require('./metadata/metadata');
-const { ItemHistory } = require('./item-history');
+const { ItemPersistence } = require('./item-persistence');
 const ItemSemantics = require('./item-semantics');
 const { getQuantity, QuantityError } = require('../quantity');
 
@@ -96,10 +96,10 @@ class Item {
     this.rawItem = rawItem;
 
     /**
-     * Access historical states for this Item {@link items.ItemHistory}
-     * @type {ItemHistory}
+     * Access historical states for this Item {@link items.ItemPersistence}
+     * @type {ItemPersistence}
      */
-    this.history = new ItemHistory(rawItem);
+    this.persistence = new ItemPersistence(rawItem);
 
     /**
      * Access Semantic information of this Item {@link items.ItemSemantics}
