@@ -4,15 +4,7 @@
  * @namespace cache
  */
 
-const log = require('./log')('cache');
-const { privateCache, sharedCache } = require('@runtime/cache'); // The new cache from core
-const addonSharedCache = require('@runtime').sharedcache; // The old cache from the adddon
-
-const coreCacheAvail = Java.isJavaObject(privateCache) && Java.isJavaObject(sharedCache);
-
-function logDeprecationWarning (funcName) {
-  console.warn(`"cache.${funcName}" has been deprecated and will be removed in a future release. Use "cache.private.${funcName}" or "cache.shared.${funcName}" instead. Visit the JavaScript Scripting Automation addon docs for more information about the cache.`);
-}
+const { privateCache, sharedCache } = require('@runtime/cache');
 
 /**
  * The {@link JSCache} can be used by to share information between subsequent runs of the same script or between scripts (depending on implementation).
@@ -20,12 +12,10 @@ function logDeprecationWarning (funcName) {
 class JSCache {
   /**
    * @param {*} valueCacheImpl an implementation of the Java {@link https://github.com/openhab/openhab-core/blob/main/bundles/org.openhab.core.automation.module.script.rulesupport/src/main/java/org/openhab/core/automation/module/script/rulesupport/shared/ValueCache.java ValueCache} interface
-   * @param {boolean} [deprecated]
    * @hideconstructor
    */
-  constructor (valueCacheImpl, deprecated = false) {
+  constructor (valueCacheImpl) {
     this._valueCache = valueCacheImpl;
-    this._deprecated = deprecated;
   }
 
   /**
@@ -36,7 +26,6 @@ class JSCache {
    * @returns {*|null} the current object for the supplied key, a default value if defaultSupplier is provided, or null
    */
   get (key, defaultSupplier) {
-    if (this._deprecated === true) logDeprecationWarning('get');
     if (typeof defaultSupplier === 'function') {
       return this._valueCache.get(key, defaultSupplier);
     } else {
@@ -52,7 +41,6 @@ class JSCache {
    * @returns {*|null} the previous value associated with the key, or null if there was no mapping for key
    */
   put (key, value) {
-    if (this._deprecated === true) logDeprecationWarning('put');
     return this._valueCache.put(key, value);
   }
 
@@ -63,7 +51,6 @@ class JSCache {
    * @returns {*|null} the previous value associated with the key or null if there was no mapping for key
    */
   remove (key) {
-    if (this._deprecated === true) logDeprecationWarning('remove');
     return this._valueCache.remove(key);
   }
 
@@ -74,29 +61,11 @@ class JSCache {
    * @returns {boolean} whether the key has a mapping
    */
   exists (key) {
-    if (this._deprecated === true) logDeprecationWarning('exists');
     return this._valueCache.get(key) !== null;
   }
 }
 
-let addonSharedJSCache;
-if (coreCacheAvail === true) {
-  log.debug('Caches from core are available, enable legacy cache methods to keep the old API.');
-  addonSharedJSCache = new JSCache(sharedCache, true);
-} else {
-  log.debug('Caches from core are unavailable, using the addon-provided cache.');
-  addonSharedJSCache = new JSCache(addonSharedCache);
-}
-
 module.exports = {
-  /** @deprecated */
-  get: (key, defaultSupplier) => { return addonSharedJSCache.get(key, defaultSupplier); },
-  /** @deprecated */
-  put: (key, value) => { return addonSharedJSCache.put(key, value); },
-  /** @deprecated */
-  remove: (key) => { return addonSharedJSCache.remove(key); },
-  /** @deprecated */
-  exists: (key) => { return addonSharedJSCache.exists(key); },
   /**
    * Shared cache that is shared across all rules and scripts, it can therefore be accessed from any automation language.
    * The access to every key is tracked and the key is removed when all scripts that ever accessed that key are unloaded.
@@ -105,7 +74,7 @@ module.exports = {
    * @memberof cache
    * @type JSCache
    */
-  shared: (coreCacheAvail === true) ? new JSCache(sharedCache) : undefined,
+  shared: new JSCache(sharedCache),
   /**
    * Private cache for each script.
    * The private cache can only be accessed by the same script and is cleared when the script is unloaded.
@@ -115,6 +84,6 @@ module.exports = {
    * @memberof cache
    * @type JSCache
    */
-  private: (coreCacheAvail === true) ? new JSCache(privateCache) : undefined,
-  JSCache
+  private: new JSCache(privateCache),
+  JSCache // export class for unit tests
 };

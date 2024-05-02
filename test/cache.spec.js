@@ -86,14 +86,5 @@ describe('cache.js', () => {
         expect(console.warn).not.toHaveBeenCalled();
       });
     });
-
-    it('logs a warning if the deprecated option is set.', () => {
-      cache._deprecated = true;
-      cache.exists(key);
-      cache.get(key);
-      cache.put(key, value);
-      cache.remove(key);
-      expect(console.warn).toBeCalledTimes(4);
-    });
   });
 });
