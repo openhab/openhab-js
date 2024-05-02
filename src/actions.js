@@ -271,26 +271,6 @@ class ScriptExecution {
       return ThreadsafeTimers.createTimer(identifier, callbackFn); // eslint-disable-line no-undef
     }
   }
-
-  /**
-   * Schedules a function (with argument) for later execution
-   *
-   * @deprecated
-   * @param {string} identifier an optional identifier, e.g. used for logging
-   * @param {time.ZonedDateTime} instant the point in time when the code should be executed
-   * @param {*} arg1 the argument to pass to the code block
-   * @param {function} closure the code block to execute
-   * @returns {*} a native openHAB Timer
-   */
-  static createTimerWithArgument (identifier, instant, arg1, closure) {
-    console.warn('"createTimerWithArgument" has been deprecated and will be removed in a future release. Use "createTimer" or "setTimeout" instead.');
-    // Support method overloading as identifier is optional
-    if (typeof identifier === 'string' && closure != null) {
-      return JavaScriptExecution.createTimerWithArgument(identifier, instant, arg1, closure);
-    } else {
-      return JavaScriptExecution.createTimerWithArgument(identifier, instant, arg1);
-    }
-  }
 }
 
 /**
