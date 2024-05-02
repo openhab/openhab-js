@@ -201,17 +201,6 @@ export class ScriptExecution {
      * @returns {*} a native openHAB Timer
      */
     static createTimer(identifier: string, zdt: time.ZonedDateTime, functionRef: Function, ...params: any[]): any;
-    /**
-     * Schedules a function (with argument) for later execution
-     *
-     * @deprecated
-     * @param {string} identifier an optional identifier, e.g. used for logging
-     * @param {time.ZonedDateTime} instant the point in time when the code should be executed
-     * @param {*} arg1 the argument to pass to the code block
-     * @param {function} closure the code block to execute
-     * @returns {*} a native openHAB Timer
-     */
-    static createTimerWithArgument(identifier: string, instant: time.ZonedDateTime, arg1: any, closure: Function): any;
 }
 /**
  * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/Semantics.html Semantics} Actions
