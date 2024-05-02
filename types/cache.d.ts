@@ -4,12 +4,10 @@
 export class JSCache {
     /**
      * @param {*} valueCacheImpl an implementation of the Java {@link https://github.com/openhab/openhab-core/blob/main/bundles/org.openhab.core.automation.module.script.rulesupport/src/main/java/org/openhab/core/automation/module/script/rulesupport/shared/ValueCache.java ValueCache} interface
-     * @param {boolean} [deprecated]
      * @hideconstructor
      */
-    constructor(valueCacheImpl: any, deprecated?: boolean);
+    constructor(valueCacheImpl: any);
     _valueCache: any;
-    _deprecated: boolean;
     /**
      * Returns the value to which the specified key is mapped.
      *
@@ -41,10 +39,6 @@ export class JSCache {
      */
     exists(key: string): boolean;
 }
-export declare function get(key: any, defaultSupplier: any): any;
-export declare function put(key: any, value: any): any;
-export declare function remove(key: any): any;
-export declare function exists(key: any): any;
 export declare const shared: JSCache;
 declare const _private: JSCache;
 export { _private as private };

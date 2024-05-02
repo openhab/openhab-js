@@ -428,16 +428,6 @@ function _getTriggeredData (input) {
         data.itemName = event.getItemName();
         data.eventType = 'update';
         data.triggerType = 'ItemStateUpdateTrigger';
-        Object.defineProperty(
-          data,
-          'state',
-          {
-            get: function () {
-              console.warn('"state" has been deprecated and will be removed in a future release. Please use "receivedState" instead.');
-              return input.get('state').toString();
-            }
-          }
-        );
         break;
       case 'org.openhab.core.thing.events.ThingStatusInfoChangedEvent':
         data.thingUID = event.getThingUID().toString();
@@ -454,16 +444,6 @@ function _getTriggeredData (input) {
         data.receivedEvent = event.getEvent();
         data.eventType = 'triggered';
         data.triggerType = 'ChannelEventTrigger';
-        Object.defineProperty(
-          data,
-          'receivedTrigger',
-          {
-            get: function () {
-              console.warn('"receivedTrigger" has been deprecated and will be removed in a future release. Please use "receivedEvent" instead.');
-              return event.getEvent();
-            }
-          }
-        );
         break;
     }
   }

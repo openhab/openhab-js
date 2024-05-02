@@ -63,7 +63,7 @@ openHAB also provides the [JavaScript Scripting (Nashorn) add-on](https://next.o
 ### Custom Installation
 
 <!-- TODO: Update link to stable when openHAB 4.0 is released -->
-If you want to install the openHAB JavaScript library manually, you need to disable the caching of the internal library in the [add-on's settings](https://next.openhab.org/addons/automation/jsscripting/#configuration).
+If you want to install the openHAB JavaScript library manually, you need to disable the caching of the internal library in the [add-on settings](https://next.openhab.org/addons/automation/jsscripting/#configuration).
 
 On openHABian:
 
@@ -622,7 +622,8 @@ These include several methods to convert between color types like HSB, RGB, sRGB
 
 See [openhab-js : actions.Ephemeris](https://openhab.github.io/openhab-js/actions.html#.Ephemeris) for complete documentation.
 
-Ephemeris is a way to determine what type of day today or a number of days before or after today is. For example, a way to determine if today is a weekend, a bank holiday, someone’s birthday, trash day, etc.
+Ephemeris is a way to determine what type of day today or a number of days before or after today is.
+For example, a way to determine if today is a weekend, a public holiday, someone’s birthday, trash day, etc.
 
 Additional information can be found on the  [Ephemeris Actions Docs](https://www.openhab.org/docs/configuration/actions.html#ephemeris) as well as the [Ephemeris JavaDoc](https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/ephemeris).
 
@@ -771,7 +772,7 @@ When a script is unloaded and its cache is cleared, all timers (see [`createTime
 
 The shared cache is shared across all rules and scripts, it can therefore be accessed from any automation language.
 The access to every key is tracked and the key is removed when all scripts that ever accessed that key are unloaded.
-If that key stored a timer, the timer is cancelled.
+If that key stored a timer, the timer will be cancelled.
 
 See [openhab-js : cache](https://openhab.github.io/openhab-js/cache.html) for full API documentation.
 
@@ -835,10 +836,10 @@ See [JS-Joda](https://js-joda.github.io/js-joda/) for more examples and complete
 Occasionally, one will need to parse a non-supported date time string or generate one from a ZonedDateTime.
 To do this you will use [JS-Joda DateTimeFormatter and potentially your Locale](https://js-joda.github.io/js-joda/manual/formatting.html).
 However, shipping all the locales with the openhab-js library would lead to an unacceptable large size.
-Therefore if you attempt to use the `DateTimeFormatter` and receive an error saying it cannot find your locale, you will need to manually install your locale and import it into your rule.
+Therefore, if you attempt to use the `DateTimeFormatter` and receive an error saying it cannot find your locale, you will need to manually install your locale and import it into your rule.
 
 [JS-Joda Locales](https://github.com/js-joda/js-joda/tree/master/packages/locale#use-prebuilt-locale-packages) includes a list of all the supported locales.
-Each loacle consists of a two letter language indicator followed by a "-" and a two letter dialect indicator: e.g. "EN-US".
+Each locale consists of a two letter language indicator followed by a "-" and a two letter dialect indicator: e.g. "EN-US".
 Installing a locale can be done through the command `npm install @js-joda/locale_de-de` from the *$OPENHAB_CONF/automation/js* folder.
 
 To import and use a local into your rule you need to require it and create a `DateTimeFormatter` that uses it:
@@ -995,7 +996,7 @@ The argument `value` can be a Quantity-compatible `Item`, a string, a `Quantity`
 `value` strings have the `$amount $unit` format and must follow these rules:
 
 - `$amount` is required with a number provided as string
-- `$unit` is optional (unitless quantities are possible) and can have a prefix like `m` (milli) or `M` (mega)
+- `$unit` is optional (unit-less quantities are possible) and can have a prefix like `m` (milli) or `M` (mega)
 - `$unit` does not allow whitespaces.
 - `$unit` does allow superscript, e.g. `²` instead of `^2`.
 - `$unit` requires the `*` between two units to be present, although you usually omit it (which is mathematically seen allowed, but openHAB needs the `*`).
