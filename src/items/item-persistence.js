@@ -103,12 +103,11 @@ function _javaIterableOfJavaHistoricItemsToJsArrayOfHistoricItems (result) {
 
 /**
  * Class representing the historic state of an openHAB Item.
- * If the Item receives its state from a binding that supports units of measurement, the returned state is in the according base unit, otherwise there is no unit conversion happening.
  * Wrapping the {@link https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/extensions/persistenceextensions PersistenceExtensions}.
  *
  * Be warned: This class can throw several exceptions from the underlying Java layer. It is recommended to wrap the methods of this class inside a try_catch block!
  *
- * Be aware that several methods return <code>null</code> if the default persistence service is no queryable persistence service
+ * Please note: Several methods return <code>null</code> if the default persistence service is no queryable persistence service
  * or the provided <code>serviceId</code> does not refer to an available queryable persistence service.
  *
  * @memberOf items
