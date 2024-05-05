@@ -35,21 +35,21 @@ export class ItemPersistence {
      *
      * @param {(time.ZonedDateTime | Date)} timestamp the point in time for which the persisted item should be retrieved
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {(HistoricItem | null)} the persisted item at the given point in time, or <code>null</code> if no persisted item could be found
+     * @returns {(PersistedItem | null)} the persisted item at the given point in time, or <code>null</code> if no persisted item could be found
      */
-    persistedState(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (HistoricItem | null);
+    persistedState(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (PersistedItem | null);
     /**
      * Query the last update time of a given Item.
      *
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {(time.ZonedDateTime | null)} point in time of the last historic update to <code>item</code>, or <code>null</code> if there are no historic persisted updates
+     * @returns {(time.ZonedDateTime | null)} point in time of the last historic update to Item, or <code>null</code> if there are no historic persisted updates
      */
     lastUpdate(serviceId?: string, ...args: any[]): (time.ZonedDateTime | null);
     /**
      * Query the next update time of a given Item.
      *
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {(time.ZonedDateTime | null)} point in time of the first future update to <code>item</code>, or <code>null</code> if there are no future persisted updates
+     * @returns {(time.ZonedDateTime | null)} point in time of the first future update to Item, or <code>null</code> if there are no future persisted updates
      */
     nextUpdate(serviceId?: string, ...args: any[]): (time.ZonedDateTime | null);
     /**
@@ -57,17 +57,17 @@ export class ItemPersistence {
      *
      * @param {boolean} [skipEqual] optional, if true, skips equal state values and searches the first state not equal the current state
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {(HistoricItem | null)} the persisted item at the given point in time, or <code>null</code> if no persisted item could be found or null
+     * @returns {(PersistedItem | null)} the persisted item at the given point in time, or <code>null</code> if no persisted item could be found or null
      */
-    previousState(skipEqual?: boolean, serviceId?: string, ...args: any[]): (HistoricItem | null);
+    previousState(skipEqual?: boolean, serviceId?: string, ...args: any[]): (PersistedItem | null);
     /**
      * Returns the next state of a given Item.
      *
      * @param {boolean} [skipEqual] optional, if true, skips equal state values and searches the first state not equal the current state
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {(HistoricItem | null)} the persisted item at the given point in time, or <code>null</code> if no persisted item could be found or null
+     * @returns {(PersistedItem | null)} the persisted item at the given point in time, or <code>null</code> if no persisted item could be found or null
      */
-    nextState(skipEqual?: boolean, serviceId?: string, ...args: any[]): (HistoricItem | null);
+    nextState(skipEqual?: boolean, serviceId?: string, ...args: any[]): (PersistedItem | null);
     /**
      * Checks if the state of a given Item has changed since a certain point in time.
      *
@@ -129,119 +129,125 @@ export class ItemPersistence {
      *
      * @param {(time.ZonedDateTime | Date)} timestamp the point in time to start the check
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {(HistoricItem | null)} a historic item with the maximum state value since the given point in time, a
-     *                                  {@link HistoricItem} constructed from the <code>item</code>'s state if <code>item</code>'s state
+     * @returns {(PersistedItem | null)} a historic item with the maximum state value since the given point in time, a
+     *                                  {@link PersistedItem} constructed from the Item's state if Item's state
      *                                  is the maximum value, <code>null</code> if <code>timestamp</code> is in the future
      */
-    maximumSince(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (HistoricItem | null);
+    maximumSince(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (PersistedItem | null);
     /**
      * Gets the historic Item with the maximum value of a given Item until a certain point in time.
      *
      * @param {(time.ZonedDateTime | Date)} timestamp the point in time to end the check
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {(HistoricItem | null)} a historic item with the maximum state value until the given point in time, a
-     *                                  {@link HistoricItem} constructed from the <code>item</code>'s state if <code>item</code>'s state
+     * @returns {(PersistedItem | null)} a historic item with the maximum state value until the given point in time, a
+     *                                  {@link PersistedItem} constructed from the Item's state if Item's state
      *                                  is the maximum value, <code>null</code> if <code>timestamp</code> is in the past
      */
-    maximumUntil(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (HistoricItem | null);
+    maximumUntil(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (PersistedItem | null);
     /**
      * Gets the historic Item with the maximum value of a given Item between two certain points in time.
      *
      * @param {(time.ZonedDateTime | Date)} begin the point in time to start the check
      * @param {(time.ZonedDateTime | Date)} end the point in time to stop the check
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {(HistoricItem | null)} a {@link HistoricItem} with the maximum state value between two points in time, a
-     *                                  {@link HistoricItem} constructed from the <code>item</code>'s state if no persisted states found,
+     * @returns {(PersistedItem | null)} a {@link PersistedItem} with the maximum state value between two points in time, a
+     *                                  {@link PersistedItem} constructed from the Item's state if no persisted states found,
      *                                  or <code>null</code> if <code>begin</code> is after <code>end</end>
      */
-    maximumBetween(begin: (time.ZonedDateTime | Date), end: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (HistoricItem | null);
+    maximumBetween(begin: (time.ZonedDateTime | Date), end: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (PersistedItem | null);
     /**
      * Gets the historic Item with the minimum value of a given Item since a certain point in time.
      *
      * @param {(time.ZonedDateTime | Date)} timestamp the point in time to start the check
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {(HistoricItem | null)} a historic item with the minimum state value since the given point in time, a
-     *                                  {@link HistoricItem} constructed from the <code>item</code>'s state if <code>item</code>'s state
+     * @returns {(PersistedItem | null)} a historic item with the minimum state value since the given point in time, a
+     *                                  {@link PersistedItem} constructed from the Item's state if Item's state
      *                                  is the maximum value, <code>null</code> if <code>timestamp</code> is in the future
      */
-    minimumSince(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (HistoricItem | null);
+    minimumSince(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (PersistedItem | null);
     /**
      * Gets the historic Item with the minimum value of a given Item until a certain point in time.
      *
      * @param {(time.ZonedDateTime | Date)} timestamp the point in time to end the check
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {(HistoricItem | null)} a historic item with the minimum state value until the given point in time, a
-     *                                  {@link HistoricItem} constructed from the <code>item</code>'s state if <code>item</code>'s state
+     * @returns {(PersistedItem | null)} a historic item with the minimum state value until the given point in time, a
+     *                                  {@link PersistedItem} constructed from the Item's state if Item's state
      *                                  is the maximum value, <code>null</code> if <code>timestamp</code> is in the past
      */
-    minimumUntil(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (HistoricItem | null);
+    minimumUntil(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (PersistedItem | null);
     /**
      * Gets the state with the minimum value of a given Item between two certain points in time.
      *
      * @param {(time.ZonedDateTime | Date)} begin the point in time to start the check
      * @param {(time.ZonedDateTime | Date)} end the point in time to stop the check
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {(HistoricItem | null)} a {@link HistoricItem} with the minimum state value between two points in time, a
-     *                                  {@link HistoricItem} constructed from the <code>item</code>'s state if no persisted states found,
+     * @returns {(PersistedItem | null)} a {@link PersistedItem} with the minimum state value between two points in time, a
+     *                                  {@link PersistedItem} constructed from the Item's state if no persisted states found,
      *                                  or <code>null</code> if <code>begin</code> is after <code>end</end>
      */
-    minimumBetween(begin: (time.ZonedDateTime | Date), end: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (HistoricItem | null);
+    minimumBetween(begin: (time.ZonedDateTime | Date), end: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (PersistedItem | null);
     /**
      * Gets the variance of the state of the given Item since a certain point in time.
      *
      * @param {(time.ZonedDateTime | Date)} timestamp the point in time from which to compute the variance
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {(string | null)} the variance between then and now, or <code>null</code> if <code>timestamp</code> is in the future,
-     *                            or if there is no persisted state for the given <code>item</code> at the given <code>timestamp</code>
+     * @returns {(PersistedState | null)} the variance between then and now as {@link items.PersistedState}, or <code>null</code> if
+     *                            <code>timestamp</code> is in the future, or if there is no persisted state for the given
+     *                            Item at the given <code>timestamp</code>
      */
-    varianceSince(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (string | null);
+    varianceSince(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (PersistedState | null);
     /**
      * Gets the variance of the state of the given Item until a certain point in time.
      *
      * @param {(time.ZonedDateTime | Date)} timestamp the point in time to which to compute the variance
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {(string | null)} the variance between now and then, or <code>null</code> if <code>timestamp</code> is in the past,
-     *                            or if there is no persisted state for the given <code>item</code> at the given <code>timestamp</code>
+     * @returns {(PersistedState | null)} the variance between now and then as {@link items.PersistedState}, or <code>null</code> if
+     *                            <code>timestamp</code> is in the past, or if there is no persisted state for the given
+     *                            Item at the given <code>timestamp</code>
      */
-    varianceUntil(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (string | null);
+    varianceUntil(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (PersistedState | null);
     /**
      * Gets the variance of the state of the given Item between two certain points in time.
      *
      * @param {(time.ZonedDateTime | Date)} begin the point in time from which to compute the variance
      * @param {(time.ZonedDateTime | Date)} end the end time for the computation
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {(string | null)} the variance between both points of time, or <code>null</code> if <code>begin</code> is after <code>end</code>,
-     *                            or if there is no persisted state for the given <code>item</code> between <code>begin</code> and <code>end</code>
+     * @returns {(PersistedState | null)} the variance between both points of time as {@link items.PersistedState}, or <code>null</code> if
+     *                            <code>begin</code> is after <code>end</code>, or if there is no persisted state for the given
+     *                            Item between <code>begin</code> and <code>end</code>
      */
-    varianceBetween(begin: (time.ZonedDateTime | Date), end: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (string | null);
+    varianceBetween(begin: (time.ZonedDateTime | Date), end: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (PersistedState | null);
     /**
      * Gets the standard deviation of the state of the given Item since a certain point in time.
      *
      * @param {(time.ZonedDateTime | Date)} timestamp the point in time from which to compute the standard deviation
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {(string | null)} the standard deviation between then and now, or <code>null</code> if <code>timestamp</code> is in the future,
-     *                            or if there is no persisted state for the given <code>item</code> at the given <code>timestamp</code>
+     * @returns {(PersistedState | null)} the standard deviation between then and now as {@link items.PersistedState}, or <code>null</code>
+     *                            if <code>timestamp</code> is in the future, or if there is no persisted state for the given Item
+     *                            at the given <code>timestamp</code>
      */
-    deviationSince(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (string | null);
+    deviationSince(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (PersistedState | null);
     /**
      * Gets the standard deviation of the state of the given Item until a certain point in time.
      *
      * @param {(time.ZonedDateTime | Date)} timestamp the point in time to which to compute the standard deviation
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {(string | null)} the standard deviation between now and then, or <code>null</code> if <code>timestamp</code> is in the past,
-     *                            or if there is no persisted state for the given <code>item</code> at the given <code>timestamp</code>
+     * @returns {(PersistedState | null)} the standard deviation between now and then as {@link items.PersistedState}, or <code>null</code>
+     *                            if <code>timestamp</code> is in the past, or if there is no persisted state for the given Item
+     *                            at the given <code>timestamp</code>
      */
-    deviationUntil(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (string | null);
+    deviationUntil(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (PersistedState | null);
     /**
      * Gets the standard deviation of the state of the given Item between two certain points in time.
      *
      * @param {(time.ZonedDateTime | Date)} begin the point in time from which to compute
      * @param {(time.ZonedDateTime | Date)} end the end time for the computation
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {(string | null)} the standard deviation between both points of time, or <code>null</code> if <code>begin</code> is after
-     *                            <code>end</code>, or if there is no persisted state for the given <code>item</code> between <code>begin</code> and <code>end</code>
+     * @returns {(PersistedState | null)} the standard deviation between both points of time as {@link items.PersistedState}, or <code>null</code>
+     *                            if <code>begin</code> is after <code>end</code>, or if there is no persisted state for the given Item
+     *                            between <code>begin</code> and <code>end</code>
      */
-    deviationBetween(begin: (time.ZonedDateTime | Date), end: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (string | null);
+    deviationBetween(begin: (time.ZonedDateTime | Date), end: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (PersistedState | null);
     /**
      * Gets the average value of the state of a given Item since a certain point in time.
      *
@@ -252,86 +258,87 @@ export class ItemPersistence {
      *
      * @param {(time.ZonedDateTime | Date)} timestamp the point in time from which to search for the average value
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {(string | null)} the average value since <code>timestamp</code> or <code>null</code> if no previous states could be found
+     * @returns {(PersistedState | null)} the average value since <code>timestamp</code> as {@link items.PersistedState} or <code>null</code> if no previous states could be found
      */
-    averageSince(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (string | null);
+    averageSince(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (PersistedState | null);
     /**
      * Gets the average value of the state of a given Item until a certain point in time.
      *
      * @param {(time.ZonedDateTime | Date)} timestamp the point in time to which to search for the average value
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {(string | null)} the average value until <code>timestamp</code> or <code>null</code> if no future states could be found
+     * @returns {(PersistedState | null)} the average value until <code>timestamp</code> as {@link items.PersistedState} or <code>null</code> if no future states could be found
      */
-    averageUntil(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (string | null);
+    averageUntil(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (PersistedState | null);
     /**
      * Gets the average value of the state of a given Item between two certain points in time.
      *
      * @param {(time.ZonedDateTime | Date)} begin the point in time from which to start the average
      * @param {(time.ZonedDateTime | Date)} end the point in time to which to start the average
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {(string | null)} the average value between <code>begin</code> and <code>end</code> or <code>null</code> if no states could be found
+     * @returns {(PersistedState | null)} the average value between <code>begin</code> and <code>end</code> as {@link items.PersistedState} or <code>null</code> if no states could be found
      */
-    averageBetween(begin: (time.ZonedDateTime | Date), end: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (string | null);
+    averageBetween(begin: (time.ZonedDateTime | Date), end: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (PersistedState | null);
     /**
      * Gets the sum of the states of a given Item since a certain point in time.
      *
      * @param {(time.ZonedDateTime | Date)} timestamp the point in time from which to start the summation
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {(string | null)} the sum of the state values since <code>timestamp</code>, or null if <code>timestamp</code> is in the future
+     * @returns {(PersistedState | null)} the sum of the state values since <code>timestamp</code> as {@link items.PersistedState}, or null if <code>timestamp</code> is in the future
      */
-    sumSince(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (string | null);
+    sumSince(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (PersistedState | null);
     /**
      * Gets the sum of the states of a given Item until a certain point in time.
      *
      * @param {(time.ZonedDateTime | Date)} timestamp the point in time to which to start the summation
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {(string | null)} the sum of the state values until <code>timestamp</code>, or null if <code>timestamp</code> is in the past
+     * @returns {(PersistedState | null)} the sum of the state values until <code>timestamp</code> as {@link items.PersistedState}, or null if <code>timestamp</code> is in the past
      */
-    sumUntil(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (string | null);
+    sumUntil(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (PersistedState | null);
     /**
      * Gets the sum of the states of a given Item between two certain points in time.
      *
      * @param {(time.ZonedDateTime | Date)} begin the point in time from which to start the summation
      * @param {(time.ZonedDateTime | Date)} end the point in time to which to start the summation
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {(string | null)} the sum of the state values between the given points in time, or null if <code>begin</code> is after <code>end</code>
+     * @returns {(PersistedState | null)} the sum of the state values between the given points in time as {@link items.PersistedState},
+     *                            or null if <code>begin</code> is after <code>end</code>
      */
-    sumBetween(begin: (time.ZonedDateTime | Date), end: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (string | null);
+    sumBetween(begin: (time.ZonedDateTime | Date), end: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (PersistedState | null);
     /**
      * Gets the difference value of the state of a given Item since a certain point in time.
      *
      * @param {(time.ZonedDateTime | Date)} timestamp the point in time from which to compute the delta
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {(string | null)} the difference between now and then, or <code>null</code> if there is no persisted state for
-     *                            the given <code>item</code> at the given <code>timestamp</code> available
+     * @returns {(PersistedState | null)} the difference between now and then as {@link items.PersistedState}, or <code>null</code>
+     *                            if there is no persisted state for the given Item at the given <code>timestamp</code> available
      */
-    deltaSince(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (string | null);
+    deltaSince(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (PersistedState | null);
     /**
      * Gets the difference value of the state of a given Item until a certain point in time.
      *
      * @param {(time.ZonedDateTime | Date)} timestamp the point in time to which to compute the delta
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {(string | null)} the difference between then and now, or <code>null</code> if there is no persisted state
-     *                            for the given <code>item</code> at the given <code>timestamp</code> available
+     * @returns {(PersistedState | null)} the difference between then and now as {@link items.PersistedState}, or <code>null</code>
+     *                            if there is no persisted state for the given Item at the given <code>timestamp</code> available
      */
-    deltaUntil(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (string | null);
+    deltaUntil(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (PersistedState | null);
     /**
      * Gets the difference value of the state of a given Item between two certain points in time.
      *
      * @param {(time.ZonedDateTime | Date)} begin the beginning point in time
      * @param {(time.ZonedDateTime | Date)} end the end point in time
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {(string | null)} the difference between end and begin, or <code>null</code> if there is no persisted state for
-     *                            the given <code>item</code> for the given points in time
+     * @returns {(PersistedState | null)} the difference between end and begin as {@link items.PersistedState}, or <code>null</code>
+     *                            if there is no persisted state for the given Item for the given points in time
      */
-    deltaBetween(begin: (time.ZonedDateTime | Date), end: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (string | null);
+    deltaBetween(begin: (time.ZonedDateTime | Date), end: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (PersistedState | null);
     /**
      * Gets the evolution rate of the state of a given Item since a certain point in time.
      *
      * @param {(time.ZonedDateTime | Date)} timestamp the point in time from which to compute the evolution rate
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
      * @returns {(number | null)} the evolution rate in percent (positive and negative) between then and now, or <code>null</code>
-     *                            if there is no persisted state for the given <code>item</code> at the given <code>timestamp</code>,
+     *                            if there is no persisted state for the given Item at the given <code>timestamp</code>,
      *                            or if there is a state but it is zero (which would cause a divide-by-zero error)
      */
     evolutionRateSince(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (number | null);
@@ -341,7 +348,7 @@ export class ItemPersistence {
      * @param {(time.ZonedDateTime | Date)} timestamp the point in time to which to compute the evolution rate
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
      * @returns {(number | null)} the evolution rate in percent (positive and negative) between then and now, or <code>null</code>
-     *                            if there is no persisted state for the given <code>item</code> at the given <code>timestamp</code>,
+     *                            if there is no persisted state for the given Item at the given <code>timestamp</code>,
      *                            or if there is a state but it is zero (which would cause a divide-by-zero error)
      */
     evolutionRateUntil(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (number | null);
@@ -411,26 +418,26 @@ export class ItemPersistence {
      *
      * @param {(time.ZonedDateTime | Date)} timestamp the point in time from which to retrieve the states
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {HistoricItem[]} the historic items since the given point in time
+     * @returns {PersistedItem[]} the historic items since the given point in time
      */
-    getAllStatesSince(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): HistoricItem[];
+    getAllStatesSince(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): PersistedItem[];
     /**
      * Retrieves the future Items for a given Item until a certain point in time.
      *
      * @param {(time.ZonedDateTime | Date)} timestamp the point in time to which to retrieve the states
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {HistoricItem[]} the future items to the given point in time
+     * @returns {PersistedItem[]} the future items to the given point in time
      */
-    getAllStatesUntil(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): HistoricItem[];
+    getAllStatesUntil(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): PersistedItem[];
     /**
      * Retrieves the historic Items for a given Item between two certain points in time.
      *
      * @param {(time.ZonedDateTime | Date)} begin the point in time from which to retrieve the states
      * @param {(time.ZonedDateTime | Date)} end the point in time to which to retrieve the states
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {HistoricItem[]} the historic items between the given points in time,
+     * @returns {PersistedItem[]} the historic items between the given points in time,
      */
-    getAllStatesBetween(begin: (time.ZonedDateTime | Date), end: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): HistoricItem[];
+    getAllStatesBetween(begin: (time.ZonedDateTime | Date), end: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): PersistedItem[];
     /**
      * Removes from persistence the historic items for a given Item since a certain point in time.
      * This will only have effect if the persistence service is a modifiable persistence service.
@@ -458,22 +465,34 @@ export class ItemPersistence {
     removeAllStatesBetween(begin: (time.ZonedDateTime | Date), end: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): any;
 }
 /**
- * Class representing an openHAB HistoricItem
+ * Class representing an instance of {@link https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/historicitem org.openhab.core.persistence.HistoricItem}.
  *
  * @memberof items
  * @hideconstructor
  */
-export class HistoricItem {
+export class PersistedItem extends PersistedState {
     /**
-     * @param {*} rawHistoricItem {@link https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/historicitem org.openhab.core.persistence.HistoricItem}
+     * Timestamp of persisted Item.
+     * @type {time.ZonedDateTime}
      */
-    constructor(rawHistoricItem: any);
-    rawHistoricItem: any;
+    get timestamp(): JSJoda.ZonedDateTime;
+    #private;
+}
+declare namespace time {
+    type ZonedDateTime = import('@js-joda/core').ZonedDateTime;
+}
+import time = require("../time");
+/**
+ * Class representing an instance of {@link https://www.openhab.org/javadoc/latest/org/openhab/core/types/state org.openhab.core.types.State}.
+ *
+ * @memberof items
+ * @hideconstructor
+ */
+declare class PersistedState {
     /**
-     * Raw Java Item state
-     * @type {HostState}
+     * @param {HostState} rawState
      */
-    rawState: HostState;
+    constructor(rawState: HostState);
     /**
      * String representation of the Item state.
      * @type {string}
@@ -489,15 +508,7 @@ export class HistoricItem {
      * @type {Quantity|null}
      */
     get quantityState(): import("../quantity").Quantity;
-    /**
-     * Timestamp of persisted Item.
-     * @type {time.ZonedDateTime}
-     */
-    get timestamp(): JSJoda.ZonedDateTime;
+    #private;
 }
-declare namespace time {
-    type ZonedDateTime = import('@js-joda/core').ZonedDateTime;
-}
-import time = require("../time");
 export {};
 //# sourceMappingURL=item-persistence.d.ts.map

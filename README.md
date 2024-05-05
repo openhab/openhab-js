@@ -501,9 +501,9 @@ See [openhab-js : ItemConfig](https://openhab.github.io/openhab-js/global.html#I
 Calling `Item.history` returns an `ItemPersistence` object with the following functions:
 
 - ItemPersistence :`object`
-  - .averageSince(timestamp, serviceId) ⇒ `string | null`
-  - .averageUntil(timestamp, serviceId) ⇒ `string | null`
-  - .averageBetween(begin, end, serviceId) ⇒ `string | null`
+  - .averageSince(timestamp, serviceId) ⇒ `PersistedState | null`
+  - .averageUntil(timestamp, serviceId) ⇒ `PersistedState | null`
+  - .averageBetween(begin, end, serviceId) ⇒ `PersistedState | null`
   - .changedSince(timestamp, serviceId) ⇒ `boolean`
   - .changedUntil(timestamp, serviceId) ⇒ `boolean`
   - .changedBetween(begin, end, serviceId) ⇒ `boolean`
@@ -513,40 +513,40 @@ Calling `Item.history` returns an `ItemPersistence` object with the following fu
   - .countStateChangesSince(timestamp, serviceId) ⇒ `number`
   - .countStateChangesUntil(timestamp, serviceId) ⇒ `number`
   - .countStateChangesBetween(begin, end, serviceId) ⇒ `number`
-  - .deltaSince(timestamp, serviceId) ⇒ `string | null`
-  - .deltaUntil(timestamp, serviceId) ⇒ `string | null`
-  - .deltaBetween(begin, end, serviceId) ⇒ `string | null`
-  - .deviationSince(timestamp, serviceId) ⇒ `string | null`
-  - .deviationUntil(timestamp, serviceId) ⇒ `string | null`
-  - .deviationBetween(begin, end, serviceId) ⇒ `string | null`
+  - .deltaSince(timestamp, serviceId) ⇒ `PersistedState | null`
+  - .deltaUntil(timestamp, serviceId) ⇒ `PersistedState | null`
+  - .deltaBetween(begin, end, serviceId) ⇒ `PersistedState | null`
+  - .deviationSince(timestamp, serviceId) ⇒ `PersistedState | null`
+  - .deviationUntil(timestamp, serviceId) ⇒ `PersistedState | null`
+  - .deviationBetween(begin, end, serviceId) ⇒ `PersistedState | null`
   - .evolutionRateSince(timestamp, serviceId) ⇒ `number | null`
   - .evolutionRateUntil(timestamp, serviceId) ⇒ `number | null`
   - .evolutionRateBetween(begin, end, serviceId) ⇒ `number | null`
-  - .getAllStatesSince(timestamp, serviceId)  ⇒ `Array[HistoricItem]`
-  - .getAllStatesUntil(timestamp, serviceId)  ⇒ `Array[HistoricItem]`
-  - .getAllStatesBetween(begin, end, serviceId)  ⇒ `Array[HistoricItem]`
+  - .getAllStatesSince(timestamp, serviceId)  ⇒ `Array[PersistedItem]`
+  - .getAllStatesUntil(timestamp, serviceId)  ⇒ `Array[PersistedItem]`
+  - .getAllStatesBetween(begin, end, serviceId)  ⇒ `Array[PersistedItem]`
   - .lastUpdate(serviceId) ⇒ `ZonedDateTime | null`
   - .nextUpdate(serviceId)  ⇒ `ZonedDateTime | null`
-  - .maximumSince(timestamp,serviceId) ⇒ `HistoricItem | null`
-  - .maximumUntil(timestamp,serviceId) ⇒ `HistoricItem | null`
-  - .maximumBetween(begin, end, serviceId) ⇒ `HistoricItem | null`
-  - .minimumSince(timestamp, serviceId) ⇒ `HistoricItem | null`
-  - .minimumUntil(timestamp, serviceId) ⇒ `HistoricItem | null`
-  - .minimumBetween(begin, end, serviceId) ⇒ `HistoricItem | null`
+  - .maximumSince(timestamp,serviceId) ⇒ `PersistedItem | null`
+  - .maximumUntil(timestamp,serviceId) ⇒ `PersistedItem | null`
+  - .maximumBetween(begin, end, serviceId) ⇒ `PersistedItem | null`
+  - .minimumSince(timestamp, serviceId) ⇒ `PersistedItem | null`
+  - .minimumUntil(timestamp, serviceId) ⇒ `PersistedItem | null`
+  - .minimumBetween(begin, end, serviceId) ⇒ `PersistedItem | null`
   - .persist(serviceId): Tells the persistence service to store the current Item state, which is then done asynchronously.
     **Warning:** This has the side effect, that if the Item state changes shortly after `.persist` has been called, the new Item state will be persisted. See [JSDoc](https://openhab.github.io/openhab-js/items.ItemHistory.html#persist) for a possible work-around.
-  - .persistedState(timestamp, serviceId) ⇒ `HistoricItem | null`
-  - .previousState(skipEqual, serviceId) ⇒ `HistoricItem | null`
-  - .nextState(skipEqual, serviceId) ⇒ `HistoricItem | null`
-  - .sumSince(timestamp, serviceId) ⇒ `string | null`
-  - .sumUntil(timestamp, serviceId) ⇒ `string | null`
-  - .sumBetween(begin, end, serviceId) ⇒ `string | null`
+  - .persistedState(timestamp, serviceId) ⇒ `PersistedItem | null`
+  - .previousState(skipEqual, serviceId) ⇒ `PersistedItem | null`
+  - .nextState(skipEqual, serviceId) ⇒ `PersistedItem | null`
+  - .sumSince(timestamp, serviceId) ⇒ `PersistedState | null`
+  - .sumUntil(timestamp, serviceId) ⇒ `PersistedState | null`
+  - .sumBetween(begin, end, serviceId) ⇒ `PersistedState | null`
   - .updatedSince(timestamp, serviceId) ⇒ `boolean`
   - .updatedUntil(timestamp, serviceId) ⇒ `boolean`
   - .updatedBetween(begin, end, serviceId) ⇒ `boolean`
-  - .varianceSince(timestamp, serviceId) ⇒ `string | null`
-  - .varianceUntil(timestamp, serviceId) ⇒ `string | null`
-  - .varianceBetween(begin, end, serviceId) ⇒ `string | null`
+  - .varianceSince(timestamp, serviceId) ⇒ `PersistedState | null`
+  - .varianceUntil(timestamp, serviceId) ⇒ `PersistedState | null`
+  - .varianceBetween(begin, end, serviceId) ⇒ `PersistedState | null`
 
 Note: `serviceId` is optional, if omitted, the default persistence service will be used.
 
@@ -556,12 +556,15 @@ var item = items.KitchenDimmer;
 console.log('KitchenDimmer averageSince', item.persistence.averageSince(yesterday));
 ```
 
-The `HistoricItem` object contains the following properties, representing Item state and the respective timestamp:
+The `PersistedState` object contains the following properties, representing Item state:
 
 - `state`: State as string
 - `numericState`: State as number, if state can be represented as number, or `null` if that's not the case
 - `quantityState`: Item state as [`Quantity`](#quantity) or `null` if state is not Quantity-compatible
 - `rawState`: State as Java `State` object
+
+The `PersistedItem` object extends `PersistedState` with the following properties, representing Item state and the respective timestamp:
+
 - `timestamp`: Timestamp as [`time.ZonedDateTime`](#time)
 
 ```javascript
