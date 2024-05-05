@@ -35,7 +35,7 @@ export class ItemPersistence {
      *
      * @param {(time.ZonedDateTime | Date)} timestamp the point in time for which the persisted item should be retrieved
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {(PersistedItem | null)} the persisted item at the given point in time, or <code>null</code> if no persisted item could be found
+     * @returns {(PersistedItem | null)} the {@link items.PersistedItem} at the given point in time, or <code>null</code> if no persisted item could be found
      */
     persistedState(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (PersistedItem | null);
     /**
@@ -57,7 +57,7 @@ export class ItemPersistence {
      *
      * @param {boolean} [skipEqual] optional, if true, skips equal state values and searches the first state not equal the current state
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {(PersistedItem | null)} the persisted item at the given point in time, or <code>null</code> if no persisted item could be found or null
+     * @returns {(PersistedItem | null)} the {@link items.PersistedItem} at the given point in time, or <code>null</code> if no persisted item could be found or null
      */
     previousState(skipEqual?: boolean, serviceId?: string, ...args: any[]): (PersistedItem | null);
     /**
@@ -65,7 +65,7 @@ export class ItemPersistence {
      *
      * @param {boolean} [skipEqual] optional, if true, skips equal state values and searches the first state not equal the current state
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {(PersistedItem | null)} the persisted item at the given point in time, or <code>null</code> if no persisted item could be found or null
+     * @returns {(PersistedItem | null)} the {@link items.PersistedItem} at the given point in time, or <code>null</code> if no persisted item could be found or null
      */
     nextState(skipEqual?: boolean, serviceId?: string, ...args: any[]): (PersistedItem | null);
     /**
@@ -129,9 +129,8 @@ export class ItemPersistence {
      *
      * @param {(time.ZonedDateTime | Date)} timestamp the point in time to start the check
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {(PersistedItem | null)} a historic item with the maximum state value since the given point in time, a
-     *                                  {@link PersistedItem} constructed from the Item's state if Item's state
-     *                                  is the maximum value, <code>null</code> if <code>timestamp</code> is in the future
+     * @returns {(PersistedItem | null)} a {@link items.PersistedItem} with the maximum state value since the given point in time,
+     *                                   or <code>null</code> if <code>timestamp</code> is in the future
      */
     maximumSince(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (PersistedItem | null);
     /**
@@ -139,9 +138,8 @@ export class ItemPersistence {
      *
      * @param {(time.ZonedDateTime | Date)} timestamp the point in time to end the check
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {(PersistedItem | null)} a historic item with the maximum state value until the given point in time, a
-     *                                  {@link PersistedItem} constructed from the Item's state if Item's state
-     *                                  is the maximum value, <code>null</code> if <code>timestamp</code> is in the past
+     * @returns {(PersistedItem | null)} a {@link items.PersistedItem}m with the maximum state value until the given point in time,
+     *                                   or <code>null</code> if <code>timestamp</code> is in the past
      */
     maximumUntil(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (PersistedItem | null);
     /**
@@ -150,9 +148,8 @@ export class ItemPersistence {
      * @param {(time.ZonedDateTime | Date)} begin the point in time to start the check
      * @param {(time.ZonedDateTime | Date)} end the point in time to stop the check
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {(PersistedItem | null)} a {@link PersistedItem} with the maximum state value between two points in time, a
-     *                                  {@link PersistedItem} constructed from the Item's state if no persisted states found,
-     *                                  or <code>null</code> if <code>begin</code> is after <code>end</end>
+     * @returns {(PersistedItem | null)} a {@link items.PersistedItem} with the maximum state value between two points in time,
+     *                                   or <code>null</code> if <code>begin</code> is after <code>end</end>
      */
     maximumBetween(begin: (time.ZonedDateTime | Date), end: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (PersistedItem | null);
     /**
@@ -160,9 +157,8 @@ export class ItemPersistence {
      *
      * @param {(time.ZonedDateTime | Date)} timestamp the point in time to start the check
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {(PersistedItem | null)} a historic item with the minimum state value since the given point in time, a
-     *                                  {@link PersistedItem} constructed from the Item's state if Item's state
-     *                                  is the maximum value, <code>null</code> if <code>timestamp</code> is in the future
+     * @returns {(PersistedItem | null)} a {@link items.PersistedItem} with the minimum state value since the given point in time,
+     *                                   or <code>null</code> if <code>timestamp</code> is in the future
      */
     minimumSince(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (PersistedItem | null);
     /**
@@ -170,9 +166,8 @@ export class ItemPersistence {
      *
      * @param {(time.ZonedDateTime | Date)} timestamp the point in time to end the check
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {(PersistedItem | null)} a historic item with the minimum state value until the given point in time, a
-     *                                  {@link PersistedItem} constructed from the Item's state if Item's state
-     *                                  is the maximum value, <code>null</code> if <code>timestamp</code> is in the past
+     * @returns {(PersistedItem | null)} a {@link items.PersistedItem} with the minimum state value until the given point in time,
+     *                                   or <code>null</code> if <code>timestamp</code> is in the past
      */
     minimumUntil(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (PersistedItem | null);
     /**
@@ -181,9 +176,8 @@ export class ItemPersistence {
      * @param {(time.ZonedDateTime | Date)} begin the point in time to start the check
      * @param {(time.ZonedDateTime | Date)} end the point in time to stop the check
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {(PersistedItem | null)} a {@link PersistedItem} with the minimum state value between two points in time, a
-     *                                  {@link PersistedItem} constructed from the Item's state if no persisted states found,
-     *                                  or <code>null</code> if <code>begin</code> is after <code>end</end>
+     * @returns {(PersistedItem | null)} a {@link items.PersistedItem} with the minimum state value between two points in time,
+     *                                   or <code>null</code> if <code>begin</code> is after <code>end</end>
      */
     minimumBetween(begin: (time.ZonedDateTime | Date), end: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (PersistedItem | null);
     /**
@@ -418,7 +412,7 @@ export class ItemPersistence {
      *
      * @param {(time.ZonedDateTime | Date)} timestamp the point in time from which to retrieve the states
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {PersistedItem[]} the historic items since the given point in time
+     * @returns {PersistedItem[]} the {@link items.PersistedItem}s since the given point in time
      */
     getAllStatesSince(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): PersistedItem[];
     /**
@@ -426,7 +420,7 @@ export class ItemPersistence {
      *
      * @param {(time.ZonedDateTime | Date)} timestamp the point in time to which to retrieve the states
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {PersistedItem[]} the future items to the given point in time
+     * @returns {PersistedItem[]} the future {@link items.PersistedItem}s to the given point in time
      */
     getAllStatesUntil(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): PersistedItem[];
     /**
@@ -435,7 +429,7 @@ export class ItemPersistence {
      * @param {(time.ZonedDateTime | Date)} begin the point in time from which to retrieve the states
      * @param {(time.ZonedDateTime | Date)} end the point in time to which to retrieve the states
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {PersistedItem[]} the historic items between the given points in time,
+     * @returns {PersistedItem[]} the historic {@link items.PersistedItem}s between the given points in time,
      */
     getAllStatesBetween(begin: (time.ZonedDateTime | Date), end: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): PersistedItem[];
     /**
@@ -466,6 +460,7 @@ export class ItemPersistence {
 }
 /**
  * Class representing an instance of {@link https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/historicitem org.openhab.core.persistence.HistoricItem}.
+ * Extends {@link items.PersistedState}.
  *
  * @memberof items
  * @hideconstructor
