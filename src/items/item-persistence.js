@@ -76,7 +76,7 @@ class PersistedItem extends PersistedState {
    * @param {*} rawHistoricItem {@link https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/historicitem org.openhab.core.persistence.HistoricItem}
    */
   constructor (rawHistoricItem) {
-    super(rawHistoricItem.getState);
+    super(rawHistoricItem.getState());
     this.#rawHistoricItem = rawHistoricItem;
   }
 
