@@ -13,8 +13,7 @@ description: "Fairly high-level ES6 library to support automation in openHAB. It
 This library aims to be a fairly high-level ES6 library to support automation in openHAB.
 It provides convenient access to common openHAB functionality within rules including Items, Things, actions, logging and more.
 
-This library is included by default in the openHAB [JavaScript
-Scripting add-on](https://www.openhab.org/addons/automation/jsscripting/).
+This library is included by default in the openHAB [JavaScript Scripting add-on](https://www.openhab.org/addons/automation/jsscripting/).
 
 - [Installation](#installation)
   - [Default Installation](#default-installation)
@@ -535,7 +534,7 @@ Calling `Item.history` returns an `ItemPersistence` object with the following fu
   - .minimumUntil(timestamp, serviceId) ⇒ `PersistedItem | null`
   - .minimumBetween(begin, end, serviceId) ⇒ `PersistedItem | null`
   - .persist(serviceId): Tells the persistence service to store the current Item state, which is then done asynchronously.
-    **Warning:** This has the side effect, that if the Item state changes shortly after `.persist` has been called, the new Item state will be persisted. See [JSDoc](https://openhab.github.io/openhab-js/items.ItemHistory.html#persist) for a possible work-around.
+    **Warning:** This has the side effect, that if the Item state changes shortly after `.persist` has been called, the new Item state will be persisted. See [JSDoc](https://openhab.github.io/openhab-js/items.ItemPersistence.html#persist) for a possible work-around.
   - .persistedState(timestamp, serviceId) ⇒ `PersistedItem | null`
   - .previousState(skipEqual, serviceId) ⇒ `PersistedItem | null`
   - .nextState(skipEqual, serviceId) ⇒ `PersistedItem | null`
@@ -574,7 +573,7 @@ var historic = items.KitchenDimmer.persistence.maximumSince(midnight);
 console.log('KitchenDimmer maximum was ', historic.state, ' at ', historic.timestamp);
 ```
 
-See [openhab-js : ItemPersistence](https://openhab.github.io/openhab-js/items.ItemHistory.html) for full API documentation.
+See [openhab-js : ItemPersistence](https://openhab.github.io/openhab-js/items.ItemPersistence.html) for full API documentation.
 
 ### Things
 
