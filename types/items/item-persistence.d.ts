@@ -333,7 +333,7 @@ export class ItemPersistence {
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
      * @returns {(number | null)} the evolution rate in percent (positive and negative) between then and now, or <code>null</code>
      *                            if there is no persisted state for the given Item at the given <code>timestamp</code>,
-     *                            or if there is a state but it is zero (which would cause a divide-by-zero error)
+     *                            or if there is a state, but it is zero (which would cause a divide-by-zero error)
      */
     evolutionRateSince(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (number | null);
     /**
@@ -343,7 +343,7 @@ export class ItemPersistence {
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
      * @returns {(number | null)} the evolution rate in percent (positive and negative) between then and now, or <code>null</code>
      *                            if there is no persisted state for the given Item at the given <code>timestamp</code>,
-     *                            or if there is a state but it is zero (which would cause a divide-by-zero error)
+     *                            or if there is a state, but it is zero (which would cause a divide-by-zero error)
      */
     evolutionRateUntil(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (number | null);
     /**
@@ -353,7 +353,7 @@ export class ItemPersistence {
      * @param {(time.ZonedDateTime | Date)} end the end point in time
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
      * @returns {(number | null)} the evolution rate in percent (positive and negative) in the given interval, or <code>null</code>
-     *                            if there are no persisted states for the given Item at the given interval, or if there is a state #
+     *                            if there are no persisted states for the given Item at the given interval, or if there is a state,
      *                            but it is zero (which would cause a divide-by-zero error)
      */
     evolutionRateBetween(begin: (time.ZonedDateTime | Date), end: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (number | null);

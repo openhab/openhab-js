@@ -1,5 +1,14 @@
 # Changelog
 
+## 5.0.0
+
+| Type        | Namespace | Description                                                               | Reference                                              | Breaking |
+|-------------|-----------|---------------------------------------------------------------------------|--------------------------------------------------------|----------|
+| Clean-Up    |           | Remove deprecated methods and fields                                      | [#332](https://github.com/openhab/openhab-js/pull/332) | **Yes**  |
+| Enhancement | `items`   | `ItemHistory`: Adjust to core changes & Add new methods for future states | [#331](https://github.com/openhab/openhab-js/pull/331) | **Yes**  |
+
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/25).
+
 ## 4.9.0
 
 | Type        | Namespace | Description                                                   | Reference                                              | Breaking |
