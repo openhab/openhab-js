@@ -137,10 +137,10 @@ export class Item {
      */
     rawItem: HostItem;
     /**
-     * Access historical states for this Item {@link items.ItemHistory}
-     * @type {ItemHistory}
+     * Access historical states for this Item {@link items.ItemPersistence}
+     * @type {ItemPersistence}
      */
-    history: ItemHistory;
+    persistence: ItemPersistence;
     /**
      * Access Semantic information of this Item {@link items.ItemSemantics}
      * @type {ItemSemantics}
@@ -311,7 +311,7 @@ export class Item {
     toString(): any;
 }
 import metadata = require("./metadata/metadata");
-import { ItemHistory } from "./item-history";
+import { ItemPersistence } from "./item-persistence";
 import ItemSemantics = require("./item-semantics");
 declare namespace time {
     type ZonedDateTime = import('@js-joda/core').ZonedDateTime;
