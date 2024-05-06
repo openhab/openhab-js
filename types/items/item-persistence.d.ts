@@ -106,7 +106,7 @@ export class ItemPersistence {
      */
     updatedSince(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): boolean;
     /**
-     * Checks if the state of a given Item will be updated until a certain point in time.
+     * Checks if the state of a given Item will have been updated until a certain point in time.
      *
      * @param {(time.ZonedDateTime | Date)} timestamp the point in time to end the check
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
@@ -134,7 +134,7 @@ export class ItemPersistence {
      */
     maximumSince(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (PersistedItem | null);
     /**
-     * Gets the historic Item with the maximum value of a given Item until a certain point in time.
+     * Gets the future Item with the maximum value of a given Item until a certain point in time.
      *
      * @param {(time.ZonedDateTime | Date)} timestamp the point in time to end the check
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
@@ -143,7 +143,7 @@ export class ItemPersistence {
      */
     maximumUntil(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (PersistedItem | null);
     /**
-     * Gets the historic Item with the maximum value of a given Item between two certain points in time.
+     * Gets the persisted Item with the maximum value of a given Item between two certain points in time.
      *
      * @param {(time.ZonedDateTime | Date)} begin the point in time to start the check
      * @param {(time.ZonedDateTime | Date)} end the point in time to stop the check
@@ -162,7 +162,7 @@ export class ItemPersistence {
      */
     minimumSince(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (PersistedItem | null);
     /**
-     * Gets the historic Item with the minimum value of a given Item until a certain point in time.
+     * Gets the future Item with the minimum value of a given Item until a certain point in time.
      *
      * @param {(time.ZonedDateTime | Date)} timestamp the point in time to end the check
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
@@ -366,7 +366,7 @@ export class ItemPersistence {
      */
     countSince(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): number;
     /**
-     * Gets the number of available data points of a given Item until a certain point in time.
+     * Gets the number of available future data points of a given Item until a certain point in time.
      *
      * @param {(time.ZonedDateTime | Date)} timestamp the ending point in time
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
@@ -374,7 +374,7 @@ export class ItemPersistence {
      */
     countUntil(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): number;
     /**
-     * Gets the number of available data points of a given Item between two certain points in time.
+     * Gets the number of available persisted data points of a given Item between two certain points in time.
      *
      * @param {(time.ZonedDateTime | Date)} begin the beginning point in time
      * @param {(time.ZonedDateTime | Date)} end the end point in time
@@ -391,7 +391,7 @@ export class ItemPersistence {
      */
     countStateChangesSince(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): number;
     /**
-     * Gets the number of changes in data points of a given Item until a certain point in time.
+     * Gets the number of changes in future data points of a given Item until a certain point in time.
      *
      * @param {(time.ZonedDateTime | Date)} timestamp the ending point in time
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
@@ -399,7 +399,7 @@ export class ItemPersistence {
      */
     countStateChangesUntil(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): number;
     /**
-     * Gets the number of changes in data points of a given Item between two certain points in time.
+     * Gets the number of changes in persisted data points of a given Item between two certain points in time.
      *
      * @param {(time.ZonedDateTime | Date)} begin the beginning point in time
      * @param {(time.ZonedDateTime | Date)} end the end point in time
@@ -424,7 +424,7 @@ export class ItemPersistence {
      */
     getAllStatesUntil(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): PersistedItem[];
     /**
-     * Retrieves the historic Items for a given Item between two certain points in time.
+     * Retrieves the persisted Items for a given Item between two certain points in time.
      *
      * @param {(time.ZonedDateTime | Date)} begin the point in time from which to retrieve the states
      * @param {(time.ZonedDateTime | Date)} end the point in time to which to retrieve the states
@@ -449,7 +449,7 @@ export class ItemPersistence {
      */
     removeAllStatesUntil(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): any;
     /**
-     * Removes from persistence the historic items for a given Item between two certain points in time.
+     * Removes from persistence the persisted items for a given Item between two certain points in time.
      * This will only have effect if the persistence service is a modifiable persistence service.
      *
      * @param {(time.ZonedDateTime | Date)} begin the point in time from which to remove the states
