@@ -1420,7 +1420,7 @@ console.log('KitchenDimmer average since yesterday', item.persistence.averageSin
 <dl class="details">
     
     <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>Gets the number of available data points of a given Item between two certain points in time.</p></li></ul></dd>
+    <dd class="tag-description"><ul class="dummy"><li><p>Gets the number of available persisted data points of a given Item between two certain points in time.</p></li></ul></dd>
     
 
     
@@ -1865,7 +1865,7 @@ console.log('KitchenDimmer average since yesterday', item.persistence.averageSin
 <dl class="details">
     
     <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>Gets the number of changes in data points of a given Item between two certain points in time.</p></li></ul></dd>
+    <dd class="tag-description"><ul class="dummy"><li><p>Gets the number of changes in persisted data points of a given Item between two certain points in time.</p></li></ul></dd>
     
 
     
@@ -2310,7 +2310,7 @@ console.log('KitchenDimmer average since yesterday', item.persistence.averageSin
 <dl class="details">
     
     <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>Gets the number of changes in data points of a given Item until a certain point in time.</p></li></ul></dd>
+    <dd class="tag-description"><ul class="dummy"><li><p>Gets the number of changes in future data points of a given Item until a certain point in time.</p></li></ul></dd>
     
 
     
@@ -2515,7 +2515,7 @@ console.log('KitchenDimmer average since yesterday', item.persistence.averageSin
 <dl class="details">
     
     <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>Gets the number of available data points of a given Item until a certain point in time.</p></li></ul></dd>
+    <dd class="tag-description"><ul class="dummy"><li><p>Gets the number of available future data points of a given Item until a certain point in time.</p></li></ul></dd>
     
 
     
@@ -4712,7 +4712,7 @@ or if there is a state, but it is zero (which would cause a divide-by-zero error
 <dl class="details">
     
     <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>Retrieves the historic Items for a given Item between two certain points in time.</p></li></ul></dd>
+    <dd class="tag-description"><ul class="dummy"><li><p>Retrieves the persisted Items for a given Item between two certain points in time.</p></li></ul></dd>
     
 
     
@@ -5535,7 +5535,7 @@ or if there is a state, but it is zero (which would cause a divide-by-zero error
 <dl class="details">
     
     <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>Gets the historic Item with the maximum value of a given Item between two certain points in time.</p></li></ul></dd>
+    <dd class="tag-description"><ul class="dummy"><li><p>Gets the persisted Item with the maximum value of a given Item between two certain points in time.</p></li></ul></dd>
     
 
     
@@ -5988,7 +5988,7 @@ or <code>null</code> if <code>timestamp</code> is in the future</p>
 <dl class="details">
     
     <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>Gets the historic Item with the maximum value of a given Item until a certain point in time.</p></li></ul></dd>
+    <dd class="tag-description"><ul class="dummy"><li><p>Gets the future Item with the maximum value of a given Item until a certain point in time.</p></li></ul></dd>
     
 
     
@@ -6650,7 +6650,7 @@ or <code>null</code> if <code>timestamp</code> is in the future</p>
 <dl class="details">
     
     <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>Gets the historic Item with the minimum value of a given Item until a certain point in time.</p></li></ul></dd>
+    <dd class="tag-description"><ul class="dummy"><li><p>Gets the future Item with the minimum value of a given Item until a certain point in time.</p></li></ul></dd>
     
 
     
@@ -7882,7 +7882,7 @@ items.MyItem.postUpdate(0); // Now set the Item state to a new value</code></pre
 <dl class="details">
     
     <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>Removes from persistence the historic items for a given Item between two certain points in time.
+    <dd class="tag-description"><ul class="dummy"><li><p>Removes from persistence the persisted items for a given Item between two certain points in time.
 This will only have effect if the persistence service is a modifiable persistence service.</p></li></ul></dd>
     
 
@@ -9573,7 +9573,7 @@ or null if <code>begin</code> is after <code>end</code></p>
 <dl class="details">
     
     <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>Checks if the state of a given Item will be updated until a certain point in time.</p></li></ul></dd>
+    <dd class="tag-description"><ul class="dummy"><li><p>Checks if the state of a given Item will have been updated until a certain point in time.</p></li></ul></dd>
     
 
     
@@ -10449,7 +10449,7 @@ Item at the given <code>timestamp</code></p>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Sun May 05 2024 20:28:45 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Mon May 06 2024 10:01:30 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
