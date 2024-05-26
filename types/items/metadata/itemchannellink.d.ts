@@ -1,4 +1,48 @@
-export type Item = import('../items').Item;
+export type Item = {
+    rawItem: HostItem;
+    persistence: import("../item-persistence").ItemPersistence;
+    semantics: import("../item-semantics");
+    readonly type: string;
+    readonly name: string;
+    readonly label: string;
+    readonly state: string;
+    readonly numericState: number;
+    readonly quantityState: import("../../quantity").Quantity;
+    readonly rawState: HostState;
+    readonly members: any[];
+    readonly descendents: any[];
+    readonly isUninitialized: boolean;
+    getMetadata(namespace?: string): {
+        value: string;
+        configuration: any;
+    } | {
+        namespace: {
+            value: string;
+            configuration: any;
+        };
+    };
+    replaceMetadata(namespace: string, value: string, configuration?: any): {
+        configuration: any;
+        value: string;
+    };
+    removeMetadata(namespace?: string): {
+        value: string;
+        configuration: any;
+    };
+    sendCommand(value: any): void;
+    sendCommandIfDifferent(value: any): boolean;
+    getToggleState(): "PAUSE" | "PLAY" | "OPEN" | "CLOSED" | "ON" | "OFF";
+    sendToggleCommand(): void;
+    postToggleUpdate(): void;
+    postUpdate(value: any): void;
+    readonly groupNames: string[];
+    addGroups(...groupNamesOrItems: any[]): void;
+    removeGroups(...groupNamesOrItems: any[]): void;
+    readonly tags: string[];
+    addTags(...tagNames: string[]): void;
+    removeTags(...tagNames: string[]): void;
+    toString(): any;
+};
 /**
  * Gets a channel link of from an Item.
  *

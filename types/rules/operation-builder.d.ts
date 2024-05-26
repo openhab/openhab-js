@@ -1,4 +1,48 @@
-export type Item = import("../items/items").Item;
+export type Item = {
+    rawItem: HostItem;
+    persistence: import("../items/item-persistence").ItemPersistence;
+    semantics: import("../items/item-semantics");
+    readonly type: string;
+    readonly name: string;
+    readonly label: string;
+    readonly state: string;
+    readonly numericState: number;
+    readonly quantityState: import("../quantity").Quantity;
+    readonly rawState: HostState;
+    readonly members: any[];
+    readonly descendents: any[];
+    readonly isUninitialized: boolean;
+    getMetadata(namespace?: string): {
+        value: string;
+        configuration: any;
+    } | {
+        namespace: {
+            value: string;
+            configuration: any;
+        };
+    };
+    replaceMetadata(namespace: string, value: string, configuration?: any): {
+        configuration: any;
+        value: string;
+    };
+    removeMetadata(namespace?: string): {
+        value: string;
+        configuration: any;
+    };
+    sendCommand(value: any): void;
+    sendCommandIfDifferent(value: any): boolean;
+    getToggleState(): "PAUSE" | "PLAY" | "OPEN" | "CLOSED" | "ON" | "OFF";
+    sendToggleCommand(): void;
+    postToggleUpdate(): void;
+    postUpdate(value: any): void;
+    readonly groupNames: string[];
+    addGroups(...groupNamesOrItems: any[]): void;
+    removeGroups(...groupNamesOrItems: any[]): void;
+    readonly tags: string[];
+    addTags(...tagNames: string[]): void;
+    removeTags(...tagNames: string[]): void;
+    toString(): any;
+};
 /**
  * Sends a command or update to an item
  *
@@ -19,7 +63,7 @@ export class SendCommandOrUpdateOperation extends OperationConfig {
        * @returns {SendCommandOrUpdateOperation} this
        */
     toItems(itemsOrNames: Item[] | string[]): SendCommandOrUpdateOperation;
-    toItemNames: any[];
+    toItemNames: any[] | string[];
     /**
        * Send command to an item
        *

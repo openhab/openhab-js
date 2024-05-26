@@ -1,4 +1,3 @@
-// Manually written type defintions to avoid problems with lazy loading in index.js
 declare global {
   /**
    * Native Java Class Object (instance of {@link https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html java.lang.Class})
@@ -57,6 +56,8 @@ declare global {
    */
   type QuantityType = object;
 }
+
+// Manually written type definitions to avoid problems with lazy loading in index.js
 export const log: typeof import("./log");
 export const rules: typeof import("./rules");
 export const items: typeof import("./items/items");
