@@ -68,5 +68,5 @@ export const utils: typeof import("./utils");
 export const osgi: typeof import("./osgi");
 export const cache: typeof import("./cache");
 export const time: typeof import("./time");
-export const Quantity: typeof import("./quantity");
+export const Quantity: typeof import("./quantity").getQuantity;
 export {};
