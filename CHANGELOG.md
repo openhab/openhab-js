@@ -7,6 +7,11 @@
 | Clean-Up    |           | Remove deprecated methods and fields                                      | [#332](https://github.com/openhab/openhab-js/pull/332) | **Yes**  |
 | Enhancement | `items`   | `ItemHistory`: Adjust to core changes & Add new methods for future states | [#331](https://github.com/openhab/openhab-js/pull/331) | **Yes**  |
 
+Please note that this release drops support for openHAB 4.1.x.
+From now on, openHAB 4.2.0 is the minimum requirement for full compatibility.
+
+Read the [release community post](https://community.openhab.org/t/openhab-javascript-library-releases/144137#whats-new-in-500-1) to learn about adjusting your scripts & rules to the breaking changes.
+
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/25).
 
 ## 4.9.0
