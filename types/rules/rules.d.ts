@@ -79,6 +79,10 @@ export type EventObject = {
      */
     module: string;
     /**
+     * original contents of the event including data passed from a calling rule
+     */
+    raw: any;
+    /**
      * if provided by event: payload of event in Java data types
      */
     payload: any;
