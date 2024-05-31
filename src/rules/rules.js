@@ -359,6 +359,9 @@ function _getTriggeredData (input) {
   const event = input.get('event');
   const data = {};
 
+  // Add input to data to passthrough any properties not captured below
+  data.raw = input;
+
   // Dynamically added properties, depending on their availability
 
   // Item triggers
