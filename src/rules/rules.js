@@ -31,6 +31,7 @@
  * @property {string} triggerType for all triggers except {@link triggers.PWMTrigger}, {@link triggers.PIDTrigger}: Type of trigger that triggered event
  * @property {string} eventClass for all triggers: Java class name of the triggering event
  * @property {string} module (user-defined or auto-generated) name of trigger
+ * @property {*} raw original contents of the event including data passed from a calling rule
  * @property {*} payload if provided by event: payload of event in Java data types
  */
 
@@ -358,6 +359,9 @@ function _addFromHashMap (hashMap, key, object) {
 function _getTriggeredData (input) {
   const event = input.get('event');
   const data = {};
+
+  // Add input to data to passthrough any properties not captured below
+  data.raw = input;
 
   // Dynamically added properties, depending on their availability
 
