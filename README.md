@@ -491,7 +491,7 @@ See [openhab-js : ItemConfig](https://openhab.github.io/openhab-js/global.html#I
 
 #### `ItemPersistence`
 
-Calling `Item.history` returns an `ItemPersistence` object with the following functions:
+Calling `Item.persistence` returns an `ItemPersistence` object with the following functions:
 
 - ItemPersistence :`object`
   - .averageSince(timestamp, serviceId) ⇒ `PersistedState | null`
