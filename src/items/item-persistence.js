@@ -137,13 +137,25 @@ class ItemPersistence {
   /**
    * Persists the state of a given Item.
    *
-   * Tells the persistence service to store the current state of the Item, which is then performed asynchronously.
-   * This has the side effect, that if the Item state changes shortly after `.persist` has been called, the new state will be persisted.
+   * There are four ways to use this method:
+   * ```js
+   * // Tell persistence to store the current Item state
+   * items.MyItem.persistence.persist();
+   * items.MyItem.persistence.persist('influxdb'); // using the InfluxDB persistence service
+   *
+   * // Tell persistence to store the state 'ON' at 2021-01-01 00:00:00
+   * items.MyItem.persistence.persist(time.toZDT('2021-01-01T00:00:00'), 'ON');
+   * items.MyItem.persistence.persist(time.toZDT('2021-01-01T00:00:00'), 'ON', 'influxdb'); // using the InfluxDB persistence service
+   * ```
+   *
+   * **Note:** The persistence service will store the state asynchronously in the background, this method will return immediately.
+   * When storing the current state, this has the side effect, that if the Item state changes shortly the method call, the new state will be persisted.
    * To work around that side effect, you might add `java.lang.Thread.sleep` to your code:
-   * @example
+   * ```js
    * items.MyItem.persistence.persist(); // Tell persistence to store the current Item state
    * java.lang.Thread.sleep(100); // Wait 100 ms to make sure persistence has enough time to store the current Item state
    * items.MyItem.postUpdate(0); // Now set the Item state to a new value
+   * ```
    *
    * @param {(time.ZonedDateTime | Date)} [timestamp] the date for the item state to be stored
    * @param {string} [state] the state to be stored
