@@ -1,6 +1,6 @@
 export type Item = {
     rawItem: HostItem;
-    persistence: import("../item-persistence").ItemPersistence;
+    persistence: import("../item-persistence");
     semantics: import("../item-semantics");
     readonly type: string;
     readonly name: string;

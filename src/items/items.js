@@ -13,7 +13,7 @@ const { getQuantity, QuantityError } = require('../quantity');
 const { UnDefType, OnOffType, events, itemRegistry } = require('@runtime');
 
 const metadata = require('./metadata/metadata');
-const { ItemPersistence } = require('./item-persistence');
+const ItemPersistence = require('./item-persistence');
 const ItemSemantics = require('./item-semantics');
 
 const itemBuilderFactory = osgi.getService('org.openhab.core.items.ItemBuilderFactory');
