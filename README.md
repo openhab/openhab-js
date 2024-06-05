@@ -520,14 +520,15 @@ Calling `Item.persistence` returns an `ItemPersistence` object with the followin
   - .getAllStatesBetween(begin, end, serviceId)  ⇒ `Array[PersistedItem]`
   - .lastUpdate(serviceId) ⇒ `ZonedDateTime | null`
   - .nextUpdate(serviceId)  ⇒ `ZonedDateTime | null`
-  - .maximumSince(timestamp,serviceId) ⇒ `PersistedItem | null`
-  - .maximumUntil(timestamp,serviceId) ⇒ `PersistedItem | null`
+  - .maximumSince(timestamp, serviceId) ⇒ `PersistedItem | null`
+  - .maximumUntil(timestamp, serviceId) ⇒ `PersistedItem | null`
   - .maximumBetween(begin, end, serviceId) ⇒ `PersistedItem | null`
   - .minimumSince(timestamp, serviceId) ⇒ `PersistedItem | null`
   - .minimumUntil(timestamp, serviceId) ⇒ `PersistedItem | null`
   - .minimumBetween(begin, end, serviceId) ⇒ `PersistedItem | null`
   - .persist(serviceId): Tells the persistence service to store the current Item state, which is then done asynchronously.
     **Warning:** This has the side effect, that if the Item state changes shortly after `.persist` has been called, the new Item state will be persisted. See [JSDoc](https://openhab.github.io/openhab-js/items.ItemPersistence.html#persist) for a possible work-around.
+  - .persist(timestamp, state, serviceId): Tells the persistence service to store the given state at the given timestamp, which is then done asynchronously.
   - .persistedState(timestamp, serviceId) ⇒ `PersistedItem | null`
   - .previousState(skipEqual, serviceId) ⇒ `PersistedItem | null`
   - .nextState(skipEqual, serviceId) ⇒ `PersistedItem | null`
