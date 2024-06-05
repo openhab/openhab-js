@@ -314,7 +314,7 @@ export class Item {
     toString(): any;
 }
 import metadata = require("./metadata/metadata");
-import { ItemPersistence } from "./item-persistence";
+import ItemPersistence = require("./item-persistence");
 import ItemSemantics = require("./item-semantics");
 declare namespace time {
     type ZonedDateTime = import('@js-joda/core').ZonedDateTime;

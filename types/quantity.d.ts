@@ -1,12 +1,9 @@
 export type Item = {
     rawItem: HostItem;
-    persistence: import("./items/item-persistence").ItemPersistence;
+    persistence: import("./items/item-persistence");
     semantics: import("./items/item-semantics");
     readonly type: string;
-    readonly name: string; /**
-     * Dimension of this Quantity, e.g. `[L]` for metres or `[L]²` for cubic-metres
-     * @type {string}
-     */
+    readonly name: string;
     readonly label: string;
     readonly state: string;
     readonly numericState: number;

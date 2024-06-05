@@ -724,7 +724,4 @@ class ItemPersistence {
   }
 }
 
-module.exports = {
-  ItemPersistence,
-  PersistedItem
-};
+module.exports = ItemPersistence;

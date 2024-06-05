@@ -1,4 +1,4 @@
-export type Quantity = import('../quantity').Quantity;
+export = ItemPersistence;
 /**
  * Class representing the historic state of an openHAB Item.
  * Wrapping the {@link https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/extensions/persistenceextensions PersistenceExtensions}.
@@ -11,7 +11,7 @@ export type Quantity = import('../quantity').Quantity;
  * @memberOf items
  * @hideconstructor
  */
-export class ItemPersistence {
+declare class ItemPersistence {
     constructor(rawItem: any);
     rawItem: any;
     /**
@@ -458,6 +458,13 @@ export class ItemPersistence {
      */
     removeAllStatesBetween(begin: (time.ZonedDateTime | Date), end: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): any;
 }
+declare namespace ItemPersistence {
+    export { Quantity };
+}
+declare namespace time {
+    type ZonedDateTime = import('@js-joda/core').ZonedDateTime;
+}
+import time = require("../time");
 /**
  * Class representing an instance of {@link https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/historicitem org.openhab.core.persistence.HistoricItem}.
  * Extends {@link items.PersistedState}.
@@ -465,7 +472,7 @@ export class ItemPersistence {
  * @memberof items
  * @hideconstructor
  */
-export class PersistedItem extends PersistedState {
+declare class PersistedItem extends PersistedState {
     /**
      * Timestamp of persisted Item.
      * @type {time.ZonedDateTime}
@@ -473,10 +480,6 @@ export class PersistedItem extends PersistedState {
     get timestamp(): JSJoda.ZonedDateTime;
     #private;
 }
-declare namespace time {
-    type ZonedDateTime = import('@js-joda/core').ZonedDateTime;
-}
-import time = require("../time");
 /**
  * Class representing an instance of {@link https://www.openhab.org/javadoc/latest/org/openhab/core/types/state org.openhab.core.types.State}.
  *
@@ -505,5 +508,5 @@ declare class PersistedState {
     get quantityState(): import("../quantity").Quantity;
     #private;
 }
-export {};
+type Quantity = import('../quantity').Quantity;
 //# sourceMappingURL=item-persistence.d.ts.map
