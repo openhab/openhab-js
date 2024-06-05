@@ -4,10 +4,45 @@ const utils = require('./utils');
 const javaZDT = Java.type('java.time.ZonedDateTime');
 const javaDuration = Java.type('java.time.Duration');
 
+/**
+ * @typedef { import("./items/items").Item } Item
+ * @private
+ */
+
+/**
+ * Returns the name of a given Item or relays the passed in Item name.
+ *
+ * @param {Item|string} itemOrName Item or Item name
+ * @returns {string} the Item name
+ * @private
+ */
 function _getItemName (itemOrName) {
-  // Somehow instanceof check doesn't work here, so workaround the problem
-  if (itemOrName.rawItem !== undefined) return itemOrName.name;
+  if (_isItem(itemOrName)) return itemOrName.name;
   return itemOrName;
+}
+
+/**
+ * Helper function to convert JS types to a
+ * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/types/type org.openhab.core.types.Type} or a valid string representation of a type.
+ *
+ * Number and string are passed through.
+ * Other objects should implement <code>toOpenHabString</code> (prioritized) or <code>toString</code> to return an openHAB compatible representation.
+ *
+ * @private
+ * @param {*} value
+ * @returns {*}
+ */
+function _toOpenhabType (value) {
+  if (value === null) return 'NULL';
+  if (value === undefined) return 'UNDEF';
+  if (typeof value === 'number' || typeof value === 'string') {
+    return value;
+  } else if (typeof value.toOpenHabString === 'function') {
+    return value.toOpenHabString();
+  } else if (typeof value.toString === 'function') {
+    return value.toString();
+  }
+  return value;
 }
 
 /**
@@ -72,6 +107,7 @@ function _isDuration (o) {
 
 module.exports = {
   _getItemName,
+  _toOpenhabType,
   _isItem,
   _isQuantity,
   _isZonedDateTime,

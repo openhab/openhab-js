@@ -7,12 +7,14 @@
 const osgi = require('../osgi');
 const utils = require('../utils');
 const log = require('../log')('items');
-const metadata = require('./metadata/metadata');
-const { ItemPersistence } = require('./item-persistence');
-const ItemSemantics = require('./item-semantics');
+const { _toOpenhabType } = require('../helpers');
 const { getQuantity, QuantityError } = require('../quantity');
 
 const { UnDefType, OnOffType, events, itemRegistry } = require('@runtime');
+
+const metadata = require('./metadata/metadata');
+const { ItemPersistence } = require('./item-persistence');
+const ItemSemantics = require('./item-semantics');
 
 const itemBuilderFactory = osgi.getService('org.openhab.core.items.ItemBuilderFactory');
 
@@ -50,29 +52,6 @@ const itemBuilderFactory = osgi.getService('org.openhab.core.items.ItemBuilderFa
  * @memberof items
  */
 const DYNAMIC_ITEM_TAG = '_DYNAMIC_';
-
-/**
- * Helper function to convert JS types to openHAB command/state types' string representation.
- *
- * Numbers and strings are passed.
- * Objects should implement `toOpenHabString` (prioritized) or `toString` to return an openHAB compatible representation.
- *
- * @private
- * @param {*} value
- * @returns {*}
- */
-function _toOpenhabString (value) {
-  if (value === null) return 'NULL';
-  if (value === undefined) return 'UNDEF';
-  if (typeof value === 'number' || typeof value === 'string') {
-    return value;
-  } else if (typeof value.toOpenHabString === 'function') {
-    return value.toOpenHabString();
-  } else if (typeof value.toString === 'function') {
-    return value.toString();
-  }
-  return value;
-}
 
 /**
  * Class representing an openHAB Item
@@ -255,7 +234,7 @@ class Item {
    * @see postUpdate
    */
   sendCommand (value) {
-    events.sendCommand(this.rawItem, _toOpenhabString(value));
+    events.sendCommand(this.rawItem, _toOpenhabType(value));
   }
 
   /**
@@ -266,7 +245,7 @@ class Item {
    * @see sendCommand
    */
   sendCommandIfDifferent (value) {
-    value = _toOpenhabString(value);
+    value = _toOpenhabType(value);
     if (value.toString() !== this.state) {
       this.sendCommand(value);
       return true;
@@ -330,7 +309,7 @@ class Item {
    * @see sendCommand
    */
   postUpdate (value) {
-    events.postUpdate(this.rawItem, _toOpenhabString(value));
+    events.postUpdate(this.rawItem, _toOpenhabType(value));
   }
 
   /**
