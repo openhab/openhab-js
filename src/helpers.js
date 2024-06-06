@@ -22,17 +22,19 @@ function _getItemName (itemOrName) {
 }
 
 /**
- * Helper function to convert JS types to a
- * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/types/type org.openhab.core.types.Type} or a valid string representation of a type.
+ * Helper function to convert a JS type to a primitive type accepted by openHAB Core, which often is a string representation of the type.
  *
- * Number and string are passed through.
- * Other objects should implement <code>toOpenHabString</code> (prioritized) or <code>toString</code> to return an openHAB compatible representation.
+ * Converting any complex type to a primitive type is required to avoid multi-threading issues (as GraalJS does not allow multithreaded access to a script's context),
+ * e.g. when passing objects to persistence, which then persists asynchronously.
+ *
+ * Number and string primitives are passed through.
+ * Objects should implement <code>toOpenHabString</code> (prioritized) or <code>toString</code> to return an openHAB Core compatible string representation.
  *
  * @private
  * @param {*} value
  * @returns {*}
  */
-function _toOpenhabType (value) {
+function _toOpenhabPrimitiveType (value) {
   if (value === null) return 'NULL';
   if (value === undefined) return 'UNDEF';
   if (typeof value === 'number' || typeof value === 'string') {
@@ -107,7 +109,7 @@ function _isDuration (o) {
 
 module.exports = {
   _getItemName,
-  _toOpenhabType,
+  _toOpenhabPrimitiveType,
   _isItem,
   _isQuantity,
   _isZonedDateTime,
