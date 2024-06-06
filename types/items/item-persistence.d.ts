@@ -15,7 +15,7 @@ declare class ItemPersistence {
     constructor(rawItem: any);
     rawItem: any;
     /**
-     * Persists the state of a given Item.
+     * Persists a state of a given Item.
      *
      * There are four ways to use this method:
      * ```js
@@ -38,10 +38,10 @@ declare class ItemPersistence {
      * ```
      *
      * @param {(time.ZonedDateTime | Date)} [timestamp] the date for the item state to be stored
-     * @param {string} [state] the state to be stored
+     * @param {string|number|time.ZonedDateTime|Quantity|HostState} [state] the state to be stored
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
      */
-    persist(timestamp?: (time.ZonedDateTime | Date), state?: string, serviceId?: string, ...args: any[]): void;
+    persist(timestamp?: (time.ZonedDateTime | Date), state?: string | number | time.ZonedDateTime | Quantity | HostState, serviceId?: string, ...args: any[]): void;
     /**
      * Retrieves the persisted state for a given Item at a certain point in time.
      *
@@ -477,6 +477,7 @@ declare namespace time {
     type ZonedDateTime = import('@js-joda/core').ZonedDateTime;
 }
 import time = require("../time");
+type Quantity = import('../quantity').Quantity;
 /**
  * Class representing an instance of {@link https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/historicitem org.openhab.core.persistence.HistoricItem}.
  * Extends {@link items.PersistedState}.
@@ -520,5 +521,4 @@ declare class PersistedState {
     get quantityState(): import("../quantity").Quantity;
     #private;
 }
-type Quantity = import('../quantity').Quantity;
 //# sourceMappingURL=item-persistence.d.ts.map
