@@ -15,6 +15,7 @@ const { UnDefType, OnOffType, events, itemRegistry } = require('@runtime');
 const metadata = require('./metadata/metadata');
 const ItemPersistence = require('./item-persistence');
 const ItemSemantics = require('./item-semantics');
+const TimeSeries = require('./time-series');
 
 const itemBuilderFactory = osgi.getService('org.openhab.core.items.ItemBuilderFactory');
 
@@ -616,7 +617,8 @@ const itemProperties = {
   replaceItem,
   removeItem,
   Item,
-  metadata
+  metadata,
+  TimeSeries
 };
 
 /**
