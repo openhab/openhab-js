@@ -36,6 +36,12 @@ jobs:
 
       - run: npm run build
 
+      - name: Upload webpacked library artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: openhab.js
+          path: dist/openhab.js
+
       - name: Publish Docs
         if: github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v4
