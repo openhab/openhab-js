@@ -7,7 +7,7 @@
 const osgi = require('../osgi');
 const utils = require('../utils');
 const log = require('../log')('items');
-const { _toOpenhabType } = require('../helpers');
+const { _toOpenhabPrimitiveType } = require('../helpers');
 const { getQuantity, QuantityError } = require('../quantity');
 
 const { UnDefType, OnOffType, events, itemRegistry } = require('@runtime');
@@ -234,7 +234,7 @@ class Item {
    * @see postUpdate
    */
   sendCommand (value) {
-    events.sendCommand(this.rawItem, _toOpenhabType(value));
+    events.sendCommand(this.rawItem, _toOpenhabPrimitiveType(value));
   }
 
   /**
@@ -245,7 +245,7 @@ class Item {
    * @see sendCommand
    */
   sendCommandIfDifferent (value) {
-    value = _toOpenhabType(value);
+    value = _toOpenhabPrimitiveType(value);
     if (value.toString() !== this.state) {
       this.sendCommand(value);
       return true;
@@ -309,7 +309,7 @@ class Item {
    * @see sendCommand
    */
   postUpdate (value) {
-    events.postUpdate(this.rawItem, _toOpenhabType(value));
+    events.postUpdate(this.rawItem, _toOpenhabPrimitiveType(value));
   }
 
   /**

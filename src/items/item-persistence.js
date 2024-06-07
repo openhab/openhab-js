@@ -9,6 +9,7 @@ const utils = require('../utils');
  * @private
  */
 const { getQuantity, QuantityError } = require('../quantity');
+const { _toOpenhabPrimitiveType } = require('../helpers');
 const PersistenceExtensions = Java.type('org.openhab.core.persistence.extensions.PersistenceExtensions');
 
 /**
@@ -135,7 +136,7 @@ class ItemPersistence {
   }
 
   /**
-   * Persists the state of a given Item.
+   * Persists a state of a given Item.
    *
    * There are four ways to use this method:
    * ```js
@@ -158,11 +159,23 @@ class ItemPersistence {
    * ```
    *
    * @param {(time.ZonedDateTime | Date)} [timestamp] the date for the item state to be stored
-   * @param {string} [state] the state to be stored
+   * @param {string|number|time.ZonedDateTime|Quantity|HostState} [state] the state to be stored
    * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
    */
   persist (timestamp, state, serviceId) {
-    PersistenceExtensions.persist(this.rawItem, ...arguments);
+    switch (arguments.length) {
+      // persist a given state at a given timestamp
+      case 2:
+        PersistenceExtensions.persist(this.rawItem, timestamp, _toOpenhabPrimitiveType(state));
+        break;
+      case 3:
+        PersistenceExtensions.persist(this.rawItem, timestamp, _toOpenhabPrimitiveType(state), serviceId);
+        break;
+      // persist the current state or a TimeSeries
+      default:
+        PersistenceExtensions.persist(this.rawItem, ...arguments);
+        break;
+    }
   }
 
   // TODO: Add persist for TimeSeries
