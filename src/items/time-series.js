@@ -69,7 +69,7 @@ class TimeSeries {
   /**
    * States of the TimeSeries together with their timestamp and sorted by their timestamps
    *
-   * Be aware that this method returns a reference to the internal state array, i.e. don't modify the returned array.
+   * Be aware that this method returns a reference to the internal state array, so changes to the array will affect the TimeSeries.
    *
    * @type {Array}
    */
