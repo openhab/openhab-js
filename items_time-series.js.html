@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>TriggerConf - Documentation</title>
+    <title>items/time-series.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -37,560 +37,123 @@
 
 <div id="main">
     
-    <h1 class="page-title">TriggerConf</h1>
-    
-
-    
-
-
-
-
-<section>
-
-<header>
-    
-        <h2>
-            <span class="ancestors"><a href="TriggerBuilder.html">TriggerBuilder</a>.</span>
-        
-        
-            TriggerConf
-        
-        </h2>
-        
-            <div class="class-description usertext"><p>{RuleBuilder} RuleBuilder triggers</p></div>
-        
-    
-</header>
-
-<article>
-    
-        <div class="container-overview">
-        
-            
-
-    
-    <h2>Constructor</h2>
-    
-
-    <h4 class="name" id="TriggerConf"><span class="type-signature"></span>new TriggerConf<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="rules_trigger-builder.js.html">rules/trigger-builder.js</a>, <a href="rules_trigger-builder.js.html#line125">line 125</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-        </div>
-    
-
-    
-
-    
-
-    
-    
-    
-
-     
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    <h4 class="name" id="if"><span class="type-signature"></span>if<span class="signature">(fn)</span><span class="type-signature"> &rarr; {conditions.ConditionBuilder}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-    
-    <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>Move to the rule condition</p></li></ul></dd>
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="rules_trigger-builder.js.html">rules/trigger-builder.js</a>, <a href="rules_trigger-builder.js.html#line156">line 156</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5 class="h5-parameters">Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>fn</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">*</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>the optional function to execute</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5 class="h5-returns">Returns:</h5>
-
-        
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">conditions.ConditionBuilder</span>
-
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="or"><span class="type-signature"></span>or<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="TriggerBuilder.html">TriggerBuilder</a>}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-    
-    <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>Add an additional Trigger</p></li></ul></dd>
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="rules_trigger-builder.js.html">rules/trigger-builder.js</a>, <a href="rules_trigger-builder.js.html#line136">line 136</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5 class="h5-returns">Returns:</h5>
-
-        
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="TriggerBuilder.html">TriggerBuilder</a></span>
-
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="then"><span class="type-signature"></span>then<span class="signature">(fn)</span><span class="type-signature"> &rarr; {operations.OperationBuilder}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-    
-    <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>Move to the rule operations</p></li></ul></dd>
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="rules_trigger-builder.js.html">rules/trigger-builder.js</a>, <a href="rules_trigger-builder.js.html#line146">line 146</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5 class="h5-parameters">Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>fn</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">*</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>the optional function to execute</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5 class="h5-returns">Returns:</h5>
-
-        
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">operations.OperationBuilder</span>
-
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-    
-
-    
-
-    
-</article>
-
-</section>
+    <h1 class="page-title">items/time-series.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const time = require('../time');
+
+/**
+ * @typedef { import('@js-joda/core').Instant} time.Instant
+ * @private
+ */
+/**
+ * @typedef {import('../quantity').Quantity} Quantity
+ * @private
+ */
+
+/**
+ * A TimeSeries is used to transport a set of states together with their timestamp.
+ * It is usually used for persisting historic state or forecasts in a persistence service.
+ *
+ * @memberof items
+ */
+class TimeSeries {
+  #states = [];
+  #policy;
+
+  /**
+   * Creates a new TimeSeries.
+   *
+   * The TimeSeries policy defines how the TimeSeries is persisted in a persistence service:
+   * &lt;code>ADD&lt;/code> adds the content to the persistence,
+   * &lt;code>REPLACE&lt;/code> first removes all persisted elements in the timespan given by {@link begin} and {@link end}.
+   *
+   * @param {string} policy TimeSeries policy &lt;code>ADD&lt;/code> or &lt;code>REPLACE&lt;/code>
+   */
+  constructor (policy) {
+    if (!['ADD', 'REPLACE'].includes(policy)) throw new TypeError(`Invalid TimeSeries policy: ${policy}. Expected 'ADD' or 'REPLACE'.`);
+    this.#policy = policy;
+  }
+
+  /**
+   * The persistence policy of this TimeSeries
+   *
+   * @type {string}
+   */
+  get policy () {
+    return this.#policy;
+  }
+
+  /**
+   * Timestamp of the first element in the TimeSeries
+   * @type {time.Instant}
+   */
+  get begin () {
+    return this.#states.reduce((min, [timestamp, state]) => min.isBefore(timestamp) ? min : timestamp, time.Instant.MAX);
+  }
+
+  /**
+   * Timestamp of the last element in the TimeSeries
+   * @type {time.Instant}
+   */
+  get end () {
+    return this.#states.reduce((max, [timestamp, state]) => max.isAfter(timestamp) ? max : timestamp, time.Instant.MIN);
+  }
+
+  /**
+   * Number of elements in the TimeSeries
+   * @type {number}
+   */
+  get size () {
+    return this.#states.length;
+  }
+
+  /**
+   * States of the TimeSeries together with their timestamp and sorted by their timestamps
+   *
+   * Be aware that this method returns a reference to the internal state array, so changes to the array will affect the TimeSeries.
+   *
+   * @type {Array}
+   */
+  get states () {
+    return this.#states.sort(([timestampA, stateA], [timestampB, stateB]) => timestampA.isBefore(timestampB) ? -1 : 1);
+  }
+
+  /**
+   * Add a new element to the TimeSeries.
+   *
+   * Elements can be added in an arbitrary order and are sorted chronologically.
+   *
+   * @param {*} timestamp a timestamp for the given state (uses {@link time.toZDT} for creating a {@link time.ZonedDateTime})
+   * @param {string|number|Quantity|HostState} state the state at the given timestamp
+   * @returns {TimeSeries} this TimeSeries instance
+   */
+  add (timestamp, state) {
+    this.#states.push([time.toZDT(timestamp).toInstant(), state]);
+    return this;
+  }
+
+  toString () {
+    let states = '';
+    for (const [timestamp, state] of this.states) {
+      states += `[${timestamp} -> ${state}], `;
+    }
+    states = states.substring(0, states.length - 2);
+    return `TimeSeries (Begin=${this.begin}, End=${this.end}, Size=${this.size}, States=${states})`;
+  }
+}
+
+module.exports = TimeSeries;
+</code></pre>
+        </article>
+    </section>
 
 
 
@@ -602,7 +165,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Sat Jun 08 2024 15:20:35 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Sat Jun 08 2024 15:20:34 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
