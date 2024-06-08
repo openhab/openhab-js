@@ -1,8 +1,3 @@
-export type ItemMetadata = {
-    value: string;
-    configuration: any;
-};
-export type Quantity = import('../quantity').Quantity;
 /**
  * configuration describing an Item
  */
@@ -48,6 +43,11 @@ export type ItemConfig = {
      */
     groupFunction?: HostGroupFunction;
 };
+export type ItemMetadata = {
+    value: string;
+    configuration: any;
+};
+export type Quantity = import('../quantity').Quantity;
 /**
  * Helper function to ensure an Item name is valid. All invalid characters are replaced with an underscore.
  * @memberof items
@@ -314,10 +314,11 @@ export class Item {
     toString(): any;
 }
 import metadata = require("./metadata/metadata");
+import TimeSeries = require("./time-series");
 import ItemPersistence = require("./item-persistence");
 import ItemSemantics = require("./item-semantics");
 declare namespace time {
     type ZonedDateTime = import('@js-joda/core').ZonedDateTime;
 }
-export { metadata };
+export { metadata, TimeSeries };
 //# sourceMappingURL=items.d.ts.map

@@ -3,6 +3,8 @@
 const utils = require('./utils');
 const javaZDT = Java.type('java.time.ZonedDateTime');
 const javaDuration = Java.type('java.time.Duration');
+const javaInstant = Java.type('java.time.Instant');
+const javaTimeSeries = Java.type('org.openhab.core.types.TimeSeries');
 
 /**
  * @typedef { import("./items/items").Item } Item
@@ -50,42 +52,45 @@ function _toOpenhabPrimitiveType (value) {
 /**
  * Checks whether the given object is an instance of {@link items.Item}.
  *
- * To be used when instanceof checks don't work because of circular dependencies.
+ * To be used when instanceof checks don't work because of circular dependencies or webpack compilation.
  * Checks constructor name or unique properties, because constructor name does not work for the webpacked globals injection.
  *
- * @param o {*}
+ * @param {*} o
  * @returns {boolean}
  * @private
  */
 function _isItem (o) {
+  if (typeof o !== 'object') return false;
   return ((o.constructor && o.constructor.name === 'Item') || typeof o.rawItem === 'object');
 }
 
 /**
  * Checks whether the given object is an instance of {@link Quantity}.
  *
- * To be used when instanceof checks don't work because of circular dependencies.
+ * To be used when instanceof checks don't work because of circular dependencies or webpack compilation.
  * Checks constructor name or unique properties, because constructor name does not work for the webpacked globals injection.
  *
- * @param o {*}
+ * @param {*} o
  * @returns {boolean}
  * @private
  */
 function _isQuantity (o) {
+  if (typeof o !== 'object') return false;
   return ((o.constructor && o.constructor.name === 'Quantity') || typeof o.rawQtyType === 'object');
 }
 
 /**
  * Checks whether the given object is an instance of {@link time.ZonedDateTime}.
  *
- * To be used when instanceof checks don't work because of circular dependencies.
+ * To be used when instanceof checks don't work because of circular dependencies or webpack compilation.
  * Checks constructor name or unique properties, because constructor name does not work for the webpacked globals injection.
  *
- * @param o {*}
+ * @param {*} o
  * @returns {boolean}
  * @private
  */
 function _isZonedDateTime (o) {
+  if (typeof o !== 'object') return false;
   return (((o.constructor && o.constructor.name === 'ZonedDateTime')) ||
     (!utils.isJsInstanceOfJavaType(o, javaZDT) && typeof o.withFixedOffsetZone === 'function')
   );
@@ -94,16 +99,51 @@ function _isZonedDateTime (o) {
 /**
  * Checks whether the given object is an instance of {@link time.Duration}.
  *
- * To be used when instanceof checks don't work because of circular dependencies.
+ * To be used when instanceof checks don't work because of circular dependencies or webpack compilation.
  * Checks constructor name or unique properties, because constructor name does not work for the webpacked globals injection.
  *
- * @param o {*}
+ * @param {*} o
  * @returns {boolean}
  * @private
  */
 function _isDuration (o) {
+  if (typeof o !== 'object') return false;
   return (((o.constructor && o.constructor.name === 'Duration')) ||
     (!utils.isJsInstanceOfJavaType(o, javaDuration) && typeof o.minusDuration === 'function' && typeof o.toNanos === 'function')
+  );
+}
+
+/**
+ * Checks whether the given object is an instance of {@link time.Instant}.
+ *
+ * To be used when instanceof checks don't work because of circular dependencies or webpack compilation.
+ * Checks constructor name or unique properties, because constructor name does not work for the webpacked globals injection
+ *
+ * @param {*} o
+ * @returns {boolean}
+ * @private
+ */
+function _isInstant (o) {
+  if (typeof o !== 'object') return false;
+  return (((o.constructor && o.constructor.name === 'Instant')) ||
+    (!utils.isJsInstanceOfJavaType(o, javaInstant) && typeof o.policy === 'string' && typeof o.ofEpochMicro === 'function' && typeof o.ofEpochMilli === 'function' && o.ofEpochSecond === 'function')
+  );
+}
+
+/**
+ * Checks whether the given object is an instance of {@link items.TimeSeries}.
+ *
+ * To be used when instanceof checks don't work because of circular dependencies or webpack compilation.
+ * Checks constructor name or unique properties, because constructor name does not work for the webpacked globals injection.
+ *
+ * @param {*} o
+ * @return {boolean}
+ * @private
+ */
+function _isTimeSeries (o) {
+  if (typeof o !== 'object') return false;
+  return (((o.constructor && o.constructor.name === 'TimeSeries')) ||
+    (!utils.isJsInstanceOfJavaType(o, javaTimeSeries) && _isInstant(o.begin) && _isInstant(o.end))
   );
 }
 
@@ -113,5 +153,7 @@ module.exports = {
   _isItem,
   _isQuantity,
   _isZonedDateTime,
-  _isDuration
+  _isDuration,
+  _isInstant,
+  _isTimeSeries
 };

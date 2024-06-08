@@ -1,16 +1,25 @@
+const log = require('../log')('items.ItemPersistence');
+const time = require('../time');
+const utils = require('../utils');
+const { getQuantity, QuantityError } = require('../quantity');
+const { _toOpenhabPrimitiveType, _isTimeSeries } = require('../helpers');
+
+const PersistenceExtensions = Java.type('org.openhab.core.persistence.extensions.PersistenceExtensions');
+const TimeSeries = Java.type('org.openhab.core.types.TimeSeries');
+const TypeParser = Java.type('org.openhab.core.types.TypeParser');
+
 /**
  * @typedef {import('@js-joda/core').ZonedDateTime} time.ZonedDateTime
  * @private
  */
-const time = require('../time');
-const utils = require('../utils');
 /**
  * @typedef {import('../quantity').Quantity} Quantity
  * @private
  */
-const { getQuantity, QuantityError } = require('../quantity');
-const { _toOpenhabPrimitiveType } = require('../helpers');
-const PersistenceExtensions = Java.type('org.openhab.core.persistence.extensions.PersistenceExtensions');
+/**
+ * @typedef {import('../items/items').TimeSeries} items.TimeSeries
+ * @private
+ */
 
 /**
  * Class representing an instance of {@link https://www.openhab.org/javadoc/latest/org/openhab/core/types/state org.openhab.core.types.State}.
@@ -138,7 +147,7 @@ class ItemPersistence {
   /**
    * Persists a state of a given Item.
    *
-   * There are four ways to use this method:
+   * There are six ways to use this method:
    * ```js
    * // Tell persistence to store the current Item state
    * items.MyItem.persistence.persist();
@@ -147,6 +156,10 @@ class ItemPersistence {
    * // Tell persistence to store the state 'ON' at 2021-01-01 00:00:00
    * items.MyItem.persistence.persist(time.toZDT('2021-01-01T00:00:00'), 'ON');
    * items.MyItem.persistence.persist(time.toZDT('2021-01-01T00:00:00'), 'ON', 'influxdb'); // using the InfluxDB persistence service
+   *
+   * // Tell persistence to store a TimeSeries
+   * items.MyItem.persistence.persist(timeSeries);
+   * items.MyItem.persistence.persist(timeSeries, 'influxdb'); // using the InfluxDB persistence service
    * ```
    *
    * **Note:** The persistence service will store the state asynchronously in the background, this method will return immediately.
@@ -160,25 +173,92 @@ class ItemPersistence {
    *
    * @param {(time.ZonedDateTime | Date)} [timestamp] the date for the item state to be stored
    * @param {string|number|time.ZonedDateTime|Quantity|HostState} [state] the state to be stored
+   * @param {items.TimeSeries} [timeSeries] optional TimeSeries to be stored
    * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
    */
-  persist (timestamp, state, serviceId) {
+  persist (timestamp, state, timeSeries, serviceId) {
     switch (arguments.length) {
-      // persist a given state at a given timestamp
+      // persist the current state
+      case 0:
+        this.#persistCurrentState();
+        break;
+      // persist the current state in a given service or persist a TimeSeries
+      case 1:
+        if (_isTimeSeries(arguments[0])) {
+          this.#persistTimeSeries(arguments[0]);
+          break;
+        }
+        this.#persistCurrentState(arguments[0]);
+        break;
+      // persist a given state at a given timestamp or persist a TimeSeries in a given service
       case 2:
-        PersistenceExtensions.persist(this.rawItem, timestamp, _toOpenhabPrimitiveType(state));
+        if (_isTimeSeries(arguments[0])) {
+          this.#persistTimeSeries(arguments[0], arguments[1]);
+          break;
+        }
+        this.#persistGivenState(arguments[0], arguments[1]);
         break;
+      // persist a given state at a given timestamp in a given service
       case 3:
-        PersistenceExtensions.persist(this.rawItem, timestamp, _toOpenhabPrimitiveType(state), serviceId);
+        this.#persistGivenState(arguments[0], arguments[1], arguments[2]);
         break;
-      // persist the current state or a TimeSeries
+      // default case
       default:
         PersistenceExtensions.persist(this.rawItem, ...arguments);
         break;
     }
   }
 
-  // TODO: Add persist for TimeSeries
+  /**
+   * Internal method to persist the current state to a optionally given persistence service.
+   * @param {string} [serviceId]
+   */
+  #persistCurrentState (serviceId) {
+    log.debug(`Persisting current state of Item ${this.rawItem.getName()}${serviceId ? ' to ' + serviceId : ''} ...`);
+    if (serviceId) {
+      PersistenceExtensions.persist(this.rawItem, serviceId);
+      return;
+    }
+    PersistenceExtensions.persist(this.rawItem);
+  }
+
+  /**
+   * Internal method to persist a given state at a given timestamp to a optionally given persistence service.
+   * @param {(time.ZonedDateTime | Date)} timestamp
+   * @param {string|number|time.ZonedDateTime|Quantity|HostState} state
+   * @param {string} [serviceId]
+   */
+  #persistGivenState (timestamp, state, serviceId) {
+    if (typeof timestamp !== 'object') throw new TypeError('persist(timestamp, state, serviceId): timestamp must be a ZonedDateTime or Date object!');
+    log.debug(`Persisting given state ${state} of Item ${this.rawItem.getName()}${serviceId ? ' to ' + serviceId : ''} ...`);
+    if (serviceId) {
+      PersistenceExtensions.persist(this.rawItem, timestamp, _toOpenhabPrimitiveType(state), serviceId);
+      return;
+    }
+    PersistenceExtensions.persist(this.rawItem, timestamp, _toOpenhabPrimitiveType(state));
+  }
+
+  /**
+   * Internal method to persist a given TimeSeries to a optionally given persistence service.
+   * @param {items.TimeSeries} timeSeries
+   * @param {string} [serviceId]
+   */
+  #persistTimeSeries (timeSeries, serviceId) {
+    log.debug(`Persisting TimeSeries for Item ${this.rawItem.getName()}${serviceId ? ' to ' + serviceId : ''} ...`);
+    // Get accepted data types of the Item to use the TypeParser
+    const acceptedDataTypes = this.rawItem.getAcceptedDataTypes();
+    // Create a Java TimeSeries object from the JS TimeSeries
+    const ts = new TimeSeries(TimeSeries.Policy.valueOf(timeSeries.policy));
+    timeSeries.states.forEach(([timestamp, state]) => {
+      ts.add(timestamp, TypeParser.parseState(acceptedDataTypes, _toOpenhabPrimitiveType(state)));
+    });
+    // Persist the Java TimeSeries
+    if (serviceId) {
+      PersistenceExtensions.persist(this.rawItem, ts, serviceId);
+      return;
+    }
+    PersistenceExtensions.persist(this.rawItem, ts);
+  }
 
   /**
    * Retrieves the persisted state for a given Item at a certain point in time.

@@ -529,6 +529,7 @@ Calling `Item.persistence` returns an `ItemPersistence` object with the followin
   - .persist(serviceId): Tells the persistence service to store the current Item state, which is then done asynchronously.
     **Warning:** This has the side effect, that if the Item state changes shortly after `.persist` has been called, the new Item state will be persisted. See [JSDoc](https://openhab.github.io/openhab-js/items.ItemPersistence.html#persist) for a possible work-around.
   - .persist(timestamp, state, serviceId): Tells the persistence service to store the given state at the given timestamp, which is then done asynchronously.
+  - .persist(timeSeries, serviceId): Tells the persistence service to store the given [`TimeSeries`](#timeseries), which is then done asynchronously.
   - .persistedState(timestamp, serviceId) ⇒ `PersistedItem | null`
   - .previousState(skipEqual, serviceId) ⇒ `PersistedItem | null`
   - .nextState(skipEqual, serviceId) ⇒ `PersistedItem | null`
@@ -568,6 +569,35 @@ console.log('KitchenDimmer maximum was ', historic.state, ' at ', historic.times
 ```
 
 See [openhab-js : ItemPersistence](https://openhab.github.io/openhab-js/items.ItemPersistence.html) for full API documentation.
+
+#### `TimeSeries`
+
+A `TimeSeries` is used to transport a set of states together with their timestamp.
+It is usually used for persisting historic state or forecasts in a persistence service by using [`ItemPersistence.persist`](#itempersistence).
+
+When creating a new `TimeSeries`, a policy must be chosen - it defines how the `TimeSeries` is persisted in a persistence service:
+
+- `ADD` adds the content to the persistence, well suited for persisting historic data.
+- `REPLACE` first removes all persisted elements in the timespan given by begin and end of the `TimeSeries`, well suited for persisting forecasts.
+
+A `TimeSeries` object has the following properties and methods:
+
+- `policy`: The persistence policy, either `ADD` or `REPLACE`.
+- `begin`: Timestamp of the first element of the `TimeSeries`.
+- `end`: Timestamp of the last element of the `TimeSeries`.
+- `size`: Number of elements in the `TimeSeries`.
+- `states`: States of the `TimeSeries` together with their timestamp and sorted by their timestamps.
+  Be aware that this returns a reference to the internal state array, so changes to the array will affect the `TimeSeries`.
+- `add(timestamp, state)`: Add a given state to the `TimeSeries` at the given timestamp.
+
+The following example shows how to create a `TimeSeries`:
+
+```javascript
+var timeSeries = new items.TimeSeries('ADD'); // Create a new TimeSeries with policy ADD
+timeSeries.add(now.minusMinutes(10), Quantity('5 m')).add(now.minusMinutes(5), Quantity('3 m')).add(now.minusMinutes(1), Quantity('1 m'));
+console.log(ts); // Let's have a look at the TimeSeries
+items.getItem('MyDistanceItem').persistence.persist(timeSeries, 'influxdb'); // Persist the TimeSeries for the Item 'MyDistanceItem' using the InfluxDB persistence service
+```
 
 ### Things
 

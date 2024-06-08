@@ -15,23 +15,11 @@ const { UnDefType, OnOffType, events, itemRegistry } = require('@runtime');
 const metadata = require('./metadata/metadata');
 const ItemPersistence = require('./item-persistence');
 const ItemSemantics = require('./item-semantics');
+const TimeSeries = require('./time-series');
 
 const itemBuilderFactory = osgi.getService('org.openhab.core.items.ItemBuilderFactory');
 
 // typedefs need to be global for TypeScript to fully work
-/**
- * @typedef {import('../items/metadata/metadata').ItemMetadata} ItemMetadata
- * @private
- */
-/**
- * @typedef {import('@js-joda/core').ZonedDateTime} time.ZonedDateTime
- * @private
- */
-/**
- * @typedef {import('../quantity').Quantity} Quantity
- * @private
- */
-
 /**
  * @typedef {object} ItemConfig configuration describing an Item
  * @property {string} type the type of the Item
@@ -44,6 +32,18 @@ const itemBuilderFactory = osgi.getService('org.openhab.core.items.ItemBuilderFa
  * @property {*} [metadata] either object `{ namespace: value }` or `{ namespace: `{@link ItemMetadata}` }`
  * @property {string} [giBaseType] the group Item base type for the Item
  * @property {HostGroupFunction} [groupFunction] the group function used by the Item
+ */
+/**
+ * @typedef {import('../items/metadata/metadata').ItemMetadata} ItemMetadata
+ * @private
+ */
+/**
+ * @typedef {import('@js-joda/core').ZonedDateTime} time.ZonedDateTime
+ * @private
+ */
+/**
+ * @typedef {import('../quantity').Quantity} Quantity
+ * @private
  */
 
 /**
@@ -616,7 +616,8 @@ const itemProperties = {
   replaceItem,
   removeItem,
   Item,
-  metadata
+  metadata,
+  TimeSeries
 };
 
 /**
