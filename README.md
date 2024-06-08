@@ -584,7 +584,7 @@ A `TimeSeries` object has the following properties and methods:
 
 - `policy`: The persistence policy, either `ADD` or `REPLACE`.
 - `begin`: Timestamp of the first element of the `TimeSeries`.
-- `end': Timestamp of the last element of the `TimeSeries`.
+- `end`: Timestamp of the last element of the `TimeSeries`.
 - `size`: Number of elements in the `TimeSeries`.
 - `states`: States of the `TimeSeries` together with their timestamp and sorted by their timestamps.
   Be aware that this returns a reference to the internal state array, so changes to the array will affect the `TimeSeries`.
