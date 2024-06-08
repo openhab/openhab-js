@@ -43,10 +43,10 @@ declare class ItemPersistence {
      *
      * @param {(time.ZonedDateTime | Date)} [timestamp] the date for the item state to be stored
      * @param {string|number|time.ZonedDateTime|Quantity|HostState} [state] the state to be stored
-     * @param {TimeSeries} [timeSeries] optional TimeSeries to be stored
+     * @param {items.TimeSeries} [timeSeries] optional TimeSeries to be stored
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
      */
-    persist(timestamp?: (time.ZonedDateTime | Date), state?: string | number | time.ZonedDateTime | Quantity | HostState, timeSeries?: TimeSeries, serviceId?: string, ...args: any[]): void;
+    persist(timestamp?: (time.ZonedDateTime | Date), state?: string | number | time.ZonedDateTime | Quantity | HostState, timeSeries?: items.TimeSeries, serviceId?: string, ...args: any[]): void;
     /**
      * Retrieves the persisted state for a given Item at a certain point in time.
      *
@@ -477,13 +477,16 @@ declare class ItemPersistence {
     #private;
 }
 declare namespace ItemPersistence {
-    export { Quantity, TimeSeries };
+    export { Quantity };
 }
 declare namespace time {
     type ZonedDateTime = import('@js-joda/core').ZonedDateTime;
 }
 import time = require("../time");
 type Quantity = import('../quantity').Quantity;
+declare namespace items {
+    type TimeSeries = import("./time-series");
+}
 declare const TimeSeries: any;
 /**
  * Class representing an instance of {@link https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/historicitem org.openhab.core.persistence.HistoricItem}.
@@ -509,7 +512,7 @@ declare class PersistedItem extends PersistedState {
  * @private
  */
 /**
- * @typedef {import('../items/items').TimeSeries} TimeSeries
+ * @typedef {import('../items/items').TimeSeries} items.TimeSeries
  * @private
  */
 /**
@@ -540,5 +543,4 @@ declare class PersistedState {
     get quantityState(): import("../quantity").Quantity;
     #private;
 }
-type TimeSeries = import("./time-series");
 //# sourceMappingURL=item-persistence.d.ts.map
