@@ -60,6 +60,7 @@ function _toOpenhabPrimitiveType (value) {
  * @private
  */
 function _isItem (o) {
+  if (typeof o !== 'object') return false;
   return ((o.constructor && o.constructor.name === 'Item') || typeof o.rawItem === 'object');
 }
 
@@ -74,6 +75,7 @@ function _isItem (o) {
  * @private
  */
 function _isQuantity (o) {
+  if (typeof o !== 'object') return false;
   return ((o.constructor && o.constructor.name === 'Quantity') || typeof o.rawQtyType === 'object');
 }
 
@@ -88,6 +90,7 @@ function _isQuantity (o) {
  * @private
  */
 function _isZonedDateTime (o) {
+  if (typeof o !== 'object') return false;
   return (((o.constructor && o.constructor.name === 'ZonedDateTime')) ||
     (!utils.isJsInstanceOfJavaType(o, javaZDT) && typeof o.withFixedOffsetZone === 'function')
   );
@@ -104,6 +107,7 @@ function _isZonedDateTime (o) {
  * @private
  */
 function _isDuration (o) {
+  if (typeof o !== 'object') return false;
   return (((o.constructor && o.constructor.name === 'Duration')) ||
     (!utils.isJsInstanceOfJavaType(o, javaDuration) && typeof o.minusDuration === 'function' && typeof o.toNanos === 'function')
   );
@@ -120,6 +124,7 @@ function _isDuration (o) {
  * @private
  */
 function _isInstant (o) {
+  if (typeof o !== 'object') return false;
   return (((o.constructor && o.constructor.name === 'Instant')) ||
     (!utils.isJsInstanceOfJavaType(o, javaInstant) && typeof o.policy === 'string' && typeof o.ofEpochMicro === 'function' && typeof o.ofEpochMilli === 'function' && o.ofEpochSecond === 'function')
   );
@@ -136,6 +141,7 @@ function _isInstant (o) {
  * @private
  */
 function _isTimeSeries (o) {
+  if (typeof o !== 'object') return false;
   return (((o.constructor && o.constructor.name === 'TimeSeries')) ||
     (!utils.isJsInstanceOfJavaType(o, javaTimeSeries) && _isInstant(o.begin) && _isInstant(o.end))
   );
