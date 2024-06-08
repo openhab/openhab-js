@@ -24,10 +24,12 @@ const itemBuilderFactory = osgi.getService('org.openhab.core.items.ItemBuilderFa
  * @typedef {import('../items/metadata/metadata').ItemMetadata} ItemMetadata
  * @private
  */
+
 /**
  * @typedef {import('@js-joda/core').ZonedDateTime} time.ZonedDateTime
  * @private
  */
+
 /**
  * @typedef {import('../quantity').Quantity} Quantity
  * @private

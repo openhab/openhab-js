@@ -17,7 +17,7 @@ declare class ItemPersistence {
     /**
      * Persists a state of a given Item.
      *
-     * There are four ways to use this method:
+     * There are six ways to use this method:
      * ```js
      * // Tell persistence to store the current Item state
      * items.MyItem.persistence.persist();
@@ -26,6 +26,10 @@ declare class ItemPersistence {
      * // Tell persistence to store the state 'ON' at 2021-01-01 00:00:00
      * items.MyItem.persistence.persist(time.toZDT('2021-01-01T00:00:00'), 'ON');
      * items.MyItem.persistence.persist(time.toZDT('2021-01-01T00:00:00'), 'ON', 'influxdb'); // using the InfluxDB persistence service
+     *
+     * // Tell persistence to store a TimeSeries
+     * items.MyItem.persistence.persist(timeSeries);
+     * items.MyItem.persistence.persist(timeSeries, 'influxdb'); // using the InfluxDB persistence service
      * ```
      *
      * **Note:** The persistence service will store the state asynchronously in the background, this method will return immediately.
@@ -39,9 +43,10 @@ declare class ItemPersistence {
      *
      * @param {(time.ZonedDateTime | Date)} [timestamp] the date for the item state to be stored
      * @param {string|number|time.ZonedDateTime|Quantity|HostState} [state] the state to be stored
+     * @param {TimeSeries} [timeSeries] optional TimeSeries to be stored
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
      */
-    persist(timestamp?: (time.ZonedDateTime | Date), state?: string | number | time.ZonedDateTime | Quantity | HostState, serviceId?: string, ...args: any[]): void;
+    persist(timestamp?: (time.ZonedDateTime | Date), state?: string | number | time.ZonedDateTime | Quantity | HostState, timeSeries?: TimeSeries, serviceId?: string, ...args: any[]): void;
     /**
      * Retrieves the persisted state for a given Item at a certain point in time.
      *
@@ -469,15 +474,17 @@ declare class ItemPersistence {
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
      */
     removeAllStatesBetween(begin: (time.ZonedDateTime | Date), end: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): any;
+    #private;
 }
 declare namespace ItemPersistence {
-    export { Quantity };
+    export { Quantity, TimeSeries };
 }
 declare namespace time {
     type ZonedDateTime = import('@js-joda/core').ZonedDateTime;
 }
 import time = require("../time");
 type Quantity = import('../quantity').Quantity;
+declare const TimeSeries: any;
 /**
  * Class representing an instance of {@link https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/historicitem org.openhab.core.persistence.HistoricItem}.
  * Extends {@link items.PersistedState}.
@@ -493,6 +500,18 @@ declare class PersistedItem extends PersistedState {
     get timestamp(): JSJoda.ZonedDateTime;
     #private;
 }
+/**
+ * @typedef {import('@js-joda/core').ZonedDateTime} time.ZonedDateTime
+ * @private
+ */
+/**
+ * @typedef {import('../quantity').Quantity} Quantity
+ * @private
+ */
+/**
+ * @typedef {import('../items/items').TimeSeries} TimeSeries
+ * @private
+ */
 /**
  * Class representing an instance of {@link https://www.openhab.org/javadoc/latest/org/openhab/core/types/state org.openhab.core.types.State}.
  *
@@ -521,4 +540,5 @@ declare class PersistedState {
     get quantityState(): import("../quantity").Quantity;
     #private;
 }
+type TimeSeries = import("./time-series");
 //# sourceMappingURL=item-persistence.d.ts.map
