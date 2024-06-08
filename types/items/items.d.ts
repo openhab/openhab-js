@@ -1,30 +1,3 @@
-export type ItemMetadata = {
-    value: string;
-    /**
-     * @typedef {import('../quantity').Quantity} Quantity
-     * @private
-     */
-    /**
-     * @typedef {object} ItemConfig configuration describing an Item
-     * @property {string} type the type of the Item
-     * @property {string} name Item name for the Item to create
-     * @property {string} [label] the label for the Item
-     * @property {string} [category] the category (icon) for the Item
-     * @property {string[]} [groups] an array of groups the Item is a member of
-     * @property {string[]} [tags] an array of tags for the Item
-     * @property {string|Object} [channels] for single channel link a string or for multiple an object { channeluid: configuration }; configuration is an object
-     * @property {*} [metadata] either object `{ namespace: value }` or `{ namespace: `{@link ItemMetadata}` }`
-     * @property {string} [giBaseType] the group Item base type for the Item
-     * @property {HostGroupFunction} [groupFunction] the group function used by the Item
-     */
-    /**
-     * Tag value to be attached to all dynamically created Items.
-     *
-     * @memberof items
-     */
-    configuration: any;
-};
-export type Quantity = import('../quantity').Quantity;
 /**
  * configuration describing an Item
  */
@@ -70,6 +43,11 @@ export type ItemConfig = {
      */
     groupFunction?: HostGroupFunction;
 };
+export type ItemMetadata = {
+    value: string;
+    configuration: any;
+};
+export type Quantity = import('../quantity').Quantity;
 /**
  * Helper function to ensure an Item name is valid. All invalid characters are replaced with an underscore.
  * @memberof items

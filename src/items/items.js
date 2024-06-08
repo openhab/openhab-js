@@ -21,21 +21,6 @@ const itemBuilderFactory = osgi.getService('org.openhab.core.items.ItemBuilderFa
 
 // typedefs need to be global for TypeScript to fully work
 /**
- * @typedef {import('../items/metadata/metadata').ItemMetadata} ItemMetadata
- * @private
- */
-
-/**
- * @typedef {import('@js-joda/core').ZonedDateTime} time.ZonedDateTime
- * @private
- */
-
-/**
- * @typedef {import('../quantity').Quantity} Quantity
- * @private
- */
-
-/**
  * @typedef {object} ItemConfig configuration describing an Item
  * @property {string} type the type of the Item
  * @property {string} name Item name for the Item to create
@@ -47,6 +32,18 @@ const itemBuilderFactory = osgi.getService('org.openhab.core.items.ItemBuilderFa
  * @property {*} [metadata] either object `{ namespace: value }` or `{ namespace: `{@link ItemMetadata}` }`
  * @property {string} [giBaseType] the group Item base type for the Item
  * @property {HostGroupFunction} [groupFunction] the group function used by the Item
+ */
+/**
+ * @typedef {import('../items/metadata/metadata').ItemMetadata} ItemMetadata
+ * @private
+ */
+/**
+ * @typedef {import('@js-joda/core').ZonedDateTime} time.ZonedDateTime
+ * @private
+ */
+/**
+ * @typedef {import('../quantity').Quantity} Quantity
+ * @private
  */
 
 /**
