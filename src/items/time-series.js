@@ -1,7 +1,12 @@
 const time = require('../time');
+const { _isInstant } = require('../helpers');
 
 /**
  * @typedef { import('@js-joda/core').Instant} time.Instant
+ * @private
+ */
+/**
+ * @typedef { import('@js-joda/core').ZonedDateTime} time.ZonedDateTime
  * @private
  */
 /**
@@ -82,12 +87,13 @@ class TimeSeries {
    *
    * Elements can be added in an arbitrary order and are sorted chronologically.
    *
-   * @param {*} timestamp a timestamp for the given state (uses {@link time.toZDT} for creating a {@link time.ZonedDateTime})
+   * @param {(time.Instant|time.ZonedDateTime|string|Date)} timestamp a timestamp for the given state
    * @param {string|number|Quantity|HostState} state the state at the given timestamp
    * @returns {TimeSeries} this TimeSeries instance
    */
   add (timestamp, state) {
-    this.#states.push([time.toZDT(timestamp).toInstant(), state]);
+    const ts = _isInstant(timestamp) ? timestamp : time.toZDT(timestamp).toInstant();
+    this.#states.push([ts, state]);
     return this;
   }
 
