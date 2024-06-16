@@ -7,7 +7,7 @@
 const osgi = require('../osgi');
 const utils = require('../utils');
 const log = require('../log')('items');
-const { _toOpenhabPrimitiveType } = require('../helpers');
+const { _toOpenhabPrimitiveType, _isQuantity } = require('../helpers');
 const { getQuantity, QuantityError } = require('../quantity');
 
 const { UnDefType, OnOffType, events, itemRegistry } = require('@runtime');
@@ -245,12 +245,29 @@ class Item {
    * @see sendCommand
    */
   sendCommandIfDifferent (value) {
-    value = _toOpenhabPrimitiveType(value);
-    if (value.toString() !== this.state) {
-      this.sendCommand(value);
-      return true;
+    // value and current state both are Quantity and have equal value
+    if (_isQuantity(value) && this.quantityState !== null) {
+      if (this.quantityState.equal(value)) {
+        return false;
+      }
     }
-    return false;
+
+    // value and current state are both numeric and have equal value
+    if (typeof value === 'number' && this.numericState !== null) {
+      if (value === this.numericState) {
+        return false;
+      }
+    }
+
+    // stringified value and string state are equal
+    value = _toOpenhabPrimitiveType(value);
+    if (value.toString() === this.state) {
+      return false;
+    }
+
+    // else send the command
+    this.sendCommand(value);
+    return true;
   }
 
   /**
