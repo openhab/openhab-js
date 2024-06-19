@@ -5,6 +5,7 @@ const { getQuantity, Quantity, QuantityError, _toBigDecimalOrQtyType, _toQtyType
 
 class Item {
   constructor (rawState) {
+    this.rawItem = {}; // required for _isItem
     this.rawState = rawState;
   }
 }

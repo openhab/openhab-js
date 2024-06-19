@@ -21,6 +21,11 @@ const { _isInstant } = require('../helpers');
  * @memberof items
  */
 class TimeSeries {
+  /**
+   * @type {boolean}
+   * @private
+   */
+  _isTimeSeries = true;
   #states = [];
   #policy;
 

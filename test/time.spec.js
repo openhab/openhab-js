@@ -25,7 +25,7 @@ describe('time.js', () => {
   });
 
   describe('parseString', () => {
-    const parseString = time.parseString;
+    const parseString = time._parseString;
 
     describe('accepts ISO patterns without the "T" for Blockly', () => {
       it.each([
@@ -42,7 +42,7 @@ describe('time.js', () => {
   });
 
   describe('parseISO8601', () => {
-    const parseISO8601 = time.parseISO8601;
+    const parseISO8601 = time._parseISO8601;
     const ZonedDateTime = require('@js-joda/core').ZonedDateTime;
 
     describe('parses ISO Date', () => {
