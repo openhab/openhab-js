@@ -2,6 +2,14 @@
 
 ## 5.1.0
 
+| Type   | Namespace | Description                                            | Reference                                              | Breaking |
+|--------|-----------|--------------------------------------------------------|--------------------------------------------------------|----------|
+| Bugfix | `helpers` | Fix isInstant check & Improve isXXXX checks in general | [#348](https://github.com/openhab/openhab-js/pull/348) | No       |
+
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/27).
+
+## 5.1.0
+
 | Type        | Namespace  | Description                                                                 | Reference                                                                                         | Breaking |
 |-------------|------------|-----------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------|----------|
 | Bugfix      | `Quantity` | Fix type definitions                                                        | [ee0a59a5](https://github.com/openhab/openhab-js/commit/ee0a59a5dbd31c181bb7fdfe6b28be8d39637183) | No       |
@@ -9,7 +17,7 @@
 | Bugfix      | `items`    | ItemPersistence: Fix multi-threaded access exception when persisting states | [#339](https://github.com/openhab/openhab-js/pull/339)                                            | No       |
 | Enhancement | `items`    | ItemPersistence: Add support for persisting TimeSeries                      | [#341](https://github.com/openhab/openhab-js/pull/341)                                            | No       |
 | Enhancement | `items`    | TimeSeries: Add support for using Instant as timestamp                      | [#342](https://github.com/openhab/openhab-js/pull/342)                                            | No       |
-| Enhancement | `items`    | Item: Fix `sendCommandIfDifferent` fails to compare Quantity                | [343](https://github.com/openhab/openhab-js/pull/343)                                             | No       |
+| Enhancement | `items`    | Item: Fix `sendCommandIfDifferent` fails to compare Quantity                | [#343](https://github.com/openhab/openhab-js/pull/343)                                            | No       |
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/26).
 
