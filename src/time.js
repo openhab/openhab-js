@@ -454,9 +454,14 @@ time.ZonedDateTime.prototype.toOpenHabString = function () {
   return this.toString().replace(/\[[^\]]*]$/, '');
 };
 
+// Add fields to allow identification of the object type
+time.ZonedDateTime.prototype._isZonedDateTime = true;
+time.Duration.prototype._isDuration = true;
+time.Instant.prototype._isInstant = true;
+
 module.exports = {
   ...time,
   toZDT,
-  parseString: _parseString,
-  parseISO8601: _parseISO8601
+  _parseString,
+  _parseISO8601
 };
