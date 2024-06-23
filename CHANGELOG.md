@@ -1,10 +1,10 @@
 # Changelog
 
-## 5.1.1
+## 5.1.2
 
-| Type   | Namespace | Description                                            | Reference                                              | Breaking |
-|--------|-----------|--------------------------------------------------------|--------------------------------------------------------|----------|
-| Bugfix | `helpers` | Fix isInstant check & Improve isXXXX checks in general | [#348](https://github.com/openhab/openhab-js/pull/348) | No       |
+| Type   | Namespace | Description                                            | Reference                                                                                                       | Breaking |
+|--------|-----------|--------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|----------|
+| Bugfix | `helpers` | Fix isInstant check & Improve isXXXX checks in general | [#348](https://github.com/openhab/openhab-js/pull/348) & [#349](https://github.com/openhab/openhab-js/pull/349) | No       |
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/27).
 
