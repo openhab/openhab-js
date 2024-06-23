@@ -29,11 +29,6 @@ declare class TimeSeries {
      */
     constructor(policy: string);
     /**
-     * @type {boolean}
-     * @private
-     */
-    private _isTimeSeries;
-    /**
      * The persistence policy of this TimeSeries
      *
      * @type {string}
