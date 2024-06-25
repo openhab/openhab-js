@@ -59,8 +59,9 @@ declare class ItemPersistence {
      * Query the last update time of a given Item.
      *
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-     * @returns {(time.ZonedDateTime | null)} point in time of the last historic update to Item, or <code>null</code> if there are no historic persisted updates
-     */
+     * @returns {(time.ZonedDateTime | null)} point in time of the last historic update to Item, or <code>null</code>
+                                              if the current state is different from the last persisted state or there are no historic persisted updates
+    */
     lastUpdate(serviceId?: string, ...args: any[]): (time.ZonedDateTime | null);
     /**
      * Query the next update time of a given Item.
@@ -69,6 +70,21 @@ declare class ItemPersistence {
      * @returns {(time.ZonedDateTime | null)} point in time of the first future update to Item, or <code>null</code> if there are no future persisted updates
      */
     nextUpdate(serviceId?: string, ...args: any[]): (time.ZonedDateTime | null);
+    /**
+     * Query the last change time of a given Item.
+     *
+     * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
+     * @returns {(time.ZonedDateTime | null)} point in time of the last historic change to Item, or <code>null</code>
+                                              if the current state is different from the last persisted state or there are no historic persisted states
+     */
+    lastChange(serviceId?: string, ...args: any[]): (time.ZonedDateTime | null);
+    /**
+     * Query the next change time of a given Item.
+     *
+     * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
+     * @returns {(time.ZonedDateTime | null)} point in time of the first future change to Item, or <code>null</code> if there are no future persisted states
+     */
+    nextChange(serviceId?: string, ...args: any[]): (time.ZonedDateTime | null);
     /**
      * Returns the previous state of a given Item.
      *
