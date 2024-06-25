@@ -519,7 +519,9 @@ Calling `Item.persistence` returns an `ItemPersistence` object with the followin
   - .getAllStatesUntil(timestamp, serviceId)  ⇒ `Array[PersistedItem]`
   - .getAllStatesBetween(begin, end, serviceId)  ⇒ `Array[PersistedItem]`
   - .lastUpdate(serviceId) ⇒ `ZonedDateTime | null`
-  - .nextUpdate(serviceId)  ⇒ `ZonedDateTime | null`
+  - .nextUpdate(serviceId) ⇒ `ZonedDateTime | null`
+  - .lastChange(serviceId) ⇒ `ZonedDateTime | null`
+  - .nextChange(serviceId) ⇒ `ZonedDateTime | null`
   - .maximumSince(timestamp, serviceId) ⇒ `PersistedItem | null`
   - .maximumUntil(timestamp, serviceId) ⇒ `PersistedItem | null`
   - .maximumBetween(begin, end, serviceId) ⇒ `PersistedItem | null`

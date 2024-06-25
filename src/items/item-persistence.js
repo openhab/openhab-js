@@ -275,8 +275,9 @@ class ItemPersistence {
    * Query the last update time of a given Item.
    *
    * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-   * @returns {(time.ZonedDateTime | null)} point in time of the last historic update to Item, or <code>null</code> if there are no historic persisted updates
-   */
+   * @returns {(time.ZonedDateTime | null)} point in time of the last historic update to Item, or <code>null</code>
+                                            if the current state is different from the last persisted state or there are no historic persisted updates
+  */
   lastUpdate (serviceId) {
     return _ZDTOrNull(PersistenceExtensions.lastUpdate(this.rawItem, ...arguments));
   }
@@ -289,6 +290,27 @@ class ItemPersistence {
    */
   nextUpdate (serviceId) {
     return _ZDTOrNull(PersistenceExtensions.nextUpdate(this.rawItem, ...arguments));
+  }
+
+  /**
+   * Query the last change time of a given Item.
+   *
+   * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
+   * @returns {(time.ZonedDateTime | null)} point in time of the last historic change to Item, or <code>null</code>
+                                            if the current state is different from the last persisted state or there are no historic persisted states
+   */
+  lastChange (serviceId) {
+    return _ZDTOrNull(PersistenceExtensions.lastChange(this.rawItem, ...arguments));
+  }
+
+  /**
+   * Query the next change time of a given Item.
+   *
+   * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
+   * @returns {(time.ZonedDateTime | null)} point in time of the first future change to Item, or <code>null</code> if there are no future persisted states
+   */
+  nextChange (serviceId) {
+    return _ZDTOrNull(PersistenceExtensions.nextChange(this.rawItem, ...arguments));
   }
 
   /**
