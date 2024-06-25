@@ -1,5 +1,13 @@
 # Changelog
 
+## 5.2.0
+
+| Type        | Namespace | Description                                            | Reference                                              | Breaking |
+|-------------|-----------|--------------------------------------------------------|--------------------------------------------------------|----------|
+| Enhancement | `items`   | ItemPersistence: Add lastChange and nextChange methods | [#350](https://github.com/openhab/openhab-js/pull/350) | No       |
+
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/28).
+
 ## 5.1.2
 
 | Type   | Namespace | Description                                            | Reference                                                                                                       | Breaking |
