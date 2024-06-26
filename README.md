@@ -795,7 +795,7 @@ To send these three types of notifications, use the `notificationBuilder(message
 It returns a new `NotificationBuilder` object, which by default sends a broadcast notification and provides the following methods:
 
 - `.logOnly()`: Send a log notification only.
-- `.withIcon(icon)`: Sets the icon of the notification. 
+- `.withIcon(icon)`: Sets the icon of the notification.
 - `.withSeverity(link)`: Sets the severity of the notification.
 - `.withTitle(title)`: Sets the title of the notification.
 - `.addUserId(emailAddress)`: By adding the email address(es) of specific openHAB Cloud user(s), the notification is only sent to this (these) user(s).
@@ -830,6 +830,8 @@ actions.notificationBuilder('Hello World!').logOnly().send();
 actions.notificationBuilder('Hello World!').logOnly()
         .withIcon('f7:bell_fill').withSeverity('important').send();
 ```
+
+See [openhab-js : actions.NotificationBuilder](https://openhab.github.io/openhab-js/actions.html#.notificationBuilder) for complete documentation.
 
 ### Cache
 
