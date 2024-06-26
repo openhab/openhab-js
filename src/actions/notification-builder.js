@@ -70,7 +70,7 @@ class BaseNotificationBuilder {
   /**
    * Sets the icon for the notification.
    *
-   * Uses the same syntax as the oh-icon component, see {@link https://next.openhab.org/docs/ui/components/oh-icon.html#icon oh-icon docs} for valid options.
+   * See {@link https://www.openhab.org/docs/configuration/items.html#icon-sources} for valid icon sources.
    * Please note that not all push notification clients support displaying icons.
    *
    * @param {string} icon
@@ -123,7 +123,7 @@ class BaseNotificationBuilder {
 class ExtendedNotificationBuilder extends BaseNotificationBuilder {
   #userId = null;
   #onClickAction = null;
-  #mediaAttachmentURL = null;
+  #mediaAttachmentUrl = null;
   #actionButton1 = null;
   #actionButton2 = null;
   #actionButton3 = null;
@@ -133,11 +133,11 @@ class ExtendedNotificationBuilder extends BaseNotificationBuilder {
    *
    * If no user ID is specified, a broadcast notification is sent.
    *
-   * @param {string} userId
+   * @param {string} emailAddress
    * @return {BaseNotificationBuilder}
    */
-  withUserId (userId) {
-    this.#userId = userId;
+  withUserId (emailAddress) {
+    this.#userId = emailAddress;
     this.type = NotificationType.STANDARD;
     return this;
   }
@@ -152,11 +152,11 @@ class ExtendedNotificationBuilder extends BaseNotificationBuilder {
    *
    * This URL must be reachable by the push notification client and the client needs to support media attachments.
    *
-   * @param {string} mediaAttachmentURL
+   * @param {string} mediaAttachmentUrl
    * @return {ExtendedNotificationBuilder}
    */
-  withMediaAttachmentURL (mediaAttachmentURL) {
-    this.#mediaAttachmentURL = mediaAttachmentURL;
+  withMediaAttachmentUrl (mediaAttachmentUrl) {
+    this.#mediaAttachmentUrl = mediaAttachmentUrl;
     return this;
   }
 
@@ -183,10 +183,10 @@ class ExtendedNotificationBuilder extends BaseNotificationBuilder {
   send () {
     switch (this.type) {
       case NotificationType.BROADCAST:
-        _getNotificationAction()?.sendBroadcastNotification(this.message, this.icon, this.severity, this.#onClickAction, this.#mediaAttachmentURL, this.#actionButton1, this.#actionButton2, this.#actionButton3);
+        _getNotificationAction()?.sendBroadcastNotification(this.message, this.icon, this.severity, this.#onClickAction, this.#mediaAttachmentUrl, this.#actionButton1, this.#actionButton2, this.#actionButton3);
         break;
       case NotificationType.STANDARD:
-        _getNotificationAction()?.sendNotification(this.#userId, this.message, this.icon, this.severity, this.#onClickAction, this.#mediaAttachmentURL, this.#actionButton1, this.#actionButton2, this.#actionButton3);
+        _getNotificationAction()?.sendNotification(this.#userId, this.message, this.icon, this.severity, this.#onClickAction, this.#mediaAttachmentUrl, this.#actionButton1, this.#actionButton2, this.#actionButton3);
         break;
       case NotificationType.LOG:
         throw new Error('NotificationType LOG is not supported by ExtendedNotificationBuilder.');

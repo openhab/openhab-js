@@ -800,9 +800,9 @@ To send these three types of notifications, two notification builders are availa
   - .`send()`: Sends the notification.
 - `.notificationBuilder(message)`: Creates a builder to send a broadcast or standard notification with the given message.
   - all methods of the log notification builder plus:
-  - `.withUserId(userId)`: By specifying the mail address of a specific openHAB Cloud user, the notification is sent only to this user.
+  - `.withUserId(emailAddress)`: By specifying the mail address of a specific openHAB Cloud user, the notification is sent only to this user.
   - `.withOnClickAction(onClickAction)`
-  - `.withMediaAttachmentURL(mediaAttachmentURL)`: Sets the URL of a media attachment to be displayed with the notification. This URL must be reachable by the push notification client.
+  - `.withMediaAttachmentUrl(mediaAttachmentUrl)`: Sets the URL of a media attachment to be displayed with the notification. This URL must be reachable by the push notification client.
   - `.withActionButton1(actionButton1)`
   - `.withActionButton2(actionButton2)`
   - `.withActionButton3(actionButton3)`

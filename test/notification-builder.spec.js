@@ -49,7 +49,7 @@ describe('notification-builder.js', () => {
     const icon = 'icon';
     const severity = 'severity';
     const onClickAction = 'onClickAction';
-    const mediaAttachmentURL = 'mediaAttachmentURL';
+    const mediaAttachmentUrl = 'mediaAttachmentUrl';
     const actionButton1 = 'actionButton1';
     const actionButton2 = 'actionButton2';
     const actionButton3 = 'actionButton3';
@@ -65,9 +65,9 @@ describe('notification-builder.js', () => {
 
       notificationBuilder(msg).withIcon(icon).withSeverity(severity)
         .withOnClickAction(onClickAction)
-        .withMediaAttachmentURL(mediaAttachmentURL)
+        .withMediaAttachmentUrl(mediaAttachmentUrl)
         .withActionButton1(actionButton1).withActionButton2(actionButton2).withActionButton3(actionButton3).send();
-      expect(JavaNotificationAction.sendBroadcastNotification).toHaveBeenCalledWith(msg, icon, severity, onClickAction, mediaAttachmentURL, actionButton1, actionButton2, actionButton3);
+      expect(JavaNotificationAction.sendBroadcastNotification).toHaveBeenCalledWith(msg, icon, severity, onClickAction, mediaAttachmentUrl, actionButton1, actionButton2, actionButton3);
     });
 
     it('delegates to NotificationAction.sendNotification.', () => {
@@ -81,9 +81,9 @@ describe('notification-builder.js', () => {
 
       notificationBuilder(msg).withUserId(userId).withIcon(icon).withSeverity(severity)
         .withOnClickAction(onClickAction)
-        .withMediaAttachmentURL(mediaAttachmentURL)
+        .withMediaAttachmentUrl(mediaAttachmentUrl)
         .withActionButton1(actionButton1).withActionButton2(actionButton2).withActionButton3(actionButton3).send();
-      expect(JavaNotificationAction.sendNotification).toHaveBeenCalledWith(userId, msg, icon, severity, onClickAction, mediaAttachmentURL, actionButton1, actionButton2, actionButton3);
+      expect(JavaNotificationAction.sendNotification).toHaveBeenCalledWith(userId, msg, icon, severity, onClickAction, mediaAttachmentUrl, actionButton1, actionButton2, actionButton3);
     });
   });
 });
