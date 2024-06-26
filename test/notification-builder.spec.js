@@ -47,6 +47,8 @@ describe('notification-builder.js', () => {
     });
 
     it('delegates to NotificationAction.sendBroadcastNotification.', () => {
+      // params: message, icon, severity, title, onClickAction, mediaAttachmentUrl, actionButton1, actionButton2, actionButton3
+
       notificationBuilder(msg).send();
       expect(JavaNotificationAction.sendBroadcastNotification).toHaveBeenCalledWith(msg, null, null, null, null, null, null, null, null);
 
@@ -64,6 +66,7 @@ describe('notification-builder.js', () => {
     });
 
     it('delegates to NotificationAction.sendLogNotification.', () => {
+      // parameters: message, icon, severity
       notificationBuilder(msg).logOnly().send();
       expect(JavaNotificationAction.sendLogNotification).toHaveBeenCalledWith(msg, null, null);
 
@@ -75,6 +78,8 @@ describe('notification-builder.js', () => {
     });
 
     it('delegates to NotificationAction.sendNotification.', () => {
+      // parameters: userId, message, icon, severity, title, onClickAction, mediaAttachmentUrl, actionButton1, actionButton2, actionButton3
+
       notificationBuilder(msg).addUserId(userId1).addUserId(userId2).send();
       expect(JavaNotificationAction.sendNotification).toHaveBeenCalledWith(userId1, msg, null, null, null, null, null, null, null, null);
       expect(JavaNotificationAction.sendNotification).toHaveBeenCalledWith(userId2, msg, null, null, null, null, null, null, null, null);
