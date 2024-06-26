@@ -62,13 +62,12 @@ declare class NotificationBuilder {
     /**
      * Sets the action to be performed when the user clicks on the notification.
      *
-     * Use the syntax as described in {@link https://www.openhab.org/addons/integrations/openhabcloud/#action-syntax openHAB Cloud Connector: Action Syntax}.
      * The on click action is not supported by log notifications.
      *
-     * @param {string} onClickAction
+     * @param {string} action the action using the syntax as described in {@link https://www.openhab.org/addons/integrations/openhabcloud/#action-syntax openHAB Cloud Connector: Action Syntax}
      * @return {NotificationBuilder}
      */
-    withOnClickAction(onClickAction: string): NotificationBuilder;
+    withOnClickAction(action: string): NotificationBuilder;
     /**
      * Sets the URL to a media attachment to be displayed with the notification.
      *
@@ -83,13 +82,13 @@ declare class NotificationBuilder {
      * Adds an action button to the notification.
      *
      * Please note that due to limitations in Android and iOS only three action buttons are supported.
-     * Use the syntax <code>Title=$action</code>, where <code>$action</code> follow the syntax as described in {@link https://www.openhab.org/addons/integrations/openhabcloud/#cloud-notification-actions openHAB Cloud Connector: Cloud Notification Actions}.
      * Action buttons are obviously not supported by log notifications.
      *
-     * @param {string} actionButton
+     * @param {string} title the title of the action button
+     * @param {string} action the action using the syntax as described in {@link https://www.openhab.org/addons/integrations/openhabcloud/#action-syntax openHAB Cloud Connector: Action Syntax}
      * @return {NotificationBuilder}
      */
-    addActionButton(actionButton: string): NotificationBuilder;
+    addActionButton(title: string, action: string): NotificationBuilder;
     /**
      * Sends the notification.
      *

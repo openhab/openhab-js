@@ -799,12 +799,12 @@ It returns a new `NotificationBuilder` object, which by default sends a broadcas
 - `.withSeverity(link)`: Sets the severity of the notification.
 - `.withTitle(title)`: Sets the title of the notification.
 - `.addUserId(emailAddress)`: By adding the email address(es) of specific openHAB Cloud user(s), the notification is only sent to this (these) user(s).
-- `.withOnClickAction(onClickAction)`: Sets the action to be performed when the notification is clicked.
-  The syntax for `onClickAction` is described in [openHAB Cloud Connector: Action Syntax](https://www.openhab.org/addons/integrations/openhabcloud/#action-syntax).
+- `.withOnClickAction(action)`: Sets the action to be performed when the notification is clicked.
 - `.withMediaAttachmentUrl(mediaAttachmentUrl)`: Sets the URL of a media attachment to be displayed with the notification. This URL must be reachable by the push notification client.
-- `.addActionButton(actionButton)`: Adds an action button to the notification. Please note that due to Android and iOS limitations, only three action buttons are supported.
-  The syntax is `Title=$action`, where `$action` follows the syntax described in [openHAB Cloud Connector: Action Syntax](https://www.openhab.org/addons/integrations/openhabcloud/#action-syntax).
+- `.addActionButton(title, action)`: Adds an action button to the notification. Please note that due to Android and iOS limitations, only three action buttons are supported.
 - `.send()`: Sends the notification.
+
+The syntax for the `action` parameter is  described in [openHAB Cloud Connector: Action Syntax](https://www.openhab.org/addons/integrations/openhabcloud/#action-syntax).
 
 ```javascript
 // Send a simple broadcast notification

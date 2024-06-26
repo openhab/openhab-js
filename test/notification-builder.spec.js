@@ -36,9 +36,9 @@ describe('notification-builder.js', () => {
     const title = 'title';
     const onClickAction = 'onClickAction';
     const mediaAttachmentUrl = 'mediaAttachmentUrl';
-    const actionButton1 = 'actionButton1';
-    const actionButton2 = 'actionButton2';
-    const actionButton3 = 'actionButton3';
+    const actionButton1 = { title: 'title1', action: 'action1', full: 'title1=action1' };
+    const actionButton2 = { title: 'title2', action: 'action2', full: 'title2=action2' };
+    const actionButton3 = { title: 'title3', action: 'action3', full: 'title3=action3' };
 
     beforeEach(() => {
       jest.spyOn(JavaNotificationAction, 'sendBroadcastNotification');
@@ -58,8 +58,8 @@ describe('notification-builder.js', () => {
       notificationBuilder(msg).withIcon(icon).withSeverity(severity).withTitle(title)
         .withOnClickAction(onClickAction)
         .withMediaAttachmentUrl(mediaAttachmentUrl)
-        .addActionButton(actionButton1).addActionButton(actionButton2).addActionButton(actionButton3).send();
-      expect(JavaNotificationAction.sendBroadcastNotification).toHaveBeenCalledWith(msg, icon, severity, title, onClickAction, mediaAttachmentUrl, actionButton1, actionButton2, actionButton3);
+        .addActionButton(actionButton1.title, actionButton1.action).addActionButton(actionButton2.title, actionButton2.action).addActionButton(actionButton3.title, actionButton3.action).send();
+      expect(JavaNotificationAction.sendBroadcastNotification).toHaveBeenCalledWith(msg, icon, severity, title, onClickAction, mediaAttachmentUrl, actionButton1.full, actionButton2.full, actionButton3.full);
 
       expect(JavaNotificationAction.sendLogNotification).toHaveBeenCalledTimes(0);
       expect(JavaNotificationAction.sendNotification).toHaveBeenCalledTimes(0);
@@ -91,9 +91,9 @@ describe('notification-builder.js', () => {
       notificationBuilder(msg).addUserId(userId1).addUserId(userId2).withIcon(icon).withSeverity(severity).withTitle(title)
         .withOnClickAction(onClickAction)
         .withMediaAttachmentUrl(mediaAttachmentUrl)
-        .addActionButton(actionButton1).addActionButton(actionButton2).addActionButton(actionButton3).send();
-      expect(JavaNotificationAction.sendNotification).toHaveBeenCalledWith(userId1, msg, icon, severity, title, onClickAction, mediaAttachmentUrl, actionButton1, actionButton2, actionButton3);
-      expect(JavaNotificationAction.sendNotification).toHaveBeenCalledWith(userId2, msg, icon, severity, title, onClickAction, mediaAttachmentUrl, actionButton1, actionButton2, actionButton3);
+        .addActionButton(actionButton1.title, actionButton1.action).addActionButton(actionButton2.title, actionButton2.action).addActionButton(actionButton3.title, actionButton3.action).send();
+      expect(JavaNotificationAction.sendNotification).toHaveBeenCalledWith(userId1, msg, icon, severity, title, onClickAction, mediaAttachmentUrl, actionButton1.full, actionButton2.full, actionButton3.full);
+      expect(JavaNotificationAction.sendNotification).toHaveBeenCalledWith(userId2, msg, icon, severity, title, onClickAction, mediaAttachmentUrl, actionButton1.full, actionButton2.full, actionButton3.full);
 
       expect(JavaNotificationAction.sendBroadcastNotification).toHaveBeenCalledTimes(0);
       expect(JavaNotificationAction.sendLogNotification).toHaveBeenCalledTimes(0);
