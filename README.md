@@ -764,16 +764,6 @@ myTimer.reschedule(now.plusSeconds(5));
 
 See [openhab-js : actions.ScriptExecution](https://openhab.github.io/openhab-js/actions.ScriptExecution.html) for complete documentation.
 
-#### Semantics Actions
-
-See [openhab-js : actions.Semantics](https://openhab.github.io/openhab-js/actions.html#.Semantics) for complete documentation.
-
-#### Thing Actions
-
-It is possible to get the actions for a Thing using `actions.Things.getActions(bindingId, thingUid)`, e.g. `actions.Things.getActions('network', 'network:pingdevice:pc')`.
-
-See [openhab-js : actions.Things](https://openhab.github.io/openhab-js/actions.html#.Things) for complete documentation.
-
 #### Transformation Actions
 
 openHAB provides various [data transformation services](https://www.openhab.org/addons/#transform) which can translate between technical and human-readable values.
@@ -792,20 +782,49 @@ See [openhab-js : actions.Voice](https://openhab.github.io/openhab-js/actions.ht
 
 #### Cloud Notification Actions
 
-Note: Optional action if [openHAB Cloud Connector](https://www.openhab.org/addons/integrations/openhabcloud/) is installed.
+Requires the [openHAB Cloud Connector](https://www.openhab.org/addons/integrations/openhabcloud/) to be installed.
 
 Notification actions may be placed in rules to send alerts to mobile devices registered with an [openHAB Cloud instance](https://github.com/openhab/openhab-cloud) such as [myopenHAB.org](https://myopenhab.org/).
 
-For available actions have a look at the [Cloud Notification Actions Docs](https://www.openhab.org/docs/configuration/actions.html#cloud-notification-actions).
+There are three different types of notifications:
+
+- Broadcast Notifications: Sent to all registered devices and shown as notification on these devices.
+- Log Notifications: Only shown in the notification log, e.g. inside the Android and iOS Apps.
+- Standard Notifications: Sent to the registered devices of the specified user and shown as notification on his devices.
+
+To send these three types of notifications, two notification builders are available:
+
+- `.logNotificationBuilder(message)`: Creates a builder to send a log notification with the given message.
+  - `.withIcon(icon)`: Sets the icon of the notification.
+  - `.withSeverity(link)`: Sets the severity of the notification.
+  - .`send()`: Sends the notification.
+- `.notificationBuilder(message)`: Creates a builder to send a broadcast or standard notification with the given message.
+  - all methods of the log notification builder plus:
+  - `.withUserId(userId)`: By specifying the mail address of a specific openHAB Cloud user, the notification is sent only to this user.
+  - `.withOnClickAction(onClickAction)`
+  - `.withMediaAttachmentURL(mediaAttachmentURL)`: Sets the URL of a media attachment to be displayed with the notification. This URL must be reachable by the push notification client.
+  - `.withActionButton1(actionButton1)`
+  - `.withActionButton2(actionButton2)`
+  - `.withActionButton3(actionButton3)`
+
+Examples:
 
 ```javascript
-// Example
-actions.NotificationAction.sendNotification('<email>', '<message>'); // to a single myopenHAB user identified by e-mail
-actions.NotificationAction.sendBroadcastNotification('<message>'); // to all myopenHAB users
-```
+// Send a simple log notification
+actions.Notification.logNotificationBuilder('Hello World!').send();
+// Send a log notification with icon and severity
+actions.Notification.logNotificationBuilder('Hello World!').withIcon('f7:bell_fill').withSeverity('important').send();
 
-Replace `<email>` with the e-mail address of the user.
-Replace `<message>` with the notification text.
+// Send a simple broadcast notification
+actions.Notification.notificationBuilder('Hello World!').send();
+// Send a broadcast notification with icon and severity
+actions.Notification.notificationBuilder('Hello World!').withIcon('f7:bell_fill').withSeverity('important').send();
+
+// Send a standard notification to a specific user
+actions.Notification.notificationBuilder('Hello World!').withUserId('florian@example.com').send();
+// Send a standard notification with icon and severity to a specific user
+actions.Notification.notificationBuilder('Hello World!').withUserId('florian@example.com').withIcon('f7:bell_fill').withSeverity('important').send();
+```
 
 ### Cache
 
