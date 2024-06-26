@@ -1,5 +1,3 @@
-/* eslint-disable no-irregular-whitespace */
-
 /**
  * Actions namespace.
  *
@@ -25,9 +23,9 @@
  * @private
  */
 
-const osgi = require('./osgi');
+const osgi = require('../osgi');
 // See https://github.com/openhab/openhab-core/blob/main/bundles/org.openhab.core.automation.module.script/src/main/java/org/openhab/core/automation/module/script/internal/defaultscope/ScriptThingActionsImpl.java
-const log = require('./log')('actions');
+const log = require('../log')('actions');
 
 const Things = Java.type('org.openhab.core.model.script.actions.Things');
 const actionServices = osgi.findServices('org.openhab.core.model.script.engine.action.ActionService', null) || [];
@@ -76,12 +74,15 @@ const Audio = Java.type('org.openhab.core.model.script.actions.Audio');
  * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/busevent BusEvent} Actions
  *
  * The static methods of this class are made available as functions in the scripts. This gives direct write access to the openHAB event bus from within scripts. Items should not be updated directly (setting the state property), but updates should be sent to the bus, so that all interested bundles are notified.
+ *
+ * Instead of using the BusEvent actions, it is recommended to use the `postUpdate` and `sendCommand` methods of {@link items.Item}.
+ *
  * @example
  * BusEvent.postUpdate(String itemName, String stateString)
  * BusEvent.postUpdate(Item item, Number state)
  * BusEvent.postUpdate(Item item, String stateAsString)
  * BusEvent.postUpdate(Item item, State state)
- * BusEvent.restoreStates(Map<Item,​State> statesMap)
+ * BusEvent.restoreStates(Map<Item, State> statesMap)
  * BusEvent.sendCommand(String itemName, String commandString)
  * BusEvent.sendCommand(Item item, Number number)
  * BusEvent.sendCommand(Item item, String commandString)
@@ -206,6 +207,7 @@ const HTTP = Java.type('org.openhab.core.model.script.actions.HTTP');
  * Log.logInfo(String loggerName, String format, Object... args)
  * Log.logWarn(String loggerName, String format, Object... args)
  *
+ * @deprecated Use {@link https://www.openhab.org/addons/automation/jsscripting/#console <code>console</code>} logging instead.
  * @name Log
  * @memberof actions
  */
@@ -278,8 +280,6 @@ class ScriptExecution {
  *
  * The static methods of this class are made available as functions in the scripts. This allows a script to use Semantics features.
  *
- * Instead of using the Semantics actions, it is recommended to use the {@link items.ItemSemantics} available through the `semantics` property of an {@link items.Item}.
- *
  * @example
  * Semantics.getEquipment(Item item)
  * Semantics.getEquipmentType(Item item)
@@ -292,6 +292,7 @@ class ScriptExecution {
  * Semantics.isLocation(Item item)
  * Semantics.isPoint(Item item)
  *
+ * @deprecated Use {@link items.ItemSemantics} available through the <code>semantics</code> property of {@link items.Item} instead.
  * @name Semantics
  * @memberof actions
  */
@@ -306,6 +307,7 @@ const Semantics = Java.type('org.openhab.core.model.script.actions.Semantics');
  * Things.getActions(String bindingId, String thingUid)
  * Things.getThingStatusInfo(String thingUid)
  *
+ * @deprecated Use {@link actions.thingActions} and <code>status</code>, <code>statusInfo</code> of {@link things.Thing} instead.
  * @name Things
  * @memberof actions
  */
@@ -389,6 +391,7 @@ const Voice = Java.type('org.openhab.core.model.script.actions.Voice');
  * NotificationAction.sendBroadcastNotification('<message>'); // to all myopenHAB users
  * NotificationAction.sendLogNotification('<message>'); // only listed in the notification log
  *
+ * @deprecated Use the notification builders of {@link actions.Notification} instead.
  * @name NotificationAction
  * @memberof actions
  */
@@ -398,6 +401,8 @@ try {
 } catch (error) {
   if (error.name !== 'TypeError') throw new Error(error);
 }
+
+const Notification = require('./notification-builder');
 
 module.exports = Object.assign(dynamicExports, {
   Audio,
@@ -414,10 +419,11 @@ module.exports = Object.assign(dynamicExports, {
   Transformation,
   Voice,
   NotificationAction,
+  Notification,
   /**
    * Get the ThingActions of a given Thing.
-   * Duplicate of {@link actions.Things actions.Things.getActions()}.
    *
+   * @deprecated Use {@link actions.thingActions} instead.
    * @memberof actions
    * @param {string} bindingId binding ID
    * @param {string} thingUid Thing UID
@@ -426,7 +432,6 @@ module.exports = Object.assign(dynamicExports, {
   get: (bindingId, thingUid) => Things.getActions(bindingId, thingUid),
   /**
    * Get the ThingActions of a given Thing.
-   * Duplicate of {@link actions.get actions.get()} and {@link actions.Things actions.Things.getActions()}.
    *
    * @memberof actions
    * @param {string} bindingId binding ID
