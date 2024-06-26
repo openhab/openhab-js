@@ -1,12 +1,6 @@
 const log = require('../log')('notification-action-builder');
 
 /**
- * If the {@link https://www.openhab.org/addons/integrations/openhabcloud/ openHAB Cloud Connector} add-on is installed, notifications can be sent to registered users/devices.
- *
- * @namespace actions.Notification
- */
-
-/**
  * Gets the <code>NotificationAction</code> from the {@link https://www.openhab.org/addons/integrations/openhabcloud/ openHAB Cloud Connector} add-on.
  *
  * If the openHAB Cloud Connector is not installed, a warning is logged and <code>null</code> is returned.
@@ -33,38 +27,51 @@ class NotificationType {
 }
 
 /**
- * Base notification builder to handle only {@link NotificationType.LOG} and provide a foundation for other notification types.
+ * Notification builder to create and send openHAB Cloud notifications.
  *
- * Do NOT use directly, use {@link actions.Notification.logNotificationBuilder} instead.
+ * Do NOT use directly, use {@link actions.notificationBuilder} instead.
  */
-class BaseNotificationBuilder {
-  type = NotificationType.BROADCAST;
+class NotificationBuilder {
+  #type = NotificationType.BROADCAST;
+  #userIds = [];
   #message = null;
   #icon = null;
   #severity = null;
+  #title = null;
+  #onClickAction = null;
+  #mediaAttachmentUrl = null;
+  #actionButtons = [];
 
   /**
    * @hideconstructor
-   * @param {string} type any valid {@link NotificationType}
    * @param {string} message the body of the notification
    */
-  constructor (type, message) {
-    if (type) {
-      this.type = type;
-    }
+  constructor (message) {
     this.#message = message;
   }
 
-  get message () {
-    return this.#message;
+  /**
+   * Sets the type of the notification to log notification.
+   *
+   * @return {NotificationBuilder}
+   */
+  logOnly () {
+    this.#type = NotificationType.LOG;
+    return this;
   }
 
-  get icon () {
-    return this.#icon;
-  }
-
-  get severity () {
-    return this.#severity;
+  /**
+   * Sets the user ID, which usually is the mail address of an openHAB Cloud user, to send the notification to.
+   *
+   * If no user ID is specified, a broadcast notification is sent.
+   *
+   * @param {string} emailAddress
+   * @return {NotificationBuilder}
+   */
+  addUserId (emailAddress) {
+    this.#userIds.push(emailAddress);
+    this.#type = NotificationType.STANDARD;
+    return this;
   }
 
   /**
@@ -74,7 +81,7 @@ class BaseNotificationBuilder {
    * Please note that not all push notification clients support displaying icons.
    *
    * @param {string} icon
-   * @return {BaseNotificationBuilder}
+   * @return {NotificationBuilder}
    */
   withIcon (icon) {
     this.#icon = icon;
@@ -87,7 +94,7 @@ class BaseNotificationBuilder {
    * The severity text is shown by the push notification client if supported.
    *
    * @param {string} severity
-   * @return {BaseNotificationBuilder}
+   * @return {NotificationBuilder}
    */
   withSeverity (severity) {
     this.#severity = severity;
@@ -95,53 +102,25 @@ class BaseNotificationBuilder {
   }
 
   /**
-   * Sends the notification.
+   * Sets the title for the notification.
    *
-   * In case the openHAB Cloud Connector is not installed, a warning is logged and the notification is not sent.
+   * @param {string} title
+   * @return {NotificationBuilder}
    */
-  send () {
-    switch (this.type) {
-      case NotificationType.BROADCAST:
-      case NotificationType.STANDARD:
-        throw new Error('NotificationType BROADCAST and STANDARD should be handler by ExtendedNotificationBuilder.');
-      case NotificationType.LOG:
-        _getNotificationAction()?.sendLogNotification(this.#message, this.#icon, this.#severity);
-        break;
-      default:
-        throw new Error(`Unknown NotificationType: ${this.type}`);
-    }
-  }
-}
-
-/**
- * Extends {@link BaseNotificationBuilder} and handles {@link NotificationType.BROADCAST} and {@link NotificationType.STANDARD} notification types.
- *
- * Do NOT use directly, use {@link actions.Notification.notificationBuilder} instead.
- *
- * @hideconstructor
- */
-class ExtendedNotificationBuilder extends BaseNotificationBuilder {
-  #userId = null;
-  #onClickAction = null;
-  #mediaAttachmentUrl = null;
-  #actionButton1 = null;
-  #actionButton2 = null;
-  #actionButton3 = null;
-
-  /**
-   * Sets the user ID, which usually is the mail address of an openHAB Cloud user, to send the notification to.
-   *
-   * If no user ID is specified, a broadcast notification is sent.
-   *
-   * @param {string} emailAddress
-   * @return {BaseNotificationBuilder}
-   */
-  withUserId (emailAddress) {
-    this.#userId = emailAddress;
-    this.type = NotificationType.STANDARD;
+  withTitle (title) {
+    this.#title = title;
     return this;
   }
 
+  /**
+   * Sets the action to be performed when the user clicks on the notification.
+   *
+   * Use the syntax as described in {@link https://www.openhab.org/addons/integrations/openhabcloud/#action-syntax openHAB Cloud Connector: Action Syntax}.
+   * The on click action is not supported by log notifications.
+   *
+   * @param {string} onClickAction
+   * @return {NotificationBuilder}
+   */
   withOnClickAction (onClickAction) {
     this.#onClickAction = onClickAction;
     return this;
@@ -151,27 +130,31 @@ class ExtendedNotificationBuilder extends BaseNotificationBuilder {
    * Sets the URL to a media attachment to be displayed with the notification.
    *
    * This URL must be reachable by the push notification client and the client needs to support media attachments.
+   * Media attachments are not supported by log notifications.
    *
    * @param {string} mediaAttachmentUrl
-   * @return {ExtendedNotificationBuilder}
+   * @return {NotificationBuilder}
    */
   withMediaAttachmentUrl (mediaAttachmentUrl) {
     this.#mediaAttachmentUrl = mediaAttachmentUrl;
     return this;
   }
 
-  withActionButton1 (actionButton1) {
-    this.#actionButton1 = actionButton1;
-    return this;
-  }
-
-  withActionButton2 (actionButton2) {
-    this.#actionButton2 = actionButton2;
-    return this;
-  }
-
-  withActionButton3 (actionButton3) {
-    this.#actionButton3 = actionButton3;
+  /**
+   * Adds an action button to the notification.
+   *
+   * Please note that due to limitations in Android and iOS only three action buttons are supported.
+   * Use the syntax <code>Title=$action</code>, where <code>$action</code> follow the syntax as described in {@link https://www.openhab.org/addons/integrations/openhabcloud/#cloud-notification-actions openHAB Cloud Connector: Cloud Notification Actions}.
+   * Action buttons are obviously not supported by log notifications.
+   *
+   * @param {string} actionButton
+   * @return {NotificationBuilder}
+   */
+  addActionButton (actionButton) {
+    if (this.#actionButtons.length >= 3) {
+      throw new Error('Only 3 action buttons are supported.');
+    }
+    this.#actionButtons.push(actionButton);
     return this;
   }
 
@@ -181,15 +164,24 @@ class ExtendedNotificationBuilder extends BaseNotificationBuilder {
    * In case the openHAB Cloud Connector is not installed, a warning is logged and the notification is not sent.
    */
   send () {
-    switch (this.type) {
+    while (this.#actionButtons.length < 3) {
+      this.#actionButtons.push(null);
+    }
+    switch (this.#type) {
       case NotificationType.BROADCAST:
-        _getNotificationAction()?.sendBroadcastNotification(this.message, this.icon, this.severity, this.#onClickAction, this.#mediaAttachmentUrl, this.#actionButton1, this.#actionButton2, this.#actionButton3);
-        break;
-      case NotificationType.STANDARD:
-        _getNotificationAction()?.sendNotification(this.#userId, this.message, this.icon, this.severity, this.#onClickAction, this.#mediaAttachmentUrl, this.#actionButton1, this.#actionButton2, this.#actionButton3);
+        // parameters: message, icon, severity, title, onClickAction, mediaAttachmentUrl, actionButton1, actionButton2, actionButton3
+        _getNotificationAction()?.sendBroadcastNotification(this.#message, this.#icon, this.#severity, this.#title, this.#onClickAction, this.#mediaAttachmentUrl, ...this.#actionButtons);
         break;
       case NotificationType.LOG:
-        throw new Error('NotificationType LOG is not supported by ExtendedNotificationBuilder.');
+        // parameters: message, icon, severity
+        _getNotificationAction()?.sendLogNotification(this.#message, this.#icon, this.#severity);
+        break;
+      case NotificationType.STANDARD:
+        this.#userIds.forEach((userId) => {
+          // parameters: userId, message, icon, severity, title, onClickAction, mediaAttachmentUrl, actionButton1, actionButton2, actionButton3
+          _getNotificationAction()?.sendNotification(userId, this.#message, this.#icon, this.#severity, this.#title, this.#onClickAction, this.#mediaAttachmentUrl, ...this.#actionButtons);
+        });
+        break;
       default:
         throw new Error(`Unknown NotificationType: ${this.type}`);
     }
@@ -199,40 +191,19 @@ class ExtendedNotificationBuilder extends BaseNotificationBuilder {
 module.exports = {
   _getNotificationAction,
   /**
-   * Creates a new log notification builder.
+   * Creates a new notification builder for openHAB Cloud notifications, which are sent as push notifications to registered devices.
    *
-   * Log notifications do not trigger a notification on push notification clients and only visible in the notification log.
+   * This requires the {@link https://www.openhab.org/addons/integrations/openhabcloud/ openHAB Cloud Connector} add-on to be installed.
    *
-   * @example
-   * // Send a simple log notification
-   * actions.Notification.logNotificationBuilder('Hello World!').send();
-   * // Send a log notification with icon and severity
-   * actions.Notification.logNotificationBuilder('Hello World!').withIcon('f7:bell_fill').withSeverity('important').send();
+   * There are three types of notifications:
    *
-   * @memberof actions.Notification
+   * Broadcast notifications, which are sent to all openHAB Cloud users,
+   * standard notifications, which are sent to a openHAB Cloud users specified by their email addresses,
+   * and log notifications, which are only sent to the notification log and not shown as a push notification.
+   *
+   * @memberof actions
    * @param {string} message the body of the notification
-   * @return {BaseNotificationBuilder}
+   * @return {NotificationBuilder}
    */
-  logNotificationBuilder: (message) => new BaseNotificationBuilder(NotificationType.LOG, message),
-  /**
-   * Creates a new notification builder for broadcast and standard notifications.
-   *
-   * Broadcast notifications are sent to all openHAB Cloud users, whereas standard notifications are sent to a single openHAB Cloud user specified by his ID.
-   * These notifications trigger a notification on push notification clients and are also visible in the notification log.
-   *
-   * @example
-   * // Send a simple broadcast notification
-   * actions.Notification.notificationBuilder('Hello World!').send();
-   * // Send a broadcast notification with icon and severity
-   * actions.Notification.notificationBuilder('Hello World!').withIcon('f7:bell_fill').withSeverity('important').send();
-   * // Send a standard notification to a specific user
-   * actions.Notification.notificationBuilder('Hello World!').withUserId('florian@example.com').send();
-   * // Send a standard notification with icon and severity to a specific user
-   * actions.Notification.notificationBuilder('Hello World!').withUserId('florian@example.com').withIcon('f7:bell_fill').withSeverity('important').send();
-   *
-   * @memberof actions.Notification
-   * @param {string} message the body of the notification
-   * @return {ExtendedNotificationBuilder}
-   */
-  notificationBuilder: (message) => new ExtendedNotificationBuilder(null, message)
+  notificationBuilder: (message) => new NotificationBuilder(message)
 };

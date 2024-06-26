@@ -34,6 +34,8 @@ const JavaCoreUtil = Java.type('org.openhab.core.model.script.actions.CoreUtil')
 const JavaScriptExecution = Java.type('org.openhab.core.model.script.actions.ScriptExecution');
 const JavaTransformation = Java.type('org.openhab.core.transform.actions.Transformation');
 
+const { notificationBuilder } = require('./notification-builder');
+
 // Dynamically export all found actions
 const dynamicExports = {};
 actionServices.forEach((a) => {
@@ -386,12 +388,7 @@ const Voice = Java.type('org.openhab.core.model.script.actions.Voice');
  * The static methods of this class are made available as functions in the scripts. This allows a script to send notifications using the openHAB Cloud Connector add-on.
  * See {@link https://www.openhab.org/docs/configuration/actions.html#cloud-notification-actions Cloud Notification Action Docs} for full documentation.
  *
- * @example
- * NotificationAction.sendNotification('<email>', '<message>'); // to a single myopenHAB user identified by e-mail
- * NotificationAction.sendBroadcastNotification('<message>'); // to all myopenHAB users
- * NotificationAction.sendLogNotification('<message>'); // only listed in the notification log
- *
- * @deprecated Use the notification builders of {@link actions.Notification} instead.
+ * @deprecated Use the notification builders of {@link actions.notificationBuilder} instead.
  * @name NotificationAction
  * @memberof actions
  */
@@ -401,8 +398,6 @@ try {
 } catch (error) {
   if (error.name !== 'TypeError') throw new Error(error);
 }
-
-const Notification = require('./notification-builder');
 
 module.exports = Object.assign(dynamicExports, {
   Audio,
@@ -419,7 +414,7 @@ module.exports = Object.assign(dynamicExports, {
   Transformation,
   Voice,
   NotificationAction,
-  Notification,
+  notificationBuilder,
   /**
    * Get the ThingActions of a given Thing.
    *

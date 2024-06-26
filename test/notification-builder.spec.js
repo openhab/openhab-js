@@ -1,5 +1,5 @@
 const { JavaNotificationAction } = require('./openhab.mock');
-const { _getNotificationAction, logNotificationBuilder, notificationBuilder } = require('../src/actions/notification-builder');
+const { _getNotificationAction, notificationBuilder } = require('../src/actions/notification-builder');
 
 describe('notification-builder.js', () => {
   describe('_getNotificationAction', () => {
@@ -27,63 +27,78 @@ describe('notification-builder.js', () => {
     });
   });
 
-  describe('logNotificationBuilder', () => {
-    const msg = 'message';
-    const icon = 'icon';
-    const severity = 'severity';
-
-    it('delegates to NotificationAction.sendLogNotification.', () => {
-      jest.spyOn(JavaNotificationAction, 'sendLogNotification');
-
-      logNotificationBuilder(msg).send();
-      expect(JavaNotificationAction.sendLogNotification).toHaveBeenCalledWith(msg, null, null);
-
-      logNotificationBuilder(msg).withIcon(icon).withSeverity(severity).send();
-      expect(JavaNotificationAction.sendLogNotification).toHaveBeenCalledWith(msg, icon, severity);
-    });
-  });
-
   describe('notificationBuilder', () => {
-    const userId = 'usedId';
+    const userId1 = 'userId1';
+    const userId2 = 'userId2';
     const msg = 'message';
     const icon = 'icon';
     const severity = 'severity';
+    const title = 'title';
     const onClickAction = 'onClickAction';
     const mediaAttachmentUrl = 'mediaAttachmentUrl';
     const actionButton1 = 'actionButton1';
     const actionButton2 = 'actionButton2';
     const actionButton3 = 'actionButton3';
 
-    it('delegates to NotoficiationAction.sendBroadcastNotification.', () => {
+    beforeEach(() => {
       jest.spyOn(JavaNotificationAction, 'sendBroadcastNotification');
+      jest.spyOn(JavaNotificationAction, 'sendNotification');
+      jest.spyOn(JavaNotificationAction, 'sendLogNotification');
+    });
 
+    it('delegates to NotificationAction.sendBroadcastNotification.', () => {
       notificationBuilder(msg).send();
-      expect(JavaNotificationAction.sendBroadcastNotification).toHaveBeenCalledWith(msg, null, null, null, null, null, null, null);
+      expect(JavaNotificationAction.sendBroadcastNotification).toHaveBeenCalledWith(msg, null, null, null, null, null, null, null, null);
 
-      notificationBuilder(msg).withIcon(icon).withSeverity(severity).send();
-      expect(JavaNotificationAction.sendBroadcastNotification).toHaveBeenCalledWith(msg, icon, severity, null, null, null, null, null);
+      notificationBuilder(msg).withIcon(icon).withSeverity(severity).withTitle(title).send();
+      expect(JavaNotificationAction.sendBroadcastNotification).toHaveBeenCalledWith(msg, icon, severity, title, null, null, null, null, null);
 
-      notificationBuilder(msg).withIcon(icon).withSeverity(severity)
+      notificationBuilder(msg).withIcon(icon).withSeverity(severity).withTitle(title)
         .withOnClickAction(onClickAction)
         .withMediaAttachmentUrl(mediaAttachmentUrl)
-        .withActionButton1(actionButton1).withActionButton2(actionButton2).withActionButton3(actionButton3).send();
-      expect(JavaNotificationAction.sendBroadcastNotification).toHaveBeenCalledWith(msg, icon, severity, onClickAction, mediaAttachmentUrl, actionButton1, actionButton2, actionButton3);
+        .addActionButton(actionButton1).addActionButton(actionButton2).addActionButton(actionButton3).send();
+      expect(JavaNotificationAction.sendBroadcastNotification).toHaveBeenCalledWith(msg, icon, severity, title, onClickAction, mediaAttachmentUrl, actionButton1, actionButton2, actionButton3);
+
+      expect(JavaNotificationAction.sendLogNotification).toHaveBeenCalledTimes(0);
+      expect(JavaNotificationAction.sendNotification).toHaveBeenCalledTimes(0);
+    });
+
+    it('delegates to NotificationAction.sendLogNotification.', () => {
+      notificationBuilder(msg).logOnly().send();
+      expect(JavaNotificationAction.sendLogNotification).toHaveBeenCalledWith(msg, null, null);
+
+      notificationBuilder(msg).logOnly().withIcon(icon).withSeverity(severity).withTitle(title).send();
+      expect(JavaNotificationAction.sendLogNotification).toHaveBeenCalledWith(msg, icon, severity);
+
+      expect(JavaNotificationAction.sendBroadcastNotification).toHaveBeenCalledTimes(0);
+      expect(JavaNotificationAction.sendNotification).toHaveBeenCalledTimes(0);
     });
 
     it('delegates to NotificationAction.sendNotification.', () => {
-      jest.spyOn(JavaNotificationAction, 'sendNotification');
+      notificationBuilder(msg).addUserId(userId1).addUserId(userId2).send();
+      expect(JavaNotificationAction.sendNotification).toHaveBeenCalledWith(userId1, msg, null, null, null, null, null, null, null, null);
+      expect(JavaNotificationAction.sendNotification).toHaveBeenCalledWith(userId2, msg, null, null, null, null, null, null, null, null);
 
-      notificationBuilder(msg).withUserId(userId).send();
-      expect(JavaNotificationAction.sendNotification).toHaveBeenCalledWith(userId, msg, null, null, null, null, null, null, null);
+      notificationBuilder(msg).addUserId(userId1).addUserId(userId2).withIcon(icon).withSeverity(severity).withTitle(title).send();
+      expect(JavaNotificationAction.sendNotification).toHaveBeenCalledWith(userId1, msg, icon, severity, title, null, null, null, null, null);
+      expect(JavaNotificationAction.sendNotification).toHaveBeenCalledWith(userId2, msg, icon, severity, title, null, null, null, null, null);
 
-      notificationBuilder(msg).withUserId(userId).withIcon(icon).withSeverity(severity).send();
-      expect(JavaNotificationAction.sendNotification).toHaveBeenCalledWith(userId, msg, icon, severity, null, null, null, null, null);
-
-      notificationBuilder(msg).withUserId(userId).withIcon(icon).withSeverity(severity)
+      notificationBuilder(msg).addUserId(userId1).addUserId(userId2).withIcon(icon).withSeverity(severity).withTitle(title)
         .withOnClickAction(onClickAction)
         .withMediaAttachmentUrl(mediaAttachmentUrl)
-        .withActionButton1(actionButton1).withActionButton2(actionButton2).withActionButton3(actionButton3).send();
-      expect(JavaNotificationAction.sendNotification).toHaveBeenCalledWith(userId, msg, icon, severity, onClickAction, mediaAttachmentUrl, actionButton1, actionButton2, actionButton3);
+        .addActionButton(actionButton1).addActionButton(actionButton2).addActionButton(actionButton3).send();
+      expect(JavaNotificationAction.sendNotification).toHaveBeenCalledWith(userId1, msg, icon, severity, title, onClickAction, mediaAttachmentUrl, actionButton1, actionButton2, actionButton3);
+      expect(JavaNotificationAction.sendNotification).toHaveBeenCalledWith(userId2, msg, icon, severity, title, onClickAction, mediaAttachmentUrl, actionButton1, actionButton2, actionButton3);
+
+      expect(JavaNotificationAction.sendBroadcastNotification).toHaveBeenCalledTimes(0);
+      expect(JavaNotificationAction.sendLogNotification).toHaveBeenCalledTimes(0);
+    });
+
+    it('throws error if too many action buttons are added.', () => {
+      const builder = notificationBuilder(msg).addActionButton(actionButton1).addActionButton(actionButton2).addActionButton(actionButton3);
+      const action = () => builder.addActionButton(actionButton1);
+
+      expect(action).toThrowError('Only 3 action buttons are supported.');
     });
   });
 });
