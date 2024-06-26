@@ -673,7 +673,6 @@ For example, a way to determine if today is a weekend, a public holiday, someone
 Additional information can be found on the  [Ephemeris Actions Docs](https://www.openhab.org/docs/configuration/actions.html#ephemeris) as well as the [Ephemeris JavaDoc](https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/ephemeris).
 
 ```javascript
-// Example
 var weekend = actions.Ephemeris.isWeekend();
 ```
 
@@ -789,41 +788,47 @@ Notification actions may be placed in rules to send alerts to mobile devices reg
 There are three different types of notifications:
 
 - Broadcast Notifications: Sent to all registered devices and shown as notification on these devices.
-- Log Notifications: Only shown in the notification log, e.g. inside the Android and iOS Apps.
 - Standard Notifications: Sent to the registered devices of the specified user and shown as notification on his devices.
+- Log Notifications: Only shown in the notification log, e.g. inside the Android and iOS Apps.
 
-To send these three types of notifications, two notification builders are available:
+To send these three types of notifications, use the `notificationBuilder(message)` method of the `actions` namespace.
+It returns a new `NotificationBuilder` object, which by default sends a broadcast notification and provides the following methods:
 
-- `.logNotificationBuilder(message)`: Creates a builder to send a log notification with the given message.
-  - `.withIcon(icon)`: Sets the icon of the notification.
-  - `.withSeverity(link)`: Sets the severity of the notification.
-  - .`send()`: Sends the notification.
-- `.notificationBuilder(message)`: Creates a builder to send a broadcast or standard notification with the given message.
-  - all methods of the log notification builder plus:
-  - `.withUserId(emailAddress)`: By specifying the mail address of a specific openHAB Cloud user, the notification is sent only to this user.
-  - `.withOnClickAction(onClickAction)`
-  - `.withMediaAttachmentUrl(mediaAttachmentUrl)`: Sets the URL of a media attachment to be displayed with the notification. This URL must be reachable by the push notification client.
-  - `.withActionButton1(actionButton1)`
-  - `.withActionButton2(actionButton2)`
-  - `.withActionButton3(actionButton3)`
-
-Examples:
+- `.logOnly()`: Send a log notification only.
+- `.withIcon(icon)`: Sets the icon of the notification. 
+- `.withSeverity(link)`: Sets the severity of the notification.
+- `.withTitle(title)`: Sets the title of the notification.
+- `.addUserId(emailAddress)`: By adding the email address(es) of specific openHAB Cloud user(s), the notification is only sent to this (these) user(s).
+- `.withOnClickAction(onClickAction)`: Sets the action to be performed when the notification is clicked.
+  The syntax for `onClickAction` is described in [openHAB Cloud Connector: Action Syntax](https://www.openhab.org/addons/integrations/openhabcloud/#action-syntax).
+- `.withMediaAttachmentUrl(mediaAttachmentUrl)`: Sets the URL of a media attachment to be displayed with the notification. This URL must be reachable by the push notification client.
+- `.addActionButton(actionButton)`: Adds an action button to the notification. Please note that due to Android and iOS limitations, only three action buttons are supported.
+  The syntax is `Title=$action`, where `$action` follows the syntax described in [openHAB Cloud Connector: Action Syntax](https://www.openhab.org/addons/integrations/openhabcloud/#action-syntax).
+- `.send()`: Sends the notification.
 
 ```javascript
-// Send a simple log notification
-actions.Notification.logNotificationBuilder('Hello World!').send();
-// Send a log notification with icon and severity
-actions.Notification.logNotificationBuilder('Hello World!').withIcon('f7:bell_fill').withSeverity('important').send();
-
 // Send a simple broadcast notification
-actions.Notification.notificationBuilder('Hello World!').send();
-// Send a broadcast notification with icon and severity
-actions.Notification.notificationBuilder('Hello World!').withIcon('f7:bell_fill').withSeverity('important').send();
+actions.notificationBuilder('Hello World!').send();
+// Send a broadcast notification with icon, severity and title
+actions.notificationBuilder('Hello World!')
+        .withIcon('f7:bell_fill').withSeverity('important').withTitle('Important Notification').send();
+// Send a broadcast notification with icon, severity, title, media attachment URL and actions
+actions.notificationBuilder('Hello World!')
+        .withIcon('f7:bell_fill').withSeverity('important').withTitle('Important Notification').
+        .withOnClickAction('ui:navigate:/page/my_floorplan_page').withMediaAttachmentUrl('http://example.com/image.jpg')
+        .addActionButton('Turn Kitchen Light ON=command:KitchenLights:ON').addActionButton('Turn Kitchen Light OFF=command:KitchenLights:OFF').send();
 
-// Send a standard notification to a specific user
-actions.Notification.notificationBuilder('Hello World!').withUserId('florian@example.com').send();
-// Send a standard notification with icon and severity to a specific user
-actions.Notification.notificationBuilder('Hello World!').withUserId('florian@example.com').withIcon('f7:bell_fill').withSeverity('important').send();
+// Send a simple standard notification to two specific users
+actions.notificationBuilder('Hello World!').addUserId('florian@example.com').addUserId('florian@example.org').send();
+// Send a standard notification with icon, severity and title to two specific users
+actions.notificationBuilder('Hello World!').addUserId('florian@example.com').addUserId('florian@example.org')
+        .withIcon('f7:bell_fill').withSeverity('important').withTitle('Important notification').send();
+
+// Sends a simple log notification
+actions.notificationBuilder('Hello World!').logOnly().send();
+// Sends a simple log notification with icon and severity
+actions.notificationBuilder('Hello World!').logOnly()
+        .withIcon('f7:bell_fill').withSeverity('important').send();
 ```
 
 ### Cache
