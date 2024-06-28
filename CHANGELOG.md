@@ -1,5 +1,15 @@
 # Changelog
 
+## 5.3.0
+
+| Type        | Namespace | Description                                             | Reference                                              | Breaking |
+|-------------|-----------|---------------------------------------------------------|--------------------------------------------------------|----------|
+| Enhancement | `actions` | Add notification builder                                | [#351](https://github.com/openhab/openhab-js/pull/351) | No       |
+| Enhancement | `actions` | Mark some actions deprecated as replaced by better APIs | [#351](https://github.com/openhab/openhab-js/pull/351) | No       |
+
+
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/29).
+
 ## 5.2.0
 
 | Type        | Namespace | Description                                            | Reference                                              | Breaking |
