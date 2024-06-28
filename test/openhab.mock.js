@@ -67,6 +67,12 @@ class QuantityType {
 }
 QuantityType.valueOf = jest.fn(() => new QuantityType())
 
+class JavaNotificationAction {
+  static sendBroadcastNotification = jest.fn()
+  static sendLogNotification = jest.fn()
+  static sendNotification = jest.fn()
+}
+
 module.exports = {
   Configuration,
   MetadataRegistry,
@@ -74,5 +80,6 @@ module.exports = {
   JavaScriptExecution,
   JavaTransformation,
   DecimalType,
-  QuantityType
+  QuantityType,
+  JavaNotificationAction
 };

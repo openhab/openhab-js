@@ -63,7 +63,7 @@ export const rules: typeof import("./rules");
 export const items: typeof import("./items/items");
 export const things: typeof import("./things");
 export const triggers: typeof import("./triggers");
-export const actions: typeof import("./actions");
+export const actions: typeof import("./actions/actions");
 export const utils: typeof import("./utils");
 export const osgi: typeof import("./osgi");
 export const cache: typeof import("./cache");
