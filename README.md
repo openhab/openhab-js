@@ -811,24 +811,24 @@ The syntax for the `action` parameter is  described in [openHAB Cloud Connector:
 actions.notificationBuilder('Hello World!').send();
 // Send a broadcast notification with icon, severity and title
 actions.notificationBuilder('Hello World!')
-        .withIcon('f7:bell_fill').withSeverity('important').withTitle('Important Notification').send();
+  .withIcon('f7:bell_fill').withSeverity('important').withTitle('Important Notification').send();
 // Send a broadcast notification with icon, severity, title, media attachment URL and actions
 actions.notificationBuilder('Hello World!')
-        .withIcon('f7:bell_fill').withSeverity('important').withTitle('Important Notification').
-        .withOnClickAction('ui:navigate:/page/my_floorplan_page').withMediaAttachmentUrl('http://example.com/image.jpg')
-        .addActionButton('Turn Kitchen Light ON=command:KitchenLights:ON').addActionButton('Turn Kitchen Light OFF=command:KitchenLights:OFF').send();
+  .withIcon('f7:bell_fill').withSeverity('important').withTitle('Important Notification').
+  .withOnClickAction('ui:navigate:/page/my_floorplan_page').withMediaAttachmentUrl('http://example.com/image.jpg')
+  .addActionButton('Turn Kitchen Light ON=command:KitchenLights:ON').addActionButton('Turn Kitchen Light OFF=command:KitchenLights:OFF').send();
 
 // Send a simple standard notification to two specific users
 actions.notificationBuilder('Hello World!').addUserId('florian@example.com').addUserId('florian@example.org').send();
 // Send a standard notification with icon, severity and title to two specific users
 actions.notificationBuilder('Hello World!').addUserId('florian@example.com').addUserId('florian@example.org')
-        .withIcon('f7:bell_fill').withSeverity('important').withTitle('Important notification').send();
+  .withIcon('f7:bell_fill').withSeverity('important').withTitle('Important notification').send();
 
 // Sends a simple log notification
 actions.notificationBuilder('Hello World!').logOnly().send();
 // Sends a simple log notification with icon and severity
 actions.notificationBuilder('Hello World!').logOnly()
-        .withIcon('f7:bell_fill').withSeverity('important').send();
+  .withIcon('f7:bell_fill').withSeverity('important').send();
 ```
 
 See [openhab-js : actions.NotificationBuilder](https://openhab.github.io/openhab-js/actions.html#.notificationBuilder) for complete documentation.
