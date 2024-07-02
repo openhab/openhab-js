@@ -1,4 +1,5 @@
 const log = require('../log')('notification-action-builder');
+const { randomUUID } = require('../utils');
 
 /**
  * Gets the <code>NotificationAction</code> from the {@link https://www.openhab.org/addons/integrations/openhabcloud/ openHAB Cloud Connector} add-on.
@@ -36,8 +37,9 @@ class NotificationBuilder {
   #userIds = [];
   #message = null;
   #icon = null;
-  #severity = null;
+  #tag = null;
   #title = null;
+  #referenceId = null;
   #onClickAction = null;
   #mediaAttachmentUrl = null;
   #actionButtons = [];
@@ -89,15 +91,15 @@ class NotificationBuilder {
   }
 
   /**
-   * Sets the severity for the notification.
+   * Sets the tag for the notification.
    *
-   * The severity text is shown by the push notification client if supported.
+   * The tag is used for grouping notifications when displaying in the app and to hide/remove groups of messages from a user's device.
    *
    * @param {string} severity
    * @return {NotificationBuilder}
    */
-  withSeverity (severity) {
-    this.#severity = severity;
+  withTag (severity) {
+    this.#tag = severity;
     return this;
   }
 
@@ -109,6 +111,19 @@ class NotificationBuilder {
    */
   withTitle (title) {
     this.#title = title;
+    return this;
+  }
+
+  /**
+   * Sets the reference ID for the notification.
+   *
+   * The reference ID is a user-supplied identifier, that can be used to update or remove existing notifications with the same reference ID.
+   *
+   * @param {string} referenceId
+   * @return {NotificationBuilder}
+   */
+  withReferenceId (referenceId) {
+    this.#referenceId = referenceId;
     return this;
   }
 
@@ -160,30 +175,37 @@ class NotificationBuilder {
   /**
    * Sends the notification.
    *
+   * If no reference ID is set, a random reference ID is generated.
    * In case the openHAB Cloud Connector is not installed, a warning is logged and the notification is not sent.
+   *
+   * @return {string|null} the reference ID of the notification or `null` if the notification is a log notification only
    */
   send () {
     while (this.#actionButtons.length < 3) {
       this.#actionButtons.push(null);
     }
+
     switch (this.#type) {
       case NotificationType.BROADCAST:
-        // parameters: message, icon, severity, title, onClickAction, mediaAttachmentUrl, actionButton1, actionButton2, actionButton3
-        _getNotificationAction()?.sendBroadcastNotification(this.#message, this.#icon, this.#severity, this.#title, this.#onClickAction, this.#mediaAttachmentUrl, ...this.#actionButtons);
+        if (this.#referenceId === null) this.#referenceId = randomUUID();
+        // parameters: message, icon, tag, title, referenceId, onClickAction, mediaAttachmentUrl, actionButton1, actionButton2, actionButton3
+        _getNotificationAction()?.sendBroadcastNotification(this.#message, this.#icon, this.#tag, this.#title, this.#referenceId, this.#onClickAction, this.#mediaAttachmentUrl, ...this.#actionButtons);
         break;
       case NotificationType.LOG:
-        // parameters: message, icon, severity
-        _getNotificationAction()?.sendLogNotification(this.#message, this.#icon, this.#severity);
+        // parameters: message, icon, tag
+        _getNotificationAction()?.sendLogNotification(this.#message, this.#icon, this.#tag);
         break;
       case NotificationType.STANDARD:
+        if (this.#referenceId === null) this.#referenceId = randomUUID();
         this.#userIds.forEach((userId) => {
-          // parameters: userId, message, icon, severity, title, onClickAction, mediaAttachmentUrl, actionButton1, actionButton2, actionButton3
-          _getNotificationAction()?.sendNotification(userId, this.#message, this.#icon, this.#severity, this.#title, this.#onClickAction, this.#mediaAttachmentUrl, ...this.#actionButtons);
+          // parameters: userId, message, icon, tag, title, referenceId, onClickAction, mediaAttachmentUrl, actionButton1, actionButton2, actionButton3
+          _getNotificationAction()?.sendNotification(userId, this.#message, this.#icon, this.#tag, this.#title, this.#referenceId, this.#onClickAction, this.#mediaAttachmentUrl, ...this.#actionButtons);
         });
         break;
       default:
         throw new Error(`Unknown NotificationType: ${this.type}`);
     }
+    return this.#referenceId;
   }
 }
 
