@@ -21,10 +21,9 @@ describe('utils.js', () => {
       expect(UUID.randomUUID).toHaveBeenCalled();
     });
 
-    it('returns Java UUID.', () => {
-      const uuidMock = new UUID();
-      UUID.randomUUID.mockImplementation(() => uuidMock);
-      expect(randomUUID()).toBe(uuidMock);
+    it('returns Java UUID as string.', () => {
+      expect(randomUUID()).toBe('UUID');
+      expect(typeof randomUUID()).toBe('string');
     });
   });
 

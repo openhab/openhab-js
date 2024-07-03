@@ -7,8 +7,8 @@
  * @namespace triggers
  */
 
-const utils = require('./utils');
 const log = require('./log')('triggers');
+const { randomUUID } = require('./utils');
 
 /**
  * @type {Item}
@@ -30,7 +30,7 @@ const Configuration = Java.type('org.openhab.core.config.core.Configuration');
  */
 function _createTrigger (typeString, name, config) {
   if (typeof name === 'undefined' || name === null) {
-    name = utils.randomUUID().toString();
+    name = randomUUID();
   }
 
   log.debug('Creating {} trigger as {} with config: {}', typeString, name, JSON.stringify(config || {}));

@@ -71,6 +71,10 @@ class JavaNotificationAction {
   static sendBroadcastNotification = jest.fn()
   static sendLogNotification = jest.fn()
   static sendNotification = jest.fn()
+  static hideBroadcastNotificationByReferenceId = jest.fn()
+  static hideNotificationByReferenceId = jest.fn()
+  static hideBroadcastNotificationByTag = jest.fn()
+  static hideNotificationByTag = jest.fn()
 }
 
 module.exports = {
