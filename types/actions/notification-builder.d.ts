@@ -25,6 +25,15 @@ declare class NotificationBuilder {
      */
     logOnly(): NotificationBuilder;
     /**
+     * Hides notifications with the specified reference ID or the specified tag.
+     *
+     * Reference ID has precedence over tag.
+     * If no reference ID or tag is set, an error is thrown when {@link send} is called.
+     *
+     * @return {NotificationBuilder}
+     */
+    hide(): NotificationBuilder;
+    /**
      * Sets the user ID, which usually is the mail address of an openHAB Cloud user, to send the notification to.
      *
      * If no user ID is specified, a broadcast notification is sent.
@@ -44,14 +53,14 @@ declare class NotificationBuilder {
      */
     withIcon(icon: string): NotificationBuilder;
     /**
-     * Sets the severity for the notification.
+     * Sets the tag for the notification.
      *
-     * The severity text is shown by the push notification client if supported.
+     * The tag is used for grouping notifications when displaying in the app and to hide/remove groups of notifications.
      *
      * @param {string} severity
      * @return {NotificationBuilder}
      */
-    withSeverity(severity: string): NotificationBuilder;
+    withTag(severity: string): NotificationBuilder;
     /**
      * Sets the title for the notification.
      *
@@ -59,6 +68,15 @@ declare class NotificationBuilder {
      * @return {NotificationBuilder}
      */
     withTitle(title: string): NotificationBuilder;
+    /**
+     * Sets the reference ID for the notification.
+     *
+     * The reference ID is a user-supplied identifier, that can be used to update or remove existing notifications with the same reference ID.
+     *
+     * @param {string} referenceId
+     * @return {NotificationBuilder}
+     */
+    withReferenceId(referenceId: string): NotificationBuilder;
     /**
      * Sets the action to be performed when the user clicks on the notification.
      *
@@ -92,9 +110,13 @@ declare class NotificationBuilder {
     /**
      * Sends the notification.
      *
+     * If no reference ID is set, a random reference ID is generated.
      * In case the openHAB Cloud Connector is not installed, a warning is logged and the notification is not sent.
+     *
+     * @return {string|null} the reference ID of the notification or `null` log notifications and when hiding notifications
+     * @throws {Error} if {@link hide} was called and no reference ID or tag is set
      */
-    send(): void;
+    send(): string | null;
     #private;
 }
 export declare function notificationBuilder(message: string): NotificationBuilder;

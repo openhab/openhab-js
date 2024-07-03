@@ -108,7 +108,7 @@ class NotificationBuilder {
   /**
    * Sets the tag for the notification.
    *
-   * The tag is used for grouping notifications when displaying in the app and to hide/remove groups of messages from a user's device.
+   * The tag is used for grouping notifications when displaying in the app and to hide/remove groups of notifications.
    *
    * @param {string} severity
    * @return {NotificationBuilder}
@@ -193,7 +193,7 @@ class NotificationBuilder {
    * If no reference ID is set, a random reference ID is generated.
    * In case the openHAB Cloud Connector is not installed, a warning is logged and the notification is not sent.
    *
-   * @return {string|null} the reference ID of the notification or `null` if the notification is a log notification only or a hides a notification
+   * @return {string|null} the reference ID of the notification or `null` log notifications and when hiding notifications
    * @throws {Error} if {@link hide} was called and no reference ID or tag is set
    */
   send () {
@@ -263,6 +263,8 @@ module.exports = {
    * Broadcast notifications, which are sent to all openHAB Cloud users,
    * standard notifications, which are sent to a openHAB Cloud users specified by their email addresses,
    * and log notifications, which are only sent to the notification log and not shown as a push notification.
+   *
+   * In addition to that, notifications can be updated later be re-using the same reference ID and hidden/removed either by reference ID or tag.
    *
    * @memberof actions
    * @param {string} message the body of the notification
