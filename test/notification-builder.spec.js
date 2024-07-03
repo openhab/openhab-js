@@ -1,6 +1,7 @@
 const { UUID } = require('./java.mock');
 const { JavaNotificationAction } = require('./openhab.mock');
 const { _getNotificationAction, notificationBuilder } = require('../src/actions/notification-builder');
+const exp = require('node:constants')
 
 describe('notification-builder.js', () => {
   describe('_getNotificationAction', () => {
@@ -42,10 +43,26 @@ describe('notification-builder.js', () => {
     const actionButton2 = { title: 'title2', action: 'action2', full: 'title2=action2' };
     const actionButton3 = { title: 'title3', action: 'action3', full: 'title3=action3' };
 
-    jest.spyOn(JavaNotificationAction, 'sendBroadcastNotification');
-    jest.spyOn(JavaNotificationAction, 'sendNotification');
-    jest.spyOn(JavaNotificationAction, 'sendLogNotification');
-    jest.spyOn(UUID, 'randomUUID').mockImplementation(() => referenceId);
+    beforeEach(() => {
+      jest.spyOn(JavaNotificationAction, 'sendBroadcastNotification');
+      jest.spyOn(JavaNotificationAction, 'sendNotification');
+      jest.spyOn(JavaNotificationAction, 'sendLogNotification');
+      jest.spyOn(JavaNotificationAction, 'hideBroadcastNotificationByReferenceId');
+      jest.spyOn(JavaNotificationAction, 'hideNotificationByReferenceId');
+      jest.spyOn(JavaNotificationAction, 'hideBroadcastNotificationByTag');
+      jest.spyOn(JavaNotificationAction, 'hideNotificationByTag');
+      jest.spyOn(UUID, 'randomUUID').mockImplementation(() => referenceId);
+    });
+
+    afterEach(() => {
+      JavaNotificationAction.sendBroadcastNotification.mockClear();
+      JavaNotificationAction.sendNotification.mockClear();
+      JavaNotificationAction.sendLogNotification.mockClear();
+      JavaNotificationAction.hideBroadcastNotificationByReferenceId.mockClear();
+      JavaNotificationAction.hideNotificationByReferenceId.mockClear();
+      JavaNotificationAction.hideBroadcastNotificationByTag.mockClear();
+      JavaNotificationAction.hideNotificationByTag.mockClear();
+    });
 
     it('delegates to NotificationAction.sendBroadcastNotification and generates random referenceId if none provided', () => {
       // params: message, icon, tag, title, referenceId, onClickAction, mediaAttachmentUrl, actionButton1, actionButton2, actionButton3
@@ -68,6 +85,10 @@ describe('notification-builder.js', () => {
 
       expect(JavaNotificationAction.sendLogNotification).toHaveBeenCalledTimes(0);
       expect(JavaNotificationAction.sendNotification).toHaveBeenCalledTimes(0);
+      expect(JavaNotificationAction.hideBroadcastNotificationByReferenceId).toHaveBeenCalledTimes(0);
+      expect(JavaNotificationAction.hideNotificationByReferenceId).toHaveBeenCalledTimes(0);
+      expect(JavaNotificationAction.hideBroadcastNotificationByTag).toHaveBeenCalledTimes(0);
+      expect(JavaNotificationAction.hideNotificationByTag).toHaveBeenCalledTimes(0);
     });
 
     it('delegates to NotificationAction.sendLogNotification.', () => {
@@ -82,6 +103,10 @@ describe('notification-builder.js', () => {
 
       expect(JavaNotificationAction.sendBroadcastNotification).toHaveBeenCalledTimes(0);
       expect(JavaNotificationAction.sendNotification).toHaveBeenCalledTimes(0);
+      expect(JavaNotificationAction.hideBroadcastNotificationByReferenceId).toHaveBeenCalledTimes(0);
+      expect(JavaNotificationAction.hideNotificationByReferenceId).toHaveBeenCalledTimes(0);
+      expect(JavaNotificationAction.hideBroadcastNotificationByTag).toHaveBeenCalledTimes(0);
+      expect(JavaNotificationAction.hideNotificationByTag).toHaveBeenCalledTimes(0);
     });
 
     it('delegates to NotificationAction.sendNotification and generates random referenceId if none provided.', () => {
@@ -108,6 +133,10 @@ describe('notification-builder.js', () => {
 
       expect(JavaNotificationAction.sendBroadcastNotification).toHaveBeenCalledTimes(0);
       expect(JavaNotificationAction.sendLogNotification).toHaveBeenCalledTimes(0);
+      expect(JavaNotificationAction.hideBroadcastNotificationByReferenceId).toHaveBeenCalledTimes(0);
+      expect(JavaNotificationAction.hideNotificationByReferenceId).toHaveBeenCalledTimes(0);
+      expect(JavaNotificationAction.hideBroadcastNotificationByTag).toHaveBeenCalledTimes(0);
+      expect(JavaNotificationAction.hideNotificationByTag).toHaveBeenCalledTimes(0);
     });
 
     it('throws error if too many action buttons are added.', () => {
@@ -120,6 +149,32 @@ describe('notification-builder.js', () => {
     it('returns the referenceId of the notification or null if the notification is a log notification only.', () => {
       expect(notificationBuilder(msg).send()).toBe(referenceId);
       expect(notificationBuilder(msg).logOnly().send()).toBeNull();
+    });
+
+    it('hides a broadcast notification by reference ID.', () => {
+      expect(notificationBuilder(msg).hide().withTag(tag).withReferenceId(referenceId).send()).toBeNull();
+      expect(JavaNotificationAction.hideBroadcastNotificationByReferenceId).toHaveBeenCalledWith(referenceId);
+    });
+
+    it('hides a notification by reference ID.', () => {
+      expect(notificationBuilder(msg).hide().withTag(tag).withReferenceId(referenceId).addUserId(userId1).send()).toBeNull();
+      expect(JavaNotificationAction.hideNotificationByReferenceId).toHaveBeenCalledWith(userId1, referenceId);
+    });
+
+    it('hides a broadcast notification by tag.', () => {
+      expect(notificationBuilder(msg).hide().withTag(tag).send()).toBeNull();
+      expect(JavaNotificationAction.hideBroadcastNotificationByTag).toHaveBeenCalledWith(tag);
+    });
+
+    it('hides a notification by tag.', () => {
+      expect(notificationBuilder(msg).hide().withTag(tag).addUserId(userId1).send()).toBeNull();
+      expect(JavaNotificationAction.hideNotificationByTag).toHaveBeenCalledWith(userId1, tag);
+    });
+
+    it('throws error if hide is called and no reference ID or tag is set.', () => {
+      const action = () => notificationBuilder(msg).hide().send();
+
+      expect(action).toThrowError('Reference ID or tag must be set for hiding notifications.');
     });
   });
 });
