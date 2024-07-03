@@ -1,12 +1,15 @@
 # Changelog
 
-## 5.3.0
+## 5.3.1 (5.3.0)
 
-| Type        | Namespace | Description                                             | Reference                                              | Breaking |
-|-------------|-----------|---------------------------------------------------------|--------------------------------------------------------|----------|
-| Enhancement | `actions` | Add notification builder                                | [#351](https://github.com/openhab/openhab-js/pull/351) | No       |
-| Enhancement | `actions` | Mark some actions deprecated as replaced by better APIs | [#351](https://github.com/openhab/openhab-js/pull/351) | No       |
+| Type        | Namespace | Description                                                         | Reference                                              | Breaking |
+|-------------|-----------|---------------------------------------------------------------------|--------------------------------------------------------|----------|
+| Enhancement | `actions` | Add notification builder                                            | [#351](https://github.com/openhab/openhab-js/pull/351) | No       |
+| Enhancement | `actions` | Mark some actions deprecated as replaced by better APIs             | [#351](https://github.com/openhab/openhab-js/pull/351) | No       |
+| Enhancement | `actions` | Notification Builder: Add support for updating/hiding notifications | [#353](https://github.com/openhab/openhab-js/pull/351) | No       |
 
+These two releases are coupled together as 5.3.1 contains follow-up changes for 5.3.0.
+Use 5.3.1 instead of 5.3.0.
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/29).
 
@@ -18,11 +21,14 @@ Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/28).
 
-## 5.1.2
+## 5.1.2 (5.1.1)
 
 | Type   | Namespace | Description                                            | Reference                                                                                                       | Breaking |
 |--------|-----------|--------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|----------|
 | Bugfix | `helpers` | Fix isInstant check & Improve isXXXX checks in general | [#348](https://github.com/openhab/openhab-js/pull/348) & [#349](https://github.com/openhab/openhab-js/pull/349) | No       |
+
+These two releases are coupled together as 5.1.2 contains follow-up changes for 5.1.1.
+Use 5.1.2 instead of 5.1.1.
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/27).
 
