@@ -52,9 +52,9 @@ class ArrayList {
 }
 
 class UUID {
-  toString () {}
-  static randomUUID () {}
+  toString = jest.fn(() => 'UUID');
 }
+UUID.randomUUID = jest.fn(() => new UUID());
 
 class Logger {
   debug () {}

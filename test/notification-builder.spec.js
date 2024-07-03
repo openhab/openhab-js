@@ -1,7 +1,6 @@
 const { UUID } = require('./java.mock');
 const { JavaNotificationAction } = require('./openhab.mock');
 const { _getNotificationAction, notificationBuilder } = require('../src/actions/notification-builder');
-const exp = require('node:constants')
 
 describe('notification-builder.js', () => {
   describe('_getNotificationAction', () => {
@@ -51,7 +50,10 @@ describe('notification-builder.js', () => {
       jest.spyOn(JavaNotificationAction, 'hideNotificationByReferenceId');
       jest.spyOn(JavaNotificationAction, 'hideBroadcastNotificationByTag');
       jest.spyOn(JavaNotificationAction, 'hideNotificationByTag');
-      jest.spyOn(UUID, 'randomUUID').mockImplementation(() => referenceId);
+
+      const uuidSpy = new UUID();
+      UUID.randomUUID.mockImplementation(() => uuidSpy);
+      uuidSpy.toString.mockImplementation(() => referenceId);
     });
 
     afterEach(() => {

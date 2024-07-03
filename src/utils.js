@@ -134,7 +134,7 @@ function javaSetToJsSet (set) {
  * @memberOf utils
  * @returns {string} random UUID
  */
-const randomUUID = () => Java.type('java.util.UUID').randomUUID();
+const randomUUID = () => Java.type('java.util.UUID').randomUUID().toString();
 
 /**
  * Outputs all members and properties of an object and whether it is a JS or a Java Object to the log.
