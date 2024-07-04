@@ -704,6 +704,15 @@ var response = actions.HTTP.sendHttpGetRequest('<url>');
 
 Replace `<url>` with the request url.
 
+#### Ping Actions
+
+See [openhab-js : actions.Ping](https://openhab.github.io/openhab-js/actions.html#.Ping) for complete documentation.
+
+```javascript
+// Check if a host is reachable
+var reachable = actions.Ping.checkVitality(host, port, timeout); // host: string, port: int, timeout: int
+```
+
 #### ScriptExecution Actions
 
 The `ScriptExecution` actions provide the `callScript(string scriptName)` method, which calls a script located at the `$OH_CONF/scripts` folder, as well as the `createTimer` method.
