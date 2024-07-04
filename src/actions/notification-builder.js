@@ -143,7 +143,7 @@ class NotificationBuilder {
   }
 
   /**
-   * Sets the action to be performed when the user clicks on the notification.
+   * Sets the action to be executed when the user clicks on the notification.
    *
    * The on click action is not supported by log notifications.
    *
@@ -161,7 +161,7 @@ class NotificationBuilder {
    * This URL must be reachable by the push notification client and the client needs to support media attachments.
    * Media attachments are not supported by log notifications.
    *
-   * @param {string} mediaAttachmentUrl
+   * @param {string} mediaAttachmentUrl the media attachment URL as described in {@link https://www.openhab.org/addons/integrations/openhabcloud/ openHAB Cloud Connector}
    * @return {NotificationBuilder}
    */
   withMediaAttachmentUrl (mediaAttachmentUrl) {
@@ -175,15 +175,15 @@ class NotificationBuilder {
    * Please note that due to limitations in Android and iOS only three action buttons are supported.
    * Action buttons are obviously not supported by log notifications.
    *
-   * @param {string} title the title of the action button
+   * @param {string} label the title of the action button
    * @param {string} action the action using the syntax as described in {@link https://www.openhab.org/addons/integrations/openhabcloud/#action-syntax openHAB Cloud Connector: Action Syntax}
    * @return {NotificationBuilder}
    */
-  addActionButton (title, action) {
+  addActionButton (label, action) {
     if (this.#actionButtons.length >= 3) {
       throw new Error('Only 3 action buttons are supported.');
     }
-    this.#actionButtons.push(`${title}=${action}`);
+    this.#actionButtons.push(`${label}=${action}`);
     return this;
   }
 

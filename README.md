@@ -798,18 +798,20 @@ It returns a new `NotificationBuilder` object, which by default sends a broadcas
 
 - `.logOnly()`: Send a log notification only.
 - `.hide()`: Hides notifications with the specified `referenceId` or `tag`.
+- `.addUserId(emailAddress)`: By adding the email address(es) of specific openHAB Cloud user(s), the notification is only sent to this (these) user(s).
 - `.withIcon(icon)`: Sets the icon of the notification.
-- `.withTag(link)`: Sets the tag of the notification. Used for grouping notifications and to hide/remove groups of notifications.
+- `.withTag(tag)`: Sets the tag of the notification. Used for grouping notifications and to hide/remove groups of notifications.
 - `.withTitle(title)`: Sets the title of the notification.
 - `.withReferenceId(referenceId)`: Sets the reference ID of the notification. If none is set, but it might be useful, a random UUID will be generated.
   The reference ID can be used to update or hide the notification later by using the same reference ID again.
-- `.addUserId(emailAddress)`: By adding the email address(es) of specific openHAB Cloud user(s), the notification is only sent to this (these) user(s).
-- `.withOnClickAction(action)`: Sets the action to be performed when the notification is clicked.
+- `.withOnClickAction(action)`: Sets the action to be executed when the notification is clicked.
 - `.withMediaAttachmentUrl(mediaAttachmentUrl)`: Sets the URL of a media attachment to be displayed with the notification. This URL must be reachable by the push notification client.
-- `.addActionButton(title, action)`: Adds an action button to the notification. Please note that due to Android and iOS limitations, only three action buttons are supported.
-- `.send()` ⇒ `string|null`: Sends the notification and returns the `referenceId` or `null` for log notifications and when hiding notifications.
+- `.addActionButton(label, action)`: Adds an action button to the notification. Please note that due to Android and iOS limitations, only three action buttons are supported.
+- `.send()` ⇒ `string|null`: Sends the notification and returns the reference ID or `null` for log notifications and when hiding notifications.
 
-The syntax for the `action` parameter is  described in [openHAB Cloud Connector: Action Syntax](https://www.openhab.org/addons/integrations/openhabcloud/#action-syntax).
+The syntax for the `action` parameter is described in [openHAB Cloud Connector: Action Syntax](https://www.openhab.org/addons/integrations/openhabcloud/#action-syntax).
+
+The syntax for the `mediaAttachmentUrl` parameter is described in [openHAB Cloud Connector](https://www.openhab.org/addons/integrations/openhabcloud/).
 
 ```javascript
 // Send a simple broadcast notification
