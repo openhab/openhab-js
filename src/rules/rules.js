@@ -56,13 +56,15 @@
 const GENERATED_RULE_ITEM_TAG = 'GENERATED_RULE_ITEM';
 
 const items = require('../items/items');
-const utils = require('../utils');
+const { randomUUID, jsArrayToJavaSet } = require('../utils');
 const log = require('../log')('rules');
-const osgi = require('../osgi');
+const { getService } = require('../osgi');
 const triggers = require('../triggers');
+const time = require('../time');
+
 const { automationManager, ruleRegistry } = require('@runtime/RuleSupport');
 
-const RuleManager = osgi.getService('org.openhab.core.automation.RuleManager');
+const RuleManager = getService('org.openhab.core.automation.RuleManager');
 
 /**
   * Links an Item to a rule. When the Item is switched on or off, so will the rule be.
@@ -220,7 +222,7 @@ function setEnabled (uid, isEnabled) {
   * @throws {Error} an error if the rule with the passed in uid already exists and {@link RuleConfig.overwrite} is not `true`
   */
 function JSRule (ruleConfig) {
-  const ruleUID = ruleConfig.id || ruleConfig.name.replace(/[^\w]/g, '-') + '-' + utils.randomUUID();
+  const ruleUID = ruleConfig.id || ruleConfig.name.replace(/[^\w]/g, '-') + '-' + randomUUID();
   if (ruleConfig.overwrite === true) {
     removeRule(ruleUID);
   }
@@ -262,7 +264,7 @@ function JSRule (ruleConfig) {
     rule.setName(ruleConfig.name);
   }
   if (ruleConfig.tags) {
-    rule.setTags(utils.jsArrayToJavaSet(ruleConfig.tags));
+    rule.setTags(jsArrayToJavaSet(ruleConfig.tags));
   }
 
   // Register rule here
@@ -321,7 +323,7 @@ function SwitchableJSRule (ruleConfig) {
     // possibly load item's prior state
     let historicState = null;
     try {
-      historicState = item.persistence.latestState();
+      historicState = item.persistence.persistedState(time.ZonedDateTime.now()).state;
     } catch (e) {
       log.warn(`Failed to get historic state of ${item.name} for rule ${ruleConfig.name}: ${e}`);
     }
