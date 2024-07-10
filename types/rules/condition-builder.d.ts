@@ -65,10 +65,10 @@ export class ConditionBuilder {
     /**
      * Move to the rule operations
      *
-     * @param {*} fn the optional function to execute
+     * @param {*} [fn] the optional function to execute
      * @returns {operations.OperationBuilder}
      */
-    then(fn: any): operations.OperationBuilder;
+    then(fn?: any): operations.OperationBuilder;
     /**
       * Condition of an item in determining whether to process rule.
       *

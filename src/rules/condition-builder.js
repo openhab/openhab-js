@@ -23,7 +23,7 @@ class ConditionBuilder {
   /**
    * Move to the rule operations
    *
-   * @param {*} fn the optional function to execute
+   * @param {*} [fn] the optional function to execute
    * @returns {operations.OperationBuilder}
    */
   then (fn) {
@@ -60,7 +60,7 @@ class ConditionConf {
 
   /**
      *
-     * @param {*} fn an optional function
+     * @param {*} [fn] an optional function
      * @returns ConditionBuilder
      */
   then (fn) {
