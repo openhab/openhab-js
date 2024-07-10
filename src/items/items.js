@@ -577,8 +577,8 @@ function existsItem (name) {
  * Gets an openHAB Item.
  * @memberof items
  * @param {string} name the name of the Item
- * @param {boolean} [nullIfMissing=false] whether to return null if the Item cannot be found (default is to throw an exception)
- * @returns {Item|null} {@link items.Item} Item or `null` if `nullIfMissing` is true and Item is missing
+ * @param {boolean} [nullIfMissing=false] whether to return null if the Item cannot be found (default is to throw an {@link https://www.openhab.org/javadoc/latest/org/openhab/core/items/itemnotfoundexception ItemNotFoundException})
+ * @returns {Item} {@link items.Item} Item or `null` if `nullIfMissing` is true and Item is missing
  */
 function getItem (name, nullIfMissing = false) {
   try {
