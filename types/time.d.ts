@@ -87,11 +87,11 @@ export = _exports;
  *     - HH:mm[:ss] (i.e. 24 hour time): that time with today's date (seconds are optional)
  *     - KK:mm[:ss][ ][aa] (i.e. 12 hour time): that time with today's date (seconds and space between time and am/pm are optional)
  * @memberof time
- * @param {*} when any of the types discussed above
+ * @param {*} [when] any of the types discussed above
  * @returns {time.ZonedDateTime}
  * @throws error if the type, format, or contents of when are not supported
  */
-declare function toZDT(when: any): time.ZonedDateTime;
+declare function toZDT(when?: any): time.ZonedDateTime;
 /**
  * Parses the passed in string based on it's format and converts it to a ZonedDateTime.
  * If no timezone is specified, `SYSTEM` is used.
