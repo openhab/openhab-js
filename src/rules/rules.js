@@ -222,7 +222,7 @@ function setEnabled (uid, isEnabled) {
   * @throws {Error} an error if the rule with the passed in uid already exists and {@link RuleConfig.overwrite} is not `true`
   */
 function JSRule (ruleConfig) {
-  const ruleUID = ruleConfig.id.replace(/\W/g, '-') || ruleConfig.name.replace(/\W/g, '-') + '-' + randomUUID();
+  const ruleUID = ruleConfig.id?.replace(/\W/g, '-') || ruleConfig.name.replace(/\W/g, '-') + '-' + randomUUID();
   if (ruleConfig.overwrite === true) {
     removeRule(ruleUID);
   }
