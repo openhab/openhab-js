@@ -1,5 +1,17 @@
 # Changelog
 
+## 5.3.2
+
+| Type   | Namespace | Description                                                                      | Reference                                              | Breaking |
+|--------|-----------|----------------------------------------------------------------------------------|--------------------------------------------------------|----------|
+| Bugfix | `rules`   | SwitchableJSRule: Fix restore previous state fails for switch Item               | [#355](https://github.com/openhab/openhab-js/pull/355) | No       |
+| Bugfix | `time`    | `toZDT`: Fix JSDoc for `when` parameter says param is required                   | [#357](https://github.com/openhab/openhab-js/pull/357) | No       |
+| Bugfix | `items`   | `getItem`: Don't declare `null` as return value as this is normally not returned | [#358](https://github.com/openhab/openhab-js/pull/358) | No       |
+| Bugfix | `rules`   | RuleBuilder: Mark `fn` for `then(fn)` as optional (wrong JSDoc)                  | [#359](https://github.com/openhab/openhab-js/pull/359) | No       |
+| Bugfix | `rules`   | JSRule: Always sanitize passed in rule UID                                       | [#360](https://github.com/openhab/openhab-js/pull/360) | No       |
+
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/30).
+
 ## 5.3.1 (5.3.0)
 
 | Type        | Namespace | Description                                                         | Reference                                              | Breaking |
