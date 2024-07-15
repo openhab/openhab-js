@@ -21,7 +21,7 @@
         "lint:fix": "npx eslint --fix src",
         "pretest": "npm run lint",
         "test:mocha": "mocha test/**/*.test.js",
-        "test:jest": "jest --config test/jest.config.js",
+        "test:jest": "jest --config jest.config.js",
         "test": "npm run test:mocha && npm run test:jest",
         "types": "tsc --project ./build/tsconfig.json",
         "types:test": "tsc --project ./build/tsconfig.test.json",
