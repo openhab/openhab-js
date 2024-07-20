@@ -141,6 +141,13 @@ describe('notification-builder.js', () => {
       expect(JavaNotificationAction.hideNotificationByTag).toHaveBeenCalledTimes(0);
     });
 
+    it('processes multiple params for addUserId.', () => {
+      notificationBuilder(msg).addUserId(userId1, userId2).send();
+      expect(JavaNotificationAction.sendNotification).toHaveBeenCalledWith(userId1, msg, null, null, null, referenceId, null, null, null, null, null);
+      expect(JavaNotificationAction.sendNotification).toHaveBeenCalledWith(userId2, msg, null, null, null, referenceId, null, null, null, null, null);
+      JavaNotificationAction.sendNotification.mockClear();
+    });
+
     it('throws error if too many action buttons are added.', () => {
       const builder = notificationBuilder(msg).addActionButton(actionButton1).addActionButton(actionButton2).addActionButton(actionButton3);
       const action = () => builder.addActionButton(actionButton1);

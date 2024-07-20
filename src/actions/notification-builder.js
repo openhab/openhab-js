@@ -78,15 +78,15 @@ class NotificationBuilder {
   }
 
   /**
-   * Sets the user ID, which usually is the mail address of an openHAB Cloud user, to send the notification to.
+   * Adds a user ID, which usually is the mail address of an openHAB Cloud user, to send the notification to.
    *
    * If no user ID is specified, a broadcast notification is sent.
    *
-   * @param {string} emailAddress
+   * @param {...string} emailAddress
    * @return {NotificationBuilder}
    */
-  addUserId (emailAddress) {
-    this.#userIds.push(emailAddress);
+  addUserId (...emailAddress) {
+    this.#userIds = this.#userIds.concat(emailAddress);
     this.#type = (this.#type === NotificationType.HIDE_BROADCAST ? NotificationType.HIDE_STANDARD : NotificationType.STANDARD);
     return this;
   }

@@ -34,14 +34,14 @@ declare class NotificationBuilder {
      */
     hide(): NotificationBuilder;
     /**
-     * Sets the user ID, which usually is the mail address of an openHAB Cloud user, to send the notification to.
+     * Adds a user ID, which usually is the mail address of an openHAB Cloud user, to send the notification to.
      *
      * If no user ID is specified, a broadcast notification is sent.
      *
-     * @param {string} emailAddress
+     * @param {...string} emailAddress
      * @return {NotificationBuilder}
      */
-    addUserId(emailAddress: string): NotificationBuilder;
+    addUserId(...emailAddress: string[]): NotificationBuilder;
     /**
      * Sets the icon for the notification.
      *

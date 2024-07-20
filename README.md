@@ -806,8 +806,9 @@ To send these three types of notifications, use the `notificationBuilder(message
 It returns a new `NotificationBuilder` object, which by default sends a broadcast notification and provides the following methods:
 
 - `.logOnly()`: Send a log notification only.
-- `.hide()`: Hides notifications with the specified `referenceId` or `tag`.
+- `.hide()`: Hides notification(s) with the specified `referenceId` or `tag` (`referenceId` has precedence over `tag`).
 - `.addUserId(emailAddress)`: By adding the email address(es) of specific openHAB Cloud user(s), the notification is only sent to this (these) user(s).
+  To add multiple users, either call `addUserId` multiple times or pass mutiple emails as multiple params, e.g. `addUserId(emailAddress1, emailAddress2)`.
 - `.withIcon(icon)`: Sets the icon of the notification.
 - `.withTag(tag)`: Sets the tag of the notification. Used for grouping notifications and to hide/remove groups of notifications.
 - `.withTitle(title)`: Sets the title of the notification.
