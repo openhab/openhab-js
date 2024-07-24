@@ -396,7 +396,7 @@ let NotificationAction;
 try {
   NotificationAction = Java.type('org.openhab.io.openhabcloud.NotificationAction');
 } catch (error) {
-  if (error.name !== 'TypeError') throw new Error(error);
+  if (error.name !== 'TypeError') throw error;
 }
 
 module.exports = Object.assign(dynamicExports, {
