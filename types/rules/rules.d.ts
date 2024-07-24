@@ -149,7 +149,7 @@ export function removeRule(uid: string): boolean;
   * @param {string} uid the UID of the rule to run
   * @param {object} [args={}] args optional dict of data to pass to the called rule
   * @param {boolean} [cond=true] when true, the called rule will only run if it's conditions are met
-  * @throws Will throw an error if the rule does not exist or is not initialized.
+  * @throws {Error} throws an error if the rule does not exist or is not initialized.
   */
 export function runRule(uid: string, args?: object, cond?: boolean): void;
 /**
