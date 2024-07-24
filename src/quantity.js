@@ -1,4 +1,4 @@
-const { _isItem } = require('./helpers');
+const { _isItem, _isQuantity } = require('./helpers');
 const QuantityType = Java.type('org.openhab.core.library.types.QuantityType');
 /**
  * @type {JavaBigDecimal}
@@ -65,7 +65,7 @@ function _toQtyType (value, errorMsg = 'Argument of wrong type provided, require
     } catch (e) {
       throw new QuantityError(`Failed to create QuantityType from ${value}: ${e}`);
     }
-  } else if (value instanceof Quantity) {
+  } else if (_isQuantity(value)) {
     value = QuantityType.valueOf(value.rawQtyType.toString()); // Avoid referencing the same underlying QuantityType, so "clone" it
   } else {
     throw new TypeError(errorMsg);

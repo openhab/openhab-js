@@ -7,7 +7,7 @@
 const osgi = require('../osgi');
 const utils = require('../utils');
 const log = require('../log')('items');
-const { _toOpenhabPrimitiveType, _isQuantity } = require('../helpers');
+const { _toOpenhabPrimitiveType, _isQuantity, _isItem } = require('../helpers');
 const { getQuantity, QuantityError } = require('../quantity');
 
 const { UnDefType, OnOffType, events, itemRegistry } = require('@runtime');
@@ -500,7 +500,7 @@ function removeItem (itemOrItemName) {
 
   if (typeof itemOrItemName === 'string') {
     itemName = itemOrItemName;
-  } else if (itemOrItemName instanceof Item) {
+  } else if (_isItem(itemOrItemName)) {
     itemName = itemOrItemName.name;
   } else {
     log.warn('Item name is undefined (no Item supplied or supplied name is not a string) so cannot be removed');

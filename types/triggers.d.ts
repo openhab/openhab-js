@@ -1,3 +1,48 @@
+export type Item = {
+    rawItem: HostItem;
+    persistence: import("./items/item-persistence");
+    semantics: import("./items/item-semantics");
+    readonly type: string;
+    readonly name: string;
+    readonly label: string;
+    readonly state: string;
+    readonly numericState: number;
+    readonly quantityState: import("./quantity").Quantity;
+    readonly rawState: HostState;
+    readonly members: any[];
+    readonly descendents: any[];
+    readonly isUninitialized: boolean;
+    getMetadata(namespace?: string): {
+        value: string;
+        configuration: any;
+    } | {
+        namespace: {
+            value: string;
+            configuration: any;
+        };
+    };
+    replaceMetadata(namespace: string, value: string, configuration?: any): {
+        configuration: any;
+        value: string;
+    };
+    removeMetadata(namespace?: string): {
+        value: string;
+        configuration: any;
+    };
+    sendCommand(value: any): void;
+    sendCommandIfDifferent(value: any): boolean;
+    getToggleState(): "PAUSE" | "PLAY" | "OPEN" | "CLOSED" | "ON" | "OFF";
+    sendToggleCommand(): void;
+    postToggleUpdate(): void;
+    postUpdate(value: any): void;
+    readonly groupNames: string[];
+    addGroups(...groupNamesOrItems: any[]): void;
+    removeGroups(...groupNamesOrItems: any[]): void;
+    readonly tags: string[];
+    addTags(...tagNames: string[]): void;
+    removeTags(...tagNames: string[]): void;
+    toString(): any;
+};
 /**
  * Creates a trigger that fires upon specific events in a channel.
  *
@@ -26,7 +71,7 @@ export function ChannelEventTrigger(channel: string, event: string, triggerName?
  * @param {string} [newState] the new state of the Item
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function ItemStateChangeTrigger(itemOrName: any | string, oldState?: string, newState?: string, triggerName?: string): HostTrigger;
+export function ItemStateChangeTrigger(itemOrName: Item | string, oldState?: string, newState?: string, triggerName?: string): HostTrigger;
 /**
  * Creates a trigger that fires upon an Item receiving a state update. Note that the Item does not need to change state.
  *
@@ -39,7 +84,7 @@ export function ItemStateChangeTrigger(itemOrName: any | string, oldState?: stri
  * @param {string} [state] the new state of the Item
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function ItemStateUpdateTrigger(itemOrName: any | string, state?: string, triggerName?: string): HostTrigger;
+export function ItemStateUpdateTrigger(itemOrName: Item | string, state?: string, triggerName?: string): HostTrigger;
 /**
  * Creates a trigger that fires upon an Item receiving a command. Note that the Item does not need to change state.
  *
@@ -52,7 +97,7 @@ export function ItemStateUpdateTrigger(itemOrName: any | string, state?: string,
  * @param {string} [command] the command received
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function ItemCommandTrigger(itemOrName: any | string, command?: string, triggerName?: string): HostTrigger;
+export function ItemCommandTrigger(itemOrName: Item | string, command?: string, triggerName?: string): HostTrigger;
 /**
  * Creates a trigger that fires upon a member of a group changing state. Note that group Item does not need to change state.
  *
@@ -65,7 +110,7 @@ export function ItemCommandTrigger(itemOrName: any | string, command?: string, t
  * @param {string} [newState] the new state of the group
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function GroupStateChangeTrigger(groupOrName: any | string, oldState?: string, newState?: string, triggerName?: string): HostTrigger;
+export function GroupStateChangeTrigger(groupOrName: Item | string, oldState?: string, newState?: string, triggerName?: string): HostTrigger;
 /**
  * Creates a trigger that fires upon a member of a group receiving a state update. Note that group Item does not need to change state.
  *
@@ -77,7 +122,7 @@ export function GroupStateChangeTrigger(groupOrName: any | string, oldState?: st
  * @param {string} [state] the new state of the group
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function GroupStateUpdateTrigger(groupOrName: any | string, state?: string, triggerName?: string): HostTrigger;
+export function GroupStateUpdateTrigger(groupOrName: Item | string, state?: string, triggerName?: string): HostTrigger;
 /**
  * Creates a trigger that fires upon a member of a group receiving a command. Note that the group Item does not need to change state.
  *
@@ -89,7 +134,7 @@ export function GroupStateUpdateTrigger(groupOrName: any | string, state?: strin
  * @param {string} [command] the command received
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function GroupCommandTrigger(groupOrName: any | string, command?: string, triggerName?: string): HostTrigger;
+export function GroupCommandTrigger(groupOrName: Item | string, command?: string, triggerName?: string): HostTrigger;
 /**
  * Creates a trigger that fires upon a Thing status updating.
  *
@@ -182,7 +227,7 @@ export function TimeOfDayTrigger(time: string, triggerName?: string): HostTrigge
  * @param {boolean} [timeOnly=false] Specifies whether only the time of the Item should be compared or the date and time.
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function DateTimeTrigger(itemOrName: any | string, timeOnly?: boolean, triggerName?: string): HostTrigger;
+export function DateTimeTrigger(itemOrName: Item | string, timeOnly?: boolean, triggerName?: string): HostTrigger;
 /**
  * Creates a trigger for the {@link https://openhab.org/addons/automation/pwm/ Pulse Width Modulation (PWM) Automation} add-on.
  *
