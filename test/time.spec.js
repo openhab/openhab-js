@@ -5,10 +5,6 @@ jest.mock('../src/items', () => ({
   Item: new Object() // eslint-disable-line no-new-object
 }));
 
-jest.mock('../src/utils', () => ({
-  isJsInstanceOfJavaType: () => false
-}));
-
 describe('time.js', () => {
   describe('toZDT', () => {
     it('passes through if when is a time.ZonedDateTime', () => {
