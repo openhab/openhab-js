@@ -9,15 +9,15 @@
 
 const log = require('./log')('triggers');
 const { randomUUID } = require('./utils');
-
-/**
- * @type {Item}
- * @private
- */
-const Item = require('./items').Item;
+const { _isItem } = require('./helpers');
 
 const ModuleBuilder = Java.type('org.openhab.core.automation.util.ModuleBuilder');
 const Configuration = Java.type('org.openhab.core.config.core.Configuration');
+
+/**
+ * @typedef { import("./items/items").Item } Item
+ * @private
+ */
 
 /**
  * Creates a trigger. Internal function, instead use predefined trigger types.
@@ -77,7 +77,7 @@ const ChannelEventTrigger = (channel, event, triggerName) =>
  */
 const ItemStateChangeTrigger = (itemOrName, oldState, newState, triggerName) =>
   _createTrigger('core.ItemStateChangeTrigger', triggerName, {
-    itemName: (itemOrName instanceof Item) ? itemOrName.name : itemOrName,
+    itemName: _isItem(itemOrName) ? itemOrName.name : itemOrName,
     state: newState,
     previousState: oldState
   });
@@ -96,7 +96,7 @@ const ItemStateChangeTrigger = (itemOrName, oldState, newState, triggerName) =>
  */
 const ItemStateUpdateTrigger = (itemOrName, state, triggerName) =>
   _createTrigger('core.ItemStateUpdateTrigger', triggerName, {
-    itemName: (itemOrName instanceof Item) ? itemOrName.name : itemOrName,
+    itemName: _isItem(itemOrName) ? itemOrName.name : itemOrName,
     state
   });
 
@@ -114,7 +114,7 @@ const ItemStateUpdateTrigger = (itemOrName, state, triggerName) =>
  */
 const ItemCommandTrigger = (itemOrName, command, triggerName) =>
   _createTrigger('core.ItemCommandTrigger', triggerName, {
-    itemName: (itemOrName instanceof Item) ? itemOrName.name : itemOrName,
+    itemName: _isItem(itemOrName) ? itemOrName.name : itemOrName,
     command
   });
 
@@ -132,7 +132,7 @@ const ItemCommandTrigger = (itemOrName, command, triggerName) =>
  */
 const GroupStateChangeTrigger = (groupOrName, oldState, newState, triggerName) =>
   _createTrigger('core.GroupStateChangeTrigger', triggerName, {
-    groupName: (groupOrName instanceof Item) ? groupOrName.name : groupOrName,
+    groupName: _isItem(groupOrName) ? groupOrName.name : groupOrName,
     state: newState,
     previousState: oldState
   });
@@ -150,7 +150,7 @@ const GroupStateChangeTrigger = (groupOrName, oldState, newState, triggerName) =
  */
 const GroupStateUpdateTrigger = (groupOrName, state, triggerName) =>
   _createTrigger('core.GroupStateUpdateTrigger', triggerName, {
-    groupName: (groupOrName instanceof Item) ? groupOrName.name : groupOrName,
+    groupName: _isItem(groupOrName) ? groupOrName.name : groupOrName,
     state
   });
 
@@ -167,7 +167,7 @@ const GroupStateUpdateTrigger = (groupOrName, state, triggerName) =>
  */
 const GroupCommandTrigger = (groupOrName, command, triggerName) =>
   _createTrigger('core.GroupCommandTrigger', triggerName, {
-    groupName: (groupOrName instanceof Item) ? groupOrName.name : groupOrName,
+    groupName: _isItem(groupOrName) ? groupOrName.name : groupOrName,
     command
   });
 
@@ -269,7 +269,7 @@ const TimeOfDayTrigger = (time, triggerName) =>
  */
 const DateTimeTrigger = (itemOrName, timeOnly = false, triggerName) =>
   _createTrigger('timer.DateTimeTrigger', triggerName, {
-    itemName: (itemOrName instanceof Item) ? itemOrName.name : itemOrName,
+    itemName: _isItem(itemOrName) ? itemOrName.name : itemOrName,
     timeOnly
   });
 
