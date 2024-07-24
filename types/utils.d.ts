@@ -78,16 +78,6 @@ export function randomUUID(): string;
  */
 export function dumpObject(obj: any, dumpProps?: boolean): void;
 /**
- * Checks whether an object is instance of a Java class.
- *
- * @memberOf utils
- * @param {*} instance object
- * @param {JavaClass} type Java class ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Class.html})
- * @returns {boolean} whether it is an instance of a Java class
- * @throws error if type is not a java class
- */
-export function isJsInstanceOfJavaType(instance: any, type: JavaClass): boolean;
-/**
  * Convert Java Instant to JS-Joda Instant.
  *
  * @memberOf utils
