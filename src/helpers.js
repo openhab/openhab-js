@@ -1,6 +1,5 @@
 // Helper functions used internally across the library
 
-const utils = require('./utils');
 const javaZDT = Java.type('java.time.ZonedDateTime');
 const javaDuration = Java.type('java.time.Duration');
 const javaInstant = Java.type('java.time.Instant');
@@ -91,7 +90,7 @@ function _isQuantity (o) {
 function _isZonedDateTime (o) {
   if (typeof o !== 'object') return false;
   return ((o.constructor && o.constructor.name === 'ZonedDateTime') ||
-    (!utils.isJsInstanceOfJavaType(o, javaZDT) && typeof o.withZoneSameInstant === 'function' && typeof o.withZoneSameLocal === 'function')
+    (!(o instanceof javaZDT) && typeof o.withZoneSameInstant === 'function' && typeof o.withZoneSameLocal === 'function')
   );
 }
 
@@ -108,7 +107,7 @@ function _isZonedDateTime (o) {
 function _isDuration (o) {
   if (typeof o !== 'object') return false;
   return ((o.constructor && o.constructor.name === 'Duration') ||
-    (!utils.isJsInstanceOfJavaType(o, javaDuration) && typeof o.plusDuration === 'function' && typeof o.minusDuration === 'function')
+    (!(o instanceof javaDuration) && typeof o.plusDuration === 'function' && typeof o.minusDuration === 'function')
   );
 }
 
@@ -125,7 +124,7 @@ function _isDuration (o) {
 function _isInstant (o) {
   if (typeof o !== 'object') return false;
   return ((o.constructor && o.constructor.name === 'Instant') ||
-    (!utils.isJsInstanceOfJavaType(o, javaInstant) && typeof o.minusMicros === 'function' && typeof o.plusMicros === 'function')
+    (!(o instanceof javaInstant) && typeof o.minusMicros === 'function' && typeof o.plusMicros === 'function')
   );
 }
 

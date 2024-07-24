@@ -195,27 +195,6 @@ function dumpObject (obj, dumpProps = false) {
 }
 
 /**
- * Checks whether an object is instance of a Java class.
- *
- * @memberOf utils
- * @param {*} instance object
- * @param {JavaClass} type Java class ({@link https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Class.html})
- * @returns {boolean} whether it is an instance of a Java class
- * @throws error if type is not a java class
- */
-function isJsInstanceOfJavaType (instance, type) {
-  if (!Java.isType(type)) {
-    throw Error('type is not a Java type');
-  }
-
-  if (instance === null || instance === undefined || !instance.getClass || !instance.getClass()) {
-    return false;
-  }
-
-  return Java.typeName(type) === instance.getClass().getName();
-}
-
-/**
  * Convert Java Instant to JS-Joda Instant.
  *
  * @memberOf utils
@@ -266,7 +245,6 @@ module.exports = {
   javaMapToJsObj,
   randomUUID,
   dumpObject,
-  isJsInstanceOfJavaType,
   javaInstantToJsInstant,
   javaZDTToJsZDT,
   javaZDTToJsZDTWithDefaultZoneSystem,

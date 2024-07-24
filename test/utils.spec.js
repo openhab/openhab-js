@@ -7,7 +7,6 @@ const {
   javaListToJsArray,
   javaSetToJsArray,
   javaSetToJsSet,
-  isJsInstanceOfJavaType,
   javaInstantToJsInstant,
   javaZDTToJsZDT
 } = require('../src/utils');
@@ -86,41 +85,6 @@ describe('utils.js', () => {
   describe('javaSetToJsSet', () => {
     it('returns Set.', () => {
       expect(javaSetToJsSet(new HashSet())).toBeInstanceOf(Set);
-    });
-  });
-
-  describe('isJsInstanceOfJavaType', () => {
-    it('throws error when type is not a Java type.', () => {
-      const notAJavaType = {};
-      jest.spyOn(Java, 'isType').mockImplementation(() => false);
-      expect(() => isJsInstanceOfJavaType('', notAJavaType)).toThrow(
-        'type is not a Java type'
-      );
-      expect(Java.isType).toHaveBeenCalledWith(notAJavaType);
-    });
-
-    it('returns false if instance or type is null or undefined.', () => {
-      jest.spyOn(Java, 'isType').mockImplementation(() => true);
-      expect(isJsInstanceOfJavaType(null, {})).toBe(false);
-      expect(isJsInstanceOfJavaType(undefined, {})).toBe(false);
-      expect(isJsInstanceOfJavaType({ getClass: () => { return null; } }, {})).toBe(false);
-      expect(isJsInstanceOfJavaType({ getClass: () => { return undefined; } }, {})).toBe(false);
-    });
-
-    it('delegates to Java.typeName(type) and instance.getClass().getName()', () => {
-      const getNameMock = jest.fn(() => 'java.lang.Object');
-      const instance = {
-        getClass: () => {
-          return {
-            getName: getNameMock
-          };
-        }
-      };
-      const type = {};
-      jest.spyOn(Java, 'isType').mockImplementation(() => true);
-      jest.spyOn(Java, 'typeName').mockImplementation(() => 'java.lang.Object');
-      isJsInstanceOfJavaType(instance, type);
-      expect(getNameMock).toHaveBeenCalled();
     });
   });
 
