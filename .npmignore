@@ -18,5 +18,6 @@ types/index.d.ts*
 CODEOWNERS
 CONTRIBUTING.md
 DEPLOY.md
+jest.config.js
 openhab-*.tgz
 typeOfArguments.js
