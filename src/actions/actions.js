@@ -266,6 +266,7 @@ class ScriptExecution {
    * @returns {*} a native openHAB Timer
    */
   static createTimer (identifier, zdt, functionRef, ...params) {
+    ThreadsafeTimers.setIdentifier(console.loggerName); // eslint-disable-line no-undef
     // Support method overloading as identifier is optional
     if (typeof identifier === 'string' && functionRef != null) {
       const callbackFn = () => functionRef(...params);
