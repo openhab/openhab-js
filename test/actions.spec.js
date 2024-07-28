@@ -7,11 +7,15 @@ jest.mock('../src/osgi');
 
 describe('actions.js', () => {
   describe('ScriptExecution', () => {
+    const defaultIdentifier = 'script-1';
+
     beforeAll(() => {
       jest.spyOn(JavaScriptExecution, 'callScript');
       jest.spyOn(JavaScriptExecution, 'createTimer');
 
+      console.loggerName = defaultIdentifier;
       ThreadsafeTimers = {
+        setIdentifier: jest.fn(),
         createTimer: jest.fn()
       };
     });
@@ -31,15 +35,28 @@ describe('actions.js', () => {
 
       ScriptExecution.createTimer(identifier, zdt, functionRef, 'prop1');
 
+      expect(ThreadsafeTimers.setIdentifier).toHaveBeenCalledWith(defaultIdentifier);
       expect(ThreadsafeTimers.createTimer).toHaveBeenCalled();
       expect(JavaScriptExecution.callScript).not.toHaveBeenCalled();
-
-      jest.clearAllMocks();
 
       ScriptExecution.createTimer(zdt, functionRef, 'prop1');
 
+      expect(ThreadsafeTimers.setIdentifier).toHaveBeenCalledWith(defaultIdentifier);
       expect(ThreadsafeTimers.createTimer).toHaveBeenCalled();
       expect(JavaScriptExecution.callScript).not.toHaveBeenCalled();
+    });
+
+    it('sets default identifier for ThreadsafeTimers.', () => {
+      const zdt = {};
+      const functionRef = (foo) => foo;
+
+      ScriptExecution.createTimer(zdt, functionRef, 'prop1');
+
+      expect(ThreadsafeTimers.setIdentifier).toHaveBeenCalledWith(defaultIdentifier);
+
+      ScriptExecution.createTimer(zdt, functionRef, 'prop1');
+
+      expect(ThreadsafeTimers.setIdentifier).toHaveBeenCalledWith(defaultIdentifier);
     });
   });
 
