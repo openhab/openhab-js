@@ -1,5 +1,16 @@
 # Changelog
 
+## 5.4.0
+
+| Type        | Namespace | Description                                                                | Reference                                              | Breaking |
+|-------------|-----------|----------------------------------------------------------------------------|--------------------------------------------------------|----------|
+| Enhancement | `actions` | NotificationBuilder: Support multiple args for addUserId                   | [#362](https://github.com/openhab/openhab-js/pull/362) | No       |
+| Enhancement | `utils`   | Replace `isJsInstanceOfJavaType` method with `instanceof`                  | [#364](https://github.com/openhab/openhab-js/pull/364) | **Yes**  |
+| Bugfix      |           | Use instanceof helpers for Item and Quantity class instead of `instanceof` | [#365](https://github.com/openhab/openhab-js/pull/365) | No       |
+| Bugfix      | `actions` | ScriptExecution: Fix missing timer identifier for UI scripts               | [#367](https://github.com/openhab/openhab-js/pull/367) | No       |
+
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/31).
+
 ## 5.3.3 (5.3.2)
 
 | Type   | Namespace | Description                                                                      | Reference                                              | Breaking |
