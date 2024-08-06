@@ -803,6 +803,7 @@ There are three different types of notifications:
 In addition to that, notifications can be updated later be re-using the same `referenceId` and hidden/removed either by `referenceId` or `tag`.
 
 To send these three types of notifications, use the `notificationBuilder(message)` method of the `actions` namespace.
+`message` is optional and may be omitted.
 It returns a new `NotificationBuilder` object, which by default sends a broadcast notification and provides the following methods:
 
 - `.logOnly()`: Send a log notification only.
