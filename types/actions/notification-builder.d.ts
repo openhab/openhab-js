@@ -15,9 +15,9 @@ export function _getNotificationAction(): any | null;
 declare class NotificationBuilder {
     /**
      * @hideconstructor
-     * @param {string} message the body of the notification
+     * @param {string} [message] the optional body of the notification
      */
-    constructor(message: string);
+    constructor(message?: string);
     /**
      * Sets the type of the notification to log notification.
      *
@@ -119,6 +119,6 @@ declare class NotificationBuilder {
     send(): string | null;
     #private;
 }
-export declare function notificationBuilder(message: string): NotificationBuilder;
+export declare function notificationBuilder(message?: string): NotificationBuilder;
 export {};
 //# sourceMappingURL=notification-builder.d.ts.map

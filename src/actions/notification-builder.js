@@ -37,7 +37,7 @@ class NotificationType {
 class NotificationBuilder {
   #type = NotificationType.BROADCAST;
   #userIds = [];
-  #message = null;
+  #message = '';
   #icon = null;
   #tag = null;
   #title = null;
@@ -48,10 +48,10 @@ class NotificationBuilder {
 
   /**
    * @hideconstructor
-   * @param {string} message the body of the notification
+   * @param {string} [message] the optional body of the notification
    */
   constructor (message) {
-    this.#message = message;
+    if (message !== undefined) this.#message = message;
   }
 
   /**
@@ -267,7 +267,7 @@ module.exports = {
    * In addition to that, notifications can be updated later be re-using the same reference ID and hidden/removed either by reference ID or tag.
    *
    * @memberof actions
-   * @param {string} message the body of the notification
+   * @param {string} [message] the body of the notification
    * @return {NotificationBuilder}
    */
   notificationBuilder: (message) => new NotificationBuilder(message)

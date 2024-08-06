@@ -148,6 +148,12 @@ describe('notification-builder.js', () => {
       JavaNotificationAction.sendNotification.mockClear();
     });
 
+    it('defaults optional message to an empty string.', () => {
+      notificationBuilder().send();
+      expect(JavaNotificationAction.sendBroadcastNotification).toHaveBeenCalledWith('', null, null, null, referenceId, null, null, null, null, null);
+      JavaNotificationAction.sendBroadcastNotification.mockClear();
+    });
+
     it('throws error if too many action buttons are added.', () => {
       const builder = notificationBuilder(msg).addActionButton(actionButton1).addActionButton(actionButton2).addActionButton(actionButton3);
       const action = () => builder.addActionButton(actionButton1);
