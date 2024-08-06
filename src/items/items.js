@@ -249,7 +249,7 @@ class Item {
   sendCommandIfDifferent (value) {
     // value and current state both are Quantity and have equal value
     if (_isQuantity(value) && this.quantityState !== null) {
-      if (this.quantityState.equal(value)) {
+      if (value.equal(this.quantityState)) {
         return false;
       }
     }
@@ -265,6 +265,58 @@ class Item {
     value = _toOpenhabPrimitiveType(value);
     if (value.toString() === this.state) {
       return false;
+    }
+
+    // else send the command
+    this.sendCommand(value);
+    return true;
+  }
+
+  /**
+   * Increase the value of this Item to the given value by sending a command, but only if the current state is less than that value.
+   *
+   * @param {number|Quantity|HostState} value the value of the command to send, such as 'ON'
+   * @return {boolean} true if the command was sent, false otherwise
+   */
+  increaseValueTo (value) {
+    // value and current state both are Quantity and value is less than or equal current state
+    if (_isQuantity(value) && this.quantityState !== null) {
+      if (value.lessThanOrEqual(this.quantityState)) {
+        return false;
+      }
+    }
+
+    // value and current state are both numeric and value is less than or equal current state
+    if (typeof value === 'number' && this.numericState !== null) {
+      if (value <= this.numericState) {
+        return false;
+      }
+    }
+
+    // else send the command
+    this.sendCommand(value);
+    return true;
+  }
+
+  /**
+   * Decreases the value of this Item to the given value by sending a command, but only if the current state is greater than that value.
+   *
+   * @param {number|Quantity|HostState} value the value of the command to send, such as 'ON'
+   * @return {boolean} true if the command was sent, false otherwise
+   */
+  decreaseValueTo (value) {
+    // value and current state both are Quantity and value is greater than or equal current state
+    if (_isQuantity(value) && this.quantityState !== null) {
+      if (value.greaterThanOrEqual(this.quantityState)) {
+        return false;
+      }
+    }
+
+    // value and current state are both numeric and value is greater than or equal current state
+    if (typeof value === 'number' && this.numericState !== null) {
+      if (value >= this.numericState) {
+        return false;
+      }
     }
 
     // else send the command
