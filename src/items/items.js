@@ -10,7 +10,7 @@ const log = require('../log')('items');
 const { _toOpenhabPrimitiveType, _isQuantity, _isItem } = require('../helpers');
 const { getQuantity, QuantityError } = require('../quantity');
 
-const { UnDefType, OnOffType, events, itemRegistry } = require('@runtime');
+const { OnOffType, PercentType, UnDefType, events, itemRegistry } = require('@runtime');
 
 const metadata = require('./metadata/metadata');
 const ItemPersistence = require('./item-persistence');
@@ -124,7 +124,9 @@ class Item {
    * @type {number|null}
    */
   get numericState () {
-    const numericState = parseFloat(this.rawState.toString());
+    let state = this.rawState.toString();
+    if (this.type === 'Color') state = this.rawItem.getStateAs(PercentType).toString();
+    const numericState = parseFloat(state);
     return isNaN(numericState) ? null : numericState;
   }
 
