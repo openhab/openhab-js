@@ -283,9 +283,9 @@ class Item {
       throw Error('Cannot toggle uninitialized Items');
     }
     switch (this.type) {
-      case 'PlayerItem' :
+      case 'Player' :
         return this.state === 'PAUSE' ? 'PLAY' : 'PAUSE';
-      case 'ContactItem' :
+      case 'Contact' :
         return this.state === 'OPEN' ? 'CLOSED' : 'OPEN';
       default: {
         const oldState = this.rawItem.getStateAs(OnOffType);
@@ -303,7 +303,7 @@ class Item {
    * @throws error if the Item is uninitialized or a type that cannot be toggled or commanded
    */
   sendToggleCommand () {
-    if (this.type === 'ContactItem') {
+    if (this.type === 'Contact') {
       throw Error('Cannot command Contact Items');
     }
     this.sendCommand(this.#getToggleState());
