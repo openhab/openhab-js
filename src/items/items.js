@@ -271,13 +271,14 @@ class Item {
   }
 
   /**
-   * Calculates the toggled state of this Item. For Items like Color and
-   * Dimmer, getStateAs(OnOffType) is used and the toggle calculated off
-   * of that.
+   * Calculates the toggled state of this Item.
+   * For Items like Color and Dimmer, getStateAs(OnOffType) is used and the toggle calculated of that.
+   *
+   * @private
    * @returns the toggled state (e.g. 'OFF' if the Item is 'ON')
    * @throws error if the Item is uninitialized or is a type that doesn't make sense to toggle
    */
-  getToggleState () {
+  #getToggleState () {
     if (this.isUninitialized) {
       throw Error('Cannot toggle uninitialized Items');
     }
@@ -298,15 +299,14 @@ class Item {
   }
 
   /**
-   * Sends a command to flip the Item's state (e.g. if it is 'ON' an 'OFF'
-   * command is sent).
+   * Sends a command to flip the Item's state (e.g. if it is 'ON' an 'OFF' command is sent).
    * @throws error if the Item is uninitialized or a type that cannot be toggled or commanded
    */
   sendToggleCommand () {
     if (this.type === 'ContactItem') {
       throw Error('Cannot command Contact Items');
     }
-    this.sendCommand(this.getToggleState());
+    this.sendCommand(this.#getToggleState());
   }
 
   /**
@@ -315,7 +315,7 @@ class Item {
    * @throws error if the Item is uninitialized or a type that cannot be toggled
    */
   postToggleUpdate () {
-    this.postUpdate(this.getToggleState());
+    this.postUpdate(this.#getToggleState());
   }
 
   /**
