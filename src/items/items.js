@@ -278,7 +278,7 @@ class Item {
    * @param {number|Quantity|HostState} value the value of the command to send, such as 'ON'
    * @return {boolean} true if the command was sent, false otherwise
    */
-  increaseValueTo (value) {
+  sendIncreaseCommand (value) {
     // value and current state both are Quantity and value is less than or equal current state
     if (_isQuantity(value) && this.quantityState !== null) {
       if (value.lessThanOrEqual(this.quantityState)) {
@@ -304,7 +304,7 @@ class Item {
    * @param {number|Quantity|HostState} value the value of the command to send, such as 'ON'
    * @return {boolean} true if the command was sent, false otherwise
    */
-  decreaseValueTo (value) {
+  sendDecreaseCommand (value) {
     // value and current state both are Quantity and value is greater than or equal current state
     if (_isQuantity(value) && this.quantityState !== null) {
       if (value.greaterThanOrEqual(this.quantityState)) {
