@@ -1,11 +1,10 @@
 /**
  * Condition that wraps a function to determine whether if passes
  *
- * @memberof ConditionBuilder
- * @extends ConditionBuilder.ConditionConf
+ * @extends ConditionConf
  * @hideconstructor
  */
-export class FunctionConditionConf {
+export class FunctionConditionConf extends ConditionConf {
     /**
        * Creates a new function condition. Don't call directly.
        *
@@ -26,28 +25,41 @@ export class FunctionConditionConf {
 /**
  * Condition that wraps a function to determine whether if passes
  *
- * @memberof ConditionBuilder
- * @extends ConditionBuilder.ConditionConf
+ * @extends ConditionConf
  * @hideconstructor
  */
-export class ItemStateConditionConf {
+export class ItemStateConditionConf extends ConditionConf {
     constructor(itemName: any, conditionBuilder: any);
     /** @private */
     private item_name;
     /**
-       * Checks if item state is equal to value
-       * @param {*} value
-       * @returns {this}
-       */
-    is(value: any): this;
-    values: any[];
+      * Checks if Item state is equal to given value.
+     *
+      * @param {string} value
+      * @return {ItemStateConditionConf}
+      */
+    is(value: string): ItemStateConditionConf;
+    values: any[] | string[];
+    /**
+     * Checks if the Item state is ON.
+     *
+     * @return {ItemStateConditionConf}
+     */
+    isOn(): ItemStateConditionConf;
+    /**
+     * Checks if the Item state is OFF.
+     *
+     * @return {ItemStateConditionConf}
+     */
+    isOff(): ItemStateConditionConf;
     /**
        * Checks if item state matches any array of values
        * @param  {...any} values
-       * @returns {this}
+       * @return {ItemStateConditionConf}
        */
-    in(...values: any[]): this;
-    check(...args: any[]): boolean;
+    in(...values: any[]): ItemStateConditionConf;
+    /** @private */
+    private check;
 }
 /**
  * Condition that wraps a function to determine whether if passes
@@ -72,12 +84,25 @@ export class ConditionBuilder {
     /**
       * Condition of an item in determining whether to process rule.
       *
-      * @memberof ConditionBuilder
       * @param {string} itemName the name of the item to assess the state
       * @returns {ItemStateConditionConf} the operation config
       */
     stateOfItem(itemName: string): ItemStateConditionConf;
     condition: ItemStateConditionConf;
 }
+/**
+ * {@link RuleBuilder} RuleBuilder conditions
+ */
+declare class ConditionConf {
+    constructor(conditionBuilder: any);
+    /** @private */
+    private conditionBuilder;
+    /**
+      * @param {*} [fn] an optional function
+      * @returns {operations.OperationBuilder}
+      */
+    then(fn?: any): operations.OperationBuilder;
+}
 import operations = require("./operation-builder");
+export {};
 //# sourceMappingURL=condition-builder.d.ts.map

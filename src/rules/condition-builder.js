@@ -38,7 +38,6 @@ class ConditionBuilder {
   /**
     * Condition of an item in determining whether to process rule.
     *
-    * @memberof ConditionBuilder
     * @param {string} itemName the name of the item to assess the state
     * @returns {ItemStateConditionConf} the operation config
     */
@@ -49,8 +48,7 @@ class ConditionBuilder {
 }
 
 /**
- * {RuleBuilder} RuleBuilder conditions
- * @memberof ConditionBuilder
+ * {@link RuleBuilder} RuleBuilder conditions
  */
 class ConditionConf {
   constructor (conditionBuilder) {
@@ -59,10 +57,9 @@ class ConditionConf {
   }
 
   /**
-     *
-     * @param {*} [fn] an optional function
-     * @returns ConditionBuilder
-     */
+    * @param {*} [fn] an optional function
+    * @returns {operations.OperationBuilder}
+    */
   then (fn) {
     return this.conditionBuilder._then(this, fn);
   }
@@ -71,8 +68,7 @@ class ConditionConf {
 /**
  * Condition that wraps a function to determine whether if passes
  *
- * @memberof ConditionBuilder
- * @extends ConditionBuilder.ConditionConf
+ * @extends ConditionConf
  * @hideconstructor
  */
 class FunctionConditionConf extends ConditionConf {
@@ -102,8 +98,7 @@ class FunctionConditionConf extends ConditionConf {
 /**
  * Condition that wraps a function to determine whether if passes
  *
- * @memberof ConditionBuilder
- * @extends ConditionBuilder.ConditionConf
+ * @extends ConditionConf
  * @hideconstructor
  */
 class ItemStateConditionConf extends ConditionConf {
@@ -114,25 +109,47 @@ class ItemStateConditionConf extends ConditionConf {
   }
 
   /**
-     * Checks if item state is equal to value
-     * @param {*} value
-     * @returns {this}
-     */
+    * Checks if Item state is equal to given value.
+   *
+    * @param {string} value
+    * @return {ItemStateConditionConf}
+    */
   is (value) {
     this.values = [value];
     return this;
   }
 
   /**
+   * Checks if the Item state is ON.
+   *
+   * @return {ItemStateConditionConf}
+   */
+  isOn () {
+    this.is('ON');
+    return this;
+  }
+
+  /**
+   * Checks if the Item state is OFF.
+   *
+   * @return {ItemStateConditionConf}
+   */
+  isOff () {
+    this.is('OFF');
+    return this;
+  }
+
+  /**
      * Checks if item state matches any array of values
      * @param  {...any} values
-     * @returns {this}
+     * @return {ItemStateConditionConf}
      */
   in (...values) {
     this.values = values;
     return this;
   }
 
+  /** @private */
   check (...args) {
     const item = items.getItem(this.item_name);
     if (typeof item === 'undefined' || item === null) {

@@ -150,7 +150,7 @@ class TriggerConf {
   /**
    * Move to the rule condition
    *
-   * @param {*} fn the optional function to execute
+   * @param {*} [fn] the optional function to execute
    * @returns {conditions.ConditionBuilder}
    */
   if (fn) {

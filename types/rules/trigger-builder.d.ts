@@ -326,10 +326,10 @@ declare class TriggerConf {
     /**
      * Move to the rule condition
      *
-     * @param {*} fn the optional function to execute
+     * @param {*} [fn] the optional function to execute
      * @returns {conditions.ConditionBuilder}
      */
-    if(fn: any): conditions.ConditionBuilder;
+    if(fn?: any): conditions.ConditionBuilder;
 }
 /**
  * Time of day based trigger

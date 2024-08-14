@@ -1344,6 +1344,8 @@ Additionally, all the above triggers have the following functions:
 - `if(optionalFunction)`
   - `.stateOfItem(itemName)`
     - `is(state)`
+    - `isOn()`
+    - `isOff()`
     - `in(state...)`
 
 #### Rule Builder Operations
