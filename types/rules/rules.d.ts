@@ -106,7 +106,7 @@ export type RuleConfig = {
     /**
      * which will fire the rule
      */
-    triggers: HostTrigger | HostTrigger[];
+    triggers?: HostTrigger | HostTrigger[];
     /**
      * callback to run when the rule fires
      */
