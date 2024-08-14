@@ -44,7 +44,7 @@
  * @typedef {object} RuleConfig configuration for {@link rules.JSRule}
  * @property {string} name name of the rule (used in UI)
  * @property {string} [description] description of the rule (used in UI)
- * @property {HostTrigger|HostTrigger[]} triggers which will fire the rule
+ * @property {HostTrigger|HostTrigger[]} [triggers] which will fire the rule
  * @property {RuleCallback} execute callback to run when the rule fires
  * @property {string} [id] UID of the rule, if not provided, one is generated
  * @property {string[]} [tags] tags for the rule (used in UI)
@@ -267,14 +267,14 @@ function JSRule (ruleConfig) {
     rule.setTags(jsArrayToJavaSet(ruleConfig.tags));
   }
 
-  // Register rule here
   if (ruleConfig.triggers) {
     if (!Array.isArray(ruleConfig.triggers)) ruleConfig.triggers = [ruleConfig.triggers];
     rule.setTriggers(ruleConfig.triggers);
-    rule = automationManager.addRule(rule);
   } else {
-    throw new Error(`Triggers are missing for rule "${ruleConfig.name ? ruleConfig.name : ruleUID}"!`);
+    log.info(`Rule "${ruleConfig.name ? ruleConfig.name : ruleUID}" has no triggers and will only run when manually triggered.`);
   }
+  // Register rule here
+  rule = automationManager.addRule(rule);
 
   // Add config to the action so that MainUI can show the script
   const actionConfiguration = rule.actions.get(0).getConfiguration();
