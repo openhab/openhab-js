@@ -1,5 +1,15 @@
 # Changelog
 
+## 5.5.0
+
+| Type        | Namespace | Description                                                          | Reference                                                                                        | Breaking |
+|-------------|-----------|----------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|----------|
+| Enhancement | `actions` | NotificationBuilder: Make message optional (default to empty string) | [#370](https://github.com/openhab/openhab-js/pull/370)                                           | No       |
+| Enhancement | `rules`   | JSRule: Support rules without triggers                               | [#372](https://github.com/openhab/openhab-js/pull/372)                                           | No       |
+| Bugfix      | `rules`   | RuleBuilder: Fix type defs for .if() and .then()                     | [7b46659](https://github.com/openhab/openhab-js/commit/7b46659586d19c681936398de3d1151fc5bc9590) | No       |
+
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/32).
+
 ## 5.4.0
 
 | Type        | Namespace | Description                                                                | Reference                                              | Breaking |
