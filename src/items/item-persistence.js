@@ -614,7 +614,7 @@ class ItemPersistence {
    * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
    * @returns {(PersistedState | null)} the median value since <code>timestamp</code> as {@link items.PersistedState} or <code>null</code> if no previous states could be found
    */
-   medianSince (timestamp, serviceId) {
+  medianSince (timestamp, serviceId) {
     return _stateOrNull(PersistenceExtensions.medianSince(this.rawItem, ...arguments));
   }
 
@@ -641,7 +641,7 @@ class ItemPersistence {
     return _stateOrNull(PersistenceExtensions.medianBetween(this.rawItem, ...arguments));
   }
 
- /**
+  /**
    * Gets the sum of the states of a given Item since a certain point in time.
    *
    * @param {(time.ZonedDateTime | Date)} timestamp the point in time from which to start the summation
