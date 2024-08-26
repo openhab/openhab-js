@@ -567,7 +567,7 @@ class ItemPersistence {
    * Gets the average value of the state of a given Item since a certain point in time.
    *
    * @example
-   * var yesterday = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
+   * var yesterday = time.toZDT().minusDays(1);
    * var item = items.getItem('KitchenDimmer');
    * console.log('KitchenDimmer average since yesterday', item.persistence.averageSince(yesterday));
    *
@@ -606,7 +606,7 @@ class ItemPersistence {
    * Gets the median value of the state of a given Item since a certain point in time.
    *
    * @example
-   * var yesterday = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
+   * var yesterday = time.toZDT().minusDays(1);
    * var item = items.getItem('KitchenDimmer');
    * console.log('KitchenDimmer median since yesterday', item.persistence.medianSince(yesterday));
    *

@@ -279,7 +279,7 @@ declare class ItemPersistence {
      * Gets the average value of the state of a given Item since a certain point in time.
      *
      * @example
-     * var yesterday = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
+     * var yesterday = time.toZDT().minusDays(1);
      * var item = items.getItem('KitchenDimmer');
      * console.log('KitchenDimmer average since yesterday', item.persistence.averageSince(yesterday));
      *
@@ -309,7 +309,7 @@ declare class ItemPersistence {
      * Gets the median value of the state of a given Item since a certain point in time.
      *
      * @example
-     * var yesterday = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
+     * var yesterday = time.toZDT().minusDays(1);
      * var item = items.getItem('KitchenDimmer');
      * console.log('KitchenDimmer median since yesterday', item.persistence.medianSince(yesterday));
      *
@@ -336,12 +336,12 @@ declare class ItemPersistence {
      */
     medianBetween(begin: (time.ZonedDateTime | Date), end: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (PersistedState | null);
     /**
-      * Gets the sum of the states of a given Item since a certain point in time.
-      *
-      * @param {(time.ZonedDateTime | Date)} timestamp the point in time from which to start the summation
-      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-      * @returns {(PersistedState | null)} the sum of the state values since <code>timestamp</code> as {@link items.PersistedState}, or null if <code>timestamp</code> is in the future
-      */
+     * Gets the sum of the states of a given Item since a certain point in time.
+     *
+     * @param {(time.ZonedDateTime | Date)} timestamp the point in time from which to start the summation
+     * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
+     * @returns {(PersistedState | null)} the sum of the state values since <code>timestamp</code> as {@link items.PersistedState}, or null if <code>timestamp</code> is in the future
+     */
     sumSince(timestamp: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): (PersistedState | null);
     /**
      * Gets the sum of the states of a given Item until a certain point in time.
