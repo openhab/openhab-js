@@ -603,6 +603,45 @@ class ItemPersistence {
   }
 
   /**
+   * Gets the median value of the state of a given Item since a certain point in time.
+   *
+   * @example
+   * var yesterday = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
+   * var item = items.getItem('KitchenDimmer');
+   * console.log('KitchenDimmer median since yesterday', item.persistence.medianSince(yesterday));
+   *
+   * @param {(time.ZonedDateTime | Date)} timestamp the point in time from which to search for the median value
+   * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
+   * @returns {(PersistedState | null)} the median value since <code>timestamp</code> as {@link items.PersistedState} or <code>null</code> if no previous states could be found
+   */
+   medianSince (timestamp, serviceId) {
+    return _stateOrNull(PersistenceExtensions.medianSince(this.rawItem, ...arguments));
+  }
+
+  /**
+   * Gets the median value of the state of a given Item until a certain point in time.
+   *
+   * @param {(time.ZonedDateTime | Date)} timestamp the point in time to which to search for the median value
+   * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
+   * @returns {(PersistedState | null)} the median value until <code>timestamp</code> as {@link items.PersistedState} or <code>null</code> if no future states could be found
+   */
+  medianUntil (timestamp, serviceId) {
+    return _stateOrNull(PersistenceExtensions.medianUntil(this.rawItem, ...arguments));
+  }
+
+  /**
+   * Gets the median value of the state of a given Item between two certain points in time.
+   *
+   * @param {(time.ZonedDateTime | Date)} begin the point in time from which to start the median
+   * @param {(time.ZonedDateTime | Date)} end the point in time to which to start the median
+   * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
+   * @returns {(PersistedState | null)} the median value between <code>begin</code> and <code>end</code> as {@link items.PersistedState} or <code>null</code> if no states could be found
+   */
+  medianBetween (begin, end, serviceId) {
+    return _stateOrNull(PersistenceExtensions.medianBetween(this.rawItem, ...arguments));
+  }
+
+ /**
    * Gets the sum of the states of a given Item since a certain point in time.
    *
    * @param {(time.ZonedDateTime | Date)} timestamp the point in time from which to start the summation
