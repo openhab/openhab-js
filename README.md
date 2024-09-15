@@ -1429,6 +1429,8 @@ This table gives an overview over the `event` object:
 | `thingUID`        | `Thing****Trigger`                                  | UID of Thing that triggered event                                             | N/A                    |
 | `cronExpression`  | `GenericCronTrigger`                                | Cron expression of the trigger                                                | N/A                    |
 | `time`            | `TimeOfDayTrigger`                                  | Time of day value of the trigger                                              | N/A                    |
+| `timeOnly`        | `DateTimeTrigger`                                   | Whether the trigger only considers the time part of the DateTime Item         | N/A                    |
+| `offset`          | `DateTimeTrigger`                                   | Offset in seconds added to the time of the DateTime Item                      | N/A                    |
 | `eventType`       | all except `PWMTrigger`, `PIDTrigger`               | Type of event that triggered event (change, command, triggered, update, time) | N/A                    |
 | `triggerType`     | all except `PWMTrigger`, `PIDTrigger`               | Type of trigger that triggered event                                          | N/A                    |
 | `eventClass`      | all                                                 | Java class name of the triggering event                                       | N/A                    |

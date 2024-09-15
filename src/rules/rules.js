@@ -27,6 +27,8 @@
  * @property {string} thingUID for all Thing-related triggers: UID of Thing that triggered event
  * @property {string} cronExpression for {@link triggers.GenericCronTrigger}: cron expression of the trigger
  * @property {string} time for {@link triggers.TimeOfDayTrigger}: time of day value of the trigger
+ * @property {boolean} timeOnly for {@link triggers.DateTimeTrigger}: whether the trigger only considers the time part of the DateTime Item
+ * @property {number} offset for {@link triggers.DateTimeTrigger}: offset in seconds added to the time of the DateTime Item
  * @property {string} eventType for all triggers except {@link triggers.PWMTrigger}, {@link triggers.PIDTrigger}: Type of event that triggered event (change, command, time, triggered, update, time)
  * @property {string} triggerType for all triggers except {@link triggers.PWMTrigger}, {@link triggers.PIDTrigger}: Type of trigger that triggered event
  * @property {string} eventClass for all triggers: Java class name of the triggering event
@@ -412,6 +414,8 @@ function _getTriggeredData (input) {
         } else if (data.payload.itemName) {
           data.triggerType = 'DateTimeTrigger';
           data.itemName = data.payload.itemName.toString();
+          data.timeOnly = data.payload.timeOnly; // boolean
+          data.offset = data.payload.offset; // integer
         }
         break;
       case 'org.openhab.core.items.events.GroupItemCommandEvent':
