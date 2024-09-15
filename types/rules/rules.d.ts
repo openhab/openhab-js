@@ -63,6 +63,14 @@ export type EventObject = {
      */
     time: string;
     /**
+     * for {@link triggers.DateTimeTrigger }: whether the trigger only considers the time part of the DateTime Item
+     */
+    timeOnly: boolean;
+    /**
+     * for {@link triggers.DateTimeTrigger }: offset in seconds added to the time of the DateTime Item
+     */
+    offset: number;
+    /**
      * for all triggers except {@link triggers.PWMTrigger }, {@link triggers.PIDTrigger }: Type of event that triggered event (change, command, time, triggered, update, time)
      */
     eventType: string;
