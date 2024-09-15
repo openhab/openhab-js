@@ -282,6 +282,7 @@ class Item {
     // value and current state both are Quantity and value is less than or equal current state
     if (_isQuantity(value) && this.quantityState !== null) {
       if (value.lessThanOrEqual(this.quantityState)) {
+        log.debug('sendIncreaseCommand: Ignoring command {} for Item {} with state {}', value, this.name, this.state);
         return false;
       }
     }
@@ -289,11 +290,13 @@ class Item {
     // value and current state are both numeric and value is less than or equal current state
     if (typeof value === 'number' && this.numericState !== null) {
       if (value <= this.numericState) {
+        log.debug('sendIncreaseCommand: Ignoring command {} for Item {} with state {}', value, this.name, this.state);
         return false;
       }
     }
 
     // else send the command
+    log.debug('sendIncreaseCommand: Sending command {} to Item {} with state {}', value, this.name, this.state);
     this.sendCommand(value);
     return true;
   }
@@ -308,6 +311,7 @@ class Item {
     // value and current state both are Quantity and value is greater than or equal current state
     if (_isQuantity(value) && this.quantityState !== null) {
       if (value.greaterThanOrEqual(this.quantityState)) {
+        log.debug('sendDecreaseCommand: Ignoring command {} for Item {} with state {}', value, this.name, this.state);
         return false;
       }
     }
@@ -315,11 +319,13 @@ class Item {
     // value and current state are both numeric and value is greater than or equal current state
     if (typeof value === 'number' && this.numericState !== null) {
       if (value >= this.numericState) {
+        log.debug('sendDecreaseCommand: Ignoring command {} for Item {} with state {}', value, this.name, this.state);
         return false;
       }
     }
 
     // else send the command
+    log.debug('sendDecreaseCommand: Sending command {} to Item {} with state {}', value, this.name, this.state);
     this.sendCommand(value);
     return true;
   }
