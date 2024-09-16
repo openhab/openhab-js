@@ -941,6 +941,14 @@ var Locale = require('@js-joda/locale_de-de').Locale.GERMAN;
 var formatter = time.DateTimeFormatter.ofPattern('dd.MM.yyyy HH:mm').withLocale(Locale);
 ```
 
+#### `time.javaInstantToJsInstant()`
+
+Converts a [`java.time.Instant`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html) to a JS-Joda [`Instant`](https://js-joda.github.io/js-joda/manual/Instant.html).
+
+#### `time.javaZDTToJsZDT()`
+
+Converts a [`java.time.ZonedDateTime`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/ZonedDateTime.html) to a JS-Joda [`ZonedDateTime`](https://js-joda.github.io/js-joda/manual/ZonedDateTime.html).
+
 #### `time.toZDT()`
 
 There will be times when this automatic conversion is not available (for example when working with date times within a rule).
