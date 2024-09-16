@@ -27,12 +27,14 @@ jest.mock('../src/items', () => ({
 }));
 const Item = require('../src/items').Item;
 
+console.warn = jest.fn();
+
 describe('triggers.js', () => {
   const moduleBuilderSpy = new ModuleBuilder();
   moduleBuilderSpy.build.mockImplementation(() => new Object()); // eslint-disable-line no-new-object
   ModuleBuilder.createTrigger.mockImplementation(() => moduleBuilderSpy);
 
-  it('use random UUID if no trigger name is specified.', () => {
+  it('uses random UUID if no trigger name is specified.', () => {
     const uuid = 'random UUID';
     jest.spyOn(UUID, 'randomUUID').mockImplementation(() => uuid);
     ItemCommandTrigger('itemName', 'command');
@@ -296,10 +298,27 @@ describe('triggers.js', () => {
   describe('DateTimeTrigger', () => {
     const itemName = 'itemName';
     const timeOnly = true;
+    const offset = 60;
     const triggerName = 'triggerName';
     const item = new Item(itemName);
 
-    it.each([[itemName], [item]])('creates trigger from %s.', (groupOrName) => {
+    it.each([[itemName], [item]])('creates trigger from %s.', (itemOrName) => {
+      const trigger = DateTimeTrigger(itemOrName, timeOnly, offset, triggerName);
+
+      expect(trigger).not.toBe(undefined);
+      expect(moduleBuilderSpy.withTypeUID).toHaveBeenCalledWith(
+        'timer.DateTimeTrigger'
+      );
+      expect(moduleBuilderSpy.withId).toHaveBeenCalledWith(triggerName);
+      expect(moduleBuilderSpy.withConfiguration).toHaveBeenCalledWith(
+        expect.objectContaining({
+          config: { itemName, timeOnly, offset }
+        })
+      );
+    });
+
+    // test backward compatibility for (itemOrName, timeOnly, triggerName) signature:
+    it('provides backward compatibility for old param signature and logs deprecation warning.', () => {
       const trigger = DateTimeTrigger(itemName, timeOnly, triggerName);
 
       expect(trigger).not.toBe(undefined);
@@ -309,9 +328,10 @@ describe('triggers.js', () => {
       expect(moduleBuilderSpy.withId).toHaveBeenCalledWith(triggerName);
       expect(moduleBuilderSpy.withConfiguration).toHaveBeenCalledWith(
         expect.objectContaining({
-          config: { itemName, timeOnly }
+          config: { itemName, timeOnly, offset: 0 }
         })
       );
+      expect(console.warn).toHaveBeenCalled();
     });
   });
 
