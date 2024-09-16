@@ -5,13 +5,17 @@
  * @namespace time
  */
 
+/**
+ * @typedef { import("./items/items").Item } items.Item
+ * @private
+ */
+
 // reduce timezone file size, see https://github.com/js-joda/js-joda/blob/main/packages/timezone/README.md#reducing-js-joda-timezone-file-size
 require('@js-joda/timezone/dist/js-joda-timezone-10-year-range');
 const time = require('@js-joda/core');
 
 const log = require('./log')('time');
-const items = require('./items');
-const utils = require('./utils');
+const osgi = require('./osgi');
 const { _isItem, _isZonedDateTime, _isDuration, _isQuantity } = require('./helpers');
 
 const javaZDT = Java.type('java.time.ZonedDateTime');
@@ -20,6 +24,21 @@ const javaString = Java.type('java.lang.String');
 const javaNumber = Java.type('java.lang.Number');
 const ohItem = Java.type('org.openhab.core.items.Item');
 const { DateTimeType, DecimalType, StringType, QuantityType } = require('@runtime');
+
+const timeZoneProvider = osgi.getService('org.openhab.core.i18n.TimeZoneProvider');
+
+// Set the system default timezone to the user-configured timezone
+// Fixes issues such as https://github.com/openhab/openhab-js/issues/326
+time.ZoneId.systemDefault = function () {
+  return time.ZoneId.of(timeZoneProvider.getTimeZone().getId().toString());
+};
+
+// openHAB uses an RFC DateTime string, js-joda defaults to the ISO version, this defaults to RFC instead
+const rfcFormatter = time.DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ss.SSS[xxxx][xxxxx]");
+const targetParse = time.ZonedDateTime.prototype.parse;
+time.ZonedDateTime.prototype.parse = function (text, formatter = rfcFormatter) {
+  return targetParse(text, formatter);
+};
 
 /**
  * Adds millis to the passed in ZDT as milliseconds. The millis is rounded first.
@@ -96,18 +115,18 @@ function _parseISO8601 (isoStr) {
     ISO_8601_OFFSET: /^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9])(:[0-5][0-9])?(\.\d+)?(Z|[+-]\d{2}(:\d{2})$)/ // offset only
   };
   switch (true) {
-    case REGEX.LOCAL_DATE.test(isoStr): return time.ZonedDateTime.of(time.LocalDate.parse(isoStr), time.LocalTime.MIDNIGHT, time.ZoneId.SYSTEM);
-    case REGEX.LOCAL_TIME.test(isoStr): return time.ZonedDateTime.of(time.LocalDate.now(), time.LocalTime.parse(isoStr), time.ZoneId.SYSTEM);
-    case REGEX.LOCAL_DATE_TIME.test(isoStr): return time.ZonedDateTime.of(time.LocalDateTime.parse(isoStr), time.ZoneId.SYSTEM);
+    case REGEX.LOCAL_DATE.test(isoStr): return time.ZonedDateTime.of(time.LocalDate.parse(isoStr), time.LocalTime.MIDNIGHT, time.ZoneId.systemDefault());
+    case REGEX.LOCAL_TIME.test(isoStr): return time.ZonedDateTime.of(time.LocalDate.now(), time.LocalTime.parse(isoStr), time.ZoneId.systemDefault());
+    case REGEX.LOCAL_DATE_TIME.test(isoStr): return time.ZonedDateTime.of(time.LocalDateTime.parse(isoStr), time.ZoneId.systemDefault());
     case REGEX.ISO_8601_FULL.test(isoStr): return time.ZonedDateTime.parse(isoStr);
-    case REGEX.ISO_8601_OFFSET.test(isoStr): return time.ZonedDateTime.parse(isoStr).withZoneSameLocal(time.ZoneId.SYSTEM);
+    case REGEX.ISO_8601_OFFSET.test(isoStr): return time.ZonedDateTime.parse(isoStr).withZoneSameLocal(time.ZoneId.systemDefault());
   }
   return null;
 }
 
 /**
  * Parses the passed in string based on it's format and converts it to a ZonedDateTime.
- * If no timezone is specified, `SYSTEM` is used.
+ * If no timezone is specified, the configured timezone is used.
  * @private
  * @param {string} str string to parse and convert
  * @returns {time.ZonedDateTime}
@@ -157,24 +176,47 @@ function _parseString (str) {
 /**
  * Converts the state of the passed in Item to a time.ZonedDateTime
  * @private
- * @param {items.Item} item
+ * @param {HostState} rawState
  * @returns {time.ZonedDateTime}
  * @throws error if the Item's state is not supported or the Item itself is not supported
  */
-function _convertItem (item) {
-  if (item.isUninitialized) {
-    throw Error('Item ' + item.name + ' is NULL or UNDEF, cannot convert to a time.ZonedDateTime');
-  } else if (item.rawState instanceof DecimalType) { // Number type Items
-    return _addMillisToNow(item.rawState.floatValue());
-  } else if (item.rawState instanceof StringType) { // String type Items
-    return _parseString(item.state);
-  } else if (item.rawState instanceof DateTimeType) { // DateTime Items
-    return utils.javaZDTToJsZDTWithDefaultZoneSystem(item.rawState.getZonedDateTime());
-  } else if (item.rawState instanceof QuantityType) { // Number:Time type Items
-    return _addQuantityType(item.rawState);
+function _convertItemRawState (rawState) {
+  if (rawState instanceof DecimalType) { // Number type Items
+    return _addMillisToNow(rawState.floatValue());
+  } else if (rawState instanceof StringType) { // String type Items
+    return _parseString(rawState.toString());
+  } else if (rawState instanceof DateTimeType) { // DateTime Items
+    return javaZDTToJsZDT(rawState.getZonedDateTime());
+  } else if (rawState instanceof QuantityType) { // Number:Time type Items
+    return _addQuantityType(rawState);
   } else {
-    throw Error(item.type + ' is not supported for conversion to time.ZonedDateTime');
+    throw Error(rawState.toString() + ' is not supported for conversion to time.ZonedDateTime');
   }
+}
+
+/**
+ * Convert Java Instant to JS-Joda Instant.
+ *
+ * @memberOf time
+ * @param {JavaInstant} instant {@link https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html java.time.Instant}
+ * @returns {time.Instant} {@link https://js-joda.github.io/js-joda/class/packages/core/src/Instant.js~Instant.html JS-Joda Instant}
+ */
+function javaInstantToJsInstant (instant) {
+  return time.Instant.ofEpochMilli(instant.toEpochMilli());
+}
+
+/**
+ * Convert Java ZonedDateTime to JS-Joda ZonedDateTime.
+ *
+ * @memberOf time
+ * @param {JavaZonedDateTime} zdt {@link https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/ZonedDateTime.html java.time.ZonedDateTime}
+ * @returns {time.ZonedDateTime} {@link https://js-joda.github.io/js-joda/class/packages/core/src/ZonedDateTime.js~ZonedDateTime.html JS-Joda ZonedDateTime}
+ */
+function javaZDTToJsZDT (zdt) {
+  const epoch = zdt.toInstant().toEpochMilli();
+  const instant = time.Instant.ofEpochMilli(epoch);
+  const zone = time.ZoneId.of(zdt.getZone().toString());
+  return time.ZonedDateTime.ofInstant(instant, zone);
 }
 
 /**
@@ -184,11 +226,11 @@ function _convertItem (item) {
  * - null, undefined: time.ZonedDateTime.now()
  * - time.ZonedDateTime: unmodified
  * - Java ZonedDateTime, DateTimeType: converted to time.ZonedDateTime equivalent
- * - JavaScript native {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date Date}: converted to a `time.ZonedDateTime` using system timezone
+ * - JavaScript native {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date Date}: converted to a `time.ZonedDateTime` using configured timezone
  * - number, bigint, Java Number, DecimalType: rounded and added to `time.ZonedDateTime.now()` as milliseconds
  * - {@link Quantity} & QuantityType: if the unit is time-compatible, added to `time.ZonedDateTime.now()`
  * - Item: converts the state of the Item based on the *Type rules described here
- * - String, Java String, StringType: parsed based on the following rules; if no timezone is specified system timezone is used
+ * - String, Java String, StringType: parsed based on the following rules; if no timezone is specified the configured timezone is used
  *     - ISO 8601 DateTime: any Date, Time or DateTime with optional time offset and/or time zone in the {@link https://en.wikipedia.org/wiki/ISO_8601 ISO8601 calendar system}
  *     - ISO 8601 Duration: any Duration in the {@link https://en.wikipedia.org/wiki/ISO_8601#Durations ISO8601 calendar system} (e.g. 'PT5H4M3.210S'), also see {@link https://js-joda.github.io/js-joda/class/packages/core/src/Duration.js~Duration.html#static-method-parse JS-Joda : Duration}
  *     - RFC (output from a Java ZonedDateTime.toString()): parsed to time.ZonedDateTime
@@ -214,7 +256,7 @@ function toZDT (when) {
   // Convert Java ZonedDateTime
   if (when instanceof javaZDT) {
     log.debug('toZTD: Converting Java ZonedDateTime ' + when.toString());
-    return utils.javaZDTToJsZDTWithDefaultZoneSystem(when);
+    return javaZDTToJsZDT(when);
   }
 
   // String or StringType
@@ -223,12 +265,12 @@ function toZDT (when) {
     return _parseString(when.toString());
   }
 
-  // JavaScript Native Date, use the SYSTEM timezone
+  // JavaScript Native Date, use the configured timezone
   if (when instanceof Date) {
     log.debug('toZDT: Converting JS native Date ' + when);
     const native = time.nativeJs(when);
     const instant = time.Instant.from(native);
-    return time.ZonedDateTime.ofInstant(instant, time.ZoneId.SYSTEM);
+    return time.ZonedDateTime.ofInstant(instant, time.ZoneId.systemDefault());
   }
 
   // Duration, add to now
@@ -249,7 +291,7 @@ function toZDT (when) {
   // DateTimeType, extract the javaZDT and convert to time.ZDT
   if (when instanceof DateTimeType) {
     log.debug('toZTD: Converting DateTimeType ' + when);
-    return utils.javaZDTToJsZDTWithDefaultZoneSystem(when.getZonedDateTime());
+    return javaZDTToJsZDT(when.getZonedDateTime());
   }
 
   // Add Quantity or QuantityType<Time> to now
@@ -264,22 +306,18 @@ function toZDT (when) {
   // Convert items.Item or raw Item
   if (_isItem(when)) {
     log.debug('toZDT: Converting Item ' + when);
-    return _convertItem(when);
+    if (when.isUninitialized) {
+      throw Error('Item ' + when.name + ' is NULL or UNDEF, cannot convert to a time.ZonedDateTime');
+    }
+    return _convertItemRawState(when.rawState);
   } else if (when instanceof ohItem) {
     log.debug('toZDT: Converting raw Item ' + when);
-    return _convertItem(items.getItem(when.getName()));
+    return _convertItemRawState(when.getState());
   }
 
   // Unsupported
   throw Error('"' + when + '" is an unsupported type for conversion to time.ZonedDateTime');
 }
-
-// openHAB uses an RFC DateTime string, js-joda defaults to the ISO version, this defaults RFC instead
-const rfcFormatter = time.DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ss.SSS[xxxx][xxxxx]");
-const targetParse = time.ZonedDateTime.prototype.parse;
-time.ZonedDateTime.prototype.parse = function (text, formatter = rfcFormatter) {
-  return targetParse(text, formatter);
-};
 
 /**
  * Moves the date portion of the date time to today, accounting for DST
@@ -456,6 +494,8 @@ time.ZonedDateTime.prototype.toOpenHabString = function () {
 
 module.exports = {
   ...time,
+  javaInstantToJsInstant,
+  javaZDTToJsZDT,
   toZDT,
   _parseString,
   _parseISO8601
