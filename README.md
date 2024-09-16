@@ -1295,11 +1295,11 @@ See [Examples](#rule-builder-examples) for further patterns.
 
 - `when()`
 - `or()`
-  - `.channel(channelName)` Specifies a channel event as a source for the rule to fire.
-    - `.triggered(event)` Trigger on a specific event name
-  - `.cron(cronExpression)` Specifies a cron schedule for the rule to fire.
-  - `.timeOfDay(time)` Specifies a time of day in `HH:mm` for the rule to fire.
-  - `.item(itemName)` Specifies an Item as the source of changes to trigger a rule.
+  - `.channel(channelName)`: Specifies a channel event as a source for the rule to fire.
+    - `.triggered(event)`: Trigger on a specific event name
+  - `.cron(cronExpression)`: Specifies a cron schedule for the rule to fire.
+  - `.timeOfDay(time)`: Specifies a time of day in `HH:mm` for the rule to fire.
+  - `.item(itemName)`: Specifies an Item as the source of changes to trigger a rule.
     - `.for(duration)`
     - `.from(state)`
     - `.fromOn()`
@@ -1310,7 +1310,7 @@ See [Examples](#rule-builder-examples) for further patterns.
     - `.receivedCommand()`
     - `.receivedUpdate()`
     - `.changed()`
-  - `.memberOf(groupName)` Specifies a group Item as the source of changes to trigger the rule.
+  - `.memberOf(groupName)`: Specifies a group Item as the source of changes to trigger the rule.
     - `.for(duration)`
     - `.from(state)`
     - `.fromOn()`
@@ -1321,20 +1321,21 @@ See [Examples](#rule-builder-examples) for further patterns.
     - `.receivedCommand()`
     - `.receivedUpdate()`
     - `.changed()`
-  - `.system()` Specifies a system event as a source for the rule to fire.
+  - `.system()`: Specifies a system event as a source for the rule to fire.
     - `.ruleEngineStarted()`
     - `.rulesLoaded()`
     - `.startupComplete()`
     - `.thingsInitialized()`
     - `.userInterfacesStarted()`
     - `.startLevel(level)`
-  - `.thing(thingName)` Specifies a Thing event as a source for the rule to fire.
+  - `.thing(thingName)`: Specifies a Thing event as a source for the rule to fire.
     - `changed()`
     - `updated()`
     - `from(state)`
     - `to(state)`
-  - `.dateTime(itemName)` Specifies a DateTime Item whose (optional) date and time schedule the rule to fire.
-    - `.timeOnly()` Only the time of the Item should be compared, the date should be ignored.
+  - `.dateTime(itemName)`: Specifies a DateTime Item whose (optional) date and time schedule the rule to fire.
+    - `.timeOnly()`: Only the time of the Item should be compared, the date should be ignored.
+    - `.withOffset()`: The offset in seconds to add to the time of the DateTime Item.
 
 Additionally, all the above triggers have the following functions:
 

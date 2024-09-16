@@ -363,6 +363,8 @@ declare class DateTimeTriggerConfig extends TriggerConf {
     /** @private */
     private _timeOnly;
     /** @private */
+    private _offset;
+    /** @private */
     private _complete;
     /** @private */
     private _toOHTriggers;
@@ -375,6 +377,13 @@ declare class DateTimeTriggerConfig extends TriggerConf {
      * @returns {DateTimeTriggerConfig}
      */
     timeOnly(timeOnly?: boolean): DateTimeTriggerConfig;
+    /**
+     * Specifies the offset in seconds to add to the time of the DateTime Item.
+     *
+     * @param {number} offset
+     * @returns {DateTimeTriggerConfig}
+     */
+    withOffset(offset: number): DateTimeTriggerConfig;
 }
 import operations = require("./operation-builder");
 import conditions = require("./condition-builder");
