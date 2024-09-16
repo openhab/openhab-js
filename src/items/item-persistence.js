@@ -70,6 +70,10 @@ class PersistedState {
       }
     }
   }
+
+  toString () {
+    return `PersistedState (State=${this.state})`;
+  }
 }
 
 /**
@@ -96,6 +100,10 @@ class PersistedItem extends PersistedState {
    */
   get timestamp () {
     return utils.javaZDTToJsZDT(this.#rawHistoricItem.getTimestamp());
+  }
+
+  toString () {
+    return `PersistedItem (Timestamp=${this.timestamp}, State=${this.state})`;
   }
 }
 

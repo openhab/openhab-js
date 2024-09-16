@@ -587,6 +587,7 @@ declare class PersistedState {
      * @type {Quantity|null}
      */
     get quantityState(): import("../quantity").Quantity;
+    toString(): string;
     #private;
 }
 //# sourceMappingURL=item-persistence.d.ts.map
