@@ -224,10 +224,11 @@ export function TimeOfDayTrigger(time: string, triggerName?: string): HostTrigge
  *
  * @memberof triggers
  * @param {Item|string} itemOrName the {@link Item} or the name of the Item to monitor for change
- * @param {boolean} [timeOnly=false] Specifies whether only the time of the Item should be compared or the date and time.
+ * @param {boolean} [timeOnly=false] Specifies whether only the time of the DateTime Item should be compared or the date and time.
+ * @param {number} [offset=0] The offset in seconds to add to the time of the DateTime Item
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function DateTimeTrigger(itemOrName: Item | string, timeOnly?: boolean, triggerName?: string): HostTrigger;
+export function DateTimeTrigger(itemOrName: Item | string, timeOnly?: boolean, offset?: number, triggerName?: string): HostTrigger;
 /**
  * Creates a trigger for the {@link https://openhab.org/addons/automation/pwm/ Pulse Width Modulation (PWM) Automation} add-on.
  *
