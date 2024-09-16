@@ -1,5 +1,6 @@
 {
   "include": ["../types/**/*.d.ts"],
+  "exclude": ["../types/**/index.d.ts", "../types/**/helpers.d.ts"],
   "compilerOptions": {
     "outDir": "types-test",
     "target": "ES2022",
