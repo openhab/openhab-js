@@ -78,30 +78,6 @@ export function randomUUID(): string;
  */
 export function dumpObject(obj: any, dumpProps?: boolean): void;
 /**
- * Convert Java Instant to JS-Joda Instant.
- *
- * @memberOf utils
- * @param {JavaInstant} instant {@link https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html java.time.Instant}
- * @returns {time.Instant} {@link https://js-joda.github.io/js-joda/class/packages/core/src/Instant.js~Instant.html JS-Joda Instant}
- */
-export function javaInstantToJsInstant(instant: JavaInstant): time.Instant;
-/**
- * Convert Java ZonedDateTime to JS-Joda ZonedDateTime.
- *
- * @memberOf utils
- * @param {JavaZonedDateTime} zdt {@link https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/ZonedDateTime.html java.time.ZonedDateTime}
- * @returns {time.ZonedDateTime} {@link https://js-joda.github.io/js-joda/class/packages/core/src/ZonedDateTime.js~ZonedDateTime.html JS-Joda ZonedDateTime}
- */
-export function javaZDTToJsZDT(zdt: JavaZonedDateTime): time.ZonedDateTime;
-/**
- * Convert Java ZonedDateTime to JS-Joda ZonedDateTime and default to SYSTEM timezone if not explicitly set.
- *
- * @memberOf utils
- * @param {JavaZonedDateTime} zdt {@link https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/ZonedDateTime.html java.time.ZonedDateTime}
- * @returns {time.ZonedDateTime} {@link https://js-joda.github.io/js-joda/class/packages/core/src/ZonedDateTime.js~ZonedDateTime.html JS-Joda ZonedDateTime}
- */
-export function javaZDTToJsZDTWithDefaultZoneSystem(zdt: JavaZonedDateTime): time.ZonedDateTime;
-/**
  * openHAB JavaScript library version
  *
  * @memberof utils
@@ -109,6 +85,5 @@ export function javaZDTToJsZDTWithDefaultZoneSystem(zdt: JavaZonedDateTime): tim
  * @type {string}
  */
 declare const VERSION: string;
-import time = require("@js-joda/core");
 export { VERSION as OPENHAB_JS_VERSION };
 //# sourceMappingURL=utils.d.ts.map

@@ -1,6 +1,5 @@
 const log = require('../log')('items.ItemPersistence');
 const time = require('../time');
-const utils = require('../utils');
 const { getQuantity, QuantityError } = require('../quantity');
 const { _toOpenhabPrimitiveType, _isTimeSeries } = require('../helpers');
 
@@ -99,7 +98,7 @@ class PersistedItem extends PersistedState {
    * @type {time.ZonedDateTime}
    */
   get timestamp () {
-    return utils.javaZDTToJsZDT(this.#rawHistoricItem.getTimestamp());
+    return time.javaZDTToJsZDT(this.#rawHistoricItem.getTimestamp());
   }
 
   toString () {
