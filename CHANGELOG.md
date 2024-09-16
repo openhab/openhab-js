@@ -1,5 +1,20 @@
 # Changelog
 
+## 5.6.0
+
+| Type        | Namespace  | Description                                                                | Reference                                              | Breaking |
+|-------------|------------|----------------------------------------------------------------------------|--------------------------------------------------------|----------|
+| Enhancement | `items`    | ItemPersistence: Add medianSince, medianUntil and medianBetween methods    | [#376](https://github.com/openhab/openhab-js/pull/376) | No       |
+| Enhancement | `rules`    | Add offset & timeOnly to event information for DateTimeTrigger             | [#379](https://github.com/openhab/openhab-js/pull/379) | No       |
+| Enhancement | `triggers` | Support offset param for DateTimeTrigger                                   | [#380](https://github.com/openhab/openhab-js/pull/380) | No       |
+| Enhancement | `items`    | ItemPersistence: Add toString overrides for PersistedState & PersistedItem | [#381](https://github.com/openhab/openhab-js/pull/381) | No       |
+
+Please note that the signature of DateTimeTriggers has changed.
+The old signature is still supported, but considered deprecated.
+See the [openhab-js : triggers : DateTimeTrigger JSDoc](https://openhab.github.io/openhab-js/triggers.html#.DateTimeTrigger) for more information.
+
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/33).
+
 ## 5.5.0
 
 | Type        | Namespace | Description                                                          | Reference                                                                                        | Breaking |
