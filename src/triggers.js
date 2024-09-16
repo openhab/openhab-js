@@ -264,14 +264,23 @@ const TimeOfDayTrigger = (time, triggerName) =>
  *
  * @memberof triggers
  * @param {Item|string} itemOrName the {@link Item} or the name of the Item to monitor for change
- * @param {boolean} [timeOnly=false] Specifies whether only the time of the Item should be compared or the date and time.
+ * @param {boolean} [timeOnly=false] Specifies whether only the time of the DateTime Item should be compared or the date and time.
+ * @param {number} [offset=0] The offset in seconds to add to the time of the DateTime Item
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-const DateTimeTrigger = (itemOrName, timeOnly = false, triggerName) =>
-  _createTrigger('timer.DateTimeTrigger', triggerName, {
+const DateTimeTrigger = (itemOrName, timeOnly = false, offset = 0, triggerName) => {
+  // backward compatibility for (itemOrName, timeOnly, triggerName) signature:
+  if (typeof offset === 'string') {
+    triggerName = offset;
+    offset = 0;
+    console.warn('The signature DateTimeTrigger(itemOrName, timeOnly, triggerName) is deprecated. Please use DateTimeTrigger(itemOrName, timeOnly, offset, triggerName) instead.');
+  }
+  return _createTrigger('timer.DateTimeTrigger', triggerName, {
     itemName: _isItem(itemOrName) ? itemOrName.name : itemOrName,
-    timeOnly
+    timeOnly,
+    offset
   });
+};
 
 /**
  * Creates a trigger that fires upon a matching event from the event bus.
