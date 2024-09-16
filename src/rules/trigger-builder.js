@@ -642,9 +642,11 @@ class DateTimeTriggerConfig extends TriggerConf {
     /** @private */
     this._timeOnly = false;
     /** @private */
+    this._offset = 0;
+    /** @private */
     this._complete = () => true;
     /** @private */
-    this._toOHTriggers = () => [triggers.DateTimeTrigger(this._itemName, this._timeOnly)];
+    this._toOHTriggers = () => [triggers.DateTimeTrigger(this._itemName, this._timeOnly, this._offset)];
     /** @private */
     this.describe = (compact) => compact ? `dateTime_${this._itemName}` : `matches ${this._timeOnly ? 'time' : 'date and time'} of Item "${this._itemName}"`;
   }
@@ -657,6 +659,17 @@ class DateTimeTriggerConfig extends TriggerConf {
    */
   timeOnly (timeOnly = true) {
     this._timeOnly = timeOnly;
+    return this;
+  }
+
+  /**
+   * Specifies the offset in seconds to add to the time of the DateTime Item.
+   *
+   * @param {number} offset
+   * @returns {DateTimeTriggerConfig}
+   */
+  withOffset (offset) {
+    this._offset = offset;
     return this;
   }
 }
