@@ -1335,7 +1335,7 @@ See [Examples](#rule-builder-examples) for further patterns.
     - `to(state)`
   - `.dateTime(itemName)`: Specifies a DateTime Item whose (optional) date and time schedule the rule to fire.
     - `.timeOnly()`: Only the time of the Item should be compared, the date should be ignored.
-    - `.withOffset()`: The offset in seconds to add to the time of the DateTime Item.
+    - `.withOffset(offset)`: The offset in seconds to add to the time of the DateTime Item.
 
 Additionally, all the above triggers have the following functions:
 
