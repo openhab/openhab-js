@@ -1,8 +1,16 @@
+const { Instant, ZonedDateTime } = require('./java.mock');
 const time = require('../src/time');
-const { ZonedDateTime, ZoneId } = require('@js-joda/core');
 
 jest.mock('../src/items', () => ({
   Item: new Object() // eslint-disable-line no-new-object
+}));
+
+jest.mock('../src/osgi', () => ({
+  getService: () => ({
+    getTimeZone: () => ({
+      getId: () => 'Europe/Paris'
+    })
+  })
 }));
 
 describe('time.js', () => {
@@ -32,18 +40,17 @@ describe('time.js', () => {
         ['YYYY-MM-DD hh:mm:ss', '2022-12-24 18:30:00'],
         ['YYYY-MM-DD hh:mm:ss.f', '2022-12-24 18:30:00.5363']
       ])('accepts pattern %s', (pattern, isoStr) => {
-        expect(parseString(isoStr)).toBeInstanceOf(ZonedDateTime);
+        expect(parseString(isoStr)).toBeInstanceOf(time.ZonedDateTime);
       });
     });
   });
 
   describe('parseISO8601', () => {
     const parseISO8601 = time._parseISO8601;
-    const ZonedDateTime = require('@js-joda/core').ZonedDateTime;
 
     describe('parses ISO Date', () => {
       it('accepts correct pattern YYYY-MM-DD', () => {
-        expect(parseISO8601('2022-12-24')).toBeInstanceOf(ZonedDateTime);
+        expect(parseISO8601('2022-12-24')).toBeInstanceOf(time.ZonedDateTime);
       });
     });
 
@@ -53,7 +60,7 @@ describe('time.js', () => {
         ['hh:mm:ss', '18:00:00'],
         ['hh:mm:ss.f', '18:00:00.4656']
       ])('accepts correct pattern %s', (pattern, isoStr) => {
-        expect(parseISO8601(isoStr)).toBeInstanceOf(ZonedDateTime);
+        expect(parseISO8601(isoStr)).toBeInstanceOf(time.ZonedDateTime);
       });
     });
 
@@ -63,7 +70,7 @@ describe('time.js', () => {
         ['YYYY-MM-DDThh:mm:ss', '2022-12-24T18:30:00'],
         ['YYYY-MM-DDThh:mm:ss.f', '2022-12-24T18:30:00.5363']
       ])('accepts correct pattern %s', (pattern, isoStr) => {
-        expect(parseISO8601(isoStr)).toBeInstanceOf(ZonedDateTime);
+        expect(parseISO8601(isoStr)).toBeInstanceOf(time.ZonedDateTime);
       });
     });
 
@@ -74,7 +81,7 @@ describe('time.js', () => {
         ['YYYY-MM-DDThh:mm:ss+HH:mm[timezone]', '2017-02-04T17:01:15.846+01:00[Europe/Paris]'],
         ['YYYY-MM-DDThh:mm:ss+HH:mm[timezone]', '2016-03-18T06:38:23.561-05:00[UTC-05:00]']
       ])('accepts correct pattern %s', (pattern, isoStr) => {
-        expect(parseISO8601(isoStr)).toBeInstanceOf(ZonedDateTime);
+        expect(parseISO8601(isoStr)).toBeInstanceOf(time.ZonedDateTime);
       });
     });
 
@@ -86,8 +93,8 @@ describe('time.js', () => {
         ['YYYY-MM-DDThh:mm:ss.f-HHmm', '2016-03-18T12:38:23.561-0430']
       ])('accepts correct pattern %s', (pattern, isoStr) => {
         const zdt = parseISO8601(isoStr);
-        expect(zdt).toBeInstanceOf(ZonedDateTime);
-        expect(zdt.zone()).toBe(ZoneId.SYSTEM);
+        expect(zdt).toBeInstanceOf(time.ZonedDateTime);
+        expect(zdt.zone().id()).toBe(time.ZoneId.systemDefault().id());
       });
     });
 
@@ -102,6 +109,18 @@ describe('time.js', () => {
       ])('%s', (pattern, isoStr) => {
         expect(parseISO8601(isoStr)).toBe(null);
       });
+    });
+  });
+
+  describe('javaInstantToJsInstant', () => {
+    it('returns JS-Joda Instant', () => {
+      expect(time.javaInstantToJsInstant(new Instant())).toBeInstanceOf(time.Instant);
+    });
+  });
+
+  describe('javaZDTToJsZDT', () => {
+    it('returns JS-Joda ZonedDateTime', () => {
+      expect(time.javaZDTToJsZDT(new ZonedDateTime())).toBeInstanceOf(time.ZonedDateTime);
     });
   });
 

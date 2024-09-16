@@ -1,4 +1,6 @@
 declare const _exports: {
+    javaInstantToJsInstant: typeof javaInstantToJsInstant;
+    javaZDTToJsZDT: typeof javaZDTToJsZDT;
     toZDT: typeof toZDT;
     _parseString: typeof _parseString;
     _parseISO8601: typeof _parseISO8601;
@@ -13,6 +15,10 @@ declare const _exports: {
      * This namespace exports the {@link https://js-joda.github.io/js-joda/ JS-Joda library}, but also provides additional functionality.
      *
      * @namespace time
+     */
+    /**
+     * @typedef { import("./items/items").Item } items.Item
+     * @private
      */
     TemporalField: typeof time.TemporalField;
     TemporalUnit: typeof time.TemporalUnit;
@@ -70,17 +76,33 @@ declare const _exports: {
 };
 export = _exports;
 /**
+ * Convert Java Instant to JS-Joda Instant.
+ *
+ * @memberOf time
+ * @param {JavaInstant} instant {@link https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html java.time.Instant}
+ * @returns {time.Instant} {@link https://js-joda.github.io/js-joda/class/packages/core/src/Instant.js~Instant.html JS-Joda Instant}
+ */
+declare function javaInstantToJsInstant(instant: JavaInstant): time.Instant;
+/**
+ * Convert Java ZonedDateTime to JS-Joda ZonedDateTime.
+ *
+ * @memberOf time
+ * @param {JavaZonedDateTime} zdt {@link https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/ZonedDateTime.html java.time.ZonedDateTime}
+ * @returns {time.ZonedDateTime} {@link https://js-joda.github.io/js-joda/class/packages/core/src/ZonedDateTime.js~ZonedDateTime.html JS-Joda ZonedDateTime}
+ */
+declare function javaZDTToJsZDT(zdt: JavaZonedDateTime): time.ZonedDateTime;
+/**
  * Converts the passed in when to a time.ZonedDateTime based on the following
  * set of rules.
  *
  * - null, undefined: time.ZonedDateTime.now()
  * - time.ZonedDateTime: unmodified
  * - Java ZonedDateTime, DateTimeType: converted to time.ZonedDateTime equivalent
- * - JavaScript native {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date Date}: converted to a `time.ZonedDateTime` using system timezone
+ * - JavaScript native {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date Date}: converted to a `time.ZonedDateTime` using configured timezone
  * - number, bigint, Java Number, DecimalType: rounded and added to `time.ZonedDateTime.now()` as milliseconds
  * - {@link Quantity} & QuantityType: if the unit is time-compatible, added to `time.ZonedDateTime.now()`
  * - Item: converts the state of the Item based on the *Type rules described here
- * - String, Java String, StringType: parsed based on the following rules; if no timezone is specified system timezone is used
+ * - String, Java String, StringType: parsed based on the following rules; if no timezone is specified the configured timezone is used
  *     - ISO 8601 DateTime: any Date, Time or DateTime with optional time offset and/or time zone in the {@link https://en.wikipedia.org/wiki/ISO_8601 ISO8601 calendar system}
  *     - ISO 8601 Duration: any Duration in the {@link https://en.wikipedia.org/wiki/ISO_8601#Durations ISO8601 calendar system} (e.g. 'PT5H4M3.210S'), also see {@link https://js-joda.github.io/js-joda/class/packages/core/src/Duration.js~Duration.html#static-method-parse JS-Joda : Duration}
  *     - RFC (output from a Java ZonedDateTime.toString()): parsed to time.ZonedDateTime
@@ -94,7 +116,7 @@ export = _exports;
 declare function toZDT(when?: any): time.ZonedDateTime;
 /**
  * Parses the passed in string based on it's format and converts it to a ZonedDateTime.
- * If no timezone is specified, `SYSTEM` is used.
+ * If no timezone is specified, the configured timezone is used.
  * @private
  * @param {string} str string to parse and convert
  * @returns {time.ZonedDateTime}
