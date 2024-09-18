@@ -1,5 +1,20 @@
 # Changelog
 
+## 5.7.0
+
+| Type        | Namespace | Description                                               | Reference                                                                                        | Breaking |
+|-------------|-----------|-----------------------------------------------------------|--------------------------------------------------------------------------------------------------|----------|
+| Bugfix      | `osgi`    | Fix type defs of `getService`                             | [9c87bb7](https://github.com/openhab/openhab-js/commit/9c87bb7e9902a2f2d8006872867384375779f73f) | No       |
+| Enhancement | `rules`   | Rule Builder: Add offset support for DateTimeTrigger      | [#382](https://github.com/openhab/openhab-js/pull/382)                                           | No       |
+| Bugfix      | `time`    | Default to user-configured timezone                       | [#383](https://github.com/openhab/openhab-js/pull/383)                                           | No       |
+| Enhancement | `items`   | Item: Add sendIncreaseCommand/sendDecreaseCommand methods | [#371](https://github.com/openhab/openhab-js/pull/371)                                           | No       |
+
+Please note that with this release the `utils.javaInstantToJsInstant` and `utils.javaZDTToJsZDT` methods have moved to the `time` namespace,
+and `utils.javaZDTToJsZDTWithDefaultZoneSystem` has been replaced by `time.javaZDTToJsZDT`.
+The old methods are still available for backwards compatibility, but considered deprecated.
+
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/34).
+
 ## 5.6.0
 
 | Type        | Namespace  | Description                                                                | Reference                                              | Breaking |
