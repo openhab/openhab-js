@@ -254,16 +254,21 @@ export class Item {
      */
     sendCommandIfDifferent(value: string | number | time.ZonedDateTime | Quantity | HostState): boolean;
     /**
-     * Calculates the toggled state of this Item. For Items like Color and
-     * Dimmer, getStateAs(OnOffType) is used and the toggle calculated off
-     * of that.
-     * @returns the toggled state (e.g. 'OFF' if the Item is 'ON')
-     * @throws error if the Item is uninitialized or is a type that doesn't make sense to toggle
+     * Increase the value of this Item to the given value by sending a command, but only if the current state is less than that value.
+     *
+     * @param {number|Quantity|HostState} value the value of the command to send, such as 'ON'
+     * @return {boolean} true if the command was sent, false otherwise
      */
-    getToggleState(): "PAUSE" | "PLAY" | "OPEN" | "CLOSED" | "ON" | "OFF";
+    sendIncreaseCommand(value: number | Quantity | HostState): boolean;
     /**
-     * Sends a command to flip the Item's state (e.g. if it is 'ON' an 'OFF'
-     * command is sent).
+     * Decreases the value of this Item to the given value by sending a command, but only if the current state is greater than that value.
+     *
+     * @param {number|Quantity|HostState} value the value of the command to send, such as 'ON'
+     * @return {boolean} true if the command was sent, false otherwise
+     */
+    sendDecreaseCommand(value: number | Quantity | HostState): boolean;
+    /**
+     * Sends a command to flip the Item's state (e.g. if it is 'ON' an 'OFF' command is sent).
      * @throws error if the Item is uninitialized or a type that cannot be toggled or commanded
      */
     sendToggleCommand(): void;
@@ -312,6 +317,7 @@ export class Item {
      */
     removeTags(...tagNames: string[]): void;
     toString(): any;
+    #private;
 }
 import metadata = require("./metadata/metadata");
 import TimeSeries = require("./time-series");

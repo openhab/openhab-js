@@ -22,7 +22,9 @@ export type Item = {
     removeMetadata(namespace?: string): ItemMetadata;
     sendCommand(value: any): void;
     sendCommandIfDifferent(value: any): boolean;
-    getToggleState(): "PAUSE" | "PLAY" | "OPEN" | "CLOSED" | "ON" | "OFF";
+    sendIncreaseCommand(value: any): boolean;
+    sendDecreaseCommand(value: any): boolean;
+    "__#5@#getToggleState"(): "PAUSE" | "PLAY" | "OPEN" | "CLOSED" | "ON" | "OFF";
     sendToggleCommand(): void;
     postToggleUpdate(): void;
     postUpdate(value: any): void;
