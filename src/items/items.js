@@ -10,7 +10,7 @@ const log = require('../log')('items');
 const { _toOpenhabPrimitiveType, _isQuantity, _isItem } = require('../helpers');
 const { getQuantity, QuantityError } = require('../quantity');
 
-const { UnDefType, OnOffType, events, itemRegistry } = require('@runtime');
+const { OnOffType, PercentType, UnDefType, events, itemRegistry } = require('@runtime');
 
 const metadata = require('./metadata/metadata');
 const ItemPersistence = require('./item-persistence');
@@ -124,7 +124,9 @@ class Item {
    * @type {number|null}
    */
   get numericState () {
-    const numericState = parseFloat(this.rawState.toString());
+    let state = this.rawState.toString();
+    if (this.type === 'Color') state = this.rawItem.getStateAs(PercentType).toString();
+    const numericState = parseFloat(state);
     return isNaN(numericState) ? null : numericState;
   }
 
@@ -247,7 +249,7 @@ class Item {
   sendCommandIfDifferent (value) {
     // value and current state both are Quantity and have equal value
     if (_isQuantity(value) && this.quantityState !== null) {
-      if (this.quantityState.equal(value)) {
+      if (value.equal(this.quantityState)) {
         return false;
       }
     }
@@ -271,20 +273,79 @@ class Item {
   }
 
   /**
-   * Calculates the toggled state of this Item. For Items like Color and
-   * Dimmer, getStateAs(OnOffType) is used and the toggle calculated off
-   * of that.
+   * Increase the value of this Item to the given value by sending a command, but only if the current state is less than that value.
+   *
+   * @param {number|Quantity|HostState} value the value of the command to send, such as 'ON'
+   * @return {boolean} true if the command was sent, false otherwise
+   */
+  sendIncreaseCommand (value) {
+    // value and current state both are Quantity and value is less than or equal current state
+    if (_isQuantity(value) && this.quantityState !== null) {
+      if (value.lessThanOrEqual(this.quantityState)) {
+        log.debug('sendIncreaseCommand: Ignoring command {} for Item {} with state {}', value, this.name, this.state);
+        return false;
+      }
+    }
+
+    // value and current state are both numeric and value is less than or equal current state
+    if (typeof value === 'number' && this.numericState !== null) {
+      if (value <= this.numericState) {
+        log.debug('sendIncreaseCommand: Ignoring command {} for Item {} with state {}', value, this.name, this.state);
+        return false;
+      }
+    }
+
+    // else send the command
+    log.debug('sendIncreaseCommand: Sending command {} to Item {} with state {}', value, this.name, this.state);
+    this.sendCommand(value);
+    return true;
+  }
+
+  /**
+   * Decreases the value of this Item to the given value by sending a command, but only if the current state is greater than that value.
+   *
+   * @param {number|Quantity|HostState} value the value of the command to send, such as 'ON'
+   * @return {boolean} true if the command was sent, false otherwise
+   */
+  sendDecreaseCommand (value) {
+    // value and current state both are Quantity and value is greater than or equal current state
+    if (_isQuantity(value) && this.quantityState !== null) {
+      if (value.greaterThanOrEqual(this.quantityState)) {
+        log.debug('sendDecreaseCommand: Ignoring command {} for Item {} with state {}', value, this.name, this.state);
+        return false;
+      }
+    }
+
+    // value and current state are both numeric and value is greater than or equal current state
+    if (typeof value === 'number' && this.numericState !== null) {
+      if (value >= this.numericState) {
+        log.debug('sendDecreaseCommand: Ignoring command {} for Item {} with state {}', value, this.name, this.state);
+        return false;
+      }
+    }
+
+    // else send the command
+    log.debug('sendDecreaseCommand: Sending command {} to Item {} with state {}', value, this.name, this.state);
+    this.sendCommand(value);
+    return true;
+  }
+
+  /**
+   * Calculates the toggled state of this Item.
+   * For Items like Color and Dimmer, getStateAs(OnOffType) is used and the toggle calculated of that.
+   *
+   * @private
    * @returns the toggled state (e.g. 'OFF' if the Item is 'ON')
    * @throws error if the Item is uninitialized or is a type that doesn't make sense to toggle
    */
-  getToggleState () {
+  #getToggleState () {
     if (this.isUninitialized) {
       throw Error('Cannot toggle uninitialized Items');
     }
     switch (this.type) {
-      case 'PlayerItem' :
+      case 'Player' :
         return this.state === 'PAUSE' ? 'PLAY' : 'PAUSE';
-      case 'ContactItem' :
+      case 'Contact' :
         return this.state === 'OPEN' ? 'CLOSED' : 'OPEN';
       default: {
         const oldState = this.rawItem.getStateAs(OnOffType);
@@ -298,15 +359,14 @@ class Item {
   }
 
   /**
-   * Sends a command to flip the Item's state (e.g. if it is 'ON' an 'OFF'
-   * command is sent).
+   * Sends a command to flip the Item's state (e.g. if it is 'ON' an 'OFF' command is sent).
    * @throws error if the Item is uninitialized or a type that cannot be toggled or commanded
    */
   sendToggleCommand () {
-    if (this.type === 'ContactItem') {
+    if (this.type === 'Contact') {
       throw Error('Cannot command Contact Items');
     }
-    this.sendCommand(this.getToggleState());
+    this.sendCommand(this.#getToggleState());
   }
 
   /**
@@ -315,7 +375,7 @@ class Item {
    * @throws error if the Item is uninitialized or a type that cannot be toggled
    */
   postToggleUpdate () {
-    this.postUpdate(this.getToggleState());
+    this.postUpdate(this.#getToggleState());
   }
 
   /**

@@ -1,6 +1,10 @@
 export type Item = {
     rawItem: HostItem;
     persistence: import("./items/item-persistence");
+    /**
+     * QuantityError is thrown when {@link Quantity} creation or operation fails.
+     * It is used to wrap the underlying Java Exceptions and add some additional information and a JS stacktrace to it.
+     */
     semantics: import("./items/item-semantics");
     readonly type: string;
     readonly name: string;
@@ -31,7 +35,9 @@ export type Item = {
     };
     sendCommand(value: any): void;
     sendCommandIfDifferent(value: any): boolean;
-    getToggleState(): "PAUSE" | "PLAY" | "OPEN" | "CLOSED" | "ON" | "OFF";
+    sendIncreaseCommand(value: any): boolean;
+    sendDecreaseCommand(value: any): boolean;
+    "__#5@#getToggleState"(): "PAUSE" | "PLAY" | "OPEN" | "CLOSED" | "ON" | "OFF";
     sendToggleCommand(): void;
     postToggleUpdate(): void;
     postUpdate(value: any): void;
