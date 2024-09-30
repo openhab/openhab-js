@@ -58,7 +58,7 @@ function _toOpenhabPrimitiveType (value) {
  * @private
  */
 function _isItem (o) {
-  if (typeof o !== 'object') return false;
+  if (typeof o !== 'object' || o === null) return false;
   return ((o.constructor && o.constructor.name === 'Item') || typeof o.rawItem === 'object');
 }
 
@@ -73,7 +73,7 @@ function _isItem (o) {
  * @private
  */
 function _isQuantity (o) {
-  if (typeof o !== 'object') return false;
+  if (typeof o !== 'object' || o === null) return false;
   return ((o.constructor && o.constructor.name === 'Quantity') || typeof o.rawQtyType === 'object');
 }
 
@@ -88,7 +88,7 @@ function _isQuantity (o) {
  * @private
  */
 function _isZonedDateTime (o) {
-  if (typeof o !== 'object') return false;
+  if (typeof o !== 'object' || o === null) return false;
   return ((o.constructor && o.constructor.name === 'ZonedDateTime') ||
     (!(o instanceof javaZDT) && typeof o.withZoneSameInstant === 'function' && typeof o.withZoneSameLocal === 'function')
   );
@@ -105,7 +105,7 @@ function _isZonedDateTime (o) {
  * @private
  */
 function _isDuration (o) {
-  if (typeof o !== 'object') return false;
+  if (typeof o !== 'object' || o === null) return false;
   return ((o.constructor && o.constructor.name === 'Duration') ||
     (!(o instanceof javaDuration) && typeof o.plusDuration === 'function' && typeof o.minusDuration === 'function')
   );
@@ -122,7 +122,7 @@ function _isDuration (o) {
  * @private
  */
 function _isInstant (o) {
-  if (typeof o !== 'object') return false;
+  if (typeof o !== 'object' || o === null) return false;
   return ((o.constructor && o.constructor.name === 'Instant') ||
     (!(o instanceof javaInstant) && typeof o.minusMicros === 'function' && typeof o.plusMicros === 'function')
   );
@@ -139,7 +139,7 @@ function _isInstant (o) {
  * @private
  */
 function _isTimeSeries (o) {
-  if (typeof o !== 'object') return false;
+  if (typeof o !== 'object' || o === null) return false;
   return ((o.constructor && o.constructor.name === 'TimeSeries') ||
     (typeof o.policy === 'string' && _isInstant(o.begin) && _isInstant(o.end))
   );
