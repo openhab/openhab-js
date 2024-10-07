@@ -1,5 +1,13 @@
 # Changelog
 
+## 5.7.1
+
+| Type   | Namespace | Description                                                | Reference                                               | Breaking |
+|--------|-----------|------------------------------------------------------------|---------------------------------------------------------|----------|
+| Bugfix |           | Properly handle `null` input in internal instanceof checks | [#385]((https://github.com/openhab/openhab-js/pull/385) | No       |
+
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/35).
+
 ## 5.7.0
 
 | Type        | Namespace | Description                                               | Reference                                                                                        | Breaking |
