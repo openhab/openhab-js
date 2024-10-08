@@ -438,7 +438,10 @@ CoreUtil.hsbTosRGB(HSBType hsb) -> int
 CoreUtil.hsbToRgbw(HSBType hsb) -> int[]
 CoreUtil.hsbToRgbwPercent(HSBType hsb) -> PercentType[]
 CoreUtil.rgbToHsb(int[] rgb) -> HSBType
-CoreUtil.rgbToHsb(PercentType[] rgb) -> HSBType</code></pre>
+CoreUtil.rgbToHsb(PercentType[] rgb) -> HSBType
+CoreUtil.xyToDuv(double[] xy) -> double
+CoreUtil.kelvinToXY(double kelvin) -> double[]
+CoreUtil.xyToKelvin(double[] xy) -> double</code></pre>
 
 
 
@@ -460,7 +463,7 @@ CoreUtil.rgbToHsb(PercentType[] rgb) -> HSBType</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line119">line 119</a>
+        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line122">line 122</a>
     </li></ul></dd>
     
 
@@ -562,7 +565,7 @@ Ephemeris.isWeekend(ZonedDateTime day)</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line159">line 159</a>
+        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line162">line 162</a>
     </li></ul></dd>
     
 
@@ -637,7 +640,7 @@ Exec.executeCommandLine(Duration timeout, String... commandLine)</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line173">line 173</a>
+        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line176">line 176</a>
     </li></ul></dd>
     
 
@@ -726,7 +729,7 @@ HTTP.sendHttpPutRequest(String url, String contentType, String content, Map&lt;S
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line201">line 201</a>
+        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line204">line 204</a>
     </li></ul></dd>
     
 
@@ -807,7 +810,7 @@ See <a href="https://www.openhab.org/docs/configuration/actions.html#cloud-notif
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line384">line 384</a>
+        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line387">line 387</a>
     </li></ul></dd>
     
 
@@ -880,7 +883,7 @@ See <a href="https://www.openhab.org/docs/configuration/actions.html#cloud-notif
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line218">line 218</a>
+        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line221">line 221</a>
     </li></ul></dd>
     
 
@@ -954,7 +957,7 @@ See <a href="https://www.openhab.org/docs/configuration/actions.html#cloud-notif
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line281">line 281</a>
+        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line284">line 284</a>
     </li></ul></dd>
     
 
@@ -1039,7 +1042,7 @@ Semantics.isPoint(Item item)</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line304">line 304</a>
+        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line307">line 307</a>
     </li></ul></dd>
     
 
@@ -1116,7 +1119,7 @@ Things.getThingStatusInfo(String thingUid)</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line363">line 363</a>
+        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line366">line 366</a>
     </li></ul></dd>
     
 
@@ -1207,7 +1210,7 @@ Voice.say(Object text, PercentType volume)</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line428">line 428</a>
+        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line431">line 431</a>
     </li></ul></dd>
     
 
@@ -1563,7 +1566,7 @@ and log notifications, which are only sent to the notification log and not shown
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line437">line 437</a>
+        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line440">line 440</a>
     </li></ul></dd>
     
 
@@ -1744,7 +1747,7 @@ and log notifications, which are only sent to the notification log and not shown
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Mon Oct 07 2024 14:11:27 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Tue Oct 08 2024 10:17:28 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
