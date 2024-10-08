@@ -110,6 +110,9 @@ const BusEvent = Java.type('org.openhab.core.model.script.actions.BusEvent');
  * CoreUtil.hsbToRgbwPercent(HSBType hsb) -> PercentType[]
  * CoreUtil.rgbToHsb(int[] rgb) -> HSBType
  * CoreUtil.rgbToHsb(PercentType[] rgb) -> HSBType
+ * CoreUtil.xyToDuv(double[] xy) -> double
+ * CoreUtil.kelvinToXY(double kelvin) -> double[]
+ * CoreUtil.xyToKelvin(double[] xy) -> double
  *
  * @name CoreUtil
  * @memberof actions
