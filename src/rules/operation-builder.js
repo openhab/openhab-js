@@ -5,6 +5,14 @@ const items = require('../items/items');
  * @typedef { import("../items/items").Item } Item
  * @private
  */
+/**
+ * @typedef {import('@js-joda/core').ZonedDateTime} time.ZonedDateTime
+ * @private
+ */
+/**
+ * @typedef {import('../quantity').Quantity} Quantity
+ * @private
+ */
 
 /**
  * Operation to execute as part of a rule
@@ -63,7 +71,7 @@ class OperationBuilder {
   /**
     * Specifies that a command should be sent as a result of this rule firing.
     *
-    * @param {string} command the command to send
+    * @param {string|number|time.ZonedDateTime|Quantity|HostState} command the command to send
     * @returns {SendCommandOrUpdateOperation} the operation
     */
   send (command) {
