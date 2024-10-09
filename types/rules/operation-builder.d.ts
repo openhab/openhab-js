@@ -45,6 +45,7 @@ export type Item = {
     removeTags(...tagNames: string[]): void;
     toString(): any;
 };
+export type Quantity = import('../quantity').Quantity;
 /**
  * Sends a command or update to an item
  *
@@ -205,6 +206,14 @@ export class CopyStateOperation extends OperationConfig {
  * @private
  */
 /**
+ * @typedef {import('@js-joda/core').ZonedDateTime} time.ZonedDateTime
+ * @private
+ */
+/**
+ * @typedef {import('../quantity').Quantity} Quantity
+ * @private
+ */
+/**
  * Operation to execute as part of a rule
  * @hideconstructor
  */
@@ -238,10 +247,10 @@ export class OperationBuilder {
     /**
       * Specifies that a command should be sent as a result of this rule firing.
       *
-      * @param {string} command the command to send
+      * @param {string|number|time.ZonedDateTime|Quantity|HostState} command the command to send
       * @returns {SendCommandOrUpdateOperation} the operation
       */
-    send(command: string): SendCommandOrUpdateOperation;
+    send(command: string | number | time.ZonedDateTime | Quantity | HostState): SendCommandOrUpdateOperation;
     /**
        * Specifies that an update should be posted as a result of this rule firing.
        *
@@ -323,6 +332,9 @@ declare class OperationConfig {
        * @param {string} [id] of the rule
        */
     build(name?: string, description?: string, tags?: Array<string>, id?: string): void;
+}
+declare namespace time {
+    type ZonedDateTime = import('@js-joda/core').ZonedDateTime;
 }
 export {};
 //# sourceMappingURL=operation-builder.d.ts.map
