@@ -1,4 +1,8 @@
 /**
+ * The callback function to determine if the condition is met.
+ */
+export type ConditionCallback = () => boolean;
+/**
  * Cron based trigger
  *
  * @memberof TriggerBuilder
@@ -228,6 +232,10 @@ export class SystemTriggerConfig extends TriggerConf {
     level: number;
 }
 /**
+ * @callback ConditionCallback The callback function to determine if the condition is met.
+ * @returns {boolean} true if the condition is met, otherwise false
+ */
+/**
  * Builder for rule Triggers
  *
  * @hideconstructor
@@ -326,10 +334,10 @@ declare class TriggerConf {
     /**
      * Move to the rule condition
      *
-     * @param {*} [fn] the optional function to execute
+     * @param {ConditionCallback} [fn] the optional function to execute
      * @returns {conditions.ConditionBuilder}
      */
-    if(fn?: any): conditions.ConditionBuilder;
+    if(fn?: ConditionCallback): conditions.ConditionBuilder;
 }
 /**
  * Time of day based trigger
