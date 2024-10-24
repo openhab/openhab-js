@@ -10,12 +10,18 @@ const { privateCache, sharedCache } = require('@runtime/cache');
  * The {@link JSCache} can be used by to share information between subsequent runs of the same script or between scripts (depending on implementation).
  */
 class JSCache {
+  #valueCache;
+
   /**
    * @param {*} valueCacheImpl an implementation of the Java {@link https://github.com/openhab/openhab-core/blob/main/bundles/org.openhab.core.automation.module.script.rulesupport/src/main/java/org/openhab/core/automation/module/script/rulesupport/shared/ValueCache.java ValueCache} interface
    * @hideconstructor
    */
   constructor (valueCacheImpl) {
-    this._valueCache = valueCacheImpl;
+    this.#valueCache = valueCacheImpl;
+  }
+
+  #isSharedCache () {
+    return this.#valueCache === sharedCache;
   }
 
   /**
@@ -27,9 +33,9 @@ class JSCache {
    */
   get (key, defaultSupplier) {
     if (typeof defaultSupplier === 'function') {
-      return this._valueCache.get(key, defaultSupplier);
+      return this.#valueCache.get(key, defaultSupplier);
     } else {
-      return this._valueCache.get(key);
+      return this.#valueCache.get(key);
     }
   }
 
@@ -41,7 +47,10 @@ class JSCache {
    * @returns {*|null} the previous value associated with the key, or null if there was no mapping for key
    */
   put (key, value) {
-    return this._valueCache.put(key, value);
+    if (typeof value === 'object' && this.#isSharedCache()) {
+      console.warn(`Do not use the shared cache to store the object with key '${key}', as it is not thread-safe and can cause script execution failures. Only store primitives in the shared cache!`);
+    }
+    return this.#valueCache.put(key, value);
   }
 
   /**
@@ -51,7 +60,7 @@ class JSCache {
    * @returns {*|null} the previous value associated with the key or null if there was no mapping for key
    */
   remove (key) {
-    return this._valueCache.remove(key);
+    return this.#valueCache.remove(key);
   }
 
   /**
@@ -61,7 +70,7 @@ class JSCache {
    * @returns {boolean} whether the key has a mapping
    */
   exists (key) {
-    return this._valueCache.get(key) !== null;
+    return this.#valueCache.get(key) !== null;
   }
 }
 
@@ -70,6 +79,8 @@ module.exports = {
    * Shared cache that is shared across all rules and scripts, it can therefore be accessed from any automation language.
    * The access to every key is tracked and the key is removed when all scripts that ever accessed that key are unloaded.
    * If the key that has been auto-removed stored a timer, that timer is cancelled.
+   *
+   * Do not use the shared cache to store objects, as it is not thread-safe and can cause script execution failures.
    *
    * @memberof cache
    * @type JSCache

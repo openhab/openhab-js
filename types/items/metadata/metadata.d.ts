@@ -24,7 +24,7 @@ export type Item = {
     sendCommandIfDifferent(value: any): boolean;
     sendIncreaseCommand(value: any): boolean;
     sendDecreaseCommand(value: any): boolean;
-    "__#5@#getToggleState"(): "PAUSE" | "PLAY" | "OPEN" | "CLOSED" | "ON" | "OFF";
+    "__#6@#getToggleState"(): "PAUSE" | "PLAY" | "OPEN" | "CLOSED" | "ON" | "OFF";
     sendToggleCommand(): void;
     postToggleUpdate(): void;
     postUpdate(value: any): void;

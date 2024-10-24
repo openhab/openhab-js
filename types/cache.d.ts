@@ -7,7 +7,6 @@ export class JSCache {
      * @hideconstructor
      */
     constructor(valueCacheImpl: any);
-    _valueCache: any;
     /**
      * Returns the value to which the specified key is mapped.
      *
@@ -38,6 +37,7 @@ export class JSCache {
      * @returns {boolean} whether the key has a mapping
      */
     exists(key: string): boolean;
+    #private;
 }
 export declare const shared: JSCache;
 declare const _private: JSCache;
