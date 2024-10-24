@@ -13,7 +13,7 @@ labels: enhancement
 <!-- for configuration and usage guidance: https://community.openhab.org -->
 
 ## Your Environment
-<!-- Include as many relevant details about the environment when applicable -->
-* Version used: (e.g., openHAB and **JS Scripting add-on version**)
-* Environment name and version (e.g. Chrome 76, Java 8, Node.js 12.9, ...):
-* Operating System and version (desktop or mobile, Windows 10, Raspbian Buster, ...):
+<!-- Include as many relevant details about the environment you experienced the bug in -->
+* openHAB version used (check Main UI -> About):
+* openhab-js version used (run `console.log('openhab-js ' + utils.OPENHAB_JS_VERSION)` from a JS script):
+* Operating System and version (e.g. desktop or mobile, Windows 10, Raspbian Buster, ...):
