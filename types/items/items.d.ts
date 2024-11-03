@@ -268,6 +268,15 @@ export class Item {
      */
     sendDecreaseCommand(value: number | Quantity | HostState): boolean;
     /**
+     * Calculates the toggled state of this Item.
+     * For Items like Color and Dimmer, getStateAs(OnOffType) is used and the toggle calculated of that.
+     *
+     * @ignore
+     * @returns the toggled state (e.g. 'OFF' if the Item is 'ON')
+     * @throws error if the Item is uninitialized or is a type that doesn't make sense to toggle
+     */
+    getToggleState(): "PAUSE" | "PLAY" | "OPEN" | "CLOSED" | "ON" | "OFF";
+    /**
      * Sends a command to flip the Item's state (e.g. if it is 'ON' an 'OFF' command is sent).
      * @throws error if the Item is uninitialized or a type that cannot be toggled or commanded
      */
@@ -317,7 +326,6 @@ export class Item {
      */
     removeTags(...tagNames: string[]): void;
     toString(): any;
-    #private;
 }
 import metadata = require("./metadata/metadata");
 import TimeSeries = require("./time-series");
