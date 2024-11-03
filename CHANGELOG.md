@@ -1,5 +1,17 @@
 # Changelog
 
+## 5.7.2
+
+| Type          | Namespace | Description                                                | Reference                                              | Breaking |
+|---------------|-----------|------------------------------------------------------------|--------------------------------------------------------|----------|
+| Documentation | `actions` | Add new ColorUtil methods to CoreUtil docs                 | [#388](https://github.com/openhab/openhab-js/pull/388) | No       |
+| Bugfix        | `rules`   | Rule Builder: Fix wrong type defs for `send(command)`      | [#389](https://github.com/openhab/openhab-js/pull/389) | No       |
+| Bugfix        | `rules`   | Rule Builder: Fix condition callback type def              | [#390](https://github.com/openhab/openhab-js/pull/390) | No       |
+| Bugfix        | `cache`   | Advice to not store objects in shared cache                | [#391](https://github.com/openhab/openhab-js/pull/391) | No       |
+| Bugfix        | `items`   | Fix type def issues caused by private method in Item class | [#394](https://github.com/openhab/openhab-js/pull/394) | No       |
+
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/36).
+
 ## 5.7.1
 
 | Type   | Namespace | Description                                                | Reference                                              | Breaking |
