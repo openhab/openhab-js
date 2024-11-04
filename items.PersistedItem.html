@@ -57,14 +57,24 @@
         
         </h2>
         
-            <div class="class-description usertext"><p>Class representing an instance of <a href="https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/historicitem">org.openhab.core.persistence.HistoricItem</a>.
-Extends <a href="items.PersistedState.html"><code>items.PersistedState</code></a>.</p></div>
+            <div class="class-description usertext"><p>Class representing an instance of <a href="https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/historicitem">org.openhab.core.persistence.HistoricItem</a>.</p></div>
         
     
 </header>
 
 <article>
     
+
+    
+        <h3 class="subsection-title">Extends</h3>
+
+        
+
+
+    <ul>
+        <li><a href="items.PersistedState.html">items.PersistedState</a></li>
+    </ul>
+
 
     
 
@@ -83,6 +93,328 @@ Extends <a href="items.PersistedState.html"><code>items.PersistedState</code></a
 
         
             
+<h4 class="name" id="instant"><span class="type-signature"></span>instant<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Timestamp of the persisted Item as Instant.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="items_item-persistence.js.html">items/item-persistence.js</a>, <a href="items_item-persistence.js.html#line114">line 114</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Timestamp of the persisted Item as Instant.</p>
+</div>
+
+
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="numericState"><span class="type-signature"></span>numericState<span class="type-signature"> :number|null</span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Numeric representation of Item state, or <code>null</code> if state is not numeric</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="items_item-persistence.js.html">items/item-persistence.js</a>, <a href="items_item-persistence.js.html#line55">line 55</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="items.PersistedState.html#numericState">items.PersistedState#numericState</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Numeric representation of Item state, or <code>null</code> if state is not numeric</p>
+</div>
+
+
+
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">number</span>
+|
+
+<span class="param-type">null</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="quantityState"><span class="type-signature"></span>quantityState<span class="type-signature"> :<a href="Quantity.html">Quantity</a>|null</span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Item state as <a href="Quantity.html"><code>Quantity</code></a> or <code>null</code> if state is not Quantity-compatible or Quantity would be unit-less (without unit)</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="items_item-persistence.js.html">items/item-persistence.js</a>, <a href="items_item-persistence.js.html#line64">line 64</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="items.PersistedState.html#quantityState">items.PersistedState#quantityState</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Item state as <a href="Quantity.html"><code>Quantity</code></a> or <code>null</code> if state is not Quantity-compatible or Quantity would be unit-less (without unit)</p>
+</div>
+
+
+
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><a href="Quantity.html">Quantity</a></span>
+|
+
+<span class="param-type">null</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="state"><span class="type-signature"></span>state<span class="type-signature"> :string</span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>String representation of the Item state.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="items_item-persistence.js.html">items/item-persistence.js</a>, <a href="items_item-persistence.js.html#line47">line 47</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="items.PersistedState.html#state">items.PersistedState#state</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>String representation of the Item state.</p>
+</div>
+
+
+
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+        
+            
 <h4 class="name" id="timestamp"><span class="type-signature"></span>timestamp<span class="type-signature"> :<a href="time.ZonedDateTime.html">time.ZonedDateTime</a></span></h4>
 
 
@@ -92,13 +424,14 @@ Extends <a href="items.PersistedState.html"><code>items.PersistedState</code></a
 <dl class="details">
     
     <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>Timestamp of persisted Item.</p></li></ul></dd>
+    <dd class="tag-description"><ul class="dummy"><li><p>Timestamp of persisted Item.</p>
+<p>Consider using <code>instant</code> for heavy calculations because it is much faster to work with Instant.</p></li></ul></dd>
     
 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_item-persistence.js.html">items/item-persistence.js</a>, <a href="items_item-persistence.js.html#line100">line 100</a>
+        <a href="items_item-persistence.js.html">items/item-persistence.js</a>, <a href="items_item-persistence.js.html#line106">line 106</a>
     </li></ul></dd>
     
 
@@ -139,6 +472,7 @@ Extends <a href="items.PersistedState.html"><code>items.PersistedState</code></a
 
 <div class="description usertext">
     <p>Timestamp of persisted Item.</p>
+<p>Consider using <code>instant</code> for heavy calculations because it is much faster to work with Instant.</p>
 </div>
 
 
@@ -181,7 +515,7 @@ Extends <a href="items.PersistedState.html"><code>items.PersistedState</code></a
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Sun Nov 03 2024 15:35:30 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Mon Nov 04 2024 21:50:33 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
