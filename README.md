@@ -567,6 +567,7 @@ The `PersistedState` object contains the following properties, representing Item
 The `PersistedItem` object extends `PersistedState` with the following properties, representing Item state and the respective timestamp:
 
 - `timestamp`: Timestamp as [`time.ZonedDateTime`](#time)
+- `instant`: Timestamp as [`time.Instant`](#time)
 
 ```javascript
 var midnight = time.toZDT('00:00');

@@ -1,7 +1,7 @@
 export = ItemPersistence;
 /**
  * Class representing the historic state of an openHAB Item.
- * Wrapping the {@link https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/extensions/persistenceextensions PersistenceExtensions}.
+ * Wrapping the {@link https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/extensions/persistenceextensions org.openhab.core.persistence.extensions.PersistenceExtensions}.
  *
  * Be warned: This class can throw several exceptions from the underlying Java layer. It is recommended to wrap the methods of this class inside a try_catch block!
  *
@@ -527,6 +527,7 @@ declare namespace ItemPersistence {
 }
 declare namespace time {
     type ZonedDateTime = import('@js-joda/core').ZonedDateTime;
+    type Instant = import('@js-joda/core').Instant;
 }
 import time = require("../time");
 type Quantity = import('../quantity').Quantity;
@@ -536,21 +537,39 @@ declare namespace items {
 declare const TimeSeries: any;
 /**
  * Class representing an instance of {@link https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/historicitem org.openhab.core.persistence.HistoricItem}.
- * Extends {@link items.PersistedState}.
  *
+ * @extends items.PersistedState
  * @memberof items
  * @hideconstructor
  */
-declare class PersistedItem extends PersistedState {
+declare class PersistedItem {
+    /**
+     * Create an PersistedItem, wrapping a native openHAB HistoricItem.
+     * @param {*} rawHistoricItem {@link https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/historicitem org.openhab.core.persistence.HistoricItem}
+     * @hideconstructor
+     */
+    constructor(rawHistoricItem: any);
+    rawHistoricItem: any;
     /**
      * Timestamp of persisted Item.
+     *
+     * Consider using {@link instant} for heavy calculations because it is much faster to work with Instant.
      * @type {time.ZonedDateTime}
      */
     get timestamp(): JSJoda.ZonedDateTime;
-    #private;
+    /**
+     * Timestamp of the persisted Item as Instant.
+     * @returns {time.Instant}
+     */
+    get instant(): JSJoda.Instant;
+    toString(): string;
 }
 /**
  * @typedef {import('@js-joda/core').ZonedDateTime} time.ZonedDateTime
+ * @private
+ */
+/**
+ * @typedef {import('@js-joda/core').Instant} time.Instant
  * @private
  */
 /**
@@ -569,9 +588,12 @@ declare class PersistedItem extends PersistedState {
  */
 declare class PersistedState {
     /**
-     * @param {HostState} rawState
+     * Create an PersistedState, wrapping a native openHAB HistoricState.
+     * @param {*} rawHistoricState an instance of {@link https://www.openhab.org/javadoc/latest/org/openhab/core/types/state org.openhab.core.types.State}
+     * @hideconstructor
      */
-    constructor(rawState: HostState);
+    constructor(rawHistoricState: any);
+    rawState: any;
     /**
      * String representation of the Item state.
      * @type {string}
@@ -588,6 +610,5 @@ declare class PersistedState {
      */
     get quantityState(): import("../quantity").Quantity;
     toString(): string;
-    #private;
 }
 //# sourceMappingURL=item-persistence.d.ts.map

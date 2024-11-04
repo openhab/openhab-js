@@ -12,6 +12,10 @@ const TypeParser = Java.type('org.openhab.core.types.TypeParser');
  * @private
  */
 /**
+ * @typedef {import('@js-joda/core').Instant} time.Instant
+ * @private
+ */
+/**
  * @typedef {import('../quantity').Quantity} Quantity
  * @private
  */
@@ -27,13 +31,13 @@ const TypeParser = Java.type('org.openhab.core.types.TypeParser');
  * @hideconstructor
  */
 class PersistedState {
-  #rawState;
-
   /**
-   * @param {HostState} rawState
+   * Create an PersistedState, wrapping a native openHAB HistoricState.
+   * @param {*} rawHistoricState an instance of {@link https://www.openhab.org/javadoc/latest/org/openhab/core/types/state org.openhab.core.types.State}
+   * @hideconstructor
    */
-  constructor (rawState) {
-    this.#rawState = rawState;
+  constructor (rawHistoricState) {
+    this.rawState = rawHistoricState;
   }
 
   /**
@@ -41,7 +45,7 @@ class PersistedState {
    * @type {string}
    */
   get state () {
-    return this.#rawState.toString();
+    return this.rawState.toString();
   }
 
   /**
@@ -49,7 +53,7 @@ class PersistedState {
    * @type {number|null}
    */
   get numericState () {
-    const numericState = parseFloat(this.#rawState.toString());
+    const numericState = parseFloat(this.rawState.toString());
     return isNaN(numericState) ? null : numericState;
   }
 
@@ -59,7 +63,7 @@ class PersistedState {
    */
   get quantityState () {
     try {
-      const qty = getQuantity(this.#rawState.toString());
+      const qty = getQuantity(this.rawState.toString());
       return (qty !== null && qty.symbol !== null) ? qty : null;
     } catch (e) {
       if (e instanceof QuantityError) {
@@ -77,28 +81,38 @@ class PersistedState {
 
 /**
  * Class representing an instance of {@link https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/historicitem org.openhab.core.persistence.HistoricItem}.
- * Extends {@link items.PersistedState}.
  *
+ * @extends items.PersistedState
  * @memberof items
  * @hideconstructor
  */
 class PersistedItem extends PersistedState {
-  #rawHistoricItem;
-
   /**
+   * Create an PersistedItem, wrapping a native openHAB HistoricItem.
    * @param {*} rawHistoricItem {@link https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/historicitem org.openhab.core.persistence.HistoricItem}
+   * @hideconstructor
    */
   constructor (rawHistoricItem) {
     super(rawHistoricItem.getState());
-    this.#rawHistoricItem = rawHistoricItem;
+    this.rawHistoricItem = rawHistoricItem;
   }
 
   /**
    * Timestamp of persisted Item.
+   *
+   * Consider using {@link instant} for heavy calculations because it is much faster to work with Instant.
    * @type {time.ZonedDateTime}
    */
   get timestamp () {
-    return time.javaZDTToJsZDT(this.#rawHistoricItem.getTimestamp());
+    return time.javaZDTToJsZDT(this.rawHistoricItem.getTimestamp());
+  }
+
+  /**
+   * Timestamp of the persisted Item as Instant.
+   * @returns {time.Instant}
+   */
+  get instant () {
+    return time.javaInstantToJsInstant(this.rawHistoricItem.getInstant());
   }
 
   toString () {
@@ -107,18 +121,18 @@ class PersistedItem extends PersistedState {
 }
 
 function _ZDTOrNull (result) {
-  return result === null ? null : time.ZonedDateTime.parse(result.toString());
+  return result === null ? null : time.javaZDTToJsZDT(result);
 }
 
 function _decimalOrNull (result) {
   return result === null ? null : result.toBigDecimal();
 }
 
-function _stateOrNull (result) {
+function _persistedStateOrNull (result) {
   return result === null ? null : new PersistedState(result);
 }
 
-function _historicItemOrNull (result) {
+function _persistedItemOrNull (result) {
   if (result === null) return null;
   return new PersistedItem(result);
 }
@@ -128,7 +142,7 @@ function _javaIterableOfJavaHistoricItemsToJsArrayOfHistoricItems (result) {
 
   const historicItems = [];
   result.forEach((hi) => {
-    const historicItem = _historicItemOrNull(hi);
+    const historicItem = _persistedItemOrNull(hi);
     if (historicItem !== null) historicItems.push(historicItem);
   });
   return historicItems;
@@ -136,7 +150,7 @@ function _javaIterableOfJavaHistoricItemsToJsArrayOfHistoricItems (result) {
 
 /**
  * Class representing the historic state of an openHAB Item.
- * Wrapping the {@link https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/extensions/persistenceextensions PersistenceExtensions}.
+ * Wrapping the {@link https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/extensions/persistenceextensions org.openhab.core.persistence.extensions.PersistenceExtensions}.
  *
  * Be warned: This class can throw several exceptions from the underlying Java layer. It is recommended to wrap the methods of this class inside a try_catch block!
  *
@@ -275,7 +289,7 @@ class ItemPersistence {
    * @returns {(PersistedItem | null)} the {@link items.PersistedItem} at the given point in time, or <code>null</code> if no persisted item could be found
    */
   persistedState (timestamp, serviceId) {
-    return _historicItemOrNull(PersistenceExtensions.persistedState(this.rawItem, ...arguments));
+    return _persistedItemOrNull(PersistenceExtensions.persistedState(this.rawItem, ...arguments));
   }
 
   /**
@@ -328,7 +342,7 @@ class ItemPersistence {
    * @returns {(PersistedItem | null)} the {@link items.PersistedItem} at the given point in time, or <code>null</code> if no persisted item could be found or null
    */
   previousState (skipEqual, serviceId) {
-    return _historicItemOrNull(PersistenceExtensions.previousState(this.rawItem, ...arguments));
+    return _persistedItemOrNull(PersistenceExtensions.previousState(this.rawItem, ...arguments));
   }
 
   /**
@@ -339,7 +353,7 @@ class ItemPersistence {
    * @returns {(PersistedItem | null)} the {@link items.PersistedItem} at the given point in time, or <code>null</code> if no persisted item could be found or null
    */
   nextState (skipEqual, serviceId) {
-    return _historicItemOrNull(PersistenceExtensions.nextState(this.rawItem, ...arguments));
+    return _persistedItemOrNull(PersistenceExtensions.nextState(this.rawItem, ...arguments));
   }
 
   /**
@@ -425,7 +439,7 @@ class ItemPersistence {
    *                                   or <code>null</code> if <code>timestamp</code> is in the future
    */
   maximumSince (timestamp, serviceId) {
-    return _historicItemOrNull(PersistenceExtensions.maximumSince(this.rawItem, ...arguments));
+    return _persistedItemOrNull(PersistenceExtensions.maximumSince(this.rawItem, ...arguments));
   }
 
   /**
@@ -437,7 +451,7 @@ class ItemPersistence {
    *                                   or <code>null</code> if <code>timestamp</code> is in the past
    */
   maximumUntil (timestamp, serviceId) {
-    return _historicItemOrNull(PersistenceExtensions.maximumUntil(this.rawItem, ...arguments));
+    return _persistedItemOrNull(PersistenceExtensions.maximumUntil(this.rawItem, ...arguments));
   }
 
   /**
@@ -450,7 +464,7 @@ class ItemPersistence {
    *                                   or <code>null</code> if <code>begin</code> is after <code>end</end>
    */
   maximumBetween (begin, end, serviceId) {
-    return _historicItemOrNull(PersistenceExtensions.maximumBetween(this.rawItem, ...arguments));
+    return _persistedItemOrNull(PersistenceExtensions.maximumBetween(this.rawItem, ...arguments));
   }
 
   /**
@@ -462,7 +476,7 @@ class ItemPersistence {
    *                                   or <code>null</code> if <code>timestamp</code> is in the future
    */
   minimumSince (timestamp, serviceId) {
-    return _historicItemOrNull(PersistenceExtensions.minimumSince(this.rawItem, ...arguments));
+    return _persistedItemOrNull(PersistenceExtensions.minimumSince(this.rawItem, ...arguments));
   }
 
   /**
@@ -474,7 +488,7 @@ class ItemPersistence {
    *                                   or <code>null</code> if <code>timestamp</code> is in the past
    */
   minimumUntil (timestamp, serviceId) {
-    return _historicItemOrNull(PersistenceExtensions.minimumUntil(this.rawItem, ...arguments));
+    return _persistedItemOrNull(PersistenceExtensions.minimumUntil(this.rawItem, ...arguments));
   }
 
   /**
@@ -487,7 +501,7 @@ class ItemPersistence {
    *                                   or <code>null</code> if <code>begin</code> is after <code>end</end>
    */
   minimumBetween (begin, end, serviceId) {
-    return _historicItemOrNull(PersistenceExtensions.minimumBetween(this.rawItem, ...arguments));
+    return _persistedItemOrNull(PersistenceExtensions.minimumBetween(this.rawItem, ...arguments));
   }
 
   /**
@@ -500,7 +514,7 @@ class ItemPersistence {
    *                            Item at the given <code>timestamp</code>
    */
   varianceSince (timestamp, serviceId) {
-    return _stateOrNull(PersistenceExtensions.varianceSince(this.rawItem, ...arguments));
+    return _persistedStateOrNull(PersistenceExtensions.varianceSince(this.rawItem, ...arguments));
   }
 
   /**
@@ -513,7 +527,7 @@ class ItemPersistence {
    *                            Item at the given <code>timestamp</code>
    */
   varianceUntil (timestamp, serviceId) {
-    return _stateOrNull(PersistenceExtensions.varianceUntil(this.rawItem, ...arguments));
+    return _persistedStateOrNull(PersistenceExtensions.varianceUntil(this.rawItem, ...arguments));
   }
 
   /**
@@ -527,7 +541,7 @@ class ItemPersistence {
    *                            Item between <code>begin</code> and <code>end</code>
    */
   varianceBetween (begin, end, serviceId) {
-    return _stateOrNull(PersistenceExtensions.varianceBetween(this.rawItem, ...arguments));
+    return _persistedStateOrNull(PersistenceExtensions.varianceBetween(this.rawItem, ...arguments));
   }
 
   /**
@@ -540,7 +554,7 @@ class ItemPersistence {
    *                            at the given <code>timestamp</code>
    */
   deviationSince (timestamp, serviceId) {
-    return _stateOrNull(PersistenceExtensions.deviationSince(this.rawItem, ...arguments));
+    return _persistedStateOrNull(PersistenceExtensions.deviationSince(this.rawItem, ...arguments));
   }
 
   /**
@@ -553,7 +567,7 @@ class ItemPersistence {
    *                            at the given <code>timestamp</code>
    */
   deviationUntil (timestamp, serviceId) {
-    return _stateOrNull(PersistenceExtensions.deviationUntil(this.rawItem, ...arguments));
+    return _persistedStateOrNull(PersistenceExtensions.deviationUntil(this.rawItem, ...arguments));
   }
 
   /**
@@ -567,7 +581,7 @@ class ItemPersistence {
    *                            between <code>begin</code> and <code>end</code>
    */
   deviationBetween (begin, end, serviceId) {
-    return _stateOrNull(PersistenceExtensions.deviationBetween(this.rawItem, ...arguments));
+    return _persistedStateOrNull(PersistenceExtensions.deviationBetween(this.rawItem, ...arguments));
   }
 
   /**
@@ -583,7 +597,7 @@ class ItemPersistence {
    * @returns {(PersistedState | null)} the average value since <code>timestamp</code> as {@link items.PersistedState} or <code>null</code> if no previous states could be found
    */
   averageSince (timestamp, serviceId) {
-    return _stateOrNull(PersistenceExtensions.averageSince(this.rawItem, ...arguments));
+    return _persistedStateOrNull(PersistenceExtensions.averageSince(this.rawItem, ...arguments));
   }
 
   /**
@@ -594,7 +608,7 @@ class ItemPersistence {
    * @returns {(PersistedState | null)} the average value until <code>timestamp</code> as {@link items.PersistedState} or <code>null</code> if no future states could be found
    */
   averageUntil (timestamp, serviceId) {
-    return _stateOrNull(PersistenceExtensions.averageUntil(this.rawItem, ...arguments));
+    return _persistedStateOrNull(PersistenceExtensions.averageUntil(this.rawItem, ...arguments));
   }
 
   /**
@@ -606,7 +620,7 @@ class ItemPersistence {
    * @returns {(PersistedState | null)} the average value between <code>begin</code> and <code>end</code> as {@link items.PersistedState} or <code>null</code> if no states could be found
    */
   averageBetween (begin, end, serviceId) {
-    return _stateOrNull(PersistenceExtensions.averageBetween(this.rawItem, ...arguments));
+    return _persistedStateOrNull(PersistenceExtensions.averageBetween(this.rawItem, ...arguments));
   }
 
   /**
@@ -622,7 +636,7 @@ class ItemPersistence {
    * @returns {(PersistedState | null)} the median value since <code>timestamp</code> as {@link items.PersistedState} or <code>null</code> if no previous states could be found
    */
   medianSince (timestamp, serviceId) {
-    return _stateOrNull(PersistenceExtensions.medianSince(this.rawItem, ...arguments));
+    return _persistedStateOrNull(PersistenceExtensions.medianSince(this.rawItem, ...arguments));
   }
 
   /**
@@ -633,7 +647,7 @@ class ItemPersistence {
    * @returns {(PersistedState | null)} the median value until <code>timestamp</code> as {@link items.PersistedState} or <code>null</code> if no future states could be found
    */
   medianUntil (timestamp, serviceId) {
-    return _stateOrNull(PersistenceExtensions.medianUntil(this.rawItem, ...arguments));
+    return _persistedStateOrNull(PersistenceExtensions.medianUntil(this.rawItem, ...arguments));
   }
 
   /**
@@ -645,7 +659,7 @@ class ItemPersistence {
    * @returns {(PersistedState | null)} the median value between <code>begin</code> and <code>end</code> as {@link items.PersistedState} or <code>null</code> if no states could be found
    */
   medianBetween (begin, end, serviceId) {
-    return _stateOrNull(PersistenceExtensions.medianBetween(this.rawItem, ...arguments));
+    return _persistedStateOrNull(PersistenceExtensions.medianBetween(this.rawItem, ...arguments));
   }
 
   /**
@@ -656,7 +670,7 @@ class ItemPersistence {
    * @returns {(PersistedState | null)} the sum of the state values since <code>timestamp</code> as {@link items.PersistedState}, or null if <code>timestamp</code> is in the future
    */
   sumSince (timestamp, serviceId) {
-    return _stateOrNull(PersistenceExtensions.sumSince(this.rawItem, ...arguments));
+    return _persistedStateOrNull(PersistenceExtensions.sumSince(this.rawItem, ...arguments));
   }
 
   /**
@@ -667,7 +681,7 @@ class ItemPersistence {
    * @returns {(PersistedState | null)} the sum of the state values until <code>timestamp</code> as {@link items.PersistedState}, or null if <code>timestamp</code> is in the past
    */
   sumUntil (timestamp, serviceId) {
-    return _stateOrNull(PersistenceExtensions.sumUntil(this.rawItem, ...arguments));
+    return _persistedStateOrNull(PersistenceExtensions.sumUntil(this.rawItem, ...arguments));
   }
 
   /**
@@ -680,7 +694,7 @@ class ItemPersistence {
    *                            or null if <code>begin</code> is after <code>end</code>
    */
   sumBetween (begin, end, serviceId) {
-    return _stateOrNull(PersistenceExtensions.sumBetween(this.rawItem, ...arguments));
+    return _persistedStateOrNull(PersistenceExtensions.sumBetween(this.rawItem, ...arguments));
   }
 
   /**
@@ -692,7 +706,7 @@ class ItemPersistence {
    *                            if there is no persisted state for the given Item at the given <code>timestamp</code> available
    */
   deltaSince (timestamp, serviceId) {
-    return _stateOrNull(PersistenceExtensions.deltaSince(this.rawItem, ...arguments));
+    return _persistedStateOrNull(PersistenceExtensions.deltaSince(this.rawItem, ...arguments));
   }
 
   /**
@@ -704,7 +718,7 @@ class ItemPersistence {
    *                            if there is no persisted state for the given Item at the given <code>timestamp</code> available
    */
   deltaUntil (timestamp, serviceId) {
-    return _stateOrNull(PersistenceExtensions.deltaUntil(this.rawItem, ...arguments));
+    return _persistedStateOrNull(PersistenceExtensions.deltaUntil(this.rawItem, ...arguments));
   }
 
   /**
@@ -717,7 +731,7 @@ class ItemPersistence {
    *                            if there is no persisted state for the given Item for the given points in time
    */
   deltaBetween (begin, end, serviceId) {
-    return _stateOrNull(PersistenceExtensions.deltaBetween(this.rawItem, ...arguments));
+    return _persistedStateOrNull(PersistenceExtensions.deltaBetween(this.rawItem, ...arguments));
   }
 
   /**
