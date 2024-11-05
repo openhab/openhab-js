@@ -1,5 +1,13 @@
 # Changelog
 
+## 5.8.0
+
+| Type          | Namespace | Description                                   | Reference                                              | Breaking |
+|---------------|-----------|-----------------------------------------------|--------------------------------------------------------|----------|
+| Enhancement   | `items`   | ItemPersistence: Add `PersistedItem::instant` | [#396](https://github.com/openhab/openhab-js/pull/396) | No       |
+
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/37).
+
 ## 5.7.2
 
 | Type          | Namespace | Description                                                | Reference                                              | Breaking |
