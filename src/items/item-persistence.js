@@ -82,7 +82,7 @@ class PersistedState {
 /**
  * Class representing an instance of {@link https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/historicitem org.openhab.core.persistence.HistoricItem}.
  *
- * @extends items.PersistedState
+ * @extends PersistedState
  * @memberof items
  * @hideconstructor
  */
