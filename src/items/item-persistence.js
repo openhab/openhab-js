@@ -81,14 +81,15 @@ class PersistedState {
 
 /**
  * Class representing an instance of {@link https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/historicitem org.openhab.core.persistence.HistoricItem}.
+ * Extends {@link items.PersistedState}.
  *
- * @extends items.PersistedState
+ * @extends PersistedState
  * @memberof items
  * @hideconstructor
  */
 class PersistedItem extends PersistedState {
   /**
-   * Create an PersistedItem, wrapping a native openHAB HistoricItem.
+   * Create a PersistedItem, wrapping a native openHAB HistoricItem.
    * @param {*} rawHistoricItem {@link https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/historicitem org.openhab.core.persistence.HistoricItem}
    * @hideconstructor
    */

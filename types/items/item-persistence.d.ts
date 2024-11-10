@@ -537,18 +537,13 @@ declare namespace items {
 declare const TimeSeries: any;
 /**
  * Class representing an instance of {@link https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/historicitem org.openhab.core.persistence.HistoricItem}.
+ * Extends {@link items.PersistedState}.
  *
- * @extends items.PersistedState
+ * @extends PersistedState
  * @memberof items
  * @hideconstructor
  */
-declare class PersistedItem {
-    /**
-     * Create an PersistedItem, wrapping a native openHAB HistoricItem.
-     * @param {*} rawHistoricItem {@link https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/historicitem org.openhab.core.persistence.HistoricItem}
-     * @hideconstructor
-     */
-    constructor(rawHistoricItem: any);
+declare class PersistedItem extends PersistedState {
     rawHistoricItem: any;
     /**
      * Timestamp of persisted Item.
@@ -562,7 +557,6 @@ declare class PersistedItem {
      * @returns {time.Instant}
      */
     get instant(): JSJoda.Instant;
-    toString(): string;
 }
 /**
  * @typedef {import('@js-joda/core').ZonedDateTime} time.ZonedDateTime
