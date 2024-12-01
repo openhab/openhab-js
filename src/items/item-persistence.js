@@ -6,7 +6,7 @@ const { _toOpenhabPrimitiveType, _isTimeSeries } = require('../helpers');
 const PersistenceExtensions = Java.type('org.openhab.core.persistence.extensions.PersistenceExtensions');
 const TimeSeries = Java.type('org.openhab.core.types.TimeSeries');
 const TypeParser = Java.type('org.openhab.core.types.TypeParser');
-const RiemannType = Java.type('org.openhab..core.persistence.extensions.PersistenceExtensions.RiemannType')
+const RiemannType = Java.type('org.openhab..core.persistence.extensions.PersistenceExtensions.RiemannType');
 
 /**
  * @typedef {import('@js-joda/core').ZonedDateTime} time.ZonedDateTime
@@ -681,11 +681,11 @@ class ItemPersistence {
   * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
   * @returns {(PersistedState | null)} the Riemann sum until <code>timestamp</code> as {@link items.PersistedState} or <code>null</code> if no future states could be found
   */
- riemannSumUntil (timestamp, riemannType, serviceId) {
-   return _persistedStateOrNull(PersistenceExtensions.riemannSumUntil(this.rawItem, ...arguments));
- }
+  riemannSumUntil (timestamp, riemannType, serviceId) {
+    return _persistedStateOrNull(PersistenceExtensions.riemannSumUntil(this.rawItem, ...arguments));
+  }
 
- /**
+  /**
   * Gets the RiemannSum of the states of the state of a given Item between two certain points in time.
   *
   * @param {(time.ZonedDateTime | Date)} begin the point in time from which to start the Riemann sum
@@ -696,11 +696,11 @@ class ItemPersistence {
   * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
   * @returns {(PersistedState | null)} the Riemann sum between <code>begin</code> and <code>end</code> as {@link items.PersistedState} or <code>null</code> if no states could be found
   */
- riemannSumBetween (begin, end, riemannType, serviceId) {
-   return _persistedStateOrNull(PersistenceExtensions.riemannSumBetween(this.rawItem, ...arguments));
- }
+  riemannSumBetween (begin, end, riemannType, serviceId) {
+    return _persistedStateOrNull(PersistenceExtensions.riemannSumBetween(this.rawItem, ...arguments));
+  }
 
- /**
+  /**
    * Gets the median value of the state of a given Item since a certain point in time.
    *
    * @example
