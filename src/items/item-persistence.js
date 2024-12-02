@@ -653,7 +653,7 @@ class ItemPersistence {
   }
 
   /**
-   * Gets the RiemannSum of the states of a given Item since a certain point in time.
+   * Gets the RiemannSum of the states of a given Item since a certain point in time, time is calculated in seconds.
    *
    * @example
    * var yesterday = time.toZDT().minusDays(1);
@@ -665,28 +665,28 @@ class ItemPersistence {
    *                                    (<code>LEFT</code>, <code>RIGHT</code>, <code>TRAPEZOIDAL</code>, <code>MIDPOINT</code>),
    *                                    default <code>LEFT</code>
    * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-   * @returns {(PersistedState | null)} the Riemann sum since <code>timestamp</code> as {@link items.PersistedState} or <code>null</code> if no previous states could be found
+   * @returns {(PersistedState | null)} the Riemann sum since <code>timestamp</code> as {@link items.PersistedState} or <code>null</code> if no previous states could be found, time is calculated in seconds
    */
   riemannSumSince (timestamp, riemannType, serviceId) {
     return _persistedStateOrNull(PersistenceExtensions.riemannSumSince(this.rawItem, ...arguments));
   }
 
   /**
-  * Gets the RiemannSum of the states of a given Item until a certain point in time.
+  * Gets the RiemannSum of the states of a given Item until a certain point in time, time is calculated in seconds.
   *
   * @param {(time.ZonedDateTime | Date)} timestamp the point in time to which to search for the Riemann sum
   * @param {RiemannType} [riemannType] optional Riemann approximation type to calculate the integral approximation
   *                                    (<code>LEFT</code>, <code>RIGHT</code>, <code>TRAPEZOIDAL</code>, <code>MIDPOINT</code>),
   *                                    default <code>LEFT</code>
   * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-  * @returns {(PersistedState | null)} the Riemann sum until <code>timestamp</code> as {@link items.PersistedState} or <code>null</code> if no future states could be found
+  * @returns {(PersistedState | null)} the Riemann sum until <code>timestamp</code> as {@link items.PersistedState} or <code>null</code> if no future states could be found, time is calculated in seconds
   */
   riemannSumUntil (timestamp, riemannType, serviceId) {
     return _persistedStateOrNull(PersistenceExtensions.riemannSumUntil(this.rawItem, ...arguments));
   }
 
   /**
-  * Gets the RiemannSum of the states of the state of a given Item between two certain points in time.
+  * Gets the RiemannSum of the states of a given Item between two certain points in time, time is calculated in seconds.
   *
   * @param {(time.ZonedDateTime | Date)} begin the point in time from which to start the Riemann sum
   * @param {(time.ZonedDateTime | Date)} end the point in time to which to start the Riemann sum
@@ -694,7 +694,7 @@ class ItemPersistence {
   *                                    (<code>LEFT</code>, <code>RIGHT</code>, <code>TRAPEZOIDAL</code>, <code>MIDPOINT</code>),
   *                                    default <code>LEFT</code>
   * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
-  * @returns {(PersistedState | null)} the Riemann sum between <code>begin</code> and <code>end</code> as {@link items.PersistedState} or <code>null</code> if no states could be found
+  * @returns {(PersistedState | null)} the Riemann sum between <code>begin</code> and <code>end</code> as {@link items.PersistedState} or <code>null</code> if no states could be found, time is calculated in seconds
   */
   riemannSumBetween (begin, end, riemannType, serviceId) {
     return _persistedStateOrNull(PersistenceExtensions.riemannSumBetween(this.rawItem, ...arguments));

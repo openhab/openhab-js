@@ -540,9 +540,9 @@ Calling `Item.persistence` returns an `ItemPersistence` object with the followin
   - .persistedState(timestamp, serviceId) ⇒ `PersistedItem | null`
   - .previousState(skipEqual, serviceId) ⇒ `PersistedItem | null`
   - .nextState(skipEqual, serviceId) ⇒ `PersistedItem | null`
-  - .riemannSumSince(timestamp, riemannType, serviceId)  ⇒ `PersistedState | null`
-  - .riemannSumUntil(timestamp, riemannType, serviceId)  ⇒ `PersistedState | null`
-  - .riemannSumBetween(begin, end, riemannType, serviceId)  ⇒ `PersistedState | null`
+  - .riemannSumSince(timestamp, riemannType, serviceId)  ⇒ `PersistedState | null`: Time is considered in seconds.
+  - .riemannSumUntil(timestamp, riemannType, serviceId)  ⇒ `PersistedState | null`: Time is considered in seconds.
+  - .riemannSumBetween(begin, end, riemannType, serviceId)  ⇒ `PersistedState | null`: Time is considered in seconds.
   - .sumSince(timestamp, serviceId) ⇒ `PersistedState | null`
   - .sumUntil(timestamp, serviceId) ⇒ `PersistedState | null`
   - .sumBetween(begin, end, serviceId) ⇒ `PersistedState | null`
