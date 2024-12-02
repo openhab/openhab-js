@@ -167,6 +167,8 @@ class ItemPersistence {
     this.rawItem = rawItem;
   }
 
+  static RiemannType = RiemannType;
+
   /**
    * Persists a state of a given Item.
    *
