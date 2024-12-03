@@ -47,7 +47,8 @@ class JSCache {
    * @returns {*|null} the previous value associated with the key, or null if there was no mapping for key
    */
   put (key, value) {
-    if (typeof value === 'object' && !Java.isJavaObject(value) && this.#isSharedCache()) {
+    // see https://www.graalvm.org/latest/reference-manual/js/JavaScriptCompatibility/ for Java. docs
+    if (typeof value === 'object' && Java.isScriptObject(value) && this.#isSharedCache()) {
       console.warn(`It is not recommended to store the JS object with the key '${key}' in the shared cache, as JS objects must not be accessed from multiple threads. Multi-threaded access to JS objects will lead to script execution failure.`);
     }
     return this.#valueCache.put(key, value);
