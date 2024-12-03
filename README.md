@@ -872,7 +872,7 @@ The access to every key is tracked and the key is removed when all scripts that 
 If that key stored a timer, the timer will be cancelled.
 You can use it to store primitives and **Java** objects, e.g. store timers or counters between multiple scripts.
 
-Due to a multi-threading limitation in GraalJS (the JavaScript engine used by JavaScript Scripting), it is not recommended to store JavaScript objects in the shared cache. 
+Due to a multi-threading limitation in GraalJS (the JavaScript engine used by JavaScript Scripting), it is not recommended to store JavaScript objects in the shared cache.
 Multi-threaded access to JavaScript objects will lead to script execution failure!
 You can work-around that limitation by either serialising and deserialising JS objects or by switching to their Java counterparts.
 
