@@ -1,5 +1,14 @@
 # Changelog
 
+## 5.8.1
+
+| Type   | Namespace | Description                                                 | Reference                                              | Breaking |
+|--------|-----------|-------------------------------------------------------------|--------------------------------------------------------|----------|
+| Bugfix | `items`   | Fix PersistedItem extending PersistedState type defs        | [#399](https://github.com/openhab/openhab-js/pull/399) | No       |
+| Bugfix | `cache`   | Advise to not store JavaScript objects only in shared cache | [#402](https://github.com/openhab/openhab-js/pull/402) | No       |
+
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/38).
+
 ## 5.8.0
 
 | Type          | Namespace | Description                                   | Reference                                              | Breaking |
