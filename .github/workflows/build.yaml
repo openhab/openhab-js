@@ -34,7 +34,20 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
 
-      - run: npm run build
+      - name: Build
+        run: npm run build
+
+      - name: Verify Changed Files
+        uses: tj-actions/verify-changed-files@v20
+        id: verify-changed-files
+
+      - name: Fail on Changed Files
+        if: steps.verify-changed-files.outputs.changed_files != ''
+        env:
+          CHANGED_FILES: ${{ steps.verify-changed-files.outputs.changed_files }}
+        run: |
+          echo "::error::Files have changed: $CHANGED_FILES"
+          exit 1
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
