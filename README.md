@@ -1319,27 +1319,27 @@ See [Examples](#rule-builder-examples) for further patterns.
   - `.cron(cronExpression)`: Specifies a cron schedule for the rule to fire.
   - `.timeOfDay(time)`: Specifies a time of day in `HH:mm` for the rule to fire.
   - `.item(itemName)`: Specifies an Item as the source of changes to trigger a rule.
-    - `.for(duration)`
-    - `.from(state)`
-    - `.fromOn()`
-    - `.fromOff()`
-    - `.to(state)`
-    - `.toOn()`
-    - `.toOff()`
-    - `.receivedCommand()`
-    - `.receivedUpdate()`
-    - `.changed()`
+    - `.receivedCommand()`, `.receivedUpdate()`, `.changed()` allows to define the received command/update, respective new state:
+      - `.of(command)`
+      - `.to(state)`
+      - `.toOn()`
+      - `.toOff()`
+    - `.changed()` allows to define the previous state and a duration for which the Item must have changed:
+      - `.from(state)`
+      - `.fromOn()`
+      - `.fromOff()`
+      - `.for(duration)` where duration is in milliseconds
   - `.memberOf(groupName)`: Specifies a group Item as the source of changes to trigger the rule.
-    - `.for(duration)`
-    - `.from(state)`
-    - `.fromOn()`
-    - `.fromOff()`
-    - `.to(state)`
-    - `.toOn()`
-    - `.toOff()`
-    - `.receivedCommand()`
-    - `.receivedUpdate()`
-    - `.changed()`
+    - `.receivedCommand()`, `.receivedUpdate()`, `.changed()` allows to define the received command/update, respective new state:
+      - `.of(command)`
+      - `.to(state)`
+      - `.toOn()`
+      - `.toOff()`
+    - `.changed()` allows to define the previous state and a duration for which the Item must have changed:
+      - `.from(state)`
+      - `.fromOn()`
+      - `.fromOff()`
+      - `.for(duration)` where duration is in milliseconds
   - `.system()`: Specifies a system event as a source for the rule to fire.
     - `.ruleEngineStarted()`
     - `.rulesLoaded()`
@@ -1349,9 +1349,9 @@ See [Examples](#rule-builder-examples) for further patterns.
     - `.startLevel(level)`
   - `.thing(thingName)`: Specifies a Thing event as a source for the rule to fire.
     - `changed()`
+      - `from(state)`
+      - `to(state)`
     - `updated()`
-    - `from(state)`
-    - `to(state)`
   - `.dateTime(itemName)`: Specifies a DateTime Item whose (optional) date and time schedule the rule to fire.
     - `.timeOnly()`: Only the time of the Item should be compared, the date should be ignored.
     - `.withOffset(offset)`: The offset in seconds to add to the time of the DateTime Item.
