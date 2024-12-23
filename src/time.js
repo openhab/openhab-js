@@ -186,7 +186,7 @@ function _convertItemRawState (rawState) {
   } else if (rawState instanceof StringType) { // String type Items
     return _parseString(rawState.toString());
   } else if (rawState instanceof DateTimeType) { // DateTime Items
-    return javaZDTToJsZDT(rawState.getZonedDateTime());
+    return javaInstantToJsInstant(rawState.getInstant()).atZone(time.ZoneId.systemDefault());
   } else if (rawState instanceof QuantityType) { // Number:Time type Items
     return _addQuantityType(rawState);
   } else {
@@ -288,10 +288,10 @@ function toZDT (when) {
     return _addMillisToNow(when.floatValue());
   }
 
-  // DateTimeType, extract the javaZDT and convert to time.ZDT
+  // DateTimeType, extract the javaInstant and convert to time.ZDT, use the configured timezone
   if (when instanceof DateTimeType) {
-    log.debug('toZTD: Converting DateTimeType ' + when);
-    return javaZDTToJsZDT(when.getZonedDateTime());
+    log.debug('toZDT: Converting DateTimeType ' + when);
+    return javaInstantToJsInstant(when.getInstant()).atZone(time.ZoneId.systemDefault());
   }
 
   // Add Quantity or QuantityType<Time> to now
