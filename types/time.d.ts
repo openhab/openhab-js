@@ -2,6 +2,7 @@ declare const _exports: {
     javaInstantToJsInstant: typeof javaInstantToJsInstant;
     javaZDTToJsZDT: typeof javaZDTToJsZDT;
     toZDT: typeof toZDT;
+    toInstant: typeof toInstant;
     _parseString: typeof _parseString;
     _parseISO8601: typeof _parseISO8601;
     nativeJs(date: any, zone?: time.ZoneId): time.ZonedDateTime;
@@ -114,6 +115,24 @@ declare function javaZDTToJsZDT(zdt: JavaZonedDateTime): time.ZonedDateTime;
  * @throws error if the type, format, or contents of when are not supported
  */
 declare function toZDT(when?: any): time.ZonedDateTime;
+/**
+ * Converts the passed in when to a time.Instant based on the following
+ * set of rules.
+ *
+ * - null, undefined: time.Instant.now()
+ * - time.Instant: unmodified
+ * - time.ZonedDateTime: converted to the time.Instant equivalent
+ * - Java Instant, DateTimeType: converted to time.Instant equivalent
+ * - JavaScript native {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date Date}: converted to a `time.Instant`
+ * - Item: converts the state of the Item based on the *Type rules described here
+ * - String, Java String, StringType: parsed ISO Instant
+ *     - RFC (output from a Java Instant.toString()): parsed to time.Instant
+ * @memberof time
+ * @param {*} [when] any of the types discussed above
+ * @returns {time.Instant}
+ * @throws error if the type, format, or contents of when are not supported
+ */
+declare function toInstant(when?: any): time.Instant;
 /**
  * Parses the passed in string based on it's format and converts it to a ZonedDateTime.
  * If no timezone is specified, the configured timezone is used.

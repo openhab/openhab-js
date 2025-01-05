@@ -22,7 +22,27 @@ describe('time.js', () => {
 
     it('delegates to parseString', () => {
       const when = 'when';
-      expect(() => time.toZDT(when)).toThrowError('Failed to parse string when: DateTimeParseException: Text cannot be parsed to a Duration: when, at index: 0');
+      expect(() => time.toZDT(when)).toThrow('Failed to parse string when: DateTimeParseException: Text cannot be parsed to a Duration: when, at index: 0');
+    });
+
+    // TODO: Add remaining possible cases for when
+  });
+
+  describe('toInstant', () => {
+    it('passes through if when is a time.Instant', () => {
+      const instant = time.Instant.now();
+      expect(time.toInstant(instant)).toBe(instant);
+    });
+
+    it('converts if when is a time.ZonedDateTime', () => {
+      const zdt = time.ZonedDateTime.now();
+      expect(time.toInstant(zdt)).toStrictEqual(zdt.toInstant());
+    });
+
+    it('converts if when is a string', () => {
+      const instant = time.Instant.now();
+      const string = instant.toString();
+      expect(time.toInstant(string)).toStrictEqual(instant);
     });
 
     // TODO: Add remaining possible cases for when

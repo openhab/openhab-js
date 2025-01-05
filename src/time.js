@@ -16,9 +16,10 @@ const time = require('@js-joda/core');
 
 const log = require('./log')('time');
 const osgi = require('./osgi');
-const { _isItem, _isZonedDateTime, _isDuration, _isQuantity } = require('./helpers');
+const { _isItem, _isZonedDateTime, _isInstant, _isDuration, _isQuantity } = require('./helpers');
 
 const javaZDT = Java.type('java.time.ZonedDateTime');
+const javaInstant = Java.type('java.time.Instant');
 const javaDuration = Java.type('java.time.Duration');
 const javaString = Java.type('java.lang.String');
 const javaNumber = Java.type('java.lang.Number');
@@ -41,28 +42,30 @@ time.ZonedDateTime.prototype.parse = function (text, formatter = rfcFormatter) {
 };
 
 /**
- * Adds millis to the passed in ZDT as milliseconds. The millis is rounded first.
+ * Adds millis to the passed in Temporal as milliseconds. The millis are rounded first.
  * If millis is negative they will be subtracted.
  * @private
+ * @param {time.Temporal} temporal temporal to add milleseconds to
  * @param {number|bigint} millis number of milliseconds to add
  */
-function _addMillisToNow (millis) {
-  return time.ZonedDateTime.now().plus(Math.round(millis), time.ChronoUnit.MILLIS);
+function _addMillis (temporal, millis) {
+  return temporal.plus(Math.round(millis), time.ChronoUnit.MILLIS);
 }
 
 /**
- * Adds the passed in QuantityType<Time> to now.
+ * Adds the passed in QuantityType<Time> to the passed Temporal.
  * @private
+ * @param {time.Temporal} temporal temporal to add seconds to
  * @param {QuantityType} quantityType an Item's QuantityType
  * @returns now plus the time length in the quantityType
  * @throws error when the units for the quantity type are not one of the Time units
  */
-function _addQuantityType (quantityType) {
+function _addQuantityType (temporal, quantityType) {
   const secs = quantityType.toUnit('s');
   if (secs) {
-    return time.ZonedDateTime.now().plusSeconds(secs.doubleValue());
+    return temporal.plus(secs.doubleValue(), time.ChronoUnit.SECONDS);
   } else {
-    throw Error('Only Time units are supported to convert QuantityTypes to a ZonedDateTime: ' + quantityType.toString());
+    throw Error('Only Time units are supported to add QuantityTypes to a Temporal: ' + quantityType.toString());
   }
 }
 
@@ -180,17 +183,34 @@ function _parseString (str) {
  * @returns {time.ZonedDateTime}
  * @throws error if the Item's state is not supported or the Item itself is not supported
  */
-function _convertItemRawState (rawState) {
+function _convertItemRawStateToZonedDateTime (rawState) {
   if (rawState instanceof DecimalType) { // Number type Items
-    return _addMillisToNow(rawState.floatValue());
+    return _addMillis(time.ZonedDateTime.now(), rawState.floatValue());
   } else if (rawState instanceof StringType) { // String type Items
     return _parseString(rawState.toString());
   } else if (rawState instanceof DateTimeType) { // DateTime Items
     return javaInstantToJsInstant(rawState.getInstant()).atZone(time.ZoneId.systemDefault());
   } else if (rawState instanceof QuantityType) { // Number:Time type Items
-    return _addQuantityType(rawState);
+    return _addQuantityType(time.ZonedDateTime.now(), rawState);
   } else {
     throw Error(rawState.toString() + ' is not supported for conversion to time.ZonedDateTime');
+  }
+}
+
+/**
+ * Converts the state of the passed in Item to a time.Instant
+ * @private
+ * @param {HostState} rawState
+ * @returns {time.Instant}
+ * @throws error if the Item's state is not supported or the Item itself is not supported
+ */
+function _convertItemRawStateToInstant (rawState) {
+  if (rawState instanceof StringType) { // String type Items
+    return time.Instant.parse(rawState.toString());
+  } else if (rawState instanceof DateTimeType) { // DateTime Items
+    return javaInstantToJsInstant(rawState.getInstant());
+  } else {
+    throw Error(rawState.toString() + ' is not supported for conversion to time.Instant');
   }
 }
 
@@ -255,7 +275,7 @@ function toZDT (when) {
   }
   // Convert Java ZonedDateTime
   if (when instanceof javaZDT) {
-    log.debug('toZTD: Converting Java ZonedDateTime ' + when.toString());
+    log.debug('toZDT: Converting Java ZonedDateTime ' + when.toString());
     return javaZDTToJsZDT(when);
   }
 
@@ -282,10 +302,10 @@ function toZDT (when) {
   // Add JavaScript's number or JavaScript BigInt or Java Number or Java DecimalType as milliseconds to now
   if (typeof when === 'number' || typeof when === 'bigint') {
     log.debug('toZDT: Adding milliseconds ' + when + ' to now');
-    return _addMillisToNow(when);
+    return _addMillis(time.ZonedDateTime.now(), when);
   } else if (when instanceof javaNumber || when instanceof DecimalType) {
     log.debug('toZDT: Adding Java number or DecimalType ' + when.floatValue() + ' to now');
-    return _addMillisToNow(when.floatValue());
+    return _addMillis(time.ZonedDateTime.now(), when.floatValue());
   }
 
   // DateTimeType, extract the javaInstant and convert to time.ZDT, use the configured timezone
@@ -297,10 +317,10 @@ function toZDT (when) {
   // Add Quantity or QuantityType<Time> to now
   if (_isQuantity(when)) {
     log.debug('toZDT: Adding Quantity ' + when + ' to now');
-    return _addQuantityType(when.rawQtyType);
+    return _addQuantityType(time.ZonedDateTime.now(), when.rawQtyType);
   } else if (when instanceof QuantityType) {
     log.debug('toZDT: Adding QuantityType ' + when + ' to now');
-    return _addQuantityType(when);
+    return _addQuantityType(time.ZonedDateTime.now(), when);
   }
 
   // Convert items.Item or raw Item
@@ -309,10 +329,10 @@ function toZDT (when) {
     if (when.isUninitialized) {
       throw Error('Item ' + when.name + ' is NULL or UNDEF, cannot convert to a time.ZonedDateTime');
     }
-    return _convertItemRawState(when.rawState);
+    return _convertItemRawStateToZonedDateTime(when.rawState);
   } else if (when instanceof ohItem) {
     log.debug('toZDT: Converting raw Item ' + when);
-    return _convertItemRawState(when.getState());
+    return _convertItemRawStateToZonedDateTime(when.getState());
   }
 
   // Unsupported
@@ -330,6 +350,83 @@ time.ZonedDateTime.prototype.toToday = function () {
     .withMonth(now.month())
     .withDayOfMonth(now.dayOfMonth());
 };
+
+/**
+ * Converts the passed in when to a time.Instant based on the following
+ * set of rules.
+ *
+ * - null, undefined: time.Instant.now()
+ * - time.Instant: unmodified
+ * - time.ZonedDateTime: converted to the time.Instant equivalent
+ * - Java Instant, DateTimeType: converted to time.Instant equivalent
+ * - JavaScript native {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date Date}: converted to a `time.Instant`
+ * - Item: converts the state of the Item based on the *Type rules described here
+ * - String, Java String, StringType: parsed ISO Instant
+ *     - RFC (output from a Java Instant.toString()): parsed to time.Instant
+ * @memberof time
+ * @param {*} [when] any of the types discussed above
+ * @returns {time.Instant}
+ * @throws error if the type, format, or contents of when are not supported
+ */
+function toInstant (when) {
+  // If when is not supplied or null, return now
+  if (when === undefined || when === null) {
+    log.debug('toInstant: Returning Instant.now()');
+    return time.Instant.now();
+  }
+
+  // Pass through if already a time.Instant
+  if (_isInstant(when)) {
+    log.debug('toInstant: Passing trough ' + when);
+    return when;
+  }
+
+  // Convert time.ZonedDateTime
+  if (_isZonedDateTime(when)) {
+    log.debug('toInstant: Converting time.ZonedDateTime ' + when.toString());
+    return when.toInstant();
+  }
+
+  // Convert Java Instant
+  if (when instanceof javaInstant) {
+    log.debug('toInstant: Converting Java Instant ' + when.toString());
+    return javaInstantToJsInstant(when);
+  }
+
+  // String or StringType
+  if (typeof when === 'string' || when instanceof javaString || when instanceof StringType) {
+    log.debug('toInstant: Parsing string ' + when);
+    return time.Instant.parse(when.toString());
+  }
+
+  // JavaScript Native Date
+  if (when instanceof Date) {
+    log.debug('toInstant: Converting JS native Date ' + when);
+    const native = time.nativeJs(when);
+    return time.Instant.from(native);
+  }
+
+  // DateTimeType, extract the javaInstant and convert to time.Instant
+  if (when instanceof DateTimeType) {
+    log.debug('toInstant: Converting DateTimeType ' + when);
+    return javaInstantToJsInstant(when.getInstant());
+  }
+
+  // Convert items.Item or raw Item
+  if (_isItem(when)) {
+    log.debug('toInstant: Converting Item ' + when);
+    if (when.isUninitialized) {
+      throw Error('Item ' + when.name + ' is NULL or UNDEF, cannot convert to a time.Instant');
+    }
+    return _convertItemRawStateToInstant(when.rawState);
+  } else if (when instanceof ohItem) {
+    log.debug('toInstant: Converting raw Item ' + when);
+    return _convertItemRawStateToInstant(when.getState());
+  }
+
+  // Unsupported
+  throw Error('"' + when + '" is an unsupported type for conversion to time.Instant');
+}
 
 /**
  * Tests whether `this` time.ZonedDateTime is before the passed in timestamp.
@@ -497,6 +594,7 @@ module.exports = {
   javaInstantToJsInstant,
   javaZDTToJsZDT,
   toZDT,
+  toInstant,
   _parseString,
   _parseISO8601
 };
