@@ -125,8 +125,7 @@ declare function toZDT(when?: any): time.ZonedDateTime;
  * - Java Instant, DateTimeType: converted to time.Instant equivalent
  * - JavaScript native {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date Date}: converted to a `time.Instant`
  * - Item: converts the state of the Item based on the *Type rules described here
- * - String, Java String, StringType: parsed ISO Instant
- *     - RFC (output from a Java Instant.toString()): parsed to time.Instant
+ * - String, Java String, StringType: parsed
  * @memberof time
  * @param {*} [when] any of the types discussed above
  * @returns {time.Instant}

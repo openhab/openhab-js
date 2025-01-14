@@ -1093,17 +1093,16 @@ console.log(timestamp.getMillisFromNow());
 
 The following rules are used during the conversion:
 
-| Argument Type                                                                | Rule                                                                                                       | Examples                                     |
-|------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------------------|
-| `null` or `undefined`                                                        | `time.Instant.now()`                                                                                       | `time.toInstant();`                          |
-| `time.Instant`                                                               | passed through unmodified                                                                                  |                                              |
-| `java.time.Instant`                                                          | converted to the `time.Instant` equivalent                                                                 |                                              |
-| `java.time.ZonedDateTime`                                                    | converted to the `time.Instant` equivalent                                                                 |                                              |
-| JavaScript native `Date`                                                     | converted to the `time.Instant` equivalent                                                                 |                                              |
-| `items.Item` or `org.openhab.core.types.Item`                                | if the state is supported (see the `Type` rules in this table, e.g. `DecimalType`), the state is converted | `time.toInstant(items.getItem('MyItem'));`   |
-| `String`, `java.lang.String`, `StringType`                                   | parsed ISO Instant                                                                                         | `time.toInstant('2019-10-12T07:20:50.52Z');` |
-| [ISO8601 Date/Time](https://en.wikipedia.org/wiki/ISO_8601) String           |                                                                                                            |                                              |
-| RFC String (output from a Java `Instant.toString()`)                         |                                                                                                            |                                              |
+| Argument Type                                 | Rule                                                                                    | Examples                                     |
+|-----------------------------------------------|-----------------------------------------------------------------------------------------|----------------------------------------------|
+| `null` or `undefined`                         | `time.Instant.now()`                                                                    | `time.toInstant();`                          |
+| `time.Instant`                                | passed through unmodified                                                               |                                              |
+| `java.time.Instant`                           | converted to the `time.Instant` equivalent                                              |                                              |
+| `java.time.ZonedDateTime`                     | converted to the `time.Instant` equivalent                                              |                                              |
+| JavaScript native `Date`                      | converted to the `time.Instant` equivalent                                              |                                              |
+| `items.Item` or `org.openhab.core.types.Item` | if the state is supported (see the `Type` rules in this table), the state is converted  | `time.toInstant(items.getItem('MyItem'));`   |
+| `String`, `java.lang.String`, `StringType`    | parsed                                                                                  | `time.toInstant('2019-10-12T07:20:50.52Z');` |
+| `DateTimeType`                                | converted to the `time.Instant` equivalent                                              |                                              |
 
 When a type or string that cannot be handled is encountered, an error is thrown.
 
