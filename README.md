@@ -971,7 +971,7 @@ The following rules are used during the conversion:
 | `null` or `undefined`                                                        | `time.ZonedDateTime.now()`                                                                                      | `time.toZDT();`                                                                        |
 | `time.ZonedDateTime`                                                         | passed through unmodified                                                                                       |                                                                                        |
 | `java.time.ZonedDateTime`                                                    | converted to the `time.ZonedDateTime` equivalent                                                                |                                                                                        |
-| JavaScript native `Date`                                                     | converted to the equivalent `time.ZonedDateTime` using `SYSTEM` as the timezone                                 |                                                                                        |
+| JavaScript native `Date`                                                     | converted to the `time.ZonedDateTime` equivalent using `SYSTEM` as the timezone                                 |                                                                                        |
 | `number`, `bingint`, `java.lang.Number`, `DecimalType`                       | rounded to the nearest integer and added to `now` as milliseconds                                               | `time.toZDT(1000);`                                                                    |
 | [`Quantity`](#quantity) or `QuantityType`                                    | if the unit is time-compatible, added to `now`                                                                  | `time.toZDT(item.getItem('MyTimeItem').rawState);`, `time.toZDT(Quantity('10 min'));`  |
 | `items.Item` or `org.openhab.core.types.Item`                                | if the state is supported (see the `Type` rules in this table, e.g. `DecimalType`), the state is converted      | `time.toZDT(items.getItem('MyItem'));`                                                 |
@@ -1088,6 +1088,23 @@ This method on `time.ZonedDateTime` returns the milliseconds from now to the pas
 var timestamp = time.ZonedDateTime.now().plusMinutes(5);
 console.log(timestamp.getMillisFromNow());
 ```
+
+#### `time.toInstant()`
+
+The following rules are used during the conversion:
+
+| Argument Type                                 | Rule                                                                                     | Examples                                     |
+|-----------------------------------------------|------------------------------------------------------------------------------------------|----------------------------------------------|
+| `null` or `undefined`                         | `time.Instant.now()`                                                                     | `time.toInstant();`                          |
+| `time.Instant`                                | passed through unmodified                                                                |                                              |
+| `java.time.Instant`                           | converted to the `time.Instant` equivalent                                               |                                              |
+| `java.time.ZonedDateTime`                     | converted to the `time.Instant` equivalent                                               |                                              |
+| JavaScript native `Date`                      | converted to the `time.Instant` equivalent                                               |                                              |
+| `items.Item` or `org.openhab.core.types.Item` | if the state is supported (see the `*Type` rules in this table), the state is converted  | `time.toInstant(items.getItem('MyItem'));`   |
+| `String`, `java.lang.String`, `StringType`    | parsed                                                                                   | `time.toInstant('2019-10-12T07:20:50.52Z');` |
+| `DateTimeType`                                | converted to the `time.Instant` equivalent                                               |                                              |
+
+When a type or string that cannot be handled is encountered, an error is thrown.
 
 ### Quantity
 
