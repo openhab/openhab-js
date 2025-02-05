@@ -10,14 +10,14 @@ jobs:
   build:
     runs-on: ubuntu-24.04
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '16.17.1'
+          node-version: '20.13.1'
 
       - name: Cache node modules
         id: cache
@@ -56,6 +56,7 @@ jobs:
           path: |
             dist
             !dist/*.txt
+
       - name: Upload test coverage report
         uses: actions/upload-artifact@v4
         with:
