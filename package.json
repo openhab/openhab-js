@@ -33,7 +33,7 @@
     },
     "devDependencies": {
         "@types/jest": "^29.5.12",
-        "@types/node": "^20.11.5",
+        "@types/node": "^20.13.0",
         "docdash": "^2.0.2",
         "eslint": "^8.56.0",
         "eslint-config-standard": "^17.1.0",
