@@ -32,7 +32,7 @@
         "parse-duration": "^0.1.1"
     },
     "devDependencies": {
-        "@types/jest": "^29.5.12",
+        "@types/jest": "^29.5.14",
         "@types/node": "^20.13.0",
         "docdash": "^2.0.2",
         "eslint": "^8.56.0",
