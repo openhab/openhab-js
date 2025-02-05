@@ -46,7 +46,7 @@ This library is included by default in the openHAB [JavaScript Scripting add-on]
 
 ### Default Installation
 
-Install the openHAB [JavaScript Scripting add-on](https://www.openhab.org/addons/automation/jsscripting/), a version of this library will be automatically installed and available to ECMAScript 2022+ rules created using [File Based Rules](#file-based-rules) or [UI Based Rules](#ui-based-rules).
+Install the openHAB [JavaScript Scripting add-on](https://www.openhab.org/addons/automation/jsscripting/), a version of this library will be automatically installed and available to ECMAScript 2024+ rules created using [File Based Rules](#file-based-rules) or [UI Based Rules](#ui-based-rules).
 
 openHAB also provides the [JavaScript Scripting (Nashorn) add-on](https://www.openhab.org/addons/automation/jsscriptingnashorn/), which is based on the older Nashorn JavaScript engine. This is referred to as `ECMA - 262 Edition 5.1` or `application/javascript;version=ECMAScript-5.1` in the Main UI.
 *This library is not compatible with this older runtime.*
@@ -1212,8 +1212,8 @@ See [openhab-js : utils](https://openhab.github.io/openhab-js/utils.html) for fu
 
 ## File Based Rules
 
-The JS Scripting binding will load scripts from `automation/js` in the user configuration directory.
-The system will automatically reload scripts when changes are detected to files.
+The JavaScript Scripting automation add-on will load `.js` scripts from `automation/js` in the user configuration directory.
+The system will automatically reload a script when changes are detected to the script file.
 Local variable state is not persisted among reloads, see using the [cache](#cache) for a convenient way to persist objects.
 
 File based rules can be created in 2 different ways: using [JSRule](#jsrule) or the [Rule Builder](#rule-builder).
