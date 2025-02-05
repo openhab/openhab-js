@@ -11,11 +11,6 @@
         "url": "git://github.com/openhab/openhab-js.git"
     },
     "homepage": "https://www.openhab.org/addons/automation/jsscripting/",
-    "dependencies": {
-        "@js-joda/core": "^5.6.2",
-        "@js-joda/timezone": "^2.18.3",
-        "parse-duration": "^0.1.1"
-    },
     "scripts": {
         "lint": "npx eslint src",
         "lint:fix": "npx eslint --fix src",
@@ -30,6 +25,11 @@
         "prebuild": "npm run test",
         "build": "npm run webpack && npm run types && npm run types:test",
         "postbuild": "npm run docs"
+    },
+    "dependencies": {
+        "@js-joda/core": "^5.6.4",
+        "@js-joda/timezone": "^2.21.2",
+        "parse-duration": "^0.1.1"
     },
     "devDependencies": {
         "@types/jest": "^29.5.12",
