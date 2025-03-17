@@ -1,10 +1,6 @@
 export type Item = {
     rawItem: HostItem;
     persistence: import("./items/item-persistence");
-    /**
-     * QuantityError is thrown when {@link Quantity} creation or operation fails.
-     * It is used to wrap the underlying Java Exceptions and add some additional information and a JS stacktrace to it.
-     */
     semantics: import("./items/item-semantics");
     readonly type: string;
     readonly name: string;
