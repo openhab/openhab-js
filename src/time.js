@@ -246,6 +246,8 @@ function javaZDTToJsZDT (zdt) {
  * - null, undefined: time.ZonedDateTime.now()
  * - time.ZonedDateTime: unmodified
  * - Java ZonedDateTime, DateTimeType: converted to time.ZonedDateTime equivalent
+ * - time.Instant: converted to time.ZonedDateTime equivalent
+ * - Java Instant: converted to time.ZonedDateTime equivalent
  * - JavaScript native {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date Date}: converted to a `time.ZonedDateTime` using configured timezone
  * - number, bigint, Java Number, DecimalType: rounded and added to `time.ZonedDateTime.now()` as milliseconds
  * - {@link Quantity} & QuantityType: if the unit is time-compatible, added to `time.ZonedDateTime.now()`
@@ -277,6 +279,18 @@ function toZDT (when) {
   if (when instanceof javaZDT) {
     log.debug('toZDT: Converting Java ZonedDateTime ' + when.toString());
     return javaZDTToJsZDT(when);
+  }
+
+  // Convert time.Instant
+  if (_isInstant(when)) {
+    log.debug('toZDT: Converting time.Instant ' + when);
+    return when.atZone(time.ZoneId.systemDefault());
+  }
+
+  // Convert Java Instant
+  if (when instanceof javaInstant) {
+    log.debug('toZDT: Converting Java Instant ' + when);
+    return javaInstantToJsInstant(when).atZone(time.ZoneId.systemDefault());
   }
 
   // String or StringType
