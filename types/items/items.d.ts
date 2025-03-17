@@ -47,6 +47,8 @@ export type ItemMetadata = {
     value: string;
     configuration: any;
 };
+export type ZonedDateTime = import('@js-joda/core').ZonedDateTime;
+export type Instant = import('@js-joda/core').Instant;
 export type Quantity = import('../quantity').Quantity;
 /**
  * Helper function to ensure an Item name is valid. All invalid characters are replaced with an underscore.
@@ -240,19 +242,19 @@ export class Item {
     /**
      * Sends a command to the Item.
      *
-     * @param {string|number|time.ZonedDateTime|Quantity|HostState} value the value of the command to send, such as 'ON'
+     * @param {string|number|ZonedDateTime|Instant|Quantity|HostState} value the value of the command to send, such as 'ON'
      * @see sendCommandIfDifferent
      * @see postUpdate
      */
-    sendCommand(value: string | number | time.ZonedDateTime | Quantity | HostState): void;
+    sendCommand(value: string | number | ZonedDateTime | Instant | Quantity | HostState): void;
     /**
      * Sends a command to the Item, but only if the current state is not what is being sent.
      *
-     * @param {string|number|time.ZonedDateTime|Quantity|HostState} value the value of the command to send, such as 'ON'
+     * @param {string|number|ZonedDateTime|Instant|Quantity|HostState} value the value of the command to send, such as 'ON'
      * @returns {boolean} true if the command was sent, false otherwise
      * @see sendCommand
      */
-    sendCommandIfDifferent(value: string | number | time.ZonedDateTime | Quantity | HostState): boolean;
+    sendCommandIfDifferent(value: string | number | ZonedDateTime | Instant | Quantity | HostState): boolean;
     /**
      * Increase the value of this Item to the given value by sending a command, but only if the current state is less than that value.
      *
@@ -290,11 +292,11 @@ export class Item {
     /**
      * Posts an update to the Item.
      *
-     * @param {string|number|time.ZonedDateTime|Quantity|HostState} value the value of the command to send, such as 'ON'
+     * @param {string|number|ZonedDateTime|Instant|Quantity|HostState} value the value of the command to send, such as 'ON'
      * @see postToggleUpdate
      * @see sendCommand
      */
-    postUpdate(value: string | number | time.ZonedDateTime | Quantity | HostState): void;
+    postUpdate(value: string | number | ZonedDateTime | Instant | Quantity | HostState): void;
     /**
      * Gets the names of the groups this Item is member of.
      * @returns {string[]}
@@ -331,8 +333,5 @@ import metadata = require("./metadata/metadata");
 import TimeSeries = require("./time-series");
 import ItemPersistence = require("./item-persistence");
 import ItemSemantics = require("./item-semantics");
-declare namespace time {
-    type ZonedDateTime = import('@js-joda/core').ZonedDateTime;
-}
 export { metadata, TimeSeries };
 //# sourceMappingURL=items.d.ts.map
