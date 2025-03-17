@@ -374,6 +374,7 @@ time.ZonedDateTime.prototype.toToday = function () {
  * - time.ZonedDateTime: converted to the time.Instant equivalent
  * - Java Instant, DateTimeType: converted to time.Instant equivalent
  * - JavaScript native {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date Date}: converted to a `time.Instant`
+ * - number, bigint, Java Number, DecimalType: assumed to be epoch milliseconds and converted to a `time.Instant`
  * - Item: converts the state of the Item based on the *Type rules described here
  * - String, Java String, StringType: parsed
  * @memberof time
@@ -417,6 +418,15 @@ function toInstant (when) {
     log.debug('toInstant: Converting JS native Date ' + when);
     const native = time.nativeJs(when);
     return time.Instant.from(native);
+  }
+
+  // Convert epoch milliseconds
+  if (typeof when === 'number' || typeof when === 'bigint') {
+    log.debug('toInstant: Converting epoch milli ' + when);
+    return time.Instant.ofEpochMilli(when);
+  } else if (when instanceof javaNumber || when instanceof DecimalType) {
+    log.debug('toInstant: Converting Java number or DecimalType ' + when);
+    return time.Instant.ofEpochMilli(when.floatValue());
   }
 
   // DateTimeType, extract the javaInstant and convert to time.Instant
