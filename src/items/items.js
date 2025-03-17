@@ -261,6 +261,13 @@ class Item {
       }
     }
 
+    // value is number as string and current state is numeric and both are equal
+    if (typeof value === 'string' && !isNaN(value) && this.numericState !== null) {
+      if (parseFloat(value) === this.numericState) {
+        return false;
+      }
+    }
+
     // stringified value and string state are equal
     value = _toOpenhabPrimitiveType(value);
     if (value.toString() === this.state) {
