@@ -1,8 +1,9 @@
 const { ModuleBuilder, Configuration, QuantityType, JavaScriptExecution, JavaTransformation, JavaNotificationAction } = require('./openhab.mock');
-const { Class, BigDecimal, ArrayList, HashSet, Hashtable, UUID, FrameworkUtil, LoggerFactory, Instant, ZonedDateTime } = require('./java.mock');
+const { Class, String, BigDecimal, ArrayList, HashSet, Hashtable, UUID, FrameworkUtil, LoggerFactory, Instant, ZonedDateTime } = require('./java.mock');
 
 const TYPES = {
   'java.lang.Class': Class,
+  'java.lang.String': String,
   'java.math.BigDecimal': BigDecimal,
   'java.time.Instant': Instant,
   'java.time.ZonedDateTime': ZonedDateTime,

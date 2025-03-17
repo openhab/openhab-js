@@ -978,6 +978,7 @@ The following rules are used during the conversion:
 | `null` or `undefined`                                                        | `time.ZonedDateTime.now()`                                                                                      | `time.toZDT();`                                                                        |
 | `time.ZonedDateTime`                                                         | passed through unmodified                                                                                       |                                                                                        |
 | `java.time.ZonedDateTime`                                                    | converted to the `time.ZonedDateTime` equivalent                                                                |                                                                                        |
+| `time.Instant`, `java.time.Instant`                                          | converted to the `time.ZonedDateTime` equivalent using `SYSTEM` as the timezone                                 | `time.toZDT(time.toInstant(500));` (epoch milli 500 to ZDT)                            |
 | JavaScript native `Date`                                                     | converted to the `time.ZonedDateTime` equivalent using `SYSTEM` as the timezone                                 |                                                                                        |
 | `number`, `bingint`, `java.lang.Number`, `DecimalType`                       | rounded to the nearest integer and added to `now` as milliseconds                                               | `time.toZDT(1000);`                                                                    |
 | [`Quantity`](#quantity) or `QuantityType`                                    | if the unit is time-compatible, added to `now`                                                                  | `time.toZDT(item.getItem('MyTimeItem').rawState);`, `time.toZDT(Quantity('10 min'));`  |
@@ -1100,16 +1101,17 @@ console.log(timestamp.getMillisFromNow());
 
 The following rules are used during the conversion:
 
-| Argument Type                                 | Rule                                                                                     | Examples                                     |
-|-----------------------------------------------|------------------------------------------------------------------------------------------|----------------------------------------------|
-| `null` or `undefined`                         | `time.Instant.now()`                                                                     | `time.toInstant();`                          |
-| `time.Instant`                                | passed through unmodified                                                                |                                              |
-| `java.time.Instant`                           | converted to the `time.Instant` equivalent                                               |                                              |
-| `java.time.ZonedDateTime`                     | converted to the `time.Instant` equivalent                                               |                                              |
-| JavaScript native `Date`                      | converted to the `time.Instant` equivalent                                               |                                              |
-| `items.Item` or `org.openhab.core.types.Item` | if the state is supported (see the `*Type` rules in this table), the state is converted  | `time.toInstant(items.getItem('MyItem'));`   |
-| `String`, `java.lang.String`, `StringType`    | parsed                                                                                   | `time.toInstant('2019-10-12T07:20:50.52Z');` |
-| `DateTimeType`                                | converted to the `time.Instant` equivalent                                               |                                              |
+| Argument Type                                          | Rule                                                                                    | Examples                                     |
+|--------------------------------------------------------|-----------------------------------------------------------------------------------------|----------------------------------------------|
+| `null` or `undefined`                                  | `time.Instant.now()`                                                                    | `time.toInstant();`                          |
+| `time.Instant`                                         | passed through unmodified                                                               |                                              |
+| `java.time.Instant`                                    | converted to the `time.Instant` equivalent                                              |                                              |
+| `number`, `bingint`, `java.lang.Number`, `DecimalType` | handled as epoch milliseconds and converted to the `time.Instant` equivalent            | `time.toInstant(500);`                       |
+| `java.time.ZonedDateTime`                              | converted to the `time.Instant` equivalent                                              |                                              |
+| JavaScript native `Date`                               | converted to the `time.Instant` equivalent                                              |                                              |
+| `items.Item` or `org.openhab.core.types.Item`          | if the state is supported (see the `*Type` rules in this table), the state is converted | `time.toInstant(items.getItem('MyItem'));`   |
+| `String`, `java.lang.String`, `StringType`             | parsed                                                                                  | `time.toInstant('2019-10-12T07:20:50.52Z');` |
+| `DateTimeType`                                         | converted to the `time.Instant` equivalent                                              |                                              |
 
 When a type or string that cannot be handled is encountered, an error is thrown.
 
