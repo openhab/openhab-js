@@ -9,6 +9,12 @@ export type Item = {
     readonly numericState: number;
     readonly quantityState: import("../quantity").Quantity;
     readonly rawState: HostState;
+    /**
+       * Specify the rule group for this rule
+       *
+       * @param {string} group the group this rule belongs to.
+       * @returns {OperationBuilder} this
+       */
     readonly members: any[];
     readonly descendents: any[];
     readonly isUninitialized: boolean;
@@ -206,10 +212,6 @@ export class CopyStateOperation extends OperationConfig {
  * @private
  */
 /**
- * @typedef {import('@js-joda/core').ZonedDateTime} time.ZonedDateTime
- * @private
- */
-/**
  * @typedef {import('../quantity').Quantity} Quantity
  * @private
  */
@@ -333,8 +335,6 @@ declare class OperationConfig {
        */
     build(name?: string, description?: string, tags?: Array<string>, id?: string): void;
 }
-declare namespace time {
-    type ZonedDateTime = import('@js-joda/core').ZonedDateTime;
-}
+import time = require("@js-joda/core");
 export {};
 //# sourceMappingURL=operation-builder.d.ts.map
