@@ -1,12 +1,8 @@
-const parseDuration = require('parse-duration');
+const time = require('@js-joda/core'); // standard JS-Joda is enough as we only parse durations
 const items = require('../items/items');
 
 /**
  * @typedef { import("../items/items").Item } Item
- * @private
- */
-/**
- * @typedef {import('@js-joda/core').ZonedDateTime} time.ZonedDateTime
  * @private
  */
 /**
@@ -447,7 +443,7 @@ class TimingItemStateOperation extends OperationConfig {
     /** @private */
     this.item_changed_trigger_config = itemChangedTriggerConfig;
     /** @private */
-    this.duration_ms = (typeof duration === 'number' ? duration : parseDuration.parse(duration));
+    this.duration_ms = (typeof duration === 'number' ? duration : time.Duration.parse(duration).toMillis());
 
     /** @private */
     this._complete = itemChangedTriggerConfig._complete;
