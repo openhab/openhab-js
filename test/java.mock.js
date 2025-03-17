@@ -13,6 +13,11 @@ class Class {
   }
 }
 
+// java.lang.String (https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html)
+class String {
+  toString () {}
+}
+
 // java.math.BigDecimal (https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/math/BigDecimal.html)
 class BigDecimal {}
 BigDecimal.valueOf = jest.fn(() => new BigDecimal());
@@ -76,6 +81,7 @@ class FrameworkUtil {
 
 module.exports = {
   Class,
+  String,
   ArrayList,
   BigDecimal,
   Instant,

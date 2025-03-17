@@ -20,6 +20,11 @@ describe('time.js', () => {
       expect(time.toZDT(zdt)).toBe(zdt);
     });
 
+    it('converts if when is a time.Instant', () => {
+      const instant = time.Instant.now();
+      expect(time.toZDT(instant)).toStrictEqual(instant.atZone(time.ZoneId.systemDefault()));
+    });
+
     it('delegates to parseString', () => {
       const when = 'when';
       expect(() => time.toZDT(when)).toThrow('Failed to parse string when: DateTimeParseException: Text cannot be parsed to a Duration: when, at index: 0');
@@ -43,6 +48,12 @@ describe('time.js', () => {
       const instant = time.Instant.now();
       const string = instant.toString();
       expect(time.toInstant(string)).toStrictEqual(instant);
+    });
+
+    it('converts if when is epoch millis', () => {
+      const instant = time.Instant.now();
+      const millis = instant.toEpochMilli();
+      expect(time.toInstant(millis)).toStrictEqual(instant);
     });
 
     // TODO: Add remaining possible cases for when
