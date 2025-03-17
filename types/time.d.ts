@@ -99,6 +99,7 @@ declare function javaZDTToJsZDT(zdt: JavaZonedDateTime): time.ZonedDateTime;
  * - null, undefined: time.ZonedDateTime.now()
  * - time.ZonedDateTime: unmodified
  * - Java ZonedDateTime, DateTimeType: converted to time.ZonedDateTime equivalent
+ * - time.Instant, Java Instant: converted to time.ZonedDateTime equivalent
  * - JavaScript native {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date Date}: converted to a `time.ZonedDateTime` using configured timezone
  * - number, bigint, Java Number, DecimalType: rounded and added to `time.ZonedDateTime.now()` as milliseconds
  * - {@link Quantity} & QuantityType: if the unit is time-compatible, added to `time.ZonedDateTime.now()`
@@ -124,6 +125,7 @@ declare function toZDT(when?: any): time.ZonedDateTime;
  * - time.ZonedDateTime: converted to the time.Instant equivalent
  * - Java Instant, DateTimeType: converted to time.Instant equivalent
  * - JavaScript native {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date Date}: converted to a `time.Instant`
+ * - number, bigint, Java Number, DecimalType: assumed to be epoch milliseconds and converted to a `time.Instant`
  * - Item: converts the state of the Item based on the *Type rules described here
  * - String, Java String, StringType: parsed
  * @memberof time
