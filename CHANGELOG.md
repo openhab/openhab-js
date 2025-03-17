@@ -1,5 +1,20 @@
 # Changelog
 
+## 5.9.0
+
+| Type        | Namespace | Description                                                                     | Reference                                              | Breaking |
+|-------------|-----------|---------------------------------------------------------------------------------|--------------------------------------------------------|----------|
+| Enhancement | `time`    | Use configured time-zone when converting DateTimeType to ZonedDateTime          | [#408](https://github.com/openhab/openhab-js/pull/408) | no       |
+| Enhancement | `time`    | Add `toInstant` method                                                          | [#413](https://github.com/openhab/openhab-js/pull/413) | no       |
+| Enhancement |           | Several dependency upgrades                                                     |                                                        | no       |
+| Bugfix      | `items`   | Fix `sendCommandIfDifferent` fails for Dimmer/Number Items with string commands | [#421](https://github.com/openhab/openhab-js/pull/421) | no       |
+| Enhancement | `time`    | `toZDT`: Add support for Instant                                                | [#422](https://github.com/openhab/openhab-js/pull/422) | no       |
+| Enhancement | `time`    | `toInstant`: Add support for epoch millis                                       | [#422](https://github.com/openhab/openhab-js/pull/422) | no       |
+| Enhancement | `items`   | Add `time.Instant` as valid parameter type for `sendCommand` & `postUpdate`     | [#423](https://github.com/openhab/openhab-js/pull/423) | no       |
+| Enhancement | `rules`   | Rule Builder: Replace `parse-duration` dependency by using JS-Joda instead      | [#424](https://github.com/openhab/openhab-js/pull/424) | no       |
+
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/39).
+
 ## 5.8.1
 
 | Type   | Namespace | Description                                                 | Reference                                              | Breaking |
