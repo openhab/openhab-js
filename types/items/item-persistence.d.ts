@@ -12,6 +12,7 @@ export = ItemPersistence;
  * @hideconstructor
  */
 declare class ItemPersistence {
+    static RiemannType: any;
     constructor(rawItem: any);
     rawItem: any;
     /**
@@ -333,12 +334,12 @@ declare class ItemPersistence {
      */
     averageBetween(begin: (time.ZonedDateTime | Date), end: (time.ZonedDateTime | Date), riemannType?: any, serviceId?: string, ...args: any[]): (PersistedState | null);
     /**
-     * Gets the RiemannSum of the states of a given Item since a certain point in time, time is calculated in seconds.
+     * Gets the Riemann sum of the states of a given Item since a certain point in time, time is calculated in seconds.
      *
      * @example
      * var yesterday = time.toZDT().minusDays(1);
-     * var item = items.getItem('KitchenDimmer');
-     * console.log('KitchenDimmer Riemann sum since yesterday', item.persistence.riemannSumSince(yesterday));
+     * var item = items.getItem('SolarPower');
+     * console.log('Solar energy production since yesterday', item.persistence.riemannSumSince(yesterday));
      *
      * @param {(time.ZonedDateTime | Date)} timestamp the point in time from which to search for the Riemann sum
      * @param {RiemannType} [riemannType] optional Riemann approximation type to calculate the integral approximation
@@ -349,7 +350,7 @@ declare class ItemPersistence {
      */
     riemannSumSince(timestamp: (time.ZonedDateTime | Date), riemannType?: any, serviceId?: string, ...args: any[]): (PersistedState | null);
     /**
-    * Gets the RiemannSum of the states of a given Item until a certain point in time, time is calculated in seconds.
+    * Gets the Riemann sum of the states of a given Item until a certain point in time, time is calculated in seconds.
     *
     * @param {(time.ZonedDateTime | Date)} timestamp the point in time to which to search for the Riemann sum
     * @param {RiemannType} [riemannType] optional Riemann approximation type to calculate the integral approximation
@@ -360,7 +361,7 @@ declare class ItemPersistence {
     */
     riemannSumUntil(timestamp: (time.ZonedDateTime | Date), riemannType?: any, serviceId?: string, ...args: any[]): (PersistedState | null);
     /**
-    * Gets the RiemannSum of the states of a given Item between two certain points in time, time is calculated in seconds.
+    * Gets the Riemann sum of the states of a given Item between two certain points in time, time is calculated in seconds.
     *
     * @param {(time.ZonedDateTime | Date)} begin the point in time from which to start the Riemann sum
     * @param {(time.ZonedDateTime | Date)} end the point in time to which to start the Riemann sum
