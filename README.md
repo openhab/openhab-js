@@ -553,7 +553,9 @@ Calling `Item.persistence` returns an `ItemPersistence` object with the followin
   - .varianceUntil(timestamp, serviceId) ⇒ `PersistedState | null`
   - .varianceBetween(begin, end, serviceId) ⇒ `PersistedState | null`
 
-`riemannType` is an optional argument for methods that require calculating an approximation of the integral value. The approximation is calculated using a Riemann sum, with left, right, trapezoidal or midpoint value approximations. The argument is a Java RiemannType enum with possible values: `RiemannType.LEFT`, `RiemannType.RIGHT`, `RiemannType.TRAPEZOIDAL` or `RiemannType.MIDPOINT`. If ommitted, `RiemannType.LEFT` is used.
+`riemannType` is an optional argument for methods that require calculating an approximation of the integral value.
+The approximation is calculated using a Riemann sum, with left, right, trapezoidal or midpoint value approximations.
+The argument is a Java RiemannType enum with possible values: `RiemannType.LEFT`, `RiemannType.RIGHT`, `RiemannType.TRAPEZOIDAL` or `RiemannType.MIDPOINT`. If ommitted, `RiemannType.LEFT` is used.
 
 Note: `serviceId` is optional, if omitted, the default persistence service will be used.
 
