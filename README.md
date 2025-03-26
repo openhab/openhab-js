@@ -540,9 +540,9 @@ Calling `Item.persistence` returns an `ItemPersistence` object with the followin
   - .persistedState(timestamp, serviceId) ⇒ `PersistedItem | null`
   - .previousState(skipEqual, serviceId) ⇒ `PersistedItem | null`
   - .nextState(skipEqual, serviceId) ⇒ `PersistedItem | null`
-  - .riemannSumSince(timestamp, riemannType, serviceId)  ⇒ `PersistedState | null`: Time is considered in seconds.
-  - .riemannSumUntil(timestamp, riemannType, serviceId)  ⇒ `PersistedState | null`: Time is considered in seconds.
-  - .riemannSumBetween(begin, end, riemannType, serviceId)  ⇒ `PersistedState | null`: Time is considered in seconds.
+  - .riemannSumSince(timestamp, riemannType, serviceId)  ⇒ `PersistedState | null`
+  - .riemannSumUntil(timestamp, riemannType, serviceId)  ⇒ `PersistedState | null`
+  - .riemannSumBetween(begin, end, riemannType, serviceId)  ⇒ `PersistedState | null`
   - .sumSince(timestamp, serviceId) ⇒ `PersistedState | null`
   - .sumUntil(timestamp, serviceId) ⇒ `PersistedState | null`
   - .sumBetween(begin, end, serviceId) ⇒ `PersistedState | null`
@@ -556,6 +556,11 @@ Calling `Item.persistence` returns an `ItemPersistence` object with the followin
 `riemannType` is an optional argument for methods that require calculating an approximation of the integral value.
 The approximation is calculated using a Riemann sum, with left, right, trapezoidal or midpoint value approximations.
 The argument is a Java RiemannType enum with possible values: `RiemannType.LEFT`, `RiemannType.RIGHT`, `RiemannType.TRAPEZOIDAL` or `RiemannType.MIDPOINT`. If ommitted, `RiemannType.LEFT` is used.
+
+A Riemann sum is always calculated using seconds as unit for time.
+As an example, the Riemann sum of power values in `kW` will result in an energy measurement in `kWs`.
+You can rely on framework functionality to convert to the appropriate unit (e.g. `kWh`), or do an explicit conversion.
+If you don't use units, be aware of this time factor.
 
 Note: `serviceId` is optional, if omitted, the default persistence service will be used.
 
