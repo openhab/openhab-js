@@ -496,9 +496,9 @@ See [openhab-js : ItemConfig](https://openhab.github.io/openhab-js/global.html#I
 Calling `Item.persistence` returns an `ItemPersistence` object with the following functions:
 
 - ItemPersistence :`object`
-  - .averageSince(timestamp, serviceId) ⇒ `PersistedState | null`
-  - .averageUntil(timestamp, serviceId) ⇒ `PersistedState | null`
-  - .averageBetween(begin, end, serviceId) ⇒ `PersistedState | null`
+  - .averageSince(timestamp, riemannType, serviceId) ⇒ `PersistedState | null`
+  - .averageUntil(timestamp, riemannType, serviceId) ⇒ `PersistedState | null`
+  - .averageBetween(begin, end, riemannType, serviceId) ⇒ `PersistedState | null`
   - .changedSince(timestamp, serviceId) ⇒ `boolean`
   - .changedUntil(timestamp, serviceId) ⇒ `boolean`
   - .changedBetween(begin, end, serviceId) ⇒ `boolean`
@@ -511,12 +511,12 @@ Calling `Item.persistence` returns an `ItemPersistence` object with the followin
   - .deltaSince(timestamp, serviceId) ⇒ `PersistedState | null`
   - .deltaUntil(timestamp, serviceId) ⇒ `PersistedState | null`
   - .deltaBetween(begin, end, serviceId) ⇒ `PersistedState | null`
-  - .deviationSince(timestamp, serviceId) ⇒ `PersistedState | null`
-  - .deviationUntil(timestamp, serviceId) ⇒ `PersistedState | null`
-  - .deviationBetween(begin, end, serviceId) ⇒ `PersistedState | null`
-  - .evolutionRateSince(timestamp, serviceId) ⇒ `number | null`
-  - .evolutionRateUntil(timestamp, serviceId) ⇒ `number | null`
-  - .evolutionRateBetween(begin, end, serviceId) ⇒ `number | null`
+  - .deviationSince(timestamp, riemannType, serviceId) ⇒ `PersistedState | null`
+  - .deviationUntil(timestamp, riemannType, serviceId) ⇒ `PersistedState | null`
+  - .deviationBetween(begin, end, riemannType, serviceId) ⇒ `PersistedState | null`
+  - .evolutionRateSince(timestamp, riemannType, serviceId) ⇒ `number | null`
+  - .evolutionRateUntil(timestamp, riemannType, serviceId) ⇒ `number | null`
+  - .evolutionRateBetween(begin, end, riemannType, serviceId) ⇒ `number | null`
   - .getAllStatesSince(timestamp, serviceId)  ⇒ `Array[PersistedItem]`
   - .getAllStatesUntil(timestamp, serviceId)  ⇒ `Array[PersistedItem]`
   - .getAllStatesBetween(begin, end, serviceId)  ⇒ `Array[PersistedItem]`
@@ -540,6 +540,9 @@ Calling `Item.persistence` returns an `ItemPersistence` object with the followin
   - .persistedState(timestamp, serviceId) ⇒ `PersistedItem | null`
   - .previousState(skipEqual, serviceId) ⇒ `PersistedItem | null`
   - .nextState(skipEqual, serviceId) ⇒ `PersistedItem | null`
+  - .riemannSumSince(timestamp, riemannType, serviceId)  ⇒ `PersistedState | null`
+  - .riemannSumUntil(timestamp, riemannType, serviceId)  ⇒ `PersistedState | null`
+  - .riemannSumBetween(begin, end, riemannType, serviceId)  ⇒ `PersistedState | null`
   - .sumSince(timestamp, serviceId) ⇒ `PersistedState | null`
   - .sumUntil(timestamp, serviceId) ⇒ `PersistedState | null`
   - .sumBetween(begin, end, serviceId) ⇒ `PersistedState | null`
@@ -549,6 +552,15 @@ Calling `Item.persistence` returns an `ItemPersistence` object with the followin
   - .varianceSince(timestamp, serviceId) ⇒ `PersistedState | null`
   - .varianceUntil(timestamp, serviceId) ⇒ `PersistedState | null`
   - .varianceBetween(begin, end, serviceId) ⇒ `PersistedState | null`
+
+`riemannType` is an optional argument for methods that require calculating an approximation of the integral value.
+The approximation is calculated using a Riemann sum, with left, right, trapezoidal or midpoint value approximations.
+The argument is a Java RiemannType enum with possible values: `RiemannType.LEFT`, `RiemannType.RIGHT`, `RiemannType.TRAPEZOIDAL` or `RiemannType.MIDPOINT`. If ommitted, `RiemannType.LEFT` is used.
+
+A Riemann sum is always calculated using seconds as unit for time.
+As an example, the Riemann sum of power values in `kW` will result in an energy measurement in `kWs`.
+You can rely on framework functionality to convert to the appropriate unit (e.g. `kWh`), or do an explicit conversion.
+If you don't use units, be aware of this time factor.
 
 Note: `serviceId` is optional, if omitted, the default persistence service will be used.
 

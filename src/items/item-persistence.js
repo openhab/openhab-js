@@ -6,6 +6,7 @@ const { _toOpenhabPrimitiveType, _isTimeSeries } = require('../helpers');
 const PersistenceExtensions = Java.type('org.openhab.core.persistence.extensions.PersistenceExtensions');
 const TimeSeries = Java.type('org.openhab.core.types.TimeSeries');
 const TypeParser = Java.type('org.openhab.core.types.TypeParser');
+const RiemannType = Java.type('org.openhab.core.persistence.extensions.PersistenceExtensions.RiemannType');
 
 /**
  * @typedef {import('@js-joda/core').ZonedDateTime} time.ZonedDateTime
@@ -165,6 +166,8 @@ class ItemPersistence {
   constructor (rawItem) {
     this.rawItem = rawItem;
   }
+
+  static RiemannType = RiemannType;
 
   /**
    * Persists a state of a given Item.
@@ -509,12 +512,15 @@ class ItemPersistence {
    * Gets the variance of the state of the given Item since a certain point in time.
    *
    * @param {(time.ZonedDateTime | Date)} timestamp the point in time from which to compute the variance
+   * @param {RiemannType} [riemannType] optional Riemann approximation type to calculate the integral approximation
+   *                                    (<code>LEFT</code>, <code>RIGHT</code>, <code>TRAPEZOIDAL</code>, <code>MIDPOINT</code>),
+   *                                    default <code>LEFT</code>
    * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
    * @returns {(PersistedState | null)} the variance between then and now as {@link items.PersistedState}, or <code>null</code> if
    *                            <code>timestamp</code> is in the future, or if there is no persisted state for the given
    *                            Item at the given <code>timestamp</code>
    */
-  varianceSince (timestamp, serviceId) {
+  varianceSince (timestamp, riemannType, serviceId) {
     return _persistedStateOrNull(PersistenceExtensions.varianceSince(this.rawItem, ...arguments));
   }
 
@@ -522,12 +528,15 @@ class ItemPersistence {
    * Gets the variance of the state of the given Item until a certain point in time.
    *
    * @param {(time.ZonedDateTime | Date)} timestamp the point in time to which to compute the variance
+   * @param {RiemannType} [riemannType] optional Riemann approximation type to calculate the integral approximation
+   *                                    (<code>LEFT</code>, <code>RIGHT</code>, <code>TRAPEZOIDAL</code>, <code>MIDPOINT</code>),
+   *                                    default <code>LEFT</code>
    * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
    * @returns {(PersistedState | null)} the variance between now and then as {@link items.PersistedState}, or <code>null</code> if
    *                            <code>timestamp</code> is in the past, or if there is no persisted state for the given
    *                            Item at the given <code>timestamp</code>
    */
-  varianceUntil (timestamp, serviceId) {
+  varianceUntil (timestamp, riemannType, serviceId) {
     return _persistedStateOrNull(PersistenceExtensions.varianceUntil(this.rawItem, ...arguments));
   }
 
@@ -536,12 +545,15 @@ class ItemPersistence {
    *
    * @param {(time.ZonedDateTime | Date)} begin the point in time from which to compute the variance
    * @param {(time.ZonedDateTime | Date)} end the end time for the computation
+   * @param {RiemannType} [riemannType] optional Riemann approximation type to calculate the integral approximation
+   *                                    (<code>LEFT</code>, <code>RIGHT</code>, <code>TRAPEZOIDAL</code>, <code>MIDPOINT</code>),
+   *                                    default <code>LEFT</code>
    * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
    * @returns {(PersistedState | null)} the variance between both points of time as {@link items.PersistedState}, or <code>null</code> if
    *                            <code>begin</code> is after <code>end</code>, or if there is no persisted state for the given
    *                            Item between <code>begin</code> and <code>end</code>
    */
-  varianceBetween (begin, end, serviceId) {
+  varianceBetween (begin, end, riemannType, serviceId) {
     return _persistedStateOrNull(PersistenceExtensions.varianceBetween(this.rawItem, ...arguments));
   }
 
@@ -549,12 +561,15 @@ class ItemPersistence {
    * Gets the standard deviation of the state of the given Item since a certain point in time.
    *
    * @param {(time.ZonedDateTime | Date)} timestamp the point in time from which to compute the standard deviation
+   * @param {RiemannType} [riemannType] optional Riemann approximation type to calculate the integral approximation
+   *                                    (<code>LEFT</code>, <code>RIGHT</code>, <code>TRAPEZOIDAL</code>, <code>MIDPOINT</code>),
+   *                                    default <code>LEFT</code>
    * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
    * @returns {(PersistedState | null)} the standard deviation between then and now as {@link items.PersistedState}, or <code>null</code>
    *                            if <code>timestamp</code> is in the future, or if there is no persisted state for the given Item
    *                            at the given <code>timestamp</code>
    */
-  deviationSince (timestamp, serviceId) {
+  deviationSince (timestamp, riemannType, serviceId) {
     return _persistedStateOrNull(PersistenceExtensions.deviationSince(this.rawItem, ...arguments));
   }
 
@@ -562,12 +577,15 @@ class ItemPersistence {
    * Gets the standard deviation of the state of the given Item until a certain point in time.
    *
    * @param {(time.ZonedDateTime | Date)} timestamp the point in time to which to compute the standard deviation
+   * @param {RiemannType} [riemannType] optional Riemann approximation type to calculate the integral approximation
+   *                                    (<code>LEFT</code>, <code>RIGHT</code>, <code>TRAPEZOIDAL</code>, <code>MIDPOINT</code>),
+   *                                    default <code>LEFT</code>
    * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
    * @returns {(PersistedState | null)} the standard deviation between now and then as {@link items.PersistedState}, or <code>null</code>
    *                            if <code>timestamp</code> is in the past, or if there is no persisted state for the given Item
    *                            at the given <code>timestamp</code>
    */
-  deviationUntil (timestamp, serviceId) {
+  deviationUntil (timestamp, riemannType, serviceId) {
     return _persistedStateOrNull(PersistenceExtensions.deviationUntil(this.rawItem, ...arguments));
   }
 
@@ -576,12 +594,15 @@ class ItemPersistence {
    *
    * @param {(time.ZonedDateTime | Date)} begin the point in time from which to compute
    * @param {(time.ZonedDateTime | Date)} end the end time for the computation
+   * @param {RiemannType} [riemannType] optional Riemann approximation type to calculate the integral approximation
+   *                                    (<code>LEFT</code>, <code>RIGHT</code>, <code>TRAPEZOIDAL</code>, <code>MIDPOINT</code>),
+   *                                    default <code>LEFT</code>
    * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
    * @returns {(PersistedState | null)} the standard deviation between both points of time as {@link items.PersistedState}, or <code>null</code>
    *                            if <code>begin</code> is after <code>end</code>, or if there is no persisted state for the given Item
    *                            between <code>begin</code> and <code>end</code>
    */
-  deviationBetween (begin, end, serviceId) {
+  deviationBetween (begin, end, riemannType, serviceId) {
     return _persistedStateOrNull(PersistenceExtensions.deviationBetween(this.rawItem, ...arguments));
   }
 
@@ -594,10 +615,13 @@ class ItemPersistence {
    * console.log('KitchenDimmer average since yesterday', item.persistence.averageSince(yesterday));
    *
    * @param {(time.ZonedDateTime | Date)} timestamp the point in time from which to search for the average value
+   * @param {RiemannType} [riemannType] optional Riemann approximation type to calculate the integral approximation
+   *                                    (<code>LEFT</code>, <code>RIGHT</code>, <code>TRAPEZOIDAL</code>, <code>MIDPOINT</code>),
+   *                                    default <code>LEFT</code>
    * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
    * @returns {(PersistedState | null)} the average value since <code>timestamp</code> as {@link items.PersistedState} or <code>null</code> if no previous states could be found
    */
-  averageSince (timestamp, serviceId) {
+  averageSince (timestamp, riemannType, serviceId) {
     return _persistedStateOrNull(PersistenceExtensions.averageSince(this.rawItem, ...arguments));
   }
 
@@ -605,10 +629,13 @@ class ItemPersistence {
    * Gets the average value of the state of a given Item until a certain point in time.
    *
    * @param {(time.ZonedDateTime | Date)} timestamp the point in time to which to search for the average value
+   * @param {RiemannType} [riemannType] optional Riemann approximation type to calculate the integral approximation
+   *                                    (<code>LEFT</code>, <code>RIGHT</code>, <code>TRAPEZOIDAL</code>, <code>MIDPOINT</code>),
+   *                                    default <code>LEFT</code>
    * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
    * @returns {(PersistedState | null)} the average value until <code>timestamp</code> as {@link items.PersistedState} or <code>null</code> if no future states could be found
    */
-  averageUntil (timestamp, serviceId) {
+  averageUntil (timestamp, riemannType, serviceId) {
     return _persistedStateOrNull(PersistenceExtensions.averageUntil(this.rawItem, ...arguments));
   }
 
@@ -617,11 +644,62 @@ class ItemPersistence {
    *
    * @param {(time.ZonedDateTime | Date)} begin the point in time from which to start the average
    * @param {(time.ZonedDateTime | Date)} end the point in time to which to start the average
+   * @param {RiemannType} [riemannType] optional Riemann approximation type to calculate the integral approximation
+   *                                    (<code>LEFT</code>, <code>RIGHT</code>, <code>TRAPEZOIDAL</code>, <code>MIDPOINT</code>),
+   *                                    default <code>LEFT</code>
    * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
    * @returns {(PersistedState | null)} the average value between <code>begin</code> and <code>end</code> as {@link items.PersistedState} or <code>null</code> if no states could be found
    */
-  averageBetween (begin, end, serviceId) {
+  averageBetween (begin, end, riemannType, serviceId) {
     return _persistedStateOrNull(PersistenceExtensions.averageBetween(this.rawItem, ...arguments));
+  }
+
+  /**
+   * Gets the Riemann sum of the states of a given Item since a certain point in time, time is calculated in seconds.
+   *
+   * @example
+   * var yesterday = time.toZDT().minusDays(1);
+   * var item = items.getItem('SolarPower');
+   * console.log('Solar energy production since yesterday', item.persistence.riemannSumSince(yesterday));
+   *
+   * @param {(time.ZonedDateTime | Date)} timestamp the point in time from which to search for the Riemann sum
+   * @param {RiemannType} [riemannType] optional Riemann approximation type to calculate the integral approximation
+   *                                    (<code>LEFT</code>, <code>RIGHT</code>, <code>TRAPEZOIDAL</code>, <code>MIDPOINT</code>),
+   *                                    default <code>LEFT</code>
+   * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
+   * @returns {(PersistedState | null)} the Riemann sum since <code>timestamp</code> as {@link items.PersistedState} or <code>null</code> if no previous states could be found, time is calculated in seconds
+   */
+  riemannSumSince (timestamp, riemannType, serviceId) {
+    return _persistedStateOrNull(PersistenceExtensions.riemannSumSince(this.rawItem, ...arguments));
+  }
+
+  /**
+  * Gets the Riemann sum of the states of a given Item until a certain point in time, time is calculated in seconds.
+  *
+  * @param {(time.ZonedDateTime | Date)} timestamp the point in time to which to search for the Riemann sum
+  * @param {RiemannType} [riemannType] optional Riemann approximation type to calculate the integral approximation
+  *                                    (<code>LEFT</code>, <code>RIGHT</code>, <code>TRAPEZOIDAL</code>, <code>MIDPOINT</code>),
+  *                                    default <code>LEFT</code>
+  * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
+  * @returns {(PersistedState | null)} the Riemann sum until <code>timestamp</code> as {@link items.PersistedState} or <code>null</code> if no future states could be found, time is calculated in seconds
+  */
+  riemannSumUntil (timestamp, riemannType, serviceId) {
+    return _persistedStateOrNull(PersistenceExtensions.riemannSumUntil(this.rawItem, ...arguments));
+  }
+
+  /**
+  * Gets the Riemann sum of the states of a given Item between two certain points in time, time is calculated in seconds.
+  *
+  * @param {(time.ZonedDateTime | Date)} begin the point in time from which to start the Riemann sum
+  * @param {(time.ZonedDateTime | Date)} end the point in time to which to start the Riemann sum
+  * @param {RiemannType} [riemannType] optional Riemann approximation type to calculate the integral approximation
+  *                                    (<code>LEFT</code>, <code>RIGHT</code>, <code>TRAPEZOIDAL</code>, <code>MIDPOINT</code>),
+  *                                    default <code>LEFT</code>
+  * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
+  * @returns {(PersistedState | null)} the Riemann sum between <code>begin</code> and <code>end</code> as {@link items.PersistedState} or <code>null</code> if no states could be found, time is calculated in seconds
+  */
+  riemannSumBetween (begin, end, riemannType, serviceId) {
+    return _persistedStateOrNull(PersistenceExtensions.riemannSumBetween(this.rawItem, ...arguments));
   }
 
   /**
