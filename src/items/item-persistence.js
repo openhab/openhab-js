@@ -167,6 +167,11 @@ class ItemPersistence {
     this.rawItem = rawItem;
   }
 
+  /**
+   * Enum of the Riemann approximation types to calculate the integral approximation.
+   *
+   * @type {RiemannType}
+   */
   static RiemannType = RiemannType;
 
   /**

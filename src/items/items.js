@@ -705,6 +705,10 @@ const itemProperties = {
   removeItem,
   Item,
   metadata,
+  /**
+   * @type {RiemannType}
+   */
+  RiemannType: ItemPersistence.RiemannType,
   TimeSeries
 };
 

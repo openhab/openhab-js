@@ -55,6 +55,13 @@ declare global {
    * Native Java openHAB QuantityType (instance of {@link https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/quantitytype org.openhab.core.library.types.QuantityType})
    */
   type QuantityType = object;
+
+  type RiemannType = {
+    LEFT: string;
+    RIGHT: string;
+    TRAPEZOIDAL: string;
+    MIDPOINT: string;
+  }
 }
 
 // Manually written type definitions to avoid problems with lazy loading in index.js

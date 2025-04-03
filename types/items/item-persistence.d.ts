@@ -12,6 +12,11 @@ export = ItemPersistence;
  * @hideconstructor
  */
 declare class ItemPersistence {
+    /**
+     * Enum of the Riemann approximation types to calculate the integral approximation.
+     *
+     * @type {RiemannType}
+     */
     static RiemannType: any;
     constructor(rawItem: any);
     rawItem: any;
