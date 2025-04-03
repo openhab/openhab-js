@@ -333,5 +333,6 @@ import metadata = require("./metadata/metadata");
 import TimeSeries = require("./time-series");
 import ItemPersistence = require("./item-persistence");
 import ItemSemantics = require("./item-semantics");
+export declare const RiemannType: RiemannType;
 export { metadata, TimeSeries };
 //# sourceMappingURL=items.d.ts.map
