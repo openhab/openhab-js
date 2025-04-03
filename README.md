@@ -555,7 +555,12 @@ Calling `Item.persistence` returns an `ItemPersistence` object with the followin
 
 `riemannType` is an optional argument for methods that require calculating an approximation of the integral value.
 The approximation is calculated using a Riemann sum, with left, right, trapezoidal or midpoint value approximations.
-The argument is a Java RiemannType enum with possible values: `RiemannType.LEFT`, `RiemannType.RIGHT`, `RiemannType.TRAPEZOIDAL` or `RiemannType.MIDPOINT`. If ommitted, `RiemannType.LEFT` is used.
+The argument is a Java RiemannType enum with possible values: `RiemannType.LEFT`, `RiemannType.RIGHT`, `RiemannType.TRAPEZOIDAL` or `RiemannType.MIDPOINT`. If omitted, `RiemannType.LEFT` is used.
+The RiemannType enum can be statically accessed on the `items` namespace, e.g.:
+
+```javascript
+items.RiemannType.LEFT
+```
 
 A Riemann sum is always calculated using seconds as unit for time.
 As an example, the Riemann sum of power values in `kW` will result in an energy measurement in `kWs`.
