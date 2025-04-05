@@ -8,6 +8,7 @@ const osgi = require('../osgi');
 const utils = require('../utils');
 const log = require('../log')('items');
 const { _toOpenhabPrimitiveType, _isQuantity, _isItem } = require('../helpers');
+const cache = require('../cache');
 const { getQuantity, QuantityError } = require('../quantity');
 
 const { OnOffType, PercentType, UnDefType, events, itemRegistry } = require('@runtime');
@@ -43,6 +44,10 @@ const itemBuilderFactory = osgi.getService('org.openhab.core.items.ItemBuilderFa
  */
 /**
  * @typedef {import('@js-joda/core').Instant} Instant
+ * @private
+ */
+/**
+ * @typedef {import('@js-joda/core').Duration} Duration
  * @private
  */
 /**
@@ -235,11 +240,35 @@ class Item {
   /**
    * Sends a command to the Item.
    *
+   * @example
+   * // Turn on the Hallway lights
+   * items.getItem('HallwayLight').sendCommand('ON');
+   * // Turn on the Hallway lights for at least 5 minutes, if they were on before, keep them on, otherwise turn them off
+   * items.getItem('HallwayLight').sendCommand('ON', time.Duration.ofMinutes(5));
+   * // Turn on the Hallway lights for 5 minutes, then turn them off
+   * items.getItem('HallwayLight').sendCommand('ON', time.Duration.ofMinutes(5), 'OFF');
+   *
    * @param {string|number|ZonedDateTime|Instant|Quantity|HostState} value the value of the command to send, such as 'ON'
+   * @param {Duration} [expire] optional duration (see {@link https://js-joda.github.io/js-joda/class/packages/core/src/Duration.js~Duration.html JS-Joda: Duration}) after which the command expires and the Item is commanded back to its previous state or `onExpire`
+   * @param {string|number|ZonedDateTime|Instant|Quantity|HostState} [onExpire] the optional value of the command to apply on expire, default is the current state
    * @see sendCommandIfDifferent
    * @see postUpdate
    */
-  sendCommand (value) {
+  sendCommand (value, expire, onExpire) {
+    if (expire !== undefined) {
+      const CACHE_KEY = this.name + '-command-expire-timeoutId';
+      if (cache.private.exists(CACHE_KEY)) {
+        log.debug('Cancelling existing command expire timer for {}.', this.name);
+        clearTimeout(cache.private.remove(CACHE_KEY));
+      }
+      if (onExpire === undefined) onExpire = this.state;
+      log.debug('Scheduling command expire timer for {}, will apply command {} on expire.', this.name, onExpire);
+      const timeoutId = setTimeout((item, command, expiredCommand) => {
+        log.debug('Command {} for {} expired: Applying command {}', expiredCommand, item.name, command);
+        item.sendCommand(command);
+      }, expire.toMillis(), this, onExpire, value);
+      cache.private.put(CACHE_KEY, timeoutId);
+    }
     events.sendCommand(this.rawItem, _toOpenhabPrimitiveType(value));
   }
 
