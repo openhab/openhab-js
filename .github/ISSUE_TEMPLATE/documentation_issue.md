@@ -2,8 +2,8 @@
 name: "📖 Documentation issue"
 about: Some information within the JavaScript library documentation is wrong or missing
 labels: documentation
-
 ---
+
 <!-- Please report only add-on related documentation issues here -->
 <!-- Documentation issues within user interfaces or the core should be -->
 <!-- reported at https://github.com/openhab/openhab-docs/issues/new -->
@@ -14,4 +14,3 @@ labels: documentation
 
 <!-- Important: Please contact the openHAB community forum for questions or -->
 <!-- for configuration and usage guidance: https://community.openhab.org -->
-

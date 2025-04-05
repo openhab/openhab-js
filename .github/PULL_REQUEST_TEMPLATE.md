@@ -9,7 +9,7 @@ This can clutter your Git history and make your PR unuseable.
 Use "git rebase" instead. See this forum post for further details:
 https://community.openhab.org/t/rebase-your-code-or-how-to-fix-your-git-history-before-requesting-a-pull/129358
 
-Add one or more appropriate labels to make your PR show up in the release notes, 
+Add one or more appropriate labels to make your PR show up in the release notes,
 e.g. enhancement, bug, documentation, new feature.
 This can only be done by yourself if you already contributed to this repo.
 
