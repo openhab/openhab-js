@@ -2,15 +2,24 @@
     "name": "openhab",
     "version": "5.9.0",
     "description": "JavaScript Library for openHAB Automation",
-    "private": false,
+    "keywords": [
+        "openHAB",
+        "Smart Home",
+        "Home Automation"
+    ],
+    "homepage": "https://www.openhab.org/addons/automation/jsscripting/",
+    "bugs": "https://github.com/openhab/openhab-js/issues",
     "license": "EPL-2.0",
-    "main": "src/index.js",
-    "types": "types/openhab-js.d.ts",
+    "funding": {
+        "type": "openHAB Foundation",
+        "url": "https://www.openhab.org/about/donate.html"
+    },
     "repository": {
         "type": "git",
         "url": "git://github.com/openhab/openhab-js.git"
     },
-    "homepage": "https://www.openhab.org/addons/automation/jsscripting/",
+    "main": "src/index.js",
+    "types": "types/openhab-js.d.ts",
     "scripts": {
         "lint": "npx eslint src",
         "lint:fix": "npx eslint --fix src",
