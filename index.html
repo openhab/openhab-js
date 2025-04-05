@@ -184,12 +184,17 @@ This will be used instead of the binding provided version.</p>
 <td>4.9.0</td>
 </tr>
 <tr>
-<td>4.2.0</td>
+<td>4.2.x</td>
 <td>5.0.0</td>
 <td>5.7.2</td>
 </tr>
 <tr>
-<td>4.3.0</td>
+<td>4.3.x</td>
+<td>5.0.0</td>
+<td>5.9.0</td>
+</tr>
+<tr>
+<td>5.0.x</td>
 <td>5.0.0</td>
 <td>-</td>
 </tr>
@@ -923,7 +928,7 @@ cache.private.put('counter', counter);
 <h3>Time</h3>
 <p>openHAB internally makes extensive use of the <code>java.time</code> package.
 openHAB-JS exports the excellent <a href="https://js-joda.github.io/js-joda/">JS-Joda</a> library via the <code>time</code> namespace, which is a native JavaScript port of the same API standard used in Java for <code>java.time</code>.
-Anywhere a native Java <code>ZonedDateTime</code> or <code>Duration</code> is required, the runtime will automatically convert a JS-Joda <code>ZonedDateTime</code> or <code>Duration</code> to its Java counterpart.</p>
+Anywhere a native Java <code>ZonedDateTime</code>, <code>Instant</code>, or <code>Duration</code> is required, the runtime will automatically convert a JS-Joda <code>ZonedDateTime</code>, <code>Instant</code>, or <code>Duration</code> to its Java counterpart.</p>
 <p>The exported JS-Joda library is also extended with convenient functions relevant to openHAB usage.</p>
 <p>Examples:</p>
 <pre class="prettyprint source lang-javascript"><code>var now = time.ZonedDateTime.now();
@@ -1032,13 +1037,15 @@ The following rules are used during the conversion:</p>
 </table>
 <p>If no time zone is explicitly set, the system default time zone is used.
 When a type or string that cannot be handled is encountered, an error is thrown.</p>
-<h4><code>toToday()</code></h4>
+<h4>Additions to <code>time.ZonedDateTime</code></h4>
+<p>The openHAB JavaScript library extends the JS-Joda <code>ZonedDateTime</code> class with additional methods that are useful in openHAB.</p>
+<h5><code>toToday()</code></h5>
 <p>When you have a <code>time.ZonedDateTime</code>, a new <code>toToday()</code> method was added which will return a new <code>time.ZonedDateTime</code> with today's date but the original's time, accounting for DST changes.</p>
 <p>For example, if the time was 13:45 and today was a DST changeover, the time will still be 13:45 instead of one hour off.</p>
 <pre class="prettyprint source lang-javascript"><code>var alarm = items.Alarm;
 alarm.postUpdate(time.toZDT(alarm).toToday());
 </code></pre>
-<h4><code>isBeforeTime(timestamp)</code>, <code>isBeforeDate(timestamp)</code>, <code>isBeforeDateTime(timestamp)</code></h4>
+<h5><code>isBeforeTime(timestamp)</code>, <code>isBeforeDate(timestamp)</code>, <code>isBeforeDateTime(timestamp)</code></h5>
 <p>Tests whether this <code>time.ZonedDateTime</code> is before the time passed in <code>timestamp</code>, tested in various ways:</p>
 <ul>
 <li><code>isBeforeTime</code> only compares the time portion of both, ignoring the date portion</li>
@@ -1050,7 +1057,7 @@ alarm.postUpdate(time.toZDT(alarm).toToday());
 <pre class="prettyprint source lang-javascript"><code>time.toZDT('22:00').isBeforeTime('23:00')
 time.toZDT('2022-12-01T12:00Z').isBeforeDateTime('2022-12-02T13:00Z')
 </code></pre>
-<h4><code>isAfterTime(timestamp)</code>, <code>isAfterDate(timestamp)</code>, <code>isAfterDateTime(timestamp)</code></h4>
+<h5><code>isAfterTime(timestamp)</code>, <code>isAfterDate(timestamp)</code>, <code>isAfterDateTime(timestamp)</code></h5>
 <p>Tests whether this <code>time.ZonedDateTime</code> is after the time passed in <code>timestamp</code>, tested in various ways:</p>
 <ul>
 <li><code>isAfterTime</code> only compares the time portion of both, ignoring the date portion</li>
@@ -1062,7 +1069,7 @@ time.toZDT('2022-12-01T12:00Z').isBeforeDateTime('2022-12-02T13:00Z')
 time.toZDT().isAfterTime(items.getItem('Sunset')) // is now after sunset?
 time.toZDT().isAfterDateTime('2022-12-01T12:00Z') // is now after 2022-12-01 noon?
 </code></pre>
-<h4><code>isBetweenTimes(start, end)</code></h4>
+<h5><code>isBetweenTimes(start, end)</code></h5>
 <p>Tests whether this <code>time.ZonedDateTime</code> is between the passed in <code>start</code> and <code>end</code>.
 However, the function only compares the time portion of the three, ignoring the date portion.
 The function takes into account times that span midnight.
@@ -1074,20 +1081,20 @@ time.toZDT().isBetweenTimes(items.getItem('Sunset'), '11:30 PM') // is now betwe
 // Equivalent to items.StartTime
 time.toZDT(items.getItem('StartTime')).isBetweenTimes(time.toZDT(), 'PT1H'); // is the state of StartTime between now and one hour from now
 </code></pre>
-<h4><code>isBetweenDates(start, end)</code></h4>
+<h5><code>isBetweenDates(start, end)</code></h5>
 <p>Tests whether this <code>time.ZonedDateTime</code> is between the passed in <code>start</code> and <code>end</code>.
 However, the function only compares the date portion of the three, ignoring the time portion.
 <code>start</code> and <code>end</code> can be anything supported by <code>time.toZDT()</code>.</p>
 <p>Examples:</p>
 <pre class="prettyprint source lang-javascript"><code>time.toZDT().isBetweenDates('2022-06-18', '2023-12-24') // currently between 2022-06-18 and 2023-12-24
 </code></pre>
-<h4><code>isBetweenDateTimes(start, end)</code></h4>
+<h5><code>isBetweenDateTimes(start, end)</code></h5>
 <p>Tests whether this <code>time.ZonedDateTime</code> is between the passed in <code>start</code> and <code>end</code>.
 <code>start</code> and <code>end</code> can be anything supported by <code>time.toZDT()</code>.</p>
 <p>Examples:</p>
 <pre class="prettyprint source lang-javascript"><code>time.toZDT().isBetweenDateTimes('2022-06-18T22:00Z', '2023-12-24T05:00Z') // currently between 2022-06-18 22:00 and 2023-12-24 05:00
 </code></pre>
-<h4><code>isClose(zdt, maxDur)</code></h4>
+<h5><code>isClose(zdt, maxDur)</code></h5>
 <p>Tests to see if the delta between the <code>time.ZonedDateTime</code> and the passed in <code>time.ZonedDateTime</code> is within the passed in <code>time.Duration</code>.</p>
 <pre class="prettyprint source lang-javascript"><code>var timestamp = time.toZDT();
 // do some stuff
@@ -1095,7 +1102,7 @@ if(timestamp.isClose(time.toZDT(), time.Duration.ofMillis(100))) {
   // did &quot;do some stuff&quot; take longer than 100 msecs to run?
 }
 </code></pre>
-<h4><code>getMillisFromNow</code></h4>
+<h5><code>getMillisFromNow</code></h5>
 <p>This method on <code>time.ZonedDateTime</code> returns the milliseconds from now to the passed in <code>time.ZonedDateTime</code>.</p>
 <pre class="prettyprint source lang-javascript"><code>var timestamp = time.ZonedDateTime.now().plusMinutes(5);
 console.log(timestamp.getMillisFromNow());
@@ -1708,7 +1715,7 @@ You can use these services for backwards compatibility purposes or ease migratio
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Sat Apr 05 2025 12:30:03 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Sat Apr 05 2025 12:43:06 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
