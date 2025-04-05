@@ -1,5 +1,8 @@
 export type Item = {
-    rawItem: HostItem;
+    rawItem: HostItem; /**
+     * QuantityError is thrown when {@link Quantity} creation or operation fails.
+     * It is used to wrap the underlying Java Exceptions and add some additional information and a JS stacktrace to it.
+     */
     persistence: import("./items/item-persistence");
     semantics: import("./items/item-semantics");
     readonly type: string;
@@ -29,7 +32,7 @@ export type Item = {
         value: string;
         configuration: any;
     };
-    sendCommand(value: any): void;
+    sendCommand(value: any, expire?: JSJoda.Duration, onExpire?: any): void;
     sendCommandIfDifferent(value: any): boolean;
     sendIncreaseCommand(value: any): boolean;
     sendDecreaseCommand(value: any): boolean;
