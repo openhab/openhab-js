@@ -20,7 +20,7 @@ export type Item = {
         value: string;
     };
     removeMetadata(namespace?: string): ItemMetadata;
-    sendCommand(value: any): void;
+    sendCommand(value: any, expire?: JSJoda.Duration, onExpire?: any): void;
     sendCommandIfDifferent(value: any): boolean;
     sendIncreaseCommand(value: any): boolean;
     sendDecreaseCommand(value: any): boolean;

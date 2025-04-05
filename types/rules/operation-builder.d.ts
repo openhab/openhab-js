@@ -9,12 +9,6 @@ export type Item = {
     readonly numericState: number;
     readonly quantityState: import("../quantity").Quantity;
     readonly rawState: HostState;
-    /**
-       * Specify the rule group for this rule
-       *
-       * @param {string} group the group this rule belongs to.
-       * @returns {OperationBuilder} this
-       */
     readonly members: any[];
     readonly descendents: any[];
     readonly isUninitialized: boolean;
@@ -35,7 +29,7 @@ export type Item = {
         value: string;
         configuration: any;
     };
-    sendCommand(value: any): void;
+    sendCommand(value: any, expire?: time.Duration, onExpire?: any): void;
     sendCommandIfDifferent(value: any): boolean;
     sendIncreaseCommand(value: any): boolean;
     sendDecreaseCommand(value: any): boolean;
@@ -310,6 +304,7 @@ export class OperationBuilder {
        */
     copyAndSendState(): CopyStateOperation;
 }
+import time = require("@js-joda/core");
 /**
  * {RuleBuilder} RuleBuilder triggers
  * @memberof OperationBuilder
@@ -335,6 +330,5 @@ declare class OperationConfig {
        */
     build(name?: string, description?: string, tags?: Array<string>, id?: string): void;
 }
-import time = require("@js-joda/core");
 export {};
 //# sourceMappingURL=operation-builder.d.ts.map
