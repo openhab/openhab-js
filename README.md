@@ -942,7 +942,7 @@ cache.private.put('counter', counter);
 
 openHAB internally makes extensive use of the `java.time` package.
 openHAB-JS exports the excellent [JS-Joda](https://js-joda.github.io/js-joda/) library via the `time` namespace, which is a native JavaScript port of the same API standard used in Java for `java.time`.
-Anywhere a native Java `ZonedDateTime` or `Duration` is required, the runtime will automatically convert a JS-Joda `ZonedDateTime` or `Duration` to its Java counterpart.
+Anywhere a native Java `ZonedDateTime`, `Instant`, or `Duration` is required, the runtime will automatically convert a JS-Joda `ZonedDateTime`, `Instant`, or `Duration` to its Java counterpart.
 
 The exported JS-Joda library is also extended with convenient functions relevant to openHAB usage.
 
@@ -1012,7 +1012,11 @@ The following rules are used during the conversion:
 If no time zone is explicitly set, the system default time zone is used.
 When a type or string that cannot be handled is encountered, an error is thrown.
 
-#### `toToday()`
+#### Additions to `time.ZonedDateTime`
+
+The openHAB JavaScript library extends the JS-Joda `ZonedDateTime` class with additional methods that are useful in openHAB.
+
+##### `toToday()`
 
 When you have a `time.ZonedDateTime`, a new `toToday()` method was added which will return a new `time.ZonedDateTime` with today's date but the original's time, accounting for DST changes.
 
@@ -1023,7 +1027,7 @@ var alarm = items.Alarm;
 alarm.postUpdate(time.toZDT(alarm).toToday());
 ```
 
-#### `isBeforeTime(timestamp)`, `isBeforeDate(timestamp)`, `isBeforeDateTime(timestamp)`
+##### `isBeforeTime(timestamp)`, `isBeforeDate(timestamp)`, `isBeforeDateTime(timestamp)`
 
 Tests whether this `time.ZonedDateTime` is before the time passed in `timestamp`, tested in various ways:
 
@@ -1040,7 +1044,7 @@ time.toZDT('22:00').isBeforeTime('23:00')
 time.toZDT('2022-12-01T12:00Z').isBeforeDateTime('2022-12-02T13:00Z')
 ```
 
-#### `isAfterTime(timestamp)`, `isAfterDate(timestamp)`, `isAfterDateTime(timestamp)`
+##### `isAfterTime(timestamp)`, `isAfterDate(timestamp)`, `isAfterDateTime(timestamp)`
 
 Tests whether this `time.ZonedDateTime` is after the time passed in `timestamp`, tested in various ways:
 
@@ -1056,7 +1060,7 @@ time.toZDT().isAfterTime(items.getItem('Sunset')) // is now after sunset?
 time.toZDT().isAfterDateTime('2022-12-01T12:00Z') // is now after 2022-12-01 noon?
 ```
 
-#### `isBetweenTimes(start, end)`
+##### `isBetweenTimes(start, end)`
 
 Tests whether this `time.ZonedDateTime` is between the passed in `start` and `end`.
 However, the function only compares the time portion of the three, ignoring the date portion.
@@ -1073,7 +1077,7 @@ time.toZDT().isBetweenTimes(items.getItem('Sunset'), '11:30 PM') // is now betwe
 time.toZDT(items.getItem('StartTime')).isBetweenTimes(time.toZDT(), 'PT1H'); // is the state of StartTime between now and one hour from now
 ```
 
-#### `isBetweenDates(start, end)`
+##### `isBetweenDates(start, end)`
 
 Tests whether this `time.ZonedDateTime` is between the passed in `start` and `end`.
 However, the function only compares the date portion of the three, ignoring the time portion.
@@ -1085,7 +1089,7 @@ Examples:
 time.toZDT().isBetweenDates('2022-06-18', '2023-12-24') // currently between 2022-06-18 and 2023-12-24
 ```
 
-#### `isBetweenDateTimes(start, end)`
+##### `isBetweenDateTimes(start, end)`
 
 Tests whether this `time.ZonedDateTime` is between the passed in `start` and `end`.
 `start` and `end` can be anything supported by `time.toZDT()`.
@@ -1096,7 +1100,7 @@ Examples:
 time.toZDT().isBetweenDateTimes('2022-06-18T22:00Z', '2023-12-24T05:00Z') // currently between 2022-06-18 22:00 and 2023-12-24 05:00
 ```
 
-#### `isClose(zdt, maxDur)`
+##### `isClose(zdt, maxDur)`
 
 Tests to see if the delta between the `time.ZonedDateTime` and the passed in `time.ZonedDateTime` is within the passed in `time.Duration`.
 
@@ -1108,7 +1112,7 @@ if(timestamp.isClose(time.toZDT(), time.Duration.ofMillis(100))) {
 }
 ```
 
-#### `getMillisFromNow`
+##### `getMillisFromNow`
 
 This method on `time.ZonedDateTime` returns the milliseconds from now to the passed in `time.ZonedDateTime`.
 
