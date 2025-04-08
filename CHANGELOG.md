@@ -1,12 +1,21 @@
 # Changelog
 
+## 5.10.1
+
+| Type   | Namespace | Description                                                          | Reference                                              | Breaking |
+|--------|-----------|----------------------------------------------------------------------|--------------------------------------------------------|----------|
+| Bugfix | `items`   | ItemPersistence: Fix backward compatibility when missing RiemannType | [#430](https://github.com/openhab/openhab-js/pull/430) | no       |
+| Bugfix | `log`     | Don't make the logger name lower case                                | [#431](https://github.com/openhab/openhab-js/pull/431) | no       |
+
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/41) and [`v5.10.0...v5.10.1`](https://github.com/openhab/openhab-js/compare/v5.10.0...v5.10.1).
+
 ## 5.10.0
 
 | Type        | Namespace | Description                                       | Reference                                              | Breaking |
 |-------------|-----------|---------------------------------------------------|--------------------------------------------------------|----------|
-| Enhancement | items     | ItemPersistence: Extend with Riemann Sums         | [#401](https://github.com/openhab/openhab-js/pull/401) | no       |
-| Enhancement | items     | Provide static access to RiemannType enum         | [#427](https://github.com/openhab/openhab-js/pull/427) | no       |
-| Enhancment  | items     | Add expire command functionality to `sendCommand` | [#428](https://github.com/openhab/openhab-js/pull/428) | no       |
+| Enhancement | `items`   | ItemPersistence: Extend with Riemann Sums         | [#401](https://github.com/openhab/openhab-js/pull/401) | no       |
+| Enhancement | `items`   | Provide static access to RiemannType enum         | [#427](https://github.com/openhab/openhab-js/pull/427) | no       |
+| Enhancement | `items`   | Add expire command functionality to `sendCommand` | [#428](https://github.com/openhab/openhab-js/pull/428) | no       |
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/40) and [`v5.9.0...v5.10.0`](https://github.com/openhab/openhab-js/compare/v5.9.0...v5.10.0).
 
