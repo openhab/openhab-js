@@ -6,7 +6,14 @@ const { _toOpenhabPrimitiveType, _isTimeSeries } = require('../helpers');
 const PersistenceExtensions = Java.type('org.openhab.core.persistence.extensions.PersistenceExtensions');
 const TimeSeries = Java.type('org.openhab.core.types.TimeSeries');
 const TypeParser = Java.type('org.openhab.core.types.TypeParser');
-const RiemannType = Java.type('org.openhab.core.persistence.extensions.PersistenceExtensions.RiemannType');
+
+let RiemannType = null;
+try {
+  RiemannType = Java.type('org.openhab.core.persistence.extensions.PersistenceExtensions.RiemannType');
+} catch (e) {
+  // Ignore TypeError due to missing class on older openHAB versions
+  if (!(e instanceof TypeError)) throw e;
+}
 
 /**
  * @typedef {import('@js-joda/core').ZonedDateTime} time.ZonedDateTime
@@ -172,7 +179,12 @@ class ItemPersistence {
    *
    * @type {RiemannType}
    */
-  static RiemannType = RiemannType;
+  static get RiemannType () {
+    if (RiemannType === null) {
+      log.warn('RiemannType is not available on your openHAB version!');
+    }
+    return RiemannType;
+  }
 
   /**
    * Persists a state of a given Item.

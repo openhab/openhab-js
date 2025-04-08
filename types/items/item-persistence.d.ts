@@ -17,7 +17,7 @@ declare class ItemPersistence {
      *
      * @type {RiemannType}
      */
-    static RiemannType: any;
+    static get RiemannType(): any;
     constructor(rawItem: any);
     rawItem: any;
     /**
