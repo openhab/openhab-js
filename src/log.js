@@ -37,7 +37,7 @@ class Logger {
     /** @private */
     this.appenderProvider = appenderProvider;
     /** @private */
-    this._logger = Java.type('org.slf4j.LoggerFactory').getLogger(LOGGER_PREFIX + '.' + this.name.toString().toLowerCase());
+    this._logger = Java.type('org.slf4j.LoggerFactory').getLogger(LOGGER_PREFIX + '.' + this.name.toString());
   }
 
   /**
