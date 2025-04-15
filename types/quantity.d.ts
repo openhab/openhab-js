@@ -1,8 +1,5 @@
 export type Item = {
-    rawItem: HostItem; /**
-     * QuantityError is thrown when {@link Quantity} creation or operation fails.
-     * It is used to wrap the underlying Java Exceptions and add some additional information and a JS stacktrace to it.
-     */
+    rawItem: HostItem;
     persistence: import("./items/item-persistence");
     semantics: import("./items/item-semantics");
     readonly type: string;
@@ -12,6 +9,11 @@ export type Item = {
     readonly numericState: number;
     readonly quantityState: Quantity;
     readonly rawState: HostState;
+    readonly previousState: string;
+    readonly lastStateUpdateTimestamp: any;
+    readonly lastStateUpdateInstant: any;
+    readonly lastStateChangeTimestamp: any;
+    readonly lastStateChangeInstant: any;
     readonly members: any[];
     readonly descendents: any[];
     readonly isUninitialized: boolean;
