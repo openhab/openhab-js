@@ -10,6 +10,7 @@ const log = require('../log')('items');
 const { _toOpenhabPrimitiveType, _isQuantity, _isItem } = require('../helpers');
 const cache = require('../cache');
 const { getQuantity, QuantityError } = require('../quantity');
+const time = require('../time');
 
 const { OnOffType, PercentType, UnDefType, events, itemRegistry } = require('@runtime');
 
@@ -165,6 +166,55 @@ class Item {
   }
 
   /**
+   * String representation of the previous state of the Item or `null` if no previous state is available.
+   * @type {string|null}
+   */
+  get previousState () {
+    const state = this.rawItem.getLastState();
+    return state == null ? null : state.toString();
+  }
+
+  /**
+   * The time the state was last updated as ZonedDateTime or `null` if no timestamp is available.
+   * @type {time.ZonedDateTime|null}
+   */
+  get lastStateUpdateTimestamp () {
+    const timestamp = this.rawItem.getLastStateUpdate();
+    if (timestamp == null) return null;
+    return time.javaZDTToJsZDT(timestamp);
+  }
+
+  /**
+   * The time the state was last updated as Instant or `null` if no timestamp is available.
+   * @type {time.Instant|null}
+   */
+  get lastStateUpdateInstant () {
+    const timestamp = this.rawItem.getLastStateUpdate();
+    if (timestamp == null) return null;
+    return time.javaInstantToJsInstant(timestamp.toInstant());
+  }
+
+  /**
+   * The time the state was last changed as ZonedDateTime or `null` if no timestamp is available.
+   * @type {time.ZonedDateTime|null}
+   */
+  get lastStateChangeTimestamp () {
+    const timestamp = this.rawItem.getLastStateUpdate();
+    if (timestamp == null) return null;
+    return time.javaZDTToJsZDT(timestamp);
+  }
+
+  /**
+   * The time the state was last changed as Instant or `null` if no timestamp is available.
+   * @type {time.Instant|null}
+   */
+  get lastStateChangeInstant () {
+    const timestamp = this.rawItem.getLastStateUpdate();
+    if (timestamp == null) return null;
+    return time.javaInstantToJsInstant(timestamp.toInstant());
+  }
+
+  /**
    * Members / children / direct descendents of the current group Item (as returned by 'getMembers()'). Must be a group Item.
    * @type {Item[]}
    */
@@ -181,18 +231,14 @@ class Item {
   }
 
   /**
-   * Whether this Item is uninitialized (`true if it has not been initialized`).
+   * Whether this Item is uninitialized (`true` if it has not been initialized).
    * @type {boolean}
    */
   get isUninitialized () {
-    if (this.rawItem.getState() instanceof UnDefType ||
+    return (this.rawItem.getState() instanceof UnDefType ||
         this.rawItem.getState().toString() === 'Undefined' ||
         this.rawItem.getState().toString() === 'Uninitialized'
-    ) {
-      return true;
-    } else {
-      return false;
-    }
+    );
   }
 
   /**
