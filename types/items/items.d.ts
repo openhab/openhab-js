@@ -188,6 +188,31 @@ export class Item {
      */
     get rawState(): HostState;
     /**
+     * String representation of the previous state of the Item or `null` if no previous state is available.
+     * @type {string|null}
+     */
+    get previousState(): string;
+    /**
+     * The time the state was last updated as ZonedDateTime or `null` if no timestamp is available.
+     * @type {time.ZonedDateTime|null}
+     */
+    get lastStateUpdateTimestamp(): any;
+    /**
+     * The time the state was last updated as Instant or `null` if no timestamp is available.
+     * @type {time.Instant|null}
+     */
+    get lastStateUpdateInstant(): any;
+    /**
+     * The time the state was last changed as ZonedDateTime or `null` if no timestamp is available.
+     * @type {time.ZonedDateTime|null}
+     */
+    get lastStateChangeTimestamp(): any;
+    /**
+     * The time the state was last changed as Instant or `null` if no timestamp is available.
+     * @type {time.Instant|null}
+     */
+    get lastStateChangeInstant(): any;
+    /**
      * Members / children / direct descendents of the current group Item (as returned by 'getMembers()'). Must be a group Item.
      * @type {Item[]}
      */
@@ -198,7 +223,7 @@ export class Item {
      */
     get descendents(): Item[];
     /**
-     * Whether this Item is uninitialized (`true if it has not been initialized`).
+     * Whether this Item is uninitialized (`true` if it has not been initialized).
      * @type {boolean}
      */
     get isUninitialized(): boolean;
