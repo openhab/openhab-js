@@ -193,6 +193,21 @@ export class Item {
      */
     get previousState(): string;
     /**
+     * Numeric representation of Item previous state, or `null` if state is not numeric or not available.
+     * @type {number|null}
+     */
+    get previousNumericState(): number;
+    /**
+     * Previous item state as {@link Quantity} or `null` if state is not Quantity-compatible, Quantity would be unit-less (without unit) or not available.
+     * @type {Quantity|null}
+     */
+    get previousQuantityState(): import("../quantity").Quantity;
+    /**
+      * Previous raw state of Item, as a Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/types/state State object}
+     * @type {HostState}
+     */
+    get previousRawState(): HostState;
+    /**
      * The time the state was last updated as ZonedDateTime or `null` if no timestamp is available.
      * @type {time.ZonedDateTime|null}
      */

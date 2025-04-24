@@ -10,6 +10,9 @@ export type Item = {
     readonly quantityState: import("../quantity").Quantity;
     readonly rawState: HostState;
     readonly previousState: string;
+    readonly previousNumericState: number;
+    readonly previousQuantityState: import("../quantity").Quantity;
+    readonly previousRawState: HostState;
     readonly lastStateUpdateTimestamp: any;
     readonly lastStateUpdateInstant: any;
     readonly lastStateChangeTimestamp: any;

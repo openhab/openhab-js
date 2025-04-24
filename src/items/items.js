@@ -170,8 +170,45 @@ class Item {
    * @type {string|null}
    */
   get previousState () {
-    const state = this.rawItem.getLastState();
-    return state == null ? null : state.toString();
+    return this.previousRawState == null ? null : this.previousRawState.toString();
+  }
+
+  /**
+   * Numeric representation of Item previous state, or `null` if state is not numeric or not available.
+   * @type {number|null}
+   */
+  get previousNumericState () {
+    const previousState = this.previousRawState == null ? null : this.previousRawState.toString();
+    if (previousState == null) return null;
+    const numericState = parseFloat(previousState);
+    return isNaN(numericState) ? null : numericState;
+  }
+
+  /**
+   * Previous item state as {@link Quantity} or `null` if state is not Quantity-compatible, Quantity would be unit-less (without unit) or not available.
+   * @type {Quantity|null}
+   */
+  get previousQuantityState () {
+    const previousState = this.previousRawState == null ? null : this.previousRawState.toString();
+    if (previousState == null) return null;
+    try {
+      const qty = getQuantity(previousState);
+      return (qty !== null && qty.symbol !== null) ? qty : null;
+    } catch (e) {
+      if (e instanceof QuantityError) {
+        return null;
+      } else {
+        throw Error('Failed to create "quantityState": ' + e);
+      }
+    }
+  }
+
+  /**
+    * Previous raw state of Item, as a Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/types/state State object}
+   * @type {HostState}
+   */
+  get previousRawState () {
+    return this.rawItem.getLastState();
   }
 
   /**
