@@ -4,7 +4,10 @@ export type Item = {
     semantics: import("./items/item-semantics");
     readonly type: string;
     readonly name: string;
-    readonly label: string;
+    readonly label: string; /**
+     * @type {QuantityType}
+     * @private
+     */
     readonly state: string;
     readonly numericState: number;
     readonly quantityState: Quantity;
