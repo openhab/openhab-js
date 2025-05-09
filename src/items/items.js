@@ -36,10 +36,6 @@ const itemBuilderFactory = osgi.getService('org.openhab.core.items.ItemBuilderFa
  * @property {HostGroupFunction} [groupFunction] the group function used by the Item
  */
 /**
- * @typedef {import('../items/metadata/metadata').ItemMetadata} ItemMetadata
- * @private
- */
-/**
  * @typedef {import('@js-joda/core').ZonedDateTime} ZonedDateTime
  * @private
  */
@@ -49,10 +45,6 @@ const itemBuilderFactory = osgi.getService('org.openhab.core.items.ItemBuilderFa
  */
 /**
  * @typedef {import('@js-joda/core').Duration} Duration
- * @private
- */
-/**
- * @typedef {import('../quantity').Quantity} Quantity
  * @private
  */
 
@@ -142,7 +134,7 @@ class Item {
 
   /**
    * Item state as {@link Quantity} or `null` if state is not Quantity-compatible or Quantity would be unit-less (without unit)
-   * @type {Quantity|null}
+   * @type {import('../quantity').Quantity|null}
    */
   get quantityState () {
     try {
@@ -253,7 +245,7 @@ class Item {
    *
    * @see items.metadata.getMetadata
    * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is returned, else all metadata is returned
-   * @returns {{ namespace: ItemMetadata }|ItemMetadata|null} all metadata as an object with the namespaces as properties OR metadata of a single namespace or `null` if that namespace doesn't exist; the metadata itself is of type {@link items.metadata.ItemMetadata}
+   * @returns {{ namespace: import('../items/metadata/metadata').ItemMetadata }|import('../items/metadata/metadata').ItemMetadata|null} all metadata as an object with the namespaces as properties OR metadata of a single namespace or `null` if that namespace doesn't exist; the metadata itself is of type {@link items.metadata.ItemMetadata}
    */
   getMetadata (namespace) {
     return metadata.getMetadata(this.name, namespace);
@@ -277,7 +269,7 @@ class Item {
    *
    * @see items.metadata.removeMetadata
    * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is removed, else all metadata is removed
-   * @returns {ItemMetadata|null} removed {@link items.metadata.ItemMetadata} OR `null` if the Item has no metadata under the given namespace or all metadata was removed
+   * @returns {import('../items/metadata/metadata').ItemMetadata|null} removed {@link items.metadata.ItemMetadata} OR `null` if the Item has no metadata under the given namespace or all metadata was removed
    */
   removeMetadata (namespace) {
     return metadata.removeMetadata(this.name, namespace);
@@ -294,9 +286,9 @@ class Item {
    * // Turn on the Hallway lights for 5 minutes, then turn them off
    * items.getItem('HallwayLight').sendCommand('ON', time.Duration.ofMinutes(5), 'OFF');
    *
-   * @param {string|number|ZonedDateTime|Instant|Quantity|HostState} value the value of the command to send, such as 'ON'
+   * @param {string|number|ZonedDateTime|Instant|import('../quantity').Quantity|HostState} value the value of the command to send, such as 'ON'
    * @param {Duration} [expire] optional duration (see {@link https://js-joda.github.io/js-joda/class/packages/core/src/Duration.js~Duration.html JS-Joda: Duration}) after which the command expires and the Item is commanded back to its previous state or `onExpire`
-   * @param {string|number|ZonedDateTime|Instant|Quantity|HostState} [onExpire] the optional value of the command to apply on expire, default is the current state
+   * @param {string|number|ZonedDateTime|Instant|import('../quantity').Quantity|HostState} [onExpire] the optional value of the command to apply on expire, default is the current state
    * @see sendCommandIfDifferent
    * @see postUpdate
    */
@@ -321,7 +313,7 @@ class Item {
   /**
    * Sends a command to the Item, but only if the current state is not what is being sent.
    *
-   * @param {string|number|ZonedDateTime|Instant|Quantity|HostState} value the value of the command to send, such as 'ON'
+   * @param {string|number|ZonedDateTime|Instant|import('../quantity').Quantity|HostState} value the value of the command to send, such as 'ON'
    * @returns {boolean} true if the command was sent, false otherwise
    * @see sendCommand
    */
@@ -361,7 +353,7 @@ class Item {
   /**
    * Increase the value of this Item to the given value by sending a command, but only if the current state is less than that value.
    *
-   * @param {number|Quantity|HostState} value the value of the command to send, such as 'ON'
+   * @param {number|import('../quantity').Quantity|HostState} value the value of the command to send, such as 'ON'
    * @return {boolean} true if the command was sent, false otherwise
    */
   sendIncreaseCommand (value) {
@@ -390,7 +382,7 @@ class Item {
   /**
    * Decreases the value of this Item to the given value by sending a command, but only if the current state is greater than that value.
    *
-   * @param {number|Quantity|HostState} value the value of the command to send, such as 'ON'
+   * @param {number|import('../quantity').Quantity|HostState} value the value of the command to send, such as 'ON'
    * @return {boolean} true if the command was sent, false otherwise
    */
   sendDecreaseCommand (value) {
@@ -467,7 +459,7 @@ class Item {
   /**
    * Posts an update to the Item.
    *
-   * @param {string|number|ZonedDateTime|Instant|Quantity|HostState} value the value of the command to send, such as 'ON'
+   * @param {string|number|ZonedDateTime|Instant|import('../quantity').Quantity|HostState} value the value of the command to send, such as 'ON'
    * @see postToggleUpdate
    * @see sendCommand
    */

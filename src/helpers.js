@@ -5,14 +5,9 @@ const javaDuration = Java.type('java.time.Duration');
 const javaInstant = Java.type('java.time.Instant');
 
 /**
- * @typedef { import("./items/items").Item } Item
- * @private
- */
-
-/**
  * Returns the name of a given Item or relays the passed in Item name.
  *
- * @param {Item|string} itemOrName Item or Item name
+ * @param {import("./items/items").Item|string} itemOrName Item or Item name
  * @returns {string} the Item name
  * @private
  */

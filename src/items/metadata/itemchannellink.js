@@ -1,9 +1,4 @@
 /**
- * @typedef {import('../items').Item} Item
- * @private
- */
-
-/**
  * Item channel link namespace.
  * This namespace provides access to Item channel links.
  *
@@ -43,7 +38,7 @@ function _createItemChannelLink (itemName, channelUID, conf) {
  * Gets a channel link of from an Item.
  *
  * @memberof items.metadata.itemchannellink
- * @param {Item|string} itemOrName {@link Item} or the name of the Item
+ * @param {import('../items').Item|string} itemOrName {@link Item} or the name of the Item
  * @param {string} channelUID
  * @returns {{itemName: string, configuration: *, channelUID: string}|null} the ItemChannelLink or `null` if none exists
  */
@@ -104,7 +99,7 @@ function _updateItemChannelLink (itemName, channelUID, conf) {
  * Adds or updates a channel link of an Item.
  *
  * @memberof items.metadata.itemchannellink
- * @param {Item|string} itemOrName {@link Item} or the name of the Item
+ * @param {import('../items').Item|string} itemOrName {@link Item} or the name of the Item
  * @param {string} channelUID
  * @param {object} [conf] channel configuration
  * @returns {{itemName: string, configuration: object, channelUID: string}|null} the old ItemChannelLink or `null` if it did not exist
@@ -124,7 +119,7 @@ function replaceItemChannelLink (itemOrName, channelUID, conf) {
  * Removes a channel link from an Item.
  *
  * @memberof items.metadata.itemchannellink
- * @param {Item|string} itemOrName {@link Item} or the name of the Item
+ * @param {import('../items').Item|string} itemOrName {@link Item} or the name of the Item
  * @param {string} channelUID
  * @returns {{itemName: string, configuration: object, channelUID: string}|null} the removed ItemChannelLink or `null` if none exists
  */

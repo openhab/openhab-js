@@ -15,11 +15,6 @@ const ModuleBuilder = Java.type('org.openhab.core.automation.util.ModuleBuilder'
 const Configuration = Java.type('org.openhab.core.config.core.Configuration');
 
 /**
- * @typedef { import("./items/items").Item } Item
- * @private
- */
-
-/**
  * Creates a trigger. Internal function, instead use predefined trigger types.
  *
  * @private
@@ -70,7 +65,7 @@ const ChannelEventTrigger = (channel, event, triggerName) =>
  * ItemStateChangeTrigger('my_item', 'OFF', undefined); // changed from OFF
  *
  * @memberof triggers
- * @param {Item|string} itemOrName the {@link Item} or the name of the Item to monitor for change
+ * @param {import("./items/items").Item|string} itemOrName the {@link Item} or the name of the Item to monitor for change
  * @param {string} [oldState] the previous state of the Item
  * @param {string} [newState] the new state of the Item
  * @param {string} [triggerName] the optional name of the trigger to create
@@ -90,7 +85,7 @@ const ItemStateChangeTrigger = (itemOrName, oldState, newState, triggerName) =>
  * ItemStateUpdateTrigger('my_item', 'OFF'); // received update OFF
  *
  * @memberof triggers
- * @param {Item|string} itemOrName the {@link Item} or the name of the Item to monitor for change
+ * @param {import("./items/items").Item|string} itemOrName the {@link Item} or the name of the Item to monitor for change
  * @param {string} [state] the new state of the Item
  * @param {string} [triggerName] the optional name of the trigger to create
  */
@@ -108,7 +103,7 @@ const ItemStateUpdateTrigger = (itemOrName, state, triggerName) =>
  * ItemCommandTrigger('my_item', 'OFF'); // received command OFF
  *
  * @memberof triggers
- * @param {Item|string} itemOrName the {@link Item} or the name of the Item to monitor for change
+ * @param {import("./items/items").Item|string} itemOrName the {@link Item} or the name of the Item to monitor for change
  * @param {string} [command] the command received
  * @param {string} [triggerName] the optional name of the trigger to create
  */
@@ -125,7 +120,7 @@ const ItemCommandTrigger = (itemOrName, command, triggerName) =>
  * GroupStateChangeTrigger('my_group', 'OFF', 'ON');
  *
  * @memberof triggers
- * @param {Item|string} groupOrName the group {@link Item} or the name of the group to monitor for change
+ * @param {import("./items/items").Item|string} groupOrName the group {@link Item} or the name of the group to monitor for change
  * @param {string} [oldState] the previous state of the group
  * @param {string} [newState] the new state of the group
  * @param {string} [triggerName] the optional name of the trigger to create
@@ -144,7 +139,7 @@ const GroupStateChangeTrigger = (groupOrName, oldState, newState, triggerName) =
  * GroupStateUpdateTrigger('my_group', 'OFF');
  *
  * @memberof triggers
- * @param {Item|string} groupOrName the group {@link Item} or the name of the group to monitor for change
+ * @param {import("./items/items").Item|string} groupOrName the group {@link Item} or the name of the group to monitor for change
  * @param {string} [state] the new state of the group
  * @param {string} [triggerName] the optional name of the trigger to create
  */
@@ -161,7 +156,7 @@ const GroupStateUpdateTrigger = (groupOrName, state, triggerName) =>
  * GroupCommandTrigger('my_group', 'OFF');
  *
  * @memberof triggers
- * @param {Item|string} groupOrName the group {@link Item} or the name of the group to monitor for commands
+ * @param {import("./items/items").Item|string} groupOrName the group {@link Item} or the name of the group to monitor for commands
  * @param {string} [command] the command received
  * @param {string} [triggerName] the optional name of the trigger to create
  */
@@ -263,7 +258,7 @@ const TimeOfDayTrigger = (time, triggerName) =>
  * DateTimeTrigger('MyDateTimeItem');
  *
  * @memberof triggers
- * @param {Item|string} itemOrName the {@link Item} or the name of the Item to monitor for change
+ * @param {import("./items/items").Item|string} itemOrName the {@link Item} or the name of the Item to monitor for change
  * @param {boolean} [timeOnly=false] Specifies whether only the time of the DateTime Item should be compared or the date and time.
  * @param {number} [offset=0] The offset in seconds to add to the time of the DateTime Item
  * @param {string} [triggerName] the optional name of the trigger to create

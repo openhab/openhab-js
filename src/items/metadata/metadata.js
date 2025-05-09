@@ -1,9 +1,4 @@
 /**
- * @typedef {import('../items').Item} Item
- * @private
- */
-
-/**
  * Item metadata namespace.
  * This namespace provides access to Item metadata.
  *
@@ -90,7 +85,7 @@ function _getSingleItemMetadata (itemName, namespace) {
  *
  * @see items.Item.getMetadata
  * @memberOf items.metadata
- * @param {Item|string} itemOrName {@link Item} or the name of the Item
+ * @param {import('../items').Item|string} itemOrName {@link Item} or the name of the Item
  * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is returned, else all metadata is returned
  * @returns {{ namespace: ItemMetadata }|ItemMetadata|null} all metadata as an object with the namespaces as properties OR metadata of a single namespace or `null` if that namespace doesn't exist; the metadata itself is of type {@link ItemMetadata}
  */
@@ -105,7 +100,7 @@ function getMetadata (itemOrName, namespace) {
  *
  * @see items.Item.replaceMetadata
  * @memberof items.metadata
- * @param {Item|string} itemOrName {@link Item} or the name of the Item * @param {string} namespace name of the metadata
+ * @param {import('../items').Item|string} itemOrName {@link Item} or the name of the Item * @param {string} namespace name of the metadata
  * @param {string} namespace name of the metadata
  * @param {string} value value for this metadata
  * @param {object} [configuration] optional metadata configuration
@@ -124,7 +119,7 @@ function replaceMetadata (itemOrName, namespace, value, configuration) {
  *
  * @see items.Item.removeMetadata
  * @memberof items.metadata
- * @param {Item|string} itemOrName {@link Item} or the name of the Item
+ * @param {import('../items').Item|string} itemOrName {@link Item} or the name of the Item
  * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is removed, else all metadata is removed
  * @returns {ItemMetadata|null} removed metadata OR `null` if the Item has no metadata under the given namespace or all metadata was removed
  */

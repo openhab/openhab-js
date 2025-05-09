@@ -9,10 +9,6 @@ const { _isInstant } = require('../helpers');
  * @typedef { import('@js-joda/core').ZonedDateTime} time.ZonedDateTime
  * @private
  */
-/**
- * @typedef {import('../quantity').Quantity} Quantity
- * @private
- */
 
 /**
  * A TimeSeries is used to transport a set of states together with their timestamp.
@@ -88,7 +84,7 @@ class TimeSeries {
    * Elements can be added in an arbitrary order and are sorted chronologically.
    *
    * @param {(time.Instant|time.ZonedDateTime|string|Date)} timestamp a timestamp for the given state
-   * @param {string|number|Quantity|HostState} state the state at the given timestamp
+   * @param {string|number|import('../quantity').Quantity|HostState} state the state at the given timestamp
    * @returns {TimeSeries} this TimeSeries instance
    */
   add (timestamp, state) {

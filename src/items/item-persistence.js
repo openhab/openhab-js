@@ -23,14 +23,6 @@ try {
  * @typedef {import('@js-joda/core').Instant} time.Instant
  * @private
  */
-/**
- * @typedef {import('../quantity').Quantity} Quantity
- * @private
- */
-/**
- * @typedef {import('../items/items').TimeSeries} items.TimeSeries
- * @private
- */
 
 /**
  * Class representing an instance of {@link https://www.openhab.org/javadoc/latest/org/openhab/core/types/state org.openhab.core.types.State}.
@@ -67,7 +59,7 @@ class PersistedState {
 
   /**
    * Item state as {@link Quantity} or `null` if state is not Quantity-compatible or Quantity would be unit-less (without unit)
-   * @type {Quantity|null}
+   * @type {import('../quantity').Quantity|null}
    */
   get quantityState () {
     try {
@@ -214,8 +206,8 @@ class ItemPersistence {
    * ```
    *
    * @param {(time.ZonedDateTime | Date)} [timestamp] the date for the item state to be stored
-   * @param {string|number|time.ZonedDateTime|Quantity|HostState} [state] the state to be stored
-   * @param {items.TimeSeries} [timeSeries] optional TimeSeries to be stored
+   * @param {string|number|time.ZonedDateTime|import('../quantity').Quantity|HostState} [state] the state to be stored
+   * @param {import('../items/items').TimeSeries} [timeSeries] optional TimeSeries to be stored
    * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
    */
   persist (timestamp, state, timeSeries, serviceId) {
@@ -267,7 +259,7 @@ class ItemPersistence {
   /**
    * Internal method to persist a given state at a given timestamp to a optionally given persistence service.
    * @param {(time.ZonedDateTime | Date)} timestamp
-   * @param {string|number|time.ZonedDateTime|Quantity|HostState} state
+   * @param {string|number|time.ZonedDateTime|import('../quantity').Quantity|HostState} state
    * @param {string} [serviceId]
    */
   #persistGivenState (timestamp, state, serviceId) {
@@ -282,7 +274,7 @@ class ItemPersistence {
 
   /**
    * Internal method to persist a given TimeSeries to a optionally given persistence service.
-   * @param {items.TimeSeries} timeSeries
+   * @param {import('../items/items').TimeSeries} timeSeries
    * @param {string} [serviceId]
    */
   #persistTimeSeries (timeSeries, serviceId) {

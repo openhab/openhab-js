@@ -2,15 +2,6 @@ const time = require('@js-joda/core'); // standard JS-Joda is enough as we only 
 const items = require('../items/items');
 
 /**
- * @typedef { import("../items/items").Item } Item
- * @private
- */
-/**
- * @typedef {import('../quantity').Quantity} Quantity
- * @private
- */
-
-/**
  * Operation to execute as part of a rule
  * @hideconstructor
  */
@@ -67,7 +58,7 @@ class OperationBuilder {
   /**
     * Specifies that a command should be sent as a result of this rule firing.
     *
-    * @param {string|number|time.ZonedDateTime|Quantity|HostState} command the command to send
+    * @param {string|number|time.ZonedDateTime|import('../quantity').Quantity|HostState} command the command to send
     * @returns {SendCommandOrUpdateOperation} the operation
     */
   send (command) {
@@ -327,7 +318,7 @@ class SendCommandOrUpdateOperation extends OperationConfig {
   /**
      * Send command to multiple items
      *
-     * @param {Item[] | string[]} itemsOrNames the items to send a command to
+     * @param {import("../items/items").Item[] | string[]} itemsOrNames the items to send a command to
      * @returns {SendCommandOrUpdateOperation} this
      */
   toItems (itemsOrNames) {
@@ -338,7 +329,7 @@ class SendCommandOrUpdateOperation extends OperationConfig {
   /**
      * Send command to an item
      *
-     * @param {Item | string} itemOrName the item to send a command to
+     * @param {import("../items/items").Item | string} itemOrName the item to send a command to
      * @returns {SendCommandOrUpdateOperation} this
      */
   toItem (itemOrName) {
