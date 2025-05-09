@@ -1,56 +1,3 @@
-export type Item = {
-    rawItem: HostItem;
-    persistence: import("../items/item-persistence");
-    semantics: import("../items/item-semantics");
-    readonly type: string;
-    readonly name: string;
-    readonly label: string;
-    readonly state: string;
-    readonly numericState: number;
-    readonly quantityState: import("../quantity").Quantity;
-    readonly rawState: HostState;
-    readonly previousState: string;
-    readonly lastStateUpdateTimestamp: any;
-    readonly lastStateUpdateInstant: any;
-    readonly lastStateChangeTimestamp: any;
-    readonly lastStateChangeInstant: any;
-    readonly members: any[];
-    readonly descendents: any[];
-    readonly isUninitialized: boolean;
-    getMetadata(namespace?: string): {
-        value: string;
-        configuration: any;
-    } | {
-        namespace: {
-            value: string;
-            configuration: any;
-        };
-    };
-    replaceMetadata(namespace: string, value: string, configuration?: any): {
-        configuration: any;
-        value: string;
-    };
-    removeMetadata(namespace?: string): {
-        value: string;
-        configuration: any;
-    };
-    sendCommand(value: any, expire?: time.Duration, onExpire?: any): void;
-    sendCommandIfDifferent(value: any): boolean;
-    sendIncreaseCommand(value: any): boolean;
-    sendDecreaseCommand(value: any): boolean;
-    getToggleState(): "PAUSE" | "PLAY" | "OPEN" | "CLOSED" | "ON" | "OFF";
-    sendToggleCommand(): void;
-    postToggleUpdate(): void;
-    postUpdate(value: any): void;
-    readonly groupNames: string[];
-    addGroups(...groupNamesOrItems: any[]): void;
-    removeGroups(...groupNamesOrItems: any[]): void;
-    readonly tags: string[];
-    addTags(...tagNames: string[]): void;
-    removeTags(...tagNames: string[]): void;
-    toString(): any;
-};
-export type Quantity = import('../quantity').Quantity;
 /**
  * Sends a command or update to an item
  *
@@ -67,18 +14,120 @@ export class SendCommandOrUpdateOperation extends OperationConfig {
     /**
        * Send command to multiple items
        *
-       * @param {Item[] | string[]} itemsOrNames the items to send a command to
+       * @param {import("../items/items").Item[] | string[]} itemsOrNames the items to send a command to
        * @returns {SendCommandOrUpdateOperation} this
        */
-    toItems(itemsOrNames: Item[] | string[]): SendCommandOrUpdateOperation;
+    toItems(itemsOrNames: {
+        rawItem: HostItem;
+        persistence: import("../items/item-persistence");
+        semantics: import("../items/item-semantics");
+        readonly type: string;
+        readonly name: string;
+        readonly label: string;
+        readonly state: string;
+        readonly numericState: number;
+        readonly quantityState: import("../quantity").Quantity;
+        readonly rawState: HostState;
+        readonly previousState: string;
+        readonly lastStateUpdateTimestamp: any;
+        readonly lastStateUpdateInstant: any;
+        readonly lastStateChangeTimestamp: any;
+        readonly lastStateChangeInstant: any;
+        readonly members: any[];
+        readonly descendents: any[];
+        readonly isUninitialized: boolean;
+        getMetadata(namespace?: string): {
+            value: string;
+            configuration: any;
+        } | {
+            namespace: {
+                value: string;
+                configuration: any;
+            };
+        };
+        replaceMetadata(namespace: string, value: string, configuration?: any): {
+            configuration: any;
+            value: string;
+        };
+        removeMetadata(namespace?: string): {
+            value: string;
+            configuration: any;
+        };
+        sendCommand(value: any, expire?: time.Duration, onExpire?: any): void;
+        sendCommandIfDifferent(value: any): boolean;
+        sendIncreaseCommand(value: any): boolean;
+        sendDecreaseCommand(value: any): boolean;
+        getToggleState(): "PAUSE" | "PLAY" | "OPEN" | "CLOSED" | "ON" | "OFF";
+        sendToggleCommand(): void;
+        postToggleUpdate(): void;
+        postUpdate(value: any): void;
+        readonly groupNames: string[];
+        addGroups(...groupNamesOrItems: any[]): void;
+        removeGroups(...groupNamesOrItems: any[]): void;
+        readonly tags: string[];
+        addTags(...tagNames: string[]): void;
+        removeTags(...tagNames: string[]): void;
+        toString(): any;
+    }[] | string[]): SendCommandOrUpdateOperation;
     toItemNames: any[] | string[];
     /**
        * Send command to an item
        *
-       * @param {Item | string} itemOrName the item to send a command to
+       * @param {import("../items/items").Item | string} itemOrName the item to send a command to
        * @returns {SendCommandOrUpdateOperation} this
        */
-    toItem(itemOrName: Item | string): SendCommandOrUpdateOperation;
+    toItem(itemOrName: {
+        rawItem: HostItem;
+        persistence: import("../items/item-persistence");
+        semantics: import("../items/item-semantics");
+        readonly type: string;
+        readonly name: string;
+        readonly label: string;
+        readonly state: string;
+        readonly numericState: number;
+        readonly quantityState: import("../quantity").Quantity;
+        readonly rawState: HostState;
+        readonly previousState: string;
+        readonly lastStateUpdateTimestamp: any;
+        readonly lastStateUpdateInstant: any;
+        readonly lastStateChangeTimestamp: any;
+        readonly lastStateChangeInstant: any;
+        readonly members: any[];
+        readonly descendents: any[];
+        readonly isUninitialized: boolean;
+        getMetadata(namespace?: string): {
+            value: string;
+            configuration: any;
+        } | {
+            namespace: {
+                value: string;
+                configuration: any;
+            };
+        };
+        replaceMetadata(namespace: string, value: string, configuration?: any): {
+            configuration: any;
+            value: string;
+        };
+        removeMetadata(namespace?: string): {
+            value: string;
+            configuration: any;
+        };
+        sendCommand(value: any, expire?: time.Duration, onExpire?: any): void;
+        sendCommandIfDifferent(value: any): boolean;
+        sendIncreaseCommand(value: any): boolean;
+        sendDecreaseCommand(value: any): boolean;
+        getToggleState(): "PAUSE" | "PLAY" | "OPEN" | "CLOSED" | "ON" | "OFF";
+        sendToggleCommand(): void;
+        postToggleUpdate(): void;
+        postUpdate(value: any): void;
+        readonly groupNames: string[];
+        addGroups(...groupNamesOrItems: any[]): void;
+        removeGroups(...groupNamesOrItems: any[]): void;
+        readonly tags: string[];
+        addTags(...tagNames: string[]): void;
+        removeTags(...tagNames: string[]): void;
+        toString(): any;
+    } | string): SendCommandOrUpdateOperation;
     /**
        * Send another command
        * @param {*} next
@@ -207,14 +256,6 @@ export class CopyStateOperation extends OperationConfig {
     private describe;
 }
 /**
- * @typedef { import("../items/items").Item } Item
- * @private
- */
-/**
- * @typedef {import('../quantity').Quantity} Quantity
- * @private
- */
-/**
  * Operation to execute as part of a rule
  * @hideconstructor
  */
@@ -248,10 +289,10 @@ export class OperationBuilder {
     /**
       * Specifies that a command should be sent as a result of this rule firing.
       *
-      * @param {string|number|time.ZonedDateTime|Quantity|HostState} command the command to send
+      * @param {string|number|time.ZonedDateTime|import('../quantity').Quantity|HostState} command the command to send
       * @returns {SendCommandOrUpdateOperation} the operation
       */
-    send(command: string | number | time.ZonedDateTime | Quantity | HostState): SendCommandOrUpdateOperation;
+    send(command: string | number | time.ZonedDateTime | import('../quantity').Quantity | HostState): SendCommandOrUpdateOperation;
     /**
        * Specifies that an update should be posted as a result of this rule firing.
        *
@@ -309,7 +350,6 @@ export class OperationBuilder {
        */
     copyAndSendState(): CopyStateOperation;
 }
-import time = require("@js-joda/core");
 /**
  * {RuleBuilder} RuleBuilder triggers
  * @memberof OperationBuilder
@@ -335,5 +375,6 @@ declare class OperationConfig {
        */
     build(name?: string, description?: string, tags?: Array<string>, id?: string): void;
 }
+import time = require("@js-joda/core");
 export {};
 //# sourceMappingURL=operation-builder.d.ts.map

@@ -17,10 +17,6 @@ declare const _exports: {
      *
      * @namespace time
      */
-    /**
-     * @typedef { import("./items/items").Item } items.Item
-     * @private
-     */
     TemporalField: typeof time.TemporalField;
     TemporalUnit: typeof time.TemporalUnit;
     ValueRange: typeof time.ValueRange;

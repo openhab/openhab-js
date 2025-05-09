@@ -1,4 +1,32 @@
-export type Item = {
+/**
+ * Creates a trigger that fires upon specific events in a channel.
+ *
+ * @example
+ * ChannelEventTrigger('astro:sun:local:rise#event', 'START');
+ *
+ * @memberof triggers
+ * @param {string} channel the name of the channel
+ * @param {string} event the name of the event to listen for
+ * @param {string} [triggerName] the optional name of the trigger to create
+ *
+ */
+export function ChannelEventTrigger(channel: string, event: string, triggerName?: string): HostTrigger;
+/**
+ * Creates a trigger that fires upon an Item changing state.
+ *
+ * @example
+ * ItemStateChangeTrigger('my_item'); // changed
+ * ItemStateChangeTrigger('my_item', 'OFF', 'ON'); // changed from OFF to ON
+ * ItemStateChangeTrigger('my_item', undefined, 'ON'); // changed to ON
+ * ItemStateChangeTrigger('my_item', 'OFF', undefined); // changed from OFF
+ *
+ * @memberof triggers
+ * @param {import("./items/items").Item|string} itemOrName the {@link Item} or the name of the Item to monitor for change
+ * @param {string} [oldState] the previous state of the Item
+ * @param {string} [newState] the new state of the Item
+ * @param {string} [triggerName] the optional name of the trigger to create
+ */
+export function ItemStateChangeTrigger(itemOrName: {
     rawItem: HostItem;
     persistence: import("./items/item-persistence");
     semantics: import("./items/item-semantics");
@@ -49,36 +77,7 @@ export type Item = {
     addTags(...tagNames: string[]): void;
     removeTags(...tagNames: string[]): void;
     toString(): any;
-};
-/**
- * Creates a trigger that fires upon specific events in a channel.
- *
- * @example
- * ChannelEventTrigger('astro:sun:local:rise#event', 'START');
- *
- * @memberof triggers
- * @param {string} channel the name of the channel
- * @param {string} event the name of the event to listen for
- * @param {string} [triggerName] the optional name of the trigger to create
- *
- */
-export function ChannelEventTrigger(channel: string, event: string, triggerName?: string): HostTrigger;
-/**
- * Creates a trigger that fires upon an Item changing state.
- *
- * @example
- * ItemStateChangeTrigger('my_item'); // changed
- * ItemStateChangeTrigger('my_item', 'OFF', 'ON'); // changed from OFF to ON
- * ItemStateChangeTrigger('my_item', undefined, 'ON'); // changed to ON
- * ItemStateChangeTrigger('my_item', 'OFF', undefined); // changed from OFF
- *
- * @memberof triggers
- * @param {Item|string} itemOrName the {@link Item} or the name of the Item to monitor for change
- * @param {string} [oldState] the previous state of the Item
- * @param {string} [newState] the new state of the Item
- * @param {string} [triggerName] the optional name of the trigger to create
- */
-export function ItemStateChangeTrigger(itemOrName: Item | string, oldState?: string, newState?: string, triggerName?: string): HostTrigger;
+} | string, oldState?: string, newState?: string, triggerName?: string): HostTrigger;
 /**
  * Creates a trigger that fires upon an Item receiving a state update. Note that the Item does not need to change state.
  *
@@ -87,11 +86,62 @@ export function ItemStateChangeTrigger(itemOrName: Item | string, oldState?: str
  * ItemStateUpdateTrigger('my_item', 'OFF'); // received update OFF
  *
  * @memberof triggers
- * @param {Item|string} itemOrName the {@link Item} or the name of the Item to monitor for change
+ * @param {import("./items/items").Item|string} itemOrName the {@link Item} or the name of the Item to monitor for change
  * @param {string} [state] the new state of the Item
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function ItemStateUpdateTrigger(itemOrName: Item | string, state?: string, triggerName?: string): HostTrigger;
+export function ItemStateUpdateTrigger(itemOrName: {
+    rawItem: HostItem;
+    persistence: import("./items/item-persistence");
+    semantics: import("./items/item-semantics");
+    readonly type: string;
+    readonly name: string;
+    readonly label: string;
+    readonly state: string;
+    readonly numericState: number;
+    readonly quantityState: import("./quantity").Quantity;
+    readonly rawState: HostState;
+    readonly previousState: string;
+    readonly lastStateUpdateTimestamp: any;
+    readonly lastStateUpdateInstant: any;
+    readonly lastStateChangeTimestamp: any;
+    readonly lastStateChangeInstant: any;
+    readonly members: any[];
+    readonly descendents: any[];
+    readonly isUninitialized: boolean;
+    getMetadata(namespace?: string): {
+        value: string;
+        configuration: any;
+    } | {
+        namespace: {
+            value: string;
+            configuration: any;
+        };
+    };
+    replaceMetadata(namespace: string, value: string, configuration?: any): {
+        configuration: any;
+        value: string;
+    };
+    removeMetadata(namespace?: string): {
+        value: string;
+        configuration: any;
+    };
+    sendCommand(value: any, expire?: JSJoda.Duration, onExpire?: any): void;
+    sendCommandIfDifferent(value: any): boolean;
+    sendIncreaseCommand(value: any): boolean;
+    sendDecreaseCommand(value: any): boolean;
+    getToggleState(): "PAUSE" | "PLAY" | "OPEN" | "CLOSED" | "ON" | "OFF";
+    sendToggleCommand(): void;
+    postToggleUpdate(): void;
+    postUpdate(value: any): void;
+    readonly groupNames: string[];
+    addGroups(...groupNamesOrItems: any[]): void;
+    removeGroups(...groupNamesOrItems: any[]): void;
+    readonly tags: string[];
+    addTags(...tagNames: string[]): void;
+    removeTags(...tagNames: string[]): void;
+    toString(): any;
+} | string, state?: string, triggerName?: string): HostTrigger;
 /**
  * Creates a trigger that fires upon an Item receiving a command. Note that the Item does not need to change state.
  *
@@ -100,11 +150,62 @@ export function ItemStateUpdateTrigger(itemOrName: Item | string, state?: string
  * ItemCommandTrigger('my_item', 'OFF'); // received command OFF
  *
  * @memberof triggers
- * @param {Item|string} itemOrName the {@link Item} or the name of the Item to monitor for change
+ * @param {import("./items/items").Item|string} itemOrName the {@link Item} or the name of the Item to monitor for change
  * @param {string} [command] the command received
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function ItemCommandTrigger(itemOrName: Item | string, command?: string, triggerName?: string): HostTrigger;
+export function ItemCommandTrigger(itemOrName: {
+    rawItem: HostItem;
+    persistence: import("./items/item-persistence");
+    semantics: import("./items/item-semantics");
+    readonly type: string;
+    readonly name: string;
+    readonly label: string;
+    readonly state: string;
+    readonly numericState: number;
+    readonly quantityState: import("./quantity").Quantity;
+    readonly rawState: HostState;
+    readonly previousState: string;
+    readonly lastStateUpdateTimestamp: any;
+    readonly lastStateUpdateInstant: any;
+    readonly lastStateChangeTimestamp: any;
+    readonly lastStateChangeInstant: any;
+    readonly members: any[];
+    readonly descendents: any[];
+    readonly isUninitialized: boolean;
+    getMetadata(namespace?: string): {
+        value: string;
+        configuration: any;
+    } | {
+        namespace: {
+            value: string;
+            configuration: any;
+        };
+    };
+    replaceMetadata(namespace: string, value: string, configuration?: any): {
+        configuration: any;
+        value: string;
+    };
+    removeMetadata(namespace?: string): {
+        value: string;
+        configuration: any;
+    };
+    sendCommand(value: any, expire?: JSJoda.Duration, onExpire?: any): void;
+    sendCommandIfDifferent(value: any): boolean;
+    sendIncreaseCommand(value: any): boolean;
+    sendDecreaseCommand(value: any): boolean;
+    getToggleState(): "PAUSE" | "PLAY" | "OPEN" | "CLOSED" | "ON" | "OFF";
+    sendToggleCommand(): void;
+    postToggleUpdate(): void;
+    postUpdate(value: any): void;
+    readonly groupNames: string[];
+    addGroups(...groupNamesOrItems: any[]): void;
+    removeGroups(...groupNamesOrItems: any[]): void;
+    readonly tags: string[];
+    addTags(...tagNames: string[]): void;
+    removeTags(...tagNames: string[]): void;
+    toString(): any;
+} | string, command?: string, triggerName?: string): HostTrigger;
 /**
  * Creates a trigger that fires upon a member of a group changing state. Note that group Item does not need to change state.
  *
@@ -112,12 +213,63 @@ export function ItemCommandTrigger(itemOrName: Item | string, command?: string, 
  * GroupStateChangeTrigger('my_group', 'OFF', 'ON');
  *
  * @memberof triggers
- * @param {Item|string} groupOrName the group {@link Item} or the name of the group to monitor for change
+ * @param {import("./items/items").Item|string} groupOrName the group {@link Item} or the name of the group to monitor for change
  * @param {string} [oldState] the previous state of the group
  * @param {string} [newState] the new state of the group
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function GroupStateChangeTrigger(groupOrName: Item | string, oldState?: string, newState?: string, triggerName?: string): HostTrigger;
+export function GroupStateChangeTrigger(groupOrName: {
+    rawItem: HostItem;
+    persistence: import("./items/item-persistence");
+    semantics: import("./items/item-semantics");
+    readonly type: string;
+    readonly name: string;
+    readonly label: string;
+    readonly state: string;
+    readonly numericState: number;
+    readonly quantityState: import("./quantity").Quantity;
+    readonly rawState: HostState;
+    readonly previousState: string;
+    readonly lastStateUpdateTimestamp: any;
+    readonly lastStateUpdateInstant: any;
+    readonly lastStateChangeTimestamp: any;
+    readonly lastStateChangeInstant: any;
+    readonly members: any[];
+    readonly descendents: any[];
+    readonly isUninitialized: boolean;
+    getMetadata(namespace?: string): {
+        value: string;
+        configuration: any;
+    } | {
+        namespace: {
+            value: string;
+            configuration: any;
+        };
+    };
+    replaceMetadata(namespace: string, value: string, configuration?: any): {
+        configuration: any;
+        value: string;
+    };
+    removeMetadata(namespace?: string): {
+        value: string;
+        configuration: any;
+    };
+    sendCommand(value: any, expire?: JSJoda.Duration, onExpire?: any): void;
+    sendCommandIfDifferent(value: any): boolean;
+    sendIncreaseCommand(value: any): boolean;
+    sendDecreaseCommand(value: any): boolean;
+    getToggleState(): "PAUSE" | "PLAY" | "OPEN" | "CLOSED" | "ON" | "OFF";
+    sendToggleCommand(): void;
+    postToggleUpdate(): void;
+    postUpdate(value: any): void;
+    readonly groupNames: string[];
+    addGroups(...groupNamesOrItems: any[]): void;
+    removeGroups(...groupNamesOrItems: any[]): void;
+    readonly tags: string[];
+    addTags(...tagNames: string[]): void;
+    removeTags(...tagNames: string[]): void;
+    toString(): any;
+} | string, oldState?: string, newState?: string, triggerName?: string): HostTrigger;
 /**
  * Creates a trigger that fires upon a member of a group receiving a state update. Note that group Item does not need to change state.
  *
@@ -125,11 +277,62 @@ export function GroupStateChangeTrigger(groupOrName: Item | string, oldState?: s
  * GroupStateUpdateTrigger('my_group', 'OFF');
  *
  * @memberof triggers
- * @param {Item|string} groupOrName the group {@link Item} or the name of the group to monitor for change
+ * @param {import("./items/items").Item|string} groupOrName the group {@link Item} or the name of the group to monitor for change
  * @param {string} [state] the new state of the group
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function GroupStateUpdateTrigger(groupOrName: Item | string, state?: string, triggerName?: string): HostTrigger;
+export function GroupStateUpdateTrigger(groupOrName: {
+    rawItem: HostItem;
+    persistence: import("./items/item-persistence");
+    semantics: import("./items/item-semantics");
+    readonly type: string;
+    readonly name: string;
+    readonly label: string;
+    readonly state: string;
+    readonly numericState: number;
+    readonly quantityState: import("./quantity").Quantity;
+    readonly rawState: HostState;
+    readonly previousState: string;
+    readonly lastStateUpdateTimestamp: any;
+    readonly lastStateUpdateInstant: any;
+    readonly lastStateChangeTimestamp: any;
+    readonly lastStateChangeInstant: any;
+    readonly members: any[];
+    readonly descendents: any[];
+    readonly isUninitialized: boolean;
+    getMetadata(namespace?: string): {
+        value: string;
+        configuration: any;
+    } | {
+        namespace: {
+            value: string;
+            configuration: any;
+        };
+    };
+    replaceMetadata(namespace: string, value: string, configuration?: any): {
+        configuration: any;
+        value: string;
+    };
+    removeMetadata(namespace?: string): {
+        value: string;
+        configuration: any;
+    };
+    sendCommand(value: any, expire?: JSJoda.Duration, onExpire?: any): void;
+    sendCommandIfDifferent(value: any): boolean;
+    sendIncreaseCommand(value: any): boolean;
+    sendDecreaseCommand(value: any): boolean;
+    getToggleState(): "PAUSE" | "PLAY" | "OPEN" | "CLOSED" | "ON" | "OFF";
+    sendToggleCommand(): void;
+    postToggleUpdate(): void;
+    postUpdate(value: any): void;
+    readonly groupNames: string[];
+    addGroups(...groupNamesOrItems: any[]): void;
+    removeGroups(...groupNamesOrItems: any[]): void;
+    readonly tags: string[];
+    addTags(...tagNames: string[]): void;
+    removeTags(...tagNames: string[]): void;
+    toString(): any;
+} | string, state?: string, triggerName?: string): HostTrigger;
 /**
  * Creates a trigger that fires upon a member of a group receiving a command. Note that the group Item does not need to change state.
  *
@@ -137,11 +340,62 @@ export function GroupStateUpdateTrigger(groupOrName: Item | string, state?: stri
  * GroupCommandTrigger('my_group', 'OFF');
  *
  * @memberof triggers
- * @param {Item|string} groupOrName the group {@link Item} or the name of the group to monitor for commands
+ * @param {import("./items/items").Item|string} groupOrName the group {@link Item} or the name of the group to monitor for commands
  * @param {string} [command] the command received
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function GroupCommandTrigger(groupOrName: Item | string, command?: string, triggerName?: string): HostTrigger;
+export function GroupCommandTrigger(groupOrName: {
+    rawItem: HostItem;
+    persistence: import("./items/item-persistence");
+    semantics: import("./items/item-semantics");
+    readonly type: string;
+    readonly name: string;
+    readonly label: string;
+    readonly state: string;
+    readonly numericState: number;
+    readonly quantityState: import("./quantity").Quantity;
+    readonly rawState: HostState;
+    readonly previousState: string;
+    readonly lastStateUpdateTimestamp: any;
+    readonly lastStateUpdateInstant: any;
+    readonly lastStateChangeTimestamp: any;
+    readonly lastStateChangeInstant: any;
+    readonly members: any[];
+    readonly descendents: any[];
+    readonly isUninitialized: boolean;
+    getMetadata(namespace?: string): {
+        value: string;
+        configuration: any;
+    } | {
+        namespace: {
+            value: string;
+            configuration: any;
+        };
+    };
+    replaceMetadata(namespace: string, value: string, configuration?: any): {
+        configuration: any;
+        value: string;
+    };
+    removeMetadata(namespace?: string): {
+        value: string;
+        configuration: any;
+    };
+    sendCommand(value: any, expire?: JSJoda.Duration, onExpire?: any): void;
+    sendCommandIfDifferent(value: any): boolean;
+    sendIncreaseCommand(value: any): boolean;
+    sendDecreaseCommand(value: any): boolean;
+    getToggleState(): "PAUSE" | "PLAY" | "OPEN" | "CLOSED" | "ON" | "OFF";
+    sendToggleCommand(): void;
+    postToggleUpdate(): void;
+    postUpdate(value: any): void;
+    readonly groupNames: string[];
+    addGroups(...groupNamesOrItems: any[]): void;
+    removeGroups(...groupNamesOrItems: any[]): void;
+    readonly tags: string[];
+    addTags(...tagNames: string[]): void;
+    removeTags(...tagNames: string[]): void;
+    toString(): any;
+} | string, command?: string, triggerName?: string): HostTrigger;
 /**
  * Creates a trigger that fires upon a Thing status updating.
  *
@@ -230,12 +484,63 @@ export function TimeOfDayTrigger(time: string, triggerName?: string): HostTrigge
  * DateTimeTrigger('MyDateTimeItem');
  *
  * @memberof triggers
- * @param {Item|string} itemOrName the {@link Item} or the name of the Item to monitor for change
+ * @param {import("./items/items").Item|string} itemOrName the {@link Item} or the name of the Item to monitor for change
  * @param {boolean} [timeOnly=false] Specifies whether only the time of the DateTime Item should be compared or the date and time.
  * @param {number} [offset=0] The offset in seconds to add to the time of the DateTime Item
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function DateTimeTrigger(itemOrName: Item | string, timeOnly?: boolean, offset?: number, triggerName?: string): HostTrigger;
+export function DateTimeTrigger(itemOrName: {
+    rawItem: HostItem;
+    persistence: import("./items/item-persistence");
+    semantics: import("./items/item-semantics");
+    readonly type: string;
+    readonly name: string;
+    readonly label: string;
+    readonly state: string;
+    readonly numericState: number;
+    readonly quantityState: import("./quantity").Quantity;
+    readonly rawState: HostState;
+    readonly previousState: string;
+    readonly lastStateUpdateTimestamp: any;
+    readonly lastStateUpdateInstant: any;
+    readonly lastStateChangeTimestamp: any;
+    readonly lastStateChangeInstant: any;
+    readonly members: any[];
+    readonly descendents: any[];
+    readonly isUninitialized: boolean;
+    getMetadata(namespace?: string): {
+        value: string;
+        configuration: any;
+    } | {
+        namespace: {
+            value: string;
+            configuration: any;
+        };
+    };
+    replaceMetadata(namespace: string, value: string, configuration?: any): {
+        configuration: any;
+        value: string;
+    };
+    removeMetadata(namespace?: string): {
+        value: string;
+        configuration: any;
+    };
+    sendCommand(value: any, expire?: JSJoda.Duration, onExpire?: any): void;
+    sendCommandIfDifferent(value: any): boolean;
+    sendIncreaseCommand(value: any): boolean;
+    sendDecreaseCommand(value: any): boolean;
+    getToggleState(): "PAUSE" | "PLAY" | "OPEN" | "CLOSED" | "ON" | "OFF";
+    sendToggleCommand(): void;
+    postToggleUpdate(): void;
+    postUpdate(value: any): void;
+    readonly groupNames: string[];
+    addGroups(...groupNamesOrItems: any[]): void;
+    removeGroups(...groupNamesOrItems: any[]): void;
+    readonly tags: string[];
+    addTags(...tagNames: string[]): void;
+    removeTags(...tagNames: string[]): void;
+    toString(): any;
+} | string, timeOnly?: boolean, offset?: number, triggerName?: string): HostTrigger;
 /**
  * Creates a trigger for the {@link https://openhab.org/addons/automation/pwm/ Pulse Width Modulation (PWM) Automation} add-on.
  *

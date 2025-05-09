@@ -48,11 +48,11 @@ declare class ItemPersistence {
      * ```
      *
      * @param {(time.ZonedDateTime | Date)} [timestamp] the date for the item state to be stored
-     * @param {string|number|time.ZonedDateTime|Quantity|HostState} [state] the state to be stored
-     * @param {items.TimeSeries} [timeSeries] optional TimeSeries to be stored
+     * @param {string|number|time.ZonedDateTime|import('../quantity').Quantity|HostState} [state] the state to be stored
+     * @param {import('../items/items').TimeSeries} [timeSeries] optional TimeSeries to be stored
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
      */
-    persist(timestamp?: (time.ZonedDateTime | Date), state?: string | number | time.ZonedDateTime | Quantity | HostState, timeSeries?: items.TimeSeries, serviceId?: string, ...args: any[]): void;
+    persist(timestamp?: (time.ZonedDateTime | Date), state?: string | number | time.ZonedDateTime | import('../quantity').Quantity | HostState, timeSeries?: import("./time-series"), serviceId?: string, ...args: any[]): void;
     /**
      * Retrieves the persisted state for a given Item at a certain point in time.
      *
@@ -594,19 +594,11 @@ declare class ItemPersistence {
     removeAllStatesBetween(begin: (time.ZonedDateTime | Date), end: (time.ZonedDateTime | Date), serviceId?: string, ...args: any[]): any;
     #private;
 }
-declare namespace ItemPersistence {
-    export { Quantity };
-}
 declare namespace time {
     type ZonedDateTime = import('@js-joda/core').ZonedDateTime;
     type Instant = import('@js-joda/core').Instant;
 }
 import time = require("../time");
-type Quantity = import('../quantity').Quantity;
-declare namespace items {
-    type TimeSeries = import("./time-series");
-}
-declare const TimeSeries: any;
 /**
  * Class representing an instance of {@link https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/historicitem org.openhab.core.persistence.HistoricItem}.
  * Extends {@link items.PersistedState}.
@@ -639,14 +631,6 @@ declare class PersistedItem extends PersistedState {
  * @private
  */
 /**
- * @typedef {import('../quantity').Quantity} Quantity
- * @private
- */
-/**
- * @typedef {import('../items/items').TimeSeries} items.TimeSeries
- * @private
- */
-/**
  * Class representing an instance of {@link https://www.openhab.org/javadoc/latest/org/openhab/core/types/state org.openhab.core.types.State}.
  *
  * @memberof items
@@ -672,7 +656,7 @@ declare class PersistedState {
     get numericState(): number;
     /**
      * Item state as {@link Quantity} or `null` if state is not Quantity-compatible or Quantity would be unit-less (without unit)
-     * @type {Quantity|null}
+     * @type {import('../quantity').Quantity|null}
      */
     get quantityState(): import("../quantity").Quantity;
     toString(): string;

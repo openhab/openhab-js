@@ -43,14 +43,9 @@ export type ItemConfig = {
      */
     groupFunction?: HostGroupFunction;
 };
-export type ItemMetadata = {
-    value: string;
-    configuration: any;
-};
 export type ZonedDateTime = import('@js-joda/core').ZonedDateTime;
 export type Instant = import('@js-joda/core').Instant;
 export type Duration = import('@js-joda/core').Duration;
-export type Quantity = import('../quantity').Quantity;
 /**
  * Helper function to ensure an Item name is valid. All invalid characters are replaced with an underscore.
  * @memberof items
@@ -179,7 +174,7 @@ export class Item {
     get numericState(): number;
     /**
      * Item state as {@link Quantity} or `null` if state is not Quantity-compatible or Quantity would be unit-less (without unit)
-     * @type {Quantity|null}
+     * @type {import('../quantity').Quantity|null}
      */
     get quantityState(): import("../quantity").Quantity;
     /**
@@ -239,11 +234,17 @@ export class Item {
      *
      * @see items.metadata.getMetadata
      * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is returned, else all metadata is returned
-     * @returns {{ namespace: ItemMetadata }|ItemMetadata|null} all metadata as an object with the namespaces as properties OR metadata of a single namespace or `null` if that namespace doesn't exist; the metadata itself is of type {@link items.metadata.ItemMetadata}
+     * @returns {{ namespace: import('../items/metadata/metadata').ItemMetadata }|import('../items/metadata/metadata').ItemMetadata|null} all metadata as an object with the namespaces as properties OR metadata of a single namespace or `null` if that namespace doesn't exist; the metadata itself is of type {@link items.metadata.ItemMetadata}
      */
     getMetadata(namespace?: string): {
-        namespace: ItemMetadata;
-    } | ItemMetadata | null;
+        namespace: {
+            value: string;
+            configuration: any;
+        };
+    } | {
+        value: string;
+        configuration: any;
+    } | null;
     /**
      * Updates or adds metadata of a single namespace to this Item.
      *
@@ -262,9 +263,12 @@ export class Item {
      *
      * @see items.metadata.removeMetadata
      * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is removed, else all metadata is removed
-     * @returns {ItemMetadata|null} removed {@link items.metadata.ItemMetadata} OR `null` if the Item has no metadata under the given namespace or all metadata was removed
+     * @returns {import('../items/metadata/metadata').ItemMetadata|null} removed {@link items.metadata.ItemMetadata} OR `null` if the Item has no metadata under the given namespace or all metadata was removed
      */
-    removeMetadata(namespace?: string): ItemMetadata | null;
+    removeMetadata(namespace?: string): {
+        value: string;
+        configuration: any;
+    } | null;
     /**
      * Sends a command to the Item.
      *
@@ -276,35 +280,35 @@ export class Item {
      * // Turn on the Hallway lights for 5 minutes, then turn them off
      * items.getItem('HallwayLight').sendCommand('ON', time.Duration.ofMinutes(5), 'OFF');
      *
-     * @param {string|number|ZonedDateTime|Instant|Quantity|HostState} value the value of the command to send, such as 'ON'
+     * @param {string|number|ZonedDateTime|Instant|import('../quantity').Quantity|HostState} value the value of the command to send, such as 'ON'
      * @param {Duration} [expire] optional duration (see {@link https://js-joda.github.io/js-joda/class/packages/core/src/Duration.js~Duration.html JS-Joda: Duration}) after which the command expires and the Item is commanded back to its previous state or `onExpire`
-     * @param {string|number|ZonedDateTime|Instant|Quantity|HostState} [onExpire] the optional value of the command to apply on expire, default is the current state
+     * @param {string|number|ZonedDateTime|Instant|import('../quantity').Quantity|HostState} [onExpire] the optional value of the command to apply on expire, default is the current state
      * @see sendCommandIfDifferent
      * @see postUpdate
      */
-    sendCommand(value: string | number | ZonedDateTime | Instant | Quantity | HostState, expire?: Duration, onExpire?: string | number | ZonedDateTime | Instant | Quantity | HostState): void;
+    sendCommand(value: string | number | ZonedDateTime | Instant | import('../quantity').Quantity | HostState, expire?: Duration, onExpire?: string | number | ZonedDateTime | Instant | import('../quantity').Quantity | HostState): void;
     /**
      * Sends a command to the Item, but only if the current state is not what is being sent.
      *
-     * @param {string|number|ZonedDateTime|Instant|Quantity|HostState} value the value of the command to send, such as 'ON'
+     * @param {string|number|ZonedDateTime|Instant|import('../quantity').Quantity|HostState} value the value of the command to send, such as 'ON'
      * @returns {boolean} true if the command was sent, false otherwise
      * @see sendCommand
      */
-    sendCommandIfDifferent(value: string | number | ZonedDateTime | Instant | Quantity | HostState): boolean;
+    sendCommandIfDifferent(value: string | number | ZonedDateTime | Instant | import('../quantity').Quantity | HostState): boolean;
     /**
      * Increase the value of this Item to the given value by sending a command, but only if the current state is less than that value.
      *
-     * @param {number|Quantity|HostState} value the value of the command to send, such as 'ON'
+     * @param {number|import('../quantity').Quantity|HostState} value the value of the command to send, such as 'ON'
      * @return {boolean} true if the command was sent, false otherwise
      */
-    sendIncreaseCommand(value: number | Quantity | HostState): boolean;
+    sendIncreaseCommand(value: number | import('../quantity').Quantity | HostState): boolean;
     /**
      * Decreases the value of this Item to the given value by sending a command, but only if the current state is greater than that value.
      *
-     * @param {number|Quantity|HostState} value the value of the command to send, such as 'ON'
+     * @param {number|import('../quantity').Quantity|HostState} value the value of the command to send, such as 'ON'
      * @return {boolean} true if the command was sent, false otherwise
      */
-    sendDecreaseCommand(value: number | Quantity | HostState): boolean;
+    sendDecreaseCommand(value: number | import('../quantity').Quantity | HostState): boolean;
     /**
      * Calculates the toggled state of this Item.
      * For Items like Color and Dimmer, getStateAs(OnOffType) is used and the toggle calculated of that.
@@ -328,11 +332,11 @@ export class Item {
     /**
      * Posts an update to the Item.
      *
-     * @param {string|number|ZonedDateTime|Instant|Quantity|HostState} value the value of the command to send, such as 'ON'
+     * @param {string|number|ZonedDateTime|Instant|import('../quantity').Quantity|HostState} value the value of the command to send, such as 'ON'
      * @see postToggleUpdate
      * @see sendCommand
      */
-    postUpdate(value: string | number | ZonedDateTime | Instant | Quantity | HostState): void;
+    postUpdate(value: string | number | ZonedDateTime | Instant | import('../quantity').Quantity | HostState): void;
     /**
      * Gets the names of the groups this Item is member of.
      * @returns {string[]}
