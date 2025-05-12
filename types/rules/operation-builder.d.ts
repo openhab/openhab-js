@@ -12,7 +12,7 @@ export type Item = {
     readonly previousState: string;
     readonly previousNumericState: number;
     readonly previousQuantityState: import("../quantity").Quantity;
-    readonly previousRawState: HostState;
+    readonly previousRawState: any;
     readonly lastStateUpdateTimestamp: any;
     readonly lastStateUpdateInstant: any;
     readonly lastStateChangeTimestamp: any;
@@ -29,8 +29,20 @@ export type Item = {
             configuration: any;
         };
     };
+    /**
+       * Send command to multiple items
+       *
+       * @param {Item[] | string[]} itemsOrNames the items to send a command to
+       * @returns {SendCommandOrUpdateOperation} this
+       */
     replaceMetadata(namespace: string, value: string, configuration?: any): {
         configuration: any;
+        /**
+           * Send command to an item
+           *
+           * @param {Item | string} itemOrName the item to send a command to
+           * @returns {SendCommandOrUpdateOperation} this
+           */
         value: string;
     };
     removeMetadata(namespace?: string): {

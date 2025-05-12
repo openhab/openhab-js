@@ -126,7 +126,7 @@ class Item {
    * @type {string}
    */
   get state () {
-    return this.rawState.toString();
+    return _state(this.rawState);
   }
 
   /**
@@ -134,10 +134,7 @@ class Item {
    * @type {number|null}
    */
   get numericState () {
-    let state = this.rawState.toString();
-    if (this.type === 'Color') state = this.rawItem.getStateAs(PercentType).toString();
-    const numericState = parseFloat(state);
-    return isNaN(numericState) ? null : numericState;
+    return _numericState(this.rawState, this.type);
   }
 
   /**
@@ -145,16 +142,7 @@ class Item {
    * @type {Quantity|null}
    */
   get quantityState () {
-    try {
-      const qty = getQuantity(this.rawState.toString());
-      return (qty !== null && qty.symbol !== null) ? qty : null;
-    } catch (e) {
-      if (e instanceof QuantityError) {
-        return null;
-      } else {
-        throw Error('Failed to create "quantityState": ' + e);
-      }
-    }
+    return _quantityState(this.rawState);
   }
 
   /**
@@ -170,7 +158,7 @@ class Item {
    * @type {string|null}
    */
   get previousState () {
-    return this.previousRawState == null ? null : this.previousRawState.toString();
+    return _state(this.previousRawState);
   }
 
   /**
@@ -178,10 +166,7 @@ class Item {
    * @type {number|null}
    */
   get previousNumericState () {
-    const previousState = this.previousRawState == null ? null : this.previousRawState.toString();
-    if (previousState == null) return null;
-    const numericState = parseFloat(previousState);
-    return isNaN(numericState) ? null : numericState;
+    return _numericState(this.previousRawState, this.type);
   }
 
   /**
@@ -189,23 +174,12 @@ class Item {
    * @type {Quantity|null}
    */
   get previousQuantityState () {
-    const previousState = this.previousRawState == null ? null : this.previousRawState.toString();
-    if (previousState == null) return null;
-    try {
-      const qty = getQuantity(previousState);
-      return (qty !== null && qty.symbol !== null) ? qty : null;
-    } catch (e) {
-      if (e instanceof QuantityError) {
-        return null;
-      } else {
-        throw Error('Failed to create "quantityState": ' + e);
-      }
-    }
+    return _quantityState(this.previousRawState);
   }
 
   /**
-    * Previous raw state of Item, as a Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/types/state State object}
-   * @type {HostState}
+    * Previous raw state of Item, as a Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/types/state State object} or `null` if previous state not available.
+   * @type {HostState|null}
    */
   get previousRawState () {
     return this.rawItem.getLastState();
@@ -627,6 +601,55 @@ function _createItem (itemConfig) {
   } catch (e) {
     log.error('Failed to create Item: ' + e);
     throw e;
+  }
+}
+
+/**
+ * Return a string representation of a state.
+ *
+ * @private
+ * @param {HostState|null} rawState the state
+ * @returns {string|null} string representation or `null` if `rawState` was `null`
+ */
+function _state (rawState) {
+  if (rawState === null) return null;
+  return rawState.toString();
+}
+
+/**
+ * Return a numeric representation of a state.
+ *
+ * @private
+ * @param {HostState|null} rawState the state
+ * @returns {number|null} numeric representation or `null` if `rawState` was `null`
+ */
+function _numericState (rawState, type) {
+  if (rawState === null) return null;
+  let state = rawState.toString();
+  if (type === 'Color') state = rawState.as(PercentType).toString();
+  const numericState = parseFloat(state);
+  return isNaN(numericState) ? null : numericState;
+}
+
+/**
+ * Return a Quantity representation of a state.
+ *
+ * @private
+ * @param {HostState} rawState the state
+ * @returns {Quantity|null} Quantity representation, or `null` if `rawState` was `null` or not Quantity-compatible, Quantity would be unit-less (without unit) or not available
+ * @throws failed to create quantityState
+ */
+function _quantityState (rawState) {
+  if (rawState === null) return null;
+  try {
+    const qty = getQuantity(rawState);
+    return (qty !== null && qty.symbol !== null) ? qty : null;
+  } catch (e) {
+    if (e instanceof QuantityError) {
+      return null;
+    } else {
+      throw Error('Failed to create "quantityState": ' + e);
+    }
   }
 }
 

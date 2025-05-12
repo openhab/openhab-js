@@ -203,10 +203,10 @@ export class Item {
      */
     get previousQuantityState(): import("../quantity").Quantity;
     /**
-      * Previous raw state of Item, as a Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/types/state State object}
-     * @type {HostState}
+      * Previous raw state of Item, as a Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/types/state State object} or `null` if previous state not available.
+     * @type {HostState|null}
      */
-    get previousRawState(): HostState;
+    get previousRawState(): any;
     /**
      * The time the state was last updated as ZonedDateTime or `null` if no timestamp is available.
      * @type {time.ZonedDateTime|null}
