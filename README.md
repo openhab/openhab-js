@@ -911,7 +911,7 @@ You can work-around that limitation by either serialising and deserialising JS o
 Timers as created by [`createTimer`](#createtimer) can be stored in the shared cache.
 The ids of timers and intervals as created by `setTimeout` and `setInterval` cannot be shared across scripts as these ids are local to the script where they were created.
 
-See [openhab-js : cache](https://openha.github.io/openhab-js/cache.html) for full API documentation.
+See [openhab-js : cache](https://openhab.github.io/openhab-js/cache.html) for full API documentation.
 
 - cache : <code>object</code>
   - .private
