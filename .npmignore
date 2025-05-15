@@ -13,7 +13,6 @@ types/index.d.ts*
 
 .eslintrc.js
 .gitignore
-.markdownlint.yaml
 .nvmrc
 CODEOWNERS
 CONTRIBUTING.md
