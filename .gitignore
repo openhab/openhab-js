@@ -12,6 +12,6 @@ out
 test/coverage
 types/@globals-webpack.config.*
 types/@openhab-globals.*
-types/helpers.*
+types/**/helpers.*
 types/index.*
 types/typeOfArguments.*
