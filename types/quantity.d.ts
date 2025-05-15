@@ -10,6 +10,9 @@ export type Item = {
     readonly quantityState: Quantity;
     readonly rawState: HostState;
     readonly previousState: string;
+    readonly previousNumericState: number;
+    readonly previousQuantityState: Quantity;
+    readonly previousRawState: any;
     readonly lastStateUpdateTimestamp: any;
     readonly lastStateUpdateInstant: any;
     readonly lastStateChangeTimestamp: any;
