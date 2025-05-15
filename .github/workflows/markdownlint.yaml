@@ -17,8 +17,8 @@ jobs:
   markdownlint:
     runs-on: ubuntu-24.04
     steps:
-      - name: Check out code
-        uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v4
       - name: Run markdownlint-cli
         uses: nosborn/github-action-markdown-cli@v3.2.0
         with:
@@ -29,5 +29,13 @@ jobs:
     name: Check for broken links
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - uses: gaurav-nelson/github-action-markdown-link-check@v1
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # pinning to SHA to mitigate possible supply chain attack
+      - name: Check for broken links
+        uses: tcort/github-action-markdown-link-check@a800ad5f1c35bf61987946fd31c15726a1c9f2ba # v1.1.0
+        with:
+          use-quiet-mode: 'yes' # only show errors in output
+          use-verbose-mode: 'yes' # show detailed HTTP status for checked links
+          file-path: 'CONTRIBUTING.md, DEPLOY.md, README.md'
