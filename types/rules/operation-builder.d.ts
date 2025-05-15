@@ -8,6 +8,12 @@ export type Item = {
     readonly state: string;
     readonly numericState: number;
     readonly quantityState: import("../quantity").Quantity;
+    /**
+       * Sends the state from one item to another. Can be used to proxy item state. State is
+       * sent as a command.
+       *
+       * @returns {CopyStateOperation} the operation config
+       */
     readonly rawState: HostState;
     readonly previousState: string;
     readonly previousNumericState: number;
@@ -36,7 +42,7 @@ export type Item = {
     removeMetadata(namespace?: string): {
         value: string;
         configuration: any;
-    };
+    }; /** @private */
     sendCommand(value: any, expire?: time.Duration, onExpire?: any): void;
     sendCommandIfDifferent(value: any): boolean;
     sendIncreaseCommand(value: any): boolean;
