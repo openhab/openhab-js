@@ -38,4 +38,4 @@ jobs:
         with:
           use-quiet-mode: 'yes' # only show errors in output
           use-verbose-mode: 'yes' # show detailed HTTP status for checked links
-          file-path: 'CONTRIBUTING.md, DEPLOY.md, README.md'
+          config-file: 'mlc_config.json'
