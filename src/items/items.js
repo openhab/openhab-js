@@ -126,7 +126,7 @@ class Item {
    * @type {string}
    */
   get state () {
-    return _state(this.rawState);
+    return _stateOrNull(this.rawState);
   }
 
   /**
@@ -134,7 +134,7 @@ class Item {
    * @type {number|null}
    */
   get numericState () {
-    return _numericState(this.rawState, this.type);
+    return _numericStateOrNull(this.rawState, this.type);
   }
 
   /**
@@ -142,7 +142,7 @@ class Item {
    * @type {Quantity|null}
    */
   get quantityState () {
-    return _quantityState(this.rawState);
+    return _quantityStateOrNull(this.rawState);
   }
 
   /**
@@ -158,7 +158,7 @@ class Item {
    * @type {string|null}
    */
   get previousState () {
-    return _state(this.previousRawState);
+    return _stateOrNull(this.previousRawState);
   }
 
   /**
@@ -166,7 +166,7 @@ class Item {
    * @type {number|null}
    */
   get previousNumericState () {
-    return _numericState(this.previousRawState, this.type);
+    return _numericStateOrNull(this.previousRawState, this.type);
   }
 
   /**
@@ -174,7 +174,7 @@ class Item {
    * @type {Quantity|null}
    */
   get previousQuantityState () {
-    return _quantityState(this.previousRawState);
+    return _quantityStateOrNull(this.previousRawState);
   }
 
   /**
@@ -611,7 +611,7 @@ function _createItem (itemConfig) {
  * @param {HostState|null} rawState the state
  * @returns {string|null} string representation or `null` if `rawState` was `null`
  */
-function _state (rawState) {
+function _stateOrNull (rawState) {
   if (rawState === null) return null;
   return rawState.toString();
 }
@@ -621,9 +621,10 @@ function _state (rawState) {
  *
  * @private
  * @param {HostState|null} rawState the state
+ * @param {string} [type] the type of the Item
  * @returns {number|null} numeric representation or `null` if `rawState` was `null`
  */
-function _numericState (rawState, type) {
+function _numericStateOrNull (rawState, type) {
   if (rawState === null) return null;
   let state = rawState.toString();
   if (type === 'Color') state = rawState.as(PercentType).toString();
@@ -639,7 +640,7 @@ function _numericState (rawState, type) {
  * @returns {Quantity|null} Quantity representation, or `null` if `rawState` was `null` or not Quantity-compatible, Quantity would be unit-less (without unit) or not available
  * @throws failed to create quantityState
  */
-function _quantityState (rawState) {
+function _quantityStateOrNull (rawState) {
   if (rawState === null) return null;
   try {
     const qty = getQuantity(rawState);
