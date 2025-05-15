@@ -1,4 +1,5 @@
 // Helper functions used internally across the library
+// This module MUST NOT depend on any other library code to avoid circular dependencies
 
 const javaZDT = Java.type('java.time.ZonedDateTime');
 const javaDuration = Java.type('java.time.Duration');

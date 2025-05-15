@@ -9,11 +9,11 @@ const utils = require('../utils');
 const log = require('../log')('items');
 const { _toOpenhabPrimitiveType, _isQuantity, _isItem } = require('../helpers');
 const cache = require('../cache');
-const { getQuantity, QuantityError } = require('../quantity');
 const time = require('../time');
 
-const { OnOffType, PercentType, UnDefType, events, itemRegistry } = require('@runtime');
+const { OnOffType, UnDefType, events, itemRegistry } = require('@runtime');
 
+const { _stateOrNull, _numericStateOrNull, _quantityStateOrNull } = require('./helpers');
 const metadata = require('./metadata/metadata');
 const ItemPersistence = require('./item-persistence');
 const ItemSemantics = require('./item-semantics');
@@ -601,56 +601,6 @@ function _createItem (itemConfig) {
   } catch (e) {
     log.error('Failed to create Item: ' + e);
     throw e;
-  }
-}
-
-/**
- * Return a string representation of a state.
- *
- * @private
- * @param {HostState|null} rawState the state
- * @returns {string|null} string representation or `null` if `rawState` was `null`
- */
-function _stateOrNull (rawState) {
-  if (rawState === null) return null;
-  return rawState.toString();
-}
-
-/**
- * Return a numeric representation of a state.
- *
- * @private
- * @param {HostState|null} rawState the state
- * @param {string} [type] the type of the Item
- * @returns {number|null} numeric representation or `null` if `rawState` was `null`
- */
-function _numericStateOrNull (rawState, type) {
-  if (rawState === null) return null;
-  let state = rawState.toString();
-  if (type === 'Color') state = rawState.as(PercentType).toString();
-  const numericState = parseFloat(state);
-  return isNaN(numericState) ? null : numericState;
-}
-
-/**
- * Return a Quantity representation of a state.
- *
- * @private
- * @param {HostState} rawState the state
- * @returns {Quantity|null} Quantity representation, or `null` if `rawState` was `null` or not Quantity-compatible, Quantity would be unit-less (without unit) or not available
- * @throws failed to create quantityState
- */
-function _quantityStateOrNull (rawState) {
-  if (rawState === null) return null;
-  try {
-    const qty = getQuantity(rawState);
-    return (qty !== null && qty.symbol !== null) ? qty : null;
-  } catch (e) {
-    if (e instanceof QuantityError) {
-      return null;
-    } else {
-      throw Error('Failed to create "quantityState": ' + e);
-    }
   }
 }
 

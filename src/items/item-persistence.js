@@ -1,7 +1,7 @@
 const log = require('../log')('items.ItemPersistence');
 const time = require('../time');
-const { getQuantity, QuantityError } = require('../quantity');
 const { _toOpenhabPrimitiveType, _isTimeSeries } = require('../helpers');
+const { _numericStateOrNull, _quantityStateOrNull } = require('./helpers');
 
 const PersistenceExtensions = Java.type('org.openhab.core.persistence.extensions.PersistenceExtensions');
 const TimeSeries = Java.type('org.openhab.core.types.TimeSeries');
@@ -61,8 +61,7 @@ class PersistedState {
    * @type {number|null}
    */
   get numericState () {
-    const numericState = parseFloat(this.rawState.toString());
-    return isNaN(numericState) ? null : numericState;
+    return _numericStateOrNull(this.rawState);
   }
 
   /**
@@ -70,16 +69,7 @@ class PersistedState {
    * @type {Quantity|null}
    */
   get quantityState () {
-    try {
-      const qty = getQuantity(this.rawState.toString());
-      return (qty !== null && qty.symbol !== null) ? qty : null;
-    } catch (e) {
-      if (e instanceof QuantityError) {
-        return null;
-      } else {
-        throw Error('Failed to create "quantityState": ' + e);
-      }
-    }
+    _quantityStateOrNull(this.rawState);
   }
 
   toString () {
