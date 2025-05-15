@@ -119,7 +119,7 @@ then you just add a line to every git commit message:
 
 using your real name (sorry, no pseudonyms or anonymous contributions.) and an
 e-mail address under which you can be reached (sorry, no GitHub no-reply e-mail
-addresses (such as username@users.noreply.github.com) or other non-reachable
+addresses (such as `username@users.noreply.github.com`) or other non-reachable
 addresses are allowed).
 
 On the command line you can use `git commit -s` to sign off the commit.
