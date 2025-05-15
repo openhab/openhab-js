@@ -11,7 +11,7 @@ on:
 jobs:
   markdownlint:
     name: markdownlint
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
