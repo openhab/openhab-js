@@ -1,5 +1,16 @@
 # Changelog
 
+## 5.11.0
+
+| Type        | Namespace | Description                                                                        | Reference                                              | Breaking |
+|-------------|-----------|------------------------------------------------------------------------------------|--------------------------------------------------------|----------|
+| Enhancement | `items`   | Item: Add previousState, lastStateUpdate and lastStateChange methods to Item class | [#432](https://github.com/openhab/openhab-js/pull/432) | no       |
+| Enhancement | `cache`   | Allow returning null from supplier function                                        | [#435](https://github.com/openhab/openhab-js/pull/435) | no       |
+| Enhancement | `items`   | Item: Add numeric and quantity variants for previousState                          | [#433](https://github.com/openhab/openhab-js/pull/433) | no       |
+| Enhancement | `items`   | Refactor state factory methods into shared helpers                                 | [#437](https://github.com/openhab/openhab-js/pull/437) | no       |
+
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/42) and [`v5.10.1...v5.11.0`](https://github.com/openhab/openhab-js/compare/v5.10.1...v5.11.0).
+
 ## 5.10.1
 
 | Type   | Namespace | Description                                                          | Reference                                              | Breaking |
@@ -82,7 +93,7 @@ Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone
 
 Please note that with this release the `utils.javaInstantToJsInstant` and `utils.javaZDTToJsZDT` methods have moved to the `time` namespace,
 and `utils.javaZDTToJsZDTWithDefaultZoneSystem` has been replaced by `time.javaZDTToJsZDT`.
-The old methods are still available for backwards compatibility, but considered deprecated.
+The old methods are still available for backwards compatibility but considered deprecated.
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/34).
 
@@ -96,7 +107,7 @@ Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone
 | Enhancement | `items`    | ItemPersistence: Add toString overrides for PersistedState & PersistedItem | [#381](https://github.com/openhab/openhab-js/pull/381) | No       |
 
 Please note that the signature of DateTimeTriggers has changed.
-The old signature is still supported, but considered deprecated.
+The old signature is still supported but considered deprecated.
 See the [openhab-js : triggers : DateTimeTrigger JSDoc](https://openhab.github.io/openhab-js/triggers.html#.DateTimeTrigger) for more information.
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/33).
@@ -189,7 +200,7 @@ Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone
 Please note that this release drops support for openHAB 4.1.x.
 From now on, openHAB 4.2.0 is the minimum requirement for full compatibility.
 
-Read the [release community post](https://community.openhab.org/t/openhab-javascript-library-releases/144137#whats-new-in-500-1) to learn about adjusting your scripts & rules to the breaking changes.
+Read the [release community post](https://community.openhab.org/t/openhab-javascript-library-releases/144137#whats-new-in-500-1) to learn about adjusting your scripts and rules to the breaking changes.
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/25).
 
@@ -287,12 +298,12 @@ Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone
 
 ## 4.3.0
 
-| Type        | Namespace  | Description                                                                          | Reference                                                                                                                                                                                           | Breaking |
-|-------------|------------|--------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
-| Enhancement | `Quantity` | Refactor exports for better internal use                                             | [b77b6e3](https://github.com/openhab/openhab-js/commit/b77b6e376549181b53ea19911fb94e87dae01253)                                                                                                    | No       |
-| Enhancement | `items`    | Use data type classes instead of type definitons for `ItemMetadata` & `HistoricItem` | [e0f0ca1](https://github.com/openhab/openhab-js/commit/e0f0ca162c8cf1d5d4c1b99695d49f614631ae12) & [858ce86](https://github.com/openhab/openhab-js/commit/858ce860bc28c69eb41dc27fd548cdd24d1399ef) | No       |
-| Bugfix      | `items`    | Fix Item semantics `location` & `equipment`                                          | [#261](https://github.com/openhab/openhab-js/pull/261)                                                                                                                                              | No       |
-| Enhancement | `Quantity` | Minor improvements & Make `quantityState` `null` when unit is missing                | [#263](https://github.com/openhab/openhab-js/pull/263)                                                                                                                                              | No       |
+| Type        | Namespace  | Description                                                                           | Reference                                                                                                                                                                                           | Breaking |
+|-------------|------------|---------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
+| Enhancement | `Quantity` | Refactor exports for better internal use                                              | [b77b6e3](https://github.com/openhab/openhab-js/commit/b77b6e376549181b53ea19911fb94e87dae01253)                                                                                                    | No       |
+| Enhancement | `items`    | Use data type classes instead of type definitions for `ItemMetadata` & `HistoricItem` | [e0f0ca1](https://github.com/openhab/openhab-js/commit/e0f0ca162c8cf1d5d4c1b99695d49f614631ae12) & [858ce86](https://github.com/openhab/openhab-js/commit/858ce860bc28c69eb41dc27fd548cdd24d1399ef) | No       |
+| Bugfix      | `items`    | Fix Item semantics `location` & `equipment`                                           | [#261](https://github.com/openhab/openhab-js/pull/261)                                                                                                                                              | No       |
+| Enhancement | `Quantity` | Minor improvements & Make `quantityState` `null` when unit is missing                 | [#263](https://github.com/openhab/openhab-js/pull/263)                                                                                                                                              | No       |
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/15).
 
