@@ -1,6 +1,6 @@
 # Changelog
 
-## 5.11.0
+## 5.11.1 (5.11.0)
 
 | Type        | Namespace | Description                                                                        | Reference                                              | Breaking |
 |-------------|-----------|------------------------------------------------------------------------------------|--------------------------------------------------------|----------|
@@ -9,7 +9,7 @@
 | Enhancement | `items`   | Item: Add numeric and quantity variants for previousState                          | [#433](https://github.com/openhab/openhab-js/pull/433) | no       |
 | Enhancement | `items`   | Refactor state factory methods into shared helpers                                 | [#437](https://github.com/openhab/openhab-js/pull/437) | no       |
 
-Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/42) and [`v5.10.1...v5.11.0`](https://github.com/openhab/openhab-js/compare/v5.10.1...v5.11.0).
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/42) and [`v5.10.1...v5.11.1`](https://github.com/openhab/openhab-js/compare/v5.10.1...v5.11.1).
 
 ## 5.10.1
 
