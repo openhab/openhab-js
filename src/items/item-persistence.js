@@ -69,7 +69,7 @@ class PersistedState {
    * @type {Quantity|null}
    */
   get quantityState () {
-    _quantityStateOrNull(this.rawState);
+    return _quantityStateOrNull(this.rawState);
   }
 
   toString () {
