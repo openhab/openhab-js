@@ -12,9 +12,13 @@
 
 const osgi = require('../../osgi');
 const utils = require('../../utils');
+const environment = require('../../environment');
 const { _getItemName } = require('../../helpers');
 
-const metadataRegistry = osgi.getService('org.openhab.core.items.MetadataRegistry');
+const metadataRegistry = environment.hasProviderSupport()
+  ? require('@runtime/provider').metadataRegistry
+  : osgi.getService('org.openhab.core.items.MetadataRegistry');
+const managedMetadataProvider = osgi.getService('org.openhab.core.items.ManagedMetadataProvider');
 const Metadata = Java.type('org.openhab.core.items.Metadata');
 const MetadataKey = Java.type('org.openhab.core.items.MetadataKey');
 
@@ -25,6 +29,17 @@ const MetadataKey = Java.type('org.openhab.core.items.MetadataKey');
  * @hideconstructor
  */
 class ItemMetadata {
+  /**
+   * The metadata value.
+   * @type {string}
+   */
+  value;
+  /**
+   * The metadata configuration.
+   * @type {object}
+   */
+  configuration;
+
   /**
    * @param {*} rawMetadata {@link https://www.openhab.org/javadoc/latest/org/openhab/core/items/metadata org.openhab.core.items.Metadata}
    */
@@ -74,7 +89,7 @@ function _getAllItemMetadata (itemName) {
 function _getSingleItemMetadata (itemName, namespace) {
   const key = new MetadataKey(namespace, itemName);
   const meta = metadataRegistry.get(key);
-  if (meta === null || meta === undefined) return null;
+  if (meta === null) return null;
   return new ItemMetadata(meta);
 }
 
@@ -101,21 +116,74 @@ function getMetadata (itemOrName, namespace) {
 }
 
 /**
- * Updates or adds metadata of a single namespace to an Item.
+ * Whether metadata of the given namespace is editable.
+ * @param {string} itemName
+ * @param {string} namespace
+ * @return {boolean}
+ * @private
+ */
+function _isMetadataEditable (itemName, namespace) {
+  // TODO: Allow editing metadata provided by this file-based script
+  const key = new MetadataKey(namespace, itemName);
+  const meta = managedMetadataProvider.get(key);
+  return meta !== null;
+}
+
+/**
+ * Adds metadata of a single namespace to an Item.
  *
- * @see items.Item.replaceMetadata
+ * If this is called from file-based scripts, the metadata is registered with the ScriptedMetadataProvider and shares the same lifecycle as the script.
+ * You can still persist the metadata permanently in this case by setting the `persist` parameter to `true`.
+ * If this is called from UI-based scripts, the metadata is stored to the ManagedMetadataProvider and independent of the script's lifecycle.
+ *
  * @memberof items.metadata
- * @param {Item|string} itemOrName {@link Item} or the name of the Item * @param {string} namespace name of the metadata
+ * @param {Item|string} itemOrName {@link Item} or the name of the Item
  * @param {string} namespace name of the metadata
  * @param {string} value value for this metadata
  * @param {object} [configuration] optional metadata configuration
- * @returns {ItemMetadata|null} old metadata or `null` if the Item has no metadata with the given name
+ * @param {boolean} [persist=false] whether to persist the metadata permanently (default is `false` for file-based scripts, `true` for UI-based scripts))
+ * @returns {ItemMetadata} the added metadata
+ * @throws {Error} if the Item already has metadata of the given namespace
+ */
+function addMetadata (itemOrName, namespace, value, configuration, persist = false) {
+  const itemName = _getItemName(itemOrName);
+  const key = new MetadataKey(namespace, itemName);
+  const newMetadata = new Metadata(key, value, configuration);
+  try {
+    const meta = (persist && environment.hasProviderSupport()) ? metadataRegistry.addPermanent(newMetadata) : metadataRegistry.add(newMetadata);
+    return new ItemMetadata(meta);
+  } catch (e) {
+    if (e instanceof Java.type('java.lang.IllegalStateException')) {
+      throw new Error(`Cannot add metadata '${namespace}' for Item '${itemName}': metadata already exists`);
+    } else {
+      throw e; // re-throw other errors
+    }
+  }
+}
+
+/**
+ * Updates or adds metadata of a single namespace to an Item.
+ * If you use this in file-based scripts, better use {@link addMetadata} to provide metadata.
+ *
+ * @see items.Item.replaceMetadata
+ * @memberof items.metadata
+ * @param {Item|string} itemOrName {@link Item} or the name of the Item
+ * @param {string} namespace name of the metadata
+ * @param {string} value value for this metadata
+ * @param {object} [configuration] optional metadata configuration
+ * @returns {ItemMetadata|null} old metadata or `null` if the Item had no metadata with the given name
+ * @throws {Error} if the metadata is not editable
  */
 function replaceMetadata (itemOrName, namespace, value, configuration) {
-  const key = new MetadataKey(namespace, _getItemName(itemOrName));
+  const itemName = _getItemName(itemOrName);
+  const key = new MetadataKey(namespace, itemName);
   const newMetadata = new Metadata(key, value, configuration);
-  const meta = (metadataRegistry.get(key) === null) ? metadataRegistry.add(newMetadata) : metadataRegistry.update(newMetadata);
-  if (meta === null || meta === undefined) return null;
+  let meta = metadataRegistry.get(key);
+  if (meta !== null && !_isMetadataEditable(itemName, namespace)) {
+    throw new Error(`Cannot replace metadata '${namespace}' for Item '${itemName}': metadata is not editable`);
+  }
+  meta = (meta === null) ? metadataRegistry.add(newMetadata) : metadataRegistry.update(newMetadata);
+  if (meta === null) return null;
   return new ItemMetadata(meta);
 }
 
@@ -126,7 +194,7 @@ function replaceMetadata (itemOrName, namespace, value, configuration) {
  * @memberof items.metadata
  * @param {Item|string} itemOrName {@link Item} or the name of the Item
  * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is removed, else all metadata is removed
- * @returns {ItemMetadata|null} removed metadata OR `null` if the Item has no metadata under the given namespace or all metadata was removed
+ * @returns {ItemMetadata|null} removed metadata OR `null` if the Item has no metadata under the given namespace, or it cannot be removed or all metadata was removed
  */
 function removeMetadata (itemOrName, namespace) {
   const itemName = _getItemName(itemOrName);
@@ -134,7 +202,7 @@ function removeMetadata (itemOrName, namespace) {
   if (namespace !== undefined) {
     const key = new MetadataKey(namespace, itemName);
     const meta = metadataRegistry.remove(key);
-    if (meta === null || meta === undefined) return null;
+    if (meta === null) return null;
     return new ItemMetadata(meta);
   } else {
     return metadataRegistry.removeItemMetadata(itemName);
@@ -143,8 +211,14 @@ function removeMetadata (itemOrName, namespace) {
 
 module.exports = {
   getMetadata,
+  addMetadata,
   replaceMetadata,
   removeMetadata,
-  itemchannellink: require('./itemchannellink'),
+  itemChannelLink: {
+    get () {
+      console.warn('items.metadata.itemchannellink is deprecated, use items.itemChannelLink instead');
+      return require('./itemchannellink');
+    }
+  },
   ItemMetadata
 };
