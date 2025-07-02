@@ -651,45 +651,13 @@ function addItem (itemConfig) {
  *
  * @memberof items
  * @param {string|Item} itemOrItemName the Item or the name of the Item to remove
- * @returns {Item|null} the Item that has been removed or `null` if it has not been removed
+ * @returns {Item|null} the Item that has been removed or `null` if no Item has been found, or it cannot be removed
  */
 function removeItem (itemOrItemName) {
-  let itemName;
-
-  if (typeof itemOrItemName === 'string') {
-    itemName = itemOrItemName;
-  } else if (_isItem(itemOrItemName)) {
-    itemName = itemOrItemName.name;
-  } else {
-    log.warn('Item name is undefined (no Item supplied or supplied name is not a string) so cannot be removed');
-    return false;
-  }
-
-  let item;
-  try { // If the Item is not registered, ItemNotFoundException is thrown.
-    item = getItem(itemName);
-  } catch (e) {
-    if (Java.typeName(e.getClass()) === 'org.openhab.core.items.ItemNotFoundException') {
-      log.error('Item {} not registered so cannot be removed: {}', itemName, e.message);
-      return null;
-    } else { // If exception/error is not ItemNotFoundException, rethrow.
-      throw Error(e);
-    }
-  }
-
-  itemRegistry.remove(itemName);
-
-  try { // If the Item has been successfully removed, ItemNotFoundException is thrown.
-    itemRegistry.getItem(itemName);
-    log.warn('Failed to remove Item: {}', itemName);
-    return null;
-  } catch (e) {
-    if (Java.typeName(e.getClass()) === 'org.openhab.core.items.ItemNotFoundException') {
-      return item;
-    } else { // If exception/error is not ItemNotFoundException, rethrow.
-      throw Error(e);
-    }
-  }
+  const itemName = _getItemName(itemOrItemName);
+  const rawItem = itemRegistry.remove(itemName);
+  if (rawItem === null) return null;
+  return new Item(rawItem);
 }
 
 /**
