@@ -15,7 +15,7 @@ const utils = require('../../utils');
 const environment = require('../../environment');
 const { _getItemName } = require('../../helpers');
 
-const metadataRegistry = environment.hasProviderSupport()
+const metadataRegistry = environment.useProviderRegistries()
   ? require('@runtime/provider').metadataRegistry
   : osgi.getService('org.openhab.core.items.MetadataRegistry');
 const managedMetadataProvider = osgi.getService('org.openhab.core.items.ManagedMetadataProvider');
@@ -150,7 +150,7 @@ function addMetadata (itemOrName, namespace, value, configuration, persist = fal
   const key = new MetadataKey(namespace, itemName);
   const newMetadata = new Metadata(key, value, configuration);
   try {
-    const meta = (persist && environment.hasProviderSupport()) ? metadataRegistry.addPermanent(newMetadata) : metadataRegistry.add(newMetadata);
+    const meta = (persist && environment.useProviderRegistries()) ? metadataRegistry.addPermanent(newMetadata) : metadataRegistry.add(newMetadata);
     return new ItemMetadata(meta);
   } catch (e) {
     if (e instanceof Java.type('java.lang.IllegalStateException')) {

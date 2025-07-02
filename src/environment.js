@@ -22,14 +22,25 @@ function isFileBasedScript () {
 /**
  * Returns whether the host openHAB version supports providing openHAB entities via the `@runtime/provider` module.
  *
- * @memberOf environment
+ * @private
  * @return {boolean} true if the provider module is available, false otherwise
  */
-function hasProviderSupport () {
+function _hasProviderSupport () {
   return !!require('@runtime/provider').itemRegistry;
+}
+
+/**
+ * Returns whether the registry implementations from the `@runtime/provider` module should be used instead of the default ones from the `@runtime` module.
+ * Provider implementations should be used if the host openHAB version supports it and the script is running from a file-based script.
+ *
+ * @memberOf environment
+ * @return {boolean} true if the provider registry implementations should be used, false otherwise
+ */
+function useProviderRegistries () {
+  return _hasProviderSupport() && isFileBasedScript();
 }
 
 module.exports = {
   isFileBasedScript,
-  hasProviderSupport
+  useProviderRegistries
 };

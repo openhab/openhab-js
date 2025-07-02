@@ -16,7 +16,7 @@ const environment = require('../../environment');
 const log = require('../../log')('itemchannellink');
 const { _getItemName } = require('../../helpers');
 
-const itemChannelLinkRegistry = environment.hasProviderSupport()
+const itemChannelLinkRegistry = environment.useProviderRegistries()
   ? require('@runtime/provider').itemChannelLinkRegistry
   : osgi.getService('org.openhab.core.thing.link.ItemChannelLinkRegistry');
 const managedItemChannelLinkProvider = osgi.getService('org.openhab.core.thing.link.ManagedItemChannelLinkProvider');
@@ -112,7 +112,7 @@ function addItemChannelLink (itemOrName, channelUID, configuration, persist = fa
   log.debug(`Adding ItemChannelLink ${itemName} -> ${channelUID} to registry...`);
   let itemChannelLink = _createItemChannelLink(itemName, channelUID, configuration);
   try {
-    itemChannelLink = (persist && environment.hasProviderSupport()) ? itemChannelLinkRegistry.addPermanent(itemChannelLink) : itemChannelLinkRegistry.add(itemChannelLink);
+    itemChannelLink = (persist && environment.useProviderRegistries()) ? itemChannelLinkRegistry.addPermanent(itemChannelLink) : itemChannelLinkRegistry.add(itemChannelLink);
   } catch (e) {
     if (e instanceof Java.type('java.lang.IllegalArgumentException')) {
       throw new Error(`Cannot add ItemChannelLink ${itemName} -> ${channelUID}: already exists`);
