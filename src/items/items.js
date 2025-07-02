@@ -15,6 +15,7 @@ const { OnOffType, UnDefType, events, itemRegistry } = require('@runtime');
 
 const { _stateOrNull, _numericStateOrNull, _quantityStateOrNull } = require('./helpers');
 const metadata = require('./metadata/metadata');
+const itemChannelLink = require('./metadata/itemchannellink');
 const ItemPersistence = require('./item-persistence');
 const ItemSemantics = require('./item-semantics');
 const TimeSeries = require('./time-series');
@@ -791,6 +792,7 @@ const itemProperties = {
   removeItem,
   Item,
   metadata,
+  itemChannelLink,
   /**
    * @type {RiemannType}
    */
