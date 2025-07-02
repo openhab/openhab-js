@@ -7,11 +7,15 @@
 const osgi = require('../osgi');
 const utils = require('../utils');
 const log = require('../log')('items');
-const { _toOpenhabPrimitiveType, _isQuantity, _isItem } = require('../helpers');
+const { _toOpenhabPrimitiveType, _isQuantity, _getItemName } = require('../helpers');
 const cache = require('../cache');
 const time = require('../time');
+const environment = require('../environment');
 
-const { OnOffType, UnDefType, events, itemRegistry } = require('@runtime');
+const { OnOffType, UnDefType, events } = require('@runtime');
+const itemRegistry = environment.useProviderRegistries()
+  ? require('@runtime/provider').itemRegistry
+  : require('@runtime').itemRegistry;
 
 const { _stateOrNull, _numericStateOrNull, _quantityStateOrNull } = require('./helpers');
 const metadata = require('./metadata/metadata');
@@ -56,13 +60,17 @@ const itemBuilderFactory = osgi.getService('org.openhab.core.items.ItemBuilderFa
  * @typedef {import('../quantity').Quantity} Quantity
  * @private
  */
+/**
+ * @typedef {import('./metadata/metadata').ItemMetadata} ItemMetadata
+ * @private
+ */
 
 /**
  * Tag value to be attached to all dynamically created Items.
  *
  * @memberof items
  */
-const DYNAMIC_ITEM_TAG = '_DYNAMIC_';
+const DYNAMIC_ITEM_TAG = 'OPENHAB_JS_DYNAMIC_ITEM';
 
 /**
  * Class representing an openHAB Item
@@ -265,7 +273,7 @@ class Item {
    *
    * @see items.metadata.getMetadata
    * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is returned, else all metadata is returned
-   * @returns {{ namespace: ItemMetadata }|ItemMetadata|null} all metadata as an object with the namespaces as properties OR metadata of a single namespace or `null` if that namespace doesn't exist; the metadata itself is of type {@link items.metadata.ItemMetadata}
+   * @returns {{ namespace: ItemMetadata }|ItemMetadata|null} all metadata as an object with the namespaces as properties OR metadata of a single namespace or `null` if that namespace doesn't exist; the metadata itself is of type {@link ItemMetadata}
    */
   getMetadata (namespace) {
     return metadata.getMetadata(this.name, namespace);
@@ -278,7 +286,8 @@ class Item {
    * @param {string} namespace name of the metadata
    * @param {string} value value for this metadata
    * @param {object} [configuration] optional metadata configuration
-   * @returns {{configuration: *, value: string}|null} old {@link items.metadata.ItemMetadata} or `null` if the Item has no metadata with the given name
+   * @returns {ItemMetadata|null} old {@link items.metadata.ItemMetadata} or `null` if the Item has no metadata with the given name
+   * @throws {Error} if the metadata is not editable
    */
   replaceMetadata (namespace, value, configuration) {
     return metadata.replaceMetadata(this.name, namespace, value, configuration);
@@ -551,7 +560,8 @@ class Item {
 }
 
 /**
- * Creates a new Item object. This Item is not registered with any provider and therefore can not be accessed.
+ * Creates a new Item object.
+ * This Item is not registered with any provider and therefore cannot be accessed.
  *
  * Note that all Items created this way have an additional tag attached, for simpler retrieval later. This tag is
  * created with the value {@link DYNAMIC_ITEM_TAG}.
@@ -606,40 +616,53 @@ function _createItem (itemConfig) {
 }
 
 /**
- * Creates a new Item within OpenHab. This Item will persist to the registry, and therefore is independent of the lifecycle of the script creating it.
+ * Creates a new Item.
  *
- * Note that all Items created this way have an additional tag attached, for simpler retrieval later. This tag is
- * created with the value {@link DYNAMIC_ITEM_TAG}.
+ * If this is called from file-based scripts, the Item is registered with the ScriptedItemProvider and shares the same lifecycle as the script.
+ * You can still persist the Item permanently in this case by setting the `persist` parameter to `true`.
+ * If this is called from UI-based scripts, the Item is stored to the ManagedItemProvider and independent of the script's lifecycle.
+ *
+ * Note that all Items created this way have an additional tag attached for simpler retrieval later.
+ * This tag is created with the value {@link DYNAMIC_ITEM_TAG}.
  *
  * @memberof items
  * @param {ItemConfig} itemConfig the Item config describing the Item
- * @returns {Item} {@link Items.Item}
+ * @param {boolean} [persist=false] whether to persist the Item permanently (default is `false` for file-based scripts, `true` for UI-based scripts)
+ * @returns {Item} {@link Item}
  * @throws {Error} if {@link ItemConfig}.name or {@link ItemConfig}.type is not set
  * @throws {Error} if failed to create Item
  */
-function addItem (itemConfig) {
-  const item = _createItem(itemConfig);
-  itemRegistry.add(item.rawItem);
+function addItem (itemConfig, persist = false) {
+  const addPermanent = persist && environment.useProviderRegistries();
 
+  const item = _createItem(itemConfig);
+  if (addPermanent) {
+    itemRegistry.addPermanent(item.rawItem);
+  } else {
+    itemRegistry.add(item.rawItem);
+  }
+
+  const metadataMethod = environment.useProviderRegistries() ? metadata.addMetadata : metadata.replaceMetadata;
   if (typeof itemConfig.metadata === 'object') {
     const namespace = Object.keys(itemConfig.metadata);
     for (const i in namespace) {
       const namespaceValue = itemConfig.metadata[namespace[i]];
       log.debug('addItem: Processing metadata namespace {}', namespace[i]);
       if (typeof namespaceValue === 'string') { // namespace as key and it's value as value
-        metadata.replaceMetadata(itemConfig.name, namespace[i], namespaceValue);
+        metadataMethod(itemConfig.name, namespace[i], namespaceValue, {}, addPermanent);
       } else if (typeof namespaceValue === 'object') { // namespace as key and { value: 'string', configuration: object } as value
-        metadata.replaceMetadata(itemConfig.name, namespace[i], namespaceValue.value, namespaceValue.config);
+        metadataMethod(itemConfig.name, namespace[i], namespaceValue.value, namespaceValue.config, addPermanent);
       }
     }
   }
 
+  const itemChannelLinkMethod = environment.useProviderRegistries() ? itemChannelLink.addItemChannelLink : itemChannelLink.replaceItemChannelLink;
   if (itemConfig.type !== 'Group') {
     if (typeof itemConfig.channels === 'string') { // single channel link with string
-      metadata.itemchannellink.replaceItemChannelLink(itemConfig.name, itemConfig.channels);
+      itemChannelLinkMethod(itemConfig.name, itemConfig.channels, {}, addPermanent);
     } else if (typeof itemConfig.channels === 'object') { // multiple/complex channel links with channel as key and config object as value
       const channels = Object.keys(itemConfig.channels);
-      for (const i in channels) metadata.itemchannellink.replaceItemChannelLink(itemConfig.name, channels[i], itemConfig.channels[channels[i]]);
+      for (const i in channels) itemChannelLinkMethod(itemConfig.name, channels[i], itemConfig.channels[channels[i]], addPermanent);
     }
   }
 
@@ -661,13 +684,15 @@ function removeItem (itemOrItemName) {
 }
 
 /**
- * Replaces (or adds) an Item. If an Item exists with the same name, it will be removed and a new Item with
+ * Replaces (or adds) an Item.
+ * If an Item exists with the same name, it will be removed and a new Item with
  * the supplied parameters will be created in its place. If an Item does not exist with this name, a new
  * Item will be created with the supplied parameters.
  *
  * This function can be useful in scripts which create a static set of Items which may need updating either
  * periodically, during startup or even during development of the script. Using fixed Item names will ensure
  * that the Items remain up-to-date, but won't fail with issues related to duplicate Items.
+ * When using file-based scripts, it is recommended to use {@link items.addItem} instead.
  *
  * @memberof items
  * @param {ItemConfig} itemConfig the Item config describing the Item
@@ -677,7 +702,7 @@ function removeItem (itemOrItemName) {
  */
 function replaceItem (itemConfig) {
   const item = getItem(itemConfig.name, true);
-  if (item !== null) { // Item already existed
+  if (item !== null) { // Item already exists
     removeItem(itemConfig.name);
   }
   addItem(itemConfig);
