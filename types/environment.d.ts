@@ -14,10 +14,11 @@
  */
 export function isFileBasedScript(): boolean;
 /**
- * Returns whether the host openHAB version supports providing openHAB entities via the `@runtime/provider` module.
+ * Returns whether the registry implementations from the `@runtime/provider` module should be used instead of the default ones from the `@runtime` module.
+ * Provider implementations should be used if the host openHAB version supports it and the script is running from a file-based script.
  *
  * @memberOf environment
- * @return {boolean} true if the provider module is available, false otherwise
+ * @return {boolean} true if the provider registry implementations should be used, false otherwise
  */
-export function hasProviderSupport(): boolean;
+export function useProviderRegistries(): boolean;
 //# sourceMappingURL=environment.d.ts.map

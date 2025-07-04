@@ -30,8 +30,8 @@ export type Item = {
         };
     };
     replaceMetadata(namespace: string, value: string, configuration?: any): {
-        configuration: any;
         value: string;
+        configuration: any;
     };
     removeMetadata(namespace?: string): {
         value: string;

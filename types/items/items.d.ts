@@ -81,18 +81,23 @@ export function getItem(name: string, nullIfMissing?: boolean): Item;
  */
 export function getItems(): Item[];
 /**
- * Creates a new Item within OpenHab. This Item will persist to the registry, and therefore is independent of the lifecycle of the script creating it.
+ * Creates a new Item.
  *
- * Note that all Items created this way have an additional tag attached, for simpler retrieval later. This tag is
- * created with the value {@link DYNAMIC_ITEM_TAG}.
+ * If this is called from file-based scripts, the Item is registered with the ScriptedItemProvider and shares the same lifecycle as the script.
+ * You can still persist the Item permanently in this case by setting the `persist` parameter to `true`.
+ * If this is called from UI-based scripts, the Item is stored to the ManagedItemProvider and independent of the script's lifecycle.
+ *
+ * Note that all Items created this way have an additional tag attached for simpler retrieval later.
+ * This tag is created with the value {@link DYNAMIC_ITEM_TAG}.
  *
  * @memberof items
  * @param {ItemConfig} itemConfig the Item config describing the Item
- * @returns {Item} {@link Items.Item}
+ * @param {boolean} [persist=false] whether to persist the Item permanently (default is `false` for file-based scripts, `true` for UI-based scripts)
+ * @returns {Item} {@link Item}
  * @throws {Error} if {@link ItemConfig}.name or {@link ItemConfig}.type is not set
  * @throws {Error} if failed to create Item
  */
-export function addItem(itemConfig: ItemConfig): Item;
+export function addItem(itemConfig: ItemConfig, persist?: boolean): Item;
 /**
  * Gets all openHAB Items with a specific tag.
  *
@@ -102,13 +107,15 @@ export function addItem(itemConfig: ItemConfig): Item;
  */
 export function getItemsByTag(...tagNames: string[]): Item[];
 /**
- * Replaces (or adds) an Item. If an Item exists with the same name, it will be removed and a new Item with
+ * Replaces (or adds) an Item.
+ * If an Item exists with the same name, it will be removed and a new Item with
  * the supplied parameters will be created in its place. If an Item does not exist with this name, a new
  * Item will be created with the supplied parameters.
  *
  * This function can be useful in scripts which create a static set of Items which may need updating either
  * periodically, during startup or even during development of the script. Using fixed Item names will ensure
  * that the Items remain up-to-date, but won't fail with issues related to duplicate Items.
+ * When using file-based scripts, it is recommended to use {@link items.addItem} instead.
  *
  * @memberof items
  * @param {ItemConfig} itemConfig the Item config describing the Item
@@ -122,7 +129,7 @@ export function replaceItem(itemConfig: ItemConfig): Item | null;
  *
  * @memberof items
  * @param {string|Item} itemOrItemName the Item or the name of the Item to remove
- * @returns {Item|null} the Item that has been removed or `null` if it has not been removed
+ * @returns {Item|null} the Item that has been removed or `null` if no Item has been found, or it cannot be removed
  */
 export function removeItem(itemOrItemName: string | Item): Item | null;
 /**
@@ -254,7 +261,7 @@ export class Item {
      *
      * @see items.metadata.getMetadata
      * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is returned, else all metadata is returned
-     * @returns {{ namespace: ItemMetadata }|ItemMetadata|null} all metadata as an object with the namespaces as properties OR metadata of a single namespace or `null` if that namespace doesn't exist; the metadata itself is of type {@link items.metadata.ItemMetadata}
+     * @returns {{ namespace: ItemMetadata }|ItemMetadata|null} all metadata as an object with the namespaces as properties OR metadata of a single namespace or `null` if that namespace doesn't exist; the metadata itself is of type {@link ItemMetadata}
      */
     getMetadata(namespace?: string): {
         namespace: ItemMetadata;
@@ -262,16 +269,15 @@ export class Item {
     /**
      * Updates or adds metadata of a single namespace to this Item.
      *
+     * If metadata is not provided by this script or the ManagedMetadataProvider, it is not editable and a warning is logged.
+     *
      * @see items.metadata.replaceMetadata
      * @param {string} namespace name of the metadata
      * @param {string} value value for this metadata
      * @param {object} [configuration] optional metadata configuration
-     * @returns {{configuration: *, value: string}|null} old {@link items.metadata.ItemMetadata} or `null` if the Item has no metadata with the given name
+     * @returns {ItemMetadata|null} old {@link items.metadata.ItemMetadata} or `null` if the Item has no metadata with the given name
      */
-    replaceMetadata(namespace: string, value: string, configuration?: object): {
-        configuration: any;
-        value: string;
-    } | null;
+    replaceMetadata(namespace: string, value: string, configuration?: object): ItemMetadata | null;
     /**
      * Removes metadata of a single namespace or of all namespaces from a given Item.
      *
@@ -380,10 +386,11 @@ export class Item {
     removeTags(...tagNames: string[]): void;
     toString(): any;
 }
-import metadata = require("./metadata/metadata");
+import metadata = require("./metadata");
+import itemChannelLink = require("./itemchannellink");
 import TimeSeries = require("./time-series");
 import ItemPersistence = require("./item-persistence");
 import ItemSemantics = require("./item-semantics");
 export declare const RiemannType: RiemannType;
-export { metadata, TimeSeries };
+export { metadata, itemChannelLink, TimeSeries };
 //# sourceMappingURL=items.d.ts.map

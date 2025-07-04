@@ -1,17 +1,17 @@
 export type Item = {
     rawItem: HostItem;
-    persistence: import("../item-persistence");
-    semantics: import("../item-semantics");
+    persistence: import("./item-persistence");
+    semantics: import("./item-semantics");
     readonly type: string;
     readonly name: string;
     readonly label: string;
     readonly state: string;
     readonly numericState: number;
-    readonly quantityState: import("../../quantity").Quantity;
+    readonly quantityState: import("../quantity").Quantity;
     readonly rawState: HostState;
     readonly previousState: string;
     readonly previousNumericState: number;
-    readonly previousQuantityState: import("../../quantity").Quantity;
+    readonly previousQuantityState: import("../quantity").Quantity;
     readonly previousRawState: any;
     readonly lastStateUpdateTimestamp: any;
     readonly lastStateUpdateInstant: any;
@@ -23,10 +23,7 @@ export type Item = {
     getMetadata(namespace?: string): ItemMetadata | {
         namespace: ItemMetadata;
     };
-    replaceMetadata(namespace: string, value: string, configuration?: any): {
-        configuration: any;
-        value: string;
-    };
+    replaceMetadata(namespace: string, value: string, configuration?: any): ItemMetadata;
     removeMetadata(namespace?: string): ItemMetadata;
     sendCommand(value: any, expire?: JSJoda.Duration, onExpire?: any): void;
     sendCommandIfDifferent(value: any): boolean;
@@ -64,15 +61,35 @@ export function getMetadata(itemOrName: Item | string, namespace?: string): {
     namespace: ItemMetadata;
 } | ItemMetadata | null;
 /**
- * Updates or adds metadata of a single namespace to an Item.
+ * Adds metadata of a single namespace to an Item.
  *
- * @see items.Item.replaceMetadata
+ * If this is called from file-based scripts, the metadata is registered with the ScriptedMetadataProvider and shares the same lifecycle as the script.
+ * You can still persist the metadata permanently in this case by setting the `persist` parameter to `true`.
+ * If this is called from UI-based scripts, the metadata is stored to the ManagedMetadataProvider and independent of the script's lifecycle.
+ *
  * @memberof items.metadata
- * @param {Item|string} itemOrName {@link Item} or the name of the Item * @param {string} namespace name of the metadata
+ * @param {Item|string} itemOrName {@link Item} or the name of the Item
  * @param {string} namespace name of the metadata
  * @param {string} value value for this metadata
  * @param {object} [configuration] optional metadata configuration
- * @returns {ItemMetadata|null} old metadata or `null` if the Item has no metadata with the given name
+ * @param {boolean} [persist=false] whether to persist the metadata permanently (default is `false` for file-based scripts, `true` for UI-based scripts))
+ * @returns {ItemMetadata} the added metadata
+ * @throws {Error} if the Item already has metadata of the given namespace
+ */
+export function addMetadata(itemOrName: Item | string, namespace: string, value: string, configuration?: object, persist?: boolean): ItemMetadata;
+/**
+ * Updates or adds metadata of a single namespace to an Item.
+ * When using file-based scripts, it is recommended to use {@link items.metadata.addMetadata} instead.
+ *
+ * If metadata is not provided by this script or the ManagedMetadataProvider, it is not editable and a warning is logged.
+ *
+ * @see items.Item.replaceMetadata
+ * @memberof items.metadata
+ * @param {Item|string} itemOrName {@link Item} or the name of the Item
+ * @param {string} namespace name of the metadata
+ * @param {string} value value for this metadata
+ * @param {object} [configuration] optional metadata configuration
+ * @returns {ItemMetadata|null} old metadata or `null` if the Item had no metadata with the given name
  */
 export function replaceMetadata(itemOrName: Item | string, namespace: string, value: string, configuration?: object): ItemMetadata | null;
 /**
@@ -82,9 +99,19 @@ export function replaceMetadata(itemOrName: Item | string, namespace: string, va
  * @memberof items.metadata
  * @param {Item|string} itemOrName {@link Item} or the name of the Item
  * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is removed, else all metadata is removed
- * @returns {ItemMetadata|null} removed metadata OR `null` if the Item has no metadata under the given namespace or all metadata was removed
+ * @returns {ItemMetadata|null} removed metadata OR `null` if the Item has no metadata under the given namespace, or it cannot be removed or all metadata was removed
  */
 export function removeMetadata(itemOrName: Item | string, namespace?: string): ItemMetadata | null;
+/**
+ * Item metadata namespace.
+ * This namespace provides access to Item metadata.
+ *
+ * @namespace items.metadata
+ */
+/**
+ * @typedef {import('./items').Item} Item
+ * @private
+ */
 /**
  * Class representing an openHAB Item metadata namespace
  *
@@ -97,15 +124,17 @@ export class ItemMetadata {
      */
     constructor(rawMetadata: any);
     /**
-     * metadata namespace's value
+     * The metadata value.
      * @type {string}
      */
     value: string;
     /**
-     * metadata namespace's configuration
+     * The metadata configuration.
      * @type {object}
      */
     configuration: object;
 }
-export declare const itemchannellink: typeof import("./itemchannellink");
+export declare namespace itemChannelLink {
+    function get(): typeof import("./itemchannellink");
+}
 //# sourceMappingURL=metadata.d.ts.map
