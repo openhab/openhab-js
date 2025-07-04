@@ -18,7 +18,6 @@ const { _getItemName } = require('../../helpers');
 const metadataRegistry = environment.useProviderRegistries()
   ? require('@runtime/provider').metadataRegistry
   : osgi.getService('org.openhab.core.items.MetadataRegistry');
-const managedMetadataProvider = osgi.getService('org.openhab.core.items.ManagedMetadataProvider');
 const Metadata = Java.type('org.openhab.core.items.Metadata');
 const MetadataKey = Java.type('org.openhab.core.items.MetadataKey');
 
@@ -116,20 +115,6 @@ function getMetadata (itemOrName, namespace) {
 }
 
 /**
- * Whether metadata of the given namespace is editable.
- * @param {string} itemName
- * @param {string} namespace
- * @return {boolean}
- * @private
- */
-function _isMetadataEditable (itemName, namespace) {
-  // TODO: Allow editing metadata provided by this file-based script
-  const key = new MetadataKey(namespace, itemName);
-  const meta = managedMetadataProvider.get(key);
-  return meta !== null;
-}
-
-/**
  * Adds metadata of a single namespace to an Item.
  *
  * If this is called from file-based scripts, the metadata is registered with the ScriptedMetadataProvider and shares the same lifecycle as the script.
@@ -163,7 +148,9 @@ function addMetadata (itemOrName, namespace, value, configuration, persist = fal
 
 /**
  * Updates or adds metadata of a single namespace to an Item.
- * If you use this in file-based scripts, better use {@link addMetadata} to provide metadata.
+ * When using file-based scripts, it is recommended to use {@link items.metadata.addMetadata} instead.
+ *
+ * If metadata is not provided by this script or the ManagedMetadataProvider, it is not editable and a warning is logged.
  *
  * @see items.Item.replaceMetadata
  * @memberof items.metadata
@@ -172,16 +159,12 @@ function addMetadata (itemOrName, namespace, value, configuration, persist = fal
  * @param {string} value value for this metadata
  * @param {object} [configuration] optional metadata configuration
  * @returns {ItemMetadata|null} old metadata or `null` if the Item had no metadata with the given name
- * @throws {Error} if the metadata is not editable
  */
 function replaceMetadata (itemOrName, namespace, value, configuration) {
   const itemName = _getItemName(itemOrName);
   const key = new MetadataKey(namespace, itemName);
   const newMetadata = new Metadata(key, value, configuration);
   let meta = metadataRegistry.get(key);
-  if (meta !== null && !_isMetadataEditable(itemName, namespace)) {
-    throw new Error(`Cannot replace metadata '${namespace}' for Item '${itemName}': metadata is not editable`);
-  }
   meta = (meta === null) ? metadataRegistry.add(newMetadata) : metadataRegistry.update(newMetadata);
   if (meta === null) return null;
   return new ItemMetadata(meta);

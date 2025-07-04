@@ -282,12 +282,13 @@ class Item {
   /**
    * Updates or adds metadata of a single namespace to this Item.
    *
+   * If metadata is not provided by this script or the ManagedMetadataProvider, it is not editable and a warning is logged.
+   *
    * @see items.metadata.replaceMetadata
    * @param {string} namespace name of the metadata
    * @param {string} value value for this metadata
    * @param {object} [configuration] optional metadata configuration
    * @returns {ItemMetadata|null} old {@link items.metadata.ItemMetadata} or `null` if the Item has no metadata with the given name
-   * @throws {Error} if the metadata is not editable
    */
   replaceMetadata (namespace, value, configuration) {
     return metadata.replaceMetadata(this.name, namespace, value, configuration);

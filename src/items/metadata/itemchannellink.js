@@ -19,7 +19,6 @@ const { _getItemName } = require('../../helpers');
 const itemChannelLinkRegistry = environment.useProviderRegistries()
   ? require('@runtime/provider').itemChannelLinkRegistry
   : osgi.getService('org.openhab.core.thing.link.ItemChannelLinkRegistry');
-const managedItemChannelLinkProvider = osgi.getService('org.openhab.core.thing.link.ManagedItemChannelLinkProvider');
 const JavaItemChannelLink = Java.type('org.openhab.core.thing.link.ItemChannelLink');
 const ChannelUID = Java.type('org.openhab.core.thing.ChannelUID');
 const Configuration = Java.type('org.openhab.core.config.core.Configuration');
@@ -82,18 +81,6 @@ function _createItemChannelLink (itemName, channelUID, conf) {
 }
 
 /**
- * Whether the Item -> channel link is editable.
- * @param {string} itemName
- * @param {string} channelUID
- * @return {boolean}
- * @private
- */
-function _isItemChannelLinkEditable (itemName, channelUID) {
-  // TODO: Allow editing metadata provided by this file-based script
-  return managedItemChannelLinkProvider.get(itemName + ' -> ' + channelUID) != null;
-}
-
-/**
  * Adds a new channel link to an Item.
  *
  * If this is called from file-based scripts, the Item -> channel link is registered with the ScriptedItemChannelLinkProvider and shares the same lifecycle as the script.
@@ -144,6 +131,8 @@ function _updateItemChannelLink (itemName, channelUID, configuration) {
  * Adds or updates a channel link of an Item.
  * If you use this in file-based scripts, better use {@link addItemChannelLink} to provide channel links.
  *
+ * If an Item -> channel link is not provided by this script or the ManagedItemChannelLinkProvider, it is not editable and a warning is logged.
+ *
  * @memberof items.itemChannelLink
  * @param {Item|string} itemOrName {@link Item} or the name of the Item
  * @param {string} channelUID
@@ -153,9 +142,6 @@ function _updateItemChannelLink (itemName, channelUID, configuration) {
 function replaceItemChannelLink (itemOrName, channelUID, configuration) {
   const itemName = _getItemName(itemOrName);
   const itemChannelLink = getItemChannelLink(itemName, channelUID);
-  if (itemChannelLink !== null && !_isItemChannelLinkEditable(itemName, channelUID)) {
-    throw new Error(`Cannot replace ItemChannelLink ${itemName} -> ${channelUID}: link is not editable`);
-  }
   return (itemChannelLink === null) ? addItemChannelLink(itemName, channelUID, configuration) : _updateItemChannelLink(itemName, channelUID, configuration);
 }
 
