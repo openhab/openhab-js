@@ -1,7 +1,13 @@
-/**
- * @typedef {import('../items').Item} Item
- * @private
- */
+const osgi = require('../osgi');
+const utils = require('../utils');
+const environment = require('../environment');
+const { _getItemName } = require('../helpers');
+
+const metadataRegistry = environment.useProviderRegistries()
+  ? require('@runtime/provider').metadataRegistry
+  : osgi.getService('org.openhab.core.items.MetadataRegistry');
+const Metadata = Java.type('org.openhab.core.items.Metadata');
+const MetadataKey = Java.type('org.openhab.core.items.MetadataKey');
 
 /**
  * Item metadata namespace.
@@ -10,16 +16,10 @@
  * @namespace items.metadata
  */
 
-const osgi = require('../../osgi');
-const utils = require('../../utils');
-const environment = require('../../environment');
-const { _getItemName } = require('../../helpers');
-
-const metadataRegistry = environment.useProviderRegistries()
-  ? require('@runtime/provider').metadataRegistry
-  : osgi.getService('org.openhab.core.items.MetadataRegistry');
-const Metadata = Java.type('org.openhab.core.items.Metadata');
-const MetadataKey = Java.type('org.openhab.core.items.MetadataKey');
+/**
+ * @typedef {import('./items').Item} Item
+ * @private
+ */
 
 /**
  * Class representing an openHAB Item metadata namespace

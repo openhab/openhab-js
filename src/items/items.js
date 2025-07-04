@@ -18,8 +18,8 @@ const itemRegistry = environment.useProviderRegistries()
   : require('@runtime').itemRegistry;
 
 const { _stateOrNull, _numericStateOrNull, _quantityStateOrNull } = require('./helpers');
-const metadata = require('./metadata/metadata');
-const itemChannelLink = require('./metadata/itemchannellink');
+const metadata = require('./metadata');
+const itemChannelLink = require('./itemchannellink');
 const ItemPersistence = require('./item-persistence');
 const ItemSemantics = require('./item-semantics');
 const TimeSeries = require('./time-series');
@@ -41,7 +41,7 @@ const itemBuilderFactory = osgi.getService('org.openhab.core.items.ItemBuilderFa
  * @property {HostGroupFunction} [groupFunction] the group function used by the Item
  */
 /**
- * @typedef {import('../items/metadata/metadata').ItemMetadata} ItemMetadata
+ * @typedef {import('./metadata').ItemMetadata} ItemMetadata
  * @private
  */
 /**
@@ -58,10 +58,6 @@ const itemBuilderFactory = osgi.getService('org.openhab.core.items.ItemBuilderFa
  */
 /**
  * @typedef {import('../quantity').Quantity} Quantity
- * @private
- */
-/**
- * @typedef {import('./metadata/metadata').ItemMetadata} ItemMetadata
  * @private
  */
 

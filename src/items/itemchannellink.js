@@ -1,7 +1,15 @@
-/**
- * @typedef {import('../items').Item} Item
- * @private
- */
+const osgi = require('../osgi');
+const utils = require('../utils');
+const environment = require('../environment');
+const log = require('../log')('itemchannellink');
+const { _getItemName } = require('../helpers');
+
+const itemChannelLinkRegistry = environment.useProviderRegistries()
+  ? require('@runtime/provider').itemChannelLinkRegistry
+  : osgi.getService('org.openhab.core.thing.link.ItemChannelLinkRegistry');
+const JavaItemChannelLink = Java.type('org.openhab.core.thing.link.ItemChannelLink');
+const ChannelUID = Java.type('org.openhab.core.thing.ChannelUID');
+const Configuration = Java.type('org.openhab.core.config.core.Configuration');
 
 /**
  * Item channel link namespace.
@@ -10,18 +18,10 @@
  * @namespace items.itemChannelLink
  */
 
-const osgi = require('../../osgi');
-const utils = require('../../utils');
-const environment = require('../../environment');
-const log = require('../../log')('itemchannellink');
-const { _getItemName } = require('../../helpers');
-
-const itemChannelLinkRegistry = environment.useProviderRegistries()
-  ? require('@runtime/provider').itemChannelLinkRegistry
-  : osgi.getService('org.openhab.core.thing.link.ItemChannelLinkRegistry');
-const JavaItemChannelLink = Java.type('org.openhab.core.thing.link.ItemChannelLink');
-const ChannelUID = Java.type('org.openhab.core.thing.ChannelUID');
-const Configuration = Java.type('org.openhab.core.config.core.Configuration');
+/**
+ * @typedef {import('./items').Item} Item
+ * @private
+ */
 
 /**
  * Class representing an openHAB Item -> channel link.
