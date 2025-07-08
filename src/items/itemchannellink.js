@@ -93,6 +93,7 @@ function _createItemChannelLink (itemName, channelUID, conf) {
  * @param {object} [configuration] channel configuration
  * @param {boolean} [persist=false] whether to persist the Item -> channel link permanently (only respected for file-based scripts)
  * @returns {ItemChannelLink} the ItemChannelLink
+ * @throws {Error} if the Item -> channel link already exists
  */
 function addItemChannelLink (itemOrName, channelUID, configuration, persist = false) {
   const itemName = _getItemName(itemOrName);

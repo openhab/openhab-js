@@ -94,8 +94,8 @@ export function getItems(): Item[];
  * @param {ItemConfig} itemConfig the Item config describing the Item
  * @param {boolean} [persist=false] whether to persist the Item permanently (only respected for file-based scripts)
  * @returns {Item} {@link Item}
- * @throws {Error} if {@link ItemConfig}.name or {@link ItemConfig}.type is not set
- * @throws {Error} if failed to create Item
+ * @throws {Error} if {@link ItemConfig} is invalid, e.g. {@link ItemConfig}.name or {@link ItemConfig}.type is not set
+ * @throws {Error} if an Item with the same name already exists
  */
 export function addItem(itemConfig: ItemConfig, persist?: boolean): Item;
 /**

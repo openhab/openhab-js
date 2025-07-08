@@ -75,6 +75,7 @@ export function getItemChannelLink(itemOrName: Item | string, channelUID: string
  * @param {object} [configuration] channel configuration
  * @param {boolean} [persist=false] whether to persist the Item -> channel link permanently (only respected for file-based scripts)
  * @returns {ItemChannelLink} the ItemChannelLink
+ * @throws {Error} if the Item -> channel link already exists
  */
 export function addItemChannelLink(itemOrName: Item | string, channelUID: string, configuration?: object, persist?: boolean): ItemChannelLink;
 /**

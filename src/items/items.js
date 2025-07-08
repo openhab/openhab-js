@@ -566,8 +566,7 @@ class Item {
  * @private
  * @param {ItemConfig} itemConfig the Item config describing the Item
  * @returns {Item} {@link items.Item}
- * @throws {Error} {@link ItemConfig}.name or {@link ItemConfig}.type not set
- * @throws failed to create Item
+ * @throws {Error} if {@link ItemConfig} is invalid, e.g. {@link ItemConfig}.name or {@link ItemConfig}.type is not set
  */
 function _createItem (itemConfig) {
   if (typeof itemConfig.name !== 'string' || typeof itemConfig.type !== 'string') throw Error('itemConfig.name or itemConfig.type not set');
@@ -587,29 +586,24 @@ function _createItem (itemConfig) {
   }
   itemConfig.tags.push(DYNAMIC_ITEM_TAG);
 
-  try {
-    let builder = itemBuilderFactory.newItemBuilder(itemConfig.type, itemConfig.name)
-      .withCategory(itemConfig.category)
-      .withLabel(itemConfig.label)
-      .withTags(utils.jsArrayToJavaSet(itemConfig.tags));
+  let builder = itemBuilderFactory.newItemBuilder(itemConfig.type, itemConfig.name)
+    .withCategory(itemConfig.category)
+    .withLabel(itemConfig.label)
+    .withTags(utils.jsArrayToJavaSet(itemConfig.tags));
 
-    if (typeof itemConfig.groups !== 'undefined') {
-      builder = builder.withGroups(utils.jsArrayToJavaList(itemConfig.groups));
-    }
-
-    if (typeof baseItem !== 'undefined') {
-      builder = builder.withBaseItem(baseItem);
-    }
-    if (typeof itemConfig.groupFunction !== 'undefined') {
-      builder = builder.withGroupFunction(itemConfig.groupFunction);
-    }
-
-    const item = builder.build();
-    return new Item(item);
-  } catch (e) {
-    log.error('Failed to create Item: ' + e);
-    throw e;
+  if (typeof itemConfig.groups !== 'undefined') {
+    builder = builder.withGroups(utils.jsArrayToJavaList(itemConfig.groups));
   }
+
+  if (typeof baseItem !== 'undefined') {
+    builder = builder.withBaseItem(baseItem);
+  }
+  if (typeof itemConfig.groupFunction !== 'undefined') {
+    builder = builder.withGroupFunction(itemConfig.groupFunction);
+  }
+
+  const item = builder.build();
+  return new Item(item);
 }
 
 /**
@@ -626,17 +620,25 @@ function _createItem (itemConfig) {
  * @param {ItemConfig} itemConfig the Item config describing the Item
  * @param {boolean} [persist=false] whether to persist the Item permanently (only respected for file-based scripts)
  * @returns {Item} {@link Item}
- * @throws {Error} if {@link ItemConfig}.name or {@link ItemConfig}.type is not set
- * @throws {Error} if failed to create Item
+ * @throws {Error} if {@link ItemConfig} is invalid, e.g. {@link ItemConfig}.name or {@link ItemConfig}.type is not set
+ * @throws {Error} if an Item with the same name already exists
  */
 function addItem (itemConfig, persist = false) {
   const addPermanent = persist && environment.useProviderRegistries();
 
   const item = _createItem(itemConfig);
-  if (addPermanent) {
-    itemRegistry.addPermanent(item.rawItem);
-  } else {
-    itemRegistry.add(item.rawItem);
+  try {
+    if (addPermanent) {
+      itemRegistry.addPermanent(item.rawItem);
+    } else {
+      itemRegistry.add(item.rawItem);
+    }
+  } catch (e) {
+    if (e instanceof Java.type('java.lang.IllegalArgumentException')) {
+      throw new Error(`Cannot add Item ${itemConfig.name}: already exists`);
+    } else {
+      throw e; // re-throw other errors
+    }
   }
 
   const metadataMethod = environment.useProviderRegistries() ? metadata.addMetadata : metadata.replaceMetadata;
