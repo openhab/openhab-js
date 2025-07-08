@@ -643,14 +643,14 @@ function addItem (itemConfig, persist = false) {
 
   const metadataMethod = environment.useProviderRegistries() ? metadata.addMetadata : metadata.replaceMetadata;
   if (typeof itemConfig.metadata === 'object') {
-    const namespace = Object.keys(itemConfig.metadata);
-    for (const i in namespace) {
-      const namespaceValue = itemConfig.metadata[namespace[i]];
-      log.debug('addItem: Processing metadata namespace {}', namespace[i]);
+    const namespaces = Object.keys(itemConfig.metadata);
+    for (const namespace of namespaces) {
+      const namespaceValue = itemConfig.metadata[namespace];
+      log.debug('addItem: Processing metadata namespace {}', namespace);
       if (typeof namespaceValue === 'string') { // namespace as key and it's value as value
-        metadataMethod(itemConfig.name, namespace[i], namespaceValue, {}, addPermanent);
+        metadataMethod(itemConfig.name, namespace, namespaceValue, {}, addPermanent);
       } else if (typeof namespaceValue === 'object') { // namespace as key and { value: 'string', configuration: object } as value
-        metadataMethod(itemConfig.name, namespace[i], namespaceValue.value, namespaceValue.config, addPermanent);
+        metadataMethod(itemConfig.name, namespace, namespaceValue.value, namespaceValue.config, addPermanent);
       }
     }
   }
