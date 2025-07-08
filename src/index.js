@@ -21,5 +21,6 @@ module.exports = {
   get osgi () { return require('./osgi'); },
   get cache () { return require('./cache'); },
   get time () { return require('./time'); },
-  get Quantity () { return require('./quantity').getQuantity; }
+  get Quantity () { return require('./quantity').getQuantity; },
+  get environment () { return require('./environment'); }
 };

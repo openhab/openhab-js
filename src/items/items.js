@@ -7,14 +7,19 @@
 const osgi = require('../osgi');
 const utils = require('../utils');
 const log = require('../log')('items');
-const { _toOpenhabPrimitiveType, _isQuantity, _isItem } = require('../helpers');
+const { _toOpenhabPrimitiveType, _isQuantity, _getItemName } = require('../helpers');
 const cache = require('../cache');
 const time = require('../time');
+const environment = require('../environment');
 
-const { OnOffType, UnDefType, events, itemRegistry } = require('@runtime');
+const { OnOffType, UnDefType, events } = require('@runtime');
+const itemRegistry = environment.useProviderRegistries()
+  ? require('@runtime/provider').itemRegistry
+  : require('@runtime').itemRegistry;
 
 const { _stateOrNull, _numericStateOrNull, _quantityStateOrNull } = require('./helpers');
-const metadata = require('./metadata/metadata');
+const metadata = require('./metadata');
+const itemChannelLink = require('./itemchannellink');
 const ItemPersistence = require('./item-persistence');
 const ItemSemantics = require('./item-semantics');
 const TimeSeries = require('./time-series');
@@ -36,7 +41,7 @@ const itemBuilderFactory = osgi.getService('org.openhab.core.items.ItemBuilderFa
  * @property {HostGroupFunction} [groupFunction] the group function used by the Item
  */
 /**
- * @typedef {import('../items/metadata/metadata').ItemMetadata} ItemMetadata
+ * @typedef {import('./metadata').ItemMetadata} ItemMetadata
  * @private
  */
 /**
@@ -61,7 +66,7 @@ const itemBuilderFactory = osgi.getService('org.openhab.core.items.ItemBuilderFa
  *
  * @memberof items
  */
-const DYNAMIC_ITEM_TAG = '_DYNAMIC_';
+const DYNAMIC_ITEM_TAG = 'OPENHAB_JS_DYNAMIC_ITEM';
 
 /**
  * Class representing an openHAB Item
@@ -264,7 +269,7 @@ class Item {
    *
    * @see items.metadata.getMetadata
    * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is returned, else all metadata is returned
-   * @returns {{ namespace: ItemMetadata }|ItemMetadata|null} all metadata as an object with the namespaces as properties OR metadata of a single namespace or `null` if that namespace doesn't exist; the metadata itself is of type {@link items.metadata.ItemMetadata}
+   * @returns {{ namespace: ItemMetadata }|ItemMetadata|null} all metadata as an object with the namespaces as properties OR metadata of a single namespace or `null` if that namespace doesn't exist; the metadata itself is of type {@link ItemMetadata}
    */
   getMetadata (namespace) {
     return metadata.getMetadata(this.name, namespace);
@@ -273,11 +278,13 @@ class Item {
   /**
    * Updates or adds metadata of a single namespace to this Item.
    *
+   * If metadata is not provided by this script or the ManagedMetadataProvider, it is not editable and a warning is logged.
+   *
    * @see items.metadata.replaceMetadata
    * @param {string} namespace name of the metadata
    * @param {string} value value for this metadata
    * @param {object} [configuration] optional metadata configuration
-   * @returns {{configuration: *, value: string}|null} old {@link items.metadata.ItemMetadata} or `null` if the Item has no metadata with the given name
+   * @returns {ItemMetadata|null} old {@link items.metadata.ItemMetadata} or `null` if the Item has no metadata with the given name
    */
   replaceMetadata (namespace, value, configuration) {
     return metadata.replaceMetadata(this.name, namespace, value, configuration);
@@ -550,7 +557,8 @@ class Item {
 }
 
 /**
- * Creates a new Item object. This Item is not registered with any provider and therefore can not be accessed.
+ * Creates a new Item object.
+ * This Item is not registered with any provider and therefore cannot be accessed.
  *
  * Note that all Items created this way have an additional tag attached, for simpler retrieval later. This tag is
  * created with the value {@link DYNAMIC_ITEM_TAG}.
@@ -558,8 +566,7 @@ class Item {
  * @private
  * @param {ItemConfig} itemConfig the Item config describing the Item
  * @returns {Item} {@link items.Item}
- * @throws {Error} {@link ItemConfig}.name or {@link ItemConfig}.type not set
- * @throws failed to create Item
+ * @throws {Error} if {@link ItemConfig} is invalid, e.g. {@link ItemConfig}.name or {@link ItemConfig}.type is not set
  */
 function _createItem (itemConfig) {
   if (typeof itemConfig.name !== 'string' || typeof itemConfig.type !== 'string') throw Error('itemConfig.name or itemConfig.type not set');
@@ -579,66 +586,82 @@ function _createItem (itemConfig) {
   }
   itemConfig.tags.push(DYNAMIC_ITEM_TAG);
 
-  try {
-    let builder = itemBuilderFactory.newItemBuilder(itemConfig.type, itemConfig.name)
-      .withCategory(itemConfig.category)
-      .withLabel(itemConfig.label)
-      .withTags(utils.jsArrayToJavaSet(itemConfig.tags));
+  let builder = itemBuilderFactory.newItemBuilder(itemConfig.type, itemConfig.name)
+    .withCategory(itemConfig.category)
+    .withLabel(itemConfig.label)
+    .withTags(utils.jsArrayToJavaSet(itemConfig.tags));
 
-    if (typeof itemConfig.groups !== 'undefined') {
-      builder = builder.withGroups(utils.jsArrayToJavaList(itemConfig.groups));
-    }
-
-    if (typeof baseItem !== 'undefined') {
-      builder = builder.withBaseItem(baseItem);
-    }
-    if (typeof itemConfig.groupFunction !== 'undefined') {
-      builder = builder.withGroupFunction(itemConfig.groupFunction);
-    }
-
-    const item = builder.build();
-    return new Item(item);
-  } catch (e) {
-    log.error('Failed to create Item: ' + e);
-    throw e;
+  if (typeof itemConfig.groups !== 'undefined') {
+    builder = builder.withGroups(utils.jsArrayToJavaList(itemConfig.groups));
   }
+
+  if (typeof baseItem !== 'undefined') {
+    builder = builder.withBaseItem(baseItem);
+  }
+  if (typeof itemConfig.groupFunction !== 'undefined') {
+    builder = builder.withGroupFunction(itemConfig.groupFunction);
+  }
+
+  const item = builder.build();
+  return new Item(item);
 }
 
 /**
- * Creates a new Item within OpenHab. This Item will persist to the registry, and therefore is independent of the lifecycle of the script creating it.
+ * Creates a new Item.
  *
- * Note that all Items created this way have an additional tag attached, for simpler retrieval later. This tag is
- * created with the value {@link DYNAMIC_ITEM_TAG}.
+ * If this is called from file-based scripts, the Item is registered with the ScriptedItemProvider and shares the same lifecycle as the script.
+ * You can still persist the Item permanently in this case by setting the `persist` parameter to `true`.
+ * If this is called from UI-based scripts, the Item is stored to the ManagedItemProvider and independent of the script's lifecycle.
+ *
+ * Note that all Items created this way have an additional tag attached for simpler retrieval later.
+ * This tag is created with the value {@link DYNAMIC_ITEM_TAG}.
  *
  * @memberof items
  * @param {ItemConfig} itemConfig the Item config describing the Item
- * @returns {Item} {@link Items.Item}
- * @throws {Error} if {@link ItemConfig}.name or {@link ItemConfig}.type is not set
- * @throws {Error} if failed to create Item
+ * @param {boolean} [persist=false] whether to persist the Item permanently (only respected for file-based scripts)
+ * @returns {Item} {@link Item}
+ * @throws {Error} if {@link ItemConfig} is invalid, e.g. {@link ItemConfig}.name or {@link ItemConfig}.type is not set
+ * @throws {Error} if an Item with the same name already exists
  */
-function addItem (itemConfig) {
-  const item = _createItem(itemConfig);
-  itemRegistry.add(item.rawItem);
+function addItem (itemConfig, persist = false) {
+  const addPermanent = persist && environment.useProviderRegistries();
 
+  const item = _createItem(itemConfig);
+  try {
+    if (addPermanent) {
+      itemRegistry.addPermanent(item.rawItem);
+    } else {
+      itemRegistry.add(item.rawItem);
+    }
+  } catch (e) {
+    if (e instanceof Java.type('java.lang.IllegalArgumentException')) {
+      throw new Error(`Cannot add Item ${itemConfig.name}: already exists`);
+    } else {
+      throw e; // re-throw other errors
+    }
+  }
+
+  const metadataMethod = environment.useProviderRegistries() ? metadata.addMetadata : metadata.replaceMetadata;
   if (typeof itemConfig.metadata === 'object') {
-    const namespace = Object.keys(itemConfig.metadata);
-    for (const i in namespace) {
-      const namespaceValue = itemConfig.metadata[namespace[i]];
-      log.debug('addItem: Processing metadata namespace {}', namespace[i]);
+    const namespaces = Object.keys(itemConfig.metadata);
+    for (const namespace of namespaces) {
+      const namespaceValue = itemConfig.metadata[namespace];
+      log.debug('addItem: Processing metadata namespace {}', namespace);
       if (typeof namespaceValue === 'string') { // namespace as key and it's value as value
-        metadata.replaceMetadata(itemConfig.name, namespace[i], namespaceValue);
+        metadataMethod(itemConfig.name, namespace, namespaceValue, {}, addPermanent);
       } else if (typeof namespaceValue === 'object') { // namespace as key and { value: 'string', configuration: object } as value
-        metadata.replaceMetadata(itemConfig.name, namespace[i], namespaceValue.value, namespaceValue.config);
+        metadataMethod(itemConfig.name, namespace, namespaceValue.value, namespaceValue.config, addPermanent);
       }
     }
   }
 
+  const itemChannelLinkMethod = environment.useProviderRegistries() ? itemChannelLink.addItemChannelLink : itemChannelLink.replaceItemChannelLink;
   if (itemConfig.type !== 'Group') {
     if (typeof itemConfig.channels === 'string') { // single channel link with string
-      metadata.itemchannellink.replaceItemChannelLink(itemConfig.name, itemConfig.channels);
+      itemChannelLinkMethod(itemConfig.name, itemConfig.channels, {}, addPermanent);
     } else if (typeof itemConfig.channels === 'object') { // multiple/complex channel links with channel as key and config object as value
       const channels = Object.keys(itemConfig.channels);
-      for (const i in channels) metadata.itemchannellink.replaceItemChannelLink(itemConfig.name, channels[i], itemConfig.channels[channels[i]]);
+      for (const i in channels) itemChannelLinkMethod(itemConfig.name, channels[i], itemConfig.channels[channels[i]], addPermanent);
     }
   }
 
@@ -650,55 +673,25 @@ function addItem (itemConfig) {
  *
  * @memberof items
  * @param {string|Item} itemOrItemName the Item or the name of the Item to remove
- * @returns {Item|null} the Item that has been removed or `null` if it has not been removed
+ * @returns {Item|null} the Item that has been removed or `null` if no Item has been found, or it cannot be removed
  */
 function removeItem (itemOrItemName) {
-  let itemName;
-
-  if (typeof itemOrItemName === 'string') {
-    itemName = itemOrItemName;
-  } else if (_isItem(itemOrItemName)) {
-    itemName = itemOrItemName.name;
-  } else {
-    log.warn('Item name is undefined (no Item supplied or supplied name is not a string) so cannot be removed');
-    return false;
-  }
-
-  let item;
-  try { // If the Item is not registered, ItemNotFoundException is thrown.
-    item = getItem(itemName);
-  } catch (e) {
-    if (Java.typeName(e.getClass()) === 'org.openhab.core.items.ItemNotFoundException') {
-      log.error('Item {} not registered so cannot be removed: {}', itemName, e.message);
-      return null;
-    } else { // If exception/error is not ItemNotFoundException, rethrow.
-      throw Error(e);
-    }
-  }
-
-  itemRegistry.remove(itemName);
-
-  try { // If the Item has been successfully removed, ItemNotFoundException is thrown.
-    itemRegistry.getItem(itemName);
-    log.warn('Failed to remove Item: {}', itemName);
-    return null;
-  } catch (e) {
-    if (Java.typeName(e.getClass()) === 'org.openhab.core.items.ItemNotFoundException') {
-      return item;
-    } else { // If exception/error is not ItemNotFoundException, rethrow.
-      throw Error(e);
-    }
-  }
+  const itemName = _getItemName(itemOrItemName);
+  const rawItem = itemRegistry.remove(itemName);
+  if (rawItem === null) return null;
+  return new Item(rawItem);
 }
 
 /**
- * Replaces (or adds) an Item. If an Item exists with the same name, it will be removed and a new Item with
+ * Replaces (or adds) an Item.
+ * If an Item exists with the same name, it will be removed and a new Item with
  * the supplied parameters will be created in its place. If an Item does not exist with this name, a new
  * Item will be created with the supplied parameters.
  *
  * This function can be useful in scripts which create a static set of Items which may need updating either
  * periodically, during startup or even during development of the script. Using fixed Item names will ensure
  * that the Items remain up-to-date, but won't fail with issues related to duplicate Items.
+ * When using file-based scripts, it is recommended to use {@link items.addItem} instead.
  *
  * @memberof items
  * @param {ItemConfig} itemConfig the Item config describing the Item
@@ -708,7 +701,7 @@ function removeItem (itemOrItemName) {
  */
 function replaceItem (itemConfig) {
   const item = getItem(itemConfig.name, true);
-  if (item !== null) { // Item already existed
+  if (item !== null) { // Item already exists
     removeItem(itemConfig.name);
   }
   addItem(itemConfig);
@@ -791,6 +784,7 @@ const itemProperties = {
   removeItem,
   Item,
   metadata,
+  itemChannelLink,
   /**
    * @type {RiemannType}
    */
