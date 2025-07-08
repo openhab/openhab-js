@@ -373,9 +373,9 @@ See [openhab-js : items](https://openhab.github.io/openhab-js/items.html) for fu
   - .getItem(name, nullIfMissing) ⇒ `Item`
   - .getItems() ⇒ `Array[Item]`
   - .getItemsByTag(...tagNames) ⇒ `Array[Item]`
-  - .addItem([itemConfig](#itemconfig))
-  - .removeItem(itemOrItemName) ⇒ `boolean`
-  - .replaceItem([itemConfig](#itemconfig))
+  - .addItem([itemConfig](#itemconfig), persist) ⇒ `Item`
+  - .removeItem(itemOrItemName) ⇒ `Item|null`
+  - .replaceItem([itemConfig](#itemconfig)) ⇒ `Item|null`
   - .safeItemName(s) ⇒ `string`
 
 ```javascript
@@ -501,6 +501,20 @@ items.replaceItem({
 ```
 
 See [openhab-js : ItemConfig](https://openhab.github.io/openhab-js/global.html#ItemConfig) for full API documentation.
+
+#### Providing Items (& metadata & channel links) from Scripts
+
+The `addItem` method can be used to provide Items from scripts in a configuration-as-code manner.
+It also allows providing metadata and channel configurations for the Item, basically creating the Item as if it was defined in a `.items` file.
+The benefit of using `addItem` is that you can use loops, conditions or generator functions to create lots of Items without the need to write them all out in a file or manually in the UI.
+
+When called from file-based scripts, the created Item will share the lifecycle with the script, meaning it will be removed when the script is unloaded.
+You can use the `persist` parameter to optionally persist the Item from file-based scripts.
+
+When called from UI-based scripts, the Item will be stored permanently and will not be removed when the script is unloaded.
+Keep in mind that attempting to add an Item with the same name as an existing Item will result in an error.
+
+See [openhab-js : Item](https://openhab.github.io/openhab-js/items.html#.addItem) for full API documentation.
 
 #### `ItemPersistence`
 
