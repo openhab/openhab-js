@@ -72,7 +72,7 @@ export function getMetadata(itemOrName: Item | string, namespace?: string): {
  * @param {string} namespace name of the metadata
  * @param {string} value value for this metadata
  * @param {object} [configuration] optional metadata configuration
- * @param {boolean} [persist=false] whether to persist the metadata permanently (default is `false` for file-based scripts, `true` for UI-based scripts))
+ * @param {boolean} [persist=false] whether to persist the metadata permanently (only respected for file-based scripts)
  * @returns {ItemMetadata} the added metadata
  * @throws {Error} if the Item already has metadata of the given namespace
  */

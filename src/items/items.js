@@ -624,7 +624,7 @@ function _createItem (itemConfig) {
  *
  * @memberof items
  * @param {ItemConfig} itemConfig the Item config describing the Item
- * @param {boolean} [persist=false] whether to persist the Item permanently (default is `false` for file-based scripts, `true` for UI-based scripts)
+ * @param {boolean} [persist=false] whether to persist the Item permanently (only respected for file-based scripts)
  * @returns {Item} {@link Item}
  * @throws {Error} if {@link ItemConfig}.name or {@link ItemConfig}.type is not set
  * @throws {Error} if failed to create Item
