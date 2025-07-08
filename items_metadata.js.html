@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>actions/notification-builder.js - Documentation</title>
+    <title>items/metadata.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -37,7 +37,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">actions/notification-builder.js</h1>
+    <h1 class="page-title">items/metadata.js</h1>
     
 
     
@@ -47,279 +47,212 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const log = require('../log')('notification-action-builder');
-const { randomUUID } = require('../utils');
+            <pre class="prettyprint source linenums"><code>const osgi = require('../osgi');
+const utils = require('../utils');
+const environment = require('../environment');
+const { _getItemName } = require('../helpers');
+
+const metadataRegistry = environment.useProviderRegistries()
+  ? require('@runtime/provider').metadataRegistry
+  : osgi.getService('org.openhab.core.items.MetadataRegistry');
+const Metadata = Java.type('org.openhab.core.items.Metadata');
+const MetadataKey = Java.type('org.openhab.core.items.MetadataKey');
 
 /**
- * Gets the &lt;code>NotificationAction&lt;/code> from the {@link https://www.openhab.org/addons/integrations/openhabcloud/ openHAB Cloud Connector} add-on.
+ * Item metadata namespace.
+ * This namespace provides access to Item metadata.
  *
- * If the openHAB Cloud Connector is not installed, a warning is logged and &lt;code>null&lt;/code> is returned.
+ * @namespace items.metadata
+ */
+
+/**
+ * @typedef {import('./items').Item} Item
+ * @private
+ */
+
+/**
+ * Class representing an openHAB Item metadata namespace
+ *
+ * @memberof items.metadata
+ * @hideconstructor
+ */
+class ItemMetadata {
+  /**
+   * The metadata value.
+   * @type {string}
+   */
+  value;
+  /**
+   * The metadata configuration.
+   * @type {object}
+   */
+  configuration;
+
+  /**
+   * @param {*} rawMetadata {@link https://www.openhab.org/javadoc/latest/org/openhab/core/items/metadata org.openhab.core.items.Metadata}
+   */
+  constructor (rawMetadata) {
+    /**
+     * metadata namespace's value
+     * @type {string}
+     */
+    this.value = rawMetadata.getValue();
+    /**
+     * metadata namespace's configuration
+     * @type {object}
+     */
+    this.configuration = utils.javaMapToJsObj(rawMetadata.getConfiguration());
+  }
+}
+
+/**
+ * Gets all metadata from a given Item.
+ *
+ * @example
+ * var meta = items.metadata.getItemMetadata('Kitchen_Light');
+ * var namespaces = Array.from(meta.keys());
+ * var stateDescription = meta.get('stateDescription');
  *
  * @private
- * @return {*|null}
+ * @param {string} itemName the name of the Item
+ * @returns {{ namespace: ItemMetadata }} object of all Item metadata with one property for each namespace; each namespace is of type {@link ItemMetadata}
  */
-function _getNotificationAction () {
-  try {
-    return Java.type('org.openhab.io.openhabcloud.NotificationAction');
-  } catch (e) {
-    if (e.name === 'TypeError') {
-      log.warn('NotificationAction is not available. Make sure you have installed the openHAB Cloud Connector.');
-      return null;
-    }
-    throw e;
-  }
-}
-
-class NotificationType {
-  static BROADCAST = 'BROADCAST';
-  static LOG = 'LOG';
-  static STANDARD = 'STANDARD';
-  static HIDE_BROADCAST = 'HIDE_BROADCAST';
-  static HIDE_STANDARD = 'HIDE_STANDARD';
+function _getAllItemMetadata (itemName) {
+  const metadata = {};
+  // TODO: Move implementation to openHAB Core
+  metadataRegistry.stream().filter((meta) => meta.getUID().getItemName().equals(itemName)).forEach((meta) => {
+    metadata[meta.getUID().getNamespace()] = new ItemMetadata(meta);
+  });
+  return metadata;
 }
 
 /**
- * Notification builder to create and send openHAB Cloud notifications.
+ * Gets metadata of a single namespace from the given Item.
  *
- * Do NOT use directly, use {@link actions.notificationBuilder} instead.
+ * @private
+ * @param {string} itemName the name of the Item
+ * @param {string} namespace namespace of the metadata
+ * @returns {ItemMetadata|null} metadata or `null` if the Item has no metadata under the given namespace
  */
-class NotificationBuilder {
-  #type = NotificationType.BROADCAST;
-  #userIds = [];
-  #message = '';
-  #icon = null;
-  #tag = null;
-  #title = null;
-  #referenceId = null;
-  #onClickAction = null;
-  #mediaAttachmentUrl = null;
-  #actionButtons = [];
+function _getSingleItemMetadata (itemName, namespace) {
+  const key = new MetadataKey(namespace, itemName);
+  const meta = metadataRegistry.get(key);
+  if (meta === null) return null;
+  return new ItemMetadata(meta);
+}
 
-  /**
-   * @hideconstructor
-   * @param {string} [message] the optional body of the notification
-   */
-  constructor (message) {
-    if (message !== undefined) this.#message = message;
-  }
+/**
+ * Gets metadata of a single namespace or of all namespaces from a given Item.
+ *
+ * @example
+ * // Get metadata of ALL namespaces
+ * var meta = items.metadata.getMetadata(items.Hallway_Light);
+ * var namespaces = Object.keys(meta); // Get metadata namespaces
+ * // Get metadata of a single namespace
+ * meta = items.metadata.getMetadata(items.Hallway_Light, 'expire');
+ *
+ * @see items.Item.getMetadata
+ * @memberOf items.metadata
+ * @param {Item|string} itemOrName {@link Item} or the name of the Item
+ * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is returned, else all metadata is returned
+ * @returns {{ namespace: ItemMetadata }|ItemMetadata|null} all metadata as an object with the namespaces as properties OR metadata of a single namespace or `null` if that namespace doesn't exist; the metadata itself is of type {@link ItemMetadata}
+ */
+function getMetadata (itemOrName, namespace) {
+  const itemName = _getItemName(itemOrName);
+  if (namespace !== undefined) return _getSingleItemMetadata(itemName, namespace);
+  return _getAllItemMetadata(itemName);
+}
 
-  /**
-   * Sets the type of the notification to log notification.
-   *
-   * @return {NotificationBuilder}
-   */
-  logOnly () {
-    this.#type = NotificationType.LOG;
-    return this;
-  }
-
-  /**
-   * Hides notifications with the specified reference ID or the specified tag.
-   *
-   * Reference ID has precedence over tag.
-   * If no reference ID or tag is set, an error is thrown when {@link send} is called.
-   *
-   * @return {NotificationBuilder}
-   */
-  hide () {
-    this.#type = (this.#userIds.length > 0 ? NotificationType.HIDE_STANDARD : NotificationType.HIDE_BROADCAST);
-    return this;
-  }
-
-  /**
-   * Adds a user ID, which usually is the mail address of an openHAB Cloud user, to send the notification to.
-   *
-   * If no user ID is specified, a broadcast notification is sent.
-   *
-   * @param {...string} emailAddress
-   * @return {NotificationBuilder}
-   */
-  addUserId (...emailAddress) {
-    this.#userIds = this.#userIds.concat(emailAddress);
-    this.#type = (this.#type === NotificationType.HIDE_BROADCAST ? NotificationType.HIDE_STANDARD : NotificationType.STANDARD);
-    return this;
-  }
-
-  /**
-   * Sets the icon for the notification.
-   *
-   * See {@link https://www.openhab.org/docs/configuration/items.html#icon-sources} for valid icon sources.
-   * Please note that not all push notification clients support displaying icons.
-   *
-   * @param {string} icon
-   * @return {NotificationBuilder}
-   */
-  withIcon (icon) {
-    this.#icon = icon;
-    return this;
-  }
-
-  /**
-   * Sets the tag for the notification.
-   *
-   * The tag is used for grouping notifications when displaying in the app and to hide/remove groups of notifications.
-   *
-   * @param {string} severity
-   * @return {NotificationBuilder}
-   */
-  withTag (severity) {
-    this.#tag = severity;
-    return this;
-  }
-
-  /**
-   * Sets the title for the notification.
-   *
-   * @param {string} title
-   * @return {NotificationBuilder}
-   */
-  withTitle (title) {
-    this.#title = title;
-    return this;
-  }
-
-  /**
-   * Sets the reference ID for the notification.
-   *
-   * The reference ID is a user-supplied identifier, that can be used to update or remove existing notifications with the same reference ID.
-   *
-   * @param {string} referenceId
-   * @return {NotificationBuilder}
-   */
-  withReferenceId (referenceId) {
-    this.#referenceId = referenceId;
-    return this;
-  }
-
-  /**
-   * Sets the action to be executed when the user clicks on the notification.
-   *
-   * The on click action is not supported by log notifications.
-   *
-   * @param {string} action the action using the syntax as described in {@link https://www.openhab.org/addons/integrations/openhabcloud/#action-syntax openHAB Cloud Connector: Action Syntax}
-   * @return {NotificationBuilder}
-   */
-  withOnClickAction (action) {
-    this.#onClickAction = action;
-    return this;
-  }
-
-  /**
-   * Sets the URL to a media attachment to be displayed with the notification.
-   *
-   * This URL must be reachable by the push notification client and the client needs to support media attachments.
-   * Media attachments are not supported by log notifications.
-   *
-   * @param {string} mediaAttachmentUrl the media attachment URL as described in {@link https://www.openhab.org/addons/integrations/openhabcloud/ openHAB Cloud Connector}
-   * @return {NotificationBuilder}
-   */
-  withMediaAttachmentUrl (mediaAttachmentUrl) {
-    this.#mediaAttachmentUrl = mediaAttachmentUrl;
-    return this;
-  }
-
-  /**
-   * Adds an action button to the notification.
-   *
-   * Please note that due to limitations in Android and iOS only three action buttons are supported.
-   * Action buttons are obviously not supported by log notifications.
-   *
-   * @param {string} label the title of the action button
-   * @param {string} action the action using the syntax as described in {@link https://www.openhab.org/addons/integrations/openhabcloud/#action-syntax openHAB Cloud Connector: Action Syntax}
-   * @return {NotificationBuilder}
-   */
-  addActionButton (label, action) {
-    if (this.#actionButtons.length >= 3) {
-      throw new Error('Only 3 action buttons are supported.');
+/**
+ * Adds metadata of a single namespace to an Item.
+ *
+ * If this is called from file-based scripts, the metadata is registered with the ScriptedMetadataProvider and shares the same lifecycle as the script.
+ * You can still persist the metadata permanently in this case by setting the `persist` parameter to `true`.
+ * If this is called from UI-based scripts, the metadata is stored to the ManagedMetadataProvider and independent of the script's lifecycle.
+ *
+ * @memberof items.metadata
+ * @param {Item|string} itemOrName {@link Item} or the name of the Item
+ * @param {string} namespace name of the metadata
+ * @param {string} value value for this metadata
+ * @param {object} [configuration] optional metadata configuration
+ * @param {boolean} [persist=false] whether to persist the metadata permanently (only respected for file-based scripts)
+ * @returns {ItemMetadata} the added metadata
+ * @throws {Error} if the Item already has metadata of the given namespace
+ */
+function addMetadata (itemOrName, namespace, value, configuration, persist = false) {
+  const itemName = _getItemName(itemOrName);
+  const key = new MetadataKey(namespace, itemName);
+  const newMetadata = new Metadata(key, value, configuration);
+  try {
+    const meta = (persist &amp;&amp; environment.useProviderRegistries()) ? metadataRegistry.addPermanent(newMetadata) : metadataRegistry.add(newMetadata);
+    return new ItemMetadata(meta);
+  } catch (e) {
+    if (e instanceof Java.type('java.lang.IllegalStateException')) {
+      throw new Error(`Cannot add metadata '${namespace}' for Item '${itemName}': metadata already exists`);
+    } else {
+      throw e; // re-throw other errors
     }
-    this.#actionButtons.push(`${label}=${action}`);
-    return this;
   }
+}
 
-  /**
-   * Sends the notification.
-   *
-   * If no reference ID is set, a random reference ID is generated.
-   * In case the openHAB Cloud Connector is not installed, a warning is logged and the notification is not sent.
-   *
-   * @return {string|null} the reference ID of the notification or `null` log notifications and when hiding notifications
-   * @throws {Error} if {@link hide} was called and no reference ID or tag is set
-   */
-  send () {
-    while (this.#actionButtons.length &lt; 3) {
-      this.#actionButtons.push(null);
-    }
+/**
+ * Updates or adds metadata of a single namespace to an Item.
+ * When using file-based scripts, it is recommended to use {@link items.metadata.addMetadata} instead.
+ *
+ * If metadata is not provided by this script or the ManagedMetadataProvider, it is not editable and a warning is logged.
+ *
+ * @see items.Item.replaceMetadata
+ * @memberof items.metadata
+ * @param {Item|string} itemOrName {@link Item} or the name of the Item
+ * @param {string} namespace name of the metadata
+ * @param {string} value value for this metadata
+ * @param {object} [configuration] optional metadata configuration
+ * @returns {ItemMetadata|null} old metadata or `null` if the Item had no metadata with the given name
+ */
+function replaceMetadata (itemOrName, namespace, value, configuration) {
+  const itemName = _getItemName(itemOrName);
+  const key = new MetadataKey(namespace, itemName);
+  const newMetadata = new Metadata(key, value, configuration);
+  let meta = metadataRegistry.get(key);
+  meta = (meta === null) ? metadataRegistry.add(newMetadata) : metadataRegistry.update(newMetadata);
+  if (meta === null) return null;
+  return new ItemMetadata(meta);
+}
 
-    switch (this.#type) {
-      case NotificationType.BROADCAST:
-        if (this.#referenceId === null) this.#referenceId = randomUUID();
-        // parameters: message, icon, tag, title, referenceId, onClickAction, mediaAttachmentUrl, actionButton1, actionButton2, actionButton3
-        _getNotificationAction()?.sendBroadcastNotification(this.#message, this.#icon, this.#tag, this.#title, this.#referenceId, this.#onClickAction, this.#mediaAttachmentUrl, ...this.#actionButtons);
-        return this.#referenceId;
-      case NotificationType.LOG:
-        // parameters: message, icon, tag
-        _getNotificationAction()?.sendLogNotification(this.#message, this.#icon, this.#tag);
-        return null;
-      case NotificationType.STANDARD:
-        if (this.#referenceId === null) this.#referenceId = randomUUID();
-        this.#userIds.forEach((userId) => {
-          // parameters: userId, message, icon, tag, title, referenceId, onClickAction, mediaAttachmentUrl, actionButton1, actionButton2, actionButton3
-          _getNotificationAction()?.sendNotification(userId, this.#message, this.#icon, this.#tag, this.#title, this.#referenceId, this.#onClickAction, this.#mediaAttachmentUrl, ...this.#actionButtons);
-        });
-        return this.#referenceId;
-      case NotificationType.HIDE_BROADCAST:
-        if (this.#referenceId === null &amp;&amp; this.#tag === null) throw new Error('Reference ID or tag must be set for hiding notifications.');
-        // referenceId has precedence over tag
-        if (this.#referenceId !== null) {
-          // parameters: referenceId
-          _getNotificationAction()?.hideBroadcastNotificationByReferenceId(this.#referenceId);
-        } else {
-          // parameters: tag
-          _getNotificationAction()?.hideBroadcastNotificationByTag(this.#tag);
-        }
-        return null;
-      case NotificationType.HIDE_STANDARD:
-        if (this.#referenceId === null &amp;&amp; this.#tag === null) throw new Error('Reference ID or tag must be set for hiding notifications.');
-        // referenceId has precedence over tag
-        if (this.#referenceId !== null) {
-          // parameters: userId, referenceId
-          this.#userIds.forEach((userId) => {
-            _getNotificationAction()?.hideNotificationByReferenceId(userId, this.#referenceId);
-          });
-        } else {
-          // parameters: userId, tag
-          this.#userIds.forEach((userId) => {
-            _getNotificationAction()?.hideNotificationByTag(userId, this.#tag);
-          });
-        }
-        return null;
+/**
+ * Removes metadata of a single namespace or of all namespaces from a given Item.
+ *
+ * @see items.Item.removeMetadata
+ * @memberof items.metadata
+ * @param {Item|string} itemOrName {@link Item} or the name of the Item
+ * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is removed, else all metadata is removed
+ * @returns {ItemMetadata|null} removed metadata OR `null` if the Item has no metadata under the given namespace, or it cannot be removed or all metadata was removed
+ */
+function removeMetadata (itemOrName, namespace) {
+  const itemName = _getItemName(itemOrName);
 
-      default:
-        throw new Error(`Unknown NotificationType: ${this.type}`);
-    }
+  if (namespace !== undefined) {
+    const key = new MetadataKey(namespace, itemName);
+    const meta = metadataRegistry.remove(key);
+    if (meta === null) return null;
+    return new ItemMetadata(meta);
+  } else {
+    return metadataRegistry.removeItemMetadata(itemName);
   }
 }
 
 module.exports = {
-  _getNotificationAction,
-  /**
-   * Creates a new notification builder for openHAB Cloud notifications, which are sent as push notifications to registered devices.
-   *
-   * This requires the {@link https://www.openhab.org/addons/integrations/openhabcloud/ openHAB Cloud Connector} add-on to be installed.
-   *
-   * There are three types of notifications:
-   *
-   * Broadcast notifications, which are sent to all openHAB Cloud users,
-   * standard notifications, which are sent to a openHAB Cloud users specified by their email addresses,
-   * and log notifications, which are only sent to the notification log and not shown as a push notification.
-   *
-   * In addition to that, notifications can be updated later be re-using the same reference ID and hidden/removed either by reference ID or tag.
-   *
-   * @memberof actions
-   * @param {string} [message] the body of the notification
-   * @return {NotificationBuilder}
-   */
-  notificationBuilder: (message) => new NotificationBuilder(message)
+  getMetadata,
+  addMetadata,
+  replaceMetadata,
+  removeMetadata,
+  itemChannelLink: {
+    get () {
+      console.warn('items.metadata.itemchannellink is deprecated, use items.itemChannelLink instead');
+      return require('./itemchannellink');
+    }
+  },
+  ItemMetadata
 };
 </code></pre>
         </article>

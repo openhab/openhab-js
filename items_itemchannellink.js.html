@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>actions/notification-builder.js - Documentation</title>
+    <title>items/itemchannellink.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -37,7 +37,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">actions/notification-builder.js</h1>
+    <h1 class="page-title">items/itemchannellink.js</h1>
     
 
     
@@ -47,279 +47,199 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const log = require('../log')('notification-action-builder');
-const { randomUUID } = require('../utils');
+            <pre class="prettyprint source linenums"><code>const osgi = require('../osgi');
+const utils = require('../utils');
+const environment = require('../environment');
+const log = require('../log')('itemchannellink');
+const { _getItemName } = require('../helpers');
+
+const itemChannelLinkRegistry = environment.useProviderRegistries()
+  ? require('@runtime/provider').itemChannelLinkRegistry
+  : osgi.getService('org.openhab.core.thing.link.ItemChannelLinkRegistry');
+const JavaItemChannelLink = Java.type('org.openhab.core.thing.link.ItemChannelLink');
+const ChannelUID = Java.type('org.openhab.core.thing.ChannelUID');
+const Configuration = Java.type('org.openhab.core.config.core.Configuration');
 
 /**
- * Gets the &lt;code>NotificationAction&lt;/code> from the {@link https://www.openhab.org/addons/integrations/openhabcloud/ openHAB Cloud Connector} add-on.
+ * Item channel link namespace.
+ * This namespace provides access to Item channel links.
  *
- * If the openHAB Cloud Connector is not installed, a warning is logged and &lt;code>null&lt;/code> is returned.
+ * @namespace items.itemChannelLink
+ */
+
+/**
+ * @typedef {import('./items').Item} Item
+ * @private
+ */
+
+/**
+ * Class representing an openHAB Item -> channel link.
+ *
+ * @memberof items.itemChannelLink
+ * @hideconstructor
+ */
+class ItemChannelLink {
+  itemName;
+  channelUID;
+  configuration;
+
+  /**
+   * @param {*} rawItemChannelLink {@link https://www.openhab.org/javadoc/latest/org/openhab/core/thing/link/itemchannellink org.openhab.core.thing.link.ItemChannelLink}
+   */
+  constructor (rawItemChannelLink) {
+    this.itemName = rawItemChannelLink.getItemName().toString();
+    this.channelUID = rawItemChannelLink.getLinkedUID().toString();
+    this.configuration = utils.javaMapToJsObj(rawItemChannelLink.getConfiguration().getProperties());
+  }
+}
+
+/**
+ * Gets a channel link of from an Item.
+ *
+ * @memberof items.itemChannelLink
+ * @param {Item|string} itemOrName {@link Item} or the name of the Item
+ * @param {string} channelUID
+ * @returns {ItemChannelLink|null} the ItemChannelLink or `null` if none exists
+ */
+function getItemChannelLink (itemOrName, channelUID) {
+  const itemName = _getItemName(itemOrName);
+  log.debug(`Getting ItemChannelLink ${itemName} -> ${channelUID} from registry.`);
+  const itemChannelLink = itemChannelLinkRegistry.get(itemName + ' -> ' + channelUID);
+  if (itemChannelLink === null) return null;
+  return new ItemChannelLink(itemChannelLink);
+}
+
+/**
+ * Creates a new ItemChannelLink object.
+ * This ItemChannelLink is not registered with any provider and therefore cannot be accessed.
  *
  * @private
- * @return {*|null}
+ * @param {string} itemName the name of the Item
+ * @param {string} channelUID
+ * @param {object} [conf] channel configuration
+ * @returns {JavaItemChannelLink} ItemChannelLink object
  */
-function _getNotificationAction () {
-  try {
-    return Java.type('org.openhab.io.openhabcloud.NotificationAction');
-  } catch (e) {
-    if (e.name === 'TypeError') {
-      log.warn('NotificationAction is not available. Make sure you have installed the openHAB Cloud Connector.');
-      return null;
-    }
-    throw e;
+function _createItemChannelLink (itemName, channelUID, conf) {
+  log.debug(`Creating ItemChannelLink ${itemName} -> ${channelUID}`);
+  if (typeof conf === 'object') {
+    log.debug(`  with configuration: ${JSON.stringify(conf)}`);
+    return new JavaItemChannelLink(itemName, new ChannelUID(channelUID), new Configuration(conf));
+  } else {
+    return new JavaItemChannelLink(itemName, new ChannelUID(channelUID));
   }
-}
-
-class NotificationType {
-  static BROADCAST = 'BROADCAST';
-  static LOG = 'LOG';
-  static STANDARD = 'STANDARD';
-  static HIDE_BROADCAST = 'HIDE_BROADCAST';
-  static HIDE_STANDARD = 'HIDE_STANDARD';
 }
 
 /**
- * Notification builder to create and send openHAB Cloud notifications.
+ * Adds a new channel link to an Item.
  *
- * Do NOT use directly, use {@link actions.notificationBuilder} instead.
+ * If this is called from file-based scripts, the Item -> channel link is registered with the ScriptedItemChannelLinkProvider and shares the same lifecycle as the script.
+ * You can still persist the Item -> channel link permanently in this case by setting the `persist` parameter to `true`.
+ * If this is called from UI-based scripts, the Item -> channel link is stored to the ManagedItemChannelLinkProvider and independent of the script's lifecycle.
+ *
+ * @memberOf items.itemChannelLink
+ * @param {Item|string} itemOrName {@link Item} or the name of the Item
+ * @param {string} channelUID
+ * @param {object} [configuration] channel configuration
+ * @param {boolean} [persist=false] whether to persist the Item -> channel link permanently (only respected for file-based scripts)
+ * @returns {ItemChannelLink} the ItemChannelLink
+ * @throws {Error} if the Item -> channel link already exists
  */
-class NotificationBuilder {
-  #type = NotificationType.BROADCAST;
-  #userIds = [];
-  #message = '';
-  #icon = null;
-  #tag = null;
-  #title = null;
-  #referenceId = null;
-  #onClickAction = null;
-  #mediaAttachmentUrl = null;
-  #actionButtons = [];
-
-  /**
-   * @hideconstructor
-   * @param {string} [message] the optional body of the notification
-   */
-  constructor (message) {
-    if (message !== undefined) this.#message = message;
-  }
-
-  /**
-   * Sets the type of the notification to log notification.
-   *
-   * @return {NotificationBuilder}
-   */
-  logOnly () {
-    this.#type = NotificationType.LOG;
-    return this;
-  }
-
-  /**
-   * Hides notifications with the specified reference ID or the specified tag.
-   *
-   * Reference ID has precedence over tag.
-   * If no reference ID or tag is set, an error is thrown when {@link send} is called.
-   *
-   * @return {NotificationBuilder}
-   */
-  hide () {
-    this.#type = (this.#userIds.length > 0 ? NotificationType.HIDE_STANDARD : NotificationType.HIDE_BROADCAST);
-    return this;
-  }
-
-  /**
-   * Adds a user ID, which usually is the mail address of an openHAB Cloud user, to send the notification to.
-   *
-   * If no user ID is specified, a broadcast notification is sent.
-   *
-   * @param {...string} emailAddress
-   * @return {NotificationBuilder}
-   */
-  addUserId (...emailAddress) {
-    this.#userIds = this.#userIds.concat(emailAddress);
-    this.#type = (this.#type === NotificationType.HIDE_BROADCAST ? NotificationType.HIDE_STANDARD : NotificationType.STANDARD);
-    return this;
-  }
-
-  /**
-   * Sets the icon for the notification.
-   *
-   * See {@link https://www.openhab.org/docs/configuration/items.html#icon-sources} for valid icon sources.
-   * Please note that not all push notification clients support displaying icons.
-   *
-   * @param {string} icon
-   * @return {NotificationBuilder}
-   */
-  withIcon (icon) {
-    this.#icon = icon;
-    return this;
-  }
-
-  /**
-   * Sets the tag for the notification.
-   *
-   * The tag is used for grouping notifications when displaying in the app and to hide/remove groups of notifications.
-   *
-   * @param {string} severity
-   * @return {NotificationBuilder}
-   */
-  withTag (severity) {
-    this.#tag = severity;
-    return this;
-  }
-
-  /**
-   * Sets the title for the notification.
-   *
-   * @param {string} title
-   * @return {NotificationBuilder}
-   */
-  withTitle (title) {
-    this.#title = title;
-    return this;
-  }
-
-  /**
-   * Sets the reference ID for the notification.
-   *
-   * The reference ID is a user-supplied identifier, that can be used to update or remove existing notifications with the same reference ID.
-   *
-   * @param {string} referenceId
-   * @return {NotificationBuilder}
-   */
-  withReferenceId (referenceId) {
-    this.#referenceId = referenceId;
-    return this;
-  }
-
-  /**
-   * Sets the action to be executed when the user clicks on the notification.
-   *
-   * The on click action is not supported by log notifications.
-   *
-   * @param {string} action the action using the syntax as described in {@link https://www.openhab.org/addons/integrations/openhabcloud/#action-syntax openHAB Cloud Connector: Action Syntax}
-   * @return {NotificationBuilder}
-   */
-  withOnClickAction (action) {
-    this.#onClickAction = action;
-    return this;
-  }
-
-  /**
-   * Sets the URL to a media attachment to be displayed with the notification.
-   *
-   * This URL must be reachable by the push notification client and the client needs to support media attachments.
-   * Media attachments are not supported by log notifications.
-   *
-   * @param {string} mediaAttachmentUrl the media attachment URL as described in {@link https://www.openhab.org/addons/integrations/openhabcloud/ openHAB Cloud Connector}
-   * @return {NotificationBuilder}
-   */
-  withMediaAttachmentUrl (mediaAttachmentUrl) {
-    this.#mediaAttachmentUrl = mediaAttachmentUrl;
-    return this;
-  }
-
-  /**
-   * Adds an action button to the notification.
-   *
-   * Please note that due to limitations in Android and iOS only three action buttons are supported.
-   * Action buttons are obviously not supported by log notifications.
-   *
-   * @param {string} label the title of the action button
-   * @param {string} action the action using the syntax as described in {@link https://www.openhab.org/addons/integrations/openhabcloud/#action-syntax openHAB Cloud Connector: Action Syntax}
-   * @return {NotificationBuilder}
-   */
-  addActionButton (label, action) {
-    if (this.#actionButtons.length >= 3) {
-      throw new Error('Only 3 action buttons are supported.');
-    }
-    this.#actionButtons.push(`${label}=${action}`);
-    return this;
-  }
-
-  /**
-   * Sends the notification.
-   *
-   * If no reference ID is set, a random reference ID is generated.
-   * In case the openHAB Cloud Connector is not installed, a warning is logged and the notification is not sent.
-   *
-   * @return {string|null} the reference ID of the notification or `null` log notifications and when hiding notifications
-   * @throws {Error} if {@link hide} was called and no reference ID or tag is set
-   */
-  send () {
-    while (this.#actionButtons.length &lt; 3) {
-      this.#actionButtons.push(null);
-    }
-
-    switch (this.#type) {
-      case NotificationType.BROADCAST:
-        if (this.#referenceId === null) this.#referenceId = randomUUID();
-        // parameters: message, icon, tag, title, referenceId, onClickAction, mediaAttachmentUrl, actionButton1, actionButton2, actionButton3
-        _getNotificationAction()?.sendBroadcastNotification(this.#message, this.#icon, this.#tag, this.#title, this.#referenceId, this.#onClickAction, this.#mediaAttachmentUrl, ...this.#actionButtons);
-        return this.#referenceId;
-      case NotificationType.LOG:
-        // parameters: message, icon, tag
-        _getNotificationAction()?.sendLogNotification(this.#message, this.#icon, this.#tag);
-        return null;
-      case NotificationType.STANDARD:
-        if (this.#referenceId === null) this.#referenceId = randomUUID();
-        this.#userIds.forEach((userId) => {
-          // parameters: userId, message, icon, tag, title, referenceId, onClickAction, mediaAttachmentUrl, actionButton1, actionButton2, actionButton3
-          _getNotificationAction()?.sendNotification(userId, this.#message, this.#icon, this.#tag, this.#title, this.#referenceId, this.#onClickAction, this.#mediaAttachmentUrl, ...this.#actionButtons);
-        });
-        return this.#referenceId;
-      case NotificationType.HIDE_BROADCAST:
-        if (this.#referenceId === null &amp;&amp; this.#tag === null) throw new Error('Reference ID or tag must be set for hiding notifications.');
-        // referenceId has precedence over tag
-        if (this.#referenceId !== null) {
-          // parameters: referenceId
-          _getNotificationAction()?.hideBroadcastNotificationByReferenceId(this.#referenceId);
-        } else {
-          // parameters: tag
-          _getNotificationAction()?.hideBroadcastNotificationByTag(this.#tag);
-        }
-        return null;
-      case NotificationType.HIDE_STANDARD:
-        if (this.#referenceId === null &amp;&amp; this.#tag === null) throw new Error('Reference ID or tag must be set for hiding notifications.');
-        // referenceId has precedence over tag
-        if (this.#referenceId !== null) {
-          // parameters: userId, referenceId
-          this.#userIds.forEach((userId) => {
-            _getNotificationAction()?.hideNotificationByReferenceId(userId, this.#referenceId);
-          });
-        } else {
-          // parameters: userId, tag
-          this.#userIds.forEach((userId) => {
-            _getNotificationAction()?.hideNotificationByTag(userId, this.#tag);
-          });
-        }
-        return null;
-
-      default:
-        throw new Error(`Unknown NotificationType: ${this.type}`);
+function addItemChannelLink (itemOrName, channelUID, configuration, persist = false) {
+  const itemName = _getItemName(itemOrName);
+  log.debug(`Adding ItemChannelLink ${itemName} -> ${channelUID} to registry...`);
+  let itemChannelLink = _createItemChannelLink(itemName, channelUID, configuration);
+  try {
+    itemChannelLink = (persist &amp;&amp; environment.useProviderRegistries()) ? itemChannelLinkRegistry.addPermanent(itemChannelLink) : itemChannelLinkRegistry.add(itemChannelLink);
+  } catch (e) {
+    if (e instanceof Java.type('java.lang.IllegalArgumentException')) {
+      throw new Error(`Cannot add ItemChannelLink ${itemName} -> ${channelUID}: already exists`);
+    } else {
+      throw e; // re-throw other errors
     }
   }
+  return new ItemChannelLink(itemChannelLink);
+}
+
+/**
+ * Updates a channel link of an Item.
+ *
+ * @private
+ * @param {string} itemName the name of the Item
+ * @param {string} channelUID
+ * @param {object} [configuration] channel configuration
+ * @returns {ItemChannelLink|null} the old ItemChannelLink or `null` if none exists
+ */
+function _updateItemChannelLink (itemName, channelUID, configuration) {
+  log.debug(`Updating ItemChannelLink ${itemName} -> ${channelUID} in registry...`);
+  let itemChannelLink = _createItemChannelLink(itemName, channelUID, configuration);
+  itemChannelLink = itemChannelLinkRegistry.update(itemChannelLink);
+  if (itemChannelLink === null) return null;
+  return new ItemChannelLink(itemChannelLink);
+}
+
+/**
+ * Adds or updates a channel link of an Item.
+ * If you use this in file-based scripts, better use {@link addItemChannelLink} to provide channel links.
+ *
+ * If an Item -> channel link is not provided by this script or the ManagedItemChannelLinkProvider, it is not editable and a warning is logged.
+ *
+ * @memberof items.itemChannelLink
+ * @param {Item|string} itemOrName {@link Item} or the name of the Item
+ * @param {string} channelUID
+ * @param {object} [configuration] channel configuration
+ * @returns {ItemChannelLink|null} the old ItemChannelLink or `null` if it did not exist
+ */
+function replaceItemChannelLink (itemOrName, channelUID, configuration) {
+  const itemName = _getItemName(itemOrName);
+  const itemChannelLink = getItemChannelLink(itemName, channelUID);
+  return (itemChannelLink === null) ? addItemChannelLink(itemName, channelUID, configuration) : _updateItemChannelLink(itemName, channelUID, configuration);
+}
+
+/**
+ * Removes a channel link from an Item.
+ *
+ * @memberof items.itemChannelLink
+ * @param {Item|string} itemOrName {@link Item} or the name of the Item
+ * @param {string} channelUID
+ * @returns {ItemChannelLink|null} the removed ItemChannelLink or `null` if none exists, or it cannot be removed
+ */
+function removeItemChannelLink (itemOrName, channelUID) {
+  const itemName = _getItemName(itemOrName);
+  log.debug(`Removing ItemChannelLink ${itemName} -> ${channelUID} from registry...`);
+  const itemChannelLink = itemChannelLinkRegistry.remove(itemName + ' -> ' + channelUID);
+  if (itemChannelLink === null) return null;
+  return new ItemChannelLink(itemChannelLink);
+}
+
+/**
+ * Removes all channel links from the given Item.
+ *
+ * @memberof items.itemChannelLink
+ * @param {string} itemName the name of the Item
+ * @returns {number} number of links removed
+ */
+function removeLinksForItem (itemName) {
+  return itemChannelLinkRegistry.removeLinksForItem(itemName);
+}
+
+/**
+ * Removes all orphaned (Item or channel missing) links.
+ *
+ * @memberof items.itemChannelLink
+ * @returns {number} number of links removed
+ */
+function removeOrphanedItemChannelLinks () {
+  return itemChannelLinkRegistry.purge();
 }
 
 module.exports = {
-  _getNotificationAction,
-  /**
-   * Creates a new notification builder for openHAB Cloud notifications, which are sent as push notifications to registered devices.
-   *
-   * This requires the {@link https://www.openhab.org/addons/integrations/openhabcloud/ openHAB Cloud Connector} add-on to be installed.
-   *
-   * There are three types of notifications:
-   *
-   * Broadcast notifications, which are sent to all openHAB Cloud users,
-   * standard notifications, which are sent to a openHAB Cloud users specified by their email addresses,
-   * and log notifications, which are only sent to the notification log and not shown as a push notification.
-   *
-   * In addition to that, notifications can be updated later be re-using the same reference ID and hidden/removed either by reference ID or tag.
-   *
-   * @memberof actions
-   * @param {string} [message] the body of the notification
-   * @return {NotificationBuilder}
-   */
-  notificationBuilder: (message) => new NotificationBuilder(message)
+  getItemChannelLink,
+  addItemChannelLink,
+  replaceItemChannelLink,
+  removeItemChannelLink,
+  removeLinksForItem,
+  removeOrphanedItemChannelLinks,
+  ItemChannelLink
 };
 </code></pre>
         </article>

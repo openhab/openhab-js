@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>actions/notification-builder.js - Documentation</title>
+    <title>itemChannelLink - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -37,293 +37,1364 @@
 
 <div id="main">
     
-    <h1 class="page-title">actions/notification-builder.js</h1>
+    <h1 class="page-title">itemChannelLink</h1>
     
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>const log = require('../log')('notification-action-builder');
-const { randomUUID } = require('../utils');
+        <h2>
+            <span class="ancestors"><a href="items.html">items</a>.</span>
+        
+        
+            Namespace
+        
+        </h2>
+        
+    
+</header>
 
-/**
- * Gets the &lt;code>NotificationAction&lt;/code> from the {@link https://www.openhab.org/addons/integrations/openhabcloud/ openHAB Cloud Connector} add-on.
- *
- * If the openHAB Cloud Connector is not installed, a warning is logged and &lt;code>null&lt;/code> is returned.
- *
- * @private
- * @return {*|null}
- */
-function _getNotificationAction () {
-  try {
-    return Java.type('org.openhab.io.openhabcloud.NotificationAction');
-  } catch (e) {
-    if (e.name === 'TypeError') {
-      log.warn('NotificationAction is not available. Make sure you have installed the openHAB Cloud Connector.');
-      return null;
-    }
-    throw e;
-  }
-}
+<article>
+    
+        <div class="container-overview">
+        
+            
 
-class NotificationType {
-  static BROADCAST = 'BROADCAST';
-  static LOG = 'LOG';
-  static STANDARD = 'STANDARD';
-  static HIDE_BROADCAST = 'HIDE_BROADCAST';
-  static HIDE_STANDARD = 'HIDE_STANDARD';
-}
 
-/**
- * Notification builder to create and send openHAB Cloud notifications.
- *
- * Do NOT use directly, use {@link actions.notificationBuilder} instead.
- */
-class NotificationBuilder {
-  #type = NotificationType.BROADCAST;
-  #userIds = [];
-  #message = '';
-  #icon = null;
-  #tag = null;
-  #title = null;
-  #referenceId = null;
-  #onClickAction = null;
-  #mediaAttachmentUrl = null;
-  #actionButtons = [];
+    
 
-  /**
-   * @hideconstructor
-   * @param {string} [message] the optional body of the notification
-   */
-  constructor (message) {
-    if (message !== undefined) this.#message = message;
-  }
+    <h4 class="name" id="itemChannelLink">itemChannelLink</h4>
 
-  /**
-   * Sets the type of the notification to log notification.
-   *
-   * @return {NotificationBuilder}
-   */
-  logOnly () {
-    this.#type = NotificationType.LOG;
-    return this;
-  }
+    
 
-  /**
-   * Hides notifications with the specified reference ID or the specified tag.
-   *
-   * Reference ID has precedence over tag.
-   * If no reference ID or tag is set, an error is thrown when {@link send} is called.
-   *
-   * @return {NotificationBuilder}
-   */
-  hide () {
-    this.#type = (this.#userIds.length > 0 ? NotificationType.HIDE_STANDARD : NotificationType.HIDE_BROADCAST);
-    return this;
-  }
 
-  /**
-   * Adds a user ID, which usually is the mail address of an openHAB Cloud user, to send the notification to.
-   *
-   * If no user ID is specified, a broadcast notification is sent.
-   *
-   * @param {...string} emailAddress
-   * @return {NotificationBuilder}
-   */
-  addUserId (...emailAddress) {
-    this.#userIds = this.#userIds.concat(emailAddress);
-    this.#type = (this.#type === NotificationType.HIDE_BROADCAST ? NotificationType.HIDE_STANDARD : NotificationType.STANDARD);
-    return this;
-  }
 
-  /**
-   * Sets the icon for the notification.
-   *
-   * See {@link https://www.openhab.org/docs/configuration/items.html#icon-sources} for valid icon sources.
-   * Please note that not all push notification clients support displaying icons.
-   *
-   * @param {string} icon
-   * @return {NotificationBuilder}
-   */
-  withIcon (icon) {
-    this.#icon = icon;
-    return this;
-  }
 
-  /**
-   * Sets the tag for the notification.
-   *
-   * The tag is used for grouping notifications when displaying in the app and to hide/remove groups of notifications.
-   *
-   * @param {string} severity
-   * @return {NotificationBuilder}
-   */
-  withTag (severity) {
-    this.#tag = severity;
-    return this;
-  }
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Item channel link namespace.
+This namespace provides access to Item channel links.</p></li></ul></dd>
+    
 
-  /**
-   * Sets the title for the notification.
-   *
-   * @param {string} title
-   * @return {NotificationBuilder}
-   */
-  withTitle (title) {
-    this.#title = title;
-    return this;
-  }
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="items_itemchannellink.js.html">items/itemchannellink.js</a>, <a href="items_itemchannellink.js.html#line14">line 14</a>
+    </li></ul></dd>
+    
 
-  /**
-   * Sets the reference ID for the notification.
-   *
-   * The reference ID is a user-supplied identifier, that can be used to update or remove existing notifications with the same reference ID.
-   *
-   * @param {string} referenceId
-   * @return {NotificationBuilder}
-   */
-  withReferenceId (referenceId) {
-    this.#referenceId = referenceId;
-    return this;
-  }
+    
 
-  /**
-   * Sets the action to be executed when the user clicks on the notification.
-   *
-   * The on click action is not supported by log notifications.
-   *
-   * @param {string} action the action using the syntax as described in {@link https://www.openhab.org/addons/integrations/openhabcloud/#action-syntax openHAB Cloud Connector: Action Syntax}
-   * @return {NotificationBuilder}
-   */
-  withOnClickAction (action) {
-    this.#onClickAction = action;
-    return this;
-  }
+    
 
-  /**
-   * Sets the URL to a media attachment to be displayed with the notification.
-   *
-   * This URL must be reachable by the push notification client and the client needs to support media attachments.
-   * Media attachments are not supported by log notifications.
-   *
-   * @param {string} mediaAttachmentUrl the media attachment URL as described in {@link https://www.openhab.org/addons/integrations/openhabcloud/ openHAB Cloud Connector}
-   * @return {NotificationBuilder}
-   */
-  withMediaAttachmentUrl (mediaAttachmentUrl) {
-    this.#mediaAttachmentUrl = mediaAttachmentUrl;
-    return this;
-  }
+    
 
-  /**
-   * Adds an action button to the notification.
-   *
-   * Please note that due to limitations in Android and iOS only three action buttons are supported.
-   * Action buttons are obviously not supported by log notifications.
-   *
-   * @param {string} label the title of the action button
-   * @param {string} action the action using the syntax as described in {@link https://www.openhab.org/addons/integrations/openhabcloud/#action-syntax openHAB Cloud Connector: Action Syntax}
-   * @return {NotificationBuilder}
-   */
-  addActionButton (label, action) {
-    if (this.#actionButtons.length >= 3) {
-      throw new Error('Only 3 action buttons are supported.');
-    }
-    this.#actionButtons.push(`${label}=${action}`);
-    return this;
-  }
+    
 
-  /**
-   * Sends the notification.
-   *
-   * If no reference ID is set, a random reference ID is generated.
-   * In case the openHAB Cloud Connector is not installed, a warning is logged and the notification is not sent.
-   *
-   * @return {string|null} the reference ID of the notification or `null` log notifications and when hiding notifications
-   * @throws {Error} if {@link hide} was called and no reference ID or tag is set
-   */
-  send () {
-    while (this.#actionButtons.length &lt; 3) {
-      this.#actionButtons.push(null);
-    }
+    
 
-    switch (this.#type) {
-      case NotificationType.BROADCAST:
-        if (this.#referenceId === null) this.#referenceId = randomUUID();
-        // parameters: message, icon, tag, title, referenceId, onClickAction, mediaAttachmentUrl, actionButton1, actionButton2, actionButton3
-        _getNotificationAction()?.sendBroadcastNotification(this.#message, this.#icon, this.#tag, this.#title, this.#referenceId, this.#onClickAction, this.#mediaAttachmentUrl, ...this.#actionButtons);
-        return this.#referenceId;
-      case NotificationType.LOG:
-        // parameters: message, icon, tag
-        _getNotificationAction()?.sendLogNotification(this.#message, this.#icon, this.#tag);
-        return null;
-      case NotificationType.STANDARD:
-        if (this.#referenceId === null) this.#referenceId = randomUUID();
-        this.#userIds.forEach((userId) => {
-          // parameters: userId, message, icon, tag, title, referenceId, onClickAction, mediaAttachmentUrl, actionButton1, actionButton2, actionButton3
-          _getNotificationAction()?.sendNotification(userId, this.#message, this.#icon, this.#tag, this.#title, this.#referenceId, this.#onClickAction, this.#mediaAttachmentUrl, ...this.#actionButtons);
-        });
-        return this.#referenceId;
-      case NotificationType.HIDE_BROADCAST:
-        if (this.#referenceId === null &amp;&amp; this.#tag === null) throw new Error('Reference ID or tag must be set for hiding notifications.');
-        // referenceId has precedence over tag
-        if (this.#referenceId !== null) {
-          // parameters: referenceId
-          _getNotificationAction()?.hideBroadcastNotificationByReferenceId(this.#referenceId);
-        } else {
-          // parameters: tag
-          _getNotificationAction()?.hideBroadcastNotificationByTag(this.#tag);
-        }
-        return null;
-      case NotificationType.HIDE_STANDARD:
-        if (this.#referenceId === null &amp;&amp; this.#tag === null) throw new Error('Reference ID or tag must be set for hiding notifications.');
-        // referenceId has precedence over tag
-        if (this.#referenceId !== null) {
-          // parameters: userId, referenceId
-          this.#userIds.forEach((userId) => {
-            _getNotificationAction()?.hideNotificationByReferenceId(userId, this.#referenceId);
-          });
-        } else {
-          // parameters: userId, tag
-          this.#userIds.forEach((userId) => {
-            _getNotificationAction()?.hideNotificationByTag(userId, this.#tag);
-          });
-        }
-        return null;
+    
 
-      default:
-        throw new Error(`Unknown NotificationType: ${this.type}`);
-    }
-  }
-}
+    
 
-module.exports = {
-  _getNotificationAction,
-  /**
-   * Creates a new notification builder for openHAB Cloud notifications, which are sent as push notifications to registered devices.
-   *
-   * This requires the {@link https://www.openhab.org/addons/integrations/openhabcloud/ openHAB Cloud Connector} add-on to be installed.
-   *
-   * There are three types of notifications:
-   *
-   * Broadcast notifications, which are sent to all openHAB Cloud users,
-   * standard notifications, which are sent to a openHAB Cloud users specified by their email addresses,
-   * and log notifications, which are only sent to the notification log and not shown as a push notification.
-   *
-   * In addition to that, notifications can be updated later be re-using the same reference ID and hidden/removed either by reference ID or tag.
-   *
-   * @memberof actions
-   * @param {string} [message] the body of the notification
-   * @return {NotificationBuilder}
-   */
-  notificationBuilder: (message) => new NotificationBuilder(message)
-};
-</code></pre>
-        </article>
-    </section>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+        </div>
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Classes</h3>
+
+        <dl>
+            <dt><a href="items.itemChannelLink.ItemChannelLink.html">ItemChannelLink</a></dt>
+            <dd></dd>
+        </dl>
+    
+    
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".addItemChannelLink"><span class="type-signature type-signature-static">(static) </span>addItemChannelLink<span class="signature">(itemOrName, channelUID, configuration<span class="signature-attributes">opt</span>, persist<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {ItemChannelLink}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Adds a new channel link to an Item.</p>
+<p>If this is called from file-based scripts, the Item -&gt; channel link is registered with the ScriptedItemChannelLinkProvider and shares the same lifecycle as the script.
+You can still persist the Item -&gt; channel link permanently in this case by setting the <code>persist</code> parameter to <code>true</code>.
+If this is called from UI-based scripts, the Item -&gt; channel link is stored to the ManagedItemChannelLinkProvider and independent of the script's lifecycle.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="items_itemchannellink.js.html">items/itemchannellink.js</a>, <a href="items_itemchannellink.js.html#line98">line 98</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>itemOrName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Item</span>
+|
+
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p><code>Item</code> or the name of the Item</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>channelUID</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>configuration</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>channel configuration</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>persist</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>false</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>whether to persist the Item -&gt; channel link permanently (only respected for file-based scripts)</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-throws">Throws:</h5>
+
+        
+
+<dl>
+    <dt>
+        <div class="param-desc usertext">
+        <p>if the Item -&gt; channel link already exists</p>
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl class="param-type">
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">Error</span>
+
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+
+    
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>the ItemChannelLink</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">ItemChannelLink</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".getItemChannelLink"><span class="type-signature type-signature-static">(static) </span>getItemChannelLink<span class="signature">(itemOrName, channelUID)</span><span class="type-signature"> &rarr; {ItemChannelLink|null}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Gets a channel link of from an Item.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="items_itemchannellink.js.html">items/itemchannellink.js</a>, <a href="items_itemchannellink.js.html#line55">line 55</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>itemOrName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Item</span>
+|
+
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p><code>Item</code> or the name of the Item</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>channelUID</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>the ItemChannelLink or <code>null</code> if none exists</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">ItemChannelLink</span>
+|
+
+<span class="param-type">null</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".removeItemChannelLink"><span class="type-signature type-signature-static">(static) </span>removeItemChannelLink<span class="signature">(itemOrName, channelUID)</span><span class="type-signature"> &rarr; {ItemChannelLink|null}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Removes a channel link from an Item.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="items_itemchannellink.js.html">items/itemchannellink.js</a>, <a href="items_itemchannellink.js.html#line157">line 157</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>itemOrName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Item</span>
+|
+
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p><code>Item</code> or the name of the Item</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>channelUID</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>the removed ItemChannelLink or <code>null</code> if none exists, or it cannot be removed</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">ItemChannelLink</span>
+|
+
+<span class="param-type">null</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".removeLinksForItem"><span class="type-signature type-signature-static">(static) </span>removeLinksForItem<span class="signature">(itemName)</span><span class="type-signature"> &rarr; {number}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Removes all channel links from the given Item.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="items_itemchannellink.js.html">items/itemchannellink.js</a>, <a href="items_itemchannellink.js.html#line172">line 172</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>itemName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the name of the Item</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>number of links removed</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">number</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".removeOrphanedItemChannelLinks"><span class="type-signature type-signature-static">(static) </span>removeOrphanedItemChannelLinks<span class="signature">()</span><span class="type-signature"> &rarr; {number}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Removes all orphaned (Item or channel missing) links.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="items_itemchannellink.js.html">items/itemchannellink.js</a>, <a href="items_itemchannellink.js.html#line182">line 182</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>number of links removed</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">number</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".replaceItemChannelLink"><span class="type-signature type-signature-static">(static) </span>replaceItemChannelLink<span class="signature">(itemOrName, channelUID, configuration<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {ItemChannelLink|null}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Adds or updates a channel link of an Item.
+If you use this in file-based scripts, better use <code>addItemChannelLink</code> to provide channel links.</p>
+<p>If an Item -&gt; channel link is not provided by this script or the ManagedItemChannelLinkProvider, it is not editable and a warning is logged.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="items_itemchannellink.js.html">items/itemchannellink.js</a>, <a href="items_itemchannellink.js.html#line143">line 143</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>itemOrName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Item</span>
+|
+
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p><code>Item</code> or the name of the Item</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>channelUID</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>configuration</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>channel configuration</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>the old ItemChannelLink or <code>null</code> if it did not exist</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">ItemChannelLink</span>
+|
+
+<span class="param-type">null</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 
