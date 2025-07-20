@@ -12,12 +12,12 @@ const cache = require('../cache');
 const time = require('../time');
 const environment = require('../environment');
 
-const { OnOffType, UnDefType, events } = require('@runtime');
+const { OnOffType, events } = require('@runtime');
 const itemRegistry = environment.useProviderRegistries()
   ? require('@runtime/provider').itemRegistry
   : require('@runtime').itemRegistry;
 
-const { _stateOrNull, _numericStateOrNull, _quantityStateOrNull } = require('./helpers');
+const { _stateOrNull, _numericStateOrNull, _quantityStateOrNull, _isNullOrUndefined } = require('./helpers');
 const metadata = require('./metadata');
 const itemChannelLink = require('./itemchannellink');
 const ItemPersistence = require('./item-persistence');
@@ -251,10 +251,7 @@ class Item {
    * @type {boolean}
    */
   get isUninitialized () {
-    return (this.rawItem.getState() instanceof UnDefType ||
-        this.rawItem.getState().toString() === 'Undefined' ||
-        this.rawItem.getState().toString() === 'Uninitialized'
-    );
+    return _isNullOrUndefined(this.rawState);
   }
 
   /**
