@@ -145,10 +145,6 @@ class Thing {
   }
 }
 
-function addThing () {
-
-}
-
 /**
  * Gets an openHAB Thing.
  * Returns `null` if no Thing with the given UID exists.
@@ -175,7 +171,6 @@ function getThings () {
 
 module.exports = {
   Thing,
-  addThing,
   getThing,
   getThings
 };

@@ -2,10 +2,11 @@
 
 ## Unreleased
 
-| Type        | Namespace     | Description                                                                       |   | Reference                                              | Breaking |
-|-------------|---------------|-----------------------------------------------------------------------------------|:--|--------------------------------------------------------|----------|
-| Enhancement | `environment` | Add `isFileBasedScript()` function to determine whether script is file-based      |   | [#441](https://github.com/openhab/openhab-js/pull/441) | no       |
-| Enhancement | `items`       | Add support for providing Items, metadata & channel links from file-based scripts |   | [#441](https://github.com/openhab/openhab-js/pull/441) | no       |
+| Type        | Namespace     | Description                                                                       | Reference                                              | Breaking |
+|-------------|---------------|-----------------------------------------------------------------------------------|--------------------------------------------------------|----------|
+| Enhancement | `environment` | Add `isFileBasedScript()` function to determine whether script is file-based      | [#441](https://github.com/openhab/openhab-js/pull/441) | no       |
+| Enhancement | `items`       | Add support for providing Items, metadata & channel links from file-based scripts | [#441](https://github.com/openhab/openhab-js/pull/441) | no       |
+| Bugfix      | `items`       | Fix `NULL` Item state (UnDefType) not recognized as `null`                        | [#448](https://github.com/openhab/openhab-js/pull/448) | no       |
 
 ## 5.11.1 (5.11.0)
 
