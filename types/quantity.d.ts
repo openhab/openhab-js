@@ -2,8 +2,15 @@ export type Item = {
     rawItem: HostItem;
     persistence: import("./items/item-persistence");
     semantics: import("./items/item-semantics");
-    readonly type: string;
+    readonly type: string; /**
+     * @type {QuantityType}
+     * @private
+     */
     readonly name: string;
+    /**
+     * @type {QuantityType}
+     * @private
+     */
     readonly label: string;
     readonly state: string;
     readonly numericState: number;
