@@ -124,16 +124,17 @@ class Quantity {
   }
 
   /**
-   * Unit of this Quantity, e.g. `Metre`, or `null` if not available
+   * Unit name of this Quantity, e.g. `Metre`, `kWh`, or `null` if not available
    * @type {string|null}
    */
   get unit () {
-    const unit = this.rawQtyType.getUnit().getName();
+    const rawUnit = this.rawQtyType.getUnit();
+    const unit = rawUnit.getName() ?? rawUnit;
     return (unit === null) ? null : unit.toString();
   }
 
   /**
-   * Unit symbol of this Quantity, e.g. `m`, or `null` if not available
+   * Unit symbol of this Quantity, e.g. `m`, `kWh`, or `null` if not available
    * @type {string|null}
    */
   get symbol () {

@@ -39,13 +39,14 @@ describe('quantity.js', () => {
     });
 
     it('unit delegates & returns', () => {
-      unitSpy.getName.mockImplementation(() => 'Metres');
+      unitSpy.getName.mockImplementation(() => 'Metre');
       let unit = getQuantity('5 m').unit;
-      expect(unit).toBe('Metres');
+      expect(unit).toBe('Metre');
 
       unitSpy.getName.mockImplementation(() => null);
+      unitSpy.toString.mockImplementation(() => 'Metre');
       unit = getQuantity('5 m').unit;
-      expect(unit).toBe(null);
+      expect(unit).toBe('Metre');
 
       expect(unitSpy.getName).toHaveBeenCalledTimes(2);
       expect(quantityTypeSpy.getUnit).toHaveBeenCalledTimes(2);
