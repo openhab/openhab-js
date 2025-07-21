@@ -94,12 +94,12 @@ export class Quantity {
      */
     get dimension(): string;
     /**
-     * Unit of this Quantity, e.g. `Metre`, or `null` if not available
+     * Unit name of this Quantity, e.g. `Metre`, `kWh`, or `null` if not available
      * @type {string|null}
      */
     get unit(): string;
     /**
-     * Unit symbol of this Quantity, e.g. `m`, or `null` if not available
+     * Unit symbol of this Quantity, e.g. `m`, `kWh`, or `null` if not available
      * @type {string|null}
      */
     get symbol(): string;
