@@ -16,12 +16,6 @@ export type Item = {
     readonly lastStateUpdateTimestamp: any;
     readonly lastStateUpdateInstant: any;
     readonly lastStateChangeTimestamp: any;
-    /**
-     * Subtract the given value from this Quantity.
-     *
-     * @param {Item|string|Quantity} value Quantity-compatible {@link Item}, `string` consisting of amount and unit or a {@link Quantity}
-     * @returns {Quantity} result as new Quantity
-     */
     readonly lastStateChangeInstant: any;
     readonly members: any[];
     readonly descendents: any[];
@@ -38,7 +32,12 @@ export type Item = {
     replaceMetadata(namespace: string, value: string, configuration?: any): {
         configuration: any;
         value: string;
-    };
+    }; /**
+     * Checks whether this Quantity is smaller than or equal to the passed in value.
+     *
+     * @param {Item|string|Quantity} value Quantity-compatible {@link Item}, `string` consisting of amount and unit or a {@link Quantity}
+     * @returns {boolean}
+     */
     removeMetadata(namespace?: string): {
         value: string;
         configuration: any;
@@ -93,12 +92,12 @@ export class Quantity {
      */
     get dimension(): string;
     /**
-     * Unit of this Quantity, e.g. `Metre`, or `null` if not available
+     * Unit name of this Quantity, e.g. `Metre`, `kWh`, or `null` if not available
      * @type {string|null}
      */
     get unit(): string;
     /**
-     * Unit symbol of this Quantity, e.g. `m`, or `null` if not available
+     * Unit symbol of this Quantity, e.g. `m`, `kWh`, or `null` if not available
      * @type {string|null}
      */
     get symbol(): string;
