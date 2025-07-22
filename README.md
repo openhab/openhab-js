@@ -49,7 +49,7 @@ This library is included by default in the openHAB [JavaScript Scripting add-on]
 Install the openHAB [JavaScript Scripting add-on](https://www.openhab.org/addons/automation/jsscripting/), a version of this library will be automatically installed and available to ECMAScript 2024+ rules created using [File Based Rules](#file-based-rules) or [UI Based Rules](#ui-based-rules).
 
 openHAB also provides the [JavaScript Scripting (Nashorn) add-on](https://www.openhab.org/addons/automation/jsscriptingnashorn/), which is based on the older Nashorn JavaScript engine. This is referred to as `ECMA - 262 Edition 5.1` or `application/javascript;version=ECMAScript-5.1` in the Main UI.
-*This library is not compatible with this older runtime.*
+_This library is not compatible with this older runtime._
 
 ### Custom Installation
 
@@ -297,7 +297,6 @@ myVar = 'Hello mutation!'; // When the timer runs, it will log "Hello mutation!"
 
 If you need to pass some variables to the timer but avoid that they can get mutated, pass those variables as parameters to `setTimeout`/`setInterval` or `createTimer`:
 
-
 ```javascript
 var myVar = 'Hello world!';
 
@@ -348,8 +347,8 @@ Use JavaScript Scripting as script transformation by:
    })(input);
    ```
 
-2. Using `JS(<scriptname>.js):%s` as Item state transformation.
-3. Passing parameters is also possible by using a URL like syntax: `JS(<scriptname>.js?arg=value)`.
+1. Using `JS(<scriptname>.js):%s` as Item state transformation.
+1. Passing parameters is also possible by using a URL like syntax: `JS(<scriptname>.js?arg=value)`.
    Parameters are injected into the script and can be referenced like variables.
 
 Simple transformations can aso be given as an inline script: `JS(|...)`, e.g. `JS(|"String has " + input.length + "characters")`.
@@ -801,7 +800,6 @@ actions.ScriptExecution.createTimer(string identifier, time.ZonedDateTime zdt, f
 - `hasTerminated()`: Whether the scheduled execution has already terminated. ⇒ `boolean`
 - `reschedule(time.ZonedDateTime)`: Reschedules a timer to a new starting time. This can also be called after a timer has terminated, which will result in another execution of the same code. ⇒ `boolean`: true, if rescheduling was successful
 
-
 ```javascript
 var now = time.ZonedDateTime.now();
 
@@ -947,14 +945,14 @@ See [openhab-js : cache](https://openhab.github.io/openhab-js/cache.html) for fu
 
 The `defaultSupplier` provided function will return a default value if a specified key is not already associated with a value.
 
-**Example** *(Get a previously set value with a default value (times = 0))*
+**Example** _(Get a previously set value with a default value (times = 0))_
 
 ```js
 var counter = cache.shared.get('counter', () => 0);
 console.log('Counter: ' + counter);
 ```
 
-**Example** *(Get a previously set value, modify and store it)*
+**Example** _(Get a previously set value, modify and store it)_
 
 ```js
 var counter = cache.private.get('counter');
@@ -995,7 +993,7 @@ Therefore, if you attempt to use the `DateTimeFormatter` and receive an error sa
 
 [JS-Joda Locales](https://github.com/js-joda/js-joda/tree/master/packages/locale#use-prebuilt-locale-packages) includes a list of all the supported locales.
 Each locale consists of a two letter language indicator followed by a "-" and a two letter dialect indicator: e.g. "EN-US".
-Installing a locale can be done through the command `npm install @js-joda/locale_de-de` from the *$OPENHAB_CONF/automation/js* folder.
+Installing a locale can be done through the command `npm install @js-joda/locale_de-de` from the _$OPENHAB_CONF/automation/js_ folder.
 
 To import and use a local into your rule you need to require it and create a `DateTimeFormatter` that uses it:
 
@@ -1571,8 +1569,8 @@ When it is run, `npm` will remove everything from `node_modules` that has not be
 Follow these steps to create your own library (it's called a CommonJS module):
 
 1. Create a separate folder for your library outside of `automation/js`, you may also initialize a Git repository.
-2. Run `npm init` from your newly created folder; at least provide responses for the `name`, `version` and `main` (e.g. `index.js`) fields.
-3. Create the main file of your library (`index.js`) and add some exports:
+1. Run `npm init` from your newly created folder; at least provide responses for the `name`, `version` and `main` (e.g. `index.js`) fields.
+1. Create the main file of your library (`index.js`) and add some exports:
 
    ```javascript
    var someProperty = 'Hello world!';
@@ -1586,9 +1584,9 @@ Follow these steps to create your own library (it's called a CommonJS module):
    };
    ```
 
-4. Tar it up by running `npm pack` from your library's folder.
-5. Install it by running `npm install <path-to-library-folder>/<name>-<version>.tgz` from the `automation/js` folder.
-6. After you've installed it with `npm`, you can continue development of the library inside `node_modules`.
+1. Tar it up by running `npm pack` from your library's folder.
+1. Install it by running `npm install <path-to-library-folder>/<name>-<version>.tgz` from the `automation/js` folder.
+1. After you've installed it with `npm`, you can continue development of the library inside `node_modules`.
 
 It is also possible to upload your library to [npm](https://npmjs.com) to share it with other users.
 
