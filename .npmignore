@@ -9,6 +9,7 @@ doc
 docs
 test
 
+types/**/helpers.d.ts*
 types/index.d.ts*
 
 .eslintrc.js
