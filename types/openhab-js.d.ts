@@ -76,5 +76,6 @@ export const osgi: typeof import("./osgi");
 export const cache: typeof import("./cache");
 export const time: typeof import("./time");
 export const Quantity: typeof import("./quantity").getQuantity;
+export const QuantityClass: typeof import("./quantity").Quantity;
 export const environment: typeof import("./environment");
 export {};
