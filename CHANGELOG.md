@@ -8,6 +8,8 @@
 | Bugfix      | `Quantity`    | Fix `.unit` returns null if there is a valid unit                                 | [#449](https://github.com/openhab/openhab-js/pull/449) | no       |
 | Bugfix      | `items`       | Item: Declare null as allowed value for `sendCommand`, `postUpdate`               | [#452](https://github.com/openhab/openhab-js/pull/452) | no       |
 
+Also see [`v5.11.1...v5.11.2`](https://github.com/openhab/openhab-js/compare/v5.11.1...v5.11.2).
+
 ## 5.11.1 (5.11.0)
 
 | Type        | Namespace | Description                                                                        | Reference                                              | Breaking |
