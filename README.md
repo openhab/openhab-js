@@ -18,7 +18,6 @@ This library is included by default in the openHAB [JavaScript Scripting add-on]
   - [Adding Actions](#adding-actions)
   - [UI Event Object](#ui-event-object)
 - [Scripting Basics](#scripting-basics)
-  - [`let` and `const`](#let-and-const)
   - [`require`](#require)
   - [`console`](#console)
   - [Timers](#timers)
