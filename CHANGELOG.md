@@ -7,6 +7,9 @@
 | Enhancement | `environment` | Add `isFileBasedScript()` function to determine whether script is file-based      | [#441](https://github.com/openhab/openhab-js/pull/441) | no       |
 | Enhancement | `items`       | Add support for providing Items, metadata & channel links from file-based scripts | [#441](https://github.com/openhab/openhab-js/pull/441) | no       |
 | Bugfix      | `items`       | Fix `NULL` Item state (UnDefType) not recognized as `null`                        | [#448](https://github.com/openhab/openhab-js/pull/448) | no       |
+| Bugfix      | `Quantity`    | Fix `.unit` returns null if there is a valid unit                                 | [#449](https://github.com/openhab/openhab-js/pull/449) | no       |
+| Bugfix      | `items`       | Item: Declare null as allowed value for `sendCommand`, `postUpdate`               | [#452](https://github.com/openhab/openhab-js/pull/452) | no       |
+| Enhancement | `Quantity`    | Export Quantity class type definition                                             | [#454](https://github.com/openhab/openhab-js/pull/454) | no       |
 
 ## 5.11.1 (5.11.0)
 
