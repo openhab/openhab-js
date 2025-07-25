@@ -1,5 +1,13 @@
 # Changelog
 
+## 5.11.2
+
+| Type        | Namespace     | Description                                                                       | Reference                                              | Breaking |
+|-------------|---------------|-----------------------------------------------------------------------------------|--------------------------------------------------------|----------|
+| Bugfix      | `items`       | Fix `NULL` Item state (UnDefType) not recognized as `null`                        | [#448](https://github.com/openhab/openhab-js/pull/448) | no       |
+| Bugfix      | `Quantity`    | Fix `.unit` returns null if there is a valid unit                                 | [#449](https://github.com/openhab/openhab-js/pull/449) | no       |
+| Bugfix      | `items`       | Item: Declare null as allowed value for `sendCommand`, `postUpdate`               | [#452](https://github.com/openhab/openhab-js/pull/452) | no       |
+
 ## 5.11.1 (5.11.0)
 
 | Type        | Namespace | Description                                                                        | Reference                                              | Breaking |
