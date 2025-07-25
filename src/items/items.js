@@ -11,9 +11,9 @@ const { _toOpenhabPrimitiveType, _isQuantity, _isItem } = require('../helpers');
 const cache = require('../cache');
 const time = require('../time');
 
-const { OnOffType, UnDefType, events, itemRegistry } = require('@runtime');
+const { OnOffType, events, itemRegistry } = require('@runtime');
 
-const { _stateOrNull, _numericStateOrNull, _quantityStateOrNull } = require('./helpers');
+const { _stateOrNull, _numericStateOrNull, _quantityStateOrNull, _isNullOrUndefined } = require('./helpers');
 const metadata = require('./metadata/metadata');
 const ItemPersistence = require('./item-persistence');
 const ItemSemantics = require('./item-semantics');
@@ -246,10 +246,7 @@ class Item {
    * @type {boolean}
    */
   get isUninitialized () {
-    return (this.rawItem.getState() instanceof UnDefType ||
-        this.rawItem.getState().toString() === 'Undefined' ||
-        this.rawItem.getState().toString() === 'Uninitialized'
-    );
+    return _isNullOrUndefined(this.rawState);
   }
 
   /**

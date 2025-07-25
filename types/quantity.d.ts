@@ -16,6 +16,12 @@ export type Item = {
     readonly lastStateUpdateTimestamp: any;
     readonly lastStateUpdateInstant: any;
     readonly lastStateChangeTimestamp: any;
+    /**
+     * Subtract the given value from this Quantity.
+     *
+     * @param {Item|string|Quantity} value Quantity-compatible {@link Item}, `string` consisting of amount and unit or a {@link Quantity}
+     * @returns {Quantity} result as new Quantity
+     */
     readonly lastStateChangeInstant: any;
     readonly members: any[];
     readonly descendents: any[];

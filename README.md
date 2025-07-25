@@ -373,9 +373,9 @@ See [openhab-js : items](https://openhab.github.io/openhab-js/items.html) for fu
   - .getItem(name, nullIfMissing) ⇒ `Item`
   - .getItems() ⇒ `Array[Item]`
   - .getItemsByTag(...tagNames) ⇒ `Array[Item]`
-  - .addItem([itemConfig](#itemconfig))
-  - .removeItem(itemOrItemName) ⇒ `boolean`
-  - .replaceItem([itemConfig](#itemconfig))
+  - .addItem([itemConfig](#itemconfig)) ⇒ `Item`
+  - .removeItem(itemOrItemName) ⇒ `Item|null`
+  - .replaceItem([itemConfig](#itemconfig)) ⇒ `Item|null`
   - .safeItemName(s) ⇒ `string`
 
 ```javascript

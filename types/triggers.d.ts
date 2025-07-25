@@ -20,20 +20,6 @@ export type Item = {
     readonly members: any[];
     readonly descendents: any[];
     readonly isUninitialized: boolean;
-    /**
-     * Creates a trigger that fires if a given start level is reached by the system
-     *
-     * @example
-     * SystemStartlevelTrigger(40)  // Rules loaded
-     * SystemStartlevelTrigger(50)  // Rule engine started
-     * SystemStartlevelTrigger(70)  // User interfaces started
-     * SystemStartlevelTrigger(80)  // Things initialized
-     * SystemStartlevelTrigger(100) // Startup Complete
-     *
-     * @memberof triggers
-     * @param {string|number} startlevel the system start level to be triggered on
-     * @param {string} [triggerName] the optional name of the trigger to create
-     */
     getMetadata(namespace?: string): {
         value: string;
         configuration: any;
