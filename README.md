@@ -178,26 +178,6 @@ console.log(event.itemState.toString() == "test") // OK
 
 The openHAB JavaScript Scripting runtime attempts to provide a familiar environment to JavaScript developers.
 
-### `let` and `const`
-
-Due to the way how openHAB runs UI based scripts, `let`, `const` and `class` are not supported at top-level.
-Use `var` instead or wrap your script inside a self-invoking function:
-
-```javascript
-// Wrap script inside a self-invoking function:
-(function (data) {
-  const C = 'Hello world';
-  console.log(C);
-})(this.event);
-
-// Defining a class using var:
-var Tree = class {
-  constructor (height) {
-    this.height = height;
-  }
-}
-```
-
 ### `require`
 
 Scripts may include standard NPM based libraries by using CommonJS `require`.
@@ -1587,6 +1567,9 @@ Follow these steps to create your own library (it's called a CommonJS module):
 1. Tar it up by running `npm pack` from your library's folder.
 1. Install it by running `npm install <path-to-library-folder>/<name>-<version>.tgz` from the `automation/js` folder.
 1. After you've installed it with `npm`, you can continue development of the library inside `node_modules`.
+1. As you might have already noticed, the JavaScript Scripting add-on is reloading a script as soon as one of its dependencies changes.
+   When developing a library inside `node_modules`, this can cause regular reloads.
+   To avoid this situation, you can disable dependency tracking in the JavaScript Scripting add-on settings (you need to tick "show advanced" for the setting to come up).
 
 It is also possible to upload your library to [npm](https://npmjs.com) to share it with other users.
 
