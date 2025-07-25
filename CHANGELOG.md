@@ -287,7 +287,6 @@ Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/19).
 
-
 ## 4.5.1
 
 | Type   | Namespace      | Description                                                 | Reference                                              | Breaking |
@@ -447,7 +446,6 @@ Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone
 | Docs   |           | Update timer docs                               | [#161](https://github.com/openhab/openhab-js/pull/161) | No       |
 | Bugfix | `actions` | Fix `get()`, `thingActions()` & dynamic exports | [#165](https://github.com/openhab/openhab-js/pull/165) | No       |
 
-
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/5).
 
 ## 2.0.3
@@ -457,7 +455,6 @@ Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone
 | Enhancement | `triggers` | Add DateTime Trigger                                                     | [#154](https://github.com/openhab/openhab-js/pull/154) | No       |
 | Enhancement | `items`    | ItemHistory: Add missing methods & Enable type defs                      | [#158](https://github.com/openhab/openhab-js/pull/158) | No       |
 | Docs        | `actions`  | Update docs for naming timers                                            | [#160](https://github.com/openhab/openhab-js/pull/160) | No       |
-
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/4).
 
