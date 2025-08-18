@@ -225,7 +225,7 @@ class Item {
    * @type {time.Instant|null}
    */
   get lastStateChangeInstant () {
-    const timestamp = this.rawItem.getLastStateChange()
+    const timestamp = this.rawItem.getLastStateChange();
     if (timestamp == null) return null;
     return time.javaInstantToJsInstant(timestamp.toInstant());
   }
