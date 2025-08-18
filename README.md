@@ -1347,7 +1347,7 @@ Rule are completed by calling `.build(name, description, tags, id)` , all parame
 A simple example of this would look like:
 
 ```javascript
-rules.when().item("F1_Light").changed().then().send("changed").toItem("F2_Light").build("My Rule", "My First Rule");
+rules.when().item("F1_Light").changed().then().send("changed").toItem("F2_Light").build("My Rule", "My First Rule", ['MyTag1', 'Tag2'], 'MyRuleID');
 ```
 
 Operations and conditions can also optionally take functions:
