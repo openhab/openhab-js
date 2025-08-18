@@ -210,7 +210,7 @@ class Item {
    * @type {time.ZonedDateTime|null}
    */
   get lastStateChangeTimestamp () {
-    const timestamp = this.rawItem.getLastStateUpdate();
+    const timestamp = this.rawItem.getLastStateChange();
     if (timestamp == null) return null;
     return time.javaZDTToJsZDT(timestamp);
   }
@@ -220,7 +220,7 @@ class Item {
    * @type {time.Instant|null}
    */
   get lastStateChangeInstant () {
-    const timestamp = this.rawItem.getLastStateUpdate();
+    const timestamp = this.rawItem.getLastStateChange();
     if (timestamp == null) return null;
     return time.javaInstantToJsInstant(timestamp.toInstant());
   }
