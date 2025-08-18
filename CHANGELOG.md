@@ -1,5 +1,14 @@
 # Changelog
 
+## 5.11.3
+
+| Type   | Namespace | Description                                        | Reference                                              | Breaking |
+|--————--|--—————----|--————————————————————————————----------------------|--———————————————————-----------------------------------|--———-----|
+| Bugfix | `items`   | Item: Fix lastStateChange fields call wrong method | [#459](https://github.com/openhab/openhab-js/pull/459) | no       |
+
+
+Also see [`v5.11.2...v5.11.3`](https://github.com/openhab/openhab-js/compare/v5.11.2...v5.11.3).
+
 ## 5.11.2
 
 | Type        | Namespace     | Description                                                                       | Reference                                              | Breaking |
