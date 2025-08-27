@@ -1,11 +1,18 @@
 # Changelog
 
+## 5.11.4
+
+| Type   | Namespace | Description                                             | Reference                                              | Breaking |
+|--------|-----------|---------------------------------------------------------|--------------------------------------------------------|----------|
+| Bugfix | `items`   | Item: Fix .state returns null if state is NULL or UNDEF | [#463](https://github.com/openhab/openhab-js/pull/463) | no       |
+
+Also see [`v5.11.3...v5.11.4`](https://github.com/openhab/openhab-js/compare/v5.11.3...v5.11.4).
+
 ## 5.11.3
 
 | Type   | Namespace | Description                                        | Reference                                              | Breaking |
-|--————--|--—————----|--————————————————————————————----------------------|--———————————————————-----------------------------------|--———-----|
+|--------|-----------|----------------------------------------------------|--------------------------------------------------------|----------|
 | Bugfix | `items`   | Item: Fix lastStateChange fields call wrong method | [#459](https://github.com/openhab/openhab-js/pull/459) | no       |
-
 
 Also see [`v5.11.2...v5.11.3`](https://github.com/openhab/openhab-js/compare/v5.11.2...v5.11.3).
 
