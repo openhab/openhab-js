@@ -23,7 +23,7 @@ function _isNullOrUndefined (value) {
  * @returns {string|null} string representation or `null` if `rawState` was `null`
  */
 function _stateOrNull (rawState) {
-  if (_isNullOrUndefined(rawState)) return null;
+  if (rawState === null) return null; // check for passed in null only, allows returning NULL or UNDEF
   return rawState.toString();
 }
 
