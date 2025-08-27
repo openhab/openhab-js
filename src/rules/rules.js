@@ -31,7 +31,8 @@
  * @property {number} offset for {@link triggers.DateTimeTrigger}: offset in seconds added to the time of the DateTime Item
  * @property {string} eventType for all triggers except {@link triggers.PWMTrigger}, {@link triggers.PIDTrigger}: Type of event that triggered event (change, command, time, triggered, update, time)
  * @property {string} triggerType for all triggers except {@link triggers.PWMTrigger}, {@link triggers.PIDTrigger}: Type of trigger that triggered event
- * @property {string} eventClass for all triggers: Java class name of the triggering event
+ * @property {string} eventName for all triggers: simple Java class name of the triggering event
+ * @property {string} eventClass for all triggers: full Java class name of the triggering event
  * @property {string} module (user-defined or auto-generated) name of trigger
  * @property {*} raw original contents of the event including data passed from a calling rule
  * @property {*} payload if provided by event: payload of event in Java data types
@@ -355,13 +356,19 @@ function _addFromHashMap (hashMap, key, object) {
 
 /**
  * Get rule trigger data from raw Java input and generate JavaScript object.
+ * This method is not intended for direct use in user scripts, but used internally by JS Scripting.
  *
  * @private
- * @param {*} input raw Java input from openHAB core
- * @returns {rules.EventObject}
+ * @param {*} input raw Java input/context, see
+ * {@link https://github.com/openhab/openhab-core/blob/main/bundles/org.openhab.core.automation.module.script/src/main/java/org/openhab/core/automation/module/script/internal/handler/ScriptActionHandler.java ScriptActionHandler}
+ * and {@link https://github.com/openhab/openhab-core/blob/main/bundles/org.openhab.core.automation.module.script.rulesupport/src/main/java/org/openhab/core/automation/module/script/rulesupport/shared/simple/SimpleRuleActionHandler.java SimpleRuleActionHandler}
+ * @returns {EventObject}
  */
 function _getTriggeredData (input) {
   const event = input.get('event');
+  /**
+   * @type {EventObject}
+   */
   const data = {};
 
   // Add input to data to passthrough any properties not captured below
@@ -386,7 +393,8 @@ function _getTriggeredData (input) {
   // Properties added if event is available
 
   if (event) {
-    data.eventClass = Java.typeName(event.getClass());
+    data.eventClass = event.getClass().getName();
+    data.eventName = event.getClass().getSimpleName();
 
     try {
       if (event.getPayload()) {
@@ -469,5 +477,6 @@ module.exports = {
   isEnabled,
   setEnabled,
   JSRule,
-  SwitchableJSRule
+  SwitchableJSRule,
+  _getTriggeredData
 };

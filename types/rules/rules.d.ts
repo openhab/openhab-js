@@ -79,7 +79,11 @@ export type EventObject = {
      */
     triggerType: string;
     /**
-     * for all triggers: Java class name of the triggering event
+     * for all triggers: simple Java class name of the triggering event
+     */
+    event: string;
+    /**
+     * for all triggers: full Java class name of the triggering event
      */
     eventClass: string;
     /**
@@ -209,4 +213,15 @@ export function JSRule(ruleConfig: RuleConfig): HostRule;
  * @throws {Error} an error is a rule with the given UID already exists.
  */
 export function SwitchableJSRule(ruleConfig: RuleConfig): HostRule;
+/**
+ * Get rule trigger data from raw Java input and generate JavaScript object.
+ * This method is not intended for direct use in user scripts, but used internally by JS Scripting.
+ *
+ * @private
+ * @param {*} input raw Java input/context, see
+ * {@link https://github.com/openhab/openhab-core/blob/main/bundles/org.openhab.core.automation.module.script/src/main/java/org/openhab/core/automation/module/script/internal/handler/ScriptActionHandler.java ScriptActionHandler}
+ * and {@link https://github.com/openhab/openhab-core/blob/main/bundles/org.openhab.core.automation.module.script.rulesupport/src/main/java/org/openhab/core/automation/module/script/rulesupport/shared/simple/SimpleRuleActionHandler.java SimpleRuleActionHandler}
+ * @returns {EventObject}
+ */
+export function _getTriggeredData(input: any): EventObject;
 //# sourceMappingURL=rules.d.ts.map
