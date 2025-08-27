@@ -30,17 +30,40 @@ const Configuration = Java.type('org.openhab.core.config.core.Configuration');
  * @hideconstructor
  */
 class ItemChannelLink {
-  itemName;
-  channelUID;
-  configuration;
-
   /**
+   * Create an ItemChannelLink instance, wrapping native openHAB Item -> channel link.
    * @param {*} rawItemChannelLink {@link https://www.openhab.org/javadoc/latest/org/openhab/core/thing/link/itemchannellink org.openhab.core.thing.link.ItemChannelLink}
    */
   constructor (rawItemChannelLink) {
-    this.itemName = rawItemChannelLink.getItemName().toString();
-    this.channelUID = rawItemChannelLink.getLinkedUID().toString();
-    this.configuration = utils.javaMapToJsObj(rawItemChannelLink.getConfiguration().getProperties());
+    this.rawItemChannelLink = rawItemChannelLink;
+  }
+
+  /**
+   * The name of the linked Item.
+   * @return {string}
+   */
+  get itemName () {
+    return this.rawItemChannelLink.getItemName().toString();
+  }
+
+  /**
+   * The UID of the linked channel.
+   * @return {string}
+   */
+  get channelUID () {
+    return this.rawItemChannelLink.getLinkedUID().toString();
+  }
+
+  /**
+   * The channel link configuration.
+   * @return {object}
+   */
+  get configuration () {
+    return utils.javaMapToJsObj(this.rawItemChannelLink.getConfiguration().getProperties());
+  }
+
+  toString () {
+    return this.rawItemChannelLink.toString();
   }
 }
 
