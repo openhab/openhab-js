@@ -22,37 +22,42 @@ const MetadataKey = Java.type('org.openhab.core.items.MetadataKey');
  */
 
 /**
- * Class representing an openHAB Item metadata namespace
+ * Class representing openHAB Item metadata.
  *
  * @memberof items.metadata
  * @hideconstructor
  */
 class ItemMetadata {
   /**
-   * The metadata value.
-   * @type {string}
-   */
-  value;
-  /**
-   * The metadata configuration.
-   * @type {object}
-   */
-  configuration;
-
-  /**
+   * Create an ItemMetadata instance, wrapping native openHAB Item metadata.
    * @param {*} rawMetadata {@link https://www.openhab.org/javadoc/latest/org/openhab/core/items/metadata org.openhab.core.items.Metadata}
    */
   constructor (rawMetadata) {
     /**
-     * metadata namespace's value
-     * @type {string}
+     * raw Java metadata
+     * @type {*}
      */
-    this.value = rawMetadata.getValue();
-    /**
-     * metadata namespace's configuration
-     * @type {object}
-     */
-    this.configuration = utils.javaMapToJsObj(rawMetadata.getConfiguration());
+    this.rawMetadata = rawMetadata;
+  }
+
+  /**
+   * The Metadata value.
+   * @type {string}
+   */
+  get value () {
+    return this.rawMetadata.getValue();
+  }
+
+  /**
+   * The metadata configuration.
+   * @type {object}
+   */
+  get configuration () {
+    return utils.javaMapToJsObj(this.rawMetadata.getConfiguration());
+  }
+
+  toString () {
+    return this.rawMetadata.toString();
   }
 }
 
