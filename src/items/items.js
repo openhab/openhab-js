@@ -72,19 +72,19 @@ const DYNAMIC_ITEM_TAG = 'OPENHAB_JS_DYNAMIC_ITEM';
  * Class representing an openHAB Item
  *
  * @memberof items
+ * @hideconstructor
  */
 class Item {
   /**
    * Create an Item, wrapping a native Java openHAB Item. Don't use this constructor, instead call {@link getItem}.
    * @param {HostItem} rawItem Java Item from Host
-   * @hideconstructor
    */
   constructor (rawItem) {
     if (typeof rawItem === 'undefined') {
       throw Error('Supplied Item is undefined');
     }
     /**
-     * raw Java Item
+     * raw Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/items/item org.openhab.core.items.Item}
      * @type {HostItem}
      */
     this.rawItem = rawItem;

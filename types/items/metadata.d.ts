@@ -125,7 +125,7 @@ export class ItemMetadata {
      */
     constructor(rawMetadata: any);
     /**
-     * raw Java metadata
+     * raw Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/items/metadata org.openhab.core.items.Metadata}
      * @type {*}
      */
     rawMetadata: any;

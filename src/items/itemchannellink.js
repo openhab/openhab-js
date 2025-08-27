@@ -35,12 +35,16 @@ class ItemChannelLink {
    * @param {*} rawItemChannelLink {@link https://www.openhab.org/javadoc/latest/org/openhab/core/thing/link/itemchannellink org.openhab.core.thing.link.ItemChannelLink}
    */
   constructor (rawItemChannelLink) {
+    /**
+     * raw Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/thing/link/itemchannellink org.openhab.core.thing.link.ItemChannelLink}
+     * @type {*}
+     */
     this.rawItemChannelLink = rawItemChannelLink;
   }
 
   /**
    * The name of the linked Item.
-   * @return {string}
+   * @type {string}
    */
   get itemName () {
     return this.rawItemChannelLink.getItemName().toString();
@@ -48,7 +52,7 @@ class ItemChannelLink {
 
   /**
    * The UID of the linked channel.
-   * @return {string}
+   * @type {string}
    */
   get channelUID () {
     return this.rawItemChannelLink.getLinkedUID().toString();
@@ -56,7 +60,7 @@ class ItemChannelLink {
 
   /**
    * The channel link configuration.
-   * @return {object}
+   * @type {object}
    */
   get configuration () {
     return utils.javaMapToJsObj(this.rawItemChannelLink.getConfiguration().getProperties());
