@@ -21,21 +21,29 @@ export type Item = {
     readonly descendents: any[];
     readonly isUninitialized: boolean;
     getMetadata(namespace?: string): {
-        value: string;
-        configuration: any;
+        rawMetadata: any;
+        readonly value: string;
+        readonly configuration: any;
+        toString(): any;
     } | {
         namespace: {
-            value: string;
-            configuration: any;
+            rawMetadata: any;
+            readonly value: string;
+            readonly configuration: any;
+            toString(): any;
         };
     };
     replaceMetadata(namespace: string, value: string, configuration?: any): {
-        value: string;
-        configuration: any;
+        rawMetadata: any;
+        readonly value: string;
+        readonly configuration: any;
+        toString(): any;
     };
     removeMetadata(namespace?: string): {
-        value: string;
-        configuration: any;
+        rawMetadata: any;
+        readonly value: string;
+        readonly configuration: any;
+        toString(): any;
     };
     sendCommand(value: any, expire?: time.Duration, onExpire?: any): void;
     sendCommandIfDifferent(value: any): boolean;

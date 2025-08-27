@@ -113,26 +113,33 @@ export function removeMetadata(itemOrName: Item | string, namespace?: string): I
  * @private
  */
 /**
- * Class representing an openHAB Item metadata namespace
+ * Class representing openHAB Item metadata.
  *
  * @memberof items.metadata
  * @hideconstructor
  */
 export class ItemMetadata {
     /**
+     * Create an ItemMetadata instance, wrapping native openHAB Item metadata.
      * @param {*} rawMetadata {@link https://www.openhab.org/javadoc/latest/org/openhab/core/items/metadata org.openhab.core.items.Metadata}
      */
     constructor(rawMetadata: any);
     /**
-     * The metadata value.
+     * raw Java metadata
+     * @type {*}
+     */
+    rawMetadata: any;
+    /**
+     * The Metadata value.
      * @type {string}
      */
-    value: string;
+    get value(): string;
     /**
      * The metadata configuration.
      * @type {object}
      */
-    configuration: object;
+    get configuration(): any;
+    toString(): any;
 }
 export declare namespace itemChannelLink {
     function get(): typeof import("./itemchannellink");

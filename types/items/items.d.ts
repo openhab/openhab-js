@@ -44,8 +44,10 @@ export type ItemConfig = {
     groupFunction?: HostGroupFunction;
 };
 export type ItemMetadata = {
-    value: string;
-    configuration: any;
+    rawMetadata: any;
+    readonly value: string;
+    readonly configuration: any;
+    toString(): any;
 };
 export type ZonedDateTime = import('@js-joda/core').ZonedDateTime;
 export type Instant = import('@js-joda/core').Instant;
