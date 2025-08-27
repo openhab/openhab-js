@@ -2,15 +2,8 @@ export type Item = {
     rawItem: HostItem;
     persistence: import("./items/item-persistence");
     semantics: import("./items/item-semantics");
-    readonly type: string; /**
-     * @type {QuantityType}
-     * @private
-     */
+    readonly type: string;
     readonly name: string;
-    /**
-     * @type {QuantityType}
-     * @private
-     */
     readonly label: string;
     readonly state: string;
     readonly numericState: number;
@@ -28,21 +21,29 @@ export type Item = {
     readonly descendents: any[];
     readonly isUninitialized: boolean;
     getMetadata(namespace?: string): {
-        value: string;
-        configuration: any;
+        rawMetadata: any;
+        readonly value: string;
+        readonly configuration: any;
+        toString(): any;
     } | {
         namespace: {
-            value: string;
-            configuration: any;
+            rawMetadata: any;
+            readonly value: string;
+            readonly configuration: any;
+            toString(): any;
         };
     };
     replaceMetadata(namespace: string, value: string, configuration?: any): {
-        value: string;
-        configuration: any;
+        rawMetadata: any;
+        readonly value: string;
+        readonly configuration: any;
+        toString(): any;
     };
     removeMetadata(namespace?: string): {
-        value: string;
-        configuration: any;
+        rawMetadata: any;
+        readonly value: string;
+        readonly configuration: any;
+        toString(): any;
     };
     sendCommand(value: any, expire?: JSJoda.Duration, onExpire?: any): void;
     sendCommandIfDifferent(value: any): boolean;

@@ -21,21 +21,29 @@ export type Item = {
     readonly descendents: any[];
     readonly isUninitialized: boolean;
     getMetadata(namespace?: string): {
-        value: string;
-        configuration: any;
+        rawMetadata: any;
+        readonly value: string;
+        readonly configuration: any;
+        toString(): any;
     } | {
         namespace: {
-            value: string;
-            configuration: any;
+            rawMetadata: any;
+            readonly value: string;
+            readonly configuration: any;
+            toString(): any;
         };
     };
     replaceMetadata(namespace: string, value: string, configuration?: any): {
-        value: string;
-        configuration: any;
+        rawMetadata: any;
+        readonly value: string;
+        readonly configuration: any;
+        toString(): any;
     };
     removeMetadata(namespace?: string): {
-        value: string;
-        configuration: any;
+        rawMetadata: any;
+        readonly value: string;
+        readonly configuration: any;
+        toString(): any;
     };
     sendCommand(value: any, expire?: JSJoda.Duration, onExpire?: any): void;
     sendCommandIfDifferent(value: any): boolean;
@@ -133,11 +141,30 @@ export function removeOrphanedItemChannelLinks(): number;
  */
 export class ItemChannelLink {
     /**
+     * Create an ItemChannelLink instance, wrapping native openHAB Item -> channel link.
      * @param {*} rawItemChannelLink {@link https://www.openhab.org/javadoc/latest/org/openhab/core/thing/link/itemchannellink org.openhab.core.thing.link.ItemChannelLink}
      */
     constructor(rawItemChannelLink: any);
-    itemName: any;
-    channelUID: any;
-    configuration: any;
+    /**
+     * raw Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/thing/link/itemchannellink org.openhab.core.thing.link.ItemChannelLink}
+     * @type {*}
+     */
+    rawItemChannelLink: any;
+    /**
+     * The name of the linked Item.
+     * @type {string}
+     */
+    get itemName(): string;
+    /**
+     * The UID of the linked channel.
+     * @type {string}
+     */
+    get channelUID(): string;
+    /**
+     * The channel link configuration.
+     * @type {object}
+     */
+    get configuration(): any;
+    toString(): any;
 }
 //# sourceMappingURL=itemchannellink.d.ts.map
