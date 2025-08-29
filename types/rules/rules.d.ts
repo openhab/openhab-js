@@ -81,7 +81,7 @@ export type EventObject = {
     /**
      * for all triggers: simple Java class name of the triggering event
      */
-    event: string;
+    eventName: string;
     /**
      * for all triggers: full Java class name of the triggering event
      */
