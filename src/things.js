@@ -151,7 +151,7 @@ class Thing {
  *
  * @memberof things
  * @param {string} uid UID of the thing
- * @returns {Thing} {@link things.Thing}
+ * @returns {Thing|null} {@link things.Thing}
  */
 function getThing (uid) {
   const rawThing = thingRegistry.get(new ThingUID(uid));
