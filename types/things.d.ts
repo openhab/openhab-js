@@ -90,9 +90,9 @@ export class Thing {
  *
  * @memberof things
  * @param {string} uid UID of the thing
- * @returns {Thing} {@link things.Thing}
+ * @returns {Thing|null} {@link things.Thing}
  */
-export function getThing(uid: string): Thing;
+export function getThing(uid: string): Thing | null;
 /**
  * Gets all openHAB Things.
  *
