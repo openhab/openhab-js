@@ -1,6 +1,21 @@
 # Changelog
 
+## 5.13.0
+
+| Type        | Namespace | Description                                                                    | Reference                                              | Breaking |
+|-------------|-----------|--------------------------------------------------------------------------------|--------------------------------------------------------|----------|
+| Bugfix      | `items`   | Item: Fix lastStateChange fields call wrong method                             | [#459](https://github.com/openhab/openhab-js/pull/459) | no       |
+| Bugfix      | `items`   | Item: Fix .state returns null if state is NULL or UNDEF                        | [#463](https://github.com/openhab/openhab-js/pull/463) | no       |
+| Enhancement | `items`   | ItemMetadata & ItemChannelLink: Convert properties to getters                  | [#464](https://github.com/openhab/openhab-js/pull/464) | no       |
+| Enhancement | `rules`   | Add `eventName` property to event object                                       | [#465](https://github.com/openhab/openhab-js/pull/465) | no       |
+| Enhancement | `rules`   | Expose & Add backward compat for UI-based event object for `_getTriggeredData` | [#466](https://github.com/openhab/openhab-js/pull/466) | no       |
+| Enhancement | `time`    | Upgrade JS-Joda (date & time library)                                          | [#467](https://github.com/openhab/openhab-js/pull/467) | No       |
+
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/44).
+
 ## 5.12.0
+
+Please note that this release does not include the fixes of the >= 5.11.3 releases, as those backport important fixes.
 
 | Type        | Namespace     | Description                                                                       | Reference                                              | Breaking |
 |-------------|---------------|-----------------------------------------------------------------------------------|--------------------------------------------------------|----------|
@@ -13,10 +28,24 @@
 
 Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/43).
 
+## 5.11.4
+
+This release has been created as a patch release for the 5.11.x series after 5.12.0 has been released.
+It includes bugfixes that are missing in 5.12.0, but part of 5.13.0.
+
+| Type   | Namespace | Description                                             | Reference                                              | Breaking |
+|--------|-----------|---------------------------------------------------------|--------------------------------------------------------|----------|
+| Bugfix | `items`   | Item: Fix .state returns null if state is NULL or UNDEF | [#463](https://github.com/openhab/openhab-js/pull/463) | no       |
+
+Also see [`v5.11.3...v5.11.4`](https://github.com/openhab/openhab-js/compare/v5.11.3...v5.11.4).
+
 ## 5.11.3
 
+This release has been created as a patch release for the 5.11.x series after 5.12.0 has been released.
+It includes bugfixes that are missing in 5.12.0, but part of 5.13.0.
+
 | Type   | Namespace | Description                                        | Reference                                              | Breaking |
-|--————--|--—————----|--————————————————————————————----------------------|--———————————————————-----------------------------------|--———-----|
+|--------|-----------|----------------------------------------------------|--------------------------------------------------------|----------|
 | Bugfix | `items`   | Item: Fix lastStateChange fields call wrong method | [#459](https://github.com/openhab/openhab-js/pull/459) | no       |
 
 Also see [`v5.11.2...v5.11.3`](https://github.com/openhab/openhab-js/compare/v5.11.2...v5.11.3).
