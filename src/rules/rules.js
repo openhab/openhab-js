@@ -362,9 +362,10 @@ function _addFromHashMap (hashMap, key, object) {
  * @param {*} input raw Java input/context, see
  * {@link https://github.com/openhab/openhab-core/blob/main/bundles/org.openhab.core.automation.module.script/src/main/java/org/openhab/core/automation/module/script/internal/handler/ScriptActionHandler.java ScriptActionHandler}
  * and {@link https://github.com/openhab/openhab-core/blob/main/bundles/org.openhab.core.automation.module.script.rulesupport/src/main/java/org/openhab/core/automation/module/script/rulesupport/shared/simple/SimpleRuleActionHandler.java SimpleRuleActionHandler}
+ * @param {boolean} [javaEventBackwardCompat=false] enables backwards compatibility with pure Java event object in UI-based rules
  * @returns {EventObject}
  */
-function _getTriggeredData (input) {
+function _getTriggeredData (input, javaEventBackwardCompat = false) {
   const event = input.get('event');
   /**
    * @type {EventObject}
@@ -468,6 +469,49 @@ function _getTriggeredData (input) {
 
   _addFromHashMap(input, 'module', data);
 
+  // backward compatibility with the pure Java event object
+  if (javaEventBackwardCompat) {
+    const itemState = data.receivedState ?? data.newState;
+    if (itemState) {
+      Reflect.defineProperty(data, 'itemState', {
+        get () {
+          console.warn('event.itemState is deprecated, use event.receivedState for update triggers or event.newState for change triggers instead.');
+          return itemState;
+        }
+      });
+    }
+    if (data.oldState) {
+      Reflect.defineProperty(data, 'oldItemState', {
+        get () {
+          console.warn('event.oldItemState is deprecated, use event.oldState instead. If you use Blockly, simply resave the script.');
+          return data.oldState;
+        }
+      });
+    }
+    if (data.receivedCommand) {
+      Reflect.defineProperty(data, 'itemCommand', {
+        get () {
+          console.warn('event.itemCommand is deprecated, use event.receivedCommand instead. If you use Blockly, simply resave the script.');
+          return data.receivedCommand;
+        }
+      });
+    }
+    Reflect.defineProperty(data, 'type', {
+      get () {
+        console.warn('event.type is deprecated, use event.eventName instead. If you use Blockly, simply resave the script.');
+        return data.eventName;
+      }
+    });
+    if (event.receivedEvent) {
+      Reflect.defineProperty(data, 'event', {
+        get () {
+          console.warn('event.event is deprecated, use event.receivedEvent instead. If you use Blockly, simply resave the script.');
+          return data.receivedEvent;
+        }
+      });
+    }
+  }
+
   return data;
 }
 
@@ -477,5 +521,6 @@ module.exports = {
   isEnabled,
   setEnabled,
   JSRule,
-  SwitchableJSRule
+  SwitchableJSRule,
+  _getTriggeredData // exposed for converting the event in UI-based rules inside the add-on
 };

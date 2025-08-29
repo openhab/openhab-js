@@ -6,6 +6,7 @@ declare const _exports: {
     setEnabled: typeof import("./rules").setEnabled;
     JSRule: typeof import("./rules").JSRule;
     SwitchableJSRule: typeof import("./rules").SwitchableJSRule;
+    _getTriggeredData: typeof import("./rules")._getTriggeredData;
 };
 export = _exports;
 //# sourceMappingURL=index.d.ts.map
