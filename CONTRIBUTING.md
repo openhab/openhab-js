@@ -136,7 +136,7 @@ You don't have to be a maintainer to make a difference on the project!
 
 ## Build System
 
-openhab-js is developed on [Node.js](https://nodejs.org/) version `16.17.1`.
+openhab-js is developed on [Node.js](https://nodejs.org/), version as stated in [`.nvmrc`](.nvmrc).
 It is required to use this version as well in your development environment, otherwise you could cause trouble.
 
 Maintainers therefore recommend to use a Node.js version manager, e.g. [nvm-sh/nvm](https://github.com/nvm-sh/nvm).
