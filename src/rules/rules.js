@@ -477,6 +477,5 @@ module.exports = {
   isEnabled,
   setEnabled,
   JSRule,
-  SwitchableJSRule,
-  _getTriggeredData
+  SwitchableJSRule
 };
