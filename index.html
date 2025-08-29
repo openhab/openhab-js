@@ -81,7 +81,7 @@ It provides convenient access to common openHAB functionality within rules inclu
 <li><a href="#ui-based-rules">UI Based Rules</a></li>
 <li><a href="#adding-triggers">Adding Triggers</a></li>
 <li><a href="#adding-actions">Adding Actions</a></li>
-<li><a href="#ui-event-object">UI Event Object</a></li>
+<li><a href="#event-object">Event Object</a></li>
 </ul>
 </li>
 <li><a href="#scripting-basics">Scripting Basics</a>
@@ -110,7 +110,6 @@ It provides convenient access to common openHAB functionality within rules inclu
 <ul>
 <li><a href="#jsrule">JSRule</a></li>
 <li><a href="#rule-builder">Rule Builder</a></li>
-<li><a href="#event-object">Event Object</a></li>
 </ul>
 </li>
 <li><a href="#advanced-scripting">Advanced Scripting</a>
@@ -226,13 +225,167 @@ console.log(&quot;Kitchen Light State&quot;, items.KitchenLight.state);
 console.log(&quot;Thing status&quot;,thingStatusInfo.getStatus());
 </code></pre>
 <p>See <a href="https://openhab.github.io/openhab-js">openhab-js</a> for a complete list of functionality.</p>
-<h3>UI Event Object</h3>
-<p><strong>NOTE</strong>: Note that <code>event</code> object is different in UI based rules and file based rules! This section is only valid for UI based rules. If you use file based rules, refer to <a href="#event-object">file based rules event object documentation</a>.
-Note that <code>event</code> object is only available when the UI based rule was triggered by an event and is not called from another rule!
-Trying to access <code>event</code> in this case does not work and will lead to an error. Use <code>this.event</code> instead (will be <code>undefined</code> when it does not exist).</p>
-<p>When you use &quot;Item event&quot; as trigger (i.e. &quot;[item] received a command&quot;, &quot;[item] was updated&quot;, &quot;[item] changed&quot;), there is additional context available for the action in a variable called <code>event</code>.
-When a rule is triggered, there is additional context available for the action in a variable called <code>event</code>.</p>
-<p>This table gives an overview over the <code>event</code> object for most common trigger types:</p>
+<h3>Event Object</h3>
+<p>When a rule is triggered, the script is provided the event instance that triggered it.
+The specific data depends on the event type.
+The <code>event</code> object provides some information about that trigger.</p>
+<p>This table gives an overview over the <code>event</code> object:</p>
+<table>
+<thead>
+<tr>
+<th>Property Name</th>
+<th>Trigger Types</th>
+<th>Description</th>
+<th>Rules DSL Equivalent</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>oldState</code></td>
+<td><code>ItemStateChangeTrigger</code>, <code>GroupStateChangeTrigger</code></td>
+<td>Previous state of Item or Group that triggered event</td>
+<td><code>previousState</code></td>
+</tr>
+<tr>
+<td><code>newState</code></td>
+<td><code>ItemStateChangeTrigger</code>, <code>GroupStateChangeTrigger</code></td>
+<td>New state of Item or Group that triggered event</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>receivedState</code></td>
+<td><code>ItemStateUpdateTrigger</code>, <code>GroupStateUpdateTrigger</code></td>
+<td>State of Item that triggered event</td>
+<td><code>triggeringItem.state</code></td>
+</tr>
+<tr>
+<td><code>receivedCommand</code></td>
+<td><code>ItemCommandTrigger</code>, <code>GroupCommandTrigger</code></td>
+<td>Command that triggered event</td>
+<td><code>receivedCommand</code></td>
+</tr>
+<tr>
+<td><code>itemName</code></td>
+<td><code>Item****Trigger</code>, <code>Group****Trigger</code></td>
+<td>Name of Item that triggered event</td>
+<td><code>triggeringItem.name</code></td>
+</tr>
+<tr>
+<td><code>groupName</code></td>
+<td><code>Group****Trigger</code></td>
+<td>Name of the group whose member triggered event</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>receivedEvent</code></td>
+<td><code>ChannelEventTrigger</code></td>
+<td>Channel event that triggered event</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>channelUID</code></td>
+<td><code>ChannelEventTrigger</code></td>
+<td>UID of channel that triggered event</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>oldStatus</code></td>
+<td><code>ThingStatusChangeTrigger</code></td>
+<td>Previous state of Thing that triggered event</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>newStatus</code></td>
+<td><code>ThingStatusChangeTrigger</code></td>
+<td>New state of Thing that triggered event</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>ThingStatusUpdateTrigger</code></td>
+<td>State of Thing that triggered event</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>thingUID</code></td>
+<td><code>Thing****Trigger</code></td>
+<td>UID of Thing that triggered event</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>cronExpression</code></td>
+<td><code>GenericCronTrigger</code></td>
+<td>Cron expression of the trigger</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>time</code></td>
+<td><code>TimeOfDayTrigger</code></td>
+<td>Time of day value of the trigger</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>timeOnly</code></td>
+<td><code>DateTimeTrigger</code></td>
+<td>Whether the trigger only considers the time part of the DateTime Item</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>offset</code></td>
+<td><code>DateTimeTrigger</code></td>
+<td>Offset in seconds added to the time of the DateTime Item</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>eventType</code></td>
+<td>all except <code>PWMTrigger</code>, <code>PIDTrigger</code></td>
+<td>Type of event that triggered event (change, command, triggered, update, time)</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>triggerType</code></td>
+<td>all except <code>PWMTrigger</code>, <code>PIDTrigger</code></td>
+<td>Type of trigger that triggered event</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>eventName</code></td>
+<td>all</td>
+<td>simple Java class name of the triggering event, e.g. <code>ExecutionEvent</code></td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>eventClass</code></td>
+<td>all</td>
+<td>full Java class name of the triggering event, e.g. <code>org.openhab.core.automation.events.ExecutionEvent</code></td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>module</code></td>
+<td>all</td>
+<td>(user-defined or auto-generated) name of trigger</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>raw</code></td>
+<td>all</td>
+<td>Original contents of the event including data passed from a calling rule</td>
+<td>N/A</td>
+</tr>
+</tbody>
+</table>
+<p>All properties are typeof <code>string</code> except for properties contained by <code>raw</code> which are unmodified from the original types.</p>
+<p>Please note that when using <code>GenericEventTrigger</code>, the available properties depend on the chosen event types.
+It is not possible for the openhab-js library to provide type conversions for all properties of all openHAB events, as those are too many.
+In case the event object does not provide type-conversed properties for your chosen event type, use the <code>payload</code> property to gain access to the event's (Java data type) payload.</p>
+<p><strong>NOTE:</strong>
+<code>Group****Trigger</code>s use the equivalent <code>Item****Trigger</code> as trigger for each member.</p>
+<p>See <a href="https://openhab.github.io/openhab-js/rules.html#.EventObject">openhab-js : EventObject</a> for full API documentation.</p>
+<p>When disabling the option <em>Convert Event from Java to JavaScript type in UI-based scripts</em>, you will receive a raw Java event object instead of the <code>event</code> object described above.
+See the expandable section below for more details.</p>
+<details>
+<summary>Raw UI Event Object</summary>
+<p>This table gives an overview over the raw Java <code>event</code> object for UI-based scripts for most common trigger types:</p>
 <table>
 <thead>
 <tr>
@@ -307,6 +460,7 @@ console.log(event.itemState == ON)  // OK. Comparing Java types
 console.log(event.itemState == &quot;test&quot;) // WRONG. Will always log &quot;false&quot;
 console.log(event.itemState.toString() == &quot;test&quot;) // OK
 </code></pre>
+</details>
 <h2>Scripting Basics</h2>
 <p>The openHAB JavaScript Scripting runtime attempts to provide a familiar environment to JavaScript developers.</p>
 <h3><code>require</code></h3>
@@ -1265,6 +1419,8 @@ openHAB-JS converts between Java and JavaScript data types and reverse.</p>
 The system will automatically reload a script when changes are detected to the script file.
 Local variable state is not persisted among reloads, see using the <a href="#cache">cache</a> for a convenient way to persist objects.</p>
 <p>File based rules can be created in 2 different ways: using <a href="#jsrule">JSRule</a> or the <a href="#rule-builder">Rule Builder</a>.</p>
+<p>When a rule is triggered, the script is provided information about the event that triggered the rule in the <code>event</code> object.
+Please refer to <a href="#event-object">Event Object</a> for documentation.</p>
 <p>See <a href="https://openhab.github.io/openhab-js/rules.html">openhab-js : rules</a> for full API documentation.</p>
 <h3>JSRule</h3>
 <p><code>JSRule</code> provides a simple, declarative syntax for defining rules that will be executed based on a trigger condition:</p>
@@ -1501,166 +1657,6 @@ rules.when(true).item('HallLight').receivedCommand().then().sendIt().toItem('Kit
 // When the HallLight is updated to ON, make sure that BedroomLight1 is set to the same state as the BedroomLight2
 rules.when(true).item('HallLight').receivedUpdate().then().copyState().fromItem('BedroomLight1').toItem('BedroomLight2').build();
 </code></pre>
-<h3>Event Object</h3>
-<p><strong>NOTE</strong>: The <code>event</code> object is different in UI Based Rules and File Based Rules!
-This section is only valid for File Based Rules.
-If you use UI Based Rules, refer to <a href="#ui-event-object">UI based rules event object documentation</a>.</p>
-<p>When a rule is triggered, the script is provided the event instance that triggered it.
-The specific data depends on the event type.
-The <code>event</code> object provides some information about that trigger.</p>
-<p>This table gives an overview over the <code>event</code> object:</p>
-<table>
-<thead>
-<tr>
-<th>Property Name</th>
-<th>Trigger Types</th>
-<th>Description</th>
-<th>Rules DSL Equivalent</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>oldState</code></td>
-<td><code>ItemStateChangeTrigger</code>, <code>GroupStateChangeTrigger</code></td>
-<td>Previous state of Item or Group that triggered event</td>
-<td><code>previousState</code></td>
-</tr>
-<tr>
-<td><code>newState</code></td>
-<td><code>ItemStateChangeTrigger</code>, <code>GroupStateChangeTrigger</code></td>
-<td>New state of Item or Group that triggered event</td>
-<td>N/A</td>
-</tr>
-<tr>
-<td><code>receivedState</code></td>
-<td><code>ItemStateUpdateTrigger</code>, <code>GroupStateUpdateTrigger</code></td>
-<td>State of Item that triggered event</td>
-<td><code>triggeringItem.state</code></td>
-</tr>
-<tr>
-<td><code>receivedCommand</code></td>
-<td><code>ItemCommandTrigger</code>, <code>GroupCommandTrigger</code></td>
-<td>Command that triggered event</td>
-<td><code>receivedCommand</code></td>
-</tr>
-<tr>
-<td><code>itemName</code></td>
-<td><code>Item****Trigger</code>, <code>Group****Trigger</code></td>
-<td>Name of Item that triggered event</td>
-<td><code>triggeringItem.name</code></td>
-</tr>
-<tr>
-<td><code>groupName</code></td>
-<td><code>Group****Trigger</code></td>
-<td>Name of the group whose member triggered event</td>
-<td>N/A</td>
-</tr>
-<tr>
-<td><code>receivedEvent</code></td>
-<td><code>ChannelEventTrigger</code></td>
-<td>Channel event that triggered event</td>
-<td>N/A</td>
-</tr>
-<tr>
-<td><code>channelUID</code></td>
-<td><code>ChannelEventTrigger</code></td>
-<td>UID of channel that triggered event</td>
-<td>N/A</td>
-</tr>
-<tr>
-<td><code>oldStatus</code></td>
-<td><code>ThingStatusChangeTrigger</code></td>
-<td>Previous state of Thing that triggered event</td>
-<td>N/A</td>
-</tr>
-<tr>
-<td><code>newStatus</code></td>
-<td><code>ThingStatusChangeTrigger</code></td>
-<td>New state of Thing that triggered event</td>
-<td>N/A</td>
-</tr>
-<tr>
-<td><code>status</code></td>
-<td><code>ThingStatusUpdateTrigger</code></td>
-<td>State of Thing that triggered event</td>
-<td>N/A</td>
-</tr>
-<tr>
-<td><code>thingUID</code></td>
-<td><code>Thing****Trigger</code></td>
-<td>UID of Thing that triggered event</td>
-<td>N/A</td>
-</tr>
-<tr>
-<td><code>cronExpression</code></td>
-<td><code>GenericCronTrigger</code></td>
-<td>Cron expression of the trigger</td>
-<td>N/A</td>
-</tr>
-<tr>
-<td><code>time</code></td>
-<td><code>TimeOfDayTrigger</code></td>
-<td>Time of day value of the trigger</td>
-<td>N/A</td>
-</tr>
-<tr>
-<td><code>timeOnly</code></td>
-<td><code>DateTimeTrigger</code></td>
-<td>Whether the trigger only considers the time part of the DateTime Item</td>
-<td>N/A</td>
-</tr>
-<tr>
-<td><code>offset</code></td>
-<td><code>DateTimeTrigger</code></td>
-<td>Offset in seconds added to the time of the DateTime Item</td>
-<td>N/A</td>
-</tr>
-<tr>
-<td><code>eventType</code></td>
-<td>all except <code>PWMTrigger</code>, <code>PIDTrigger</code></td>
-<td>Type of event that triggered event (change, command, triggered, update, time)</td>
-<td>N/A</td>
-</tr>
-<tr>
-<td><code>triggerType</code></td>
-<td>all except <code>PWMTrigger</code>, <code>PIDTrigger</code></td>
-<td>Type of trigger that triggered event</td>
-<td>N/A</td>
-</tr>
-<tr>
-<td><code>eventName</code></td>
-<td>all</td>
-<td>simple Java class name of the triggering event, e.g. <code>ExecutionEvent</code></td>
-<td>N/A</td>
-</tr>
-<tr>
-<td><code>eventClass</code></td>
-<td>all</td>
-<td>full Java class name of the triggering event, e.g. <code>org.openhab.core.automation.events.ExecutionEvent</code></td>
-<td>N/A</td>
-</tr>
-<tr>
-<td><code>module</code></td>
-<td>all</td>
-<td>(user-defined or auto-generated) name of trigger</td>
-<td>N/A</td>
-</tr>
-<tr>
-<td><code>raw</code></td>
-<td>all</td>
-<td>Original contents of the event including data passed from a calling rule</td>
-<td>N/A</td>
-</tr>
-</tbody>
-</table>
-<p>All properties are typeof <code>string</code> except for properties contained by <code>raw</code> which are unmodified from the original types.</p>
-<p>Please note that when using <code>GenericEventTrigger</code>, the available properties depend on the chosen event types.
-It is not possible for the openhab-js library to provide type conversions for all properties of all openHAB events, as those are too many.
-In case the event object does not provide type-conversed properties for your chosen event type, use the <code>payload</code> property to gain access to the event's (Java data type) payload.</p>
-<p><strong>NOTE:</strong>
-<code>Group****Trigger</code>s use the equivalent <code>Item****Trigger</code> as trigger for each member.
-Time triggers do not provide any event instance, therefore no property is populated.</p>
-<p>See <a href="https://openhab.github.io/openhab-js/rules.html#.EventObject">openhab-js : EventObject</a> for full API documentation.</p>
 <h2>Advanced Scripting</h2>
 <h3>Libraries</h3>
 <h4>Third Party Libraries</h4>
@@ -1743,7 +1739,7 @@ You can use these services for backwards compatibility purposes or ease migratio
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Fri Aug 29 2025 09:20:28 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Fri Aug 29 2025 16:11:32 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
