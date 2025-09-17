@@ -483,6 +483,13 @@ Calling `addItem(itemConfig)` or `replaceItem(itemConfig)` requires the `itemCon
   - .channels ⇒ `string | Object { channeluid: { config } }`
   - .metadata ⇒ `Object { namespace: 'value' } | Object { namespace: { value: '' , configuration: { ... } } }`
 
+There are a few short forms for common metadata available:
+
+- itemConfig : `object`
+  - .format ⇒ `string`: short form for `stateDescription` metadata's pattern configuration
+  - .unit ⇒ `string`: short form for the `unit` metadata
+  - .autoupdate ⇒ `boolean`: short form for the `autoupdate` metadata
+
 Note: `.type` and `.name` are required.
 Basic UI and the mobile apps need `metadata.stateDescription.configuration.pattern` to render the state of an Item.
 

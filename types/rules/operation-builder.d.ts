@@ -39,6 +39,13 @@ export type Item = {
         readonly configuration: any;
         toString(): any;
     };
+    /**
+     * Toggles the state of an item
+     *
+     * @memberof OperationBuilder
+     * @extends OperationConfig
+     * @hideconstructor
+     */
     removeMetadata(namespace?: string): {
         rawMetadata: any;
         readonly value: string;
