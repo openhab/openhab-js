@@ -42,6 +42,18 @@ export type ItemConfig = {
      * either object `{ namespace: value }` or `{ namespace: `{@link ItemMetadata }` }`
      */
     metadata?: any;
+    /**
+     * short form for the stateDescription metadata's pattern configuration
+     */
+    format?: string;
+    /**
+     * short form for the unit metadata's value
+     */
+    unit?: string;
+    /**
+     * short form for the autoupdate metadata's value
+     */
+    autoupdate?: boolean;
 };
 export type ItemMetadata = {
     rawMetadata: any;
@@ -145,6 +157,9 @@ export function removeItem(itemOrItemName: string | Item): Item | null;
  * @property {string[]} [group.parameters] optional parameters for the group function, e.g. `ON` and `OFF` for the `AND` function
  * @property {string|object} [channels] for single channel link a string or for multiple an object { channeluid: configuration }; configuration is an object
  * @property {*} [metadata] either object `{ namespace: value }` or `{ namespace: `{@link ItemMetadata}` }`
+ * @property {string} [format] short form for the stateDescription metadata's pattern configuration
+ * @property {string} [unit] short form for the unit metadata's value
+ * @property {boolean} [autoupdate] short form for the autoupdate metadata's value
  */
 /**
  * @typedef {import('./metadata').ItemMetadata} ItemMetadata

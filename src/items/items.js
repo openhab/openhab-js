@@ -45,6 +45,9 @@ const GroupFunctionDTO = Java.type('org.openhab.core.items.dto.GroupFunctionDTO'
  * @property {string[]} [group.parameters] optional parameters for the group function, e.g. `ON` and `OFF` for the `AND` function
  * @property {string|object} [channels] for single channel link a string or for multiple an object { channeluid: configuration }; configuration is an object
  * @property {*} [metadata] either object `{ namespace: value }` or `{ namespace: `{@link ItemMetadata}` }`
+ * @property {string} [format] short form for the stateDescription metadata's pattern configuration
+ * @property {string} [unit] short form for the unit metadata's value
+ * @property {boolean} [autoupdate] short form for the autoupdate metadata's value
  */
 /**
  * @typedef {import('./metadata').ItemMetadata} ItemMetadata
@@ -629,16 +632,30 @@ function addItem (itemConfig, persist = false) {
     }
   }
 
+  if (!itemConfig.metadata) itemConfig.metadata = {};
+  if (itemConfig.format) {
+    itemConfig.metadata.stateDescription = {
+      value: '',
+      configuration: { pattern: itemConfig.format }
+    };
+  }
+  if (itemConfig.unit) {
+    itemConfig.metadata.unit = itemConfig.unit;
+  }
+  if (typeof itemConfig.autoupdate === 'boolean') {
+    itemConfig.metadata.autoupdate = itemConfig.autoupdate;
+  }
+
   const metadataMethod = environment.useProviderRegistries() ? metadata.addMetadata : metadata.replaceMetadata;
   if (typeof itemConfig.metadata === 'object') {
     const namespaces = Object.keys(itemConfig.metadata);
     for (const namespace of namespaces) {
       const namespaceValue = itemConfig.metadata[namespace];
       log.debug('addItem: Processing metadata namespace {}', namespace);
-      if (typeof namespaceValue === 'string') { // namespace as key and it's value as value
-        metadataMethod(itemConfig.name, namespace, namespaceValue, {}, addPermanent);
-      } else if (typeof namespaceValue === 'object') { // namespace as key and { value: 'string', configuration: object } as value
+      if (typeof namespaceValue === 'object') { // namespace as key and { value: 'string', configuration: object } as value
         metadataMethod(itemConfig.name, namespace, namespaceValue.value, namespaceValue.configuration ?? namespaceValue.config, addPermanent);
+      } else { // namespace as key and it's value as value
+        metadataMethod(itemConfig.name, namespace, namespaceValue.toString(), {}, addPermanent);
       }
     }
   }
