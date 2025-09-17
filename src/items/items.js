@@ -638,7 +638,7 @@ function addItem (itemConfig, persist = false) {
       if (typeof namespaceValue === 'string') { // namespace as key and it's value as value
         metadataMethod(itemConfig.name, namespace, namespaceValue, {}, addPermanent);
       } else if (typeof namespaceValue === 'object') { // namespace as key and { value: 'string', configuration: object } as value
-        metadataMethod(itemConfig.name, namespace, namespaceValue.value, namespaceValue.config, addPermanent);
+        metadataMethod(itemConfig.name, namespace, namespaceValue.value, namespaceValue.configuration ?? namespaceValue.config, addPermanent);
       }
     }
   }
