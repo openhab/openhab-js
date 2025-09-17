@@ -25,6 +25,10 @@ const ItemSemantics = require('./item-semantics');
 const TimeSeries = require('./time-series');
 
 const itemBuilderFactory = osgi.getService('org.openhab.core.items.ItemBuilderFactory');
+const ItemDTOMapper = Java.type('org.openhab.core.items.dto.ItemDTOMapper');
+const ItemDTO = Java.type('org.openhab.core.items.dto.ItemDTO');
+const GroupItemDTO = Java.type('org.openhab.core.items.dto.GroupItemDTO');
+const GroupFunctionDTO = Java.type('org.openhab.core.items.dto.GroupFunctionDTO');
 
 // typedefs need to be global for TypeScript to fully work
 /**
@@ -35,10 +39,12 @@ const itemBuilderFactory = osgi.getService('org.openhab.core.items.ItemBuilderFa
  * @property {string} [category] the category (icon) for the Item
  * @property {string[]} [groups] an array of groups the Item is a member of
  * @property {string[]} [tags] an array of tags for the Item
- * @property {string|Object} [channels] for single channel link a string or for multiple an object { channeluid: configuration }; configuration is an object
+ * @property {object} [group] group configuration, only applicable if type is `Group`
+ * @property {string} group.type the type of the Group, such as `Switch` or `Number`
+ * @property {string} [group.function] the group function, such as 'EQUALITY' or `AND`
+ * @property {string[]} [group.parameters] optional parameters for the group function, e.g. `ON` and `OFF` for the `AND` function
+ * @property {string|object} [channels] for single channel link a string or for multiple an object { channeluid: configuration }; configuration is an object
  * @property {*} [metadata] either object `{ namespace: value }` or `{ namespace: `{@link ItemMetadata}` }`
- * @property {string} [giBaseType] the group Item base type for the Item
- * @property {HostGroupFunction} [groupFunction] the group function used by the Item
  */
 /**
  * @typedef {import('./metadata').ItemMetadata} ItemMetadata
@@ -60,13 +66,6 @@ const itemBuilderFactory = osgi.getService('org.openhab.core.items.ItemBuilderFa
  * @typedef {import('../quantity').Quantity} Quantity
  * @private
  */
-
-/**
- * Tag value to be attached to all dynamically created Items.
- *
- * @memberof items
- */
-const DYNAMIC_ITEM_TAG = 'OPENHAB_JS_DYNAMIC_ITEM';
 
 /**
  * Class representing an openHAB Item
@@ -557,9 +556,6 @@ class Item {
  * Creates a new Item object.
  * This Item is not registered with any provider and therefore cannot be accessed.
  *
- * Note that all Items created this way have an additional tag attached, for simpler retrieval later. This tag is
- * created with the value {@link DYNAMIC_ITEM_TAG}.
- *
  * @private
  * @param {ItemConfig} itemConfig the Item config describing the Item
  * @returns {Item} {@link items.Item}
@@ -567,39 +563,37 @@ class Item {
  */
 function _createItem (itemConfig) {
   if (typeof itemConfig.name !== 'string' || typeof itemConfig.type !== 'string') throw Error('itemConfig.name or itemConfig.type not set');
-
   itemConfig.name = safeItemName(itemConfig.name);
+  const isGroup = itemConfig.type === 'Group';
 
-  let baseItem;
-  if (itemConfig.type === 'Group' && typeof itemConfig.giBaseType !== 'undefined') {
-    baseItem = itemBuilderFactory.newItemBuilder(itemConfig.giBaseType, itemConfig.name + '_baseItem').build();
+  const dto = isGroup ? new GroupItemDTO() : new ItemDTO();
+
+  dto.type = itemConfig.type; // non-null
+  dto.name = itemConfig.name; // non-null
+  dto.label = itemConfig.label || null; // nullable
+  dto.category = itemConfig.category || null; // nullable
+  if (Array.isArray(itemConfig.tags)) {
+    dto.tags = utils.jsArrayToJavaSet(itemConfig.tags);
   }
-  if (itemConfig.type !== 'Group') {
-    itemConfig.groupFunction = undefined;
-  }
-
-  if (typeof itemConfig.tags === 'undefined') {
-    itemConfig.tags = [];
-  }
-  itemConfig.tags.push(DYNAMIC_ITEM_TAG);
-
-  let builder = itemBuilderFactory.newItemBuilder(itemConfig.type, itemConfig.name)
-    .withCategory(itemConfig.category)
-    .withLabel(itemConfig.label)
-    .withTags(utils.jsArrayToJavaSet(itemConfig.tags));
-
-  if (typeof itemConfig.groups !== 'undefined') {
-    builder = builder.withGroups(utils.jsArrayToJavaList(itemConfig.groups));
+  if (Array.isArray(itemConfig.groups)) {
+    dto.groupNames = utils.jsArrayToJavaList(itemConfig.groups);
   }
 
-  if (typeof baseItem !== 'undefined') {
-    builder = builder.withBaseItem(baseItem);
-  }
-  if (typeof itemConfig.groupFunction !== 'undefined') {
-    builder = builder.withGroupFunction(itemConfig.groupFunction);
+  const groupConfig = itemConfig.group;
+  if (isGroup && typeof groupConfig === 'object' && typeof groupConfig.type === 'string') {
+    dto.groupType = itemConfig.group.type;
+    if (typeof groupConfig.function === 'string') {
+      const functionDto = new GroupFunctionDTO();
+      functionDto.name = groupConfig.function;
+      if (Array.isArray(groupConfig.parameters)) {
+        functionDto.params = groupConfig.parameters;
+      }
+      dto.function = functionDto;
+    }
   }
 
-  const item = builder.build();
+  const item = ItemDTOMapper.map(dto, itemBuilderFactory);
+
   return new Item(item);
 }
 
@@ -609,9 +603,6 @@ function _createItem (itemConfig) {
  * If this is called from file-based scripts, the Item is registered with the ScriptedItemProvider and shares the same lifecycle as the script.
  * You can still persist the Item permanently in this case by setting the `persist` parameter to `true`.
  * If this is called from UI-based scripts, the Item is stored to the ManagedItemProvider and independent of the script's lifecycle.
- *
- * Note that all Items created this way have an additional tag attached for simpler retrieval later.
- * This tag is created with the value {@link DYNAMIC_ITEM_TAG}.
  *
  * @memberof items
  * @param {ItemConfig} itemConfig the Item config describing the Item
