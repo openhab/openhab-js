@@ -470,24 +470,31 @@ See [openhab-js : Item](https://openhab.github.io/openhab-js/items.Item.html) fo
 Calling `addItem(itemConfig)` or `replaceItem(itemConfig)` requires the `itemConfig` object with the following properties:
 
 - itemConfig : `object`
-  - .type ⇒ `string`
-  - .name ⇒ `string`
-  - .label ⇒ `string`
-  - .category (icon) ⇒ `string`
-  - .groups ⇒ `Array[string]`
-  - .tags ⇒ `Array[string]`
+  - .type ⇒ `string`: required, e.g. `Switch` or `Group`
+  - .name ⇒ `string`: required
+  - .label ⇒ `string`: optional
+  - .category (icon) ⇒ `string`: optional
+  - .groups ⇒ `Array[string]`: optional names of groups to be a member of
+  - .tags ⇒ `Array[string]`: optional
+  - .group ⇒ `object`: optional additional config if Item is group Item
+    - .type ⇒ `string`: optional type of the group, e.g. `Switch`
+    - .function ⇒ `string`: optional aggregation function, e.g. `AND`
+    - .parameters ⇒ `Array[string]`: parameters possibly required by aggregation function, e.g. `ON` and `OFF`
   - .channels ⇒ `string | Object { channeluid: { config } }`
-  - .metadata ⇒ `Object { namespace: value } | Object { namespace: { value: value , config: { config } } }`
-  - .giBaseType ⇒ `string`
-  - .groupFunction ⇒ `string`
+  - .metadata ⇒ `Object { namespace: 'value' } | Object { namespace: { value: '' , configuration: { ... } } }`
 
 Note: `.type` and `.name` are required.
-Basic UI and the mobile apps need `metadata.stateDescription.config.pattern` to render the state of an Item.
+Basic UI and the mobile apps need `metadata.stateDescription.configuration.pattern` to render the state of an Item.
 
 Example:
 
 ```javascript
-// more advanced example
+items.replaceItem({
+  type: 'Switch',
+  name: 'MySwitch',
+  label: 'My Switch'
+});
+
 items.replaceItem({
   type: 'String',
   name: 'Hallway_Light',
@@ -511,16 +518,15 @@ items.replaceItem({
     }
   }
 });
-// minimal example
+
 items.replaceItem({
-  type: 'Switch',
-  name: 'MySwitch',
-  metadata: {
-    stateDescription: {
-      config: {
-        pattern: '%s'
-      }
-    }
+  type: 'Group',
+  name: 'gLights',
+  label: 'Lights',
+  group: {
+    type: 'Switch',
+    function: 'AND',
+    parameters: ['ON', 'OFF']
   }
 });
 ```

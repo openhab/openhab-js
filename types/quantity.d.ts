@@ -12,6 +12,16 @@ export type Item = {
     readonly previousState: string;
     readonly previousNumericState: number;
     readonly previousQuantityState: Quantity;
+    /**
+     * Multiply this Quantity by the given value.
+     *
+     * @example
+     * Quantity('20 W').multiply(4); // is 80 W
+     * Quantity('20 W').multiply('4 W') // is 80 W^2
+     *
+     * @param {Item|number|string|Quantity} value usually a number; may also be an {@link Item} which is either Quantity-compatible or holds a number, a `string` consisting of amount and unit or a {@link Quantity}, but be careful: 1 W * 5 W = 5 W^2 which might not be what you want
+     * @returns {Quantity} result as new Quantity
+     */
     readonly previousRawState: any;
     readonly lastStateUpdateTimestamp: any;
     readonly lastStateUpdateInstant: any;
