@@ -502,7 +502,7 @@ function _getTriggeredData (input, javaEventBackwardCompat = false) {
         return data.eventName;
       }
     });
-    if (event.receivedEvent) {
+    if (data.receivedEvent) {
       Reflect.defineProperty(data, 'event', {
         get () {
           console.warn('event.event is deprecated, use event.receivedEvent instead. If you use Blockly, simply resave the script.');
