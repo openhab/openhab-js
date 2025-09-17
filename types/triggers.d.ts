@@ -3,6 +3,7 @@ export type Item = {
     persistence: import("./items/item-persistence");
     semantics: import("./items/item-semantics");
     readonly type: string;
+    readonly groupType: string;
     readonly name: string;
     readonly label: string;
     readonly state: string;
@@ -49,7 +50,7 @@ export type Item = {
     sendCommandIfDifferent(value: any): boolean;
     sendIncreaseCommand(value: any): boolean;
     sendDecreaseCommand(value: any): boolean;
-    getToggleState(): "PAUSE" | "PLAY" | "OPEN" | "CLOSED" | "ON" | "OFF";
+    getToggleState(): "OPEN" | "PLAY" | "ON" | "PAUSE" | "CLOSED" | "OFF";
     sendToggleCommand(): void;
     postToggleUpdate(): void;
     postUpdate(value: any): void;

@@ -417,6 +417,7 @@ Calling `getItem(...)` or `...` returns an `Item` object with the following prop
   - .persistence ⇒ [`ItemPersistence`](#itempersistence)
   - .semantics ⇒ [`ItemSemantics`](https://openhab.github.io/openhab-js/items.ItemSemantics.html)
   - .type ⇒ `string`
+  - .groupType ⇒ `string|null`
   - .name ⇒ `string`
   - .label ⇒ `string`
   - .state ⇒ `string`

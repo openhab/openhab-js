@@ -214,6 +214,11 @@ export class Item {
      */
     get type(): string;
     /**
+     * Type of the Group, if this Item is a Group and has a type, else `null`.
+     * @type {string|null}
+     */
+    get groupType(): string;
+    /**
      * Name of Item
      * @type {string}
      */
@@ -383,7 +388,7 @@ export class Item {
      * @returns the toggled state (e.g. 'OFF' if the Item is 'ON')
      * @throws error if the Item is uninitialized or is a type that doesn't make sense to toggle
      */
-    getToggleState(): "PAUSE" | "PLAY" | "OPEN" | "CLOSED" | "ON" | "OFF";
+    getToggleState(): "OPEN" | "PLAY" | "ON" | "PAUSE" | "CLOSED" | "OFF";
     /**
      * Sends a command to flip the Item's state (e.g. if it is 'ON' an 'OFF' command is sent).
      * @throws error if the Item is uninitialized or a type that cannot be toggled or commanded

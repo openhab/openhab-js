@@ -113,6 +113,16 @@ class Item {
   }
 
   /**
+   * Type of the Group, if this Item is a Group and has a type, else `null`.
+   * @type {string|null}
+   */
+  get groupType () {
+    if (this.type !== 'Group') return null;
+    const baseItem = this.rawItem.getBaseItem();
+    return (baseItem !== null) ? baseItem.getType().toString() : null;
+  }
+
+  /**
    * Name of Item
    * @type {string}
    */
