@@ -27,21 +27,21 @@ export type ItemConfig = {
      */
     tags?: string[];
     /**
+     * group configuration, only applicable if type is `Group`
+     */
+    group?: {
+        type: string;
+        function?: string;
+        parameters?: string[];
+    };
+    /**
      * for single channel link a string or for multiple an object { channeluid: configuration }; configuration is an object
      */
-    channels?: string | any;
+    channels?: string | object;
     /**
      * either object `{ namespace: value }` or `{ namespace: `{@link ItemMetadata }` }`
      */
     metadata?: any;
-    /**
-     * the group Item base type for the Item
-     */
-    giBaseType?: string;
-    /**
-     * the group function used by the Item
-     */
-    groupFunction?: HostGroupFunction;
 };
 export type ItemMetadata = {
     rawMetadata: any;
@@ -89,9 +89,6 @@ export function getItems(): Item[];
  * You can still persist the Item permanently in this case by setting the `persist` parameter to `true`.
  * If this is called from UI-based scripts, the Item is stored to the ManagedItemProvider and independent of the script's lifecycle.
  *
- * Note that all Items created this way have an additional tag attached for simpler retrieval later.
- * This tag is created with the value {@link DYNAMIC_ITEM_TAG}.
- *
  * @memberof items
  * @param {ItemConfig} itemConfig the Item config describing the Item
  * @param {boolean} [persist=false] whether to persist the Item permanently (only respected for file-based scripts)
@@ -134,6 +131,41 @@ export function replaceItem(itemConfig: ItemConfig): Item | null;
  * @returns {Item|null} the Item that has been removed or `null` if no Item has been found, or it cannot be removed
  */
 export function removeItem(itemOrItemName: string | Item): Item | null;
+/**
+ * @typedef {object} ItemConfig configuration describing an Item
+ * @property {string} type the type of the Item
+ * @property {string} name Item name for the Item to create
+ * @property {string} [label] the label for the Item
+ * @property {string} [category] the category (icon) for the Item
+ * @property {string[]} [groups] an array of groups the Item is a member of
+ * @property {string[]} [tags] an array of tags for the Item
+ * @property {object} [group] group configuration, only applicable if type is `Group`
+ * @property {string} group.type the type of the Group, such as `Switch` or `Number`
+ * @property {string} [group.function] the group function, such as 'EQUALITY' or `AND`
+ * @property {string[]} [group.parameters] optional parameters for the group function, e.g. `ON` and `OFF` for the `AND` function
+ * @property {string|object} [channels] for single channel link a string or for multiple an object { channeluid: configuration }; configuration is an object
+ * @property {*} [metadata] either object `{ namespace: value }` or `{ namespace: `{@link ItemMetadata}` }`
+ */
+/**
+ * @typedef {import('./metadata').ItemMetadata} ItemMetadata
+ * @private
+ */
+/**
+ * @typedef {import('@js-joda/core').ZonedDateTime} ZonedDateTime
+ * @private
+ */
+/**
+ * @typedef {import('@js-joda/core').Instant} Instant
+ * @private
+ */
+/**
+ * @typedef {import('@js-joda/core').Duration} Duration
+ * @private
+ */
+/**
+ * @typedef {import('../quantity').Quantity} Quantity
+ * @private
+ */
 /**
  * Class representing an openHAB Item
  *
