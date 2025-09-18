@@ -9,6 +9,7 @@ export type Item = {
     readonly state: string;
     readonly numericState: number;
     readonly quantityState: import("../quantity").Quantity;
+    readonly boolState: boolean;
     readonly rawState: HostState;
     readonly previousState: string;
     readonly previousNumericState: number;
@@ -30,7 +31,7 @@ export type Item = {
     sendCommandIfDifferent(value: any): boolean;
     sendIncreaseCommand(value: any): boolean;
     sendDecreaseCommand(value: any): boolean;
-    getToggleState(): "PAUSE" | "PLAY" | "OPEN" | "CLOSED" | "ON" | "OFF";
+    getToggleState(): "OPEN" | "PLAY" | "ON" | "PAUSE" | "CLOSED" | "OFF";
     sendToggleCommand(): void;
     postToggleUpdate(): void;
     postUpdate(value: any): void;

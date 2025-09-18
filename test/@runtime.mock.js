@@ -3,6 +3,7 @@ jest.mock('@runtime', () => ({
   DecimalType: jest.fn(),
   StringType: jest.fn(),
   QuantityType: jest.fn(),
+  UnDefType: jest.fn(),
   lifecycleTracker: {
     addDisposeHook: jest.fn()
   }

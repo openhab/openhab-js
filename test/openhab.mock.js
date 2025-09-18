@@ -1,4 +1,4 @@
-const { Class, BigDecimal} = require('./java.mock');
+const { Class, BigDecimal, String } = require('./java.mock');
 const { Unit } = require('./javax-measure.mock');
 
 // org.openhab.core.automation.util.ModuleBuilder (https://www.openhab.org/javadoc/latest/org/openhab/core/automation/util/modulebuilder)
@@ -39,14 +39,30 @@ class JavaTransformation {
   static transformRaw = jest.fn((v) => new String(v))
 }
 
+// org.openhab.core.library.types.PrimitiveType (https://www.openhab.org/javadoc/latest/org/openhab/core/types/primitivetype)
+class PrimitiveType {
+  constructor (value) {
+    this.value = value;
+  }
+
+  as = jest.fn(() => this)
+  toString = jest.fn(() => this.value.toString())
+  getClass = () => new Class('org.openhab.core.types.PrimitiveType')
+}
+
 // org.openhab.core.library.types.DecimalType (https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/decimaltype)
-class DecimalType {
+class DecimalType extends PrimitiveType {
   toBigDecimal = jest.fn(() => new BigDecimal())
   getClass = () => new Class('org.openhab.core.library.types.DecimalType')
 }
 
+// org.openhab.core.library.types.PercentType (https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/percenttype)
+class PercentType extends PrimitiveType {
+  getClass = () => new Class('org.openhab.core.types.PercentType')
+}
+
 // org.openhab.core.library.types.QuantityType (https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/quantitytype)
-class QuantityType {
+class QuantityType extends PrimitiveType {
   add = jest.fn(() => new QuantityType())
   compareTo = jest.fn(() => new QuantityType())
   divide = jest.fn(() => new QuantityType())
@@ -78,7 +94,9 @@ module.exports = {
   ModuleBuilder,
   JavaScriptExecution,
   JavaTransformation,
+  PrimitiveType,
   DecimalType,
+  PercentType,
   QuantityType,
   JavaNotificationAction
 };

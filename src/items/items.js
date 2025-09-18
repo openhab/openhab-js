@@ -17,7 +17,7 @@ const itemRegistry = environment.useProviderRegistries()
   ? require('@runtime/provider').itemRegistry
   : require('@runtime').itemRegistry;
 
-const { _stateOrNull, _numericStateOrNull, _quantityStateOrNull, _isNullOrUndefined } = require('./helpers');
+const { _stateOrNull, _numericStateOrNull, _quantityStateOrNull, _isNullOrUndefined, _boolStateOrNull } = require('./helpers');
 const metadata = require('./metadata');
 const itemChannelLink = require('./itemchannellink');
 const ItemPersistence = require('./item-persistence');
@@ -160,6 +160,18 @@ class Item {
    */
   get quantityState () {
     return _quantityStateOrNull(this.rawState);
+  }
+
+  /**
+   * Item state as boolean or `null` if state is not boolean-compatible.
+   * @type {boolean|null}
+   */
+  get boolState () {
+    if (this.type === 'Group') {
+      if (!this.groupType) return null;
+      return _boolStateOrNull(this.rawState, this.groupType);
+    }
+    return _boolStateOrNull(this.rawState, this.type);
   }
 
   /**
