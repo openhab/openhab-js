@@ -1,11 +1,11 @@
 /* eslint-disable no-undef */
 
-const { ScriptExecution, Transformation } = require('../src/actions');
-const { JavaScriptExecution, JavaTransformation } = require('./openhab.mock');
+const { ScriptExecution, Transformation } = require('../../src/actions');
+const { JavaScriptExecution, JavaTransformation } = require('../openhab.mock');
 
-jest.mock('../src/osgi');
+jest.mock('../../src/osgi');
 
-describe('actions.js', () => {
+describe('actions/actions.js', () => {
   describe('ScriptExecution', () => {
     const defaultIdentifier = 'script-1';
 

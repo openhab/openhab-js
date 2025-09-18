@@ -26,7 +26,7 @@ describe('Operations', function () {
 
   describe('Copy State Operation', function () {
     it('Should copy state via send when everything set up correctly', function (done) {
-      const operationConf = proxyquire('../src/rules/operation-builder', {
+      const operationConf = proxyquire('../../src/rules/operation-builder', {
         '../log': createLogMock().mock,
         '../items': itemMock((name) => {
           if (name === 'item1') {
@@ -52,7 +52,7 @@ describe('Operations', function () {
     });
 
     it('Should copy state via update when everything set up correctly', function (done) {
-      const operationConf = proxyquire('../src/rules/operation-builder', {
+      const operationConf = proxyquire('../../src/rules/operation-builder', {
         '../log': createLogMock().mock,
         '../items': itemMock((name) => {
           if (name === 'item1') {
@@ -78,7 +78,7 @@ describe('Operations', function () {
     });
 
     it('Should copy null state', function (done) {
-      const operationConf = proxyquire('../src/rules/operation-builder', {
+      const operationConf = proxyquire('../../src/rules/operation-builder', {
         '../log': createLogMock().mock,
         '../items': itemMock((name) => {
           if (name === 'item1') {
@@ -104,7 +104,7 @@ describe('Operations', function () {
     });
 
     it('Should disallow omission of to item', function () {
-      const operationConf = proxyquire('../src/rules/operation-builder', {
+      const operationConf = proxyquire('../../src/rules/operation-builder', {
         '../log': createLogMock().mock,
         '../items': itemMock((name) => {
           if (name === 'item1') {
@@ -129,7 +129,7 @@ describe('Operations', function () {
     });
 
     it('Should disallow omission of from item', function () {
-      const operationConf = proxyquire('../src/rules/operation-builder', {
+      const operationConf = proxyquire('../../src/rules/operation-builder', {
         '../log': createLogMock().mock,
         '../items': itemMock((name) => {
           if (name === 'item1') {
@@ -154,7 +154,7 @@ describe('Operations', function () {
     });
 
     it('Should disallow omission of both items', function () {
-      const operationConf = proxyquire('../src/rules/operation-builder', {
+      const operationConf = proxyquire('../../src/rules/operation-builder', {
         '../log': createLogMock().mock,
         '../items': itemMock((name) => {
           if (name === 'item1') {
@@ -179,7 +179,7 @@ describe('Operations', function () {
     });
 
     it('Should tell you if from item doesnt exist', function () {
-      const operationConf = proxyquire('../src/rules/operation-builder', {
+      const operationConf = proxyquire('../../src/rules/operation-builder', {
         '../log': createLogMock().mock,
         '../items': itemMock((name) => {
           if (name === 'item1') {
@@ -198,7 +198,7 @@ describe('Operations', function () {
     });
 
     it('Should tell you if to item doesnt exist', function () {
-      const operationConf = proxyquire('../src/rules/operation-builder', {
+      const operationConf = proxyquire('../../src/rules/operation-builder', {
         '../log': createLogMock().mock,
         '../items': itemMock((name) => {
           if (name === 'item1') {

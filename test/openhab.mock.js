@@ -29,19 +29,14 @@ class MetadataRegistry {
 
 // org.openhab.core.model.script.actions.ScriptExecution (https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/scriptexecution)
 class JavaScriptExecution {
-  static callScript () {}
-  static createTimer () {}
+  static callScript = jest.fn()
+  static createTimer = jest.fn()
 }
 
 // org.openhab.core.transform.actions.Transformation (https://www.openhab.org/javadoc/latest/org/openhab/core/transform/actions/transformation)
 class JavaTransformation {
-  static transform () {
-    return 'on';
-  }
-
-  static transformRaw () {
-    return 'on';
-  }
+  static transform = jest.fn((v) => new String(v))
+  static transformRaw = jest.fn((v) => new String(v))
 }
 
 // org.openhab.core.library.types.DecimalType (https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/decimaltype)

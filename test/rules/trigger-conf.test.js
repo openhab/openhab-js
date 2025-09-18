@@ -22,7 +22,7 @@ describe('Triggers', function () {
 
   describe('Item Triggers', function () {
     it('Should create correct item trigger', function (done) {
-      const triggerConf = proxyquire('../src/rules/trigger-builder', {
+      const triggerConf = proxyquire('../../src/rules/trigger-builder', {
         '../log': createLogMock().mock,
         '../triggers': {
           ItemStateChangeTrigger: (name, from, to) => {

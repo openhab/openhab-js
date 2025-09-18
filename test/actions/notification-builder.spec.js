@@ -1,8 +1,8 @@
-const { UUID } = require('./java.mock');
-const { JavaNotificationAction } = require('./openhab.mock');
-const { _getNotificationAction, notificationBuilder } = require('../src/actions/notification-builder');
+const { UUID } = require('../java.mock');
+const { JavaNotificationAction } = require('../openhab.mock');
+const { _getNotificationAction, notificationBuilder } = require('../../src/actions/notification-builder');
 
-describe('notification-builder.js', () => {
+describe('actions/notification-builder.js', () => {
   describe('_getNotificationAction', () => {
     it('returns the NotificationAction.', () => {
       jest.spyOn(Java, 'type');

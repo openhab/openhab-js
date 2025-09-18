@@ -15,7 +15,13 @@ class Class {
 
 // java.lang.String (https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html)
 class String {
-  toString () {}
+  constructor (string) {
+    this.string = string;
+  }
+
+  toString () {
+    return this.string;
+  }
 }
 
 // java.math.BigDecimal (https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/math/BigDecimal.html)
