@@ -423,6 +423,7 @@ Calling `getItem(...)` or `...` returns an `Item` object with the following prop
   - .state ⇒ `string`
   - .numericState ⇒ `number|null`: State as number, if state can be represented as number, or `null` if that's not the case
   - .quantityState ⇒ [`Quantity|null`](#quantity): Item state as Quantity or `null` if state is not Quantity-compatible or without unit
+  - .boolState ⇒ `boolean|null`: Item state as boolean or `null` if not boolean-compatible or is NULL or UNDEF, see below for mapping of state to boolean
   - .rawState ⇒ `HostState`
   - .previousState ⇒ `string|null`: Previous state as string, or `null` if not available
   - .previousNumericState ⇒ `number|null`: Previous state as number, if state can be represented as number, or `null` if that's not the case or not available
@@ -463,6 +464,25 @@ item.postUpdate("OFF");
 // Get state
 console.log("KitchenLight state", item.state);
 ```
+
+The `boolState` property is mapped according to the following table:
+
+| Item Type          | `.boolState`                                       |
+|--------------------|----------------------------------------------------|
+| Call               | `null`                                             |
+| Color              | brightness > 0                                     |
+| Contact            | state === `OPEN`                                   |
+| DateTime           | `null`                                             |
+| Dimmer             | state > 0                                          |
+| Group              | `null`  if no group type, else use the group state |
+| Image              | `null`                                             |
+| Location           | `null`                                             |
+| Number             | state !== 0                                        |
+| Number:<Dimension> | state !== 0                                        |
+| Player             | state === `PLAY`                                   |
+| Rollershutter      | state > 0                                          |
+| String             | `null`                                             |
+| Switch             | state === `ON`                                     |
 
 See [openhab-js : Item](https://openhab.github.io/openhab-js/items.Item.html) for full API documentation.
 

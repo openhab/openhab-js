@@ -244,6 +244,11 @@ export class Item {
      */
     get quantityState(): import("../quantity").Quantity;
     /**
+     * Item state as boolean or `null` if state is not boolean-compatible.
+     * @type {boolean|null}
+     */
+    get boolState(): boolean;
+    /**
      * Raw state of Item, as a Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/types/state State object}
      * @type {HostState}
      */
@@ -388,7 +393,7 @@ export class Item {
      * @returns the toggled state (e.g. 'OFF' if the Item is 'ON')
      * @throws error if the Item is uninitialized or is a type that doesn't make sense to toggle
      */
-    getToggleState(): "PAUSE" | "PLAY" | "OPEN" | "CLOSED" | "ON" | "OFF";
+    getToggleState(): "OPEN" | "PLAY" | "ON" | "PAUSE" | "CLOSED" | "OFF";
     /**
      * Sends a command to flip the Item's state (e.g. if it is 'ON' an 'OFF' command is sent).
      * @throws error if the Item is uninitialized or a type that cannot be toggled or commanded

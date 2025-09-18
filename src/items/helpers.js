@@ -65,9 +65,41 @@ function _quantityStateOrNull (rawState) {
   }
 }
 
+/**
+ * Return a boolean representation of a state.
+ *
+ * <p>The state is interpreted according to the specification in the README.
+ *
+ * @private
+ * @param {HostState} rawState the state
+ * @param {string} [type] the type of the Item
+ * @return {boolean|null} boolean representation or `null` if `rawState` was `null` or type is not supported
+ */
+function _boolStateOrNull (rawState, type) {
+  if (_isNullOrUndefined(rawState)) return null;
+  const numericState = _numericStateOrNull(rawState, type);
+  switch (type) {
+    case 'Color':
+    case 'Dimmer':
+    case 'Rollershutter':
+      return numericState !== null ? numericState > 0 : null;
+    case 'Contact':
+      return rawState.toString() === 'OPEN';
+    case 'Number':
+      return numericState !== null ? numericState !== 0 : null;
+    case 'Player':
+      return rawState.toString() === 'PLAY';
+    case 'Switch':
+      return rawState.toString() === 'ON';
+    default:
+      return null;
+  }
+}
+
 module.exports = {
   _isNullOrUndefined,
   _stateOrNull,
   _numericStateOrNull,
-  _quantityStateOrNull
+  _quantityStateOrNull,
+  _boolStateOrNull
 };
