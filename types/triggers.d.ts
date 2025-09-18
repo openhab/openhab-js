@@ -50,7 +50,7 @@ export type Item = {
     sendCommandIfDifferent(value: any): boolean;
     sendIncreaseCommand(value: any): boolean;
     sendDecreaseCommand(value: any): boolean;
-    getToggleState(): "OPEN" | "PLAY" | "ON" | "PAUSE" | "CLOSED" | "OFF";
+    getToggleState(): "PAUSE" | "PLAY" | "OPEN" | "CLOSED" | "ON" | "OFF";
     sendToggleCommand(): void;
     postToggleUpdate(): void;
     postUpdate(value: any): void;

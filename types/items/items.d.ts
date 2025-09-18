@@ -388,7 +388,7 @@ export class Item {
      * @returns the toggled state (e.g. 'OFF' if the Item is 'ON')
      * @throws error if the Item is uninitialized or is a type that doesn't make sense to toggle
      */
-    getToggleState(): "OPEN" | "PLAY" | "ON" | "PAUSE" | "CLOSED" | "OFF";
+    getToggleState(): "PAUSE" | "PLAY" | "OPEN" | "CLOSED" | "ON" | "OFF";
     /**
      * Sends a command to flip the Item's state (e.g. if it is 'ON' an 'OFF' command is sent).
      * @throws error if the Item is uninitialized or a type that cannot be toggled or commanded
