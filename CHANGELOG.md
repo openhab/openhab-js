@@ -1,5 +1,18 @@
 # Changelog
 
+## 5.14.0
+
+| Type        | Namespace | Description                                                                         | Reference                                              | Breaking |
+|-------------|-----------|-------------------------------------------------------------------------------------|--------------------------------------------------------|----------|
+| Bugfix      | `things`  | Fix wrong JSDoc/type def for getThing return type                                   | [#470](https://github.com/openhab/openhab-js/pull/470) | no       |
+| Enhancement | `items`   | addItem/replaceItem: Fix group type/function & `metadata.configuration` not working | [#473](https://github.com/openhab/openhab-js/pull/473) | no       |
+| Bugfix      | `rules`   | Fix event object conversion broken if UI script called from rule                    | [#474](https://github.com/openhab/openhab-js/pull/474) | no       |
+| Enhancement | `items`   | addItem/replaceItem: Add short forms for common metadata                            | [#475](https://github.com/openhab/openhab-js/pull/475) | no       |
+| Enhancement | `items`   | Item: Add groupType property to get the type of a group                             | [#476](https://github.com/openhab/openhab-js/pull/476) | no       |
+| Enhancement | `items`   | Item: Add new boolean state property                                                | [#477](https://github.com/openhab/openhab-js/pull/477) | no       |
+
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/45).
+
 ## 5.13.0
 
 | Type        | Namespace | Description                                                                    | Reference                                              | Breaking |
