@@ -3,6 +3,7 @@ export type Item = {
     persistence: import("./item-persistence");
     semantics: import("./item-semantics");
     readonly type: string;
+    readonly groupType: string;
     readonly name: string;
     readonly label: string;
     readonly state: string;

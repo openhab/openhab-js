@@ -214,6 +214,11 @@ export class Item {
      */
     get type(): string;
     /**
+     * Type of the Group, if this Item is a Group and has a type, else `null`.
+     * @type {string|null}
+     */
+    get groupType(): string;
+    /**
      * Name of Item
      * @type {string}
      */
