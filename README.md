@@ -379,8 +379,17 @@ It should start with the `|` character, quotes within the script may need to be 
 
 Full documentation for the openHAB JavaScript library can be found at [openhab-js](https://openhab.github.io/openhab-js).
 
+The standard library is automatically injected into all scripts by default.
+However, it’s recommended to enable auto-injection only for UI-based scripts.
+To import the standard library namespaces manually, add the following at the beginning of your script:
+
+```js
+// remove namespaces that are not needed by your code
+const { actions, cache, items, things, time, triggers, utils, Quantity } = require('openhab');
+```
+
 The openHAB JavaScript library provides type definitions for most of its APIs to enable code completion is IDEs like [VS Code](https://code.visualstudio.com).
-To use the type definitions, install the [`openhab` npm package](https://npmjs.com/openhab) (read the [installation guide](https://github.com/openhab/openhab-js#custom-installation) for more information), and import the used namespaces with `const { rules, triggers, items } = require('openhab');` (adjust this to your needs).
+To use the type definitions, install the [`openhab` npm package](https://npmjs.com/openhab) (read the [installation guide](https://github.com/openhab/openhab-js#custom-installation) for more information), and manually import the used namespaces (see above).
 If an API does not provide type definitions and therefore autocompletion won't work, the documentation will include a note.
 
 ### Items
