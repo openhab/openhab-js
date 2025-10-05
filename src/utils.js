@@ -1,11 +1,12 @@
 /**
  * openHAB JavaScript library version
  *
+ * @deprecated use {@link environment.OPENHAB_JS_VERSION} instead
  * @memberof utils
  * @name OPENHAB_JS_VERSION
  * @type {string}
  */
-const VERSION = require('../package.json').version;
+const OPENHAB_JS_VERSION = require('../package.json').version;
 const log = require('./log')('utils');
 
 const HashSet = Java.type('java.util.HashSet');
@@ -203,5 +204,5 @@ module.exports = {
   javaMapToJsObj,
   randomUUID,
   dumpObject,
-  OPENHAB_JS_VERSION: VERSION
+  OPENHAB_JS_VERSION
 };

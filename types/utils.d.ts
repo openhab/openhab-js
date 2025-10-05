@@ -80,10 +80,10 @@ export function dumpObject(obj: any, dumpProps?: boolean): void;
 /**
  * openHAB JavaScript library version
  *
+ * @deprecated use {@link environment.OPENHAB_JS_VERSION} instead
  * @memberof utils
  * @name OPENHAB_JS_VERSION
  * @type {string}
  */
-declare const VERSION: string;
-export { VERSION as OPENHAB_JS_VERSION };
+export const OPENHAB_JS_VERSION: string;
 //# sourceMappingURL=utils.d.ts.map
