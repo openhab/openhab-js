@@ -33,6 +33,7 @@ This library is included by default in the openHAB [JavaScript Scripting add-on]
   - [Quantity](#quantity)
   - [Log](#log)
   - [Utils](#utils)
+  - [Environment](#environment)
 - [File Based Rules](#file-based-rules)
   - [JSRule](#jsrule)
   - [Rule Builder](#rule-builder)
