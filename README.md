@@ -1332,6 +1332,14 @@ openHAB-JS converts between Java and JavaScript data types and reverse.
 
 See [openhab-js : utils](https://openhab.github.io/openhab-js/utils.html) for full API documentation.
 
+### Environment
+
+The `environment` namespace provides information about the environment of the script, like openHAB, [openhab-js](https://github.com/openhab/openhab-js) & GraalJS versions.
+
+A word of caution: The `environment` namespace is considered an advanced API and might change without a new major version of [openhab-js](https://github.com/openhab/openhab-js).
+
+See [openhab-js : environment](https://openhab.github.io/openhab-js/environment.html) for full API documentation.
+
 ## File Based Rules
 
 The JavaScript Scripting automation add-on will load `.js` scripts from `automation/js` in the user configuration directory.
