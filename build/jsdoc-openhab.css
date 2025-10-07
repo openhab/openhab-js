@@ -1,0 +1,69 @@
+html {
+    --theme-color: #f60;
+    --theme-color-bg: #e65c00;
+}
+
+nav {
+    background-color: #f7f7f7;
+    border-right: 1px solid #eaecef;
+    width: 20rem;
+    left: 0;
+    padding-left: 1.25rem;
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#main {
+    width: calc(100% - 20rem);
+}
+
+@media (max-width: 1023px) {
+    nav {
+        width: 16.4rem
+    }
+    #main {
+        width: calc(100% - 16.4rem);
+    }
+}
+
+a, a:active {
+    color: var(--theme-color);
+    font-weight: 500;
+}
+
+nav > h2 > a {
+    color: var(--theme-color) !important;
+    font-weight: 700;
+}
+
+nav > ul > li > a {
+    color: var(--theme-color);
+    font-weight: 600;
+}
+
+nav a:hover, nav a:active {
+    color: var(--theme-color);
+}
+
+/* container overview, e.g. namespace, method, type definition */
+h4.name {
+    background-color: var(--theme-color-bg);
+}
+
+.type-signature {
+    color: #803300;
+}
+
+.type-signature:last-child {
+    color: #f2f2f2;
+}
+
+.signature, .signature-attributes {
+    color: #4d1f00;
+}
+
+/* parameter list */
+span.param-type, .params td .param-type, .param-type dd {
+    color: #b34700;
+}
