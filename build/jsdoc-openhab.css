@@ -55,8 +55,12 @@ h4.name {
     color: #803300;
 }
 
-.type-signature:last-child {
+h4.name a, .type-signature:last-child {
     color: #f2f2f2;
+}
+
+h4.name a:hover {
+    border-bottom-color: #222;
 }
 
 .signature, .signature-attributes {
