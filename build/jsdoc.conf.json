@@ -37,6 +37,9 @@
     "recurse": true,
     "template": "./node_modules/docdash"
   },
+  "markdown": {
+    "idInHeadings": true
+  },
   "docdash": {
     "static": true,
     "sort": true,
