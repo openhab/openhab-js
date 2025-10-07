@@ -500,6 +500,14 @@ function _getTriggeredData (input, javaEventBackwardCompat = false) {
         return data.eventName;
       }
     });
+    if (data.channelUID) {
+      Reflect.defineProperty(data, 'channel', {
+        get () {
+          console.warn('event.channel is deprecated, use event.channelUID instead. If you use Blockly, simply resave the script.');
+          return data.channelUID;
+        }
+      });
+    }
     if (data.receivedEvent) {
       Reflect.defineProperty(data, 'event', {
         get () {
