@@ -2,6 +2,8 @@
   "ignorePatterns": [
     { "pattern": "^https://github.com/openhab/openhab-js/commit/.*" },
     { "pattern": "^https://github.com/openhab/openhab-js/pull/.*" },
-    { "pattern": "^mailto:.*" }
+    { "pattern": "^mailto:.*" },
+    { "pattern": "^https://badge.fury.io/.*" },
+    { "pattern": "^https:\/\/\\w*.?npmjs.com.*"}
   ]
 }
