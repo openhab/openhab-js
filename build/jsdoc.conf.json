@@ -1,51 +1,67 @@
 {
-    "tags": {
-        "allowUnknownTags": true,
-        "dictionaries": [
-            "jsdoc"
-        ]
-    },
-    "source": {
-        "include": [
-            "src",
-            "package.json",
-            "README.md"
-        ],
-        "includePattern": ".js$",
-        "excludePattern": "(node_modules/|docs|dist)"
-    },
-    "plugins": [
-        "plugins/markdown",
-        "node_modules/jsdoc-tsimport-plugin/index.js"
+  "tags": {
+    "allowUnknownTags": false,
+    "dictionaries": [
+      "jsdoc"
+    ]
+  },
+  "source": {
+    "include": [
+      "src",
+      "package.json",
+      "README.md"
     ],
-    "templates": {
-        "cleverLinks": false,
-        "monospaceLinks": true,
-        "useLongnameInNav": false
-    },
-    "opts": {
-        "destination": "./docs/",
-        "encoding": "utf8",
-        "private": false,
-        "recurse": true,
-        "template": "./node_modules/docdash"
-    },
-    "docdash": {
-        "sort": true,
-        "static": true,
-        "sectionOrder": [
-            "Namespaces",
-            "Classes",
-            "Modules",
-            "Externals",
-            "Events",
-            "Mixins",
-            "Tutorials",
-            "Interfaces"
-        ],
-        "search": true,
-        "scopeInOutputPath": false,
-        "nameInOutputPath": false,
-        "versionInOutputPath": false
+    "includePattern": ".js$",
+    "excludePattern": "(node_modules/|docs|dist)"
+  },
+  "plugins": [
+    "plugins/markdown",
+    "node_modules/jsdoc-tsimport-plugin/index.js"
+  ],
+  "templates": {
+    "cleverLinks": false,
+    "monospaceLinks": true,
+    "useLongnameInNav": false,
+    "default": {
+      "staticFiles": {
+        "include": [
+          "./build/jsdoc-openhab.css"
+        ]
+      }
     }
+  },
+  "opts": {
+    "destination": "./docs/",
+    "encoding": "utf8",
+    "private": false,
+    "recurse": true,
+    "template": "./node_modules/docdash"
+  },
+  "docdash": {
+    "static": true,
+    "sort": true,
+    "sectionOrder": [
+      "Namespaces",
+      "Global"
+    ],
+    "meta": {
+      "title": "openHAB JS",
+      "description": "JSDoc for openHAB JS - the openHAB JavaScript Helper Library"
+    },
+    "search": true,
+    "typedefs": true,
+    "scripts": [
+      "jsdoc-openhab.css"
+    ],
+    "menu": {
+      "Add-on Documentation": {
+        "href": "https://www.openhab.org/addons/automation/jsscripting/",
+        "target": "_blank",
+        "id": "addon_docs_link"
+      }
+    },
+    "scopeInOutputPath": false,
+    "nameInOutputPath": false,
+    "versionInOutputPath": false
+  }
 }
