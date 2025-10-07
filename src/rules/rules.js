@@ -258,8 +258,6 @@ function JSRule (ruleConfig) {
     getUID: () => ruleUID
   });
 
-  rule.setTemplateUID(ruleUID); // Not sure if we need this at all
-
   if (ruleConfig.description) {
     rule.setDescription(ruleConfig.description);
   }
