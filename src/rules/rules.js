@@ -49,8 +49,8 @@
  * @property {string} [description] description of the rule (used in UI)
  * @property {HostTrigger|HostTrigger[]} [triggers] which will fire the rule
  * @property {RuleCallback} execute callback to run when the rule fires
- * @property {string} [id] UID of the rule, if not provided, one is generated
  * @property {string[]} [tags] tags for the rule (used in UI)
+ * @property {string} [id] UID of the rule, if not provided, one is generated
  * @property {boolean} [overwrite=false] whether to overwrite an existing rule with the same UID
  * @property {boolean} [dedicatedContext=false] whether to run the rule in a separate dedicated context
  * @property {string} [switchItemName] (optional and only for {@link SwitchableJSRule}) name of the switch Item, which will get created automatically if it is not existent

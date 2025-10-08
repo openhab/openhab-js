@@ -121,13 +121,13 @@ export type RuleConfig = {
      */
     execute: RuleCallback;
     /**
-     * UID of the rule, if not provided, one is generated
-     */
-    id?: string;
-    /**
      * tags for the rule (used in UI)
      */
     tags?: string[];
+    /**
+     * UID of the rule, if not provided, one is generated
+     */
+    id?: string;
     /**
      * whether to overwrite an existing rule with the same UID
      */
