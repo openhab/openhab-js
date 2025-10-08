@@ -178,7 +178,7 @@ In case the event object does not provide type-conversed properties for your cho
 
 See [openhab-js : EventObject](https://openhab.github.io/openhab-js/global.html#EventObject) for full API documentation.
 
-When disabling the option _Convert Event from Java to JavaScript type in UI-based scripts_, you will receive a raw Java event object instead of the `event` object described above.
+When disabling the option _Convert Event from Java to JavaScript type in UI based scripts_, you will receive a raw Java event object instead of the `event` object described above.
 See the expandable section below for more details.
 
 <details>
@@ -381,7 +381,7 @@ It should start with the `|` character, quotes within the script may need to be 
 Full documentation for the openHAB JavaScript library can be found at [openhab-js](https://openhab.github.io/openhab-js).
 
 The standard library is automatically injected into all scripts by default.
-However, it’s recommended to enable auto-injection only for UI-based scripts.
+However, it’s recommended to enable auto-injection only for UI based scripts.
 To import the standard library namespaces manually, add the following at the beginning of your script:
 
 ```js
@@ -577,10 +577,10 @@ The `addItem` method can be used to provide Items from scripts in a configuratio
 It also allows providing metadata and channel configurations for the Item, basically creating the Item as if it was defined in a `.items` file.
 The benefit of using `addItem` is that you can use loops, conditions or generator functions to create lots of Items without the need to write them all out in a file or manually in the UI.
 
-When called from file-based scripts, the created Item will share the lifecycle with the script, meaning it will be removed when the script is unloaded.
-You can use the `persist` parameter to optionally persist the Item from file-based scripts.
+When called from file based scripts, the created Item will share the lifecycle with the script, meaning it will be removed when the script is unloaded.
+You can use the `persist` parameter to optionally persist the Item from file based scripts.
 
-When called from UI-based scripts, the Item will be stored permanently and will not be removed when the script is unloaded.
+When called from UI based scripts, the Item will be stored permanently and will not be removed when the script is unloaded.
 Keep in mind that attempting to add an Item with the same name as an existing Item will result in an error.
 
 See [openhab-js : Item](https://openhab.github.io/openhab-js/items.html#.addItem) for full API documentation.
@@ -1349,10 +1349,10 @@ Local variable state is not persisted among reloads, see using the [cache](#cach
 
 File based rules normally share the context with the script file that created them.
 This allows sharing functions, classes and variables that are defined outside the rule's execute function across multiple rules from the same script file.
-However, this comes with a caveat: Sharing the context across multiple rules imposes the limitation that only a single rule can execute at a time.
+However, this comes with a caveat: Sharing the context across multiple rules imposes the limitation that only a single rule, from all rules defined in the same .js file, can execute at a time.
 When writing rules that query persistence or wait for other I/O, it can make sense to disable this behaviour by setting the `dedicatedContext` option to `true` for [JSRule](#jsrule).
 
-When setting the `dedicatedContext` option to `true`, the rule's execute function will be executed in a separate context.
+When the `dedicatedContext` option is `true`, the rule's execute function will be executed in a separate dedicated context.
 This means that the rule's execute function can **not** access functions, classes or variables from the context of the script file that created the rule.
 The benefit of using a dedicated context is that the rule's execute function has its own, dedicated context and can therefore execute at any time, without needing to wait for other rules.
 Please note that in most cases, the dedicated context won't be needed, as rule execution is usually rapid and the wait time for the rule to execute is negligible.

@@ -59,9 +59,9 @@
  * @description
  * Configuration object for {@link rules.JSRule}.
  * <p>A note about the `dedicatedContext` option:
- * When this option is enabled, the `execute` callback runs in a dedicated, separate context.
+ * When this option is enabled, the `execute` callback runs in a separate dedicated context.
  * Therefore, the `execute` callback can **not** access any variables, functions, classes or other objects defined outside the callback function.
- * The benefit of this approach is that the rule does not share the context with any other rule and therefore can run at any time without waiting for other rule executions to complete.
+ * The benefit of this approach is that the rule does not share the context with any other rule and therefore can run at any time without waiting for other rule executions, defined in the same .js file, to complete.
  */
 
 const SCRIPT_TYPE = 'application/javascript';
@@ -229,7 +229,7 @@ function setEnabled (uid, isEnabled) {
  *
  * <p>This function allows creating rules that execute JavaScript code in a sandboxed context that is not shared with the script that created the rule.
  * This does NOT allow using anything defined outside the rule's callback function, such as functions, classes or variables from the context of the script that created the rule.
- * This approach, however, has the benefit that the rule runs in its own context and can therefore run at any time without the need to wait for other rule executions to complete.
+ * This approach, however, has the benefit that the rule runs in its own context and can therefore run at any time without the need to wait for other rule executions, defined in the same .js file, to complete.
  *
  * <p>Through the {@link RuleConfig} it can be opted into creating these rules instead of SimpleRules by the {@link rules.JSRule} function.
  *
