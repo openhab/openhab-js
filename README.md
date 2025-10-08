@@ -991,7 +991,7 @@ You can use it to store primitives and **Java** objects, e.g. store timers or co
 
 Due to a multi-threading limitation in GraalJS (the JavaScript engine used by JavaScript Scripting), it is not recommended to store JavaScript objects in the shared cache.
 Multi-threaded access to JavaScript objects will lead to script execution failure!
-You can work-around that limitation by either serialising and deserialising JS objects or by switching to their Java counterparts.
+You can work around that limitation by either serialising and deserialising JS objects or by switching to their Java counterparts.
 
 Timers as created by [`createTimer`](#createtimer) can be stored in the shared cache.
 The ids of timers and intervals as created by `setTimeout` and `setInterval` cannot be shared across scripts as these ids are local to the script where they were created.
@@ -1344,10 +1344,20 @@ See [openhab-js : environment](https://openhab.github.io/openhab-js/environment.
 ## File Based Rules
 
 The JavaScript Scripting automation add-on will load `.js` scripts from `automation/js` in the user configuration directory.
-The system will automatically reload a script when changes are detected to the script file.
+The system will automatically reload a script when changes are detected to the script file or its dependencies.
 Local variable state is not persisted among reloads, see using the [cache](#cache) for a convenient way to persist objects.
 
-File based rules can be created in 2 different ways: using [JSRule](#jsrule) or the [Rule Builder](#rule-builder).
+File based rules normally share the context with the script file that created them.
+This allows sharing functions, classes and variables that are defined outside the rule's execute function across multiple rules from the same script file.
+However, this comes with a caveat: Sharing the context across multiple rules imposes the limitation that only a single rule can execute at a time.
+When writing rules that query persistence or wait for other I/O, it can make sense to disable this behaviour by setting the `dedicatedContext` option to `true` for [JSRule](#jsrule).
+
+When setting the `dedicatedContext` option to `true`, the rule's execute function will be executed in a separate context.
+This means that the rule's execute function can **not** access functions, classes or variables from the context of the script file that created the rule.
+The benefit of using a dedicated context is that the rule's execute function has its own, dedicated context and can therefore execute at any time, without needing to wait for other rules.
+Please note that in most cases, the dedicated context won't be needed, as rule execution is usually rapid and the wait time for the rule to execute is negligible.
+
+File based rules can be created in two different ways: using [JSRule](#jsrule) or the [Rule Builder](#rule-builder).
 
 When a rule is triggered, the script is provided information about the event that triggered the rule in the `event` object.
 Please refer to [Event Object](#event-object) for documentation.
@@ -1359,7 +1369,7 @@ See [openhab-js : rules](https://openhab.github.io/openhab-js/rules.html) for fu
 `JSRule` provides a simple, declarative syntax for defining rules that will be executed based on a trigger condition:
 
 ```javascript
-var email = "juliet@capulet.org"
+const email = "juliet@capulet.org"
 
 rules.JSRule({
   name: "Balcony Lights ON at 5pm",
@@ -1371,7 +1381,9 @@ rules.JSRule({
     actions.NotificationAction.sendNotification(email, "Balcony lights are ON");
   },
   tags: ["Balcony", "Lights"],
-  id: "BalconyLightsOn"
+  id: "BalconyLightsOn",
+  overwrite: false, // defaults to false: whether to overwrite an existing rule with the same UID
+  dedicatedContext: false // defaults to false: whether to run the rule in a separate dedicated context
 });
 ```
 
@@ -1407,7 +1419,7 @@ triggers.SystemStartlevelTrigger(50)  // Rule engine started
 
 triggers.SystemStartlevelTrigger(70)  // User interfaces started
 
-triggers.SystemStartlevelTrigger(80)  // Things initialized
+triggers.SystemStartlevelTrigger(80)  // Things initialised
 
 triggers.SystemStartlevelTrigger(100) // Startup Complete
 
@@ -1421,7 +1433,7 @@ triggers.DateTimeTrigger('MyDateTimeItem');
 You can use `null` for a trigger parameter to skip its configuration.
 
 You may use `SwitchableJSRule` to create a rule that can be enabled and disabled with a Switch Item.
-As an extension to `JSRule`, its syntax is the same, however you can specify an Item name (using the `switchItemName` rule config property) if you don't like the automatically created Item's name.
+As an extension to `JSRule`, its syntax is the same, however, you can specify an Item name (using the `switchItemName` rule config property) if you don't like the automatically created Item's name.
 
 See [openhab-js : triggers](https://openhab.github.io/openhab-js/triggers.html) in the API documentation for a full list of all triggers.
 
