@@ -195,8 +195,8 @@ export function setEnabled(uid: string, isEnabled: boolean): void;
   *   description: "this rule swizzles the swallows",
   *   triggers: triggers.GenericCronTrigger("0 30 16 * * ? *"),
   *   execute: (event) => {
- *      // do stuff
- *    }
+  *     // do stuff
+  *   }
   * });
   *
   * @memberof rules

@@ -346,8 +346,8 @@ function _createSimpleRule (ruleUID, ruleConfig) {
   *   description: "this rule swizzles the swallows",
   *   triggers: triggers.GenericCronTrigger("0 30 16 * * ? *"),
   *   execute: (event) => {
- *      // do stuff
- *    }
+  *     // do stuff
+  *   }
   * });
   *
   * @memberof rules
