@@ -44,18 +44,27 @@
  */
 
 /**
- * @typedef {object} RuleConfig configuration for {@link rules.JSRule}
+ * @typedef {object} RuleConfig
  * @property {string} name name of the rule (used in UI)
  * @property {string} [description] description of the rule (used in UI)
  * @property {HostTrigger|HostTrigger[]} [triggers] which will fire the rule
  * @property {RuleCallback} execute callback to run when the rule fires
  * @property {string} [id] UID of the rule, if not provided, one is generated
  * @property {string[]} [tags] tags for the rule (used in UI)
- * @property {string} [ruleGroup] name of rule group to use
  * @property {boolean} [overwrite=false] whether to overwrite an existing rule with the same UID
+ * @property {boolean} [dedicatedContext=false] whether to run the rule in a separate dedicated context
  * @property {string} [switchItemName] (optional and only for {@link SwitchableJSRule}) name of the switch Item, which will get created automatically if it is not existent
+ * @property {string} [ruleGroup] (optional and only for {@link SwitchableJSRule}) name of an Item group to use for the switch Item, which will get created automatically if it is not existent
+ *
+ * @description
+ * Configuration object for {@link rules.JSRule}.
+ * <p>A note about the `dedicatedContext` option:
+ * When this option is enabled, the `execute` callback runs in a dedicated, separate context.
+ * Therefore, the `execute` callback can **not** access any variables, functions, classes or other objects defined outside the callback function.
+ * The benefit of this approach is that the rule does not share the context with any other rule and therefore can run at any time without waiting for other rule executions to complete.
  */
 
+const SCRIPT_TYPE = 'application/javascript';
 const GENERATED_RULE_ITEM_TAG = 'GENERATED_RULE_ITEM';
 
 const items = require('../items/items');
@@ -66,8 +75,17 @@ const triggers = require('../triggers');
 const time = require('../time');
 
 const { automationManager, ruleRegistry } = require('@runtime/RuleSupport');
+const ruleManager = getService('org.openhab.core.automation.RuleManager');
 
-const RuleManager = getService('org.openhab.core.automation.RuleManager');
+/**
+ * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/automation/util/rulebuilder org.openhab.core.automation.util.RuleBuilder}
+ */
+const RuleBuilder = Java.type('org.openhab.core.automation.util.RuleBuilder');
+/**
+ * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/automation/util/actionbuilder org.openhab.core.automation.util.ActionBuilder}
+ */
+const ActionBuilder = Java.type('org.openhab.core.automation.util.ActionBuilder');
+const Configuration = Java.type('org.openhab.core.config.core.Configuration');
 
 /**
   * Links an Item to a rule. When the Item is switched on or off, so will the rule be.
@@ -90,7 +108,7 @@ function _linkItemToRule (rule, item) {
       try {
         const itemState = data.receivedState;
         log.debug('Rule toggle Item state received as ' + itemState);
-        RuleManager.setEnabled(rule.getUID(), itemState !== 'OFF');
+        ruleManager.setEnabled(rule.getUID(), itemState !== 'OFF');
         log.info((itemState === 'OFF' ? 'Disabled' : 'Enabled') + ' rule ' + rule.getName() + ' [' + rule.getUID() + ']');
       } catch (e) {
         log.error('Failed to toggle rule ' + rule.getName() + ': ' + e);
@@ -132,7 +150,7 @@ function _getGroupForItem (ruleConfig) {
   * @returns {boolean} whether the rule exists
   */
 function _ruleExists (uid) {
-  return !(RuleManager.getStatusInfo(uid) == null);
+  return !(ruleManager.getStatusInfo(uid) == null);
 }
 
 /**
@@ -164,7 +182,7 @@ function removeRule (uid) {
   * @throws {Error} throws an error if the rule does not exist or is not initialized.
   */
 function runRule (uid, args = {}, cond = true) {
-  const status = RuleManager.getStatus(uid);
+  const status = ruleManager.getStatus(uid);
   if (!status) {
     throw Error('There is no rule with UID ' + uid);
   }
@@ -172,7 +190,7 @@ function runRule (uid, args = {}, cond = true) {
     throw Error('Rule ' + uid + ' is UNINITIALIZED');
   }
 
-  RuleManager.runNow(uid, cond, args);
+  ruleManager.runNow(uid, cond, args);
 }
 
 /**
@@ -188,7 +206,7 @@ function isEnabled (uid) {
   if (!_ruleExists(uid)) {
     throw Error('There is no rule with UID ' + uid);
   }
-  return RuleManager.isEnabled(uid);
+  return ruleManager.isEnabled(uid);
 }
 
 /**
@@ -203,7 +221,125 @@ function setEnabled (uid, isEnabled) {
   if (!_ruleExists(uid)) {
     throw Error('There is no rule with UID ' + uid);
   }
-  RuleManager.setEnabled(uid, isEnabled);
+  ruleManager.setEnabled(uid, isEnabled);
+}
+
+/**
+ * Creates a {@link https://github.com/openhab/openhab-core/blob/main/bundles/org.openhab.core.automation/src/main/java/org/openhab/core/automation/internal/RuleImpl.java org.openhab.core.automation.internal.RuleImpl}.
+ *
+ * <p>This function allows creating rules that execute JavaScript code in a sandboxed context that is not shared with the script that created the rule.
+ * This does NOT allow using anything defined outside the rule's callback function, such as functions, classes or variables from the context of the script that created the rule.
+ * This approach, however, has the benefit that the rule runs in its own context and can therefore run at any time without the need to wait for other rule executions to complete.
+ *
+ * <p>Through the {@link RuleConfig} it can be opted into creating these rules instead of SimpleRules by the {@link rules.JSRule} function.
+ *
+ * @param {string} ruleUID
+ * @param {RuleConfig} ruleConfig
+ * @return {HostRule} the created {@link https://github.com/openhab/openhab-core/blob/main/bundles/org.openhab.core.automation/src/main/java/org/openhab/core/automation/internal/RuleImpl.java RuleImpl}
+ * @private
+ */
+function _createRule (ruleUID, ruleConfig) {
+  let script = ruleConfig.execute.toString();
+  script = script.match(/(function)?[^{]+\{([\s\S]*)}$/);
+  if (script.length < 2) {
+    throw Error(`Failed to add rule: Could not extract script from execute function for ${ruleConfig.name ? ruleConfig.name : ruleUID}!`);
+  }
+  script = script[2].trim();
+
+  const action = ActionBuilder
+    .create()
+    .withId('1')
+    .withTypeUID('script.ScriptAction')
+    .withConfiguration(new Configuration({
+      type: SCRIPT_TYPE,
+      script
+    }))
+    .build();
+
+  let ruleBuilder = RuleBuilder
+    .create(ruleUID)
+    .withActions([action]);
+
+  if (ruleConfig.name) {
+    ruleBuilder = ruleBuilder.withName(ruleConfig.name);
+  }
+  if (ruleConfig.description) {
+    ruleBuilder = ruleBuilder.withDescription(ruleConfig.description);
+  }
+  if (Array.isArray(ruleConfig.tags)) {
+    ruleBuilder = ruleBuilder.withTags(...ruleConfig.tags);
+  }
+
+  if (ruleConfig.triggers) {
+    const triggers = Array.isArray(ruleConfig.triggers) ? ruleConfig.triggers : [ruleConfig.triggers];
+    ruleBuilder = ruleBuilder.withTriggers(triggers);
+  }
+
+  return ruleBuilder.build();
+}
+
+/**
+ * Creates a {@link https://www.openhab.org/javadoc/latest/org/openhab/core/automation/module/script/rulesupport/shared/simple/simplerule org.openhab.core.automation.module.script.rulesupport.shared.simple.SimpleRule}.
+ *
+ * <p>Simple rules allow creating rules that execute JavaScript code sharing the context of the script that created the rule.
+ * This allows defining functions, classes and variables outside the rule's callback function and referencing them from within the rule.
+ * This approach, however, comes with the limitation that only a single SimpleRule created from a script file can execute at a time.
+ *
+ * <p>SimpleRules are the default rules created by the {@link rules.JSRule} function.
+ *
+ * @private
+ * @param {string} ruleUID
+ * @param {RuleConfig} ruleConfig
+ * @return {HostRule} the created {@link https://www.openhab.org/javadoc/latest/org/openhab/core/automation/module/script/rulesupport/shared/simple/simplerule SimpleRule}
+ */
+function _createSimpleRule (ruleUID, ruleConfig) {
+  const SimpleRule = Java.extend(Java.type('org.openhab.core.automation.module.script.rulesupport.shared.simple.SimpleRule'));
+
+  function doExecute (module, input) {
+    try {
+      return ruleConfig.execute(_getTriggeredData(input));
+    } catch (error) {
+      // logging an error is required for meaningful error log messages
+      // when throwing error: error is caught by openHAB core and no meaningful message is logged
+      let msg;
+      if (error.stack) {
+        msg = `Failed to execute rule ${ruleUID}: ${error}: ${error.stack}`;
+      } else {
+        msg = `Failed to execute rule ${ruleUID}: ${error}`;
+      }
+      console.error(msg);
+      throw Error(msg);
+    }
+  }
+
+  const rule = new SimpleRule({
+    execute: doExecute,
+    getUID: () => ruleUID
+  });
+
+  if (ruleConfig.description) {
+    rule.setDescription(ruleConfig.description);
+  }
+  if (ruleConfig.name) {
+    rule.setName(ruleConfig.name);
+  }
+  if (Array.isArray(ruleConfig.tags)) {
+    rule.setTags(jsArrayToJavaSet(ruleConfig.tags));
+  }
+
+  if (ruleConfig.triggers) {
+    const triggers = Array.isArray(ruleConfig.triggers) ? ruleConfig.triggers : [ruleConfig.triggers];
+    rule.setTriggers(triggers);
+  }
+
+  /*
+  // Add config to the action so that MainUI can show the script
+  const actionConfiguration = rule.actions.get(0).getConfiguration();
+  actionConfiguration.put('type', SCRIPT_TYPE);
+  actionConfiguration.put('script', '// Code to run when the rule fires:\n// Note that Rule Builder is currently not supported!\n\n' + ruleConfig.execute.toString());
+  */
+
+  return rule;
 }
 
 /**
@@ -213,10 +349,12 @@ function setEnabled (uid, isEnabled) {
   * import { rules, triggers } = require('openhab');
   *
   * rules.JSRule({
-  *  name: "my_new_rule",
-  *  description: "this rule swizzles the swallows",
-  *  triggers: triggers.GenericCronTrigger("0 30 16 * * ? *"),
-  *  execute: (event) => { // do stuff }
+  *   name: "my_new_rule",
+  *   description: "this rule swizzles the swallows",
+  *   triggers: triggers.GenericCronTrigger("0 30 16 * * ? *"),
+  *   execute: (event) => {
+ *      // do stuff
+ *    }
   * });
   *
   * @memberof rules
@@ -234,53 +372,14 @@ function JSRule (ruleConfig) {
   }
   log.info('Adding rule: {}', ruleConfig.name ? ruleConfig.name : ruleUID);
 
-  const SimpleRule = Java.extend(Java.type('org.openhab.core.automation.module.script.rulesupport.shared.simple.SimpleRule'));
+  let rule = ruleConfig.dedicatedContext === true ? _createRule(ruleUID, ruleConfig) : _createSimpleRule(ruleUID, ruleConfig);
 
-  function doExecute (module, input) {
-    try {
-      return ruleConfig.execute(_getTriggeredData(input));
-    } catch (error) {
-      // logging error is required for meaningful error log message
-      // when throwing error: error is caught by core framework and no meaningful message is logged
-      let msg;
-      if (error.stack) {
-        msg = `Failed to execute rule ${ruleUID}: ${error}: ${error.stack}`;
-      } else {
-        msg = `Failed to execute rule ${ruleUID}: ${error}`;
-      }
-      console.error(msg);
-      throw Error(msg);
-    }
-  }
-
-  let rule = new SimpleRule({
-    execute: doExecute,
-    getUID: () => ruleUID
-  });
-
-  if (ruleConfig.description) {
-    rule.setDescription(ruleConfig.description);
-  }
-  if (ruleConfig.name) {
-    rule.setName(ruleConfig.name);
-  }
-  if (ruleConfig.tags) {
-    rule.setTags(jsArrayToJavaSet(ruleConfig.tags));
-  }
-
-  if (ruleConfig.triggers) {
-    if (!Array.isArray(ruleConfig.triggers)) ruleConfig.triggers = [ruleConfig.triggers];
-    rule.setTriggers(ruleConfig.triggers);
-  } else {
+  if (!ruleConfig.triggers) {
     log.info(`Rule "${ruleConfig.name ? ruleConfig.name : ruleUID}" has no triggers and will only run when manually triggered.`);
   }
+
   // Register rule here
   rule = automationManager.addRule(rule);
-
-  // Add config to the action so that MainUI can show the script
-  const actionConfiguration = rule.actions.get(0).getConfiguration();
-  actionConfiguration.put('type', 'application/javascript');
-  actionConfiguration.put('script', '// Code to run when the rule fires:\n// Note that Rule Builder is currently not supported!\n\n' + ruleConfig.execute.toString());
 
   return rule;
 }
@@ -336,7 +435,7 @@ function SwitchableJSRule (ruleConfig) {
     }
   }
 
-  RuleManager.setEnabled(rule.getUID(), item.state !== 'OFF');
+  ruleManager.setEnabled(rule.getUID(), item.state !== 'OFF');
 }
 
 /**
