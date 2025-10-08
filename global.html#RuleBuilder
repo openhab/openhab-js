@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>items/metadata.js - openHAB JS</title>
+    <title>RuleBuilder - openHAB JS</title>
     
     <meta name="description" content="JSDoc for openHAB JS - the openHAB JavaScript Helper Library" />
     
@@ -40,231 +40,304 @@
 
 <div id="main">
     
-    <h1 class="page-title">items/metadata.js</h1>
+    <h1 class="page-title">RuleBuilder</h1>
     
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>const osgi = require('../osgi');
-const utils = require('../utils');
-const environment = require('../environment');
-const { _getItemName } = require('../helpers');
+        <h2>
+        
+            RuleBuilder
+        
+        </h2>
+        
+            <div class="class-description usertext"><p>Creates rules in a fluent style.</p></div>
+        
+    
+</header>
 
-const metadataRegistry = environment.useProviderRegistries()
-  ? require('@runtime/provider').metadataRegistry
-  : osgi.getService('org.openhab.core.items.MetadataRegistry');
-const Metadata = Java.type('org.openhab.core.items.Metadata');
-const MetadataKey = Java.type('org.openhab.core.items.MetadataKey');
+<article>
+    
+        <div class="container-overview">
+        
+            
 
-/**
- * Item metadata namespace.
- * This namespace provides access to Item metadata.
- *
- * @namespace items.metadata
- */
+    
+    <h2>Constructor</h2>
+    
 
-/**
- * @typedef {import('./items').Item} Item
- * @private
- */
+    <h4 class="name" id="RuleBuilder"><span class="type-signature"></span>new RuleBuilder<span class="signature">(toggleable)</span><span class="type-signature"></span></h4>
 
-/**
- * Class representing openHAB Item metadata.
- *
- * @memberof items.metadata
- * @hideconstructor
- */
-class ItemMetadata {
-  /**
-   * Create an ItemMetadata instance, wrapping native openHAB Item metadata.
-   * @param {*} rawMetadata {@link https://www.openhab.org/javadoc/latest/org/openhab/core/items/metadata org.openhab.core.items.Metadata}
-   */
-  constructor (rawMetadata) {
-    /**
-     * raw Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/items/metadata org.openhab.core.items.Metadata}
-     * @type {*}
-     */
-    this.rawMetadata = rawMetadata;
-  }
+    
 
-  /**
-   * The Metadata value.
-   * @type {string}
-   */
-  get value () {
-    return this.rawMetadata.getValue();
-  }
 
-  /**
-   * The metadata configuration.
-   * @type {object}
-   */
-  get configuration () {
-    return utils.javaMapToJsObj(this.rawMetadata.getConfiguration());
-  }
 
-  toString () {
-    return this.rawMetadata.toString();
-  }
-}
 
-/**
- * Gets all metadata from a given Item.
- *
- * @example
- * var meta = items.metadata.getItemMetadata('Kitchen_Light');
- * var namespaces = Array.from(meta.keys());
- * var stateDescription = meta.get('stateDescription');
- *
- * @private
- * @param {string} itemName the name of the Item
- * @returns {{ namespace: ItemMetadata }} object of all Item metadata with one property for each namespace; each namespace is of type {@link ItemMetadata}
- */
-function _getAllItemMetadata (itemName) {
-  const metadata = {};
-  // TODO: Move implementation to openHAB Core
-  metadataRegistry.stream().filter((meta) => meta.getUID().getItemName().equals(itemName)).forEach((meta) => {
-    metadata[meta.getUID().getNamespace()] = new ItemMetadata(meta);
-  });
-  return metadata;
-}
+<dl class="details">
+    
 
-/**
- * Gets metadata of a single namespace from the given Item.
- *
- * @private
- * @param {string} itemName the name of the Item
- * @param {string} namespace namespace of the metadata
- * @returns {ItemMetadata|null} metadata or `null` if the Item has no metadata under the given namespace
- */
-function _getSingleItemMetadata (itemName, namespace) {
-  const key = new MetadataKey(namespace, itemName);
-  const meta = metadataRegistry.get(key);
-  if (meta === null) return null;
-  return new ItemMetadata(meta);
-}
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="rules_rule-builder.js.html">rules/rule-builder.js</a>, <a href="rules_rule-builder.js.html#line10">line 10</a>
+    </li></ul></dd>
+    
 
-/**
- * Gets metadata of a single namespace or of all namespaces from a given Item.
- *
- * @example
- * // Get metadata of ALL namespaces
- * var meta = items.metadata.getMetadata(items.Hallway_Light);
- * var namespaces = Object.keys(meta); // Get metadata namespaces
- * // Get metadata of a single namespace
- * meta = items.metadata.getMetadata(items.Hallway_Light, 'expire');
- *
- * @see items.Item.getMetadata
- * @memberOf items.metadata
- * @param {Item|string} itemOrName {@link Item} or the name of the Item
- * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is returned, else all metadata is returned
- * @returns {{ namespace: ItemMetadata }|ItemMetadata|null} all metadata as an object with the namespaces as properties OR metadata of a single namespace or `null` if that namespace doesn't exist; the metadata itself is of type {@link ItemMetadata}
- */
-function getMetadata (itemOrName, namespace) {
-  const itemName = _getItemName(itemOrName);
-  if (namespace !== undefined) return _getSingleItemMetadata(itemName, namespace);
-  return _getAllItemMetadata(itemName);
-}
+    
 
-/**
- * Adds metadata of a single namespace to an Item.
- *
- * If this is called from file-based scripts, the metadata is registered with the ScriptedMetadataProvider and shares the same lifecycle as the script.
- * You can still persist the metadata permanently in this case by setting the `persist` parameter to `true`.
- * If this is called from UI-based scripts, the metadata is stored to the ManagedMetadataProvider and independent of the script's lifecycle.
- *
- * @memberof items.metadata
- * @param {Item|string} itemOrName {@link Item} or the name of the Item
- * @param {string} namespace name of the metadata
- * @param {string} value value for this metadata
- * @param {object} [configuration] optional metadata configuration
- * @param {boolean} [persist=false] whether to persist the metadata permanently (only respected for file-based scripts)
- * @returns {ItemMetadata} the added metadata
- * @throws {Error} if the Item already has metadata of the given namespace
- */
-function addMetadata (itemOrName, namespace, value, configuration, persist = false) {
-  const itemName = _getItemName(itemOrName);
-  const key = new MetadataKey(namespace, itemName);
-  const newMetadata = new Metadata(key, value, configuration);
-  try {
-    const meta = (persist &amp;&amp; environment.useProviderRegistries()) ? metadataRegistry.addPermanent(newMetadata) : metadataRegistry.add(newMetadata);
-    return new ItemMetadata(meta);
-  } catch (e) {
-    if (e instanceof Java.type('java.lang.IllegalStateException')) {
-      throw new Error(`Cannot add metadata '${namespace}' for Item '${itemName}': metadata already exists`);
-    } else {
-      throw e; // re-throw other errors
-    }
-  }
-}
+    
 
-/**
- * Updates or adds metadata of a single namespace to an Item.
- * When using file-based scripts, it is recommended to use {@link items.metadata.addMetadata} instead.
- *
- * If metadata is not provided by this script or the ManagedMetadataProvider, it is not editable and a warning is logged.
- *
- * @see items.Item.replaceMetadata
- * @memberof items.metadata
- * @param {Item|string} itemOrName {@link Item} or the name of the Item
- * @param {string} namespace name of the metadata
- * @param {string} value value for this metadata
- * @param {object} [configuration] optional metadata configuration
- * @returns {ItemMetadata|null} old metadata or `null` if the Item had no metadata with the given name
- */
-function replaceMetadata (itemOrName, namespace, value, configuration) {
-  const itemName = _getItemName(itemOrName);
-  const key = new MetadataKey(namespace, itemName);
-  const newMetadata = new Metadata(key, value, configuration);
-  let meta = metadataRegistry.get(key);
-  meta = (meta === null) ? metadataRegistry.add(newMetadata) : metadataRegistry.update(newMetadata);
-  if (meta === null) return null;
-  return new ItemMetadata(meta);
-}
+    
 
-/**
- * Removes metadata of a single namespace or of all namespaces from a given Item.
- *
- * @see items.Item.removeMetadata
- * @memberof items.metadata
- * @param {Item|string} itemOrName {@link Item} or the name of the Item
- * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is removed, else all metadata is removed
- * @returns {ItemMetadata|null} removed metadata OR `null` if the Item has no metadata under the given namespace, or it cannot be removed or all metadata was removed
- */
-function removeMetadata (itemOrName, namespace) {
-  const itemName = _getItemName(itemOrName);
+    
 
-  if (namespace !== undefined) {
-    const key = new MetadataKey(namespace, itemName);
-    const meta = metadataRegistry.remove(key);
-    if (meta === null) return null;
-    return new ItemMetadata(meta);
-  } else {
-    return metadataRegistry.removeItemMetadata(itemName);
-  }
-}
+    
 
-module.exports = {
-  getMetadata,
-  addMetadata,
-  replaceMetadata,
-  removeMetadata,
-  itemChannelLink: {
-    get () {
-      console.warn('items.metadata.itemchannellink is deprecated, use items.itemChannelLink instead');
-      return require('./itemchannellink');
-    }
-  },
-  ItemMetadata
-};
-</code></pre>
-        </article>
-    </section>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>toggleable</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>if this builder is toggleable</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+        </div>
+    
+
+    
+
+    
+
+    
+    
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id="when"><span class="type-signature"></span>when<span class="signature">()</span><span class="type-signature"> &rarr; {triggers.TriggerBuilder}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Specifies when the rule should occur. Will create a standard rule.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="rules_rule-builder.js.html">rules/rule-builder.js</a>, <a href="rules_rule-builder.js.html#line23">line 23</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>rule builder</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">triggers.TriggerBuilder</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 
