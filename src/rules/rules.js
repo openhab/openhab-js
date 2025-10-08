@@ -241,7 +241,7 @@ function setEnabled (uid, isEnabled) {
 function _createRule (ruleUID, ruleConfig) {
   let script = ruleConfig.execute.toString();
   script = script.match(/(function)?[^{]+\{([\s\S]*)}$/);
-  if (script.length < 2) {
+  if (script === null || script.length < 3) {
     throw Error(`Failed to add rule: Could not extract script from execute function for ${ruleConfig.name ? ruleConfig.name : ruleUID}!`);
   }
   script = script[2].trim();
