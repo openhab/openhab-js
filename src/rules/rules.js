@@ -332,6 +332,11 @@ function _createSimpleRule (ruleUID, ruleConfig) {
     rule.setTriggers(triggers);
   }
 
+  rule.setConfiguration(new Configuration({
+    type: SCRIPT_TYPE,
+    source: '// Code to run when the rule fires:\n// Note that Rule Builder is currently not supported!\n\n' + ruleConfig.execute.toString()
+  }));
+
   return rule;
 }
 
@@ -373,13 +378,6 @@ function JSRule (ruleConfig) {
 
   // Register rule here
   rule = automationManager.addRule(rule);
-
-  if (ruleConfig.dedicatedContext !== true) {
-    // Add config to the action so that MainUI can show the script
-    const actionConfiguration = rule.actions.get(0).getConfiguration();
-    actionConfiguration.put('type', SCRIPT_TYPE);
-    actionConfiguration.put('script', '// Code to run when the rule fires:\n// Note that Rule Builder is currently not supported!\n\n' + ruleConfig.execute.toString());
-  }
 
   return rule;
 }
