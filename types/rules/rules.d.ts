@@ -103,9 +103,6 @@ export type EventObject = {
  * When a rule is run, a callback is executed.
  */
 export type RuleCallback = (event: EventObject) => any;
-/**
- * configuration for {@link rules.JSRule }
- */
 export type RuleConfig = {
     /**
      * name of the rule (used in UI)
@@ -124,25 +121,29 @@ export type RuleConfig = {
      */
     execute: RuleCallback;
     /**
-     * UID of the rule, if not provided, one is generated
-     */
-    id?: string;
-    /**
      * tags for the rule (used in UI)
      */
     tags?: string[];
     /**
-     * name of rule group to use
+     * UID of the rule, if not provided, one is generated
      */
-    ruleGroup?: string;
+    id?: string;
     /**
      * whether to overwrite an existing rule with the same UID
      */
     overwrite?: boolean;
     /**
+     * whether to run the rule in a separate dedicated context
+     */
+    dedicatedContext?: boolean;
+    /**
      * (optional and only for {@link SwitchableJSRule }) name of the switch Item, which will get created automatically if it is not existent
      */
     switchItemName?: string;
+    /**
+     * (optional and only for {@link SwitchableJSRule }) name of an Item group to use for the switch Item, which will get created automatically if it is not existent
+     */
+    ruleGroup?: string;
 };
 /**
   * Remove a rule when it exists. The rule will be immediately removed.
@@ -190,10 +191,12 @@ export function setEnabled(uid: string, isEnabled: boolean): void;
   * import { rules, triggers } = require('openhab');
   *
   * rules.JSRule({
-  *  name: "my_new_rule",
-  *  description: "this rule swizzles the swallows",
-  *  triggers: triggers.GenericCronTrigger("0 30 16 * * ? *"),
-  *  execute: (event) => { // do stuff }
+  *   name: "my_new_rule",
+  *   description: "this rule swizzles the swallows",
+  *   triggers: triggers.GenericCronTrigger("0 30 16 * * ? *"),
+  *   execute: (event) => {
+  *     // do stuff
+  *   }
   * });
   *
   * @memberof rules
