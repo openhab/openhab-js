@@ -1392,7 +1392,7 @@ Local variable state is not persisted among reloads, see using the [cache](#cach
 
 File-based rules normally share the context with the script file that created them.
 This allows sharing functions, classes and variables that are defined outside the rule's execute function across multiple rules from the same script file.
-However, this comes with a caveat: Sharing the context across multiple rules imposes the limitation that only a single rule can execute at a time.
+However, this comes with a caveat: Sharing the context across multiple rules imposes the limitation that only a single rule from the same script file can execute at a time.
 When writing rules that query persistence or wait for other I/O, it can make sense to disable this behaviour by setting the `dedicatedContext` option to `true` for [JSRule](#jsrule).
 
 When the `dedicatedContext` option is set to `true`, the rule's execute function will be executed in a separate context.
