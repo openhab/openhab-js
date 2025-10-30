@@ -88,51 +88,94 @@ This will be used instead of the binding provided version.
 
 <!-- Copy everything from here to update the JS Scripting documentation. -->
 
-### UI Based Rules
+### Rules in Main UI
 
-The quickest way to add rules is through the openHAB Web UI.
+The quickest way to use JavaScript Scripting is to create a rule in Main UI and add a "Script Action", see [Adding Actions](#adding-actions) below.
+If you only want to execute code and don't need triggers, you can instead create a script in Main UI.
 
-Advanced users, or users migrating scripts from existing systems may want to use [File Based Rules](#file-based-rules) for managing rules using files in the user configuration directory.
+Advanced users, or users migrating scripts from Rules DSL may want to use [File Based Rules](#file-based-rules) for managing rules using files in the user configuration directory.
 
-### Adding Triggers
+#### Adding Triggers
 
-Using the openHAB UI, first create a new rule and set a trigger condition.
+Using Main UI, first create a new rule and set a trigger condition.
 
 ![openHAB Rule Configuration](doc/rule-config.png)
 
-### Adding Actions
+#### Adding Actions
 
-Select "Add Action" and then select "Run Script" with "ECMAScript 262 Edition 11".
-It’s important this is "Edition 11" or higher, earlier versions will not work.
+Select "Add Action" and then select "Inline Script" with "ECMAScript 262 Edition 11".
+This will add a so-called "Script Action" to the rule.
+It's important this is "Edition 11" or higher, earlier versions will not work.
 This will bring up an empty script editor where you can enter your JavaScript.
 
 ![openHAB Rule Engines](doc/rule-engines.png)
 
-You can now write rules using standard ES6 JavaScript along with the included openHAB [standard library](#standard-library).
+You can now write rules using standard ES6 JavaScript along with the included openHAB [Standard Library](#standard-library).
 
 ![openHAB Rule Script](doc/rule-script.png)
 
 For example, turning a light on:
 
 ```javascript
-items.KitchenLight.sendCommand("ON");
+items.KitchenLight.sendCommand('ON');
 console.log("Kitchen Light State", items.KitchenLight.state);
 ```
 
 Sending a notification
 
 ```javascript
-actions.NotificationAction.sendNotification("romeo@montague.org", "Balcony door is open");
+actions.NotificationAction.sendNotification('romeo@montague.org', 'Balcony door is open');
 ```
 
 Querying the status of a thing
 
 ```javascript
-var thingStatusInfo = actions.Things.getThingStatusInfo("zwave:serial_zstick:512");
-console.log("Thing status",thingStatusInfo.getStatus());
+var thingStatusInfo = actions.Things.getThingStatusInfo('zwave:serial_zstick:512');
+console.log('Thing status', thingStatusInfo.getStatus());
 ```
 
-See [openhab-js](https://openhab.github.io/openhab-js) for a complete list of functionality.
+See [Standard Library](#standard-library) for a complete list of functionality.
+
+#### Adding Conditions
+
+If you want the rule to only execute if one or many predefined conditions, e.g. some Item has a given state, are met, select "Add Condition".
+Next, select "Script Condition" and, again, "ECMAScript 262 Edition 11".
+
+You can now write conditions for your rule using standard ES6 JavaScript along with the included openHAB [Standard Library](#standard-library).
+
+When writing script conditions, the script has to provide a boolean value (true or false) whether the condition is met.
+This can be done in two ways:
+
+- Explicitly using `return`: If the script condition wrapper is enabled (see below), the `return` keyword has to be used to return a boolean value (`true` or `false`). Example:
+
+  ```javascript
+  if (items.KitchenWindow.state === 'OPEN') {
+    return items.OutsideTemperature.quantityState.lessThan('12 °C')
+  }
+  return false
+  ```
+
+  When using Blockly, there is a `return` block available from the "Run & Process" category.
+
+- Implicitly: If the script condition wrapper is not enabled or not available (see below), the last executed statement needs to evaluate to a boolean value. Example:
+
+  ```javascript
+  if (items.KitchenWindow.state === 'OPEN') {
+    items.OutsideTemperature.quantityState.lessThan('12 °C')
+  }
+  false
+  ```
+
+The preferred way is explicitly, as it is way clearer what is returned, however `return` is only supported if the script condition wrapper is enabled.
+The script condition wrapper is available since openHAB 5.1.0, previous versions only support implicit return.
+It is advised to enable the wrapper and use explicit returns for all new script conditions, and step-by-step migrate existing conditions.
+
+The wrapper can be enabled (and disabled as well) per script condition using the `use wrapper` directive:
+
+- Adding `'use wrapper'` or `'use wrapper=true'` (semicolons can be added) as the **first or second line** enables the wrapper.
+- Adding `'use wrapper=false'` instead disables the wrapper.
+
+New users of openHAB, users that haven't used script conditions with JavaScript Scripting before, and users that have migrated (through the directive) all conditions to wrapper use can simply turn on the "Wrap Script Conditions in Self-Executing Function" option in the add-on settings.
 
 ### Event Object
 
@@ -178,7 +221,7 @@ In case the event object does not provide type-conversed properties for your cho
 
 See [openhab-js : EventObject](https://openhab.github.io/openhab-js/global.html#EventObject) for full API documentation.
 
-When disabling the option _Convert Event from Java to JavaScript type in UI-based scripts_, you will receive a raw Java event object instead of the `event` object described above.
+When disabling the option _Convert Event from Java to JavaScript type in UI-based scripts_, you will receive a raw Java event object instead of the `event` object described above in UI-based scripts.
 See the expandable section below for more details.
 
 <details>
