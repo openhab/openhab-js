@@ -13,7 +13,7 @@ This library is included by default in the openHAB [JavaScript Scripting add-on]
   - [Custom Installation](#custom-installation)
 - [Compatibility](#compatibility)
 - [Configuration](#configuration)
-  - [UI-Based Rules](#ui-based-rules)
+  - [Rules in Main UI](#rules-in-main-ui)
   - [Adding Triggers](#adding-triggers)
   - [Adding Actions](#adding-actions)
   - [Event Object](#event-object)
@@ -45,7 +45,7 @@ This library is included by default in the openHAB [JavaScript Scripting add-on]
 
 ### Default Installation
 
-Install the openHAB [JavaScript Scripting add-on](https://www.openhab.org/addons/automation/jsscripting/), a version of this library will be automatically installed and available to ECMAScript 2024+ rules created using [File-Based Rules](#file-based-rules) or [UI-Based Rules](#ui-based-rules).
+Install the openHAB [JavaScript Scripting add-on](https://www.openhab.org/addons/automation/jsscripting/), a version of this library will be automatically installed and available to ECMAScript 2024+ rules created using [File-Based Rules](#file-based-rules) or [Rules in Main UI](#rules-in-main-ui).
 
 openHAB also provides the [JavaScript Scripting (Nashorn) add-on](https://www.openhab.org/addons/automation/jsscriptingnashorn/), which is based on the older Nashorn JavaScript engine. This is referred to as `ECMA - 262 Edition 5.1` or `application/javascript;version=ECMAScript-5.1` in the Main UI.
 _This library is not compatible with this older runtime._
