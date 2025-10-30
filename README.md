@@ -118,7 +118,7 @@ For example, turning a light on:
 
 ```javascript
 items.KitchenLight.sendCommand('ON');
-console.log("Kitchen Light State", items.KitchenLight.state);
+console.log('Kitchen Light State', items.KitchenLight.state);
 ```
 
 Sending a notification
