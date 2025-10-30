@@ -4,7 +4,7 @@
 [![npm version](https://badge.fury.io/js/openhab.svg)](https://badge.fury.io/js/openhab)
 
 This library aims to be a fairly high-level ES6 library to support automation in openHAB.
-It provides convenient access to common openHAB functionality within rules including Items, Things, actions, logging and more.
+It provides convenient access to common openHAB functionality within rules including Items, Things, actions, logging, and more.
 
 This library is included by default in the openHAB [JavaScript Scripting add-on](https://www.openhab.org/addons/automation/jsscripting/).
 
@@ -13,7 +13,7 @@ This library is included by default in the openHAB [JavaScript Scripting add-on]
   - [Custom Installation](#custom-installation)
 - [Compatibility](#compatibility)
 - [Configuration](#configuration)
-  - [UI Based Rules](#ui-based-rules)
+  - [Rules in Main UI](#rules-in-main-ui)
   - [Adding Triggers](#adding-triggers)
   - [Adding Actions](#adding-actions)
   - [Event Object](#event-object)
@@ -34,7 +34,7 @@ This library is included by default in the openHAB [JavaScript Scripting add-on]
   - [Log](#log)
   - [Utils](#utils)
   - [Environment](#environment)
-- [File Based Rules](#file-based-rules)
+- [File-Based Rules](#file-based-rules)
   - [JSRule](#jsrule)
   - [Rule Builder](#rule-builder)
 - [Advanced Scripting](#advanced-scripting)
@@ -45,7 +45,7 @@ This library is included by default in the openHAB [JavaScript Scripting add-on]
 
 ### Default Installation
 
-Install the openHAB [JavaScript Scripting add-on](https://www.openhab.org/addons/automation/jsscripting/), a version of this library will be automatically installed and available to ECMAScript 2024+ rules created using [File Based Rules](#file-based-rules) or [UI Based Rules](#ui-based-rules).
+Install the openHAB [JavaScript Scripting add-on](https://www.openhab.org/addons/automation/jsscripting/), a version of this library will be automatically installed and available to ECMAScript 2024+ rules created using [File-Based Rules](#file-based-rules) or [Rules in Main UI](#rules-in-main-ui).
 
 openHAB also provides the [JavaScript Scripting (Nashorn) add-on](https://www.openhab.org/addons/automation/jsscriptingnashorn/), which is based on the older Nashorn JavaScript engine. This is referred to as `ECMA - 262 Edition 5.1` or `application/javascript;version=ECMAScript-5.1` in the Main UI.
 _This library is not compatible with this older runtime._
@@ -88,51 +88,94 @@ This will be used instead of the binding provided version.
 
 <!-- Copy everything from here to update the JS Scripting documentation. -->
 
-### UI Based Rules
+### Rules in Main UI
 
-The quickest way to add rules is through the openHAB Web UI.
+The quickest way to use JavaScript Scripting is to create a rule in Main UI and add a "Script Action", see [Adding Actions](#adding-actions) below.
+If you only want to execute code and don't need triggers, you can instead create a script in Main UI.
 
-Advanced users, or users migrating scripts from existing systems may want to use [File Based Rules](#file-based-rules) for managing rules using files in the user configuration directory.
+Advanced users, or users migrating scripts from Rules DSL may want to use [File-Based Rules](#file-based-rules) for managing rules using files in the user configuration directory.
 
-### Adding Triggers
+#### Adding Triggers
 
-Using the openHAB UI, first create a new rule and set a trigger condition.
+Using Main UI, first create a new rule and set a trigger condition.
 
 ![openHAB Rule Configuration](doc/rule-config.png)
 
-### Adding Actions
+#### Adding Actions
 
-Select "Add Action" and then select "Run Script" with "ECMAScript 262 Edition 11".
-It’s important this is "Edition 11" or higher, earlier versions will not work.
+Select "Add Action" and then select "Inline Script" with "ECMAScript 262 Edition 11".
+This will add a so-called "Script Action" to the rule.
+It's important this is "Edition 11" or higher, earlier versions will not work.
 This will bring up an empty script editor where you can enter your JavaScript.
 
 ![openHAB Rule Engines](doc/rule-engines.png)
 
-You can now write rules using standard ES6 JavaScript along with the included openHAB [standard library](#standard-library).
+You can now write rules using standard ES6 JavaScript along with the included openHAB [Standard Library](#standard-library).
 
 ![openHAB Rule Script](doc/rule-script.png)
 
 For example, turning a light on:
 
 ```javascript
-items.KitchenLight.sendCommand("ON");
-console.log("Kitchen Light State", items.KitchenLight.state);
+items.KitchenLight.sendCommand('ON');
+console.log('Kitchen Light State', items.KitchenLight.state);
 ```
 
 Sending a notification
 
 ```javascript
-actions.NotificationAction.sendNotification("romeo@montague.org", "Balcony door is open");
+actions.NotificationAction.sendNotification('romeo@montague.org', 'Balcony door is open');
 ```
 
 Querying the status of a thing
 
 ```javascript
-var thingStatusInfo = actions.Things.getThingStatusInfo("zwave:serial_zstick:512");
-console.log("Thing status",thingStatusInfo.getStatus());
+var thingStatusInfo = actions.Things.getThingStatusInfo('zwave:serial_zstick:512');
+console.log('Thing status', thingStatusInfo.getStatus());
 ```
 
-See [openhab-js](https://openhab.github.io/openhab-js) for a complete list of functionality.
+See [Standard Library](#standard-library) for a complete list of functionality.
+
+#### Adding Conditions
+
+If you want the rule to only execute if one or many predefined conditions, e.g. some Item has a given state, are met, select "Add Condition".
+Next, select "Script Condition" and, again, "ECMAScript 262 Edition 11".
+
+You can now write conditions for your rule using standard ES6 JavaScript along with the included openHAB [Standard Library](#standard-library).
+
+When writing script conditions, the script has to provide a boolean value (true or false) whether the condition is met.
+This can be done in two ways:
+
+- Explicitly using `return`: If the script condition wrapper is enabled (see below), the `return` keyword has to be used to return a boolean value (`true` or `false`). Example:
+
+  ```javascript
+  if (items.KitchenWindow.state === 'OPEN') {
+    return items.OutsideTemperature.quantityState.lessThan('12 °C')
+  }
+  return false
+  ```
+
+  When using Blockly, there is a `return` block available from the "Run & Process" category.
+
+- Implicitly: If the script condition wrapper is not enabled or not available (see below), the last executed statement needs to evaluate to a boolean value. Example:
+
+  ```javascript
+  if (items.KitchenWindow.state === 'OPEN') {
+    items.OutsideTemperature.quantityState.lessThan('12 °C')
+  }
+  false
+  ```
+
+The preferred way is explicitly, as it is way clearer what is returned, however `return` is only supported if the script condition wrapper is enabled.
+The script condition wrapper is available since openHAB 5.1.0, previous versions only support implicit return.
+It is advised to enable the wrapper and use explicit returns for all new script conditions, and step-by-step migrate existing conditions.
+
+The wrapper can be enabled (and disabled as well) per script condition using the `use wrapper` directive:
+
+- Adding `'use wrapper'` or `'use wrapper=true'` (semicolons can be added) as the **first or second line** enables the wrapper.
+- Adding `'use wrapper=false'` instead disables the wrapper.
+
+New users of openHAB, users that haven't used script conditions with JavaScript Scripting before, and users that have migrated (through the directive) all conditions to wrapper use can simply turn on the "Wrap Script Conditions in Self-Executing Function" option in the add-on settings.
 
 ### Event Object
 
@@ -178,7 +221,7 @@ In case the event object does not provide type-conversed properties for your cho
 
 See [openhab-js : EventObject](https://openhab.github.io/openhab-js/global.html#EventObject) for full API documentation.
 
-When disabling the option _Convert Event from Java to JavaScript type in UI-based scripts_, you will receive a raw Java event object instead of the `event` object described above.
+When disabling the option _Convert Event from Java to JavaScript type in UI-based scripts_, you will receive a raw Java event object instead of the `event` object described above in UI-based scripts.
 See the expandable section below for more details.
 
 <details>
@@ -196,7 +239,7 @@ This table gives an overview over the raw Java `event` object of Script Actions 
 | `event`        | string                                                                                                               | channel based triggeres                | Event data published by the triggering channel.                                                               | `receivedEvent`        |
 | `payload`      | JSON formatted string                                                                                                | all                                    | Any additional information provided by the trigger not already exposed. "{}" there is none.                   | N/A                    |
 
-Note that in UI based rules `event`, and therefore everything carried by `event` are Java types (not JavaScript). Care must be taken when comparing these with JavaScript types:
+Note that in UI-based rules `event`, and therefore everything carried by `event` are Java types (not JavaScript). Care must be taken when comparing these with JavaScript types:
 
 ```javascript
 var { ON } = require("@runtime")
@@ -334,7 +377,7 @@ This also works for timers created with [`actions.ScriptExecution.createTimer`](
 
 ### Paths
 
-For [file based rules](#file-based-rules), scripts will be loaded from `automation/js` in the user configuration directory.
+For [file-based rules](#file-based-rules), scripts will be loaded from `automation/js` in the user configuration directory.
 
 NPM libraries will be loaded from `automation/js/node_modules` in the user configuration directory.
 
@@ -437,7 +480,7 @@ Calling `getItem(...)` or `...` returns an `Item` object with the following prop
   - .rawState ⇒ `HostState`
   - .previousState ⇒ `string|null`: Previous state as string, or `null` if not available
   - .previousNumericState ⇒ `number|null`: Previous state as number, if state can be represented as number, or `null` if that's not the case or not available
-  - .previousQuantityState ⇒ [`Quantity|null`](#quantity): Previous item state as Quantity or `null` if state is not Quantity-compatible, without unit or not available
+  - .previousQuantityState ⇒ [`Quantity|null`](#quantity): Previous item state as Quantity or `null` if state is not Quantity-compatible, without unit, or not available
   - .previousRawState ⇒ `HostState`
   - .lastStateUpdateTimestamp ⇒ [`time.ZonedDateTime`](#time): The time the state was last updated as ZonedDateTime or `null` if not available
   - .lastStateUpdateInstant ⇒ [`time.Instant`](#time): The time the state was last updated as Instant or `null` if not available
@@ -451,14 +494,14 @@ Calling `getItem(...)` or `...` returns an `Item` object with the following prop
   - .getMetadata(namespace) ⇒ `object|null`
   - .replaceMetadata(namespace, value, configuration) ⇒ `object`
   - .removeMetadata(namespace) ⇒ `object|null`
-  - .sendCommand(value): `value` can be a string, a number, a [`time.ZonedDateTime`](#time), a [`time.Instant`](#time) or a [`Quantity`](#quantity)
+  - .sendCommand(value): `value` can be a string, a number, a [`time.ZonedDateTime`](#time), a, or a [`Quantity`](#quantity)
   - .sendCommand(value, expire): `expire` is a [`time.Duration`](#time), this will return the Item to its previous state after the given `expire` duration
   - .sendCommand(value, expire, onExpire): `onExpire` can be the same type as `value`, this will return the Item to the given `onExpire` value after the given `expire` duration
-  - .sendCommandIfDifferent(value) ⇒ `boolean`: `value` can be a string, a number, a [`time.ZonedDateTime`](#time), a [`time.Instant`](#time) or a [`Quantity`](#quantity)
+  - .sendCommandIfDifferent(value) ⇒ `boolean`: `value` can be a string, a number, a [`time.ZonedDateTime`](#time), a, or a [`Quantity`](#quantity)
   - .sendIncreaseCommand(value) ⇒ `boolean`: `value` can be a number, or a [`Quantity`](#quantity)
   - .sendDecreaseCommand(value) ⇒ `boolean`: `value` can be a number, or a [`Quantity`](#quantity)
   - .sendToggleCommand(): Sends a command to flip the Item's state (e.g. if it is 'ON' an 'OFF' command is sent).
-  - .postUpdate(value): `value` can be a string, a [`time.ZonedDateTime`](#time) or a [`Quantity`](#quantity)
+  - .postUpdate(value): `value` can be a string, a, or a [`Quantity`](#quantity)
   - .addGroups(...groupNamesOrItems)
   - .removeGroups(...groupNamesOrItems)
   - .addTags(...tagNames)
@@ -575,7 +618,7 @@ See [openhab-js : ItemConfig](https://openhab.github.io/openhab-js/global.html#I
 
 The `addItem` method can be used to provide Items from scripts in a configuration-as-code manner.
 It also allows providing metadata and channel configurations for the Item, basically creating the Item as if it was defined in a `.items` file.
-The benefit of using `addItem` is that you can use loops, conditions or generator functions to create lots of Items without the need to write them all out in a file or manually in the UI.
+The benefit of using `addItem` is that you can use loops, conditions, or generator functions to create lots of Items without the need to write them all out in a file or manually in the UI.
 
 When called from file-based scripts, the created Item will share the lifecycle with the script, meaning it will be removed when the script is unloaded.
 You can use the `persist` parameter to optionally persist the Item from file-based scripts.
@@ -1242,7 +1285,7 @@ Anywhere a native openHAB `QuantityType` is required, the runtime will automatic
 
 `Quantity(value)` is used without new (it's a factory, not a constructor), pass an amount **and** a unit to it to create a new `Quantity` object:
 
-The argument `value` can be a Quantity-compatible `Item`, a string, a `Quantity` instance or an openHAB Java [`QuantityType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/quantitytype).
+The argument `value` can be a Quantity-compatible `Item`, a string, a `Quantity` instance, or an openHAB Java [`QuantityType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/quantitytype).
 
 `value` strings have the `$amount $unit` format and must follow these rules:
 
@@ -1341,23 +1384,23 @@ A word of caution: The `environment` namespace is considered an advanced API and
 
 See [openhab-js : environment](https://openhab.github.io/openhab-js/environment.html) for full API documentation.
 
-## File Based Rules
+## File-Based Rules
 
 The JavaScript Scripting automation add-on will load `.js` scripts from `automation/js` in the user configuration directory.
 The system will automatically reload a script when changes are detected to the script file or its dependencies.
 Local variable state is not persisted among reloads, see using the [cache](#cache) for a convenient way to persist objects.
 
-File based rules normally share the context with the script file that created them.
+File-based rules normally share the context with the script file that created them.
 This allows sharing functions, classes and variables that are defined outside the rule's execute function across multiple rules from the same script file.
-However, this comes with a caveat: Sharing the context across multiple rules imposes the limitation that only a single rule can execute at a time.
+However, this comes with a caveat: Sharing the context across multiple rules imposes the limitation that only a single rule from the same script file can execute at a time.
 When writing rules that query persistence or wait for other I/O, it can make sense to disable this behaviour by setting the `dedicatedContext` option to `true` for [JSRule](#jsrule).
 
-When setting the `dedicatedContext` option to `true`, the rule's execute function will be executed in a separate context.
+When the `dedicatedContext` option is set to `true`, the rule's execute function will be executed in a separate context.
 This means that the rule's execute function can **not** access functions, classes or variables from the context of the script file that created the rule.
 The benefit of using a dedicated context is that the rule's execute function has its own, dedicated context and can therefore execute at any time, without needing to wait for other rules.
 Please note that in most cases, the dedicated context won't be needed, as rule execution is usually rapid and the wait time for the rule to execute is negligible.
 
-File based rules can be created in two different ways: using [JSRule](#jsrule) or the [Rule Builder](#rule-builder).
+File-based rules can be created in two different ways: using [JSRule](#jsrule) or the [Rule Builder](#rule-builder).
 
 When a rule is triggered, the script is provided information about the event that triggered the rule in the `event` object.
 Please refer to [Event Object](#event-object) for documentation.
@@ -1448,7 +1491,7 @@ Rules are started by calling `rules.when()` and can chain together [triggers](#r
 rules.when().triggerType()...if().conditionType().then().operationType()...build(name, description, tags, id);
 ```
 
-Rule are completed by calling `.build(name, description, tags, id)` , all parameters are optional and reasonable defaults will be used if omitted.
+Rule are completed by calling `.build(name, description, tags, id)` , all parameters are optional, and reasonable defaults will be used if omitted.
 
 - `name` String rule name - defaults generated name
 - `description` String Rule description - defaults generated description

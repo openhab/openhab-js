@@ -59,9 +59,9 @@
  * @description
  * Configuration object for {@link rules.JSRule}.
  * <p>A note about the `dedicatedContext` option:
- * When this option is enabled, the `execute` callback runs in a dedicated, separate context.
+ * When this option is enabled, the `execute` callback runs in a separate dedicated context.
  * Therefore, the `execute` callback can **not** access any variables, functions, classes or other objects defined outside the callback function.
- * The benefit of this approach is that the rule does not share the context with any other rule and therefore can run at any time without waiting for other rule executions to complete.
+ * The benefit of this approach is that the rule does not share the context with any other rule from the same script file and therefore can run at any time without waiting for other rule executions to complete.
  */
 
 const SCRIPT_TYPE = 'application/javascript';
@@ -281,7 +281,7 @@ function _createRule (ruleUID, ruleConfig) {
 /**
  * Creates a {@link https://www.openhab.org/javadoc/latest/org/openhab/core/automation/module/script/rulesupport/shared/simple/simplerule org.openhab.core.automation.module.script.rulesupport.shared.simple.SimpleRule}.
  *
- * <p>Simple rules allow creating rules that execute JavaScript code sharing the context of the script that created the rule.
+ * <p>Simple rules allow creating rules that execute JavaScript code sharing the context with the script that created the rule.
  * This allows defining functions, classes and variables outside the rule's callback function and referencing them from within the rule.
  * This approach, however, comes with the limitation that only a single SimpleRule created from a script file can execute at a time.
  *
