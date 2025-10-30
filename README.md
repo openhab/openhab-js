@@ -4,7 +4,7 @@
 [![npm version](https://badge.fury.io/js/openhab.svg)](https://badge.fury.io/js/openhab)
 
 This library aims to be a fairly high-level ES6 library to support automation in openHAB.
-It provides convenient access to common openHAB functionality within rules including Items, Things, actions, logging and more.
+It provides convenient access to common openHAB functionality within rules including Items, Things, actions, logging, and more.
 
 This library is included by default in the openHAB [JavaScript Scripting add-on](https://www.openhab.org/addons/automation/jsscripting/).
 
@@ -480,7 +480,7 @@ Calling `getItem(...)` or `...` returns an `Item` object with the following prop
   - .rawState ⇒ `HostState`
   - .previousState ⇒ `string|null`: Previous state as string, or `null` if not available
   - .previousNumericState ⇒ `number|null`: Previous state as number, if state can be represented as number, or `null` if that's not the case or not available
-  - .previousQuantityState ⇒ [`Quantity|null`](#quantity): Previous item state as Quantity or `null` if state is not Quantity-compatible, without unit or not available
+  - .previousQuantityState ⇒ [`Quantity|null`](#quantity): Previous item state as Quantity or `null` if state is not Quantity-compatible, without unit, or not available
   - .previousRawState ⇒ `HostState`
   - .lastStateUpdateTimestamp ⇒ [`time.ZonedDateTime`](#time): The time the state was last updated as ZonedDateTime or `null` if not available
   - .lastStateUpdateInstant ⇒ [`time.Instant`](#time): The time the state was last updated as Instant or `null` if not available
@@ -494,14 +494,14 @@ Calling `getItem(...)` or `...` returns an `Item` object with the following prop
   - .getMetadata(namespace) ⇒ `object|null`
   - .replaceMetadata(namespace, value, configuration) ⇒ `object`
   - .removeMetadata(namespace) ⇒ `object|null`
-  - .sendCommand(value): `value` can be a string, a number, a [`time.ZonedDateTime`](#time), a [`time.Instant`](#time) or a [`Quantity`](#quantity)
+  - .sendCommand(value): `value` can be a string, a number, a [`time.ZonedDateTime`](#time), a, or a [`Quantity`](#quantity)
   - .sendCommand(value, expire): `expire` is a [`time.Duration`](#time), this will return the Item to its previous state after the given `expire` duration
   - .sendCommand(value, expire, onExpire): `onExpire` can be the same type as `value`, this will return the Item to the given `onExpire` value after the given `expire` duration
-  - .sendCommandIfDifferent(value) ⇒ `boolean`: `value` can be a string, a number, a [`time.ZonedDateTime`](#time), a [`time.Instant`](#time) or a [`Quantity`](#quantity)
+  - .sendCommandIfDifferent(value) ⇒ `boolean`: `value` can be a string, a number, a [`time.ZonedDateTime`](#time), a, or a [`Quantity`](#quantity)
   - .sendIncreaseCommand(value) ⇒ `boolean`: `value` can be a number, or a [`Quantity`](#quantity)
   - .sendDecreaseCommand(value) ⇒ `boolean`: `value` can be a number, or a [`Quantity`](#quantity)
   - .sendToggleCommand(): Sends a command to flip the Item's state (e.g. if it is 'ON' an 'OFF' command is sent).
-  - .postUpdate(value): `value` can be a string, a [`time.ZonedDateTime`](#time) or a [`Quantity`](#quantity)
+  - .postUpdate(value): `value` can be a string, a, or a [`Quantity`](#quantity)
   - .addGroups(...groupNamesOrItems)
   - .removeGroups(...groupNamesOrItems)
   - .addTags(...tagNames)
@@ -618,7 +618,7 @@ See [openhab-js : ItemConfig](https://openhab.github.io/openhab-js/global.html#I
 
 The `addItem` method can be used to provide Items from scripts in a configuration-as-code manner.
 It also allows providing metadata and channel configurations for the Item, basically creating the Item as if it was defined in a `.items` file.
-The benefit of using `addItem` is that you can use loops, conditions or generator functions to create lots of Items without the need to write them all out in a file or manually in the UI.
+The benefit of using `addItem` is that you can use loops, conditions, or generator functions to create lots of Items without the need to write them all out in a file or manually in the UI.
 
 When called from file-based scripts, the created Item will share the lifecycle with the script, meaning it will be removed when the script is unloaded.
 You can use the `persist` parameter to optionally persist the Item from file-based scripts.
@@ -1285,7 +1285,7 @@ Anywhere a native openHAB `QuantityType` is required, the runtime will automatic
 
 `Quantity(value)` is used without new (it's a factory, not a constructor), pass an amount **and** a unit to it to create a new `Quantity` object:
 
-The argument `value` can be a Quantity-compatible `Item`, a string, a `Quantity` instance or an openHAB Java [`QuantityType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/quantitytype).
+The argument `value` can be a Quantity-compatible `Item`, a string, a `Quantity` instance, or an openHAB Java [`QuantityType`](https://www.openhab.org/javadoc/latest/org/openhab/core/library/types/quantitytype).
 
 `value` strings have the `$amount $unit` format and must follow these rules:
 
@@ -1491,7 +1491,7 @@ Rules are started by calling `rules.when()` and can chain together [triggers](#r
 rules.when().triggerType()...if().conditionType().then().operationType()...build(name, description, tags, id);
 ```
 
-Rule are completed by calling `.build(name, description, tags, id)` , all parameters are optional and reasonable defaults will be used if omitted.
+Rule are completed by calling `.build(name, description, tags, id)` , all parameters are optional, and reasonable defaults will be used if omitted.
 
 - `name` String rule name - defaults generated name
 - `description` String Rule description - defaults generated description
