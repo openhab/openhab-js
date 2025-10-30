@@ -13,7 +13,7 @@ This library is included by default in the openHAB [JavaScript Scripting add-on]
   - [Custom Installation](#custom-installation)
 - [Compatibility](#compatibility)
 - [Configuration](#configuration)
-  - [UI Based Rules](#ui-based-rules)
+  - [UI-Based Rules](#ui-based-rules)
   - [Adding Triggers](#adding-triggers)
   - [Adding Actions](#adding-actions)
   - [Event Object](#event-object)
@@ -34,7 +34,7 @@ This library is included by default in the openHAB [JavaScript Scripting add-on]
   - [Log](#log)
   - [Utils](#utils)
   - [Environment](#environment)
-- [File Based Rules](#file-based-rules)
+- [File-Based Rules](#file-based-rules)
   - [JSRule](#jsrule)
   - [Rule Builder](#rule-builder)
 - [Advanced Scripting](#advanced-scripting)
@@ -45,7 +45,7 @@ This library is included by default in the openHAB [JavaScript Scripting add-on]
 
 ### Default Installation
 
-Install the openHAB [JavaScript Scripting add-on](https://www.openhab.org/addons/automation/jsscripting/), a version of this library will be automatically installed and available to ECMAScript 2024+ rules created using [File Based Rules](#file-based-rules) or [UI Based Rules](#ui-based-rules).
+Install the openHAB [JavaScript Scripting add-on](https://www.openhab.org/addons/automation/jsscripting/), a version of this library will be automatically installed and available to ECMAScript 2024+ rules created using [File-Based Rules](#file-based-rules) or [UI-Based Rules](#ui-based-rules).
 
 openHAB also provides the [JavaScript Scripting (Nashorn) add-on](https://www.openhab.org/addons/automation/jsscriptingnashorn/), which is based on the older Nashorn JavaScript engine. This is referred to as `ECMA - 262 Edition 5.1` or `application/javascript;version=ECMAScript-5.1` in the Main UI.
 _This library is not compatible with this older runtime._
@@ -93,7 +93,7 @@ This will be used instead of the binding provided version.
 The quickest way to use JavaScript Scripting is to create a rule in Main UI and add a "Script Action", see [Adding Actions](#adding-actions) below.
 If you only want to execute code and don't need triggers, you can instead create a script in Main UI.
 
-Advanced users, or users migrating scripts from Rules DSL may want to use [File Based Rules](#file-based-rules) for managing rules using files in the user configuration directory.
+Advanced users, or users migrating scripts from Rules DSL may want to use [File-Based Rules](#file-based-rules) for managing rules using files in the user configuration directory.
 
 #### Adding Triggers
 
@@ -239,7 +239,7 @@ This table gives an overview over the raw Java `event` object of Script Actions 
 | `event`        | string                                                                                                               | channel based triggeres                | Event data published by the triggering channel.                                                               | `receivedEvent`        |
 | `payload`      | JSON formatted string                                                                                                | all                                    | Any additional information provided by the trigger not already exposed. "{}" there is none.                   | N/A                    |
 
-Note that in UI based rules `event`, and therefore everything carried by `event` are Java types (not JavaScript). Care must be taken when comparing these with JavaScript types:
+Note that in UI-based rules `event`, and therefore everything carried by `event` are Java types (not JavaScript). Care must be taken when comparing these with JavaScript types:
 
 ```javascript
 var { ON } = require("@runtime")
@@ -377,7 +377,7 @@ This also works for timers created with [`actions.ScriptExecution.createTimer`](
 
 ### Paths
 
-For [file based rules](#file-based-rules), scripts will be loaded from `automation/js` in the user configuration directory.
+For [file-based rules](#file-based-rules), scripts will be loaded from `automation/js` in the user configuration directory.
 
 NPM libraries will be loaded from `automation/js/node_modules` in the user configuration directory.
 
@@ -1384,23 +1384,23 @@ A word of caution: The `environment` namespace is considered an advanced API and
 
 See [openhab-js : environment](https://openhab.github.io/openhab-js/environment.html) for full API documentation.
 
-## File Based Rules
+## File-Based Rules
 
 The JavaScript Scripting automation add-on will load `.js` scripts from `automation/js` in the user configuration directory.
 The system will automatically reload a script when changes are detected to the script file or its dependencies.
 Local variable state is not persisted among reloads, see using the [cache](#cache) for a convenient way to persist objects.
 
-File based rules normally share the context with the script file that created them.
+File-based rules normally share the context with the script file that created them.
 This allows sharing functions, classes and variables that are defined outside the rule's execute function across multiple rules from the same script file.
 However, this comes with a caveat: Sharing the context across multiple rules imposes the limitation that only a single rule can execute at a time.
 When writing rules that query persistence or wait for other I/O, it can make sense to disable this behaviour by setting the `dedicatedContext` option to `true` for [JSRule](#jsrule).
 
-When setting the `dedicatedContext` option to `true`, the rule's execute function will be executed in a separate context.
+When the `dedicatedContext` option is set to `true`, the rule's execute function will be executed in a separate context.
 This means that the rule's execute function can **not** access functions, classes or variables from the context of the script file that created the rule.
 The benefit of using a dedicated context is that the rule's execute function has its own, dedicated context and can therefore execute at any time, without needing to wait for other rules.
 Please note that in most cases, the dedicated context won't be needed, as rule execution is usually rapid and the wait time for the rule to execute is negligible.
 
-File based rules can be created in two different ways: using [JSRule](#jsrule) or the [Rule Builder](#rule-builder).
+File-based rules can be created in two different ways: using [JSRule](#jsrule) or the [Rule Builder](#rule-builder).
 
 When a rule is triggered, the script is provided information about the event that triggered the rule in the `event` object.
 Please refer to [Event Object](#event-object) for documentation.
