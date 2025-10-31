@@ -1,1 +1,2 @@
 22.17.1
+// Remember to also update NODE_VERSION in .github/workflows/build.yaml
