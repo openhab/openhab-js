@@ -1,5 +1,18 @@
 # Changelog
 
+## 5.15.0
+
+| Type        | Namespace     | Description                                                                       | Reference                                              | Breaking |
+|-------------|---------------|-----------------------------------------------------------------------------------|--------------------------------------------------------|----------|
+| Enhancement | `environment` | Add version fields & Rename `isFileBasedScript` -> `isScriptFile`                 | [#482](https://github.com/openhab/openhab-js/pull/482) | no       |
+| Bugfix      | `rules`       | JSRule: Don't set `templateUID`                                                   | [#485](https://github.com/openhab/openhab-js/pull/485) | no       |
+| Bugfix      | `rules`       | Add missing backward compatibility for `event.channel`                            | [#489](https://github.com/openhab/openhab-js/pull/489) | no       |
+| Enhancement | `rules`       | JSRule: Add support for creating "standard" rules as an alternative to SimpleRule | [#490](https://github.com/openhab/openhab-js/pull/490) | no       |
+
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/46).
+
+From now on, released on npm will include a provenance attestation that verifies the integrity of the release.
+
 ## 5.14.0
 
 | Type        | Namespace | Description                                                                         | Reference                                              | Breaking |
