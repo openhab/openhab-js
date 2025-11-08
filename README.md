@@ -32,7 +32,7 @@ This library is included by default in the openHAB [JavaScript Scripting add-on]
   - [Log](#log)
   - [Utils](#utils)
   - [Environment](#environment)
-- [File-Based Rules](#file-based-rules)
+- [Rules created from Script Files](#rules-created-from-script-files)
   - [JSRule](#jsrule)
   - [Rule Builder](#rule-builder)
 - [Advanced Scripting](#advanced-scripting)
@@ -43,7 +43,7 @@ This library is included by default in the openHAB [JavaScript Scripting add-on]
 
 ### Default Installation
 
-Install the openHAB [JavaScript Scripting add-on](https://www.openhab.org/addons/automation/jsscripting/), a version of this library will be automatically installed and available to ECMAScript 2024+ rules created using [File-Based Rules](#file-based-rules) or [Rules in Main UI](#rules-in-main-ui).
+Install the openHAB [JavaScript Scripting add-on](https://www.openhab.org/addons/automation/jsscripting/), a version of this library will be automatically installed and available to ECMAScript 2024+ rules created using [Rules in Main UI](#rules-in-main-ui) or [Rules created from Script Files](#rules-created-from-script-files).
 
 openHAB also provides the [JavaScript Scripting (Nashorn) add-on](https://www.openhab.org/addons/automation/jsscriptingnashorn/), which is based on the older Nashorn JavaScript engine. This is referred to as `ECMA - 262 Edition 5.1` or `application/javascript;version=ECMAScript-5.1` in the Main UI.
 _This library is not compatible with this older runtime._
@@ -88,10 +88,12 @@ This will be used instead of the binding-provided version.
 
 ### Rules in Main UI
 
-The quickest way to use JavaScript Scripting is to create a rule in Main UI and add a "Script Action", see [Adding Actions](#adding-actions) below.
+> Formerly known as _UI-Based Rules_.
+
+The quickest way to use JavaScript Scripting is to create a rule in Main UI and add a _Script Action_, see [Adding Actions](#adding-actions) below.
 If you only want to execute code and don't need triggers, you can instead create a script in Main UI.
 
-Advanced users, or users migrating scripts from Rules DSL may want to use [File-Based Rules](#file-based-rules) for managing rules using files in the user configuration directory.
+Advanced users, or users migrating scripts from Rules DSL may want to use [Rules created from Script Files](#rules-created-from-script-files) for managing rules using files in the user configuration directory.
 
 #### Adding Triggers
 
@@ -102,8 +104,8 @@ Using Main UI, first create a new rule and set a trigger condition.
 #### Adding Actions
 
 Select "Add Action" and then select "Inline Script" with "ECMAScript 262 Edition 11".
-This will add a so-called "Script Action" to the rule.
-It's important this is "Edition 11" or higher, earlier versions will not work.
+This will add a so-called _Script Action_ to the rule.
+It's important this is "Edition 11" or higher. Earlier versions will not work.
 This will bring up an empty script editor where you can enter your JavaScript.
 
 ![openHAB Rule Engines](doc/rule-engines.png)
@@ -219,13 +221,14 @@ In case the event object does not provide type-conversed properties for your cho
 
 See [openhab-js : EventObject](https://openhab.github.io/openhab-js/global.html#EventObject) for full API documentation.
 
-When disabling the option _Convert Event from Java to JavaScript type in UI-based scripts_, you will receive a raw Java event object instead of the `event` object described above in UI-based scripts.
+When disabling the option _Convert Event from Java to JavaScript type in Script Actions & Script Conditions_, you will receive a raw Java event object instead of the `event` object described above in _Script Actions_ & _Script Conditions_.
+This is useful for advanced users, but not recommended for most users.
 See the expandable section below for more details.
 
 <details>
 <summary>Raw Script Module Event Object</summary>
 
-This table gives an overview over the raw Java `event` object of Script Actions & Script Conditions (well-known from Main UI rules) for most common trigger types:
+This table gives an overview over the raw Java `event` object of _Script Actions_ & _Script Conditions_ (well-known rules in Main UI) for most common trigger types:
 
 | Property Name  | Type                                                                                                                 | Trigger Types                          | Description                                                                                                   | Rules DSL Equivalent   |
 |----------------|----------------------------------------------------------------------------------------------------------------------|----------------------------------------|---------------------------------------------------------------------------------------------------------------|------------------------|
@@ -237,7 +240,8 @@ This table gives an overview over the raw Java `event` object of Script Actions 
 | `event`        | string                                                                                                               | channel based triggers                 | Event data published by the triggering channel.                                                               | `receivedEvent`        |
 | `payload`      | JSON formatted string                                                                                                | all                                    | Any additional information provided by the trigger not already exposed. "{}" there is none.                   | N/A                    |
 
-Note that in UI-based rules `event`, and therefore everything carried by `event` are Java types (not JavaScript). Care must be taken when comparing these with JavaScript types:
+`event`, and therefore everything carried by `event` are Java types (not JavaScript).
+Care must be taken when comparing these with JavaScript types:
 
 ```javascript
 var { ON } = require("@runtime")
@@ -375,7 +379,7 @@ This also works for timers created with [`actions.ScriptExecution.createTimer`](
 
 ### Paths
 
-For [file-based rules](#file-based-rules), scripts will be loaded from `automation/js` in the user configuration directory.
+For [Rules created from Script Files](#rules-created-from-script-files), scripts will be loaded from `automation/js` in the user configuration directory.
 
 NPM libraries will be loaded from `automation/js/node_modules` in the user configuration directory.
 
@@ -422,7 +426,7 @@ It should start with the `|` character, quotes within the script may need to be 
 Full documentation for the openHAB JavaScript library can be found at [openhab-js](https://openhab.github.io/openhab-js).
 
 The standard library is automatically injected into all scripts by default.
-However, it’s recommended to enable auto-injection only for UI-based scripts.
+However, it's recommended to enable auto-injection only for _Script Actions_ & _Script Conditions_.
 To import the standard library namespaces manually, add the following at the beginning of your script:
 
 ```js
@@ -618,10 +622,10 @@ The `addItem` method can be used to provide Items from scripts in a configuratio
 It also allows providing metadata and channel configurations for the Item, basically creating the Item as if it was defined in a `.items` file.
 The benefit of using `addItem` is that you can use loops, conditions, or generator functions to create lots of Items without the need to write them all out in a file or manually in the UI.
 
-When called from file-based scripts, the created Item will share the lifecycle with the script, meaning it will be removed when the script is unloaded.
-You can use the `persist` parameter to optionally persist the Item from file-based scripts.
+When called from script files, the created Item will share the lifecycle with the script, meaning it will be removed when the script is unloaded.
+You can use the `persist` parameter to optionally persist the Item from script files.
 
-When called from UI-based scripts, the Item will be stored permanently and will not be removed when the script is unloaded.
+When called from _Script Actions_, the Item will be stored permanently and will not be removed when the script is unloaded.
 Keep in mind that attempting to add an Item with the same name as an existing Item will result in an error.
 
 See [openhab-js : Item](https://openhab.github.io/openhab-js/items.html#.addItem) for full API documentation.
@@ -1382,13 +1386,15 @@ A word of caution: The `environment` namespace is considered an advanced API and
 
 See [openhab-js : environment](https://openhab.github.io/openhab-js/environment.html) for full API documentation.
 
-## File-Based Rules
+## Rules created from Script Files
+
+> Formerly known as _File-Based Rules_.
 
 The JavaScript Scripting automation add-on will load `.js` scripts from `automation/js` in the user configuration directory.
 The system will automatically reload a script when changes are detected to the script file or its dependencies.
 Local variable state is not persisted among reloads, see using the [cache](#cache) for a convenient way to persist objects.
 
-File-based rules normally share the context with the script file that created them.
+Rules created script files normally share the context with the script file that created them.
 This allows sharing functions, classes and variables that are defined outside the rule's execute function across multiple rules from the same script file.
 However, this comes with a caveat: Sharing the context across multiple rules imposes the limitation that only a single rule from the same script file can execute at a time.
 When writing rules that query persistence or wait for other I/O, it can make sense to disable this behaviour by setting the `dedicatedContext` option to `true` for [JSRule](#jsrule).
@@ -1398,7 +1404,7 @@ This means that the rule's execute function can **not** access functions, classe
 The benefit of using a dedicated context is that the rule's execute function has its own, dedicated context and can therefore execute at any time, without needing to wait for other rules.
 Please note that in most cases, the dedicated context won't be needed, as rule execution is usually rapid and the wait time for the rule to execute is negligible.
 
-File-based rules can be created in two different ways: using [JSRule](#jsrule) or the [Rule Builder](#rule-builder).
+Rules can be created from script files in two different ways: using [JSRule](#jsrule) or the [Rule Builder](#rule-builder).
 
 When a rule is triggered, the script is provided information about the event that triggered the rule in the `event` object.
 Please refer to [Event Object](#event-object) for documentation.
