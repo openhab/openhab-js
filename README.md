@@ -66,7 +66,7 @@ Manually:
 - Install the latest development version: Run `npm i git+https://github.com/openhab/openhab-js.git`.
 
 NPM will create a `node_modules` directory containing the latest version of this library.
-This will be used instead of the binding provided version.
+This will be used instead of the binding-provided version.
 
 ## Compatibility
 
@@ -136,7 +136,7 @@ See [Standard Library](#standard-library) for a complete list of functionality.
 
 #### Adding Conditions
 
-If you want the rule to only execute if one or many predefined conditions, e.g. some Item has a given state, are met, select "Add Condition".
+If you want the rule to only execute if one or many predefined conditions, e.g. some Item has a given state are met, select "Add Condition".
 Next, select "Script Condition" and, again, "ECMAScript 262 Edition 11".
 
 You can now write conditions for your rule using standard ES6 JavaScript along with the included openHAB [Standard Library](#standard-library).
@@ -164,8 +164,8 @@ This can be done in two ways:
   false
   ```
 
-The preferred way is explicitly, as it is way clearer what is returned, however `return` is only supported if the script condition wrapper is enabled.
-The script condition wrapper is available since openHAB 5.1.0, previous versions only support implicit return.
+The preferred way is explicit, as it is way clearer what is returned, however `return` is only supported if the script condition wrapper is enabled.
+The script condition wrapper has been available since openHAB 5.1.0, previous versions only support implicit return.
 It is advised to enable the wrapper and use explicit returns for all new script conditions, and step-by-step migrate existing conditions.
 
 The wrapper can be enabled (and disabled as well) per script condition using the `use wrapper` directive:
@@ -234,7 +234,7 @@ This table gives an overview over the raw Java `event` object of Script Actions 
 | `itemCommand`  | sub-class of [org.openhab.core.types.Command](https://www.openhab.org/javadoc/latest/org/openhab/core/types/command) | `[item] received a command`            | Command that triggered event                                                                                  | `receivedCommand`      |
 | `itemName`     | string                                                                                                               | all                                    | Name of Item that triggered event                                                                             | `triggeringItem.name`  |
 | `type`         | string                                                                                                               | all                                    | Type of event that triggered event (`"ItemStateEvent"`, `"ItemStateChangedEvent"`, `"ItemCommandEvent"`, ...) | N/A                    |
-| `event`        | string                                                                                                               | channel based triggeres                | Event data published by the triggering channel.                                                               | `receivedEvent`        |
+| `event`        | string                                                                                                               | channel based triggers                 | Event data published by the triggering channel.                                                               | `receivedEvent`        |
 | `payload`      | JSON formatted string                                                                                                | all                                    | Any additional information provided by the trigger not already exposed. "{}" there is none.                   | N/A                    |
 
 Note that in UI-based rules `event`, and therefore everything carried by `event` are Java types (not JavaScript). Care must be taken when comparing these with JavaScript types:
@@ -263,7 +263,7 @@ The openHAB JavaScript Scripting runtime attempts to provide a familiar environm
 
 ### `require`
 
-Scripts may include standard NPM based libraries by using CommonJS `require`.
+Scripts may include standard NPM libraries by using CommonJS `require`.
 The library search will look in the path `automation/js/node_modules` in the user configuration directory.
 See [libraries](#libraries) for more information.
 
@@ -319,7 +319,7 @@ The global [`setTimeout()`](https://developer.mozilla.org/en-US/docs/Web/API/set
 var timeoutId = setTimeout(callbackFunction, delay, param1, /* ... */ paramN);
 ```
 
-`delay` is an integer value that represents the amount of milliseconds to wait before the timer expires.
+`delay` is an integer value that represents the number of milliseconds to wait before the timer expires.
 `param1` ... `paramN` are optional, additional arguments which are passed through to the `callbackFunction`.
 
 The global [`clearTimeout(timeoutId)`](https://developer.mozilla.org/en-US/docs/Web/API/clearTimeout) method cancels a timeout previously established by calling `setTimeout()`.
@@ -335,7 +335,7 @@ The global [`setInterval()`](https://developer.mozilla.org/en-US/docs/Web/API/se
 var intervalId = setInterval(callbackFunction, delay, param1, /* ... */ paramN);
 ```
 
-`delay` is an integer value that represents the amount of milliseconds to wait before the timer expires.
+`delay` is an integer value that represents the number of milliseconds to wait before the timer expires.
 `param1` ... `paramN` are optional, additional arguments which are passed through to the `callbackFunction`.
 
 The global [`clearInterval(intervalId)`](https://developer.mozilla.org/en-US/docs/Web/API/clearInterval) method cancels a timed, repeating action which was previously established by a call to `setInterval()`.
@@ -498,7 +498,7 @@ Calling `getItem(...)` or `...` returns an `Item` object with the following prop
   - .sendCommandIfDifferent(value) ⇒ `boolean`: `value` can be a string, a number, a [`time.ZonedDateTime`](#time), a [`time.Instant`](#time), or a [`Quantity`](#quantity)
   - .sendIncreaseCommand(value) ⇒ `boolean`: `value` can be a number, or a [`Quantity`](#quantity)
   - .sendDecreaseCommand(value) ⇒ `boolean`: `value` can be a number, or a [`Quantity`](#quantity)
-  - .sendToggleCommand(): Sends a command to flip the Item's state (e.g. if it is 'ON' an 'OFF' command is sent).
+  - .sendToggleCommand(): Sends a command to flip the Item's state (e.g. if it is `ON`, an `OFF` command is sent).
   - .postUpdate(value): `value` can be a string, a [`time.ZonedDateTime`](#time), or a [`Quantity`](#quantity)
   - .addGroups(...groupNamesOrItems)
   - .removeGroups(...groupNamesOrItems)
@@ -761,7 +761,7 @@ items.getItem('MyDistanceItem').persistence.persist(timeSeries, 'influxdb'); // 
 
 ### Things
 
-The Things namespace allows to interact with openHAB Things.
+The Things namespace allows interacting with openHAB Things.
 
 See [openhab-js : things](https://openhab.github.io/openhab-js/things.html) for full API documentation.
 
@@ -799,10 +799,10 @@ thing.setEnabled(false);
 ### Actions
 
 The actions namespace allows interactions with openHAB actions.
-The following are a list of standard actions.
+The following is a list of standard actions.
 
-**Warning:** Please be aware, that (unless not explicitly noted) there is **no** type conversion from Java to JavaScript types for the return values of actions.
-Read the JavaDoc linked from the JSDoc to learn about the returned Java types.
+**Warning:** Please be aware that (unless not explicitly noted) there is **no** type conversion from Java to JavaScript types for the return values of actions.
+Read the Javadoc linked from the JSDoc to learn about the returned Java types.
 
 Please note that most of the actions currently do **not** provide type definitions and therefore auto-completion does not work.
 
@@ -827,10 +827,10 @@ These include several methods to convert between color types like HSB, RGB, sRGB
 
 See [openhab-js : actions.Ephemeris](https://openhab.github.io/openhab-js/actions.html#.Ephemeris) for complete documentation.
 
-Ephemeris is a way to determine what type of day today or a number of days before or after today is.
+Ephemeris is a way to determine what type of day today or the number of days before or after today is.
 For example, a way to determine if today is a weekend, a public holiday, someone’s birthday, trash day, etc.
 
-Additional information can be found on the  [Ephemeris Actions Docs](https://www.openhab.org/docs/configuration/actions.html#ephemeris) as well as the [Ephemeris JavaDoc](https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/ephemeris).
+Additional information can be found on the [Ephemeris Actions Docs](https://www.openhab.org/docs/configuration/actions.html#ephemeris) as well as the [Ephemeris Javadoc](https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/ephemeris).
 
 ```javascript
 var weekend = actions.Ephemeris.isWeekend();
@@ -955,7 +955,7 @@ Notification actions may be placed in rules to send alerts to mobile devices reg
 
 There are three different types of notifications:
 
-- Broadcast Notifications: Sent to all registered devices and shown as notification on these devices.
+- Broadcast Notifications: Sent to all registered devices and shown as a notification on these devices.
 - Standard Notifications: Sent to the registered devices of the specified user and shown as notification on his devices.
 - Log Notifications: Only shown in the notification log, e.g. inside the Android and iOS Apps.
 
@@ -968,7 +968,7 @@ It returns a new `NotificationBuilder` object, which by default sends a broadcas
 - `.logOnly()`: Send a log notification only.
 - `.hide()`: Hides notification(s) with the specified `referenceId` or `tag` (`referenceId` has precedence over `tag`).
 - `.addUserId(emailAddress)`: By adding the email address(es) of specific openHAB Cloud user(s), the notification is only sent to this (these) user(s).
-  To add multiple users, either call `addUserId` multiple times or pass mutiple emails as multiple params, e.g. `addUserId(emailAddress1, emailAddress2)`.
+  To add multiple users, either call `addUserId` multiple times or pass multiple emails as multiple params, e.g. `addUserId(emailAddress1, emailAddress2)`.
 - `.withIcon(icon)`: Sets the icon of the notification.
 - `.withTag(tag)`: Sets the tag of the notification. Used for grouping notifications and to hide/remove groups of notifications.
 - `.withTitle(title)`: Sets the title of the notification.
@@ -992,7 +992,7 @@ actions.notificationBuilder('Hello World!')
 // Send a broadcast notification with icon, tag, title, media attachment URL and actions
 actions.notificationBuilder('Hello World!')
   .withIcon('f7:bell_fill').withTag('important').withTitle('Important Notification')
-  .withOnClickAction('ui:navigate:/page/my_floorplan_page').withMediaAttachmentUrl('http://example.com/image.jpg')
+  .withOnClickAction('ui:navigate:/page/my_floorplan_page').withMediaAttachmentUrl('https://example.com/image.jpg')
   .addActionButton('Turn Kitchen Light ON', 'command:KitchenLights:ON').addActionButton('Turn Kitchen Light OFF', 'command:KitchenLights:OFF').send();
 
 // Send a simple standard notification to two specific users
@@ -1026,12 +1026,12 @@ You can use it to store primitives and objects, e.g. store timers or counters be
 When a script is unloaded and its cache is cleared, all timers (see [`createTimer`](#createtimer)) stored in its private cache are automatically cancelled.
 
 The shared cache is shared across all rules and scripts, it can therefore be accessed from any automation language.
-The access to every key is tracked and the key is removed when all scripts that ever accessed that key are unloaded.
+The access to every key is tracked, and the key is removed when all scripts that ever accessed that key are unloaded.
 If that key stored a timer, the timer will be cancelled.
 You can use it to store primitives and **Java** objects, e.g. store timers or counters between multiple scripts.
 
 Due to a multi-threading limitation in GraalJS (the JavaScript engine used by JavaScript Scripting), it is not recommended to store JavaScript objects in the shared cache.
-Multi-threaded access to JavaScript objects will lead to script execution failure!
+Multithreaded access to JavaScript objects will lead to script execution failure!
 You can work around that limitation by either serialising and deserialising JS objects or by switching to their Java counterparts.
 
 Timers as created by [`createTimer`](#createtimer) can be stored in the shared cache.
@@ -1095,15 +1095,15 @@ See [JS-Joda](https://js-joda.github.io/js-joda/) for more examples and complete
 #### Parsing and Formatting
 
 Occasionally, one will need to parse a non-supported date time string or generate one from a ZonedDateTime.
-To do this you will use [JS-Joda DateTimeFormatter and potentially your Locale](https://js-joda.github.io/js-joda/manual/formatting.html).
+To do this, you will use [JS-Joda DateTimeFormatter and potentially your Locale](https://js-joda.github.io/js-joda/manual/formatting.html).
 However, shipping all the locales with the openhab-js library would lead to an unacceptable large size.
 Therefore, if you attempt to use the `DateTimeFormatter` and receive an error saying it cannot find your locale, you will need to manually install your locale and import it into your rule.
 
 [JS-Joda Locales](https://github.com/js-joda/js-joda/tree/master/packages/locale#use-prebuilt-locale-packages) includes a list of all the supported locales.
-Each locale consists of a two letter language indicator followed by a "-" and a two letter dialect indicator: e.g. "EN-US".
+Each locale consists of a two-letter language indicator followed by a "-" and a two-letter dialect indicator: e.g. "EN-US".
 Installing a locale can be done through the command `npm install @js-joda/locale_de-de` from the _$OPENHAB_CONF/automation/js_ folder.
 
-To import and use a local into your rule you need to require it and create a `DateTimeFormatter` that uses it:
+To import and use a local into your rule, you need to require it and create a `DateTimeFormatter` that uses it:
 
 ```javascript
 var Locale = require('@js-joda/locale_de-de').Locale.GERMAN;
@@ -1120,7 +1120,7 @@ Converts a [`java.time.ZonedDateTime`](https://docs.oracle.com/en/java/javase/21
 
 #### `time.toZDT()`
 
-There will be times when this automatic conversion is not available (for example when working with date times within a rule).
+There will be times when this automatic conversion is not available (for example, when working with date times within a rule).
 To ease having to deal with these cases a `time.toZDT()` function will accept almost any type that can be converted to a `time.ZonedDateTime`.
 The following rules are used during the conversion:
 
@@ -1140,7 +1140,7 @@ The following rules are used during the conversion:
 | `"kk:mm[:ss][ ]a"` (12 hour time)                                            | today's date with the time indicated, the space between the time and am/pm and seconds are optional             | `time.toZDT('1:23:45 PM');`                                                            |
 | [ISO 8601 Duration](https://en.wikipedia.org/wiki/ISO_8601#Durations) String | added to `now`                                                                                                  | `time.toZDT('PT1H4M6.789S');`                                                          |
 
-If no time zone is explicitly set, the system default time zone is used.
+If no time zone is explicitly set, the system's default time zone is used.
 When a type or string that cannot be handled is encountered, an error is thrown.
 
 #### Additions to `time.ZonedDateTime`
@@ -1151,7 +1151,7 @@ The openHAB JavaScript library extends the JS-Joda `ZonedDateTime` class with ad
 
 When you have a `time.ZonedDateTime`, a new `toToday()` method was added which will return a new `time.ZonedDateTime` with today's date but the original's time, accounting for DST changes.
 
-For example, if the time was 13:45 and today was a DST changeover, the time will still be 13:45 instead of one hour off.
+For example, if the time was 13:45 and today was a DST changeover, the time would still be 13:45 instead of one hour off.
 
 ```javascript
 var alarm = items.Alarm;
@@ -1316,7 +1316,7 @@ qty = Quantity('1 m^2 s^2'); // / is required
 qty = Quantity('1 m2/s2'); // ^ is required
 ```
 
-Note: It is possible to create a unit-less (without unit) Quantity, however there is no advantage over using a `number` instead.
+Note: It is possible to create a unit-less (without a unit) Quantity, however, there is no advantage over using a `number` instead.
 
 #### Conversion
 
@@ -1489,12 +1489,12 @@ Rules are started by calling `rules.when()` and can chain together [triggers](#r
 rules.when().triggerType()...if().conditionType().then().operationType()...build(name, description, tags, id);
 ```
 
-Rule are completed by calling `.build(name, description, tags, id)` , all parameters are optional, and reasonable defaults will be used if omitted.
+Rules are completed by calling `.build(name, description, tags, id)` , all parameters are optional, and reasonable defaults will be used if omitted.
 
-- `name` String rule name - defaults generated name
-- `description` String Rule description - defaults generated description
-- `tags` Array of string tag names - defaults empty array
-- `id` String id - defaults random UUID
+- `name` (string): rule name - defaults generated name
+- `description` (string): rule description - defaults generated description
+- `tags` (string array) tag names - defaults empty array
+- `id` (string) id - defaults random UUID
 
 A simple example of this would look like:
 
@@ -1646,7 +1646,7 @@ There are already some openHAB specific libraries available on [npm](https://www
 
 #### Creating Your Own Library
 
-You can also create your own personal JavaScript library for openHAB, but you can not just create a folder in `node_modules` and put your library code in it!
+You can also create your own personal JavaScript library for openHAB, but you cannot just create a folder in `node_modules` and put your library code in it!
 When it is run, `npm` will remove everything from `node_modules` that has not been properly installed.
 
 Follow these steps to create your own library (it's called a CommonJS module):
@@ -1700,4 +1700,4 @@ var { ON, OFF, QuantityType } = require('@runtime');
 A list of available utilities and types can be found in the [JSR223 Default Preset documentation](https://www.openhab.org/docs/configuration/jsr223.html#default-preset-importpreset-not-required).
 
 `require('@runtime')` also defines "services" such as `items`, `things`, `rules`, `events`, `actions`, `ir`, `itemRegistry`.
-You can use these services for backwards compatibility purposes or ease migration from JSR223 scripts.
+You can use these services for backwards compatibility or ease migration from JSR223 scripts.
