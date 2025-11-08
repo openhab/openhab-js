@@ -14,8 +14,6 @@ This library is included by default in the openHAB [JavaScript Scripting add-on]
 - [Compatibility](#compatibility)
 - [Configuration](#configuration)
   - [Rules in Main UI](#rules-in-main-ui)
-  - [Adding Triggers](#adding-triggers)
-  - [Adding Actions](#adding-actions)
   - [Event Object](#event-object)
 - [Scripting Basics](#scripting-basics)
   - [`require`](#require)
