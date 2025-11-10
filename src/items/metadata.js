@@ -111,12 +111,43 @@ function _getSingleItemMetadata (itemName, namespace) {
  * @memberOf items.metadata
  * @param {Item|string} itemOrName {@link Item} or the name of the Item
  * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is returned, else all metadata is returned
- * @returns {{ namespace: ItemMetadata }|ItemMetadata|null} all metadata as an object with the namespaces as properties OR metadata of a single namespace or `null` if that namespace doesn't exist; the metadata itself is of type {@link ItemMetadata}
+ * @returns {{ namespace: ItemMetadata }|ItemMetadata|null} all metadata as an object with the namespaces as properties OR metadata of a single
+ *   namespace or `null` if that namespace doesn't exist; the metadata itself is of type {@link ItemMetadata}
  */
 function getMetadata (itemOrName, namespace) {
   const itemName = _getItemName(itemOrName);
   if (namespace !== undefined) return _getSingleItemMetadata(itemName, namespace);
   return _getAllItemMetadata(itemName);
+}
+
+/**
+ * Creates a {@link https://www.openhab.org/javadoc/latest/org/openhab/core/items/metadata org.openhab.core.items.Metadata}.
+ *
+ * @private
+ * @param {string} itemName
+ * @param {string} namespace
+ * @param {string} value
+ * @param {object} configuration
+ * @return {*} an instance of {@link https://www.openhab.org/javadoc/latest/org/openhab/core/items/metadata org.openhab.core.items.Metadata}
+ */
+function _createMetadata (itemName, namespace, value, configuration) {
+  const configurationClone = Object.assign({}, configuration);
+  for (const key in configurationClone) {
+    const value = configurationClone[key];
+    if (typeof value === 'object') {
+      /*
+      * Some reasoning for this:
+      * Generally, storing objects in metadata is not the best idea, as they are not necessarily serializable and therefore JSONDB will not be able to store them.
+      * Wrt to JavaScript objects specifically, they are passed by reference (as all objects), and that reference becomes invalid if the script that created the
+      *   object is reloaded, causing various issues failure of related REST API endpoints.
+      * */
+      console.warn(`Metadata configuration values must be primitive types, not objects. Ignoring configuration for key '${key}' of metadata '${namespace}' for Item '${itemName}'`);
+      delete configurationClone[key];
+    }
+  }
+
+  const key = new MetadataKey(namespace, itemName);
+  return new Metadata(key, value, configurationClone);
 }
 
 /**
@@ -137,8 +168,7 @@ function getMetadata (itemOrName, namespace) {
  */
 function addMetadata (itemOrName, namespace, value, configuration, persist = false) {
   const itemName = _getItemName(itemOrName);
-  const key = new MetadataKey(namespace, itemName);
-  const newMetadata = new Metadata(key, value, configuration);
+  const newMetadata = _createMetadata(itemName, namespace, value, configuration);
   try {
     const meta = (persist && environment.useProviderRegistries()) ? metadataRegistry.addPermanent(newMetadata) : metadataRegistry.add(newMetadata);
     return new ItemMetadata(meta);
@@ -168,11 +198,11 @@ function addMetadata (itemOrName, namespace, value, configuration, persist = fal
 function replaceMetadata (itemOrName, namespace, value, configuration) {
   const itemName = _getItemName(itemOrName);
   const key = new MetadataKey(namespace, itemName);
-  const newMetadata = new Metadata(key, value, configuration);
-  let meta = metadataRegistry.get(key);
-  meta = (meta === null) ? metadataRegistry.add(newMetadata) : metadataRegistry.update(newMetadata);
-  if (meta === null) return null;
-  return new ItemMetadata(meta);
+  const newMetadata = _createMetadata(itemName, namespace, value, configuration);
+  let metadata = metadataRegistry.get(key);
+  metadata = (metadata === null) ? metadataRegistry.add(newMetadata) : metadataRegistry.update(newMetadata);
+  if (metadata === null) return null;
+  return new ItemMetadata(metadata);
 }
 
 /**
