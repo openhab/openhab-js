@@ -82,8 +82,6 @@ It provides convenient access to common openHAB functionality within rules inclu
 <li><a href="#configuration">Configuration</a>
 <ul>
 <li><a href="#rules-in-main-ui">Rules in Main UI</a></li>
-<li><a href="#adding-triggers">Adding Triggers</a></li>
-<li><a href="#adding-actions">Adding Actions</a></li>
 <li><a href="#event-object">Event Object</a></li>
 </ul>
 </li>
@@ -110,7 +108,7 @@ It provides convenient access to common openHAB functionality within rules inclu
 <li><a href="#environment">Environment</a></li>
 </ul>
 </li>
-<li><a href="#file-based-rules">File-Based Rules</a>
+<li><a href="#rules-created-from-script-files">Rules created from Script Files</a>
 <ul>
 <li><a href="#jsrule">JSRule</a></li>
 <li><a href="#rule-builder">Rule Builder</a></li>
@@ -125,7 +123,8 @@ It provides convenient access to common openHAB functionality within rules inclu
 </ul>
 <h2 id="installation">Installation</h2>
 <h3 id="default-installation">Default Installation</h3>
-<p>Install the openHAB <a href="https://www.openhab.org/addons/automation/jsscripting/">JavaScript Scripting add-on</a>, a version of this library will be automatically installed and available to ECMAScript 2024+ rules created using <a href="#file-based-rules">File-Based Rules</a> or <a href="#rules-in-main-ui">Rules in Main UI</a>.</p>
+<p>When installing the openHAB <a href="https://www.openhab.org/addons/automation/jsscripting/">JavaScript Scripting add-on</a>,
+a version of this library will be automatically installed and - depending on the add-on configuration - available to ECMAScript 2024+ for all or some rules.</p>
 <p>openHAB also provides the <a href="https://www.openhab.org/addons/automation/jsscriptingnashorn/">JavaScript Scripting (Nashorn) add-on</a>, which is based on the older Nashorn JavaScript engine. This is referred to as <code>ECMA - 262 Edition 5.1</code> or <code>application/javascript;version=ECMAScript-5.1</code> in the Main UI.
 <em>This library is not compatible with this older runtime.</em></p>
 <h3 id="custom-installation">Custom Installation</h3>
@@ -144,7 +143,7 @@ It provides convenient access to common openHAB functionality within rules inclu
 <li>Install the latest development version: Run <code>npm i git+https://github.com/openhab/openhab-js.git</code>.</li>
 </ul>
 <p>NPM will create a <code>node_modules</code> directory containing the latest version of this library.
-This will be used instead of the binding provided version.</p>
+This will be used instead of the binding-provided version.</p>
 <h2 id="compatibility">Compatibility</h2>
 <table>
 <thead>
@@ -205,16 +204,19 @@ This will be used instead of the binding provided version.</p>
 <h2 id="configuration">Configuration</h2>
 <!-- Copy everything from here to update the JS Scripting documentation. -->
 <h3 id="rules-in-main-ui">Rules in Main UI</h3>
-<p>The quickest way to use JavaScript Scripting is to create a rule in Main UI and add a &quot;Script Action&quot;, see <a href="#adding-actions">Adding Actions</a> below.
+<blockquote>
+<p>Formerly known as <em>UI-Based Rules</em>.</p>
+</blockquote>
+<p>The quickest way to use JavaScript Scripting is to create a rule in Main UI and add a <em>Script Action</em>, see <a href="#adding-actions">Adding Actions</a> below.
 If you only want to execute code and don't need triggers, you can instead create a script in Main UI.</p>
-<p>Advanced users, or users migrating scripts from Rules DSL may want to use <a href="#file-based-rules">File-Based Rules</a> for managing rules using files in the user configuration directory.</p>
+<p>Advanced users, or users migrating scripts from Rules DSL may want to use <a href="#rules-created-from-script-files">Rules created from Script Files</a> for managing rules using files in the user configuration directory.</p>
 <h4 id="adding-triggers">Adding Triggers</h4>
 <p>Using Main UI, first create a new rule and set a trigger condition.</p>
 <p><img src="doc/rule-config.png" alt="openHAB Rule Configuration"></p>
 <h4 id="adding-actions">Adding Actions</h4>
 <p>Select &quot;Add Action&quot; and then select &quot;Inline Script&quot; with &quot;ECMAScript 262 Edition 11&quot;.
-This will add a so-called &quot;Script Action&quot; to the rule.
-It's important this is &quot;Edition 11&quot; or higher, earlier versions will not work.
+This will add a so-called <em>Script Action</em> to the rule.
+It's important this is &quot;Edition 11&quot; or higher. Earlier versions will not work.
 This will bring up an empty script editor where you can enter your JavaScript.</p>
 <p><img src="doc/rule-engines.png" alt="openHAB Rule Engines"></p>
 <p>You can now write rules using standard ES6 JavaScript along with the included openHAB <a href="#standard-library">Standard Library</a>.</p>
@@ -232,7 +234,7 @@ console.log('Thing status', thingStatusInfo.getStatus());
 </code></pre>
 <p>See <a href="#standard-library">Standard Library</a> for a complete list of functionality.</p>
 <h4 id="adding-conditions">Adding Conditions</h4>
-<p>If you want the rule to only execute if one or many predefined conditions, e.g. some Item has a given state, are met, select &quot;Add Condition&quot;.
+<p>If you want the rule to only execute if one or many predefined conditions, e.g. some Item has a given state are met, select &quot;Add Condition&quot;.
 Next, select &quot;Script Condition&quot; and, again, &quot;ECMAScript 262 Edition 11&quot;.</p>
 <p>You can now write conditions for your rule using standard ES6 JavaScript along with the included openHAB <a href="#standard-library">Standard Library</a>.</p>
 <p>When writing script conditions, the script has to provide a boolean value (true or false) whether the condition is met.
@@ -256,8 +258,8 @@ false
 </code></pre>
 </li>
 </ul>
-<p>The preferred way is explicitly, as it is way clearer what is returned, however <code>return</code> is only supported if the script condition wrapper is enabled.
-The script condition wrapper is available since openHAB 5.1.0, previous versions only support implicit return.
+<p>The preferred way is explicit, as it is way clearer what is returned, however <code>return</code> is only supported if the script condition wrapper is enabled.
+The script condition wrapper has been available since openHAB 5.1.0, previous versions only support implicit return.
 It is advised to enable the wrapper and use explicit returns for all new script conditions, and step-by-step migrate existing conditions.</p>
 <p>The wrapper can be enabled (and disabled as well) per script condition using the <code>use wrapper</code> directive:</p>
 <ul>
@@ -444,11 +446,12 @@ In case the event object does not provide type-conversed properties for your cho
 <p><strong>NOTE:</strong>
 <code>Group****Trigger</code>s use the equivalent <code>Item****Trigger</code> as trigger for each member.</p>
 <p>See <a href="https://openhab.github.io/openhab-js/global.html#EventObject">openhab-js : EventObject</a> for full API documentation.</p>
-<p>When disabling the option <em>Convert Event from Java to JavaScript type in UI-based scripts</em>, you will receive a raw Java event object instead of the <code>event</code> object described above in UI-based scripts.
+<p>When disabling the option <em>Convert Event from Java to JavaScript type in Script Actions &amp; Script Conditions</em>, you will receive a raw Java event object instead of the <code>event</code> object described above in <em>Script Actions</em> &amp; <em>Script Conditions</em>.
+This is useful for advanced users, but not recommended for most users.
 See the expandable section below for more details.</p>
 <details>
 <summary>Raw Script Module Event Object</summary>
-<p>This table gives an overview over the raw Java <code>event</code> object of Script Actions &amp; Script Conditions (well-known from Main UI rules) for most common trigger types:</p>
+<p>This table gives an overview over the raw Java <code>event</code> object of <em>Script Actions</em> &amp; <em>Script Conditions</em> (well-known rules in Main UI) for most common trigger types:</p>
 <table>
 <thead>
 <tr>
@@ -498,7 +501,7 @@ See the expandable section below for more details.</p>
 <tr>
 <td><code>event</code></td>
 <td>string</td>
-<td>channel based triggeres</td>
+<td>channel based triggers</td>
 <td>Event data published by the triggering channel.</td>
 <td><code>receivedEvent</code></td>
 </tr>
@@ -511,7 +514,8 @@ See the expandable section below for more details.</p>
 </tr>
 </tbody>
 </table>
-<p>Note that in UI-based rules <code>event</code>, and therefore everything carried by <code>event</code> are Java types (not JavaScript). Care must be taken when comparing these with JavaScript types:</p>
+<p><code>event</code>, and therefore everything carried by <code>event</code> are Java types (not JavaScript).
+Care must be taken when comparing these with JavaScript types:</p>
 <pre class="prettyprint source lang-javascript"><code>var { ON } = require(&quot;@runtime&quot;)
 
 console.log(event.itemState == &quot;ON&quot;)  // WRONG. Java type does not equal with string, not even with &quot;relaxed&quot; equals (==) comparison
@@ -527,7 +531,7 @@ console.log(event.itemState.toString() == &quot;test&quot;) // OK
 <h2 id="scripting-basics">Scripting Basics</h2>
 <p>The openHAB JavaScript Scripting runtime attempts to provide a familiar environment to JavaScript developers.</p>
 <h3 id="require"><code>require</code></h3>
-<p>Scripts may include standard NPM based libraries by using CommonJS <code>require</code>.
+<p>Scripts may include standard NPM libraries by using CommonJS <code>require</code>.
 The library search will look in the path <code>automation/js/node_modules</code> in the user configuration directory.
 See <a href="#libraries">libraries</a> for more information.</p>
 <h3 id="console"><code>console</code></h3>
@@ -564,7 +568,7 @@ The string representations of each of these objects are appended together in the
 <code>setTimeout()</code> returns a <code>timeoutId</code> (a positive integer value) which identifies the timer created.</p>
 <pre class="prettyprint source lang-javascript"><code>var timeoutId = setTimeout(callbackFunction, delay, param1, /* ... */ paramN);
 </code></pre>
-<p><code>delay</code> is an integer value that represents the amount of milliseconds to wait before the timer expires.
+<p><code>delay</code> is an integer value that represents the number of milliseconds to wait before the timer expires.
 <code>param1</code> ... <code>paramN</code> are optional, additional arguments which are passed through to the <code>callbackFunction</code>.</p>
 <p>The global <a href="https://developer.mozilla.org/en-US/docs/Web/API/clearTimeout"><code>clearTimeout(timeoutId)</code></a> method cancels a timeout previously established by calling <code>setTimeout()</code>.</p>
 <p>If you need a more verbose way of creating timers, consider to use <a href="#createtimer"><code>createTimer</code></a> instead.</p>
@@ -573,7 +577,7 @@ The string representations of each of these objects are appended together in the
 <code>setInterval()</code> returns an <code>intervalId</code> (a positive integer value) which identifies the interval created.</p>
 <pre class="prettyprint source lang-javascript"><code>var intervalId = setInterval(callbackFunction, delay, param1, /* ... */ paramN);
 </code></pre>
-<p><code>delay</code> is an integer value that represents the amount of milliseconds to wait before the timer expires.
+<p><code>delay</code> is an integer value that represents the number of milliseconds to wait before the timer expires.
 <code>param1</code> ... <code>paramN</code> are optional, additional arguments which are passed through to the <code>callbackFunction</code>.</p>
 <p>The global <a href="https://developer.mozilla.org/en-US/docs/Web/API/clearInterval"><code>clearInterval(intervalId)</code></a> method cancels a timed, repeating action which was previously established by a call to <code>setInterval()</code>.</p>
 <h4 id="accessing-variables">Accessing Variables</h4>
@@ -601,7 +605,7 @@ myVar = 'Hello mutation!'; // When the timer runs, it will log &quot;Hello world
 </code></pre>
 <p>This also works for timers created with <a href="#createtimer"><code>actions.ScriptExecution.createTimer</code></a>.</p>
 <h3 id="paths">Paths</h3>
-<p>For <a href="#file-based-rules">file-based rules</a>, scripts will be loaded from <code>automation/js</code> in the user configuration directory.</p>
+<p>For <a href="#rules-created-from-script-files">Rules created from Script Files</a>, scripts will be loaded from <code>automation/js</code> in the user configuration directory.</p>
 <p>NPM libraries will be loaded from <code>automation/js/node_modules</code> in the user configuration directory.</p>
 <h3 id="deinitialization-hook">Deinitialization Hook</h3>
 <p>It is possible to hook into unloading of a script and register a function that is called when the script is unloaded.</p>
@@ -640,7 +644,7 @@ It should start with the <code>|</code> character, quotes within the script may 
 <h2 id="standard-library">Standard Library</h2>
 <p>Full documentation for the openHAB JavaScript library can be found at <a href="https://openhab.github.io/openhab-js">openhab-js</a>.</p>
 <p>The standard library is automatically injected into all scripts by default.
-However, it’s recommended to enable auto-injection only for UI-based scripts.
+However, it's recommended to enable auto-injection only for <em>Script Actions</em> &amp; <em>Script Conditions</em>.
 To import the standard library namespaces manually, add the following at the beginning of your script:</p>
 <pre class="prettyprint source lang-js"><code>// remove namespaces that are not needed by your code
 const { actions, cache, items, things, time, triggers, utils, Quantity } = require('openhab');
@@ -711,7 +715,7 @@ console.log(&quot;Kitchen Light State&quot;, item.state);
 <li>.sendCommandIfDifferent(value) ⇒ <code>boolean</code>: <code>value</code> can be a string, a number, a <a href="#time"><code>time.ZonedDateTime</code></a>, a <a href="#time"><code>time.Instant</code></a>, or a <a href="#quantity"><code>Quantity</code></a></li>
 <li>.sendIncreaseCommand(value) ⇒ <code>boolean</code>: <code>value</code> can be a number, or a <a href="#quantity"><code>Quantity</code></a></li>
 <li>.sendDecreaseCommand(value) ⇒ <code>boolean</code>: <code>value</code> can be a number, or a <a href="#quantity"><code>Quantity</code></a></li>
-<li>.sendToggleCommand(): Sends a command to flip the Item's state (e.g. if it is 'ON' an 'OFF' command is sent).</li>
+<li>.sendToggleCommand(): Sends a command to flip the Item's state (e.g. if it is <code>ON</code>, an <code>OFF</code> command is sent).</li>
 <li>.postUpdate(value): <code>value</code> can be a string, a <a href="#time"><code>time.ZonedDateTime</code></a>, or a <a href="#quantity"><code>Quantity</code></a></li>
 <li>.addGroups(...groupNamesOrItems)</li>
 <li>.removeGroups(...groupNamesOrItems)</li>
@@ -879,9 +883,9 @@ items.replaceItem({
 <p>The <code>addItem</code> method can be used to provide Items from scripts in a configuration-as-code manner.
 It also allows providing metadata and channel configurations for the Item, basically creating the Item as if it was defined in a <code>.items</code> file.
 The benefit of using <code>addItem</code> is that you can use loops, conditions, or generator functions to create lots of Items without the need to write them all out in a file or manually in the UI.</p>
-<p>When called from file-based scripts, the created Item will share the lifecycle with the script, meaning it will be removed when the script is unloaded.
-You can use the <code>persist</code> parameter to optionally persist the Item from file-based scripts.</p>
-<p>When called from UI-based scripts, the Item will be stored permanently and will not be removed when the script is unloaded.
+<p>When called from script files, the created Item will share the lifecycle with the script, meaning it will be removed when the script is unloaded.
+You can use the <code>persist</code> parameter to optionally persist the Item from script files.</p>
+<p>When called from <em>Script Actions</em>, the Item will be stored permanently and will not be removed when the script is unloaded.
 Keep in mind that attempting to add an Item with the same name as an existing Item will result in an error.</p>
 <p>See <a href="https://openhab.github.io/openhab-js/items.html#.addItem">openhab-js : Item</a> for full API documentation.</p>
 <h4 id="itempersistence"><code>ItemPersistence</code></h4>
@@ -1005,7 +1009,7 @@ console.log(ts); // Let's have a look at the TimeSeries
 items.getItem('MyDistanceItem').persistence.persist(timeSeries, 'influxdb'); // Persist the TimeSeries for the Item 'MyDistanceItem' using the InfluxDB persistence service
 </code></pre>
 <h3 id="things">Things</h3>
-<p>The Things namespace allows to interact with openHAB Things.</p>
+<p>The Things namespace allows interacting with openHAB Things.</p>
 <p>See <a href="https://openhab.github.io/openhab-js/things.html">openhab-js : things</a> for full API documentation.</p>
 <ul>
 <li>things : <code>object</code>
@@ -1044,9 +1048,9 @@ thing.setEnabled(false);
 </code></pre>
 <h3 id="actions">Actions</h3>
 <p>The actions namespace allows interactions with openHAB actions.
-The following are a list of standard actions.</p>
-<p><strong>Warning:</strong> Please be aware, that (unless not explicitly noted) there is <strong>no</strong> type conversion from Java to JavaScript types for the return values of actions.
-Read the JavaDoc linked from the JSDoc to learn about the returned Java types.</p>
+The following is a list of standard actions.</p>
+<p><strong>Warning:</strong> Please be aware that (unless not explicitly noted) there is <strong>no</strong> type conversion from Java to JavaScript types for the return values of actions.
+Read the Javadoc linked from the JSDoc to learn about the returned Java types.</p>
 <p>Please note that most of the actions currently do <strong>not</strong> provide type definitions and therefore auto-completion does not work.</p>
 <p>See <a href="https://openhab.github.io/openhab-js/actions.html">openhab-js : actions</a> for full API documentation and additional actions.</p>
 <h4 id="audio-actions">Audio Actions</h4>
@@ -1059,9 +1063,9 @@ Read the JavaDoc linked from the JSDoc to learn about the returned Java types.</
 These include several methods to convert between color types like HSB, RGB, sRGB, RGBW and XY.</p>
 <h4 id="ephemeris-actions">Ephemeris Actions</h4>
 <p>See <a href="https://openhab.github.io/openhab-js/actions.html#.Ephemeris">openhab-js : actions.Ephemeris</a> for complete documentation.</p>
-<p>Ephemeris is a way to determine what type of day today or a number of days before or after today is.
+<p>Ephemeris is a way to determine what type of day today or the number of days before or after today is.
 For example, a way to determine if today is a weekend, a public holiday, someone’s birthday, trash day, etc.</p>
-<p>Additional information can be found on the  <a href="https://www.openhab.org/docs/configuration/actions.html#ephemeris">Ephemeris Actions Docs</a> as well as the <a href="https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/ephemeris">Ephemeris JavaDoc</a>.</p>
+<p>Additional information can be found on the <a href="https://www.openhab.org/docs/configuration/actions.html#ephemeris">Ephemeris Actions Docs</a> as well as the <a href="https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/ephemeris">Ephemeris Javadoc</a>.</p>
 <pre class="prettyprint source lang-javascript"><code>var weekend = actions.Ephemeris.isWeekend();
 </code></pre>
 <h4 id="exec-actions">Exec Actions</h4>
@@ -1149,7 +1153,7 @@ console.log(actions.Transformation.transform('MAP', 'de.map', 'OPEN')); // offen
 <p>Notification actions may be placed in rules to send alerts to mobile devices registered with an <a href="https://github.com/openhab/openhab-cloud">openHAB Cloud instance</a> such as <a href="https://myopenhab.org/">myopenHAB.org</a>.</p>
 <p>There are three different types of notifications:</p>
 <ul>
-<li>Broadcast Notifications: Sent to all registered devices and shown as notification on these devices.</li>
+<li>Broadcast Notifications: Sent to all registered devices and shown as a notification on these devices.</li>
 <li>Standard Notifications: Sent to the registered devices of the specified user and shown as notification on his devices.</li>
 <li>Log Notifications: Only shown in the notification log, e.g. inside the Android and iOS Apps.</li>
 </ul>
@@ -1161,7 +1165,7 @@ It returns a new <code>NotificationBuilder</code> object, which by default sends
 <li><code>.logOnly()</code>: Send a log notification only.</li>
 <li><code>.hide()</code>: Hides notification(s) with the specified <code>referenceId</code> or <code>tag</code> (<code>referenceId</code> has precedence over <code>tag</code>).</li>
 <li><code>.addUserId(emailAddress)</code>: By adding the email address(es) of specific openHAB Cloud user(s), the notification is only sent to this (these) user(s).
-To add multiple users, either call <code>addUserId</code> multiple times or pass mutiple emails as multiple params, e.g. <code>addUserId(emailAddress1, emailAddress2)</code>.</li>
+To add multiple users, either call <code>addUserId</code> multiple times or pass multiple emails as multiple params, e.g. <code>addUserId(emailAddress1, emailAddress2)</code>.</li>
 <li><code>.withIcon(icon)</code>: Sets the icon of the notification.</li>
 <li><code>.withTag(tag)</code>: Sets the tag of the notification. Used for grouping notifications and to hide/remove groups of notifications.</li>
 <li><code>.withTitle(title)</code>: Sets the title of the notification.</li>
@@ -1182,7 +1186,7 @@ actions.notificationBuilder('Hello World!')
 // Send a broadcast notification with icon, tag, title, media attachment URL and actions
 actions.notificationBuilder('Hello World!')
   .withIcon('f7:bell_fill').withTag('important').withTitle('Important Notification')
-  .withOnClickAction('ui:navigate:/page/my_floorplan_page').withMediaAttachmentUrl('http://example.com/image.jpg')
+  .withOnClickAction('ui:navigate:/page/my_floorplan_page').withMediaAttachmentUrl('https://example.com/image.jpg')
   .addActionButton('Turn Kitchen Light ON', 'command:KitchenLights:ON').addActionButton('Turn Kitchen Light OFF', 'command:KitchenLights:OFF').send();
 
 // Send a simple standard notification to two specific users
@@ -1211,11 +1215,11 @@ setTimeout(() => {
 You can use it to store primitives and objects, e.g. store timers or counters between subsequent runs of that script.
 When a script is unloaded and its cache is cleared, all timers (see <a href="#createtimer"><code>createTimer</code></a>) stored in its private cache are automatically cancelled.</p>
 <p>The shared cache is shared across all rules and scripts, it can therefore be accessed from any automation language.
-The access to every key is tracked and the key is removed when all scripts that ever accessed that key are unloaded.
+The access to every key is tracked, and the key is removed when all scripts that ever accessed that key are unloaded.
 If that key stored a timer, the timer will be cancelled.
 You can use it to store primitives and <strong>Java</strong> objects, e.g. store timers or counters between multiple scripts.</p>
 <p>Due to a multi-threading limitation in GraalJS (the JavaScript engine used by JavaScript Scripting), it is not recommended to store JavaScript objects in the shared cache.
-Multi-threaded access to JavaScript objects will lead to script execution failure!
+Multithreaded access to JavaScript objects will lead to script execution failure!
 You can work around that limitation by either serialising and deserialising JS objects or by switching to their Java counterparts.</p>
 <p>Timers as created by <a href="#createtimer"><code>createTimer</code></a> can be stored in the shared cache.
 The ids of timers and intervals as created by <code>setTimeout</code> and <code>setInterval</code> cannot be shared across scripts as these ids are local to the script where they were created.</p>
@@ -1269,13 +1273,13 @@ console.log(&quot;averageSince&quot;, item.persistence.averageSince(yesterday));
 <p>See <a href="https://js-joda.github.io/js-joda/">JS-Joda</a> for more examples and complete API usage.</p>
 <h4 id="parsing-and-formatting">Parsing and Formatting</h4>
 <p>Occasionally, one will need to parse a non-supported date time string or generate one from a ZonedDateTime.
-To do this you will use <a href="https://js-joda.github.io/js-joda/manual/formatting.html">JS-Joda DateTimeFormatter and potentially your Locale</a>.
+To do this, you will use <a href="https://js-joda.github.io/js-joda/manual/formatting.html">JS-Joda DateTimeFormatter and potentially your Locale</a>.
 However, shipping all the locales with the openhab-js library would lead to an unacceptable large size.
 Therefore, if you attempt to use the <code>DateTimeFormatter</code> and receive an error saying it cannot find your locale, you will need to manually install your locale and import it into your rule.</p>
 <p><a href="https://github.com/js-joda/js-joda/tree/master/packages/locale#use-prebuilt-locale-packages">JS-Joda Locales</a> includes a list of all the supported locales.
-Each locale consists of a two letter language indicator followed by a &quot;-&quot; and a two letter dialect indicator: e.g. &quot;EN-US&quot;.
+Each locale consists of a two-letter language indicator followed by a &quot;-&quot; and a two-letter dialect indicator: e.g. &quot;EN-US&quot;.
 Installing a locale can be done through the command <code>npm install @js-joda/locale_de-de</code> from the <em>$OPENHAB_CONF/automation/js</em> folder.</p>
-<p>To import and use a local into your rule you need to require it and create a <code>DateTimeFormatter</code> that uses it:</p>
+<p>To import and use a local into your rule, you need to require it and create a <code>DateTimeFormatter</code> that uses it:</p>
 <pre class="prettyprint source lang-javascript"><code>var Locale = require('@js-joda/locale_de-de').Locale.GERMAN;
 var formatter = time.DateTimeFormatter.ofPattern('dd.MM.yyyy HH:mm').withLocale(Locale);
 </code></pre>
@@ -1284,7 +1288,7 @@ var formatter = time.DateTimeFormatter.ofPattern('dd.MM.yyyy HH:mm').withLocale(
 <h4 id="time.javazdttojszdt()"><code>time.javaZDTToJsZDT()</code></h4>
 <p>Converts a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/ZonedDateTime.html"><code>java.time.ZonedDateTime</code></a> to a JS-Joda <a href="https://js-joda.github.io/js-joda/manual/ZonedDateTime.html"><code>ZonedDateTime</code></a>.</p>
 <h4 id="time.tozdt()"><code>time.toZDT()</code></h4>
-<p>There will be times when this automatic conversion is not available (for example when working with date times within a rule).
+<p>There will be times when this automatic conversion is not available (for example, when working with date times within a rule).
 To ease having to deal with these cases a <code>time.toZDT()</code> function will accept almost any type that can be converted to a <code>time.ZonedDateTime</code>.
 The following rules are used during the conversion:</p>
 <table>
@@ -1363,13 +1367,13 @@ The following rules are used during the conversion:</p>
 </tr>
 </tbody>
 </table>
-<p>If no time zone is explicitly set, the system default time zone is used.
+<p>If no time zone is explicitly set, the system's default time zone is used.
 When a type or string that cannot be handled is encountered, an error is thrown.</p>
 <h4 id="additions-to-time.zoneddatetime">Additions to <code>time.ZonedDateTime</code></h4>
 <p>The openHAB JavaScript library extends the JS-Joda <code>ZonedDateTime</code> class with additional methods that are useful in openHAB.</p>
 <h5 id="totoday()"><code>toToday()</code></h5>
 <p>When you have a <code>time.ZonedDateTime</code>, a new <code>toToday()</code> method was added which will return a new <code>time.ZonedDateTime</code> with today's date but the original's time, accounting for DST changes.</p>
-<p>For example, if the time was 13:45 and today was a DST changeover, the time will still be 13:45 instead of one hour off.</p>
+<p>For example, if the time was 13:45 and today was a DST changeover, the time would still be 13:45 instead of one hour off.</p>
 <pre class="prettyprint source lang-javascript"><code>var alarm = items.Alarm;
 alarm.postUpdate(time.toZDT(alarm).toToday());
 </code></pre>
@@ -1530,7 +1534,7 @@ qty = Quantity('1 m^2 / s^2'); // whitespaces are not allowed
 qty = Quantity('1 m^2 s^2'); // / is required
 qty = Quantity('1 m2/s2'); // ^ is required
 </code></pre>
-<p>Note: It is possible to create a unit-less (without unit) Quantity, however there is no advantage over using a <code>number</code> instead.</p>
+<p>Note: It is possible to create a unit-less (without a unit) Quantity, however, there is no advantage over using a <code>number</code> instead.</p>
 <h4 id="conversion">Conversion</h4>
 <p>It is possible to convert a <code>Quantity</code> to a new <code>Quantity</code> with a different unit or to get a <code>Quantity</code>'s amount as integer or float:</p>
 <pre class="prettyprint source lang-javascript"><code>var qty = Quantity('10.2 °C');
@@ -1575,11 +1579,14 @@ openHAB-JS converts between Java and JavaScript data types and reverse.</p>
 <p>The <code>environment</code> namespace provides information about the environment of the script, like openHAB, <a href="https://github.com/openhab/openhab-js">openhab-js</a> &amp; GraalJS versions.</p>
 <p>A word of caution: The <code>environment</code> namespace is considered an advanced API and might change without a new major version of <a href="https://github.com/openhab/openhab-js">openhab-js</a>.</p>
 <p>See <a href="https://openhab.github.io/openhab-js/environment.html">openhab-js : environment</a> for full API documentation.</p>
-<h2 id="file-based-rules">File-Based Rules</h2>
+<h2 id="rules-created-from-script-files">Rules created from Script Files</h2>
+<blockquote>
+<p>Formerly known as <em>File-Based Rules</em>.</p>
+</blockquote>
 <p>The JavaScript Scripting automation add-on will load <code>.js</code> scripts from <code>automation/js</code> in the user configuration directory.
 The system will automatically reload a script when changes are detected to the script file or its dependencies.
 Local variable state is not persisted among reloads, see using the <a href="#cache">cache</a> for a convenient way to persist objects.</p>
-<p>File-based rules normally share the context with the script file that created them.
+<p>Rules created script files normally share the context with the script file that created them.
 This allows sharing functions, classes and variables that are defined outside the rule's execute function across multiple rules from the same script file.
 However, this comes with a caveat: Sharing the context across multiple rules imposes the limitation that only a single rule from the same script file can execute at a time.
 When writing rules that query persistence or wait for other I/O, it can make sense to disable this behaviour by setting the <code>dedicatedContext</code> option to <code>true</code> for <a href="#jsrule">JSRule</a>.</p>
@@ -1587,7 +1594,7 @@ When writing rules that query persistence or wait for other I/O, it can make sen
 This means that the rule's execute function can <strong>not</strong> access functions, classes or variables from the context of the script file that created the rule.
 The benefit of using a dedicated context is that the rule's execute function has its own, dedicated context and can therefore execute at any time, without needing to wait for other rules.
 Please note that in most cases, the dedicated context won't be needed, as rule execution is usually rapid and the wait time for the rule to execute is negligible.</p>
-<p>File-based rules can be created in two different ways: using <a href="#jsrule">JSRule</a> or the <a href="#rule-builder">Rule Builder</a>.</p>
+<p>Rules can be created from script files in two different ways: using <a href="#jsrule">JSRule</a> or the <a href="#rule-builder">Rule Builder</a>.</p>
 <p>When a rule is triggered, the script is provided information about the event that triggered the rule in the <code>event</code> object.
 Please refer to <a href="#event-object">Event Object</a> for documentation.</p>
 <p>See <a href="https://openhab.github.io/openhab-js/rules.html">openhab-js : rules</a> for full API documentation.</p>
@@ -1658,12 +1665,12 @@ As an extension to <code>JSRule</code>, its syntax is the same, however, you can
 <a href="#rule-builder-conditions">conditions</a> and <a href="#rule-builder-operations">operations</a> in the following pattern:</p>
 <pre class="prettyprint source lang-javascript"><code>rules.when().triggerType()...if().conditionType().then().operationType()...build(name, description, tags, id);
 </code></pre>
-<p>Rule are completed by calling <code>.build(name, description, tags, id)</code> , all parameters are optional, and reasonable defaults will be used if omitted.</p>
+<p>Rules are completed by calling <code>.build(name, description, tags, id)</code> , all parameters are optional, and reasonable defaults will be used if omitted.</p>
 <ul>
-<li><code>name</code> String rule name - defaults generated name</li>
-<li><code>description</code> String Rule description - defaults generated description</li>
-<li><code>tags</code> Array of string tag names - defaults empty array</li>
-<li><code>id</code> String id - defaults random UUID</li>
+<li><code>name</code> (string): rule name - defaults generated name</li>
+<li><code>description</code> (string): rule description - defaults generated description</li>
+<li><code>tags</code> (string array) tag names - defaults empty array</li>
+<li><code>id</code> (string) id - defaults random UUID</li>
 </ul>
 <p>A simple example of this would look like:</p>
 <pre class="prettyprint source lang-javascript"><code>rules.when().item(&quot;F1_Light&quot;).changed().then().send(&quot;changed&quot;).toItem(&quot;F2_Light&quot;).build(&quot;My Rule&quot;, &quot;My First Rule&quot;, ['MyTag1', 'Tag2'], 'MyRuleID');
@@ -1839,7 +1846,7 @@ rules.when(true).item('HallLight').receivedUpdate().then().copyState().fromItem(
 This will create a <code>node_modules</code> folder (if it doesn't already exist) and install the library and it's dependencies there.</p>
 <p>There are already some openHAB specific libraries available on <a href="https://www.npmjs.com/search?q=openhab">npm</a>, you may also search the forum for details.</p>
 <h4 id="creating-your-own-library">Creating Your Own Library</h4>
-<p>You can also create your own personal JavaScript library for openHAB, but you can not just create a folder in <code>node_modules</code> and put your library code in it!
+<p>You can also create your own personal JavaScript library for openHAB, but you cannot just create a folder in <code>node_modules</code> and put your library code in it!
 When it is run, <code>npm</code> will remove everything from <code>node_modules</code> that has not been properly installed.</p>
 <p>Follow these steps to create your own library (it's called a CommonJS module):</p>
 <ol>
@@ -1895,7 +1902,7 @@ This can be achieved by using <code>require('@runtime')</code>, e.g.</p>
 </code></pre>
 <p>A list of available utilities and types can be found in the <a href="https://www.openhab.org/docs/configuration/jsr223.html#default-preset-importpreset-not-required">JSR223 Default Preset documentation</a>.</p>
 <p><code>require('@runtime')</code> also defines &quot;services&quot; such as <code>items</code>, <code>things</code>, <code>rules</code>, <code>events</code>, <code>actions</code>, <code>ir</code>, <code>itemRegistry</code>.
-You can use these services for backwards compatibility purposes or ease migration from JSR223 scripts.</p></article>
+You can use these services for backwards compatibility or ease migration from JSR223 scripts.</p></article>
     </section>
 
 
@@ -1910,7 +1917,7 @@ You can use these services for backwards compatibility purposes or ease migratio
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Fri Oct 31 2025 18:54:23 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Mon Nov 10 2025 17:57:17 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
