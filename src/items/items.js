@@ -29,6 +29,9 @@ const ItemDTOMapper = Java.type('org.openhab.core.items.dto.ItemDTOMapper');
 const ItemDTO = Java.type('org.openhab.core.items.dto.ItemDTO');
 const GroupItemDTO = Java.type('org.openhab.core.items.dto.GroupItemDTO');
 const GroupFunctionDTO = Java.type('org.openhab.core.items.dto.GroupFunctionDTO');
+const AbstractEvent = Java.type('org.openhab.core.events.AbstractEvent');
+
+const BusEventImplClassName = 'org.openhab.core.automation.module.script.internal.action.BusEventImpl';
 
 // typedefs need to be global for TypeScript to fully work
 /**
@@ -69,6 +72,34 @@ const GroupFunctionDTO = Java.type('org.openhab.core.items.dto.GroupFunctionDTO'
  * @typedef {import('../quantity').Quantity} Quantity
  * @private
  */
+
+let eventSource = null;
+
+/**
+ * Builds the event source for commands and updates.
+ * Caches the computed source string.
+ * @private
+ * @return {string}
+ */
+function _buildEventSource () {
+  if (eventSource) return eventSource;
+
+  const packageName = 'org.openhab.automation.jsscripting';
+  const filename = globalThis['javax.script.filename']?.replace(/^.*[\\/]/, '');
+  const ruleUID = globalThis.ruleUID;
+  const engineIdentifier = globalThis['oh.engine-identifier'];
+  if (filename) {
+    eventSource = AbstractEvent.buildSource(packageName, `file:${filename}`);
+  } else if (ruleUID) {
+    eventSource = AbstractEvent.buildSource(packageName, `rule:${ruleUID}`);
+  } else if (engineIdentifier.startsWith('openhab-transformation-script-')) {
+    eventSource = AbstractEvent.buildSource(packageName,
+      `transformation:${engineIdentifier.replaceAll('openhab-transformation-script-', '')}`);
+  } else {
+    eventSource = AbstractEvent.buildSource(packageName, `engine:${engineIdentifier}`);
+  }
+  return eventSource;
+}
 
 /**
  * Class representing an openHAB Item
@@ -354,7 +385,14 @@ class Item {
       }, expire.toMillis(), this, onExpire, value);
       cache.private.put(CACHE_KEY, timeoutId);
     }
-    events.sendCommand(this.rawItem, _toOpenhabPrimitiveType(value));
+
+    if (Java.typeName(events.getClass()) === BusEventImplClassName) {
+      // BusEventImpl supports providing command source
+      events.sendCommand(this.rawItem, _toOpenhabPrimitiveType(value), _buildEventSource());
+    } else {
+      // old ScriptBusEventImpl doesn't support providing command source
+      events.sendCommand(this.rawItem, _toOpenhabPrimitiveType(value));
+    }
   }
 
   /**
@@ -511,7 +549,13 @@ class Item {
    * @see sendCommand
    */
   postUpdate (value) {
-    events.postUpdate(this.rawItem, _toOpenhabPrimitiveType(value));
+    if (Java.typeName(events.getClass()) === BusEventImplClassName) {
+      // BusEventImpl supports providing update source
+      events.postUpdate(this.rawItem, _toOpenhabPrimitiveType(value), _buildEventSource());
+    } else {
+      // old ScriptBusEventImpl doesn't support providing update source
+      events.postUpdate(this.rawItem, _toOpenhabPrimitiveType(value));
+    }
   }
 
   /**

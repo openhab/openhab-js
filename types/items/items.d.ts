@@ -144,44 +144,6 @@ export function replaceItem(itemConfig: ItemConfig): Item | null;
  */
 export function removeItem(itemOrItemName: string | Item): Item | null;
 /**
- * @typedef {object} ItemConfig configuration describing an Item
- * @property {string} type the type of the Item
- * @property {string} name Item name for the Item to create
- * @property {string} [label] the label for the Item
- * @property {string} [category] the category (icon) for the Item
- * @property {string[]} [groups] an array of groups the Item is a member of
- * @property {string[]} [tags] an array of tags for the Item
- * @property {object} [group] group configuration, only applicable if type is `Group`
- * @property {string} group.type the type of the Group, such as `Switch` or `Number`
- * @property {string} [group.function] the group function, such as 'EQUALITY' or `AND`
- * @property {string[]} [group.parameters] optional parameters for the group function, e.g. `ON` and `OFF` for the `AND` function
- * @property {string|object} [channels] for single channel link a string or for multiple an object { channeluid: configuration }; configuration is an object
- * @property {*} [metadata] either object `{ namespace: value }` or `{ namespace: `{@link ItemMetadata}` }`
- * @property {string} [format] short form for the stateDescription metadata's pattern configuration
- * @property {string} [unit] short form for the unit metadata's value
- * @property {boolean} [autoupdate] short form for the autoupdate metadata's value
- */
-/**
- * @typedef {import('./metadata').ItemMetadata} ItemMetadata
- * @private
- */
-/**
- * @typedef {import('@js-joda/core').ZonedDateTime} ZonedDateTime
- * @private
- */
-/**
- * @typedef {import('@js-joda/core').Instant} Instant
- * @private
- */
-/**
- * @typedef {import('@js-joda/core').Duration} Duration
- * @private
- */
-/**
- * @typedef {import('../quantity').Quantity} Quantity
- * @private
- */
-/**
  * Class representing an openHAB Item
  *
  * @memberof items
