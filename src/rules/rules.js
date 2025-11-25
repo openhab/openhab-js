@@ -33,6 +33,7 @@
  * @property {string} triggerType for all triggers except {@link triggers.PWMTrigger}, {@link triggers.PIDTrigger}: Type of trigger that triggered event
  * @property {string} eventName for all triggers: simple Java class name of the triggering event
  * @property {string} eventClass for all triggers: full Java class name of the triggering event
+ * @property {string|null} eventSource for all triggers: source of the triggering event or null if not specified
  * @property {string} module (user-defined or auto-generated) name of trigger
  * @property {*} raw original contents of the event including data passed from a calling rule
  * @property {*} payload if provided by event: payload of event in Java data types
@@ -491,6 +492,7 @@ function _getTriggeredData (input, javaEventBackwardCompat = false) {
   if (event) {
     data.eventClass = event.getClass().getName();
     data.eventName = event.getClass().getSimpleName();
+    data.eventSource = event.getSource();
 
     try {
       if (event.getPayload()) {
