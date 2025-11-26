@@ -81,7 +81,8 @@ This will be used instead of the binding-provided version.
 | 4.1.1 etc.      | 4.7.2                        | 4.9.0                        |
 | 4.2.x           | 5.0.0                        | 5.7.2                        |
 | 4.3.x           | 5.0.0                        | 5.9.0                        |
-| 5.0.x           | 5.0.0                        | -                            |
+| 5.0.x           | 5.0.0                        | 5.15.0                       |
+| 5.1.x           | 5.0.0                        |                              |
 
 ## Configuration
 

@@ -1,5 +1,15 @@
 # Changelog
 
+## 5.16.0
+
+| Type        | Namespace | Description                                          | Reference                                              | Breaking |
+|-------------|-----------|------------------------------------------------------|--------------------------------------------------------|----------|
+| Enhancement | `items`   | Metadata: Don't allow objects as configuration value | [#495](https://github.com/openhab/openhab-js/pull/495) | no       |
+| Enhancement | `items`   | Set event source for commands & updates              | [#498](https://github.com/openhab/openhab-js/pull/498) | no       |
+| Enhancement | `rules`   | EventObject: Provide access to the event source      | [#499](https://github.com/openhab/openhab-js/pull/499) | no       |
+
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/47).
+
 ## 5.15.0
 
 | Type        | Namespace     | Description                                                                       | Reference                                              | Breaking |
