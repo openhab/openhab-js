@@ -218,9 +218,10 @@ describe('triggers.js', () => {
   });
 
   describe('SystemStartlevelTrigger', () => {
+    const triggerName = 'triggerName';
+
     it('creates trigger.', () => {
       const startlevel = 100;
-      const triggerName = 'triggerName';
       const trigger = SystemStartlevelTrigger(startlevel, triggerName);
 
       expect(trigger).not.toBe(undefined);
@@ -238,7 +239,6 @@ describe('triggers.js', () => {
     it('also supports startlevel as string.', () => {
       const startlevel = '100';
       const startlevelAsNumber = 100;
-      const triggerName = 'triggerName';
       const trigger = SystemStartlevelTrigger(startlevel, triggerName);
 
       expect(trigger).not.toBe(undefined);
