@@ -218,9 +218,10 @@ describe('triggers.js', () => {
   });
 
   describe('SystemStartlevelTrigger', () => {
+    const triggerName = 'triggerName';
+
     it('creates trigger.', () => {
-      const startlevel = 'startlevel';
-      const triggerName = 'triggerName';
+      const startlevel = 100;
       const trigger = SystemStartlevelTrigger(startlevel, triggerName);
 
       expect(trigger).not.toBe(undefined);
@@ -231,6 +232,23 @@ describe('triggers.js', () => {
       expect(moduleBuilderSpy.withConfiguration).toHaveBeenCalledWith(
         expect.objectContaining({
           config: { startlevel }
+        })
+      );
+    });
+
+    it('also supports startlevel as string.', () => {
+      const startlevel = '100';
+      const startlevelAsNumber = 100;
+      const trigger = SystemStartlevelTrigger(startlevel, triggerName);
+
+      expect(trigger).not.toBe(undefined);
+      expect(moduleBuilderSpy.withTypeUID).toHaveBeenCalledWith(
+        'core.SystemStartlevelTrigger'
+      );
+      expect(moduleBuilderSpy.withId).toHaveBeenCalledWith(triggerName);
+      expect(moduleBuilderSpy.withConfiguration).toHaveBeenCalledWith(
+        expect.objectContaining({
+          config: { startlevel: startlevelAsNumber }
         })
       );
     });

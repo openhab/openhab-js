@@ -223,7 +223,7 @@ const ThingStatusChangeTrigger = (thingUID, status, previousStatus, triggerName)
  */
 const SystemStartlevelTrigger = (startlevel, triggerName) =>
   _createTrigger('core.SystemStartlevelTrigger', triggerName, {
-    startlevel: startlevel.toString()
+    startlevel: parseInt(startlevel)
   });
 
 /**
