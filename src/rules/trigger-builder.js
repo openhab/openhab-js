@@ -3,6 +3,11 @@ const operations = require('./operation-builder');
 const conditions = require('./condition-builder');
 
 /**
+ * @typedef { import("../items/items").Item } Item
+ * @private
+ */
+
+/**
  * @callback ConditionCallback The callback function to determine if the condition is met.
  * @returns {boolean} true if the condition is met, otherwise false
  */
@@ -75,21 +80,21 @@ class TriggerBuilder {
   /**
    * Specifies an Item as the source of changes to trigger a rule.
    *
-   * @param {string} itemName the name of the Item
+   * @param {Item|string} itemOrName the {@link Item} or the name of the Item
    * @returns {ItemTriggerConfig} the trigger config
    */
-  item (itemName) {
-    return this._setTrigger(new ItemTriggerConfig(itemName, false, this));
+  item (itemOrName) {
+    return this._setTrigger(new ItemTriggerConfig(itemOrName, false, this));
   }
 
   /**
    * Specifies a group member as the source of changes to trigger a rule.
    *
-   * @param {string} groupName the name of the group
+   * @param {Item|string} groupOrName the {@link Item} or the name of the group
    * @returns {ItemTriggerConfig} the trigger config
    */
-  memberOf (groupName) {
-    return this._setTrigger(new ItemTriggerConfig(groupName, true, this));
+  memberOf (groupOrName) {
+    return this._setTrigger(new ItemTriggerConfig(groupOrName, true, this));
   }
 
   /**
@@ -115,11 +120,11 @@ class TriggerBuilder {
   /**
    * Specifies a DateTime Item whose (optional) date and time schedule the rule to fire.
    *
-   * @param {string} itemName the name of the Item to monitor for change
+   * @param {Item|string} itemOrName the {@link Item} or the name of the Item
    * @returns {DateTimeTriggerConfig} the trigger config
    */
-  dateTime (itemName) {
-    return this._setTrigger(new DateTimeTriggerConfig(itemName, this));
+  dateTime (itemOrName) {
+    return this._setTrigger(new DateTimeTriggerConfig(itemOrName, this));
   }
 }
 
@@ -134,7 +139,7 @@ class TriggerConf {
   }
 
   /**
-   * Add an additional Trigger
+   * Adds an additional Trigger
    *
    * @returns {TriggerBuilder}
    */
@@ -185,7 +190,7 @@ class ChannelTriggerConfig extends TriggerConf {
   }
 
   /**
-   * trigger a specific event name
+   * channel trigger a specific event name
    *
    * @param {string} eventName
    * @returns {ChannelTriggerConfig}
@@ -195,7 +200,7 @@ class ChannelTriggerConfig extends TriggerConf {
   }
 
   /**
-   * trigger a specific event name
+   * channel triggered a specific event name
    *
    * @param {string} eventName
    * @returns {ChannelTriggerConfig}
@@ -233,7 +238,7 @@ class CronTriggerConfig extends TriggerConf {
 }
 
 /**
- * Time of day based trigger
+ * Time of day-based trigger
  *
  * @memberof TriggerBuilder
  * @extends TriggerConf
@@ -276,9 +281,9 @@ class ItemTriggerConfig extends TriggerConf {
   }
 
   /**
-   * Item to
+   * Item received command or changed/updated state to
    *
-   * @param {*} value this Item should be triggered to
+   * @param {string} value
    * @returns {ItemTriggerConfig}
    */
   to (value) {
@@ -287,8 +292,9 @@ class ItemTriggerConfig extends TriggerConf {
   }
 
   /**
-   * Item from
-   * @param {*} value this items should be triggered from
+   * Item state changed from
+   *
+   * @param {string} value
    * @returns {ItemTriggerConfig}
    */
   from (value) {
@@ -300,7 +306,7 @@ class ItemTriggerConfig extends TriggerConf {
   }
 
   /**
-   * Item changed to OFF
+   * Item received command OFF or changed/updated state to OFF
    *
    * @returns {ItemTriggerConfig}
    */
@@ -309,7 +315,7 @@ class ItemTriggerConfig extends TriggerConf {
   }
 
   /**
-   * Item changed to ON
+   * Item received command ON or changed/updated state to ON
    *
    * @returns {ItemTriggerConfig}
    */
@@ -318,7 +324,7 @@ class ItemTriggerConfig extends TriggerConf {
   }
 
   /**
-   * Item changed from OFF
+   * Item changed state from OFF
    *
    * @returns {ItemTriggerConfig}
    */
@@ -327,7 +333,7 @@ class ItemTriggerConfig extends TriggerConf {
   }
 
   /**
-   * Item changed from ON
+   * Item changed state from ON
    *
    * @returns {ItemTriggerConfig}
    */
@@ -457,7 +463,7 @@ class ItemTriggerConfig extends TriggerConf {
 }
 
 /**
- * Thing based trigger
+ * Thing-based trigger
  *
  * @memberof TriggerBuilder
  * @extends TriggerConf
@@ -498,7 +504,7 @@ class ThingTriggerConfig extends TriggerConf {
   }
 
   /**
-   * thing changed
+   * Thing status changed
    *
    * @returns {ThingTriggerConfig}
    */
@@ -508,7 +514,7 @@ class ThingTriggerConfig extends TriggerConf {
   }
 
   /**
-   * thing updates
+   * Thing status updated
    *
    * @returns {ThingTriggerConfig}
    */
@@ -518,8 +524,9 @@ class ThingTriggerConfig extends TriggerConf {
   }
 
   /**
-   * thing status changed from
+   * Thing status changed from
    *
+   * @param {string} value
    * @returns {ThingTriggerConfig}
    */
   from (value) {
@@ -531,8 +538,9 @@ class ThingTriggerConfig extends TriggerConf {
   }
 
   /**
-   * thing status changed to
+   * Thing status changed to
    *
+   * @param {string} value
    * @returns {ThingTriggerConfig}
    */
   to (value) {

@@ -1,3 +1,88 @@
+export type Item = {
+    rawItem: HostItem;
+    persistence: import("../items/item-persistence");
+    semantics: import("../items/item-semantics");
+    readonly type: string; /** @private */
+    readonly groupType: string;
+    readonly name: string;
+    readonly label: string;
+    readonly state: string;
+    readonly numericState: number;
+    readonly quantityState: import("../quantity").Quantity;
+    readonly boolState: boolean;
+    readonly rawState: HostState;
+    readonly previousState: string;
+    readonly previousNumericState: number;
+    readonly previousQuantityState: import("../quantity").Quantity;
+    readonly previousRawState: any;
+    readonly lastStateUpdateTimestamp: any;
+    readonly lastStateUpdateInstant: any;
+    readonly lastStateChangeTimestamp: any;
+    readonly lastStateChangeInstant: any;
+    readonly members: any[];
+    readonly descendents: any[];
+    readonly isUninitialized: boolean;
+    getMetadata(namespace?: string): {
+        rawMetadata: any;
+        readonly value: string;
+        readonly configuration: any;
+        toString(): any; /**
+         * Specifies a time schedule for the rule to fire.
+         *
+         * @param {string} time the time expression (in `HH:mm`) defining the triggering schedule
+         * @returns {TimeOfDayTriggerConfig} the trigger config
+         */
+    } | {
+        namespace: {
+            rawMetadata: any;
+            readonly value: string;
+            readonly configuration: any;
+            toString(): any; /**
+             * Specifies a time schedule for the rule to fire.
+             *
+             * @param {string} time the time expression (in `HH:mm`) defining the triggering schedule
+             * @returns {TimeOfDayTriggerConfig} the trigger config
+             */
+        };
+    };
+    replaceMetadata(namespace: string, value: string, configuration?: any): {
+        rawMetadata: any;
+        readonly value: string;
+        readonly configuration: any;
+        toString(): any; /**
+         * Specifies a time schedule for the rule to fire.
+         *
+         * @param {string} time the time expression (in `HH:mm`) defining the triggering schedule
+         * @returns {TimeOfDayTriggerConfig} the trigger config
+         */
+    };
+    removeMetadata(namespace?: string): {
+        rawMetadata: any;
+        readonly value: string;
+        readonly configuration: any;
+        toString(): any; /**
+         * Specifies a time schedule for the rule to fire.
+         *
+         * @param {string} time the time expression (in `HH:mm`) defining the triggering schedule
+         * @returns {TimeOfDayTriggerConfig} the trigger config
+         */
+    };
+    sendCommand(value: any, expire?: JSJoda.Duration, onExpire?: any): void;
+    sendCommandIfDifferent(value: any): boolean;
+    sendIncreaseCommand(value: any): boolean;
+    sendDecreaseCommand(value: any): boolean;
+    getToggleState(): "OPEN" | "PLAY" | "ON" | "PAUSE" | "CLOSED" | "OFF";
+    sendToggleCommand(): void;
+    postToggleUpdate(): void;
+    postUpdate(value: any): void;
+    readonly groupNames: string[];
+    addGroups(...groupNamesOrItems: any[]): void;
+    removeGroups(...groupNamesOrItems: any[]): void;
+    readonly tags: string[];
+    addTags(...tagNames: string[]): void;
+    removeTags(...tagNames: string[]): void;
+    toString(): any;
+};
 /**
  * The callback function to determine if the condition is met.
  */
@@ -32,14 +117,14 @@ export class ChannelTriggerConfig extends TriggerConf {
     /** @private */
     private describe;
     /**
-     * trigger a specific event name
+     * channel trigger a specific event name
      *
      * @param {string} eventName
      * @returns {ChannelTriggerConfig}
      */
     to(eventName: string): ChannelTriggerConfig;
     /**
-     * trigger a specific event name
+     * channel triggered a specific event name
      *
      * @param {string} eventName
      * @returns {ChannelTriggerConfig}
@@ -63,42 +148,43 @@ export class ItemTriggerConfig extends TriggerConf {
     private item_name;
     /** @private */
     private describe;
-    of: (value: any) => ItemTriggerConfig;
+    of: (value: string) => ItemTriggerConfig;
     /**
-     * Item to
+     * Item received command or changed/updated state to
      *
-     * @param {*} value this Item should be triggered to
+     * @param {string} value
      * @returns {ItemTriggerConfig}
      */
-    to(value: any): ItemTriggerConfig;
-    to_value: any;
+    to(value: string): ItemTriggerConfig;
+    to_value: string;
     /**
-     * Item from
-     * @param {*} value this items should be triggered from
+     * Item state changed from
+     *
+     * @param {string} value
      * @returns {ItemTriggerConfig}
      */
-    from(value: any): ItemTriggerConfig;
-    from_value: any;
+    from(value: string): ItemTriggerConfig;
+    from_value: string;
     /**
-     * Item changed to OFF
+     * Item received command OFF or changed/updated state to OFF
      *
      * @returns {ItemTriggerConfig}
      */
     toOff(): ItemTriggerConfig;
     /**
-     * Item changed to ON
+     * Item received command ON or changed/updated state to ON
      *
      * @returns {ItemTriggerConfig}
      */
     toOn(): ItemTriggerConfig;
     /**
-     * Item changed from OFF
+     * Item changed state from OFF
      *
      * @returns {ItemTriggerConfig}
      */
     fromOff(): ItemTriggerConfig;
     /**
-     * Item changed from ON
+     * Item changed state from ON
      *
      * @returns {ItemTriggerConfig}
      */
@@ -136,7 +222,7 @@ export class ItemTriggerConfig extends TriggerConf {
     private _executeHook;
 }
 /**
- * Thing based trigger
+ * Thing-based trigger
  *
  * @memberof TriggerBuilder
  * @extends TriggerConf
@@ -151,32 +237,34 @@ export class ThingTriggerConfig extends TriggerConf {
     /** @private */
     private describe;
     /**
-     * thing changed
+     * Thing status changed
      *
      * @returns {ThingTriggerConfig}
      */
     changed(): ThingTriggerConfig;
     op_type: string;
     /**
-     * thing updates
+     * Thing status updated
      *
      * @returns {ThingTriggerConfig}
      */
     updated(): ThingTriggerConfig;
     /**
-     * thing status changed from
+     * Thing status changed from
      *
+     * @param {string} value
      * @returns {ThingTriggerConfig}
      */
-    from(value: any): ThingTriggerConfig;
-    from_value: any;
+    from(value: string): ThingTriggerConfig;
+    from_value: string;
     /**
-     * thing status changed to
+     * Thing status changed to
      *
+     * @param {string} value
      * @returns {ThingTriggerConfig}
      */
-    to(value: any): ThingTriggerConfig;
-    to_value: any;
+    to(value: string): ThingTriggerConfig;
+    to_value: string;
     /** @private */
     private _toOHTriggers;
 }
@@ -232,6 +320,10 @@ export class SystemTriggerConfig extends TriggerConf {
     level: number;
 }
 /**
+ * @typedef { import("../items/items").Item } Item
+ * @private
+ */
+/**
  * @callback ConditionCallback The callback function to determine if the condition is met.
  * @returns {boolean} true if the condition is met, otherwise false
  */
@@ -277,17 +369,17 @@ export class TriggerBuilder {
     /**
      * Specifies an Item as the source of changes to trigger a rule.
      *
-     * @param {string} itemName the name of the Item
+     * @param {Item|string} itemOrName the {@link Item} or the name of the Item
      * @returns {ItemTriggerConfig} the trigger config
      */
-    item(itemName: string): ItemTriggerConfig;
+    item(itemOrName: Item | string): ItemTriggerConfig;
     /**
      * Specifies a group member as the source of changes to trigger a rule.
      *
-     * @param {string} groupName the name of the group
+     * @param {Item|string} groupOrName the {@link Item} or the name of the group
      * @returns {ItemTriggerConfig} the trigger config
      */
-    memberOf(groupName: string): ItemTriggerConfig;
+    memberOf(groupOrName: Item | string): ItemTriggerConfig;
     /**
      * Specifies a Thing status event as a source for the rule to fire.
      *
@@ -305,10 +397,10 @@ export class TriggerBuilder {
     /**
      * Specifies a DateTime Item whose (optional) date and time schedule the rule to fire.
      *
-     * @param {string} itemName the name of the Item to monitor for change
+     * @param {Item|string} itemOrName the {@link Item} or the name of the Item
      * @returns {DateTimeTriggerConfig} the trigger config
      */
-    dateTime(itemName: string): DateTimeTriggerConfig;
+    dateTime(itemOrName: Item | string): DateTimeTriggerConfig;
 }
 /**
  * {RuleBuilder} RuleBuilder triggers
@@ -319,7 +411,7 @@ declare class TriggerConf {
     /** @private */
     private triggerBuilder;
     /**
-     * Add an additional Trigger
+     * Adds an additional Trigger
      *
      * @returns {TriggerBuilder}
      */
@@ -340,7 +432,7 @@ declare class TriggerConf {
     if(fn?: ConditionCallback): conditions.ConditionBuilder;
 }
 /**
- * Time of day based trigger
+ * Time of day-based trigger
  *
  * @memberof TriggerBuilder
  * @extends TriggerConf
