@@ -282,7 +282,7 @@ class ItemTriggerConfig extends TriggerConf {
    * @returns {ItemTriggerConfig}
    */
   to (value) {
-    this.to_value = value;
+    this.to_value = value.toString();
     return this;
   }
 
@@ -295,7 +295,7 @@ class ItemTriggerConfig extends TriggerConf {
     if (this.op_type !== 'changed') {
       throw Error('.from(..) only available for .changed()');
     }
-    this.from_value = value;
+    this.from_value = value.toString();
     return this;
   }
 
@@ -526,7 +526,7 @@ class ThingTriggerConfig extends TriggerConf {
     if (this.op_type !== 'changed') {
       throw Error('.from(..) only available for .changed()');
     }
-    this.from_value = value;
+    this.from_value = value.toString();
     return this;
   }
 
@@ -536,7 +536,7 @@ class ThingTriggerConfig extends TriggerConf {
    * @returns {ThingTriggerConfig}
    */
   to (value) {
-    this.to_value = value;
+    this.to_value = value.toString();
     return this;
   }
 
