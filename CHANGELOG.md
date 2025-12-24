@@ -1,5 +1,13 @@
 # Changelog
 
+## 5.16.2
+
+| Type   | Namespace | Description                                                       | Reference                                              | Breaking |
+|--------|-----------|-------------------------------------------------------------------|--------------------------------------------------------|----------|
+| Bugfix | `rules`   | Rule Builder: Ensure from & to arguments for triggers are strings | [#502](https://github.com/openhab/openhab-js/pull/502) | no       |
+
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/48).
+
 ## 5.16.1 (5.16.0)
 
 | Type        | Namespace  | Description                                              | Reference                                              | Breaking |
