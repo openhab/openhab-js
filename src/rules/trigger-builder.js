@@ -190,7 +190,7 @@ class ChannelTriggerConfig extends TriggerConf {
   }
 
   /**
-   * channel trigger a specific event name
+   * channel triggered a specific event name
    *
    * @param {string} eventName
    * @returns {ChannelTriggerConfig}

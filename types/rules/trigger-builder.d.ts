@@ -2,7 +2,8 @@ export type Item = {
     rawItem: HostItem;
     persistence: import("../items/item-persistence");
     semantics: import("../items/item-semantics");
-    readonly type: string; /** @private */
+    readonly type: string;
+    /** @private */
     readonly groupType: string;
     readonly name: string;
     readonly label: string;
@@ -10,7 +11,12 @@ export type Item = {
     readonly numericState: number;
     readonly quantityState: import("../quantity").Quantity;
     readonly boolState: boolean;
-    readonly rawState: HostState;
+    readonly rawState: HostState; /**
+     * Item state changed from
+     *
+     * @param {string} value
+     * @returns {ItemTriggerConfig}
+     */
     readonly previousState: string;
     readonly previousNumericState: number;
     readonly previousQuantityState: import("../quantity").Quantity;
@@ -117,7 +123,7 @@ export class ChannelTriggerConfig extends TriggerConf {
     /** @private */
     private describe;
     /**
-     * channel trigger a specific event name
+     * channel triggered a specific event name
      *
      * @param {string} eventName
      * @returns {ChannelTriggerConfig}
