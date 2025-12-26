@@ -266,6 +266,11 @@ export class Item {
      */
     get descendents(): Item[];
     /**
+     * Whether this Item is initialized (`true` if it has been initialized).
+     * @type {boolean}
+     */
+    get isInitialized(): boolean;
+    /**
      * Whether this Item is uninitialized (`true` if it has not been initialized).
      * @type {boolean}
      */
