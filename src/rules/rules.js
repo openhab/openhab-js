@@ -418,7 +418,7 @@ function SwitchableJSRule (ruleConfig) {
   // hook up a rule to link the item to the actual rule
   _linkItemToRule(rule, item);
 
-  if (item.isUninitialized) {
+  if (!item.isInitialized) {
     // possibly load item's prior state
     let historicState = null;
     try {
