@@ -26,12 +26,20 @@ export type Item = {
         rawMetadata: any;
         readonly value: string;
         readonly configuration: any;
+        /**
+         * The name of the linked Item.
+         * @type {string}
+         */
         toString(): any;
     } | {
         namespace: {
             rawMetadata: any;
             readonly value: string;
             readonly configuration: any;
+            /**
+             * The name of the linked Item.
+             * @type {string}
+             */
             toString(): any;
         };
     };
@@ -39,12 +47,20 @@ export type Item = {
         rawMetadata: any;
         readonly value: string;
         readonly configuration: any;
+        /**
+         * The name of the linked Item.
+         * @type {string}
+         */
         toString(): any;
     };
     removeMetadata(namespace?: string): {
         rawMetadata: any;
         readonly value: string;
         readonly configuration: any;
+        /**
+         * The name of the linked Item.
+         * @type {string}
+         */
         toString(): any;
     };
     sendCommand(value: any, expire?: JSJoda.Duration, onExpire?: any): void;

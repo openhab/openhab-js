@@ -3,7 +3,6 @@ export type Item = {
     persistence: import("../items/item-persistence");
     semantics: import("../items/item-semantics");
     readonly type: string;
-    /** @private */
     readonly groupType: string;
     readonly name: string;
     readonly label: string;
@@ -11,12 +10,7 @@ export type Item = {
     readonly numericState: number;
     readonly quantityState: import("../quantity").Quantity;
     readonly boolState: boolean;
-    readonly rawState: HostState; /**
-     * Item state changed from
-     *
-     * @param {string} value
-     * @returns {ItemTriggerConfig}
-     */
+    readonly rawState: HostState;
     readonly previousState: string;
     readonly previousNumericState: number;
     readonly previousQuantityState: import("../quantity").Quantity;
@@ -32,46 +26,26 @@ export type Item = {
         rawMetadata: any;
         readonly value: string;
         readonly configuration: any;
-        toString(): any; /**
-         * Specifies a time schedule for the rule to fire.
-         *
-         * @param {string} time the time expression (in `HH:mm`) defining the triggering schedule
-         * @returns {TimeOfDayTriggerConfig} the trigger config
-         */
+        toString(): any;
     } | {
         namespace: {
             rawMetadata: any;
             readonly value: string;
             readonly configuration: any;
-            toString(): any; /**
-             * Specifies a time schedule for the rule to fire.
-             *
-             * @param {string} time the time expression (in `HH:mm`) defining the triggering schedule
-             * @returns {TimeOfDayTriggerConfig} the trigger config
-             */
+            toString(): any;
         };
     };
     replaceMetadata(namespace: string, value: string, configuration?: any): {
         rawMetadata: any;
         readonly value: string;
         readonly configuration: any;
-        toString(): any; /**
-         * Specifies a time schedule for the rule to fire.
-         *
-         * @param {string} time the time expression (in `HH:mm`) defining the triggering schedule
-         * @returns {TimeOfDayTriggerConfig} the trigger config
-         */
+        toString(): any;
     };
     removeMetadata(namespace?: string): {
         rawMetadata: any;
         readonly value: string;
         readonly configuration: any;
-        toString(): any; /**
-         * Specifies a time schedule for the rule to fire.
-         *
-         * @param {string} time the time expression (in `HH:mm`) defining the triggering schedule
-         * @returns {TimeOfDayTriggerConfig} the trigger config
-         */
+        toString(): any;
     };
     sendCommand(value: any, expire?: JSJoda.Duration, onExpire?: any): void;
     sendCommandIfDifferent(value: any): boolean;
