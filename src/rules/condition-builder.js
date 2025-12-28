@@ -2,6 +2,11 @@ const operations = require('./operation-builder');
 const items = require('../items/items');
 
 /**
+ * @typedef { import("./rules").RuleCallback } RuleCallback
+ * @private
+ */
+
+/**
  * Condition that wraps a function to determine whether if passes
  *
  * @hideconstructor
@@ -23,7 +28,7 @@ class ConditionBuilder {
   /**
    * Move to the rule operations
    *
-   * @param {*} [fn] the optional function to execute
+   * @param {RuleCallback} [fn] the optional callback function to execute when the rule is run
    * @returns {operations.OperationBuilder}
    */
   then (fn) {
@@ -57,9 +62,9 @@ class ConditionConf {
   }
 
   /**
-    * @param {*} [fn] an optional function
-    * @returns {operations.OperationBuilder}
-    */
+   * @param {RuleCallback} [fn] the optional callback function to execute when the rule is run
+   * @returns {operations.OperationBuilder}
+   */
   then (fn) {
     return this.conditionBuilder._then(this, fn);
   }

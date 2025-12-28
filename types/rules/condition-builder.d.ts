@@ -1,3 +1,4 @@
+export type RuleCallback = import("./rules").RuleCallback;
 /**
  * Condition that wraps a function to determine whether if passes
  *
@@ -62,6 +63,10 @@ export class ItemStateConditionConf extends ConditionConf {
     private check;
 }
 /**
+ * @typedef { import("./rules").RuleCallback } RuleCallback
+ * @private
+ */
+/**
  * Condition that wraps a function to determine whether if passes
  *
  * @hideconstructor
@@ -77,10 +82,10 @@ export class ConditionBuilder {
     /**
      * Move to the rule operations
      *
-     * @param {*} [fn] the optional function to execute
+     * @param {RuleCallback} [fn] the optional callback function to execute when the rule is run
      * @returns {operations.OperationBuilder}
      */
-    then(fn?: any): operations.OperationBuilder;
+    then(fn?: RuleCallback): operations.OperationBuilder;
     /**
       * Condition of an item in determining whether to process rule.
       *
@@ -98,10 +103,10 @@ declare class ConditionConf {
     /** @private */
     private conditionBuilder;
     /**
-      * @param {*} [fn] an optional function
-      * @returns {operations.OperationBuilder}
-      */
-    then(fn?: any): operations.OperationBuilder;
+     * @param {RuleCallback} [fn] the optional callback function to execute when the rule is run
+     * @returns {operations.OperationBuilder}
+     */
+    then(fn?: RuleCallback): operations.OperationBuilder;
 }
 import operations = require("./operation-builder");
 export {};
