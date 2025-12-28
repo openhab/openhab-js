@@ -21,6 +21,7 @@ export type Item = {
     readonly lastStateChangeInstant: any;
     readonly members: any[];
     readonly descendents: any[];
+    readonly isInitialized: boolean;
     readonly isUninitialized: boolean;
     getMetadata(namespace?: string): {
         rawMetadata: any;
@@ -35,6 +36,7 @@ export type Item = {
             toString(): any;
         };
     };
+    /** @private */
     replaceMetadata(namespace: string, value: string, configuration?: any): {
         rawMetadata: any;
         readonly value: string;

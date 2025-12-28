@@ -495,7 +495,8 @@ Calling `getItem(...)` or `...` returns an `Item` object with the following prop
   - .lastStateChangeInstant ⇒ [`time.Instant`](#time): The time the state was last changed as Instant or `null` if not available
   - .members ⇒ `Array[Item]`
   - .descendents ⇒ `Array[Item]`
-  - .isUninitialized ⇒ `boolean`
+  - .isInitialized ⇒ `boolean`
+  - ~~.isUninitialized ⇒ `boolean`~~ use `.isInitialized` instead
   - .groupNames ⇒ `Array[string]`
   - .tags ⇒ `Array[string]`
   - .getMetadata(namespace) ⇒ `object|null`

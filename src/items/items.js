@@ -302,11 +302,20 @@ class Item {
   }
 
   /**
+   * Whether this Item is initialized (`true` if it has been initialized).
+   * @type {boolean}
+   */
+  get isInitialized () {
+    return !_isNullOrUndefined(this.rawState);
+  }
+
+  /**
    * Whether this Item is uninitialized (`true` if it has not been initialized).
+   * @deprecated use {@link isInitialized} instead
    * @type {boolean}
    */
   get isUninitialized () {
-    return _isNullOrUndefined(this.rawState);
+    return !this.isInitialized;
   }
 
   /**
@@ -502,7 +511,7 @@ class Item {
    * @throws error if the Item is uninitialized or is a type that doesn't make sense to toggle
    */
   getToggleState () {
-    if (this.isUninitialized) {
+    if (!this.isInitialized) {
       throw Error('Cannot toggle uninitialized Items');
     }
     switch (this.type) {

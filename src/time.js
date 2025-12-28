@@ -339,7 +339,7 @@ function toZDT (when) {
   // Convert items.Item or raw Item
   if (_isItem(when)) {
     log.debug('toZDT: Converting Item ' + when);
-    if (when.isUninitialized) {
+    if (!when.isInitialized) {
       throw Error('Item ' + when.name + ' is NULL or UNDEF, cannot convert to a time.ZonedDateTime');
     }
     return _convertItemRawStateToZonedDateTime(when.rawState);
@@ -437,7 +437,7 @@ function toInstant (when) {
   // Convert items.Item or raw Item
   if (_isItem(when)) {
     log.debug('toInstant: Converting Item ' + when);
-    if (when.isUninitialized) {
+    if (!when.isInitialized) {
       throw Error('Item ' + when.name + ' is NULL or UNDEF, cannot convert to a time.Instant');
     }
     return _convertItemRawStateToInstant(when.rawState);
