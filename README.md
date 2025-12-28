@@ -496,7 +496,7 @@ Calling `getItem(...)` or `...` returns an `Item` object with the following prop
   - .members ⇒ `Array[Item]`
   - .descendents ⇒ `Array[Item]`
   - .isInitialized ⇒ `boolean`
-  - ~~.isUninitialized ⇒ `boolean`~~
+  - ~~.isUninitialized ⇒ `boolean`~~ use `.isInitialized` instead
   - .groupNames ⇒ `Array[string]`
   - .tags ⇒ `Array[string]`
   - .getMetadata(namespace) ⇒ `object|null`

@@ -272,6 +272,7 @@ export class Item {
     get isInitialized(): boolean;
     /**
      * Whether this Item is uninitialized (`true` if it has not been initialized).
+     * @deprecated use {@link isInitialized} instead
      * @type {boolean}
      */
     get isUninitialized(): boolean;

@@ -36,6 +36,7 @@ export type Item = {
             toString(): any;
         };
     };
+    /** @private */
     replaceMetadata(namespace: string, value: string, configuration?: any): {
         rawMetadata: any;
         readonly value: string;
