@@ -8,6 +8,11 @@ const conditions = require('./condition-builder');
  */
 
 /**
+ * @typedef { import("./rules").RuleCallback } RuleCallback
+ * @private
+ */
+
+/**
  * @callback ConditionCallback The callback function to determine if the condition is met.
  * @returns {boolean} true if the condition is met, otherwise false
  */
@@ -150,7 +155,7 @@ class TriggerConf {
   /**
    * Move to the rule operations
    *
-   * @param {*} [fn] the optional function to execute
+   * @param {RuleCallback} [fn] the optional callback function to execute when the rule is run
    * @returns {operations.OperationBuilder}
    */
   then (fn) {
@@ -160,7 +165,7 @@ class TriggerConf {
   /**
    * Move to the rule condition
    *
-   * @param {ConditionCallback} [fn] the optional function to execute
+   * @param {ConditionCallback} [fn] the optional function to check for conditions when the rule is triggered
    * @returns {conditions.ConditionBuilder}
    */
   if (fn) {
