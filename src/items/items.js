@@ -162,16 +162,24 @@ class Item {
   }
 
   /**
-   * Label attached to Item
-   * @type {string}
+   * Label attached to Item, or `null` if not set
+   * @type {string|null}
    */
   get label () {
     return this.rawItem.getLabel();
   }
 
   /**
-   * String representation of the Item state.
-   * @type {string}
+   * Category of the Item, or `null` if not set
+   * @return {string|null}
+   */
+  get category () {
+    return this.rawItem.getCategory();
+  }
+
+  /**
+   * String representation of the Item state, or `null` if not available
+   * @type {string|null}
    */
   get state () {
     return _stateOrNull(this.rawState);
@@ -207,7 +215,7 @@ class Item {
 
   /**
    * Raw state of Item, as a Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/types/state State object}
-   * @type {HostState}
+   * @type {HostState|null}
    */
   get rawState () {
     return this.rawItem.getState();

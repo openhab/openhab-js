@@ -6,11 +6,12 @@ export type Item = {
     readonly groupType: string;
     readonly name: string;
     readonly label: string;
+    readonly category: string;
     readonly state: string;
     readonly numericState: number;
     readonly quantityState: import("./quantity").Quantity;
     readonly boolState: boolean;
-    readonly rawState: HostState;
+    readonly rawState: any;
     readonly previousState: string;
     readonly previousNumericState: number;
     readonly previousQuantityState: import("./quantity").Quantity;
@@ -22,6 +23,24 @@ export type Item = {
     readonly members: any[];
     readonly descendents: any[];
     readonly isInitialized: boolean;
+    /**
+     * Creates a trigger that fires upon a matching event from the event bus.
+     *
+     * Please have a look at the {@link https://www.openhab.org/docs/developer/utils/events.html Event Bus docs} to learn about events.
+     *
+     * @example
+     * // Triggers when an Item is added or removed
+     * GenericEventTrigger('openhab/items/**', '', ['ItemAddedEvent', 'ItemRemovedEvent'])
+     * // Triggers when the Item "OutdoorLights" is commanded by expire
+     * GenericEventTrigger('openhab/items/OutdoorLights/*', 'org.openhab.core.expire', 'ItemCommandEvent')
+     *
+     *
+     * @memberof triggers
+     * @param {string} eventTopic Specifies the event topic to match, asa file-system style glob (`*` and `**` operators)
+     * @param {string} eventSource Specifies the event source such as `org.openhab.core.expire`,
+     * @param {string|string[]} eventTypes Specifies the event type(s) to match, e.g. `ItemAddedEvent`, `ItemRemovedEvent`, `ItemCommandEvent`, etc.
+     * @param {string} [triggerName] the optional name of the trigger to create
+     */
     readonly isUninitialized: boolean;
     getMetadata(namespace?: string): {
         rawMetadata: any;

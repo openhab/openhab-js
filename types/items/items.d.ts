@@ -186,13 +186,18 @@ export class Item {
      */
     get name(): string;
     /**
-     * Label attached to Item
-     * @type {string}
+     * Label attached to Item, or `null` if not set
+     * @type {string|null}
      */
     get label(): string;
     /**
-     * String representation of the Item state.
-     * @type {string}
+     * Category of the Item, or `null` if not set
+     * @return {string|null}
+     */
+    get category(): string;
+    /**
+     * String representation of the Item state, or `null` if not available
+     * @type {string|null}
      */
     get state(): string;
     /**
@@ -212,9 +217,9 @@ export class Item {
     get boolState(): boolean;
     /**
      * Raw state of Item, as a Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/types/state State object}
-     * @type {HostState}
+     * @type {HostState|null}
      */
-    get rawState(): HostState;
+    get rawState(): any;
     /**
      * String representation of the previous state of the Item or `null` if no previous state is available.
      * @type {string|null}
