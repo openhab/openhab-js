@@ -6,11 +6,12 @@ export type Item = {
     readonly groupType: string;
     readonly name: string;
     readonly label: string;
+    readonly category: string;
     readonly state: string;
     readonly numericState: number;
     readonly quantityState: Quantity;
     readonly boolState: boolean;
-    readonly rawState: HostState;
+    readonly rawState: any;
     readonly previousState: string;
     readonly previousNumericState: number;
     readonly previousQuantityState: Quantity;
