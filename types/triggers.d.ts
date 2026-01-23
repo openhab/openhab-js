@@ -265,14 +265,16 @@ export function DateTimeTrigger(itemOrName: Item | string, timeOnly?: boolean, o
  * });
  *
  * @memberof triggers
- * @param {string} dutycycleItem Item (PercentType) to read the duty cycle from
+ * @param {Item|string} dutycycleItemOrName the Item or name of the Item (PercentType) to read the duty cycle from
  * @param {number} interval constant interval in which the output is switch ON and OFF again (in sec)
  * @param {number} [minDutyCycle] any duty cycle below this value will be increased to this value
  * @param {number} [maxDutyCycle] any duty cycle above this value will be decreased to this value
  * @param {number} [deadManSwitch] output will be switched off, when the duty cycle is not updated within this time (in ms)
+ * @param {boolean} [equateMinToZero=false] whether the duty cycle below `minDutyCycle` should be set to 0
+ * @param {boolean} [equateMaxToHundred=true] whether the duty cycle above `maxDutyCycle` should be set to 100
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function PWMTrigger(dutycycleItem: string, interval: number, minDutyCycle?: number, maxDutyCycle?: number, deadManSwitch?: number, triggerName?: string): HostTrigger;
+export function PWMTrigger(dutycycleItemOrName: Item | string, interval: number, minDutyCycle?: number, maxDutyCycle?: number, deadManSwitch?: number, equateMinToZero?: boolean, equateMaxToHundred?: boolean, triggerName?: string): HostTrigger;
 /**
  * Creates a trigger for the {@link https://www.openhab.org/addons/automation/pidcontroller/ PID Controller Automation} add-on.
  *

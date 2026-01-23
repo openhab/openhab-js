@@ -323,19 +323,23 @@ const GenericEventTrigger = (eventTopic, eventSource, eventTypes, triggerName) =
  * });
  *
  * @memberof triggers
- * @param {string} dutycycleItem Item (PercentType) to read the duty cycle from
+ * @param {Item|string} dutycycleItemOrName the Item or name of the Item (PercentType) to read the duty cycle from
  * @param {number} interval constant interval in which the output is switch ON and OFF again (in sec)
  * @param {number} [minDutyCycle] any duty cycle below this value will be increased to this value
  * @param {number} [maxDutyCycle] any duty cycle above this value will be decreased to this value
  * @param {number} [deadManSwitch] output will be switched off, when the duty cycle is not updated within this time (in ms)
+ * @param {boolean} [equateMinToZero=false] whether the duty cycle below `minDutyCycle` should be set to 0
+ * @param {boolean} [equateMaxToHundred=true] whether the duty cycle above `maxDutyCycle` should be set to 100
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-const PWMTrigger = (dutycycleItem, interval, minDutyCycle, maxDutyCycle, deadManSwitch, triggerName) =>
+const PWMTrigger = (dutycycleItemOrName, interval, minDutyCycle, maxDutyCycle, deadManSwitch, equateMinToZero = false, equateMaxToHundred = true, triggerName) =>
   _createTrigger('pwm.trigger', triggerName, {
-    dutycycleItem,
+    dutycycleItem: _isItem(dutycycleItemOrName) ? dutycycleItemOrName.name : dutycycleItemOrName,
     interval,
     minDutyCycle,
+    equateMinToZero,
     maxDutyCycle,
+    equateMaxToHundred,
     deadManSwitch
   });
 
