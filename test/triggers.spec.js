@@ -367,6 +367,8 @@ describe('triggers.js', () => {
         minDutyCycle,
         maxDutyCycle,
         deadManSwitch,
+        undefined,
+        undefined,
         triggerName
       );
 
@@ -379,7 +381,9 @@ describe('triggers.js', () => {
             dutycycleItem,
             interval,
             minDutyCycle,
+            equateMinToZero: false,
             maxDutyCycle,
+            equateMaxToHundred: true,
             deadManSwitch
           }
         })
