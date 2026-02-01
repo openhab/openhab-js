@@ -25,29 +25,33 @@ export type Item = {
     readonly isInitialized: boolean;
     readonly isUninitialized: boolean;
     getMetadata(namespace?: string): {
+        value: string; /** @private */
+        configuration: any;
         rawMetadata: any;
-        readonly value: string;
-        readonly configuration: any;
-        toString(): any;
+        readonly key: string;
+        toString(): string;
     } | {
         namespace: {
+            value: string; /** @private */
+            configuration: any;
             rawMetadata: any;
-            readonly value: string;
-            readonly configuration: any;
-            toString(): any;
+            readonly key: string;
+            toString(): string;
         };
     };
     replaceMetadata(namespace: string, value: string, configuration?: any): {
+        value: string; /** @private */
+        configuration: any;
         rawMetadata: any;
-        readonly value: string;
-        readonly configuration: any;
-        toString(): any;
+        readonly key: string;
+        toString(): string;
     };
     removeMetadata(namespace?: string): {
+        value: string; /** @private */
+        configuration: any;
         rawMetadata: any;
-        readonly value: string;
-        readonly configuration: any;
-        toString(): any;
+        readonly key: string;
+        toString(): string;
     };
     sendCommand(value: any, expire?: JSJoda.Duration, onExpire?: any): void;
     sendCommandIfDifferent(value: any): boolean;
