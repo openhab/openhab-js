@@ -130,21 +130,26 @@ export class ItemMetadata {
      */
     constructor(rawMetadata: any);
     /**
+     * The metadata value.
+     * @type {string}
+     */
+    value: string;
+    /**
+     * The metadata configuration.
+     * @type {object}
+     */
+    configuration: object;
+    /**
      * raw Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/items/metadata org.openhab.core.items.Metadata}
      * @type {*}
      */
     rawMetadata: any;
     /**
-     * The Metadata value.
-     * @type {string}
+     * The metadata key.
+     * @return {string}
      */
-    get value(): string;
-    /**
-     * The metadata configuration.
-     * @type {object}
-     */
-    get configuration(): any;
-    toString(): any;
+    get key(): string;
+    toString(): string;
 }
 export declare namespace itemChannelLink {
     function get(): typeof import("./itemchannellink");
