@@ -1,5 +1,19 @@
 # Changelog
 
+## 5.17.0
+
+| Type        | Namespace  | Description                                                  | Reference                                              | Breaking |
+|-------------|------------|--------------------------------------------------------------|--------------------------------------------------------|----------|
+| Enhancement | `items`    | Item: Add `isInitialized` property                           | [#504](https://github.com/openhab/openhab-js/pull/504) | No       |
+| Enhancement | `rules`    | Rule Builder: Properly declare type of `then(...)` function  | [#506](https://github.com/openhab/openhab-js/pull/506) | No       |
+| Bugfix      | `triggers` | Add misisng parameters to PWM trigger                        | [#512](https://github.com/openhab/openhab-js/pull/512) | No       |
+| Enhancement | `items`    | Add category field & Add missing null return values in JSDoc | [#513](https://github.com/openhab/openhab-js/pull/513) | No       |
+| Bugfix      | `items`    | ItemMetadat: Fix value & configuration not modifiable        | [#514](https://github.com/openhab/openhab-js/pull/514) | No       |
+| Enhancement | `log`      | Align logger prefix to changes in script logger names        | [#516](https://github.com/openhab/openhab-js/pull/516) | No       |
+| Enhancement | `rules`    | EventObject: Provide access to event topic                   | [#517](https://github.com/openhab/openhab-js/pull/517) | No       |
+
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/49).
+
 ## 5.16.2
 
 | Type   | Namespace | Description                                                       | Reference                                              | Breaking |
