@@ -87,6 +87,10 @@ export type EventObject = {
      */
     eventClass: string;
     /**
+     * for all triggers: topic of the triggering event
+     */
+    eventTopic: string;
+    /**
      * for all triggers: source of the triggering event or null if not specified
      */
     eventSource: string | null;
