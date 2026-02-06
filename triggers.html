@@ -2525,7 +2525,7 @@ ItemStateUpdateTrigger('my_item', 'OFF'); // received update OFF</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line375">line 375</a>
+        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line379">line 379</a>
     </li></ul></dd>
     
 
@@ -3205,7 +3205,7 @@ ItemStateUpdateTrigger('my_item', 'OFF'); // received update OFF</code></pre>
 
     
 
-    <h4 class="name" id=".PWMTrigger"><span class="type-signature type-signature-static">(static) </span>PWMTrigger<span class="signature">(dutycycleItem, interval, minDutyCycle<span class="signature-attributes">opt</span>, maxDutyCycle<span class="signature-attributes">opt</span>, deadManSwitch<span class="signature-attributes">opt</span>, triggerName<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".PWMTrigger"><span class="type-signature type-signature-static">(static) </span>PWMTrigger<span class="signature">(dutycycleItemOrName, interval, minDutyCycle<span class="signature-attributes">opt</span>, maxDutyCycle<span class="signature-attributes">opt</span>, deadManSwitch<span class="signature-attributes">opt</span>, equateMinToZero<span class="signature-attributes">opt</span>, equateMaxToHundred<span class="signature-attributes">opt</span>, triggerName<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
@@ -3221,7 +3221,7 @@ ItemStateUpdateTrigger('my_item', 'OFF'); // received update OFF</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line333">line 333</a>
+        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line335">line 335</a>
     </li></ul></dd>
     
 
@@ -3298,6 +3298,8 @@ ItemStateUpdateTrigger('my_item', 'OFF'); // received update OFF</code></pre>
         
 
         
+        <th>Default</th>
+        
 
         <th class="last">Description</th>
     </tr>
@@ -3308,12 +3310,15 @@ ItemStateUpdateTrigger('my_item', 'OFF'); // received update OFF</code></pre>
 
         <tr>
             
-                <td class="name"><code>dutycycleItem</code></td>
+                <td class="name"><code>dutycycleItemOrName</code></td>
             
 
             <td class="type">
             
                 
+<span class="param-type">Item</span>
+|
+
 <span class="param-type">string</span>
 
 
@@ -3332,8 +3337,12 @@ ItemStateUpdateTrigger('my_item', 'OFF'); // received update OFF</code></pre>
             
 
             
+                <td class="default">
+                
+                </td>
+            
 
-            <td class="description last"><p>Item (PercentType) to read the duty cycle from</p></td>
+            <td class="description last"><p>the Item or name of the Item (PercentType) to read the duty cycle from</p></td>
         </tr>
 
     
@@ -3363,6 +3372,10 @@ ItemStateUpdateTrigger('my_item', 'OFF'); // received update OFF</code></pre>
                 </td>
             
 
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last"><p>constant interval in which the output is switch ON and OFF again (in sec)</p></td>
@@ -3398,6 +3411,10 @@ ItemStateUpdateTrigger('my_item', 'OFF'); // received update OFF</code></pre>
             
 
             
+                <td class="default">
+                
+                </td>
+            
 
             <td class="description last"><p>any duty cycle below this value will be increased to this value</p></td>
         </tr>
@@ -3431,6 +3448,10 @@ ItemStateUpdateTrigger('my_item', 'OFF'); // received update OFF</code></pre>
                 </td>
             
 
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last"><p>any duty cycle above this value will be decreased to this value</p></td>
@@ -3466,8 +3487,92 @@ ItemStateUpdateTrigger('my_item', 'OFF'); // received update OFF</code></pre>
             
 
             
+                <td class="default">
+                
+                </td>
+            
 
             <td class="description last"><p>output will be switched off, when the duty cycle is not updated within this time (in ms)</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>equateMinToZero</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>false</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>whether the duty cycle below <code>minDutyCycle</code> should be set to 0</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>equateMaxToHundred</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>true</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>whether the duty cycle above <code>maxDutyCycle</code> should be set to 100</p></td>
         </tr>
 
     
@@ -3499,6 +3604,10 @@ ItemStateUpdateTrigger('my_item', 'OFF'); // received update OFF</code></pre>
                 </td>
             
 
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last"><p>the optional name of the trigger to create</p></td>
@@ -4391,7 +4500,7 @@ SystemStartlevelTrigger(100) // Startup Complete</code></pre>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Wed Dec 24 2025 12:21:43 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Fri Feb 06 2026 21:18:35 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

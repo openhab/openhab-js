@@ -100,7 +100,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line200">line 200</a>
+        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line208">line 208</a>
     </li></ul></dd>
     
 
@@ -166,6 +166,73 @@
 
         
             
+<h4 class="name" id="category"><span class="type-signature"></span>category<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Category of the Item, or <code>null</code> if not set</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line176">line 176</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Category of the Item, or <code>null</code> if not set</p>
+</div>
+
+
+
+
+
+
+
+
+        
+            
 <h4 class="name" id="descendents"><span class="type-signature"></span>descendents<span class="type-signature"> :Array:<a href="items.ItemPersistence.html"></a>.&lt;Item:<a href="items.ItemPersistence.html"></a>></span></h4>
 
 
@@ -181,7 +248,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line300">line 300</a>
+        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line308">line 308</a>
     </li></ul></dd>
     
 
@@ -259,7 +326,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line565">line 565</a>
+        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line582">line 582</a>
     </li></ul></dd>
     
 
@@ -392,7 +459,7 @@
 
         
             
-<h4 class="name" id="isUninitialized"><span class="type-signature"></span>isUninitialized<span class="type-signature"> :boolean</span></h4>
+<h4 class="name" id="isInitialized"><span class="type-signature"></span>isInitialized<span class="type-signature"> :boolean</span></h4>
 
 
 
@@ -401,13 +468,13 @@
 <dl class="details">
     
     <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>Whether this Item is uninitialized (<code>true</code> if it has not been initialized).</p></li></ul></dd>
+    <dd class="tag-description"><ul class="dummy"><li><p>Whether this Item is initialized (<code>true</code> if it has been initialized).</p></li></ul></dd>
     
 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line308">line 308</a>
+        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line316">line 316</a>
     </li></ul></dd>
     
 
@@ -425,6 +492,86 @@
 
     
 
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Whether this Item is initialized (<code>true</code> if it has been initialized).</p>
+</div>
+
+
+
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">boolean</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="isUninitialized"><span class="type-signature"></span>isUninitialized<span class="type-signature"> :boolean</span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Whether this Item is uninitialized (<code>true</code> if it has not been initialized).</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line325">line 325</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <code>isInitialized</code> instead</li></ul></dd>
     
 
     
@@ -470,7 +617,7 @@
 
         
             
-<h4 class="name" id="label"><span class="type-signature"></span>label<span class="type-signature"> :string</span></h4>
+<h4 class="name" id="label"><span class="type-signature"></span>label<span class="type-signature"> :string|null</span></h4>
 
 
 
@@ -479,7 +626,7 @@
 <dl class="details">
     
     <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>Label attached to Item</p></li></ul></dd>
+    <dd class="tag-description"><ul class="dummy"><li><p>Label attached to Item, or <code>null</code> if not set</p></li></ul></dd>
     
 
     
@@ -525,7 +672,7 @@
 
 
 <div class="description usertext">
-    <p>Label attached to Item</p>
+    <p>Label attached to Item, or <code>null</code> if not set</p>
 </div>
 
 
@@ -535,6 +682,9 @@
         <li>
             
 <span class="param-type">string</span>
+|
+
+<span class="param-type">null</span>
 
 
 
@@ -563,7 +713,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line282">line 282</a>
+        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line290">line 290</a>
     </li></ul></dd>
     
 
@@ -644,7 +794,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line272">line 272</a>
+        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line280">line 280</a>
     </li></ul></dd>
     
 
@@ -725,7 +875,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line262">line 262</a>
+        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line270">line 270</a>
     </li></ul></dd>
     
 
@@ -806,7 +956,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line252">line 252</a>
+        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line260">line 260</a>
     </li></ul></dd>
     
 
@@ -887,7 +1037,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line292">line 292</a>
+        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line300">line 300</a>
     </li></ul></dd>
     
 
@@ -1043,7 +1193,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line184">line 184</a>
+        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line192">line 192</a>
     </li></ul></dd>
     
 
@@ -1202,7 +1352,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line228">line 228</a>
+        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line236">line 236</a>
     </li></ul></dd>
     
 
@@ -1283,7 +1433,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line236">line 236</a>
+        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line244">line 244</a>
     </li></ul></dd>
     
 
@@ -1364,7 +1514,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line244">line 244</a>
+        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line252">line 252</a>
     </li></ul></dd>
     
 
@@ -1445,7 +1595,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line220">line 220</a>
+        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line228">line 228</a>
     </li></ul></dd>
     
 
@@ -1526,7 +1676,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line192">line 192</a>
+        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line200">line 200</a>
     </li></ul></dd>
     
 
@@ -1670,7 +1820,7 @@
 
         
             
-<h4 class="name" id="rawState"><span class="type-signature"></span>rawState<span class="type-signature"> :HostState</span></h4>
+<h4 class="name" id="rawState"><span class="type-signature"></span>rawState<span class="type-signature"> :HostState|null</span></h4>
 
 
 
@@ -1685,7 +1835,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line212">line 212</a>
+        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line220">line 220</a>
     </li></ul></dd>
     
 
@@ -1735,6 +1885,9 @@
         <li>
             
 <span class="param-type">HostState</span>
+|
+
+<span class="param-type">null</span>
 
 
 
@@ -1826,7 +1979,7 @@
 
         
             
-<h4 class="name" id="state"><span class="type-signature"></span>state<span class="type-signature"> :string</span></h4>
+<h4 class="name" id="state"><span class="type-signature"></span>state<span class="type-signature"> :string|null</span></h4>
 
 
 
@@ -1835,13 +1988,13 @@
 <dl class="details">
     
     <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>String representation of the Item state.</p></li></ul></dd>
+    <dd class="tag-description"><ul class="dummy"><li><p>String representation of the Item state, or <code>null</code> if not available</p></li></ul></dd>
     
 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line176">line 176</a>
+        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line184">line 184</a>
     </li></ul></dd>
     
 
@@ -1881,7 +2034,7 @@
 
 
 <div class="description usertext">
-    <p>String representation of the Item state.</p>
+    <p>String representation of the Item state, or <code>null</code> if not available</p>
 </div>
 
 
@@ -1891,6 +2044,9 @@
         <li>
             
 <span class="param-type">string</span>
+|
+
+<span class="param-type">null</span>
 
 
 
@@ -1919,7 +2075,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line595">line 595</a>
+        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line612">line 612</a>
     </li></ul></dd>
     
 
@@ -2085,7 +2241,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line573">line 573</a>
+        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line590">line 590</a>
     </li></ul></dd>
     
 
@@ -2235,7 +2391,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line603">line 603</a>
+        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line620">line 620</a>
     </li></ul></dd>
     
 
@@ -2382,7 +2538,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line326">line 326</a>
+        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line343">line 343</a>
     </li></ul></dd>
     
 
@@ -2575,7 +2731,7 @@ update is posted).</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line540">line 540</a>
+        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line557">line 557</a>
     </li></ul></dd>
     
 
@@ -2672,7 +2828,7 @@ update is posted).</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line551">line 551</a>
+        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line568">line 568</a>
     </li></ul></dd>
     
 
@@ -2834,7 +2990,7 @@ update is posted).</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line583">line 583</a>
+        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line600">line 600</a>
     </li></ul></dd>
     
 
@@ -2984,7 +3140,7 @@ update is posted).</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line352">line 352</a>
+        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line369">line 369</a>
     </li></ul></dd>
     
 
@@ -3164,7 +3320,7 @@ update is posted).</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line612">line 612</a>
+        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line629">line 629</a>
     </li></ul></dd>
     
 
@@ -3312,7 +3468,7 @@ update is posted).</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line341">line 341</a>
+        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line358">line 358</a>
     </li></ul></dd>
     
 
@@ -3556,7 +3712,7 @@ update is posted).</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line373">line 373</a>
+        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line390">line 390</a>
     </li></ul></dd>
     
 
@@ -3821,7 +3977,7 @@ items.getItem('HallwayLight').sendCommand('ON', time.Duration.ofMinutes(5), 'OFF
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line405">line 405</a>
+        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line422">line 422</a>
     </li></ul></dd>
     
 
@@ -4001,7 +4157,7 @@ items.getItem('HallwayLight').sendCommand('ON', time.Duration.ofMinutes(5), 'OFF
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line473">line 473</a>
+        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line490">line 490</a>
     </li></ul></dd>
     
 
@@ -4165,7 +4321,7 @@ items.getItem('HallwayLight').sendCommand('ON', time.Duration.ofMinutes(5), 'OFF
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line444">line 444</a>
+        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line461">line 461</a>
     </li></ul></dd>
     
 
@@ -4329,7 +4485,7 @@ items.getItem('HallwayLight').sendCommand('ON', time.Duration.ofMinutes(5), 'OFF
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line528">line 528</a>
+        <a href="items_items.js.html">items/items.js</a>, <a href="items_items.js.html#line545">line 545</a>
     </li></ul></dd>
     
 
@@ -4425,7 +4581,7 @@ items.getItem('HallwayLight').sendCommand('ON', time.Duration.ofMinutes(5), 'OFF
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Wed Dec 24 2025 12:21:43 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Fri Feb 06 2026 21:18:35 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
