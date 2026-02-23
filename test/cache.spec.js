@@ -42,18 +42,30 @@ describe('cache.js', () => {
         expect(console.warn).not.toHaveBeenCalled();
       });
 
-      it('passes supplier, if present.', () => {
-        const supplier = () => 'value';
-        cache.get(key, supplier);
-        expect(mockGet).toHaveBeenCalledWith(key, supplier);
-        expect(console.warn).not.toHaveBeenCalled();
-      });
-
       it('returns value from cache instance.', () => {
         const returnValue = 'value';
         mockGet.mockImplementation(() => returnValue);
         expect(cache.get(key)).toBe(returnValue);
         expect(console.warn).not.toHaveBeenCalled();
+      });
+
+      it('returns null, if key does not exist in cache instance and no supplier is provided.', () => {
+        mockGet.mockImplementation(() => null);
+        expect(cache.get(key)).toBe(null);
+      });
+
+      it('returns value from supplier, if key does not exist in cache instance and supplier is provided.', () => {
+        const supplier = jest.fn(() => 'value');
+        mockGet.mockImplementation(() => null);
+        expect(cache.get(key, supplier)).toBe('value');
+        expect(supplier).toHaveBeenCalledTimes(1);
+      });
+
+      it('puts value from supplier into cache instance, if key does not exist in cache instance and supplier is provided.', () => {
+        const supplier = () => 'value';
+        mockGet.mockImplementation(() => null);
+        cache.get(key, supplier);
+        expect(mockPut).toHaveBeenCalledWith(key, 'value');
       });
     });
 
