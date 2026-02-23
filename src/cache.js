@@ -32,12 +32,13 @@ class JSCache {
    * @returns {*|null} the current object for the supplied key, the value returned by defaultSupplier (if provided), or `null`
    */
   get (key, defaultSupplier) {
-    if (typeof defaultSupplier === 'function') {
-      if (defaultSupplier() === null) return null;
-      return this.#valueCache.get(key, defaultSupplier);
-    } else {
-      return this.#valueCache.get(key);
-    }
+    if (this.exists(key)) return this.#valueCache.get(key);
+    // key doesn't exist in cache: invoke supplier if provided
+    if (typeof defaultSupplier !== 'function') return null;
+    const supplied = defaultSupplier();
+    if (supplied === null) return null; // do not store null values in cache
+    this.#valueCache.put(key, supplied);
+    return supplied;
   }
 
   /**
