@@ -1,5 +1,13 @@
 # Changelog
 
+## 5.17.1
+
+| Type   | Namespace | Description                                        | Reference                                              | Breaking |
+|--------|-----------|----------------------------------------------------|--------------------------------------------------------|----------|
+| Bugfix | `cache`   | Fix defaultSupplier called on every get invocation | [#518](https://github.com/openhab/openhab-js/pull/518) | No       |
+
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/50).
+
 ## 5.17.0
 
 | Type        | Namespace  | Description                                                  | Reference                                              | Breaking |
