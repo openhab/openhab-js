@@ -8,6 +8,7 @@ export type Item = {
     readonly label: string;
     readonly category: string;
     readonly state: string;
+    /** @private */
     readonly numericState: number;
     readonly quantityState: import("../quantity").Quantity;
     readonly boolState: boolean;
@@ -106,17 +107,17 @@ export class ChannelTriggerConfig extends TriggerConf {
     /**
      * channel triggered a specific event name
      *
-     * @param {string} eventName
+     * @param {string} [eventName]
      * @returns {ChannelTriggerConfig}
      */
-    to(eventName: string): ChannelTriggerConfig;
+    to(eventName?: string): ChannelTriggerConfig;
     /**
      * channel triggered a specific event name
      *
-     * @param {string} eventName
+     * @param {string} [eventName]
      * @returns {ChannelTriggerConfig}
      */
-    triggered(eventName: string): ChannelTriggerConfig;
+    triggered(eventName?: string): ChannelTriggerConfig;
     eventName: string;
     /** @private */
     private _complete;
