@@ -50,7 +50,7 @@ function _createTrigger (typeString, name, config) {
  *
  * @memberof triggers
  * @param {string} channel the name of the channel
- * @param {string} event the name of the event to listen for
+ * @param {string} [event] the name of the event to listen for
  * @param {string} [triggerName] the optional name of the trigger to create
  *
  */

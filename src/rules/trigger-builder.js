@@ -197,7 +197,7 @@ class ChannelTriggerConfig extends TriggerConf {
   /**
    * channel triggered a specific event name
    *
-   * @param {string} eventName
+   * @param {string} [eventName]
    * @returns {ChannelTriggerConfig}
    */
   to (eventName) {
@@ -207,17 +207,17 @@ class ChannelTriggerConfig extends TriggerConf {
   /**
    * channel triggered a specific event name
    *
-   * @param {string} eventName
+   * @param {string} [eventName]
    * @returns {ChannelTriggerConfig}
    */
   triggered (eventName) {
-    this.eventName = eventName || '';
+    this.eventName = eventName;
     return this;
   }
 
   /** @private */
   _complete () {
-    return typeof (this.eventName) !== 'undefined';
+    return true;
   }
 }
 
