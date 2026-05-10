@@ -45,8 +45,14 @@ function _createTrigger (typeString, name, config) {
 /**
  * Creates a trigger that fires upon specific events in a channel.
  *
+ * `*` (zero or more characters) and `?` (zero or one characters) wildcards have been supported since openHAB 5.2.
+ * They can be used to match multiple Things and channels, e.g. `astro:*` matches all Things from the Astro binding.
+ *
  * @example
+ * // trigger on all sun rise START events
  * ChannelEventTrigger('astro:sun:local:rise#event', 'START');
+ * // triggers on all START events of any Astro Things' channels
+ * ChannelEventTrigger('astro:*#event', 'START');
  *
  * @memberof triggers
  * @param {string} channel the name of the channel
