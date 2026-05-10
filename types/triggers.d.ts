@@ -6,6 +6,17 @@ export type Item = {
     readonly groupType: string;
     readonly name: string;
     readonly label: string;
+    /**
+     * Creates a trigger that fires upon a member of a group receiving a command. Note that the group Item does not need to change state.
+     *
+     * @example
+     * GroupCommandTrigger('my_group', 'OFF');
+     *
+     * @memberof triggers
+     * @param {Item|string} groupOrName the group {@link Item} or the name of the group to monitor for commands
+     * @param {string} [command] the command received
+     * @param {string} [triggerName] the optional name of the trigger to create
+     */
     readonly category: string;
     readonly state: string;
     readonly numericState: number;
@@ -72,8 +83,14 @@ export type Item = {
 /**
  * Creates a trigger that fires upon specific events in a channel.
  *
+ * `*` (zero or more characters) and `?` (zero or one characters) wildcards have been supported since openHAB 5.2.
+ * They can be used to match multiple Things and channels, e.g. `astro:*` matches all Things from the Astro binding.
+ *
  * @example
+ * // trigger on all sun rise START events
  * ChannelEventTrigger('astro:sun:local:rise#event', 'START');
+ * // triggers on all START events of any Astro Things' channels
+ * ChannelEventTrigger('astro:*#event', 'START');
  *
  * @memberof triggers
  * @param {string} channel the name of the channel
