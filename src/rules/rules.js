@@ -465,30 +465,44 @@ function _addFromHashMap (hashMap, key, object) {
  * @returns {EventObject}
  */
 function _getTriggeredData (input, javaEventBackwardCompat = false) {
-  const event = input.get('event');
+  const Collectors = Java.type('java.util.stream.Collectors');
+  const collapsedInput = input.entrySet().stream().collect(
+    Collectors.toMap(
+      entry => {
+        const idx = entry.getKey().indexOf('.');
+        if (idx >= 0) {
+          return entry.getKey().substring(idx + 1);
+        }
+        return entry.getKey();
+      },
+      entry => entry.getValue()
+    )
+  );
+  const event = collapsedInput.get('event');
   /**
    * @type {EventObject}
    */
   const data = {};
 
   // Add input to data to passthrough any properties not captured below
-  data.raw = input;
+  collapsedInput.putAll(input);
+  data.raw = collapsedInput;
 
   // Dynamically added properties, depending on their availability
 
   // Item triggers
-  if (input.containsKey('command')) data.receivedCommand = input.get('command').toString();
-  _addFromHashMap(input, 'oldState', data);
-  _addFromHashMap(input, 'newState', data);
-  if (input.containsKey('state')) data.receivedState = input.get('state').toString();
+  if (collapsedInput.containsKey('command')) data.receivedCommand = collapsedInput.get('command').toString();
+  _addFromHashMap(collapsedInput, 'oldState', data);
+  _addFromHashMap(collapsedInput, 'newState', data);
+  if (collapsedInput.containsKey('state')) data.receivedState = collapsedInput.get('state').toString();
 
   // Group Item triggers
-  if (input.containsKey('triggeringGroup')) data.groupName = input.get('triggeringGroup').getName();
+  if (collapsedInput.containsKey('triggeringGroup')) data.groupName = collapsedInput.get('triggeringGroup').getName();
 
   // Thing triggers
-  _addFromHashMap(input, 'oldStatus', data);
-  _addFromHashMap(input, 'newStatus', data);
-  _addFromHashMap(input, 'status', data);
+  _addFromHashMap(collapsedInput, 'oldStatus', data);
+  _addFromHashMap(collapsedInput, 'newStatus', data);
+  _addFromHashMap(collapsedInput, 'status', data);
 
   // Properties added if event is available
 
