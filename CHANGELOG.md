@@ -1,5 +1,17 @@
 # Changelog
 
+## 5.18.0
+
+| Type        | Namespace  | Description                                               | Reference                                              | Breaking |
+|-------------|------------|-----------------------------------------------------------|--------------------------------------------------------|----------|
+| Bugfix      | `triggers` | Mark event param of `ChannelEventTrigger` as optional     | [#524](https://github.com/openhab/openhab-js/pull/524) | No       |
+| Bugfix      | `rules`    | `runRule`: Pass args as Java HashMap instead of JS object | [#528](https://github.com/openhab/openhab-js/pull/528) | No       |
+| Enhancement | `rules`    | Collapse input map in `_getTriggeredData()`               | [#527](https://github.com/openhab/openhab-js/pull/527) | No       |
+
+Please note: [#527](https://github.com/openhab/openhab-js/pull/527) can change the keys of the `EventObject::raw` dict.
+
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/51).
+
 ## 5.17.1
 
 | Type   | Namespace | Description                                        | Reference                                              | Breaking |
