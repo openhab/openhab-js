@@ -70,6 +70,7 @@ const SCRIPT_TYPE = 'application/javascript';
 const GENERATED_RULE_ITEM_TAG = 'GENERATED_RULE_ITEM';
 
 const HashMap = Java.type('java.util.HashMap');
+const Collectors = Java.type('java.util.stream.Collectors');
 
 const items = require('../items/items');
 const { randomUUID, jsArrayToJavaSet } = require('../utils');
@@ -458,15 +459,15 @@ function _addFromHashMap (hashMap, key, object) {
  * This method is not intended for direct use in user scripts, but used internally by JS Scripting.
  *
  * @private
- * @param {*} input raw Java input/context, see
+ * @param {*} rawInput raw Java input/context, see
  * {@link https://github.com/openhab/openhab-core/blob/main/bundles/org.openhab.core.automation.module.script/src/main/java/org/openhab/core/automation/module/script/internal/handler/ScriptActionHandler.java ScriptActionHandler}
  * and {@link https://github.com/openhab/openhab-core/blob/main/bundles/org.openhab.core.automation.module.script.rulesupport/src/main/java/org/openhab/core/automation/module/script/rulesupport/shared/simple/SimpleRuleActionHandler.java SimpleRuleActionHandler}
  * @param {boolean} [javaEventBackwardCompat=false] enables backwards compatibility with pure Java event object in UI-based rules
  * @returns {EventObject}
  */
-function _getTriggeredData (input, javaEventBackwardCompat = false) {
-  const Collectors = Java.type('java.util.stream.Collectors');
-  const collapsedInput = input.entrySet().stream().collect(
+function _getTriggeredData (rawInput, javaEventBackwardCompat = false) {
+  // collapse input map to remove prefixes from context keys
+  const input = rawInput.entrySet().stream().collect(
     Collectors.toMap(
       entry => {
         const idx = entry.getKey().indexOf('.');
@@ -478,31 +479,31 @@ function _getTriggeredData (input, javaEventBackwardCompat = false) {
       entry => entry.getValue()
     )
   );
-  const event = collapsedInput.get('event');
+
+  const event = input.get('event');
   /**
    * @type {EventObject}
    */
   const data = {};
 
   // Add input to data to passthrough any properties not captured below
-  collapsedInput.putAll(input);
-  data.raw = collapsedInput;
+  data.raw = rawInput;
 
   // Dynamically added properties, depending on their availability
 
   // Item triggers
-  if (collapsedInput.containsKey('command')) data.receivedCommand = collapsedInput.get('command').toString();
-  _addFromHashMap(collapsedInput, 'oldState', data);
-  _addFromHashMap(collapsedInput, 'newState', data);
-  if (collapsedInput.containsKey('state')) data.receivedState = collapsedInput.get('state').toString();
+  if (input.containsKey('command')) data.receivedCommand = input.get('command').toString();
+  _addFromHashMap(input, 'oldState', data);
+  _addFromHashMap(input, 'newState', data);
+  if (input.containsKey('state')) data.receivedState = input.get('state').toString();
 
   // Group Item triggers
-  if (collapsedInput.containsKey('triggeringGroup')) data.groupName = collapsedInput.get('triggeringGroup').getName();
+  if (input.containsKey('triggeringGroup')) data.groupName = input.get('triggeringGroup').getName();
 
   // Thing triggers
-  _addFromHashMap(collapsedInput, 'oldStatus', data);
-  _addFromHashMap(collapsedInput, 'newStatus', data);
-  _addFromHashMap(collapsedInput, 'status', data);
+  _addFromHashMap(input, 'oldStatus', data);
+  _addFromHashMap(input, 'newStatus', data);
+  _addFromHashMap(input, 'status', data);
 
   // Properties added if event is available
 
