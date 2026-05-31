@@ -69,6 +69,8 @@
 const SCRIPT_TYPE = 'application/javascript';
 const GENERATED_RULE_ITEM_TAG = 'GENERATED_RULE_ITEM';
 
+const HashMap = Java.type('java.util.HashMap');
+
 const items = require('../items/items');
 const { randomUUID, jsArrayToJavaSet } = require('../utils');
 const log = require('../log')('rules');
@@ -179,11 +181,11 @@ function removeRule (uid) {
   *
   * @memberof rules
   * @param {string} uid the UID of the rule to run
-  * @param {object} [args={}] args optional dict of data to pass to the called rule
-  * @param {boolean} [cond=true] when true, the called rule will only run if it's conditions are met
+  * @param {Record<string, unknown>} [args={}] args optional dict of data to pass to the called rule
+  * @param {boolean} [conditions=true] when true, the called rule will only run if it's conditions are met
   * @throws {Error} throws an error if the rule does not exist or is not initialized.
   */
-function runRule (uid, args = {}, cond = true) {
+function runRule (uid, args = {}, conditions = true) {
   const status = ruleManager.getStatus(uid);
   if (!status) {
     throw Error('There is no rule with UID ' + uid);
@@ -192,7 +194,7 @@ function runRule (uid, args = {}, cond = true) {
     throw Error('Rule ' + uid + ' is UNINITIALIZED');
   }
 
-  ruleManager.runNow(uid, cond, args);
+  ruleManager.runNow(uid, conditions, new HashMap(args));
 }
 
 /**
