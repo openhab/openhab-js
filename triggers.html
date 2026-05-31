@@ -178,7 +178,7 @@ This namespace allows creation of openHAB rule triggers.</p>
 
     
 
-    <h4 class="name" id=".ChannelEventTrigger"><span class="type-signature type-signature-static">(static) </span>ChannelEventTrigger<span class="signature">(channel, event, triggerName<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".ChannelEventTrigger"><span class="type-signature type-signature-static">(static) </span>ChannelEventTrigger<span class="signature">(channel, event<span class="signature-attributes">opt</span>, triggerName<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
@@ -188,13 +188,15 @@ This namespace allows creation of openHAB rule triggers.</p>
 <dl class="details">
     
     <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>Creates a trigger that fires upon specific events in a channel.</p></li></ul></dd>
+    <dd class="tag-description"><ul class="dummy"><li><p>Creates a trigger that fires upon specific events in a channel.</p>
+<p><code>*</code> (zero or more characters) and <code>?</code> (zero or one characters) wildcards have been supported since openHAB 5.2.
+They can be used to match multiple Things and channels, e.g. <code>astro:*</code> matches all Things from the Astro binding.</p></li></ul></dd>
     
 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line57">line 57</a>
+        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line63">line 63</a>
     </li></ul></dd>
     
 
@@ -241,7 +243,10 @@ This namespace allows creation of openHAB rule triggers.</p>
 
     <h5 class="h5-examples">Example</h5>
     
-    <pre class="prettyprint"><code>ChannelEventTrigger('astro:sun:local:rise#event', 'START');</code></pre>
+    <pre class="prettyprint"><code>// trigger on all sun rise START events
+ChannelEventTrigger('astro:sun:local:rise#event', 'START');
+// triggers on all START events of any Astro Things' channels
+ChannelEventTrigger('astro:*#event', 'START');</code></pre>
 
 
 
@@ -320,6 +325,8 @@ This namespace allows creation of openHAB rule triggers.</p>
 
             
                 <td class="attributes">
+                
+                    &lt;optional><br>
                 
 
                 
@@ -410,7 +417,7 @@ This namespace allows creation of openHAB rule triggers.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line271">line 271</a>
+        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line277">line 277</a>
     </li></ul></dd>
     
 
@@ -687,7 +694,7 @@ This namespace allows creation of openHAB rule triggers.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line239">line 239</a>
+        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line245">line 245</a>
     </li></ul></dd>
     
 
@@ -872,7 +879,7 @@ This namespace allows creation of openHAB rule triggers.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line303">line 303</a>
+        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line309">line 309</a>
     </li></ul></dd>
     
 
@@ -1126,7 +1133,7 @@ GenericEventTrigger('openhab/items/OutdoorLights/*', 'org.openhab.core.expire', 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line168">line 168</a>
+        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line174">line 174</a>
     </li></ul></dd>
     
 
@@ -1347,7 +1354,7 @@ GenericEventTrigger('openhab/items/OutdoorLights/*', 'org.openhab.core.expire', 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line133">line 133</a>
+        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line139">line 139</a>
     </li></ul></dd>
     
 
@@ -1602,7 +1609,7 @@ GenericEventTrigger('openhab/items/OutdoorLights/*', 'org.openhab.core.expire', 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line151">line 151</a>
+        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line157">line 157</a>
     </li></ul></dd>
     
 
@@ -1823,7 +1830,7 @@ GenericEventTrigger('openhab/items/OutdoorLights/*', 'org.openhab.core.expire', 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line115">line 115</a>
+        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line121">line 121</a>
     </li></ul></dd>
     
 
@@ -2045,7 +2052,7 @@ ItemCommandTrigger('my_item', 'OFF'); // received command OFF</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line78">line 78</a>
+        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line84">line 84</a>
     </li></ul></dd>
     
 
@@ -2303,7 +2310,7 @@ ItemStateChangeTrigger('my_item', 'OFF', undefined); // changed from OFF</code><
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line97">line 97</a>
+        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line103">line 103</a>
     </li></ul></dd>
     
 
@@ -2525,7 +2532,7 @@ ItemStateUpdateTrigger('my_item', 'OFF'); // received update OFF</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line379">line 379</a>
+        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line385">line 385</a>
     </li></ul></dd>
     
 
@@ -3221,7 +3228,7 @@ ItemStateUpdateTrigger('my_item', 'OFF'); // received update OFF</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line335">line 335</a>
+        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line341">line 341</a>
     </li></ul></dd>
     
 
@@ -3656,7 +3663,7 @@ ItemStateUpdateTrigger('my_item', 'OFF'); // received update OFF</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line224">line 224</a>
+        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line230">line 230</a>
     </li></ul></dd>
     
 
@@ -3847,7 +3854,7 @@ SystemStartlevelTrigger(100) // Startup Complete</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line203">line 203</a>
+        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line209">line 209</a>
     </li></ul></dd>
     
 
@@ -4099,7 +4106,7 @@ SystemStartlevelTrigger(100) // Startup Complete</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line185">line 185</a>
+        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line191">line 191</a>
     </li></ul></dd>
     
 
@@ -4317,7 +4324,7 @@ SystemStartlevelTrigger(100) // Startup Complete</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line254">line 254</a>
+        <a href="triggers.js.html">triggers.js</a>, <a href="triggers.js.html#line260">line 260</a>
     </li></ul></dd>
     
 
@@ -4500,7 +4507,7 @@ SystemStartlevelTrigger(100) // Startup Complete</code></pre>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Mon Feb 23 2026 17:55:49 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Sun May 31 2026 19:27:07 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
