@@ -70,6 +70,7 @@ const SCRIPT_TYPE = 'application/javascript';
 const GENERATED_RULE_ITEM_TAG = 'GENERATED_RULE_ITEM';
 
 const HashMap = Java.type('java.util.HashMap');
+const Collectors = Java.type('java.util.stream.Collectors');
 
 const items = require('../items/items');
 const { randomUUID, jsArrayToJavaSet } = require('../utils');
@@ -458,13 +459,27 @@ function _addFromHashMap (hashMap, key, object) {
  * This method is not intended for direct use in user scripts, but used internally by JS Scripting.
  *
  * @private
- * @param {*} input raw Java input/context, see
+ * @param {*} rawInput raw Java input/context, see
  * {@link https://github.com/openhab/openhab-core/blob/main/bundles/org.openhab.core.automation.module.script/src/main/java/org/openhab/core/automation/module/script/internal/handler/ScriptActionHandler.java ScriptActionHandler}
  * and {@link https://github.com/openhab/openhab-core/blob/main/bundles/org.openhab.core.automation.module.script.rulesupport/src/main/java/org/openhab/core/automation/module/script/rulesupport/shared/simple/SimpleRuleActionHandler.java SimpleRuleActionHandler}
  * @param {boolean} [javaEventBackwardCompat=false] enables backwards compatibility with pure Java event object in UI-based rules
  * @returns {EventObject}
  */
-function _getTriggeredData (input, javaEventBackwardCompat = false) {
+function _getTriggeredData (rawInput, javaEventBackwardCompat = false) {
+  // collapse input map to remove prefixes from context keys
+  const input = rawInput.entrySet().stream().collect(
+    Collectors.toMap(
+      entry => {
+        const idx = entry.getKey().indexOf('.');
+        if (idx >= 0) {
+          return entry.getKey().substring(idx + 1);
+        }
+        return entry.getKey();
+      },
+      entry => entry.getValue()
+    )
+  );
+
   const event = input.get('event');
   /**
    * @type {EventObject}
@@ -472,7 +487,7 @@ function _getTriggeredData (input, javaEventBackwardCompat = false) {
   const data = {};
 
   // Add input to data to passthrough any properties not captured below
-  data.raw = input;
+  data.raw = rawInput;
 
   // Dynamically added properties, depending on their availability
 
