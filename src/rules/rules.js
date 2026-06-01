@@ -476,7 +476,8 @@ function _getTriggeredData (rawInput, javaEventBackwardCompat = false) {
         }
         return entry.getKey();
       },
-      entry => entry.getValue()
+      entry => entry.getValue(),
+      (existing, replacement) => replacement // The source is unordered, so it doesn't really matter which value we take in case of duplicate keys after collapsing, but we need to provide a merge function to avoid errors
     )
   );
 
