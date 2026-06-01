@@ -27,16 +27,16 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up NodeJS
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Cache node modules
         id: cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: node_modules # npm cache files are stored in `~/.npm` on Linux/macOS
           key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package.json', '**/package-lock.json') }}
@@ -70,7 +70,7 @@ jobs:
           exit 1
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: dist-without-license
           path: |
@@ -78,7 +78,7 @@ jobs:
             !dist/*.txt
 
       - name: Upload test coverage report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: test-coverage
           path: |
@@ -90,16 +90,16 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up NodeJS
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Cache node modules
         id: cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: node_modules # npm cache files are stored in `~/.npm` on Linux/macOS
           key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package.json', '**/package-lock.json') }}
@@ -118,7 +118,7 @@ jobs:
       # pinning to SHA to mitigate possible supply chain attack
       - name: Publish to GitHub Pages
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
-        uses: peaceiris/actions-gh-pages@4f9cc6602d3f66b9c108549d475ec49e8ef4d45e # v4.0.0
+        uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453 # v4.1.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs
@@ -134,10 +134,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: "https://registry.npmjs.org"
