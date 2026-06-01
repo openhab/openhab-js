@@ -1,6 +1,6 @@
 {
     "name": "openhab",
-    "version": "5.18.0",
+    "version": "5.18.1",
     "description": "JavaScript Library for openHAB Automation",
     "keywords": [
         "openHAB",
