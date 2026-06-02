@@ -51,7 +51,7 @@ export function javaSetToJsSet(set: JavaSet): Set<any>;
  *
  * @memberof utils
  * @param {JavaMap} map
- * @returns {Map<any, any>} JavaScript Map
+ * @returns {Map} JavaScript Map
  */
 export function javaMapToJsMap(map: JavaMap): Map<any, any>;
 /**
@@ -59,9 +59,9 @@ export function javaMapToJsMap(map: JavaMap): Map<any, any>;
  *
  * @memberof utils
  * @param {JavaMap} map
- * @returns {object} JavaScript Object
+ * @returns {Record} JavaScript Object
  */
-export function javaMapToJsObj(map: JavaMap): object;
+export function javaMapToJsObj(map: JavaMap): any;
 /**
  * Generate a random UUID.
  *
