@@ -95,7 +95,7 @@ function javaSetToJsArray (set) {
  *
  * @memberof utils
  * @param {JavaMap} map
- * @returns {Map<any, any>} JavaScript Map
+ * @returns {Map} JavaScript Map
  */
 function javaMapToJsMap (map) {
   const js = new Map();
@@ -108,7 +108,7 @@ function javaMapToJsMap (map) {
  *
  * @memberof utils
  * @param {JavaMap} map
- * @returns {object} JavaScript Object
+ * @returns {Record} JavaScript Object
  */
 function javaMapToJsObj (map) {
   const obj = {};

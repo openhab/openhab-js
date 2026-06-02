@@ -70,10 +70,9 @@ const SCRIPT_TYPE = 'application/javascript';
 const GENERATED_RULE_ITEM_TAG = 'GENERATED_RULE_ITEM';
 
 const HashMap = Java.type('java.util.HashMap');
-const Collectors = Java.type('java.util.stream.Collectors');
 
 const items = require('../items/items');
-const { randomUUID, jsArrayToJavaSet } = require('../utils');
+const { randomUUID, jsArrayToJavaSet, javaMapToJsObj } = require('../utils');
 const log = require('../log')('rules');
 const { getService } = require('../osgi');
 const triggers = require('../triggers');
@@ -442,16 +441,23 @@ function SwitchableJSRule (ruleConfig) {
 }
 
 /**
- * Adds a key's value from a Java HashMap to a JavaScript object (as string) if the HashMap has that key.
- * This function uses the mutable nature of JS objects and does not return anything.
+ * Collapses the input map passed by removing the prefix from its keys.
  *
  * @private
- * @param {*} hashMap Java HashMap
- * @param {string} key key from the HashMap to add to the JS object
- * @param {object} object JavaScript object
+ * @param {Record<string, unknown>} input input map
+ * @returns {Record<string, unknown>} collapsed input map
  */
-function _addFromHashMap (hashMap, key, object) {
-  if (hashMap.containsKey(key)) object[key] = hashMap[key].toString();
+function _collapseInputMap (input) {
+  const result = {};
+  for (const key of Object.keys(input)) {
+    const idx = key.indexOf('.');
+    if (idx >= 0) {
+      result[key.substring(idx + 1)] = input[key];
+    } else {
+      result[key] = input[key];
+    }
+  }
+  return result;
 }
 
 /**
@@ -466,22 +472,9 @@ function _addFromHashMap (hashMap, key, object) {
  * @returns {EventObject}
  */
 function _getTriggeredData (rawInput, javaEventBackwardCompat = false) {
-  // collapse input map to remove prefixes from context keys
-  const input = rawInput.entrySet().stream().collect(
-    Collectors.toMap(
-      entry => {
-        const idx = entry.getKey().indexOf('.');
-        if (idx >= 0) {
-          return entry.getKey().substring(idx + 1);
-        }
-        return entry.getKey();
-      },
-      entry => entry.getValue(),
-      (existing, replacement) => replacement // The source is unordered, so it doesn't really matter which value we take in case of duplicate keys after collapsing, but we need to provide a merge function to avoid errors
-    )
-  );
+  const input = _collapseInputMap(javaMapToJsObj(rawInput));
 
-  const event = input.get('event');
+  const event = input.event;
   /**
    * @type {EventObject}
    */
@@ -493,18 +486,18 @@ function _getTriggeredData (rawInput, javaEventBackwardCompat = false) {
   // Dynamically added properties, depending on their availability
 
   // Item triggers
-  if (input.containsKey('command')) data.receivedCommand = input.get('command').toString();
-  _addFromHashMap(input, 'oldState', data);
-  _addFromHashMap(input, 'newState', data);
-  if (input.containsKey('state')) data.receivedState = input.get('state').toString();
+  data.receivedCommand = input.command?.toString();
+  data.oldState = input.oldState?.toString();
+  data.newState = input.newState?.toString();
+  data.receivedState = input.state?.toString();
 
   // Group Item triggers
-  if (input.containsKey('triggeringGroup')) data.groupName = input.get('triggeringGroup').getName();
+  data.groupName = input.triggeringGroup?.getName().toString();
 
   // Thing triggers
-  _addFromHashMap(input, 'oldStatus', data);
-  _addFromHashMap(input, 'newStatus', data);
-  _addFromHashMap(input, 'status', data);
+  data.oldStatus = input.oldStatus?.toString();
+  data.newStatus = input.newStatus?.toString();
+  data.status = input.status?.toString();
 
   // Properties added if event is available
 
@@ -584,7 +577,7 @@ function _getTriggeredData (rawInput, javaEventBackwardCompat = false) {
     }
   }
 
-  _addFromHashMap(input, 'module', data);
+  data.module = input.module?.toString();
 
   // backward compatibility with the pure Java event object
   if (javaEventBackwardCompat) {
