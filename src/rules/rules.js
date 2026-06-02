@@ -472,7 +472,8 @@ function _collapseInputMap (input) {
  * @returns {EventObject}
  */
 function _getTriggeredData (rawInput, javaEventBackwardCompat = false) {
-  const input = _collapseInputMap(javaMapToJsObj(rawInput));
+  const inputAsJsObj = javaMapToJsObj(rawInput);
+  const input = _collapseInputMap(inputAsJsObj);
 
   const event = input.event;
   /**
@@ -480,8 +481,8 @@ function _getTriggeredData (rawInput, javaEventBackwardCompat = false) {
    */
   const data = {};
 
-  // Add input to data to passthrough any properties not captured below
-  data.raw = rawInput;
+  // Add input to data to pass through any properties not captured below
+  data.raw = inputAsJsObj;
 
   // Dynamically added properties, depending on their availability
 
