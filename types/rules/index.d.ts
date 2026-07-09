@@ -2,7 +2,6 @@ declare const _exports: {
     when: (withToggle?: boolean) => import("./trigger-builder").TriggerBuilder;
     removeRule: typeof import("./rules").removeRule;
     runRule: typeof import("./rules").runRule;
-    javaify: typeof import("./rules").javaify;
     isEnabled: typeof import("./rules").isEnabled;
     setEnabled: typeof import("./rules").setEnabled;
     JSRule: typeof import("./rules").JSRule;

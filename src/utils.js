@@ -127,6 +127,88 @@ function javaSetToJsSet (set) {
   return new Set(javaSetToJsArray(set));
 }
 
+function javaify (val) {
+  if (val === null || val === undefined) {
+    return null;
+  }
+
+  if (Java.isHostObject(val)) {
+    return val;
+  }
+
+  // Convert js-joda objects
+  if (val.constructor && val.constructor.name) {
+    const typeName = val.constructor.name;
+
+    if (typeName === 'LocalDate') {
+      return Java.type('java.time.LocalDate').parse(val.toString());
+    }
+    if (typeName === 'ZonedDateTime') {
+      return Java.type('java.time.ZonedDateTime').parse(val.toString());
+    }
+    if (typeName === 'LocalDateTime') {
+      return Java.type('java.time.LocalDateTime').parse(val.toString());
+    }
+    if (typeName === 'Instant') {
+      return Java.type('java.time.Instant').parse(val.toString());
+    }
+  }
+
+  if (typeof val === 'function') {
+    // What do we do about functions?
+    throw new Error("Functions aren't allowed");
+  }
+
+  if (typeof val !== 'object') {
+    return val;
+  }
+
+  // Convert JavaScript Date
+  if (val instanceof Date) {
+    return Java.type('java.time.Instant').ofEpochMilli(val.getTime());
+  }
+
+  // Convert arrays
+  if (Array.isArray(val)) {
+    const ArrayList = Java.type('java.util.ArrayList');
+    const list = new ArrayList();
+    for (const element of val) {
+      list.add(javaify(element));
+    }
+    return list;
+  }
+
+  // Convert JS Maps
+  if (val instanceof Map) {
+    const LinkedHashMap = Java.type('java.util.LinkedHashMap');
+    const javaMap = new LinkedHashMap();
+    val.forEach((value, key) => {
+      javaMap.put(key, javaify(value));
+    });
+    return javaMap;
+  }
+
+  // Convert JS Sets
+  if (val instanceof Set) {
+    const LinkedHashSet = Java.type('java.util.LinkedHashSet');
+    const javaSet = new LinkedHashSet();
+    val.forEach((value) => {
+      javaSet.add(javaify(value));
+    });
+    return javaSet;
+  }
+
+  // Convert JS objects
+  const LinkedHashMap = Java.type('java.util.LinkedHashMap');
+  const map = new LinkedHashMap();
+  for (const key in val) {
+    if (Object.prototype.hasOwnProperty.call(val, key)) {
+      map.put(key, javaify(val[key]));
+    }
+  }
+  return map;
+}
+
 /**
  * Generate a random UUID.
  *
@@ -202,6 +284,7 @@ module.exports = {
   javaSetToJsSet,
   javaMapToJsMap,
   javaMapToJsObj,
+  javaify,
   randomUUID,
   dumpObject,
   OPENHAB_JS_VERSION

@@ -70,7 +70,7 @@ const SCRIPT_TYPE = 'application/javascript';
 const GENERATED_RULE_ITEM_TAG = 'GENERATED_RULE_ITEM';
 
 const items = require('../items/items');
-const { randomUUID, jsArrayToJavaSet, javaMapToJsObj } = require('../utils');
+const { randomUUID, jsArrayToJavaSet, javaMapToJsObj, javaify } = require('../utils');
 const log = require('../log')('rules');
 const { getService } = require('../osgi');
 const triggers = require('../triggers');
@@ -193,92 +193,6 @@ function runRule (uid, args = {}, conditions = true) {
   }
 
   ruleManager.runNow(uid, conditions, javaify(args));
-}
-
-function javaify (val) {
-  if (val === null || val === undefined) {
-    return null;
-  }
-
-  if (Java.isHostObject(val)) {
-    return val;
-  }
-
-  // Convert js-joda objects
-  if (val.constructor && val.constructor.name) {
-    const typeName = val.constructor.name;
-
-    if (typeName === 'LocalDate') {
-      return Java.type('java.time.LocalDate').parse(val.toString());
-    }
-    if (typeName === 'ZonedDateTime') {
-      return Java.type('java.time.ZonedDateTime').parse(val.toString());
-    }
-    if (typeName === 'LocalDateTime') {
-      return Java.type('java.time.LocalDateTime').parse(val.toString());
-    }
-    if (typeName === 'Instant') {
-      return Java.type('java.time.Instant').parse(val.toString());
-    }
-  }
-
-  if (typeof val === 'function') {
-    // What do we do about functions?
-    return val.toString();
-  }
-
-  if (typeof val !== 'object') {
-    return val;
-  }
-
-  // Convert JavaScript Date
-  if (val instanceof Date) {
-    return Java.type('java.time.Instant').ofEpochMilli(val.getTime());
-  }
-
-  // Convert arrays
-  if (Array.isArray(val)) {
-    const ArrayList = Java.type('java.util.ArrayList');
-    const list = new ArrayList();
-    for (const element of val) {
-      list.add(javaify(element));
-    }
-    return list;
-  }
-
-  // Convert JS Maps
-  if (val instanceof Map) {
-    const LinkedHashMap = Java.type('java.util.LinkedHashMap');
-    const javaMap = new LinkedHashMap();
-    val.forEach((value, key) => {
-      javaMap.put(key, javaify(value));
-    });
-    return javaMap;
-  }
-
-  // Convert JS Sets
-  if (val instanceof Set) {
-    const LinkedHashSet = Java.type('java.util.LinkedHashSet');
-    const javaSet = new LinkedHashSet();
-    val.forEach((value) => {
-      javaSet.add(javaify(value));
-    });
-    return javaSet;
-  }
-
-  // Convert JS objects
-  if (typeof val === 'object') {
-    const LinkedHashMap = Java.type('java.util.LinkedHashMap');
-    const map = new LinkedHashMap();
-    for (const key in val) {
-      if (Object.prototype.hasOwnProperty.call(val, key)) {
-        map.put(key, javaify(val[key]));
-      }
-    }
-    return map;
-  }
-
-  return val.toString();
 }
 
 /**
@@ -721,7 +635,6 @@ function _getTriggeredData (rawInput, javaEventBackwardCompat = false) {
 module.exports = {
   removeRule,
   runRule,
-  javaify,
   isEnabled,
   setEnabled,
   JSRule,

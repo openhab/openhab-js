@@ -173,7 +173,6 @@ export function removeRule(uid: string): boolean;
   * @throws {Error} throws an error if the rule does not exist or is not initialized.
   */
 export function runRule(uid: string, args?: Record<string, unknown>, conditions?: boolean): void;
-export function javaify(val: any): any;
 /**
   * Tests to see if the rule with the given UID is enabled or disabled. Throws
   * and error if the rule doesn't exist.
