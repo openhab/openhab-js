@@ -144,6 +144,14 @@ function javaify (val) {
     return val;
   }
 
+  if (typeof val !== 'object') {
+    return val;
+  }
+
+  if (typeof val === 'function') {
+    throw new Error('Functions aren\'t allowed');
+  }
+
   // Convert js-joda objects
   if (val.constructor && val.constructor.name) {
     const typeName = val.constructor.name;
@@ -163,14 +171,6 @@ function javaify (val) {
     if (typeName === 'Duration') {
       return Java.type('java.time.Duration').ofNanos(val.toNanos());
     }
-  }
-
-  if (typeof val === 'function') {
-    throw new Error('Functions aren\'t allowed');
-  }
-
-  if (typeof val !== 'object') {
-    return val;
   }
 
   // Convert JavaScript Date
