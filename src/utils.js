@@ -11,6 +11,8 @@ const log = require('./log')('utils');
 
 const HashSet = Java.type('java.util.HashSet');
 const ArrayList = Java.type('java.util.ArrayList');
+const LinkedHashMap = Java.type('java.util.LinkedHashMap');
+const LinkedHashSet = Java.type('java.util.LinkedHashSet');
 
 /**
  * Utils namespace.
@@ -127,6 +129,12 @@ function javaSetToJsSet (set) {
   return new Set(javaSetToJsArray(set));
 }
 
+/**
+ * Convert any value, array or object to use Java types. Functions are not supported.
+ *
+ * @param {*} val the value to convert
+ * @returns {*} The value converted to using Java types.
+ */
 function javaify (val) {
   if (val === null || val === undefined) {
     return null;
@@ -150,13 +158,12 @@ function javaify (val) {
       return Java.type('java.time.LocalDateTime').parse(val.toString());
     }
     if (typeName === 'Instant') {
-      return Java.type('java.time.Instant').parse(val.toString());
+      return Java.type('java.time.Instant').ofEpochMilli(val.toEpochMilli());
     }
   }
 
   if (typeof val === 'function') {
-    // What do we do about functions?
-    throw new Error("Functions aren't allowed");
+    throw new Error('Functions aren\'t allowed');
   }
 
   if (typeof val !== 'object') {
@@ -170,7 +177,6 @@ function javaify (val) {
 
   // Convert arrays
   if (Array.isArray(val)) {
-    const ArrayList = Java.type('java.util.ArrayList');
     const list = new ArrayList();
     for (const element of val) {
       list.add(javaify(element));
@@ -180,7 +186,6 @@ function javaify (val) {
 
   // Convert JS Maps
   if (val instanceof Map) {
-    const LinkedHashMap = Java.type('java.util.LinkedHashMap');
     const javaMap = new LinkedHashMap();
     val.forEach((value, key) => {
       javaMap.put(key, javaify(value));
@@ -190,7 +195,6 @@ function javaify (val) {
 
   // Convert JS Sets
   if (val instanceof Set) {
-    const LinkedHashSet = Java.type('java.util.LinkedHashSet');
     const javaSet = new LinkedHashSet();
     val.forEach((value) => {
       javaSet.add(javaify(value));
@@ -199,7 +203,6 @@ function javaify (val) {
   }
 
   // Convert JS objects
-  const LinkedHashMap = Java.type('java.util.LinkedHashMap');
   const map = new LinkedHashMap();
   for (const key in val) {
     if (Object.prototype.hasOwnProperty.call(val, key)) {

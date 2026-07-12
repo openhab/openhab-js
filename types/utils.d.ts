@@ -62,6 +62,12 @@ export function javaMapToJsMap(map: JavaMap): Map<any, any>;
  * @returns {Record} JavaScript Object
  */
 export function javaMapToJsObj(map: JavaMap): any;
+/**
+ * Convert any value, array or object to use Java types. Functions are not supported.
+ *
+ * @param {*} val the value to convert
+ * @returns {*} The value converted to using Java types.
+ */
 export function javaify(val: any): any;
 /**
  * Generate a random UUID.
