@@ -140,7 +140,7 @@ function javaify (val) {
     return null;
   }
 
-  if (Java.isHostObject(val)) {
+  if (Java.isJavaObject(val)) {
     return val;
   }
 
