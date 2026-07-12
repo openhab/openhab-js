@@ -160,6 +160,9 @@ function javaify (val) {
     if (typeName === 'Instant') {
       return Java.type('java.time.Instant').ofEpochMilli(val.toEpochMilli());
     }
+    if (typeName === 'Duration') {
+      return Java.type('java.time.Duration').ofNanos(val.toNanos());
+    }
   }
 
   if (typeof val === 'function') {
