@@ -130,7 +130,7 @@ function javaSetToJsSet (set) {
 }
 
 /**
- * Convert any value, array or object to use Java types. Functions are not supported.
+ * Recursively convert any value, array or object to use Java types. Functions are not supported.
  *
  * @param {*} val the value to convert
  * @returns {*} The value converted to using Java types.
