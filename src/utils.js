@@ -144,12 +144,12 @@ function javaify (val) {
     return val;
   }
 
-  if (typeof val !== 'object') {
-    return val;
-  }
-
   if (typeof val === 'function') {
     throw new Error('Functions aren\'t allowed');
+  }
+
+  if (typeof val !== 'object') {
+    return val;
   }
 
   // Convert js-joda objects
