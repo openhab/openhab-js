@@ -69,10 +69,8 @@
 const SCRIPT_TYPE = 'application/javascript';
 const GENERATED_RULE_ITEM_TAG = 'GENERATED_RULE_ITEM';
 
-const HashMap = Java.type('java.util.HashMap');
-
 const items = require('../items/items');
-const { randomUUID, jsArrayToJavaSet, javaMapToJsObj } = require('../utils');
+const { randomUUID, jsArrayToJavaSet, javaMapToJsObj, javaify } = require('../utils');
 const log = require('../log')('rules');
 const { getService } = require('../osgi');
 const triggers = require('../triggers');
@@ -194,7 +192,7 @@ function runRule (uid, args = {}, conditions = true) {
     throw Error('Rule ' + uid + ' is UNINITIALIZED');
   }
 
-  ruleManager.runNow(uid, conditions, new HashMap(args));
+  ruleManager.runNow(uid, conditions, javaify(args));
 }
 
 /**

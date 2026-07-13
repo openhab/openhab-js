@@ -11,6 +11,8 @@ const log = require('./log')('utils');
 
 const HashSet = Java.type('java.util.HashSet');
 const ArrayList = Java.type('java.util.ArrayList');
+const LinkedHashMap = Java.type('java.util.LinkedHashMap');
+const LinkedHashSet = Java.type('java.util.LinkedHashSet');
 
 /**
  * Utils namespace.
@@ -128,6 +130,90 @@ function javaSetToJsSet (set) {
 }
 
 /**
+ * Recursively convert any value, array or object to use Java types. Functions are not supported.
+ *
+ * @param {*} val the value to convert
+ * @returns {*} The value converted to using Java types.
+ */
+function javaify (val) {
+  if (val === null || val === undefined) {
+    return null;
+  }
+
+  if (Java.isJavaObject(val)) {
+    return val;
+  }
+
+  if (typeof val === 'function') {
+    throw new Error('Functions aren\'t allowed');
+  }
+
+  if (typeof val !== 'object') {
+    return val;
+  }
+
+  // Convert js-joda objects
+  if (val.constructor && val.constructor.name) {
+    const typeName = val.constructor.name;
+
+    if (typeName === 'LocalDate') {
+      return Java.type('java.time.LocalDate').parse(val.toString());
+    }
+    if (typeName === 'ZonedDateTime') {
+      return Java.type('java.time.ZonedDateTime').parse(val.toString());
+    }
+    if (typeName === 'LocalDateTime') {
+      return Java.type('java.time.LocalDateTime').parse(val.toString());
+    }
+    if (typeName === 'Instant') {
+      return Java.type('java.time.Instant').ofEpochMilli(val.toEpochMilli());
+    }
+    if (typeName === 'Duration') {
+      return Java.type('java.time.Duration').ofNanos(val.toNanos());
+    }
+  }
+
+  // Convert JavaScript Date
+  if (val instanceof Date) {
+    return Java.type('java.time.Instant').ofEpochMilli(val.getTime());
+  }
+
+  // Convert arrays
+  if (Array.isArray(val)) {
+    const list = new ArrayList();
+    for (const element of val) {
+      list.add(javaify(element));
+    }
+    return list;
+  }
+
+  // Convert JS Maps
+  if (val instanceof Map) {
+    const javaMap = new LinkedHashMap();
+    val.forEach((value, key) => {
+      javaMap.put(key, javaify(value));
+    });
+    return javaMap;
+  }
+
+  // Convert JS Sets
+  if (val instanceof Set) {
+    const javaSet = new LinkedHashSet();
+    val.forEach((value) => {
+      javaSet.add(javaify(value));
+    });
+    return javaSet;
+  }
+
+  // Convert JS objects
+  const map = new LinkedHashMap();
+  for (const key of Object.keys(val)) {
+    map.put(key, javaify(val[key]));
+  }
+  return map;
+}
+
+/**
  * Generate a random UUID.
  *
  * @memberOf utils
@@ -202,6 +288,7 @@ module.exports = {
   javaSetToJsSet,
   javaMapToJsMap,
   javaMapToJsObj,
+  javaify,
   randomUUID,
   dumpObject,
   OPENHAB_JS_VERSION
