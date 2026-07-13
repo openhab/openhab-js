@@ -207,10 +207,8 @@ function javaify (val) {
 
   // Convert JS objects
   const map = new LinkedHashMap();
-  for (const key in val) {
-    if (Object.prototype.hasOwnProperty.call(val, key)) {
-      map.put(key, javaify(val[key]));
-    }
+  for (const key of Object.keys(val)) {
+    map.put(key, javaify(val[key]));
   }
   return map;
 }
