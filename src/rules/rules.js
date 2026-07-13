@@ -200,6 +200,8 @@ function runRule (uid, args = {}, conditions = true) {
  * Runs the rule with the given UID asynchronously, without waiting for the execution to complete.
  * Throws errors when the rule doesn't exist or is unable to run (e.g., it's disabled).
  *
+ * Note: This is only supported since openHAB 5.2.
+ *
  * @memberof rules
  * @param {string} uid the UID of the rule to run
  * @param {Record<string, unknown>} [args={}] args optional dict of data to pass to the called rule
