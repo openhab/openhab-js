@@ -164,15 +164,27 @@ export type RuleConfig = {
 export function removeRule(uid: string): boolean;
 /**
   * Runs the rule with the given UID. Throws errors when the rule doesn't exist
-  * or is unable to run (e.g. it's disabled).
+  * or is unable to run (e.g., it's disabled).
   *
   * @memberof rules
   * @param {string} uid the UID of the rule to run
   * @param {Record<string, unknown>} [args={}] args optional dict of data to pass to the called rule
   * @param {boolean} [conditions=true] when true, the called rule will only run if it's conditions are met
-  * @throws {Error} throws an error if the rule does not exist or is not initialized.
+  * @returns {Record<string, object>} a copy of the rule context, including possible return values
+  * @throws {Error} throws an error if the rule does not exist or is not initialized
   */
-export function runRule(uid: string, args?: Record<string, unknown>, conditions?: boolean): void;
+export function runRule(uid: string, args?: Record<string, unknown>, conditions?: boolean): Record<string, object>;
+/**
+ * Runs the rule with the given UID asynchronously, without waiting for the execution to complete.
+ * Throws errors when the rule doesn't exist or is unable to run (e.g., it's disabled).
+ *
+ * @memberof rules
+ * @param {string} uid the UID of the rule to run
+ * @param {Record<string, unknown>} [args={}] args optional dict of data to pass to the called rule
+ * @param {boolean} [conditions=true] when true, the called rule will only run if it's conditions are met
+ * @throws {Error} throws an error if the rule does not exist or is not initialized
+ */
+export function runAsync(uid: string, args?: Record<string, unknown>, conditions?: boolean): void;
 /**
   * Tests to see if the rule with the given UID is enabled or disabled. Throws
   * and error if the rule doesn't exist.
