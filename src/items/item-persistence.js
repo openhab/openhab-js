@@ -16,23 +16,6 @@ try {
 }
 
 /**
- * @typedef {import('@js-joda/core').ZonedDateTime} time.ZonedDateTime
- * @private
- */
-/**
- * @typedef {import('@js-joda/core').Instant} time.Instant
- * @private
- */
-/**
- * @typedef {import('../quantity').Quantity} Quantity
- * @private
- */
-/**
- * @typedef {import('../items/items').TimeSeries} items.TimeSeries
- * @private
- */
-
-/**
  * Class representing an instance of {@link https://www.openhab.org/javadoc/latest/org/openhab/core/types/state org.openhab.core.types.State}.
  *
  * @memberof items
@@ -148,6 +131,14 @@ function _javaIterableOfJavaHistoricItemsToJsArrayOfHistoricItems (result) {
 }
 
 /**
+ * @typedef {Object} ItemPersistence.RiemannType
+ * @property {string} LEFT
+ * @property {string} RIGHT
+ * @property {string} TRAPEZOIDAL
+ * @property {string} MIDPOINT
+ */
+
+/**
  * Class representing the historic state of an openHAB Item.
  * Wrapping the {@link https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/extensions/persistenceextensions org.openhab.core.persistence.extensions.PersistenceExtensions}.
  *
@@ -160,6 +151,9 @@ function _javaIterableOfJavaHistoricItemsToJsArrayOfHistoricItems (result) {
  * @hideconstructor
  */
 class ItemPersistence {
+  static PersistedItem = PersistedItem;
+  static PersistedState = PersistedState;
+
   constructor (rawItem) {
     this.rawItem = rawItem;
   }
@@ -167,7 +161,7 @@ class ItemPersistence {
   /**
    * Enum of the Riemann approximation types to calculate the integral approximation.
    *
-   * @type {RiemannType}
+   * @type {ItemPersistence.RiemannType}
    */
   static get RiemannType () {
     if (RiemannType === null) {

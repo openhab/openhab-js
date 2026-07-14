@@ -7,14 +7,9 @@ const QuantityType = Java.type('org.openhab.core.library.types.QuantityType');
 const BigDecimal = Java.type('java.math.BigDecimal');
 
 /**
- * @typedef {import('./items/items').Item} Item
- * @private
- */
-
-/**
- * Takes either an {@link Item}, a `string`, a `number` or a {@link Quantity} and converts it to a {@link QuantityType} or {@link BigDecimal}.
+ * Takes either an {@link items.Item}, a `string`, a `number` or a {@link Quantity} and converts it to a {@link QuantityType} or {@link BigDecimal}.
  * When the Item state is a DecimalType, it is converted to a {@link BigDecimal}, otherwise to a {@link QuantityType}.
- * @param {Item|string|number|Quantity} value
+ * @param {items.Item|string|number|Quantity} value
  * @returns {BigDecimal|QuantityType}
  * @throws {TypeError} when parameter has the wrong type
  * @throws {QuantityError} when {@link BigDecimal} creation failed
@@ -41,7 +36,7 @@ function _toBigDecimalOrQtyType (value) {
 
 /**
  * Takes either a {@link Quantity} or a `string` and converts it to a {@link QuantityType}.
- * @param {Item|string|Quantity} value
+ * @param {items.Item|string|Quantity} value
  * @param {string} [errorMsg] error message to throw if parameter has wrong type
  * @returns {QuantityType}
  * @throws {TypeError} when parameter has the wrong type
@@ -97,7 +92,7 @@ class QuantityError extends Error {
  */
 class Quantity {
   /**
-   * @param {Item|string|Quantity|QuantityType} value
+   * @param {items.Item|string|Quantity|QuantityType} value
    */
   constructor (value) {
     if (value instanceof QuantityType) {
@@ -162,7 +157,7 @@ class Quantity {
   /**
    * Add the given value to this Quantity.
    *
-   * @param {Item|string|Quantity} value Quantity-compatible {@link Item}, `string` consisting of amount and unit or a {@link Quantity}
+   * @param {items.Item|string|Quantity} value Quantity-compatible {@link items.Item}, `string` consisting of amount and unit or a {@link Quantity}
    * @returns {Quantity} result as new Quantity
    */
   add (value) {
@@ -177,7 +172,7 @@ class Quantity {
    * Quantity('20 W').divide(4); // is 5 W
    * Quantity('20 W').divide('4 W') // is 5
    *
-   * @param {Item|number|string|Quantity} value usually a number; may also be an {@link Item} which is either Quantity-compatible or holds a number, a `string` consisting of amount and unit or a {@link Quantity}, but be careful: 1 W / 5 W = 0.2 which might not be what you want
+   * @param {items.Item|number|string|Quantity} value usually a number; may also be an {@link items.Item} which is either Quantity-compatible or holds a number, a `string` consisting of amount and unit or a {@link Quantity}, but be careful: 1 W / 5 W = 0.2 which might not be what you want
    * @returns {Quantity} result as new Quantity
    */
   divide (value) {
@@ -192,7 +187,7 @@ class Quantity {
    * Quantity('20 W').multiply(4); // is 80 W
    * Quantity('20 W').multiply('4 W') // is 80 W^2
    *
-   * @param {Item|number|string|Quantity} value usually a number; may also be an {@link Item} which is either Quantity-compatible or holds a number, a `string` consisting of amount and unit or a {@link Quantity}, but be careful: 1 W * 5 W = 5 W^2 which might not be what you want
+   * @param {items.Item|number|string|Quantity} value usually a number; may also be an {@link items.Item} which is either Quantity-compatible or holds a number, a `string` consisting of amount and unit or a {@link Quantity}, but be careful: 1 W * 5 W = 5 W^2 which might not be what you want
    * @returns {Quantity} result as new Quantity
    */
   multiply (value) {
@@ -203,7 +198,7 @@ class Quantity {
   /**
    * Subtract the given value from this Quantity.
    *
-   * @param {Item|string|Quantity} value Quantity-compatible {@link Item}, `string` consisting of amount and unit or a {@link Quantity}
+   * @param {items.Item|string|Quantity} value Quantity-compatible {@link items.Item}, `string` consisting of amount and unit or a {@link Quantity}
    * @returns {Quantity} result as new Quantity
    */
   subtract (value) {
@@ -235,7 +230,7 @@ class Quantity {
   /**
    * Checks whether this Quantity is equal to the passed in value.
    *
-   * @param {Item|string|Quantity} value Quantity-compatible {@link Item}, `string` consisting of amount and unit or a {@link Quantity}
+   * @param {items.Item|string|Quantity} value Quantity-compatible {@link items.Item}, `string` consisting of amount and unit or a {@link Quantity}
    * @returns {boolean}
    */
   equal (value) {
@@ -246,7 +241,7 @@ class Quantity {
   /**
    * Checks whether this Quantity is larger than the passed in value.
    *
-   * @param {Item|string|Quantity} value Quantity-compatible {@link Item}, `string` consisting of amount and unit or a {@link Quantity}
+   * @param {items.Item|string|Quantity} value Quantity-compatible {@link items.Item}, `string` consisting of amount and unit or a {@link Quantity}
    * @returns {boolean}
    */
   greaterThan (value) {
@@ -257,7 +252,7 @@ class Quantity {
   /**
    * Checks whether this Quantity is larger than or equal to the passed in value.
    *
-   * @param {Item|string|Quantity} value Quantity-compatible {@link Item}, `string` consisting of amount and unit or a {@link Quantity}
+   * @param {items.Item|string|Quantity} value Quantity-compatible {@link items.Item}, `string` consisting of amount and unit or a {@link Quantity}
    * @returns {boolean}
    */
   greaterThanOrEqual (value) {
@@ -268,7 +263,7 @@ class Quantity {
   /**
    * Checks whether this Quantity is smaller than the passed in value.
    *
-   * @param {Item|string|Quantity} value Quantity-compatible {@link Item}, `string` consisting of amount and unit or a {@link Quantity}
+   * @param {items.Item|string|Quantity} value Quantity-compatible {@link items.Item}, `string` consisting of amount and unit or a {@link Quantity}
    * @returns {boolean}
    */
   lessThan (value) {
@@ -279,7 +274,7 @@ class Quantity {
   /**
    * Checks whether this Quantity is smaller than or equal to the passed in value.
    *
-   * @param {Item|string|Quantity} value Quantity-compatible {@link Item}, `string` consisting of amount and unit or a {@link Quantity}
+   * @param {items.Item|string|Quantity} value Quantity-compatible {@link items.Item}, `string` consisting of amount and unit or a {@link Quantity}
    * @returns {boolean}
    */
   lessThanOrEqual (value) {
@@ -296,7 +291,7 @@ class Quantity {
  * The Quantity allows easy Units of Measurement/Quantity handling by wrapping the openHAB {@link QuantityType}.
  *
  * @private
- * @param {Item|string|Quantity|QuantityType} value either a Quantity-compatible {@link Item}, a string consisting of a numeric value and a dimension, e.g. `5.5 m`, a {@link Quantity} or a {@link QuantityType}
+ * @param {items.Item|string|Quantity|QuantityType} value either a Quantity-compatible {@link items.Item}, a string consisting of a numeric value and a dimension, e.g. `5.5 m`, a {@link Quantity} or a {@link QuantityType}
  * @returns {Quantity}
  * @throws {QuantityError} if Quantity creation or operation failed
  * @throws {TypeError} if wrong argument type is provided

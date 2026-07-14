@@ -1,84 +1,13 @@
-export type Item = {
-    rawItem: HostItem;
-    persistence: import("./items/item-persistence");
-    semantics: import("./items/item-semantics");
-    readonly type: string;
-    readonly groupType: string;
-    readonly name: string;
-    readonly label: string;
-    readonly category: string;
-    readonly state: string;
-    readonly numericState: number;
-    readonly quantityState: Quantity;
-    readonly boolState: boolean;
-    readonly rawState: any;
-    readonly previousState: string;
-    readonly previousNumericState: number;
-    readonly previousQuantityState: Quantity;
-    readonly previousRawState: any;
-    readonly lastStateUpdateTimestamp: any;
-    readonly lastStateUpdateInstant: any;
-    readonly lastStateChangeTimestamp: any;
-    readonly lastStateChangeInstant: any;
-    readonly members: any[];
-    readonly descendents: any[];
-    readonly isInitialized: boolean;
-    readonly isUninitialized: boolean;
-    getMetadata(namespace?: string): {
-        value: string;
-        configuration: any;
-        rawMetadata: any;
-        readonly key: string;
-        toString(): string;
-    } | {
-        namespace: {
-            value: string;
-            configuration: any;
-            rawMetadata: any;
-            readonly key: string;
-            toString(): string;
-        };
-    };
-    replaceMetadata(namespace: string, value: string, configuration?: any): {
-        value: string;
-        configuration: any;
-        rawMetadata: any;
-        readonly key: string;
-        toString(): string;
-    };
-    removeMetadata(namespace?: string): {
-        value: string;
-        configuration: any;
-        rawMetadata: any;
-        readonly key: string;
-        toString(): string;
-    };
-    sendCommand(value: any, expire?: JSJoda.Duration, onExpire?: any): void;
-    sendCommandIfDifferent(value: any): boolean;
-    sendIncreaseCommand(value: any): boolean;
-    sendDecreaseCommand(value: any): boolean;
-    getToggleState(): "OPEN" | "PLAY" | "ON" | "PAUSE" | "CLOSED" | "OFF";
-    sendToggleCommand(): void;
-    postToggleUpdate(): void;
-    postUpdate(value: any): void;
-    readonly groupNames: string[];
-    addGroups(...groupNamesOrItems: any[]): void;
-    removeGroups(...groupNamesOrItems: any[]): void;
-    readonly tags: string[];
-    addTags(...tagNames: string[]): void;
-    removeTags(...tagNames: string[]): void;
-    toString(): any;
-};
 /**
  * The Quantity allows easy Units of Measurement/Quantity handling by wrapping the openHAB {@link QuantityType}.
  *
  * @private
- * @param {Item|string|Quantity|QuantityType} value either a Quantity-compatible {@link Item}, a string consisting of a numeric value and a dimension, e.g. `5.5 m`, a {@link Quantity} or a {@link QuantityType}
+ * @param {items.Item|string|Quantity|QuantityType} value either a Quantity-compatible {@link items.Item}, a string consisting of a numeric value and a dimension, e.g. `5.5 m`, a {@link Quantity} or a {@link QuantityType}
  * @returns {Quantity}
  * @throws {QuantityError} if Quantity creation or operation failed
  * @throws {TypeError} if wrong argument type is provided
  */
-export function getQuantity(value: Item | string | Quantity | any): Quantity;
+export function getQuantity(value: items.Item | string | Quantity | any): Quantity;
 /**
  * Class allowing easy Units of Measurement/Quantity handling by wrapping the openHAB {@link QuantityType}.
  *
@@ -89,9 +18,9 @@ export function getQuantity(value: Item | string | Quantity | any): Quantity;
  */
 export class Quantity {
     /**
-     * @param {Item|string|Quantity|QuantityType} value
+     * @param {items.Item|string|Quantity|QuantityType} value
      */
-    constructor(value: Item | string | Quantity | any);
+    constructor(value: items.Item | string | Quantity | any);
     /**
      * @type {QuantityType}
      * @private
@@ -125,10 +54,10 @@ export class Quantity {
     /**
      * Add the given value to this Quantity.
      *
-     * @param {Item|string|Quantity} value Quantity-compatible {@link Item}, `string` consisting of amount and unit or a {@link Quantity}
+     * @param {items.Item|string|Quantity} value Quantity-compatible {@link items.Item}, `string` consisting of amount and unit or a {@link Quantity}
      * @returns {Quantity} result as new Quantity
      */
-    add(value: Item | string | Quantity): Quantity;
+    add(value: items.Item | string | Quantity): Quantity;
     /**
      * Divide this Quantity by the given value.
      *
@@ -136,10 +65,10 @@ export class Quantity {
      * Quantity('20 W').divide(4); // is 5 W
      * Quantity('20 W').divide('4 W') // is 5
      *
-     * @param {Item|number|string|Quantity} value usually a number; may also be an {@link Item} which is either Quantity-compatible or holds a number, a `string` consisting of amount and unit or a {@link Quantity}, but be careful: 1 W / 5 W = 0.2 which might not be what you want
+     * @param {items.Item|number|string|Quantity} value usually a number; may also be an {@link items.Item} which is either Quantity-compatible or holds a number, a `string` consisting of amount and unit or a {@link Quantity}, but be careful: 1 W / 5 W = 0.2 which might not be what you want
      * @returns {Quantity} result as new Quantity
      */
-    divide(value: Item | number | string | Quantity): Quantity;
+    divide(value: items.Item | number | string | Quantity): Quantity;
     /**
      * Multiply this Quantity by the given value.
      *
@@ -147,17 +76,17 @@ export class Quantity {
      * Quantity('20 W').multiply(4); // is 80 W
      * Quantity('20 W').multiply('4 W') // is 80 W^2
      *
-     * @param {Item|number|string|Quantity} value usually a number; may also be an {@link Item} which is either Quantity-compatible or holds a number, a `string` consisting of amount and unit or a {@link Quantity}, but be careful: 1 W * 5 W = 5 W^2 which might not be what you want
+     * @param {items.Item|number|string|Quantity} value usually a number; may also be an {@link items.Item} which is either Quantity-compatible or holds a number, a `string` consisting of amount and unit or a {@link Quantity}, but be careful: 1 W * 5 W = 5 W^2 which might not be what you want
      * @returns {Quantity} result as new Quantity
      */
-    multiply(value: Item | number | string | Quantity): Quantity;
+    multiply(value: items.Item | number | string | Quantity): Quantity;
     /**
      * Subtract the given value from this Quantity.
      *
-     * @param {Item|string|Quantity} value Quantity-compatible {@link Item}, `string` consisting of amount and unit or a {@link Quantity}
+     * @param {items.Item|string|Quantity} value Quantity-compatible {@link items.Item}, `string` consisting of amount and unit or a {@link Quantity}
      * @returns {Quantity} result as new Quantity
      */
-    subtract(value: Item | string | Quantity): Quantity;
+    subtract(value: items.Item | string | Quantity): Quantity;
     /**
      * Convert this Quantity to the given unit.
      *
@@ -169,38 +98,38 @@ export class Quantity {
     /**
      * Checks whether this Quantity is equal to the passed in value.
      *
-     * @param {Item|string|Quantity} value Quantity-compatible {@link Item}, `string` consisting of amount and unit or a {@link Quantity}
+     * @param {items.Item|string|Quantity} value Quantity-compatible {@link items.Item}, `string` consisting of amount and unit or a {@link Quantity}
      * @returns {boolean}
      */
-    equal(value: Item | string | Quantity): boolean;
+    equal(value: items.Item | string | Quantity): boolean;
     /**
      * Checks whether this Quantity is larger than the passed in value.
      *
-     * @param {Item|string|Quantity} value Quantity-compatible {@link Item}, `string` consisting of amount and unit or a {@link Quantity}
+     * @param {items.Item|string|Quantity} value Quantity-compatible {@link items.Item}, `string` consisting of amount and unit or a {@link Quantity}
      * @returns {boolean}
      */
-    greaterThan(value: Item | string | Quantity): boolean;
+    greaterThan(value: items.Item | string | Quantity): boolean;
     /**
      * Checks whether this Quantity is larger than or equal to the passed in value.
      *
-     * @param {Item|string|Quantity} value Quantity-compatible {@link Item}, `string` consisting of amount and unit or a {@link Quantity}
+     * @param {items.Item|string|Quantity} value Quantity-compatible {@link items.Item}, `string` consisting of amount and unit or a {@link Quantity}
      * @returns {boolean}
      */
-    greaterThanOrEqual(value: Item | string | Quantity): boolean;
+    greaterThanOrEqual(value: items.Item | string | Quantity): boolean;
     /**
      * Checks whether this Quantity is smaller than the passed in value.
      *
-     * @param {Item|string|Quantity} value Quantity-compatible {@link Item}, `string` consisting of amount and unit or a {@link Quantity}
+     * @param {items.Item|string|Quantity} value Quantity-compatible {@link items.Item}, `string` consisting of amount and unit or a {@link Quantity}
      * @returns {boolean}
      */
-    lessThan(value: Item | string | Quantity): boolean;
+    lessThan(value: items.Item | string | Quantity): boolean;
     /**
      * Checks whether this Quantity is smaller than or equal to the passed in value.
      *
-     * @param {Item|string|Quantity} value Quantity-compatible {@link Item}, `string` consisting of amount and unit or a {@link Quantity}
+     * @param {items.Item|string|Quantity} value Quantity-compatible {@link items.Item}, `string` consisting of amount and unit or a {@link Quantity}
      * @returns {boolean}
      */
-    lessThanOrEqual(value: Item | string | Quantity): boolean;
+    lessThanOrEqual(value: items.Item | string | Quantity): boolean;
     toString(): any;
 }
 /**
@@ -215,26 +144,22 @@ export class QuantityError extends Error {
 }
 /**
  * Takes either a {@link Quantity} or a `string` and converts it to a {@link QuantityType}.
- * @param {Item|string|Quantity} value
+ * @param {items.Item|string|Quantity} value
  * @param {string} [errorMsg] error message to throw if parameter has wrong type
  * @returns {QuantityType}
  * @throws {TypeError} when parameter has the wrong type
  * @throws {QuantityError} when {@link QuantityType} creation failed
  * @private
  */
-export function _toQtyType(value: Item | string | Quantity, errorMsg?: string): any;
+export function _toQtyType(value: items.Item | string | Quantity, errorMsg?: string): any;
 /**
- * @typedef {import('./items/items').Item} Item
- * @private
- */
-/**
- * Takes either an {@link Item}, a `string`, a `number` or a {@link Quantity} and converts it to a {@link QuantityType} or {@link BigDecimal}.
+ * Takes either an {@link items.Item}, a `string`, a `number` or a {@link Quantity} and converts it to a {@link QuantityType} or {@link BigDecimal}.
  * When the Item state is a DecimalType, it is converted to a {@link BigDecimal}, otherwise to a {@link QuantityType}.
- * @param {Item|string|number|Quantity} value
+ * @param {items.Item|string|number|Quantity} value
  * @returns {BigDecimal|QuantityType}
  * @throws {TypeError} when parameter has the wrong type
  * @throws {QuantityError} when {@link BigDecimal} creation failed
  * @private
  */
-export function _toBigDecimalOrQtyType(value: Item | string | number | Quantity): JavaBigDecimal | any;
+export function _toBigDecimalOrQtyType(value: items.Item | string | number | Quantity): JavaBigDecimal | any;
 //# sourceMappingURL=quantity.d.ts.map

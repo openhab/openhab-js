@@ -19,11 +19,6 @@ const Configuration = Java.type('org.openhab.core.config.core.Configuration');
  */
 
 /**
- * @typedef {import('./items').Item} Item
- * @private
- */
-
-/**
  * Class representing an openHAB Item -> channel link.
  *
  * @memberof items.itemChannelLink
@@ -75,7 +70,7 @@ class ItemChannelLink {
  * Gets a channel link of from an Item.
  *
  * @memberof items.itemChannelLink
- * @param {Item|string} itemOrName {@link Item} or the name of the Item
+ * @param {items.Item|string} itemOrName {@link items.Item} or the name of the Item
  * @param {string} channelUID
  * @returns {ItemChannelLink|null} the ItemChannelLink or `null` if none exists
  */
@@ -115,7 +110,7 @@ function _createItemChannelLink (itemName, channelUID, conf) {
  * If this is called from UI-based scripts, the Item -> channel link is stored to the ManagedItemChannelLinkProvider and independent of the script's lifecycle.
  *
  * @memberOf items.itemChannelLink
- * @param {Item|string} itemOrName {@link Item} or the name of the Item
+ * @param {items.Item|string} itemOrName {@link items.Item} or the name of the Item
  * @param {string} channelUID
  * @param {object} [configuration] channel configuration
  * @param {boolean} [persist=false] whether to persist the Item -> channel link permanently (only respected for file-based scripts)
@@ -162,7 +157,7 @@ function _updateItemChannelLink (itemName, channelUID, configuration) {
  * If an Item -> channel link is not provided by this script or the ManagedItemChannelLinkProvider, it is not editable and a warning is logged.
  *
  * @memberof items.itemChannelLink
- * @param {Item|string} itemOrName {@link Item} or the name of the Item
+ * @param {items.Item|string} itemOrName {@link items.Item} or the name of the Item
  * @param {string} channelUID
  * @param {object} [configuration] channel configuration
  * @returns {ItemChannelLink|null} the old ItemChannelLink or `null` if it did not exist
@@ -177,7 +172,7 @@ function replaceItemChannelLink (itemOrName, channelUID, configuration) {
  * Removes a channel link from an Item.
  *
  * @memberof items.itemChannelLink
- * @param {Item|string} itemOrName {@link Item} or the name of the Item
+ * @param {items.Item|string} itemOrName {@link items.Item} or the name of the Item
  * @param {string} channelUID
  * @returns {ItemChannelLink|null} the removed ItemChannelLink or `null` if none exists, or it cannot be removed
  */

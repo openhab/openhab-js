@@ -1,85 +1,3 @@
-export type Item = {
-    rawItem: HostItem;
-    persistence: import("./items/item-persistence");
-    semantics: import("./items/item-semantics");
-    readonly type: string;
-    readonly groupType: string;
-    readonly name: string;
-    readonly label: string;
-    /**
-     * Creates a trigger that fires upon a member of a group receiving a command. Note that the group Item does not need to change state.
-     *
-     * @example
-     * GroupCommandTrigger('my_group', 'OFF');
-     *
-     * @memberof triggers
-     * @param {Item|string} groupOrName the group {@link Item} or the name of the group to monitor for commands
-     * @param {string} [command] the command received
-     * @param {string} [triggerName] the optional name of the trigger to create
-     */
-    readonly category: string;
-    readonly state: string;
-    readonly numericState: number;
-    readonly quantityState: import("./quantity").Quantity;
-    readonly boolState: boolean;
-    readonly rawState: any;
-    readonly previousState: string;
-    readonly previousNumericState: number;
-    readonly previousQuantityState: import("./quantity").Quantity;
-    readonly previousRawState: any;
-    readonly lastStateUpdateTimestamp: any;
-    readonly lastStateUpdateInstant: any;
-    readonly lastStateChangeTimestamp: any;
-    readonly lastStateChangeInstant: any;
-    readonly members: any[];
-    readonly descendents: any[];
-    readonly isInitialized: boolean;
-    readonly isUninitialized: boolean;
-    getMetadata(namespace?: string): {
-        value: string;
-        configuration: any;
-        rawMetadata: any;
-        readonly key: string;
-        toString(): string;
-    } | {
-        namespace: {
-            value: string;
-            configuration: any;
-            rawMetadata: any;
-            readonly key: string;
-            toString(): string;
-        };
-    };
-    replaceMetadata(namespace: string, value: string, configuration?: any): {
-        value: string;
-        configuration: any;
-        rawMetadata: any;
-        readonly key: string;
-        toString(): string;
-    };
-    removeMetadata(namespace?: string): {
-        value: string;
-        configuration: any;
-        rawMetadata: any;
-        readonly key: string;
-        toString(): string;
-    };
-    sendCommand(value: any, expire?: JSJoda.Duration, onExpire?: any): void;
-    sendCommandIfDifferent(value: any): boolean;
-    sendIncreaseCommand(value: any): boolean;
-    sendDecreaseCommand(value: any): boolean;
-    getToggleState(): "OPEN" | "PLAY" | "ON" | "PAUSE" | "CLOSED" | "OFF";
-    sendToggleCommand(): void;
-    postToggleUpdate(): void;
-    postUpdate(value: any): void;
-    readonly groupNames: string[];
-    addGroups(...groupNamesOrItems: any[]): void;
-    removeGroups(...groupNamesOrItems: any[]): void;
-    readonly tags: string[];
-    addTags(...tagNames: string[]): void;
-    removeTags(...tagNames: string[]): void;
-    toString(): any;
-};
 /**
  * Creates a trigger that fires upon specific events in a channel.
  *
@@ -109,12 +27,12 @@ export function ChannelEventTrigger(channel: string, event?: string, triggerName
  * ItemStateChangeTrigger('my_item', 'OFF', undefined); // changed from OFF
  *
  * @memberof triggers
- * @param {Item|string} itemOrName the {@link Item} or the name of the Item to monitor for change
+ * @param {items.Item|string} itemOrName the {@link items.Item} or the name of the Item to monitor for change
  * @param {string} [oldState] the previous state of the Item
  * @param {string} [newState] the new state of the Item
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function ItemStateChangeTrigger(itemOrName: Item | string, oldState?: string, newState?: string, triggerName?: string): HostTrigger;
+export function ItemStateChangeTrigger(itemOrName: items.Item | string, oldState?: string, newState?: string, triggerName?: string): HostTrigger;
 /**
  * Creates a trigger that fires upon an Item receiving a state update. Note that the Item does not need to change state.
  *
@@ -123,11 +41,11 @@ export function ItemStateChangeTrigger(itemOrName: Item | string, oldState?: str
  * ItemStateUpdateTrigger('my_item', 'OFF'); // received update OFF
  *
  * @memberof triggers
- * @param {Item|string} itemOrName the {@link Item} or the name of the Item to monitor for change
+ * @param {items.Item|string} itemOrName the {@link items.Item} or the name of the Item to monitor for change
  * @param {string} [state] the new state of the Item
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function ItemStateUpdateTrigger(itemOrName: Item | string, state?: string, triggerName?: string): HostTrigger;
+export function ItemStateUpdateTrigger(itemOrName: items.Item | string, state?: string, triggerName?: string): HostTrigger;
 /**
  * Creates a trigger that fires upon an Item receiving a command. Note that the Item does not need to change state.
  *
@@ -136,11 +54,11 @@ export function ItemStateUpdateTrigger(itemOrName: Item | string, state?: string
  * ItemCommandTrigger('my_item', 'OFF'); // received command OFF
  *
  * @memberof triggers
- * @param {Item|string} itemOrName the {@link Item} or the name of the Item to monitor for change
+ * @param {items.Item|string} itemOrName the {@link items.Item} or the name of the Item to monitor for change
  * @param {string} [command] the command received
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function ItemCommandTrigger(itemOrName: Item | string, command?: string, triggerName?: string): HostTrigger;
+export function ItemCommandTrigger(itemOrName: items.Item | string, command?: string, triggerName?: string): HostTrigger;
 /**
  * Creates a trigger that fires upon a member of a group changing state. Note that group Item does not need to change state.
  *
@@ -148,12 +66,12 @@ export function ItemCommandTrigger(itemOrName: Item | string, command?: string, 
  * GroupStateChangeTrigger('my_group', 'OFF', 'ON');
  *
  * @memberof triggers
- * @param {Item|string} groupOrName the group {@link Item} or the name of the group to monitor for change
+ * @param {items.Item|string} groupOrName the group {@link items.Item} or the name of the group to monitor for change
  * @param {string} [oldState] the previous state of the group
  * @param {string} [newState] the new state of the group
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function GroupStateChangeTrigger(groupOrName: Item | string, oldState?: string, newState?: string, triggerName?: string): HostTrigger;
+export function GroupStateChangeTrigger(groupOrName: items.Item | string, oldState?: string, newState?: string, triggerName?: string): HostTrigger;
 /**
  * Creates a trigger that fires upon a member of a group receiving a state update. Note that group Item does not need to change state.
  *
@@ -161,11 +79,11 @@ export function GroupStateChangeTrigger(groupOrName: Item | string, oldState?: s
  * GroupStateUpdateTrigger('my_group', 'OFF');
  *
  * @memberof triggers
- * @param {Item|string} groupOrName the group {@link Item} or the name of the group to monitor for change
+ * @param {items.Item|string} groupOrName the group {@link items.Item} or the name of the group to monitor for change
  * @param {string} [state] the new state of the group
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function GroupStateUpdateTrigger(groupOrName: Item | string, state?: string, triggerName?: string): HostTrigger;
+export function GroupStateUpdateTrigger(groupOrName: items.Item | string, state?: string, triggerName?: string): HostTrigger;
 /**
  * Creates a trigger that fires upon a member of a group receiving a command. Note that the group Item does not need to change state.
  *
@@ -173,11 +91,11 @@ export function GroupStateUpdateTrigger(groupOrName: Item | string, state?: stri
  * GroupCommandTrigger('my_group', 'OFF');
  *
  * @memberof triggers
- * @param {Item|string} groupOrName the group {@link Item} or the name of the group to monitor for commands
+ * @param {items.Item|string} groupOrName the group {@link items.Item} or the name of the group to monitor for commands
  * @param {string} [command] the command received
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function GroupCommandTrigger(groupOrName: Item | string, command?: string, triggerName?: string): HostTrigger;
+export function GroupCommandTrigger(groupOrName: items.Item | string, command?: string, triggerName?: string): HostTrigger;
 /**
  * Creates a trigger that fires upon a Thing status updating.
  *
@@ -266,12 +184,12 @@ export function TimeOfDayTrigger(time: string, triggerName?: string): HostTrigge
  * DateTimeTrigger('MyDateTimeItem');
  *
  * @memberof triggers
- * @param {Item|string} itemOrName the {@link Item} or the name of the Item to monitor for change
+ * @param {items.Item|string} itemOrName the {@link items.Item} or the name of the Item to monitor for change
  * @param {boolean} [timeOnly=false] Specifies whether only the time of the DateTime Item should be compared or the date and time.
  * @param {number} [offset=0] The offset in seconds to add to the time of the DateTime Item
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function DateTimeTrigger(itemOrName: Item | string, timeOnly?: boolean, offset?: number, triggerName?: string): HostTrigger;
+export function DateTimeTrigger(itemOrName: items.Item | string, timeOnly?: boolean, offset?: number, triggerName?: string): HostTrigger;
 /**
  * Creates a trigger for the {@link https://openhab.org/addons/automation/pwm/ Pulse Width Modulation (PWM) Automation} add-on.
  *
@@ -287,7 +205,7 @@ export function DateTimeTrigger(itemOrName: Item | string, timeOnly?: boolean, o
  * });
  *
  * @memberof triggers
- * @param {Item|string} dutycycleItemOrName the Item or name of the Item (PercentType) to read the duty cycle from
+ * @param {items.Item|string} dutycycleItemOrName the Item or name of the Item (PercentType) to read the duty cycle from
  * @param {number} interval constant interval in which the output is switch ON and OFF again (in sec)
  * @param {number} [minDutyCycle] any duty cycle below this value will be increased to this value
  * @param {number} [maxDutyCycle] any duty cycle above this value will be decreased to this value
@@ -296,7 +214,7 @@ export function DateTimeTrigger(itemOrName: Item | string, timeOnly?: boolean, o
  * @param {boolean} [equateMaxToHundred=true] whether the duty cycle above `maxDutyCycle` should be set to 100
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function PWMTrigger(dutycycleItemOrName: Item | string, interval: number, minDutyCycle?: number, maxDutyCycle?: number, deadManSwitch?: number, equateMinToZero?: boolean, equateMaxToHundred?: boolean, triggerName?: string): HostTrigger;
+export function PWMTrigger(dutycycleItemOrName: items.Item | string, interval: number, minDutyCycle?: number, maxDutyCycle?: number, deadManSwitch?: number, equateMinToZero?: boolean, equateMaxToHundred?: boolean, triggerName?: string): HostTrigger;
 /**
  * Creates a trigger for the {@link https://www.openhab.org/addons/automation/pidcontroller/ PID Controller Automation} add-on.
  *

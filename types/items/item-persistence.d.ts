@@ -1,5 +1,12 @@
 export = ItemPersistence;
 /**
+ * @typedef {Object} ItemPersistence.RiemannType
+ * @property {string} LEFT
+ * @property {string} RIGHT
+ * @property {string} TRAPEZOIDAL
+ * @property {string} MIDPOINT
+ */
+/**
  * Class representing the historic state of an openHAB Item.
  * Wrapping the {@link https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/extensions/persistenceextensions org.openhab.core.persistence.extensions.PersistenceExtensions}.
  *
@@ -12,12 +19,8 @@ export = ItemPersistence;
  * @hideconstructor
  */
 declare class ItemPersistence {
-    /**
-     * Enum of the Riemann approximation types to calculate the integral approximation.
-     *
-     * @type {RiemannType}
-     */
-    static get RiemannType(): any;
+    static PersistedItem: typeof PersistedItem;
+    static PersistedState: typeof PersistedState;
     constructor(rawItem: any);
     rawItem: any;
     /**
@@ -595,18 +598,13 @@ declare class ItemPersistence {
     #private;
 }
 declare namespace ItemPersistence {
-    export { Quantity };
+    type RiemannType = {
+        LEFT: string;
+        RIGHT: string;
+        TRAPEZOIDAL: string;
+        MIDPOINT: string;
+    };
 }
-declare namespace time {
-    type ZonedDateTime = import('@js-joda/core').ZonedDateTime;
-    type Instant = import('@js-joda/core').Instant;
-}
-import time = require("../time");
-type Quantity = import('../quantity').Quantity;
-declare namespace items {
-    type TimeSeries = import("./time-series");
-}
-declare const TimeSeries: any;
 /**
  * Class representing an instance of {@link https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/historicitem org.openhab.core.persistence.HistoricItem}.
  * Extends {@link items.PersistedState}.
@@ -623,29 +621,13 @@ declare class PersistedItem extends PersistedState {
      * Consider using {@link instant} for heavy calculations because it is much faster to work with Instant.
      * @type {time.ZonedDateTime}
      */
-    get timestamp(): JSJoda.ZonedDateTime;
+    get timestamp(): time.ZonedDateTime;
     /**
      * Timestamp of the persisted Item as Instant.
      * @returns {time.Instant}
      */
-    get instant(): JSJoda.Instant;
+    get instant(): time.Instant;
 }
-/**
- * @typedef {import('@js-joda/core').ZonedDateTime} time.ZonedDateTime
- * @private
- */
-/**
- * @typedef {import('@js-joda/core').Instant} time.Instant
- * @private
- */
-/**
- * @typedef {import('../quantity').Quantity} Quantity
- * @private
- */
-/**
- * @typedef {import('../items/items').TimeSeries} items.TimeSeries
- * @private
- */
 /**
  * Class representing an instance of {@link https://www.openhab.org/javadoc/latest/org/openhab/core/types/state org.openhab.core.types.State}.
  *
@@ -674,7 +656,7 @@ declare class PersistedState {
      * Item state as {@link Quantity} or `null` if state is not Quantity-compatible or Quantity would be unit-less (without unit)
      * @type {Quantity|null}
      */
-    get quantityState(): import("../quantity").Quantity;
+    get quantityState(): any;
     toString(): string;
 }
 //# sourceMappingURL=item-persistence.d.ts.map

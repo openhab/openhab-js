@@ -2,19 +2,6 @@ const time = require('../time');
 const { _isInstant } = require('../helpers');
 
 /**
- * @typedef { import('@js-joda/core').Instant} time.Instant
- * @private
- */
-/**
- * @typedef { import('@js-joda/core').ZonedDateTime} time.ZonedDateTime
- * @private
- */
-/**
- * @typedef {import('../quantity').Quantity} Quantity
- * @private
- */
-
-/**
  * A TimeSeries is used to transport a set of states together with their timestamp.
  * It is usually used for persisting historic state or forecasts in a persistence service.
  *
