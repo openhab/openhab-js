@@ -57,7 +57,7 @@ function _quantityStateOrNull (rawState) {
     const qty = getQuantity(rawState);
     return (qty !== null && qty.symbol !== null) ? qty : null;
   } catch (e) {
-    if (e instanceof QuantityError) {
+    if (e instanceof QuantityError || e instanceof TypeError) {
       return null;
     } else {
       throw Error('Failed to create "quantityState": ' + e);
