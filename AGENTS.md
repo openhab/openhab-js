@@ -36,6 +36,7 @@ repo root folder
 ├── types/                             # Generated .d.ts declaration files
 └── docs/                              # JSDoc output (deployed to GitHub Pages)
 ```
+
 ## Runtime Environment Constraints
 
 `openhab-js` runs in the openHAB JavaScript Scripting add-on environment, which is powered by GraalVM JavaScript running inside a Java host.
@@ -50,7 +51,7 @@ This environment has specific restrictions:
 
 ### Environment Setup
 
-- The recommended Node.js version is defined in **[.nvmrc](file:///home/florianh/gitrepos/openhab-js/.nvmrc)**. It is recommended to use a version manager such as `nvm` (run `nvm use`).
+- The recommended Node.js version is defined in **[.nvmrc](.nvmrc)**. It is recommended to use a version manager such as `nvm` (run `nvm use`).
 - Install dependencies using npm:
 
   ```bash
@@ -115,7 +116,7 @@ This environment has specific restrictions:
 
 ## Testing Guidelines
 
-- **Write Jest tests**: All new unit tests should be written using **Jest** and placed in the **[test/](file:///home/florianh/gitrepos/openhab-js/test)** folder (or subfolders) with the extension `*.spec.js`.
+- **Write Jest tests**: All new unit tests should be written using **Jest** and placed in the **[test/](test)** folder (or subfolders) with the extension `*.spec.js`.
 - **Legacy Mocha tests**: Legacy test files with the extension `*.test.js` run under Mocha. These are still present in the repository but will be migrated or removed in the future. Avoid adding new Mocha tests.
 - **Test Mocks**: Ensure that tests stub out Java-specific hosts (like `@runtime`) using the provided mock modules under the `test/` directory.
 
@@ -130,19 +131,19 @@ There is a strict separation between the globals used during type generation (`n
 #### Compiler-Facing (`src/globals.d.ts`)
 
 - **Purpose**: Used only by `tsc` when generating `.d.ts` files from the JS source.
-- **Location**: [src/globals.d.ts](file:///home/florianh/gitrepos/openhab-js/src/globals.d.ts)
-- **Configuration**: Included in [build/tsconfig.json](file:///home/florianh/gitrepos/openhab-js/build/tsconfig.json).
+- **Location**: [src/globals.d.ts](src/globals.d.ts)
+- **Configuration**: Included in [build/tsconfig.json](build/tsconfig.json).
 - **Key Constraint**: Because JS files are CommonJS modules exporting constructor values, `src/globals.d.ts` must use `InstanceType<typeof import(...)>` to extract class instance types. Otherwise, the compiler will fail to compile.
 
 #### Public-Facing (`types/openhab-js.d.ts`)
 
 - **Purpose**: Used by external library consumers (and VS Code) when importing `openhab-js`.
-- **Location**: [types/openhab-js.d.ts](file:///home/florianh/gitrepos/openhab-js/types/openhab-js.d.ts)
+- **Location**: [types/openhab-js.d.ts](types/openhab-js.d.ts)
 - **Configuration**: Exposed via `"types"` in `package.json`.
 - **Key Constraint**: Because the generated declaration files under `types/` are true TS modules exporting actual class/type definitions, this file **must not** use `InstanceType<typeof ...>` for classes. Instead, it must use direct type imports (e.g. `import('./items/items').Item`) to allow editor engines like VS Code to resolve class member autocompletion instantly.
 
 ### Preventing Output Overwrite Conflicts (`TS5055`)
 
-- The `types/` output directory must **never** be included in the compilation input patterns/`include` array of [build/tsconfig.json](file:///home/florianh/gitrepos/openhab-js/build/tsconfig.json).
+- The `types/` output directory must **never** be included in the compilation input patterns/`include` array of [build/tsconfig.json](build/tsconfig.json).
 - If a file in the input graph imports or references files under `types/` during build time, `tsc` loads them as compilation inputs. When `tsc` then attempts to output the generated declarations to `types/`, it raises `error TS5055: Cannot write file because it would overwrite input file`.
 - To avoid this, always keep `src/globals.d.ts` importing directly from the source `.js` files using relative paths within `src/` (e.g., `./items/items` instead of `../types/items/items`).
