@@ -84,6 +84,18 @@ jobs:
           path: |
             test/coverage/lcov-report
 
+      - name: Create GitHub Release
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${{ github.ref_name }}" \
+            dist/openhab.js \
+            dist/openhab.d.ts \
+            dist/@openhab-globals.js \
+            --title "${{ github.ref_name }}" \
+            --generate-notes
+
   jsdoc:
     name: Publish JSDoc
     runs-on: "ubuntu-24.04"
