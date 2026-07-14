@@ -2,7 +2,6 @@
 
 ## 5.19.0
 
-
 | Type        | Namespace | Description                                         | Reference                                              | Breaking |
 |-------------|-----------|-----------------------------------------------------|--------------------------------------------------------|----------|
 | Enhancement | `utils`   | Introduce `javaify()` function                      | [#536](https://github.com/openhab/openhab-js/pull/536) | No       |
