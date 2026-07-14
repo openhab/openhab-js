@@ -119,11 +119,11 @@ export type RuleConfig = {
     /**
      * description of the rule (used in UI)
      */
-    description?: string;
+    description?: string | undefined;
     /**
      * which will fire the rule
      */
-    triggers?: HostTrigger | HostTrigger[];
+    triggers?: object | object[] | undefined;
     /**
      * callback to run when the rule fires
      */
@@ -131,27 +131,27 @@ export type RuleConfig = {
     /**
      * tags for the rule (used in UI)
      */
-    tags?: string[];
+    tags?: string[] | undefined;
     /**
      * UID of the rule, if not provided, one is generated
      */
-    id?: string;
+    id?: string | undefined;
     /**
      * whether to overwrite an existing rule with the same UID
      */
-    overwrite?: boolean;
+    overwrite?: boolean | undefined;
     /**
      * whether to run the rule in a separate dedicated context
      */
-    dedicatedContext?: boolean;
+    dedicatedContext?: boolean | undefined;
     /**
      * (optional and only for {@link SwitchableJSRule }) name of the switch Item, which will get created automatically if it is not existent
      */
-    switchItemName?: string;
+    switchItemName?: string | undefined;
     /**
      * (optional and only for {@link SwitchableJSRule }) name of an Item group to use for the switch Item, which will get created automatically if it is not existent
      */
-    ruleGroup?: string;
+    ruleGroup?: string | undefined;
 };
 /**
   * Remove a rule when it exists. The rule will be immediately removed.
@@ -173,7 +173,7 @@ export function removeRule(uid: string): boolean;
   * @returns {Record<string, object>} a copy of the rule context, including possible return values
   * @throws {Error} throws an error if the rule does not exist or is not initialized
   */
-export function runRule(uid: string, args?: Record<string, unknown>, conditions?: boolean): Record<string, object>;
+export function runRule(uid: string, args?: Record<string, unknown> | undefined, conditions?: boolean | undefined): Record<string, object>;
 /**
  * Runs the rule with the given UID asynchronously, without waiting for the execution to complete.
  * Throws errors when the rule doesn't exist or is unable to run (e.g., it's disabled).
@@ -186,7 +186,7 @@ export function runRule(uid: string, args?: Record<string, unknown>, conditions?
  * @param {boolean} [conditions=true] when true, the called rule will only run if it's conditions are met
  * @throws {Error} throws an error if the rule does not exist or is not initialized
  */
-export function runAsync(uid: string, args?: Record<string, unknown>, conditions?: boolean): void;
+export function runAsync(uid: string, args?: Record<string, unknown> | undefined, conditions?: boolean | undefined): void;
 /**
   * Tests to see if the rule with the given UID is enabled or disabled. Throws
   * and error if the rule doesn't exist.
@@ -249,5 +249,5 @@ export function SwitchableJSRule(ruleConfig: RuleConfig): HostRule;
  * @param {boolean} [javaEventBackwardCompat=false] enables backwards compatibility with pure Java event object in UI-based rules
  * @returns {EventObject}
  */
-export function _getTriggeredData(rawInput: any, javaEventBackwardCompat?: boolean): EventObject;
+export function _getTriggeredData(rawInput: any, javaEventBackwardCompat?: boolean | undefined): EventObject;
 //# sourceMappingURL=rules.d.ts.map

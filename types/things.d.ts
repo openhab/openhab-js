@@ -25,7 +25,7 @@ export class Thing {
      * Thing's bridge UID as `string` or `null` if the Thing has no bridge
      * @type {string|null}
      */
-    get bridgeUID(): string;
+    get bridgeUID(): string | null;
     /**
      * Thing's label
      * @type {string}

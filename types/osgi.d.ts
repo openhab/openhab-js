@@ -19,6 +19,6 @@ export function getService(...classOrNames: (string | JavaClass)[]): any | null;
  */
 export function findServices(className: string, filter?: any): Array<any>;
 export function registerService(service: any, ...interfaceNames: any[]): void;
-export function registerPermanentService(service: any, interfaceNames: any, properties?: any): any;
+export function registerPermanentService(service: any, interfaceNames: any, properties?: null): any;
 export function unregisterService(serviceToUnregister: any): void;
 //# sourceMappingURL=osgi.d.ts.map

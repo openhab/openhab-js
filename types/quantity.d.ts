@@ -35,12 +35,12 @@ export class Quantity {
      * Unit name of this Quantity, e.g. `Metre`, `kWh`, or `null` if not available
      * @type {string|null}
      */
-    get unit(): string;
+    get unit(): string | null;
     /**
      * Unit symbol of this Quantity, e.g. `m`, `kWh`, or `null` if not available
      * @type {string|null}
      */
-    get symbol(): string;
+    get symbol(): string | null;
     /**
      * Float (decimal number) value of this Quantity
      * @type {number}
@@ -151,7 +151,7 @@ export class QuantityError extends Error {
  * @throws {QuantityError} when {@link QuantityType} creation failed
  * @private
  */
-export function _toQtyType(value: items.Item | string | Quantity, errorMsg?: string): QuantityType;
+export function _toQtyType(value: items.Item | string | Quantity, errorMsg?: string | undefined): QuantityType;
 /**
  * Takes either an {@link items.Item}, a `string`, a `number` or a {@link Quantity} and converts it to a {@link QuantityType} or {@link BigDecimal}.
  * When the Item state is a DecimalType, it is converted to a {@link BigDecimal}, otherwise to a {@link QuantityType}.

@@ -13,27 +13,36 @@ export type ItemConfig = {
     /**
      * the label for the Item
      */
-    label?: string;
+    label?: string | undefined;
     /**
      * the category (icon) for the Item
      */
-    category?: string;
+    category?: string | undefined;
     /**
      * an array of groups the Item is a member of
      */
-    groups?: string[];
+    groups?: string[] | undefined;
     /**
      * an array of tags for the Item
      */
-    tags?: string[];
+    tags?: string[] | undefined;
     /**
      * group configuration, only applicable if type is `Group`
      */
     group?: {
+        /**
+         * the type of the Group, such as `Switch` or `Number`
+         */
         type: string;
-        function?: string;
-        parameters?: string[];
-    };
+        /**
+         * the group function, such as 'EQUALITY' or `AND`
+         */
+        function?: string | undefined;
+        /**
+         * optional parameters for the group function, e.g. `ON` and `OFF` for the `AND` function
+         */
+        parameters?: string[] | undefined;
+    } | undefined;
     /**
      * for single channel link a string or for multiple an object { channeluid: configuration }; configuration is an object
      */
@@ -45,15 +54,15 @@ export type ItemConfig = {
     /**
      * short form for the stateDescription metadata's pattern configuration
      */
-    format?: string;
+    format?: string | undefined;
     /**
      * short form for the unit metadata's value
      */
-    unit?: string;
+    unit?: string | undefined;
     /**
      * short form for the autoupdate metadata's value
      */
-    autoupdate?: boolean;
+    autoupdate?: boolean | undefined;
 };
 /**
  * Helper function to ensure an Item name is valid. All invalid characters are replaced with an underscore.
@@ -76,7 +85,7 @@ export function existsItem(name: string): boolean;
  * @param {boolean} [nullIfMissing=false] whether to return null if the Item cannot be found (default is to throw an {@link https://www.openhab.org/javadoc/latest/org/openhab/core/items/itemnotfoundexception ItemNotFoundException})
  * @returns {Item} {@link items.Item} Item or `null` if `nullIfMissing` is true and Item is missing
  */
-export function getItem(name: string, nullIfMissing?: boolean): Item;
+export function getItem(name: string, nullIfMissing?: boolean | undefined): Item;
 /**
  * Gets all openHAB Items.
  *
@@ -98,7 +107,7 @@ export function getItems(): Item[];
  * @throws {Error} if {@link ItemConfig} is invalid, e.g. {@link ItemConfig}.name or {@link ItemConfig}.type is not set
  * @throws {Error} if an Item with the same name already exists
  */
-export function addItem(itemConfig: ItemConfig, persist?: boolean): Item;
+export function addItem(itemConfig: ItemConfig, persist?: boolean | undefined): Item;
 /**
  * Gets all openHAB Items with a specific tag.
  *
@@ -169,7 +178,7 @@ export class Item {
      * Type of the Group, if this Item is a Group and has a type, else `null`.
      * @type {string|null}
      */
-    get groupType(): string;
+    get groupType(): string | null;
     /**
      * Name of Item
      * @type {string}
@@ -179,57 +188,57 @@ export class Item {
      * Label attached to Item, or `null` if not set
      * @type {string|null}
      */
-    get label(): string;
+    get label(): string | null;
     /**
      * Category of the Item, or `null` if not set
      * @return {string|null}
      */
-    get category(): string;
+    get category(): string | null;
     /**
      * String representation of the Item state, or `null` if not available
      * @type {string|null}
      */
-    get state(): string;
+    get state(): string | null;
     /**
      * Numeric representation of Item state, or `null` if state is not numeric
      * @type {number|null}
      */
-    get numericState(): number;
+    get numericState(): number | null;
     /**
      * Item state as {@link Quantity} or `null` if state is not Quantity-compatible or Quantity would be unit-less (without unit)
      * @type {Quantity|null}
      */
-    get quantityState(): import("../quantity").Quantity;
+    get quantityState(): import("../quantity").Quantity | null;
     /**
      * Item state as boolean or `null` if state is not boolean-compatible.
      * @type {boolean|null}
      */
-    get boolState(): boolean;
+    get boolState(): boolean | null;
     /**
      * Raw state of Item, as a Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/types/state State object}
      * @type {HostState|null}
      */
-    get rawState(): object;
+    get rawState(): object | null;
     /**
      * String representation of the previous state of the Item or `null` if no previous state is available.
      * @type {string|null}
      */
-    get previousState(): string;
+    get previousState(): string | null;
     /**
      * Numeric representation of Item previous state, or `null` if state is not numeric or not available.
      * @type {number|null}
      */
-    get previousNumericState(): number;
+    get previousNumericState(): number | null;
     /**
      * Previous item state as {@link Quantity} or `null` if state is not Quantity-compatible, Quantity would be unit-less (without unit) or not available.
      * @type {Quantity|null}
      */
-    get previousQuantityState(): import("../quantity").Quantity;
+    get previousQuantityState(): import("../quantity").Quantity | null;
     /**
       * Previous raw state of Item, as a Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/types/state State object} or `null` if previous state not available.
      * @type {HostState|null}
      */
-    get previousRawState(): object;
+    get previousRawState(): object | null;
     /**
      * The time the state was last updated as ZonedDateTime or `null` if no timestamp is available.
      * @type {time.ZonedDateTime|null}
@@ -285,7 +294,7 @@ export class Item {
      * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is returned, else all metadata is returned
      * @returns {{ namespace: items.ItemMetadata }|items.ItemMetadata|null} all metadata as an object with the namespaces as properties OR metadata of a single namespace or `null` if that namespace doesn't exist; the metadata itself is of type {@link items.ItemMetadata}
      */
-    getMetadata(namespace?: string): {
+    getMetadata(namespace?: string | undefined): {
         namespace: items.ItemMetadata;
     } | items.ItemMetadata | null;
     /**
@@ -307,7 +316,7 @@ export class Item {
      * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is removed, else all metadata is removed
      * @returns {items.ItemMetadata|null} removed {@link items.metadata.ItemMetadata} OR `null` if the Item has no metadata under the given namespace or all metadata was removed
      */
-    removeMetadata(namespace?: string): items.ItemMetadata | null;
+    removeMetadata(namespace?: string | undefined): items.ItemMetadata | null;
     /**
      * Sends a command to the Item.
      *
@@ -325,7 +334,7 @@ export class Item {
      * @see sendCommandIfDifferent
      * @see postUpdate
      */
-    sendCommand(value: string | number | time.ZonedDateTime | time.Instant | Quantity | HostState | null, expire?: time.Duration, onExpire?: string | number | time.ZonedDateTime | time.Instant | Quantity | HostState): void;
+    sendCommand(value: string | number | time.ZonedDateTime | time.Instant | Quantity | HostState | null, expire?: any, onExpire?: string | number | time.ZonedDateTime | time.Instant | Quantity | HostState): void;
     /**
      * Sends a command to the Item, but only if the current state is not what is being sent.
      *
@@ -421,16 +430,16 @@ export const PersistedItem: {
         toString(): string;
         rawState: any;
         readonly state: string;
-        readonly numericState: number;
-        readonly quantityState: import("../quantity").Quantity;
+        readonly numericState: number | null;
+        readonly quantityState: import("../quantity").Quantity | null;
     };
 };
 export const PersistedState: {
     new (rawHistoricState: any): {
         rawState: any;
         readonly state: string;
-        readonly numericState: number;
-        readonly quantityState: import("../quantity").Quantity;
+        readonly numericState: number | null;
+        readonly quantityState: import("../quantity").Quantity | null;
         toString(): string;
     };
 };

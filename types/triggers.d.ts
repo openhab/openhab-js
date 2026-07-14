@@ -16,7 +16,7 @@
  * @param {string} [triggerName] the optional name of the trigger to create
  *
  */
-export function ChannelEventTrigger(channel: string, event?: string, triggerName?: string): object;
+export function ChannelEventTrigger(channel: string, event?: string | undefined, triggerName?: string | undefined): object;
 /**
  * Creates a trigger that fires upon an Item changing state.
  *
@@ -32,7 +32,7 @@ export function ChannelEventTrigger(channel: string, event?: string, triggerName
  * @param {string} [newState] the new state of the Item
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function ItemStateChangeTrigger(itemOrName: items.Item | string, oldState?: string, newState?: string, triggerName?: string): object;
+export function ItemStateChangeTrigger(itemOrName: items.Item | string, oldState?: string | undefined, newState?: string | undefined, triggerName?: string | undefined): object;
 /**
  * Creates a trigger that fires upon an Item receiving a state update. Note that the Item does not need to change state.
  *
@@ -45,7 +45,7 @@ export function ItemStateChangeTrigger(itemOrName: items.Item | string, oldState
  * @param {string} [state] the new state of the Item
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function ItemStateUpdateTrigger(itemOrName: items.Item | string, state?: string, triggerName?: string): object;
+export function ItemStateUpdateTrigger(itemOrName: items.Item | string, state?: string | undefined, triggerName?: string | undefined): object;
 /**
  * Creates a trigger that fires upon an Item receiving a command. Note that the Item does not need to change state.
  *
@@ -58,7 +58,7 @@ export function ItemStateUpdateTrigger(itemOrName: items.Item | string, state?: 
  * @param {string} [command] the command received
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function ItemCommandTrigger(itemOrName: items.Item | string, command?: string, triggerName?: string): object;
+export function ItemCommandTrigger(itemOrName: items.Item | string, command?: string | undefined, triggerName?: string | undefined): object;
 /**
  * Creates a trigger that fires upon a member of a group changing state. Note that group Item does not need to change state.
  *
@@ -71,7 +71,7 @@ export function ItemCommandTrigger(itemOrName: items.Item | string, command?: st
  * @param {string} [newState] the new state of the group
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function GroupStateChangeTrigger(groupOrName: items.Item | string, oldState?: string, newState?: string, triggerName?: string): object;
+export function GroupStateChangeTrigger(groupOrName: items.Item | string, oldState?: string | undefined, newState?: string | undefined, triggerName?: string | undefined): object;
 /**
  * Creates a trigger that fires upon a member of a group receiving a state update. Note that group Item does not need to change state.
  *
@@ -83,7 +83,7 @@ export function GroupStateChangeTrigger(groupOrName: items.Item | string, oldSta
  * @param {string} [state] the new state of the group
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function GroupStateUpdateTrigger(groupOrName: items.Item | string, state?: string, triggerName?: string): object;
+export function GroupStateUpdateTrigger(groupOrName: items.Item | string, state?: string | undefined, triggerName?: string | undefined): object;
 /**
  * Creates a trigger that fires upon a member of a group receiving a command. Note that the group Item does not need to change state.
  *
@@ -95,7 +95,7 @@ export function GroupStateUpdateTrigger(groupOrName: items.Item | string, state?
  * @param {string} [command] the command received
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function GroupCommandTrigger(groupOrName: items.Item | string, command?: string, triggerName?: string): object;
+export function GroupCommandTrigger(groupOrName: items.Item | string, command?: string | undefined, triggerName?: string | undefined): object;
 /**
  * Creates a trigger that fires upon a Thing status updating.
  *
@@ -107,7 +107,7 @@ export function GroupCommandTrigger(groupOrName: items.Item | string, command?: 
  * @param {string} [status] the optional status to monitor for
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function ThingStatusUpdateTrigger(thingUID: string, status?: string, triggerName?: string): object;
+export function ThingStatusUpdateTrigger(thingUID: string, status?: string | undefined, triggerName?: string | undefined): object;
 /**
  * Creates a trigger that fires upon a Thing status changing.
  *
@@ -120,7 +120,7 @@ export function ThingStatusUpdateTrigger(thingUID: string, status?: string, trig
  * @param {string} [previousStatus] the optional previous state to monitor from
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function ThingStatusChangeTrigger(thingUID: string, status?: string, previousStatus?: string, triggerName?: string): object;
+export function ThingStatusChangeTrigger(thingUID: string, status?: string | undefined, previousStatus?: string | undefined, triggerName?: string | undefined): object;
 /**
  * Creates a trigger that fires if a given start level is reached by the system
  *
@@ -135,7 +135,7 @@ export function ThingStatusChangeTrigger(thingUID: string, status?: string, prev
  * @param {string|number} startlevel the system start level to be triggered on
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function SystemStartlevelTrigger(startlevel: string | number, triggerName?: string): object;
+export function SystemStartlevelTrigger(startlevel: string | number, triggerName?: string | undefined): object;
 /**
  * Creates a trigger that fires on a cron schedule. The supplied cron expression defines when the trigger will fire.
  *
@@ -146,7 +146,7 @@ export function SystemStartlevelTrigger(startlevel: string | number, triggerName
  * @param {string} expression the cron expression defining the triggering schedule
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function GenericCronTrigger(expression: string, triggerName?: string): object;
+export function GenericCronTrigger(expression: string, triggerName?: string | undefined): object;
 /**
  * Creates a trigger that fires upon a matching event from the event bus.
  *
@@ -165,7 +165,7 @@ export function GenericCronTrigger(expression: string, triggerName?: string): ob
  * @param {string|string[]} eventTypes Specifies the event type(s) to match, e.g. `ItemAddedEvent`, `ItemRemovedEvent`, `ItemCommandEvent`, etc.
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function GenericEventTrigger(eventTopic: string, eventSource: string, eventTypes: string | string[], triggerName?: string): object;
+export function GenericEventTrigger(eventTopic: string, eventSource: string, eventTypes: string | string[], triggerName?: string | undefined): object;
 /**
  * Creates a trigger that fires daily at a specific time. The supplied time defines when the trigger will fire.
  *
@@ -176,7 +176,7 @@ export function GenericEventTrigger(eventTopic: string, eventSource: string, eve
  * @param {string} time the time expression (in `HH:mm`) defining the triggering schedule
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function TimeOfDayTrigger(time: string, triggerName?: string): object;
+export function TimeOfDayTrigger(time: string, triggerName?: string | undefined): object;
 /**
  * Creates a trigger that fires at an (optional) date and time specified in a DateTime Item.
  *
@@ -189,7 +189,7 @@ export function TimeOfDayTrigger(time: string, triggerName?: string): object;
  * @param {number} [offset=0] The offset in seconds to add to the time of the DateTime Item
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function DateTimeTrigger(itemOrName: items.Item | string, timeOnly?: boolean, offset?: number, triggerName?: string): object;
+export function DateTimeTrigger(itemOrName: items.Item | string, timeOnly?: boolean | undefined, offset?: number | undefined, triggerName?: string | undefined): object;
 /**
  * Creates a trigger for the {@link https://openhab.org/addons/automation/pwm/ Pulse Width Modulation (PWM) Automation} add-on.
  *
@@ -214,7 +214,7 @@ export function DateTimeTrigger(itemOrName: items.Item | string, timeOnly?: bool
  * @param {boolean} [equateMaxToHundred=true] whether the duty cycle above `maxDutyCycle` should be set to 100
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function PWMTrigger(dutycycleItemOrName: items.Item | string, interval: number, minDutyCycle?: number, maxDutyCycle?: number, deadManSwitch?: number, equateMinToZero?: boolean, equateMaxToHundred?: boolean, triggerName?: string): object;
+export function PWMTrigger(dutycycleItemOrName: items.Item | string, interval: number, minDutyCycle?: number | undefined, maxDutyCycle?: number | undefined, deadManSwitch?: number | undefined, equateMinToZero?: boolean | undefined, equateMaxToHundred?: boolean | undefined, triggerName?: string | undefined): object;
 /**
  * Creates a trigger for the {@link https://www.openhab.org/addons/automation/pidcontroller/ PID Controller Automation} add-on.
  *
@@ -248,5 +248,5 @@ export function PWMTrigger(dutycycleItemOrName: items.Item | string, interval: n
  * @param {string} [errorInspectorItem] name of the debug Item for the current regulation difference (error)
  * @param {string} [triggerName] the optional name of the trigger to create
  */
-export function PIDTrigger(inputItem: string, setpointItem: string, kp?: number, ki?: number, kd?: number, kdTimeConstant?: number, loopTime?: number, commandItem?: string, integralMinValue?: number, integralMaxValue?: number, pInspectorItem?: string, iInspectorItem?: string, dInspectorItem?: string, errorInspectorItem?: string, triggerName?: string): object;
+export function PIDTrigger(inputItem: string, setpointItem: string, kp?: number, ki?: number, kd?: number, kdTimeConstant?: number, loopTime?: number, commandItem?: string | undefined, integralMinValue?: number | undefined, integralMaxValue?: number | undefined, pInspectorItem?: string | undefined, iInspectorItem?: string | undefined, dInspectorItem?: string | undefined, errorInspectorItem?: string | undefined, triggerName?: string | undefined): object;
 //# sourceMappingURL=triggers.d.ts.map

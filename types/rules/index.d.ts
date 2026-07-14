@@ -1,5 +1,5 @@
 declare const _exports: {
-    when: (withToggle?: boolean) => import("./trigger-builder").TriggerBuilder;
+    when: (withToggle?: boolean | undefined) => import("./trigger-builder").TriggerBuilder;
     removeRule: typeof import("./rules").removeRule;
     runRule: typeof import("./rules").runRule;
     runAsync: typeof import("./rules").runAsync;

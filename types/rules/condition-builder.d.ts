@@ -39,7 +39,7 @@ export class ItemStateConditionConf extends ConditionConf {
       * @return {ItemStateConditionConf}
       */
     is(value: string): ItemStateConditionConf;
-    values: any[] | string[];
+    values: any[] | string[] | undefined;
     /**
      * Checks if the Item state is ON.
      *
@@ -80,7 +80,7 @@ export class ConditionBuilder {
      * @param {rules.RuleCallback} [fn] the optional callback function to execute when the rule is run
      * @returns {operations.OperationBuilder}
      */
-    then(fn?: rules.RuleCallback): operations.OperationBuilder;
+    then(fn?: import("./rules").RuleCallback | undefined): operations.OperationBuilder;
     /**
       * Condition of an item in determining whether to process rule.
       *
@@ -88,7 +88,7 @@ export class ConditionBuilder {
       * @returns {ItemStateConditionConf} the operation config
       */
     stateOfItem(itemName: string): ItemStateConditionConf;
-    condition: ItemStateConditionConf;
+    condition: ItemStateConditionConf | undefined;
 }
 /**
  * {@link RuleBuilder} RuleBuilder conditions
@@ -101,7 +101,7 @@ declare class ConditionConf {
      * @param {rules.RuleCallback} [fn] the optional callback function to execute when the rule is run
      * @returns {operations.OperationBuilder}
      */
-    then(fn?: rules.RuleCallback): operations.OperationBuilder;
+    then(fn?: import("./rules").RuleCallback | undefined): operations.OperationBuilder;
 }
 import operations = require("./operation-builder");
 export {};
