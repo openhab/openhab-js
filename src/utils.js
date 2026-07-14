@@ -143,6 +143,7 @@ function javaSetToJsSet (set) {
 /**
  * Recursively convert any value, array or object to use Java types. Functions are not supported.
  *
+ * @memberOf utils
  * @param {*} val the value to convert
  * @returns {*} The value converted to using Java types.
  */
@@ -228,6 +229,7 @@ function javaify (val) {
  * Recursively convert Java Lists, Sets, and Maps and their entries/values to their JS counterparts.
  * `java.time.*` objects are not automatically converted.
  *
+ * @memberOf utils
  * @param {*} val the value to convert
  * @return {*} The value converted to using JavaScript types.
  */
