@@ -27,6 +27,12 @@
     // go to js file when using IDE functions like
     // "Go to Definition" in VSCode
     "declarationMap": true,
-    "strictNullChecks": true
+    // Union types containing null should not collapse into the base type during declaration generation
+    "strictNullChecks": true,
+
+    "target": "ES2024",
+    "moduleResolution": "node",
+    "module": "ESNext",
+    "types": ["node"]
   }
 }
