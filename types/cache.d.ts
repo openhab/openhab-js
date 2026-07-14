@@ -14,7 +14,7 @@ export class JSCache {
      * @param {function} [defaultSupplier] if the specified key is not already associated with a value, this function will return a default value
      * @returns {*|null} the current object for the supplied key, the value returned by defaultSupplier (if provided), or `null`
      */
-    get(key: string, defaultSupplier?: Function | undefined): any | null;
+    get(key: string, defaultSupplier?: Function): any | null;
     /**
      * Associates the specified value with the specified key.
      *
@@ -39,7 +39,7 @@ export class JSCache {
     exists(key: string): boolean;
     #private;
 }
-export declare const shared: JSCache;
-declare const _private: JSCache;
+export declare let shared: JSCache;
+declare let _private: JSCache;
 export { _private as private };
 //# sourceMappingURL=cache.d.ts.map

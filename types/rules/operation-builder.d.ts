@@ -18,7 +18,7 @@ export class SendCommandOrUpdateOperation extends OperationConfig {
        * @returns {SendCommandOrUpdateOperation} this
        */
     toItems(itemsOrNames: items.Item[] | string[]): SendCommandOrUpdateOperation;
-    toItemNames: any[] | undefined;
+    toItemNames: any[] | any[] | undefined;
     /**
        * Send command to an item
        *
@@ -175,7 +175,7 @@ export class OperationBuilder {
        * @param {Array<String>} [tags] of the rule
        * @param {string} [id] of the rule
        */
-    build(name?: string | undefined, description?: string | undefined, tags?: string[] | undefined, id?: string | undefined): void;
+    build(name?: string, description?: string, tags?: Array<string>, id?: string): void;
     /**
        * Specify the rule group for this rule
        *
@@ -271,8 +271,9 @@ declare class OperationConfig {
        * @param {Array<String>} [tags] of the rule
        * @param {string} [id] of the rule
        */
-    build(name?: string | undefined, description?: string | undefined, tags?: string[] | undefined, id?: string | undefined): void;
+    build(name?: string, description?: string, tags?: Array<string>, id?: string): void;
 }
+import items = require("../items/items");
 import time = require("@js-joda/core");
 export {};
 //# sourceMappingURL=operation-builder.d.ts.map

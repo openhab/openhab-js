@@ -1,7 +1,30 @@
+declare namespace _exports {
+    export { ItemConfig };
+}
+declare namespace _exports {
+    export { safeItemName };
+    export { existsItem };
+    export { getItem };
+    export { getItems };
+    export { addItem };
+    export { getItemsByTag };
+    export { replaceItem };
+    export { removeItem };
+    export { Item };
+    export { metadata };
+    export { itemChannelLink };
+    export let RiemannType: ItemPersistence.RiemannType;
+    export { TimeSeries };
+    export { ItemPersistence };
+    export { ItemSemantics };
+    export { PersistedItem };
+    export { PersistedState };
+}
+export = _exports;
 /**
  * configuration describing an Item
  */
-export type ItemConfig = {
+type ItemConfig = {
     /**
      * the type of the Item
      */
@@ -48,7 +71,7 @@ export type ItemConfig = {
      */
     channels?: string | object;
     /**
-     * either object `{ namespace: value }` or `{ namespace: `{@link items.ItemMetadata }` }`
+     * either object `{ namespace: value }` or `{ namespace: `{@link items.ItemMetadata}` }`
      */
     metadata?: any;
     /**
@@ -70,14 +93,14 @@ export type ItemConfig = {
  * @param {string} s the name to make value
  * @returns {string} a valid Item name
  */
-export function safeItemName(s: string): string;
+declare function safeItemName(s: string): string;
 /**
  * Whether an Item with the given name exists.
  * @memberof items
  * @param {string} name the name of the Item
  * @returns {boolean} whether the Item exists
  */
-export function existsItem(name: string): boolean;
+declare function existsItem(name: string): boolean;
 /**
  * Gets an openHAB Item.
  * @memberof items
@@ -85,14 +108,14 @@ export function existsItem(name: string): boolean;
  * @param {boolean} [nullIfMissing=false] whether to return null if the Item cannot be found (default is to throw an {@link https://www.openhab.org/javadoc/latest/org/openhab/core/items/itemnotfoundexception ItemNotFoundException})
  * @returns {Item} {@link items.Item} Item or `null` if `nullIfMissing` is true and Item is missing
  */
-export function getItem(name: string, nullIfMissing?: boolean | undefined): Item;
+declare function getItem(name: string, nullIfMissing?: boolean): Item;
 /**
  * Gets all openHAB Items.
  *
  * @memberof items
  * @returns {Item[]} {@link items.Item}[]: all Items
  */
-export function getItems(): Item[];
+declare function getItems(): Item[];
 /**
  * Creates a new Item.
  *
@@ -107,7 +130,7 @@ export function getItems(): Item[];
  * @throws {Error} if {@link ItemConfig} is invalid, e.g. {@link ItemConfig}.name or {@link ItemConfig}.type is not set
  * @throws {Error} if an Item with the same name already exists
  */
-export function addItem(itemConfig: ItemConfig, persist?: boolean | undefined): Item;
+declare function addItem(itemConfig: ItemConfig, persist?: boolean): Item;
 /**
  * Gets all openHAB Items with a specific tag.
  *
@@ -115,7 +138,7 @@ export function addItem(itemConfig: ItemConfig, persist?: boolean | undefined): 
  * @param {string[]} tagNames an array of tags to match against
  * @returns {Item[]} {@link items.Item}[]: the Items with a tag that is included in the passed tags
  */
-export function getItemsByTag(...tagNames: string[]): Item[];
+declare function getItemsByTag(...tagNames: string[]): Item[];
 /**
  * Replaces (or adds) an Item.
  * If an Item exists with the same name, it will be removed and a new Item with
@@ -133,7 +156,7 @@ export function getItemsByTag(...tagNames: string[]): Item[];
  * @throws {Error} {@link ItemConfig}.name or {@link ItemConfig}.type not set
  * @throws failed to create Item
  */
-export function replaceItem(itemConfig: ItemConfig): Item | null;
+declare function replaceItem(itemConfig: ItemConfig): Item | null;
 /**
  * Removes an Item from openHAB. The Item is removed immediately and cannot be recovered.
  *
@@ -141,14 +164,14 @@ export function replaceItem(itemConfig: ItemConfig): Item | null;
  * @param {string|Item} itemOrItemName the Item or the name of the Item to remove
  * @returns {Item|null} the Item that has been removed or `null` if no Item has been found, or it cannot be removed
  */
-export function removeItem(itemOrItemName: string | Item): Item | null;
+declare function removeItem(itemOrItemName: string | Item): Item | null;
 /**
  * Class representing an openHAB Item
  *
  * @memberof items
  * @hideconstructor
  */
-export class Item {
+declare class Item {
     /**
      * Create an Item, wrapping a native Java openHAB Item. Don't use this constructor, instead call {@link getItem}.
      * @param {HostItem} rawItem Java Item from Host
@@ -208,7 +231,7 @@ export class Item {
      * Item state as {@link Quantity} or `null` if state is not Quantity-compatible or Quantity would be unit-less (without unit)
      * @type {Quantity|null}
      */
-    get quantityState(): import("../quantity").Quantity | null;
+    get quantityState(): Quantity | null;
     /**
      * Item state as boolean or `null` if state is not boolean-compatible.
      * @type {boolean|null}
@@ -218,7 +241,7 @@ export class Item {
      * Raw state of Item, as a Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/types/state State object}
      * @type {HostState|null}
      */
-    get rawState(): object | null;
+    get rawState(): HostState | null;
     /**
      * String representation of the previous state of the Item or `null` if no previous state is available.
      * @type {string|null}
@@ -233,32 +256,32 @@ export class Item {
      * Previous item state as {@link Quantity} or `null` if state is not Quantity-compatible, Quantity would be unit-less (without unit) or not available.
      * @type {Quantity|null}
      */
-    get previousQuantityState(): import("../quantity").Quantity | null;
+    get previousQuantityState(): Quantity | null;
     /**
       * Previous raw state of Item, as a Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/types/state State object} or `null` if previous state not available.
      * @type {HostState|null}
      */
-    get previousRawState(): object | null;
+    get previousRawState(): HostState | null;
     /**
      * The time the state was last updated as ZonedDateTime or `null` if no timestamp is available.
      * @type {time.ZonedDateTime|null}
      */
-    get lastStateUpdateTimestamp(): any;
+    get lastStateUpdateTimestamp(): time.ZonedDateTime | null;
     /**
      * The time the state was last updated as Instant or `null` if no timestamp is available.
      * @type {time.Instant|null}
      */
-    get lastStateUpdateInstant(): any;
+    get lastStateUpdateInstant(): time.Instant | null;
     /**
      * The time the state was last changed as ZonedDateTime or `null` if no timestamp is available.
      * @type {time.ZonedDateTime|null}
      */
-    get lastStateChangeTimestamp(): any;
+    get lastStateChangeTimestamp(): time.ZonedDateTime | null;
     /**
      * The time the state was last changed as Instant or `null` if no timestamp is available.
      * @type {time.Instant|null}
      */
-    get lastStateChangeInstant(): any;
+    get lastStateChangeInstant(): time.Instant | null;
     /**
      * Members / children / direct descendents of the current group Item (as returned by 'getMembers()'). Must be a group Item.
      * @type {Item[]}
@@ -294,7 +317,7 @@ export class Item {
      * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is returned, else all metadata is returned
      * @returns {{ namespace: items.ItemMetadata }|items.ItemMetadata|null} all metadata as an object with the namespaces as properties OR metadata of a single namespace or `null` if that namespace doesn't exist; the metadata itself is of type {@link items.ItemMetadata}
      */
-    getMetadata(namespace?: string | undefined): {
+    getMetadata(namespace?: string): {
         namespace: items.ItemMetadata;
     } | items.ItemMetadata | null;
     /**
@@ -316,7 +339,7 @@ export class Item {
      * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is removed, else all metadata is removed
      * @returns {items.ItemMetadata|null} removed {@link items.metadata.ItemMetadata} OR `null` if the Item has no metadata under the given namespace or all metadata was removed
      */
-    removeMetadata(namespace?: string | undefined): items.ItemMetadata | null;
+    removeMetadata(namespace?: string): items.ItemMetadata | null;
     /**
      * Sends a command to the Item.
      *
@@ -334,7 +357,7 @@ export class Item {
      * @see sendCommandIfDifferent
      * @see postUpdate
      */
-    sendCommand(value: string | number | time.ZonedDateTime | time.Instant | Quantity | HostState | null, expire?: any, onExpire?: string | number | time.ZonedDateTime | time.Instant | Quantity | HostState): void;
+    sendCommand(value: string | number | time.ZonedDateTime | time.Instant | Quantity | HostState | null, expire?: time.Duration, onExpire?: string | number | time.ZonedDateTime | time.Instant | Quantity | HostState): void;
     /**
      * Sends a command to the Item, but only if the current state is not what is being sent.
      *
@@ -422,27 +445,26 @@ import itemChannelLink = require("./itemchannellink");
 import ItemPersistence = require("./item-persistence");
 import TimeSeries = require("./time-series");
 import ItemSemantics = require("./item-semantics");
-export const PersistedItem: {
+declare const PersistedItem: {
     new (rawHistoricItem: any): {
         rawHistoricItem: any;
         readonly timestamp: time.ZonedDateTime;
         readonly instant: time.Instant;
         toString(): string;
         rawState: any;
-        readonly state: string;
-        readonly numericState: number | null;
-        readonly quantityState: import("../quantity").Quantity | null;
+        get state(): string;
+        get numericState(): number | null;
+        get quantityState(): Quantity | null;
     };
 };
-export const PersistedState: {
+declare const PersistedState: {
     new (rawHistoricState: any): {
         rawState: any;
-        readonly state: string;
-        readonly numericState: number | null;
-        readonly quantityState: import("../quantity").Quantity | null;
+        get state(): string;
+        get numericState(): number | null;
+        get quantityState(): Quantity | null;
         toString(): string;
     };
 };
-export declare const RiemannType: ItemPersistence.RiemannType;
-export { metadata, itemChannelLink, TimeSeries, ItemPersistence, ItemSemantics };
+import time = require("../time");
 //# sourceMappingURL=items.d.ts.map

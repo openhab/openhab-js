@@ -7,19 +7,19 @@
  */
 export type EventObject = {
     /**
-     * only for {@link triggers.ItemStateChangeTrigger } & {@link triggers.GroupStateChangeTrigger }: Previous state of Item or Group that triggered event
+     * only for {@link triggers.ItemStateChangeTrigger} & {@link triggers.GroupStateChangeTrigger}: Previous state of Item or Group that triggered event
      */
     oldState: string;
     /**
-     * only for {@link triggers.ItemStateChangeTrigger } & {@link triggers.GroupStateChangeTrigger }: New state of Item or Group that triggered event
+     * only for {@link triggers.ItemStateChangeTrigger} & {@link triggers.GroupStateChangeTrigger}: New state of Item or Group that triggered event
      */
     newState: string;
     /**
-     * only for {@link triggers.ItemStateUpdateTrigger } & {@link triggers.GroupStateUpdateTrigger }: State that triggered event
+     * only for {@link triggers.ItemStateUpdateTrigger} & {@link triggers.GroupStateUpdateTrigger}: State that triggered event
      */
     receivedState: string;
     /**
-     * only for {@link triggers.ItemCommandTrigger }, {@link triggers.GroupCommandTrigger }, {@link triggers.PWMTrigger } & {@link triggers.PIDTrigger } : Command that triggered event
+     * only for {@link triggers.ItemCommandTrigger}, {@link triggers.GroupCommandTrigger}, {@link triggers.PWMTrigger} & {@link triggers.PIDTrigger} : Command that triggered event
      */
     receivedCommand: string;
     /**
@@ -31,23 +31,23 @@ export type EventObject = {
      */
     groupName: string;
     /**
-     * only for {@link triggers.ChannelEventTrigger }: Channel event that triggered event
+     * only for {@link triggers.ChannelEventTrigger}: Channel event that triggered event
      */
     receivedEvent: string;
     /**
-     * only for {@link triggers.ChannelEventTrigger }: UID of channel that triggered event
+     * only for {@link triggers.ChannelEventTrigger}: UID of channel that triggered event
      */
     channelUID: string;
     /**
-     * only for {@link triggers.ThingStatusChangeTrigger }: Previous state of Thing that triggered event
+     * only for {@link triggers.ThingStatusChangeTrigger}: Previous state of Thing that triggered event
      */
     oldStatus: string;
     /**
-     * only for {@link triggers.ThingStatusChangeTrigger }: New state of Thing that triggered event
+     * only for {@link triggers.ThingStatusChangeTrigger}: New state of Thing that triggered event
      */
     newStatus: string;
     /**
-     * only for {@link triggers.ThingStatusUpdateTrigger }: State of Thing that triggered event
+     * only for {@link triggers.ThingStatusUpdateTrigger}: State of Thing that triggered event
      */
     status: string;
     /**
@@ -55,27 +55,27 @@ export type EventObject = {
      */
     thingUID: string;
     /**
-     * for {@link triggers.GenericCronTrigger }: cron expression of the trigger
+     * for {@link triggers.GenericCronTrigger}: cron expression of the trigger
      */
     cronExpression: string;
     /**
-     * for {@link triggers.TimeOfDayTrigger }: time of day value of the trigger
+     * for {@link triggers.TimeOfDayTrigger}: time of day value of the trigger
      */
     time: string;
     /**
-     * for {@link triggers.DateTimeTrigger }: whether the trigger only considers the time part of the DateTime Item
+     * for {@link triggers.DateTimeTrigger}: whether the trigger only considers the time part of the DateTime Item
      */
     timeOnly: boolean;
     /**
-     * for {@link triggers.DateTimeTrigger }: offset in seconds added to the time of the DateTime Item
+     * for {@link triggers.DateTimeTrigger}: offset in seconds added to the time of the DateTime Item
      */
     offset: number;
     /**
-     * for all triggers except {@link triggers.PWMTrigger }, {@link triggers.PIDTrigger }: Type of event that triggered event (change, command, time, triggered, update, time)
+     * for all triggers except {@link triggers.PWMTrigger}, {@link triggers.PIDTrigger}: Type of event that triggered event (change, command, time, triggered, update, time)
      */
     eventType: string;
     /**
-     * for all triggers except {@link triggers.PWMTrigger }, {@link triggers.PIDTrigger }: Type of trigger that triggered event
+     * for all triggers except {@link triggers.PWMTrigger}, {@link triggers.PIDTrigger}: Type of trigger that triggered event
      */
     triggerType: string;
     /**
@@ -145,11 +145,11 @@ export type RuleConfig = {
      */
     dedicatedContext?: boolean | undefined;
     /**
-     * (optional and only for {@link SwitchableJSRule }) name of the switch Item, which will get created automatically if it is not existent
+     * (optional and only for {@link SwitchableJSRule}) name of the switch Item, which will get created automatically if it is not existent
      */
     switchItemName?: string | undefined;
     /**
-     * (optional and only for {@link SwitchableJSRule }) name of an Item group to use for the switch Item, which will get created automatically if it is not existent
+     * (optional and only for {@link SwitchableJSRule}) name of an Item group to use for the switch Item, which will get created automatically if it is not existent
      */
     ruleGroup?: string | undefined;
 };
@@ -173,7 +173,7 @@ export function removeRule(uid: string): boolean;
   * @returns {Record<string, object>} a copy of the rule context, including possible return values
   * @throws {Error} throws an error if the rule does not exist or is not initialized
   */
-export function runRule(uid: string, args?: Record<string, unknown> | undefined, conditions?: boolean | undefined): Record<string, object>;
+export function runRule(uid: string, args?: Record<string, unknown>, conditions?: boolean): Record<string, object>;
 /**
  * Runs the rule with the given UID asynchronously, without waiting for the execution to complete.
  * Throws errors when the rule doesn't exist or is unable to run (e.g., it's disabled).
@@ -186,7 +186,7 @@ export function runRule(uid: string, args?: Record<string, unknown> | undefined,
  * @param {boolean} [conditions=true] when true, the called rule will only run if it's conditions are met
  * @throws {Error} throws an error if the rule does not exist or is not initialized
  */
-export function runAsync(uid: string, args?: Record<string, unknown> | undefined, conditions?: boolean | undefined): void;
+export function runAsync(uid: string, args?: Record<string, unknown>, conditions?: boolean): void;
 /**
   * Tests to see if the rule with the given UID is enabled or disabled. Throws
   * and error if the rule doesn't exist.
@@ -249,5 +249,5 @@ export function SwitchableJSRule(ruleConfig: RuleConfig): HostRule;
  * @param {boolean} [javaEventBackwardCompat=false] enables backwards compatibility with pure Java event object in UI-based rules
  * @returns {EventObject}
  */
-export function _getTriggeredData(rawInput: any, javaEventBackwardCompat?: boolean | undefined): EventObject;
+export function _getTriggeredData(rawInput: any, javaEventBackwardCompat?: boolean): EventObject;
 //# sourceMappingURL=rules.d.ts.map

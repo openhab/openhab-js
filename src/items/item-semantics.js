@@ -102,7 +102,7 @@ class ItemSemantics {
 
   /**
    * The Location Item where this Item is situated or `null` if it's not in a Location.
-   * @type {Item|null}
+   * @type {items.Item|null}
    */
   get location () {
     const rawLoc = Semantics.getLocation(this.rawItem);
@@ -111,7 +111,7 @@ class ItemSemantics {
 
   /**
    * The Equipment Item where this Item is situated or `null` if it's not in an Equipment.
-   * @type {Item|null}
+   * @type {items.Item|null}
    */
   get equipment () {
     const rawEqu = Semantics.getEquipment(this.rawItem);

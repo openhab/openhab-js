@@ -5,18 +5,12 @@ declare const _exports: {
     toInstant: typeof toInstant;
     _parseString: typeof _parseString;
     _parseISO8601: typeof _parseISO8601;
-    nativeJs(date: any, zone?: time.ZoneId | undefined): time.ZonedDateTime;
-    convert(temporal: time.LocalDate | time.Instant | time.ZonedDateTime | time.LocalDateTime, zone?: time.ZoneId | undefined): {
+    nativeJs(date: Date | any, zone?: time.ZoneId): time.ZonedDateTime;
+    convert(temporal: time.LocalDate | time.LocalDateTime | time.ZonedDateTime | time.Instant, zone?: time.ZoneId): {
         toDate: () => Date;
         toEpochMilli: () => number;
     };
     use(plugin: Function): any;
-    /**
-     * Time namespace.
-     * This namespace exports the {@link https://js-joda.github.io/js-joda/ JS-Joda library}, but also provides additional functionality.
-     *
-     * @namespace time
-     */
     TemporalField: typeof time.TemporalField;
     TemporalUnit: typeof time.TemporalUnit;
     ValueRange: typeof time.ValueRange;

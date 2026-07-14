@@ -22,7 +22,7 @@ export function getItemChannelLink(itemOrName: items.Item | string, channelUID: 
  * @returns {ItemChannelLink} the ItemChannelLink
  * @throws {Error} if the Item -> channel link already exists
  */
-export function addItemChannelLink(itemOrName: items.Item | string, channelUID: string, configuration?: object, persist?: boolean | undefined): ItemChannelLink;
+export function addItemChannelLink(itemOrName: items.Item | string, channelUID: string, configuration?: object, persist?: boolean): ItemChannelLink;
 /**
  * Adds or updates a channel link of an Item.
  * If you use this in file-based scripts, better use {@link addItemChannelLink} to provide channel links.
@@ -97,7 +97,7 @@ export class ItemChannelLink {
      * The channel link configuration.
      * @type {object}
      */
-    get configuration(): any;
+    get configuration(): object;
     toString(): any;
 }
 //# sourceMappingURL=itemchannellink.d.ts.map

@@ -15,7 +15,7 @@
  * @returns {{ namespace: ItemMetadata }|ItemMetadata|null} all metadata as an object with the namespaces as properties OR metadata of a single
  *   namespace or `null` if that namespace doesn't exist; the metadata itself is of type {@link ItemMetadata}
  */
-export function getMetadata(itemOrName: items.Item | string, namespace?: string | undefined): {
+export function getMetadata(itemOrName: items.Item | string, namespace?: string): {
     namespace: ItemMetadata;
 } | ItemMetadata | null;
 /**
@@ -34,7 +34,7 @@ export function getMetadata(itemOrName: items.Item | string, namespace?: string 
  * @returns {ItemMetadata} the added metadata
  * @throws {Error} if the Item already has metadata of the given namespace
  */
-export function addMetadata(itemOrName: items.Item | string, namespace: string, value: string, configuration?: object, persist?: boolean | undefined): ItemMetadata;
+export function addMetadata(itemOrName: items.Item | string, namespace: string, value: string, configuration?: object, persist?: boolean): ItemMetadata;
 /**
  * Updates or adds metadata of a single namespace to an Item.
  * When using file-based scripts, it is recommended to use {@link items.metadata.addMetadata} instead.
@@ -59,7 +59,7 @@ export function replaceMetadata(itemOrName: items.Item | string, namespace: stri
  * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is removed, else all metadata is removed
  * @returns {ItemMetadata|null} removed metadata OR `null` if the Item has no metadata under the given namespace, or it cannot be removed or all metadata was removed
  */
-export function removeMetadata(itemOrName: items.Item | string, namespace?: string | undefined): ItemMetadata | null;
+export function removeMetadata(itemOrName: items.Item | string, namespace?: string): ItemMetadata | null;
 /**
  * Item metadata namespace.
  * This namespace provides access to Item metadata.

@@ -80,7 +80,7 @@ export class ConditionBuilder {
      * @param {rules.RuleCallback} [fn] the optional callback function to execute when the rule is run
      * @returns {operations.OperationBuilder}
      */
-    then(fn?: import("./rules").RuleCallback | undefined): operations.OperationBuilder;
+    then(fn?: rules.RuleCallback): operations.OperationBuilder;
     /**
       * Condition of an item in determining whether to process rule.
       *
@@ -101,7 +101,7 @@ declare class ConditionConf {
      * @param {rules.RuleCallback} [fn] the optional callback function to execute when the rule is run
      * @returns {operations.OperationBuilder}
      */
-    then(fn?: import("./rules").RuleCallback | undefined): operations.OperationBuilder;
+    then(fn?: rules.RuleCallback): operations.OperationBuilder;
 }
 import operations = require("./operation-builder");
 export {};

@@ -59,9 +59,9 @@ export function javaMapToJsMap(map: JavaMap): Map<any, any>;
  *
  * @memberof utils
  * @param {JavaMap} map
- * @returns {Record} JavaScript Object
+ * @returns {Record<string, unknown>} JavaScript Object
  */
-export function javaMapToJsObj(map: JavaMap): any;
+export function javaMapToJsObj(map: JavaMap): Record<string, unknown>;
 /**
  * Recursively convert any value, array or object to use Java types. Functions are not supported.
  *
@@ -93,7 +93,7 @@ export function randomUUID(): string;
  * @param {*} obj object
  * @param {boolean} [dumpProps=false] whether properties also should be dumped
  */
-export function dumpObject(obj: any, dumpProps?: boolean | undefined): void;
+export function dumpObject(obj: any, dumpProps?: boolean): void;
 /**
  * openHAB JavaScript library version
  *

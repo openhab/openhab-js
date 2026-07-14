@@ -37,14 +37,14 @@ export class ChannelTriggerConfig extends TriggerConf {
      * @param {string} [eventName]
      * @returns {ChannelTriggerConfig}
      */
-    to(eventName?: string | undefined): ChannelTriggerConfig;
+    to(eventName?: string): ChannelTriggerConfig;
     /**
      * channel triggered a specific event name
      *
      * @param {string} [eventName]
      * @returns {ChannelTriggerConfig}
      */
-    triggered(eventName?: string | undefined): ChannelTriggerConfig;
+    triggered(eventName?: string): ChannelTriggerConfig;
     eventName: string | undefined;
     /** @private */
     private _complete;
@@ -333,14 +333,14 @@ declare class TriggerConf {
      * @param {rules.RuleCallback} [fn] the optional callback function to execute when the rule is run
      * @returns {operations.OperationBuilder}
      */
-    then(fn?: import("./rules").RuleCallback | undefined): operations.OperationBuilder;
+    then(fn?: rules.RuleCallback): operations.OperationBuilder;
     /**
      * Move to the rule condition
      *
      * @param {ConditionCallback} [fn] the optional function to check for conditions when the rule is triggered
      * @returns {conditions.ConditionBuilder}
      */
-    if(fn?: ConditionCallback | undefined): conditions.ConditionBuilder;
+    if(fn?: ConditionCallback): conditions.ConditionBuilder;
 }
 /**
  * Time of day-based trigger
@@ -387,7 +387,7 @@ declare class DateTimeTriggerConfig extends TriggerConf {
      * @param {boolean} [timeOnly=true]
      * @returns {DateTimeTriggerConfig}
      */
-    timeOnly(timeOnly?: boolean | undefined): DateTimeTriggerConfig;
+    timeOnly(timeOnly?: boolean): DateTimeTriggerConfig;
     /**
      * Specifies the offset in seconds to add to the time of the DateTime Item.
      *

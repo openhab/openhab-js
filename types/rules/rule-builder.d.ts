@@ -29,5 +29,5 @@ export class RuleBuilder {
     describe(compact: any): string;
 }
 import triggers = require("./trigger-builder");
-export declare function when(withToggle?: boolean | undefined): triggers.TriggerBuilder;
+export declare function when(withToggle?: boolean): triggers.TriggerBuilder;
 //# sourceMappingURL=rule-builder.d.ts.map

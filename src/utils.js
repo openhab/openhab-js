@@ -121,7 +121,7 @@ function javaMapToJsMap (map) {
  *
  * @memberof utils
  * @param {JavaMap} map
- * @returns {Record} JavaScript Object
+ * @returns {Record<string, unknown>} JavaScript Object
  */
 function javaMapToJsObj (map) {
   const obj = {};
