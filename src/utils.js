@@ -8,11 +8,19 @@
  */
 const OPENHAB_JS_VERSION = require('../package.json').version;
 const log = require('./log')('utils');
+const { _isZonedDateTime, _isInstant, _isDuration } = require('./helpers');
+const time = require('@js-joda/core');
 
 const HashSet = Java.type('java.util.HashSet');
 const ArrayList = Java.type('java.util.ArrayList');
 const LinkedHashMap = Java.type('java.util.LinkedHashMap');
 const LinkedHashSet = Java.type('java.util.LinkedHashSet');
+
+const ZonedDateTime = Java.type('java.time.ZonedDateTime');
+const Instant = Java.type('java.time.Instant');
+const Duration = Java.type('java.time.Duration');
+const LocalDate = Java.type('java.time.LocalDate');
+const LocalDateTime = Java.type('java.time.LocalDateTime');
 
 /**
  * Utils namespace.
@@ -152,30 +160,30 @@ function javaify (val) {
     return val;
   }
 
-  // Convert js-joda objects
+  // Convert JS-Joda objects
+  if (_isZonedDateTime(val)) {
+    return ZonedDateTime.parse(val.toString());
+  }
+  if (_isInstant(val)) {
+    return Instant.ofEpochMilli(val.toEpochMilli());
+  }
+  if (_isDuration(val)) {
+    return Duration.ofNanos(val.toNanos());
+  }
+
   if (val.constructor && val.constructor.name) {
     const typeName = val.constructor.name;
-
     if (typeName === 'LocalDate') {
-      return Java.type('java.time.LocalDate').parse(val.toString());
-    }
-    if (typeName === 'ZonedDateTime') {
-      return Java.type('java.time.ZonedDateTime').parse(val.toString());
+      return LocalDate.parse(val.toString());
     }
     if (typeName === 'LocalDateTime') {
-      return Java.type('java.time.LocalDateTime').parse(val.toString());
-    }
-    if (typeName === 'Instant') {
-      return Java.type('java.time.Instant').ofEpochMilli(val.toEpochMilli());
-    }
-    if (typeName === 'Duration') {
-      return Java.type('java.time.Duration').ofNanos(val.toNanos());
+      return LocalDateTime.parse(val.toString());
     }
   }
 
   // Convert JavaScript Date
   if (val instanceof Date) {
-    return Java.type('java.time.Instant').ofEpochMilli(val.getTime());
+    return Instant.ofEpochMilli(val.getTime());
   }
 
   // Convert arrays
