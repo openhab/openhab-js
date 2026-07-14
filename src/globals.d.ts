@@ -61,10 +61,10 @@ declare global {
     type ItemConfig = import('./items/items').ItemConfig;
     type ItemMetadata = InstanceType<typeof import('./items/metadata').ItemMetadata>;
     type TimeSeries = InstanceType<typeof import('./items/time-series')>;
-    type ItemPersistence = InstanceType<typeof import('./items/items').ItemPersistence>;
-    type ItemSemantics = InstanceType<typeof import('./items/items').ItemSemantics>;
-    type PersistedItem = InstanceType<typeof import('./items/items').PersistedItem>;
-    type PersistedState = InstanceType<typeof import('./items/items').PersistedState>;
+    type ItemPersistence = InstanceType<typeof import('./items/item-persistence')>;
+    type ItemSemantics = InstanceType<typeof import('./items/item-semantics')>;
+    type PersistedItem = InstanceType<typeof import('./items/item-persistence').PersistedItem>;
+    type PersistedState = InstanceType<typeof import('./items/item-persistence').PersistedState>;
   }
 
   namespace time {
