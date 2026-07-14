@@ -1,5 +1,17 @@
 # Changelog
 
+## 5.19.0
+
+
+| Type        | Namespace | Description                                         | Reference                                              | Breaking |
+|-------------|-----------|-----------------------------------------------------|--------------------------------------------------------|----------|
+| Enhancement | `utils`   | Introduce `javaify()` function                      | [#536](https://github.com/openhab/openhab-js/pull/536) | No       |
+| Enhancement | `rules`   | Add `runAsync()` to run rules asynchronously        | [#537](https://github.com/openhab/openhab-js/pull/537) | No       |
+| Enhancement | `utils`   | Add `jsify()` function                              | [#539](https://github.com/openhab/openhab-js/pull/539) | No       |
+| Bugfix      | `items`   | Fix `.quantityState` throws error for non UoM Items | [#540](https://github.com/openhab/openhab-js/pull/540) | No       |
+
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/52).
+
 ## 5.18.2 (5.18.1, 5.18.0)
 
 | Type        | Namespace  | Description                                                                      | Reference                                              | Breaking |
