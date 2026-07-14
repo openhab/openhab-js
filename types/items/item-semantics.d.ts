@@ -51,13 +51,13 @@ declare class ItemSemantics {
     get isPoint(): boolean;
     /**
      * The Location Item where this Item is situated or `null` if it's not in a Location.
-     * @type {Item|null}
+     * @type {items.Item|null}
      */
-    get location(): any;
+    get location(): items.Item | null;
     /**
      * The Equipment Item where this Item is situated or `null` if it's not in an Equipment.
-     * @type {Item|null}
+     * @type {items.Item|null}
      */
-    get equipment(): any;
+    get equipment(): items.Item | null;
 }
 //# sourceMappingURL=item-semantics.d.ts.map

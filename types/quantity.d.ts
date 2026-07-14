@@ -151,7 +151,7 @@ export class QuantityError extends Error {
  * @throws {QuantityError} when {@link QuantityType} creation failed
  * @private
  */
-export function _toQtyType(value: items.Item | string | Quantity, errorMsg?: string | undefined): QuantityType;
+export function _toQtyType(value: items.Item | string | Quantity, errorMsg?: string): QuantityType;
 /**
  * Takes either an {@link items.Item}, a `string`, a `number` or a {@link Quantity} and converts it to a {@link QuantityType} or {@link BigDecimal}.
  * When the Item state is a DecimalType, it is converted to a {@link BigDecimal}, otherwise to a {@link QuantityType}.
@@ -162,6 +162,4 @@ export function _toQtyType(value: items.Item | string | Quantity, errorMsg?: str
  * @private
  */
 export function _toBigDecimalOrQtyType(value: items.Item | string | number | Quantity): object | QuantityType;
-declare const QuantityType: any;
-export {};
 //# sourceMappingURL=quantity.d.ts.map

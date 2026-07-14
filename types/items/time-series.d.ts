@@ -58,4 +58,5 @@ declare class TimeSeries {
     toString(): string;
     #private;
 }
+import time = require("../time");
 //# sourceMappingURL=time-series.d.ts.map
