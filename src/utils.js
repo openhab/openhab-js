@@ -11,8 +11,11 @@ const log = require('./log')('utils');
 const { _isZonedDateTime, _isInstant, _isDuration } = require('./helpers');
 const time = require('@js-joda/core');
 
+const JavaSet = Java.type('java.util.Set');
 const HashSet = Java.type('java.util.HashSet');
+const JavaList = Java.type('java.util.List');
 const ArrayList = Java.type('java.util.ArrayList');
+const JavaMap = Java.type('java.util.Map');
 const LinkedHashMap = Java.type('java.util.LinkedHashMap');
 const LinkedHashSet = Java.type('java.util.LinkedHashSet');
 
@@ -222,6 +225,71 @@ function javaify (val) {
 }
 
 /**
+ * Recursively convert Java Lists, Sets, and Maps and their entries/values to their JS counterparts.
+ * `java.time.*` objects are not automatically converted.
+ *
+ * @param {*} val the value to convert
+ * @return {*} The value converted to using JavaScript types.
+ */
+function jsify (val) {
+  if (val === null || val === undefined) {
+    return null;
+  }
+
+  if (!Java.isJavaObject(val)) {
+    return val;
+  }
+
+  if (val instanceof ZonedDateTime) {
+    const epoch = val.toInstant().toEpochMilli();
+    const instant = time.Instant.ofEpochMilli(epoch);
+    const zone = time.ZoneId.of(val.getZone().toString());
+    return time.ZonedDateTime.ofInstant(instant, zone);
+  }
+  if (val instanceof Instant) {
+    return time.Instant.ofEpochMilli(val.toEpochMilli());
+  }
+  if (val instanceof Duration) {
+    return time.Duration.ofNanos(val.toNanos());
+  }
+  if (val instanceof LocalDate) {
+    return time.LocalDate.parse(val.toString());
+  }
+  if (val instanceof LocalDateTime) {
+    return time.LocalDateTime.parse(val.toString());
+  }
+
+  // Convert Java List to JS array
+  if (val instanceof JavaList) {
+    const arr = [];
+    val.forEach((element) => {
+      arr.push(jsify(element));
+    });
+    return arr;
+  }
+
+  // Convert Java Set to JS Set
+  if (val instanceof JavaSet) {
+    const set = new Set();
+    val.forEach((element) => {
+      set.add(jsify(element));
+    });
+    return set;
+  }
+
+  // Convert Java Map to JS object
+  if (val instanceof JavaMap) {
+    const obj = {};
+    val.forEach((key, value) => {
+      obj[key] = jsify(value);
+    });
+    return obj;
+  }
+
+  return val;
+}
+
+/**
  * Generate a random UUID.
  *
  * @memberOf utils
@@ -297,6 +365,7 @@ module.exports = {
   javaMapToJsMap,
   javaMapToJsObj,
   javaify,
+  jsify,
   randomUUID,
   dumpObject,
   OPENHAB_JS_VERSION
