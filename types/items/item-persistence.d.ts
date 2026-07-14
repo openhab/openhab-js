@@ -605,6 +605,7 @@ declare namespace ItemPersistence {
         MIDPOINT: string;
     };
 }
+declare const TimeSeries: any;
 /**
  * Class representing an instance of {@link https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/historicitem org.openhab.core.persistence.HistoricItem}.
  * Extends {@link items.PersistedState}.
@@ -656,7 +657,7 @@ declare class PersistedState {
      * Item state as {@link Quantity} or `null` if state is not Quantity-compatible or Quantity would be unit-less (without unit)
      * @type {Quantity|null}
      */
-    get quantityState(): any;
+    get quantityState(): import("../quantity").Quantity;
     toString(): string;
 }
 //# sourceMappingURL=item-persistence.d.ts.map
