@@ -147,3 +147,8 @@ There is a strict separation between the globals used during type generation (`n
 - The `types/` output directory must **never** be included in the compilation input patterns/`include` array of [build/tsconfig.json](build/tsconfig.json).
 - If a file in the input graph imports or references files under `types/` during build time, `tsc` loads them as compilation inputs. When `tsc` then attempts to output the generated declarations to `types/`, it raises `error TS5055: Cannot write file because it would overwrite input file`.
 - To avoid this, always keep `src/globals.d.ts` importing directly from the source `.js` files using relative paths within `src/` (e.g., `./items/items` instead of `../types/items/items`).
+
+### Preserving Nullable Union Types (`strictNullChecks`)
+
+- By default, without strict null checks, union types containing `null` (e.g., `number | null` or `Quantity | null`) collapse into the base type (e.g., `number`, `Quantity`) during declaration generation.
+- `"strictNullChecks": true` is enabled in [build/tsconfig.json](build/tsconfig.json) to preserve union type definitions in the generated `.d.ts` output.

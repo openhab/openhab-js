@@ -14,7 +14,7 @@ export class JSCache {
      * @param {function} [defaultSupplier] if the specified key is not already associated with a value, this function will return a default value
      * @returns {*|null} the current object for the supplied key, the value returned by defaultSupplier (if provided), or `null`
      */
-    get(key: string, defaultSupplier?: Function): any | null;
+    get(key: string, defaultSupplier?: Function | undefined): any | null;
     /**
      * Associates the specified value with the specified key.
      *

@@ -37,15 +37,15 @@ export class ChannelTriggerConfig extends TriggerConf {
      * @param {string} [eventName]
      * @returns {ChannelTriggerConfig}
      */
-    to(eventName?: string): ChannelTriggerConfig;
+    to(eventName?: string | undefined): ChannelTriggerConfig;
     /**
      * channel triggered a specific event name
      *
      * @param {string} [eventName]
      * @returns {ChannelTriggerConfig}
      */
-    triggered(eventName?: string): ChannelTriggerConfig;
-    eventName: string;
+    triggered(eventName?: string | undefined): ChannelTriggerConfig;
+    eventName: string | undefined;
     /** @private */
     private _complete;
 }
@@ -71,7 +71,7 @@ export class ItemTriggerConfig extends TriggerConf {
      * @returns {ItemTriggerConfig}
      */
     to(value: string): ItemTriggerConfig;
-    to_value: string;
+    to_value: string | undefined;
     /**
      * Item state changed from
      *
@@ -79,7 +79,7 @@ export class ItemTriggerConfig extends TriggerConf {
      * @returns {ItemTriggerConfig}
      */
     from(value: string): ItemTriggerConfig;
-    from_value: string;
+    from_value: string | undefined;
     /**
      * Item received command OFF or changed/updated state to OFF
      *
@@ -110,7 +110,7 @@ export class ItemTriggerConfig extends TriggerConf {
      * @returns {ItemTriggerConfig}
      */
     receivedCommand(): ItemTriggerConfig;
-    op_type: string;
+    op_type: string | undefined;
     /**
      * Item received update
      *
@@ -157,7 +157,7 @@ export class ThingTriggerConfig extends TriggerConf {
      * @returns {ThingTriggerConfig}
      */
     changed(): ThingTriggerConfig;
-    op_type: string;
+    op_type: string | undefined;
     /**
      * Thing status updated
      *
@@ -171,7 +171,7 @@ export class ThingTriggerConfig extends TriggerConf {
      * @returns {ThingTriggerConfig}
      */
     from(value: string): ThingTriggerConfig;
-    from_value: string;
+    from_value: string | undefined;
     /**
      * Thing status changed to
      *
@@ -179,7 +179,7 @@ export class ThingTriggerConfig extends TriggerConf {
      * @returns {ThingTriggerConfig}
      */
     to(value: string): ThingTriggerConfig;
-    to_value: string;
+    to_value: string | undefined;
     /** @private */
     private _toOHTriggers;
 }
@@ -232,7 +232,7 @@ export class SystemTriggerConfig extends TriggerConf {
      * @returns {SystemTriggerConfig}
      */
     startLevel(level: number): SystemTriggerConfig;
-    level: number;
+    level: number | undefined;
 }
 /**
  * @callback ConditionCallback The callback function to determine if the condition is met.
@@ -333,14 +333,14 @@ declare class TriggerConf {
      * @param {rules.RuleCallback} [fn] the optional callback function to execute when the rule is run
      * @returns {operations.OperationBuilder}
      */
-    then(fn?: rules.RuleCallback): operations.OperationBuilder;
+    then(fn?: import("./rules").RuleCallback | undefined): operations.OperationBuilder;
     /**
      * Move to the rule condition
      *
      * @param {ConditionCallback} [fn] the optional function to check for conditions when the rule is triggered
      * @returns {conditions.ConditionBuilder}
      */
-    if(fn?: ConditionCallback): conditions.ConditionBuilder;
+    if(fn?: ConditionCallback | undefined): conditions.ConditionBuilder;
 }
 /**
  * Time of day-based trigger
@@ -387,7 +387,7 @@ declare class DateTimeTriggerConfig extends TriggerConf {
      * @param {boolean} [timeOnly=true]
      * @returns {DateTimeTriggerConfig}
      */
-    timeOnly(timeOnly?: boolean): DateTimeTriggerConfig;
+    timeOnly(timeOnly?: boolean | undefined): DateTimeTriggerConfig;
     /**
      * Specifies the offset in seconds to add to the time of the DateTime Item.
      *

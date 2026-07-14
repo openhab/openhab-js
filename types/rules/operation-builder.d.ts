@@ -6,7 +6,7 @@
  * @hideconstructor
  */
 export class SendCommandOrUpdateOperation extends OperationConfig {
-    constructor(operationBuilder: any, dataOrSupplier: any, isCommand: boolean, optionalDesc: any);
+    constructor(operationBuilder: any, dataOrSupplier: any, isCommand: boolean | undefined, optionalDesc: any);
     /** @private */
     private isCommand;
     dataFn: any;
@@ -18,7 +18,7 @@ export class SendCommandOrUpdateOperation extends OperationConfig {
        * @returns {SendCommandOrUpdateOperation} this
        */
     toItems(itemsOrNames: items.Item[] | string[]): SendCommandOrUpdateOperation;
-    toItemNames: any[];
+    toItemNames: any[] | undefined;
     /**
        * Send command to an item
        *
@@ -63,7 +63,7 @@ export class TimingItemStateOperation extends OperationConfig {
     private _executeHook;
     /** @private */
     private _startWait;
-    current_wait: NodeJS.Timeout;
+    current_wait: NodeJS.Timeout | undefined;
     _cancelWait(): void;
 }
 /**
@@ -116,7 +116,7 @@ export class CopyStateOperation extends OperationConfig {
        * @returns {CopyStateOperation} this
        */
     fromItem(itemName: string): CopyStateOperation;
-    from_item: string;
+    from_item: string | undefined;
     /**
        * Sets the item to copy the state to
        *
@@ -124,13 +124,13 @@ export class CopyStateOperation extends OperationConfig {
        * @returns {CopyStateOperation} this
        */
     toItem(itemName: string): CopyStateOperation;
-    to_item: string;
+    to_item: string | undefined;
     /**
        * Appends another operation to execute when the rule fires
        * @returns {CopyStateOperation} this
        */
     and(): CopyStateOperation;
-    next: OperationBuilder;
+    next: OperationBuilder | undefined;
     /**
        * Runs the operation. Don't call directly.
        *
@@ -175,7 +175,7 @@ export class OperationBuilder {
        * @param {Array<String>} [tags] of the rule
        * @param {string} [id] of the rule
        */
-    build(name?: string, description?: string, tags?: Array<string>, id?: string): void;
+    build(name?: string | undefined, description?: string | undefined, tags?: string[] | undefined, id?: string | undefined): void;
     /**
        * Specify the rule group for this rule
        *
@@ -183,7 +183,7 @@ export class OperationBuilder {
        * @returns {OperationBuilder} this
        */
     inGroup(group: string): OperationBuilder;
-    group: string;
+    group: string | undefined;
     /**
       * Specifies that a command should be sent as a result of this rule firing.
       *
@@ -262,7 +262,7 @@ declare class OperationConfig {
        * @returns {OperationBuilder} this
        */
     inGroup(group: string): OperationBuilder;
-    group: string;
+    group: string | undefined;
     /**
        * Build this rule
        *
@@ -271,7 +271,7 @@ declare class OperationConfig {
        * @param {Array<String>} [tags] of the rule
        * @param {string} [id] of the rule
        */
-    build(name?: string, description?: string, tags?: Array<string>, id?: string): void;
+    build(name?: string | undefined, description?: string | undefined, tags?: string[] | undefined, id?: string | undefined): void;
 }
 import time = require("@js-joda/core");
 export {};

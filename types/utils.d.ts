@@ -93,7 +93,7 @@ export function randomUUID(): string;
  * @param {*} obj object
  * @param {boolean} [dumpProps=false] whether properties also should be dumped
  */
-export function dumpObject(obj: any, dumpProps?: boolean): void;
+export function dumpObject(obj: any, dumpProps?: boolean | undefined): void;
 /**
  * openHAB JavaScript library version
  *

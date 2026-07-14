@@ -5,8 +5,8 @@ declare const _exports: {
     toInstant: typeof toInstant;
     _parseString: typeof _parseString;
     _parseISO8601: typeof _parseISO8601;
-    nativeJs(date: any, zone?: time.ZoneId): time.ZonedDateTime;
-    convert(temporal: time.LocalDate | time.Instant | time.ZonedDateTime | time.LocalDateTime, zone?: time.ZoneId): {
+    nativeJs(date: any, zone?: time.ZoneId | undefined): time.ZonedDateTime;
+    convert(temporal: time.LocalDate | time.Instant | time.ZonedDateTime | time.LocalDateTime, zone?: time.ZoneId | undefined): {
         toDate: () => Date;
         toEpochMilli: () => number;
     };
