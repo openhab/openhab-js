@@ -199,7 +199,7 @@ export class Item {
      * Item state as {@link Quantity} or `null` if state is not Quantity-compatible or Quantity would be unit-less (without unit)
      * @type {Quantity|null}
      */
-    get quantityState(): any;
+    get quantityState(): import("../quantity").Quantity;
     /**
      * Item state as boolean or `null` if state is not boolean-compatible.
      * @type {boolean|null}
@@ -209,7 +209,7 @@ export class Item {
      * Raw state of Item, as a Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/types/state State object}
      * @type {HostState|null}
      */
-    get rawState(): any;
+    get rawState(): object;
     /**
      * String representation of the previous state of the Item or `null` if no previous state is available.
      * @type {string|null}
@@ -224,12 +224,12 @@ export class Item {
      * Previous item state as {@link Quantity} or `null` if state is not Quantity-compatible, Quantity would be unit-less (without unit) or not available.
      * @type {Quantity|null}
      */
-    get previousQuantityState(): any;
+    get previousQuantityState(): import("../quantity").Quantity;
     /**
       * Previous raw state of Item, as a Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/types/state State object} or `null` if previous state not available.
      * @type {HostState|null}
      */
-    get previousRawState(): any;
+    get previousRawState(): object;
     /**
      * The time the state was last updated as ZonedDateTime or `null` if no timestamp is available.
      * @type {time.ZonedDateTime|null}
@@ -406,7 +406,7 @@ export class Item {
      * @param {...string} tagNames names of the tags to remove
      */
     removeTags(...tagNames: string[]): void;
-    toString(): any;
+    toString(): string;
 }
 import metadata = require("./metadata");
 import itemChannelLink = require("./itemchannellink");
@@ -422,7 +422,7 @@ export const PersistedItem: {
         rawState: any;
         readonly state: string;
         readonly numericState: number;
-        readonly quantityState: any;
+        readonly quantityState: import("../quantity").Quantity;
     };
 };
 export const PersistedState: {
@@ -430,7 +430,7 @@ export const PersistedState: {
         rawState: any;
         readonly state: string;
         readonly numericState: number;
-        readonly quantityState: any;
+        readonly quantityState: import("../quantity").Quantity;
         toString(): string;
     };
 };

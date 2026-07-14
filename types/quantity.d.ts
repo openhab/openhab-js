@@ -7,7 +7,7 @@
  * @throws {QuantityError} if Quantity creation or operation failed
  * @throws {TypeError} if wrong argument type is provided
  */
-export function getQuantity(value: items.Item | string | Quantity | any): Quantity;
+export function getQuantity(value: items.Item | string | Quantity | QuantityType): Quantity;
 /**
  * Class allowing easy Units of Measurement/Quantity handling by wrapping the openHAB {@link QuantityType}.
  *
@@ -20,7 +20,7 @@ export class Quantity {
     /**
      * @param {items.Item|string|Quantity|QuantityType} value
      */
-    constructor(value: items.Item | string | Quantity | any);
+    constructor(value: items.Item | string | Quantity | QuantityType);
     /**
      * @type {QuantityType}
      * @private
@@ -130,7 +130,7 @@ export class Quantity {
      * @returns {boolean}
      */
     lessThanOrEqual(value: items.Item | string | Quantity): boolean;
-    toString(): any;
+    toString(): string;
 }
 /**
  * QuantityError is thrown when {@link Quantity} creation or operation fails.
@@ -151,7 +151,7 @@ export class QuantityError extends Error {
  * @throws {QuantityError} when {@link QuantityType} creation failed
  * @private
  */
-export function _toQtyType(value: items.Item | string | Quantity, errorMsg?: string): any;
+export function _toQtyType(value: items.Item | string | Quantity, errorMsg?: string): QuantityType;
 /**
  * Takes either an {@link items.Item}, a `string`, a `number` or a {@link Quantity} and converts it to a {@link QuantityType} or {@link BigDecimal}.
  * When the Item state is a DecimalType, it is converted to a {@link BigDecimal}, otherwise to a {@link QuantityType}.
@@ -161,5 +161,7 @@ export function _toQtyType(value: items.Item | string | Quantity, errorMsg?: str
  * @throws {QuantityError} when {@link BigDecimal} creation failed
  * @private
  */
-export function _toBigDecimalOrQtyType(value: items.Item | string | number | Quantity): JavaBigDecimal | any;
+export function _toBigDecimalOrQtyType(value: items.Item | string | number | Quantity): object | QuantityType;
+declare const QuantityType: any;
+export {};
 //# sourceMappingURL=quantity.d.ts.map

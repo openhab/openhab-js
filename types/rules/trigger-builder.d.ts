@@ -28,7 +28,7 @@ export class CronTriggerConfig extends TriggerConf {
 export class ChannelTriggerConfig extends TriggerConf {
     constructor(channelName: any, triggerBuilder: any);
     channelName: any;
-    _toOHTriggers: () => HostTrigger[];
+    _toOHTriggers: () => object[];
     /** @private */
     private describe;
     /**
@@ -191,7 +191,7 @@ export class ThingTriggerConfig extends TriggerConf {
  * @hideconstructor
  */
 export class SystemTriggerConfig extends TriggerConf {
-    _toOHTriggers: () => HostTrigger[];
+    _toOHTriggers: () => object[];
     describe: (compact: any) => string;
     /** @private */
     private _complete;

@@ -82,7 +82,7 @@ export class Thing {
      * @param {boolean} enabled whether the Thing is enabled or not
      */
     setEnabled(enabled: boolean): void;
-    toString(): any;
+    toString(): string;
 }
 /**
  * Gets an openHAB Thing.
