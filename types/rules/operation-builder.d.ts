@@ -1,76 +1,3 @@
-export type Item = {
-    rawItem: HostItem;
-    persistence: import("../items/item-persistence");
-    semantics: import("../items/item-semantics");
-    readonly type: string;
-    readonly groupType: string;
-    readonly name: string;
-    readonly label: string;
-    readonly category: string;
-    readonly state: string;
-    readonly numericState: number;
-    readonly quantityState: import("../quantity").Quantity;
-    readonly boolState: boolean;
-    readonly rawState: any;
-    readonly previousState: string;
-    readonly previousNumericState: number;
-    readonly previousQuantityState: import("../quantity").Quantity;
-    readonly previousRawState: any;
-    readonly lastStateUpdateTimestamp: any;
-    readonly lastStateUpdateInstant: any;
-    readonly lastStateChangeTimestamp: any;
-    readonly lastStateChangeInstant: any;
-    readonly members: any[];
-    readonly descendents: any[];
-    readonly isInitialized: boolean;
-    readonly isUninitialized: boolean;
-    getMetadata(namespace?: string): {
-        value: string;
-        configuration: any;
-        rawMetadata: any;
-        readonly key: string;
-        toString(): string;
-    } | {
-        namespace: {
-            value: string;
-            configuration: any;
-            rawMetadata: any;
-            readonly key: string;
-            toString(): string;
-        };
-    };
-    /** @private */
-    replaceMetadata(namespace: string, value: string, configuration?: any): {
-        value: string;
-        configuration: any;
-        rawMetadata: any;
-        readonly key: string;
-        toString(): string;
-    };
-    removeMetadata(namespace?: string): {
-        value: string;
-        configuration: any;
-        rawMetadata: any;
-        readonly key: string;
-        toString(): string;
-    };
-    sendCommand(value: any, expire?: time.Duration, onExpire?: any): void;
-    sendCommandIfDifferent(value: any): boolean;
-    sendIncreaseCommand(value: any): boolean;
-    sendDecreaseCommand(value: any): boolean;
-    getToggleState(): "OPEN" | "PLAY" | "ON" | "PAUSE" | "CLOSED" | "OFF";
-    sendToggleCommand(): void;
-    postToggleUpdate(): void;
-    postUpdate(value: any): void;
-    readonly groupNames: string[];
-    addGroups(...groupNamesOrItems: any[]): void;
-    removeGroups(...groupNamesOrItems: any[]): void;
-    readonly tags: string[];
-    addTags(...tagNames: string[]): void;
-    removeTags(...tagNames: string[]): void;
-    toString(): any;
-};
-export type Quantity = import('../quantity').Quantity;
 /**
  * Sends a command or update to an item
  *
@@ -87,18 +14,18 @@ export class SendCommandOrUpdateOperation extends OperationConfig {
     /**
        * Send command to multiple items
        *
-       * @param {Item[] | string[]} itemsOrNames the items to send a command to
+       * @param {items.Item[] | string[]} itemsOrNames the items to send a command to
        * @returns {SendCommandOrUpdateOperation} this
        */
-    toItems(itemsOrNames: Item[] | string[]): SendCommandOrUpdateOperation;
-    toItemNames: any[] | string[];
+    toItems(itemsOrNames: items.Item[] | string[]): SendCommandOrUpdateOperation;
+    toItemNames: any[];
     /**
        * Send command to an item
        *
-       * @param {Item | string} itemOrName the item to send a command to
+       * @param {items.Item | string} itemOrName the item to send a command to
        * @returns {SendCommandOrUpdateOperation} this
        */
-    toItem(itemOrName: Item | string): SendCommandOrUpdateOperation;
+    toItem(itemOrName: items.Item | string): SendCommandOrUpdateOperation;
     /**
        * Send another command
        * @param {*} next
@@ -227,14 +154,6 @@ export class CopyStateOperation extends OperationConfig {
     private describe;
 }
 /**
- * @typedef { import("../items/items").Item } Item
- * @private
- */
-/**
- * @typedef {import('../quantity').Quantity} Quantity
- * @private
- */
-/**
  * Operation to execute as part of a rule
  * @hideconstructor
  */
@@ -329,7 +248,6 @@ export class OperationBuilder {
        */
     copyAndSendState(): CopyStateOperation;
 }
-import time = require("@js-joda/core");
 /**
  * {RuleBuilder} RuleBuilder triggers
  * @memberof OperationBuilder
@@ -355,5 +273,6 @@ declare class OperationConfig {
        */
     build(name?: string, description?: string, tags?: Array<string>, id?: string): void;
 }
+import time = require("@js-joda/core");
 export {};
 //# sourceMappingURL=operation-builder.d.ts.map

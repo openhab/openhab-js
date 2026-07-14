@@ -1,50 +1,3 @@
-export type Item = {
-    rawItem: HostItem;
-    persistence: import("./item-persistence");
-    semantics: import("./item-semantics");
-    readonly type: string;
-    readonly groupType: string;
-    readonly name: string;
-    readonly label: string;
-    readonly category: string;
-    readonly state: string;
-    readonly numericState: number;
-    readonly quantityState: import("../quantity").Quantity;
-    readonly boolState: boolean;
-    readonly rawState: any;
-    readonly previousState: string;
-    readonly previousNumericState: number;
-    readonly previousQuantityState: import("../quantity").Quantity;
-    readonly previousRawState: any;
-    readonly lastStateUpdateTimestamp: any;
-    readonly lastStateUpdateInstant: any;
-    readonly lastStateChangeTimestamp: any;
-    readonly lastStateChangeInstant: any;
-    readonly members: any[];
-    readonly descendents: any[];
-    readonly isInitialized: boolean;
-    readonly isUninitialized: boolean;
-    getMetadata(namespace?: string): ItemMetadata | {
-        namespace: ItemMetadata;
-    };
-    replaceMetadata(namespace: string, value: string, configuration?: any): ItemMetadata;
-    removeMetadata(namespace?: string): ItemMetadata;
-    sendCommand(value: any, expire?: JSJoda.Duration, onExpire?: any): void;
-    sendCommandIfDifferent(value: any): boolean;
-    sendIncreaseCommand(value: any): boolean;
-    sendDecreaseCommand(value: any): boolean;
-    getToggleState(): "OPEN" | "PLAY" | "ON" | "PAUSE" | "CLOSED" | "OFF";
-    sendToggleCommand(): void;
-    postToggleUpdate(): void;
-    postUpdate(value: any): void;
-    readonly groupNames: string[];
-    addGroups(...groupNamesOrItems: any[]): void;
-    removeGroups(...groupNamesOrItems: any[]): void;
-    readonly tags: string[];
-    addTags(...tagNames: string[]): void;
-    removeTags(...tagNames: string[]): void;
-    toString(): any;
-};
 /**
  * Gets metadata of a single namespace or of all namespaces from a given Item.
  *
@@ -57,12 +10,12 @@ export type Item = {
  *
  * @see items.Item.getMetadata
  * @memberOf items.metadata
- * @param {Item|string} itemOrName {@link Item} or the name of the Item
+ * @param {items.Item|string} itemOrName {@link items.Item} or the name of the Item
  * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is returned, else all metadata is returned
  * @returns {{ namespace: ItemMetadata }|ItemMetadata|null} all metadata as an object with the namespaces as properties OR metadata of a single
  *   namespace or `null` if that namespace doesn't exist; the metadata itself is of type {@link ItemMetadata}
  */
-export function getMetadata(itemOrName: Item | string, namespace?: string): {
+export function getMetadata(itemOrName: items.Item | string, namespace?: string): {
     namespace: ItemMetadata;
 } | ItemMetadata | null;
 /**
@@ -73,7 +26,7 @@ export function getMetadata(itemOrName: Item | string, namespace?: string): {
  * If this is called from UI-based scripts, the metadata is stored to the ManagedMetadataProvider and independent of the script's lifecycle.
  *
  * @memberof items.metadata
- * @param {Item|string} itemOrName {@link Item} or the name of the Item
+ * @param {items.Item|string} itemOrName {@link items.Item} or the name of the Item
  * @param {string} namespace name of the metadata
  * @param {string} value value for this metadata
  * @param {object} [configuration] optional metadata configuration
@@ -81,7 +34,7 @@ export function getMetadata(itemOrName: Item | string, namespace?: string): {
  * @returns {ItemMetadata} the added metadata
  * @throws {Error} if the Item already has metadata of the given namespace
  */
-export function addMetadata(itemOrName: Item | string, namespace: string, value: string, configuration?: object, persist?: boolean): ItemMetadata;
+export function addMetadata(itemOrName: items.Item | string, namespace: string, value: string, configuration?: object, persist?: boolean): ItemMetadata;
 /**
  * Updates or adds metadata of a single namespace to an Item.
  * When using file-based scripts, it is recommended to use {@link items.metadata.addMetadata} instead.
@@ -90,32 +43,28 @@ export function addMetadata(itemOrName: Item | string, namespace: string, value:
  *
  * @see items.Item.replaceMetadata
  * @memberof items.metadata
- * @param {Item|string} itemOrName {@link Item} or the name of the Item
+ * @param {items.Item|string} itemOrName {@link items.Item} or the name of the Item
  * @param {string} namespace name of the metadata
  * @param {string} value value for this metadata
  * @param {object} [configuration] optional metadata configuration
  * @returns {ItemMetadata|null} old metadata or `null` if the Item had no metadata with the given name
  */
-export function replaceMetadata(itemOrName: Item | string, namespace: string, value: string, configuration?: object): ItemMetadata | null;
+export function replaceMetadata(itemOrName: items.Item | string, namespace: string, value: string, configuration?: object): ItemMetadata | null;
 /**
  * Removes metadata of a single namespace or of all namespaces from a given Item.
  *
  * @see items.Item.removeMetadata
  * @memberof items.metadata
- * @param {Item|string} itemOrName {@link Item} or the name of the Item
+ * @param {items.Item|string} itemOrName {@link items.Item} or the name of the Item
  * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is removed, else all metadata is removed
  * @returns {ItemMetadata|null} removed metadata OR `null` if the Item has no metadata under the given namespace, or it cannot be removed or all metadata was removed
  */
-export function removeMetadata(itemOrName: Item | string, namespace?: string): ItemMetadata | null;
+export function removeMetadata(itemOrName: items.Item | string, namespace?: string): ItemMetadata | null;
 /**
  * Item metadata namespace.
  * This namespace provides access to Item metadata.
  *
  * @namespace items.metadata
- */
-/**
- * @typedef {import('./items').Item} Item
- * @private
  */
 /**
  * Class representing openHAB Item metadata.

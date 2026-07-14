@@ -39,7 +39,7 @@ export type ItemConfig = {
      */
     channels?: string | object;
     /**
-     * either object `{ namespace: value }` or `{ namespace: `{@link ItemMetadata }` }`
+     * either object `{ namespace: value }` or `{ namespace: `{@link items.ItemMetadata }` }`
      */
     metadata?: any;
     /**
@@ -55,17 +55,6 @@ export type ItemConfig = {
      */
     autoupdate?: boolean;
 };
-export type ItemMetadata = {
-    value: string;
-    configuration: any;
-    rawMetadata: any;
-    readonly key: string;
-    toString(): string;
-};
-export type ZonedDateTime = import('@js-joda/core').ZonedDateTime;
-export type Instant = import('@js-joda/core').Instant;
-export type Duration = import('@js-joda/core').Duration;
-export type Quantity = import('../quantity').Quantity;
 /**
  * Helper function to ensure an Item name is valid. All invalid characters are replaced with an underscore.
  * @memberof items
@@ -210,7 +199,7 @@ export class Item {
      * Item state as {@link Quantity} or `null` if state is not Quantity-compatible or Quantity would be unit-less (without unit)
      * @type {Quantity|null}
      */
-    get quantityState(): import("../quantity").Quantity;
+    get quantityState(): any;
     /**
      * Item state as boolean or `null` if state is not boolean-compatible.
      * @type {boolean|null}
@@ -235,7 +224,7 @@ export class Item {
      * Previous item state as {@link Quantity} or `null` if state is not Quantity-compatible, Quantity would be unit-less (without unit) or not available.
      * @type {Quantity|null}
      */
-    get previousQuantityState(): import("../quantity").Quantity;
+    get previousQuantityState(): any;
     /**
       * Previous raw state of Item, as a Java {@link https://www.openhab.org/javadoc/latest/org/openhab/core/types/state State object} or `null` if previous state not available.
      * @type {HostState|null}
@@ -294,11 +283,11 @@ export class Item {
      *
      * @see items.metadata.getMetadata
      * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is returned, else all metadata is returned
-     * @returns {{ namespace: ItemMetadata }|ItemMetadata|null} all metadata as an object with the namespaces as properties OR metadata of a single namespace or `null` if that namespace doesn't exist; the metadata itself is of type {@link ItemMetadata}
+     * @returns {{ namespace: items.ItemMetadata }|items.ItemMetadata|null} all metadata as an object with the namespaces as properties OR metadata of a single namespace or `null` if that namespace doesn't exist; the metadata itself is of type {@link items.ItemMetadata}
      */
     getMetadata(namespace?: string): {
-        namespace: ItemMetadata;
-    } | ItemMetadata | null;
+        namespace: items.ItemMetadata;
+    } | items.ItemMetadata | null;
     /**
      * Updates or adds metadata of a single namespace to this Item.
      *
@@ -308,17 +297,17 @@ export class Item {
      * @param {string} namespace name of the metadata
      * @param {string} value value for this metadata
      * @param {object} [configuration] optional metadata configuration
-     * @returns {ItemMetadata|null} old {@link items.metadata.ItemMetadata} or `null` if the Item has no metadata with the given name
+     * @returns {items.ItemMetadata|null} old {@link items.metadata.ItemMetadata} or `null` if the Item has no metadata with the given name
      */
-    replaceMetadata(namespace: string, value: string, configuration?: object): ItemMetadata | null;
+    replaceMetadata(namespace: string, value: string, configuration?: object): items.ItemMetadata | null;
     /**
      * Removes metadata of a single namespace or of all namespaces from a given Item.
      *
      * @see items.metadata.removeMetadata
      * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is removed, else all metadata is removed
-     * @returns {ItemMetadata|null} removed {@link items.metadata.ItemMetadata} OR `null` if the Item has no metadata under the given namespace or all metadata was removed
+     * @returns {items.ItemMetadata|null} removed {@link items.metadata.ItemMetadata} OR `null` if the Item has no metadata under the given namespace or all metadata was removed
      */
-    removeMetadata(namespace?: string): ItemMetadata | null;
+    removeMetadata(namespace?: string): items.ItemMetadata | null;
     /**
      * Sends a command to the Item.
      *
@@ -330,21 +319,21 @@ export class Item {
      * // Turn on the Hallway lights for 5 minutes, then turn them off
      * items.getItem('HallwayLight').sendCommand('ON', time.Duration.ofMinutes(5), 'OFF');
      *
-     * @param {string|number|ZonedDateTime|Instant|Quantity|HostState|null} value the value of the command to send, such as 'ON'
-     * @param {Duration} [expire] optional duration (see {@link https://js-joda.github.io/js-joda/class/packages/core/src/Duration.js~Duration.html JS-Joda: Duration}) after which the command expires and the Item is commanded back to its previous state or `onExpire`
-     * @param {string|number|ZonedDateTime|Instant|Quantity|HostState} [onExpire] the optional value of the command to apply on expire, default is the current state
+     * @param {string|number|time.ZonedDateTime|time.Instant|Quantity|HostState|null} value the value of the command to send, such as 'ON'
+     * @param {time.Duration} [expire] optional duration (see {@link https://js-joda.github.io/js-joda/class/packages/core/src/Duration.js~Duration.html JS-Joda: Duration}) after which the command expires and the Item is commanded back to its previous state or `onExpire`
+     * @param {string|number|time.ZonedDateTime|time.Instant|Quantity|HostState} [onExpire] the optional value of the command to apply on expire, default is the current state
      * @see sendCommandIfDifferent
      * @see postUpdate
      */
-    sendCommand(value: string | number | ZonedDateTime | Instant | Quantity | HostState | null, expire?: Duration, onExpire?: string | number | ZonedDateTime | Instant | Quantity | HostState): void;
+    sendCommand(value: string | number | time.ZonedDateTime | time.Instant | Quantity | HostState | null, expire?: time.Duration, onExpire?: string | number | time.ZonedDateTime | time.Instant | Quantity | HostState): void;
     /**
      * Sends a command to the Item, but only if the current state is not what is being sent.
      *
-     * @param {string|number|ZonedDateTime|Instant|Quantity|HostState} value the value of the command to send, such as 'ON'
+     * @param {string|number|time.ZonedDateTime|time.Instant|Quantity|HostState} value the value of the command to send, such as 'ON'
      * @returns {boolean} true if the command was sent, false otherwise
      * @see sendCommand
      */
-    sendCommandIfDifferent(value: string | number | ZonedDateTime | Instant | Quantity | HostState): boolean;
+    sendCommandIfDifferent(value: string | number | time.ZonedDateTime | time.Instant | Quantity | HostState): boolean;
     /**
      * Increase the value of this Item to the given value by sending a command, but only if the current state is less than that value.
      *
@@ -382,11 +371,11 @@ export class Item {
     /**
      * Posts an update to the Item.
      *
-     * @param {string|number|ZonedDateTime|Instant|Quantity|HostState|null} value the value of the command to send, such as 'ON'
+     * @param {string|number|time.ZonedDateTime|time.Instant|Quantity|HostState|null} value the value of the command to send, such as 'ON'
      * @see postToggleUpdate
      * @see sendCommand
      */
-    postUpdate(value: string | number | ZonedDateTime | Instant | Quantity | HostState | null): void;
+    postUpdate(value: string | number | time.ZonedDateTime | time.Instant | Quantity | HostState | null): void;
     /**
      * Gets the names of the groups this Item is member of.
      * @returns {string[]}
@@ -421,9 +410,30 @@ export class Item {
 }
 import metadata = require("./metadata");
 import itemChannelLink = require("./itemchannellink");
-import TimeSeries = require("./time-series");
 import ItemPersistence = require("./item-persistence");
+import TimeSeries = require("./time-series");
 import ItemSemantics = require("./item-semantics");
-export declare const RiemannType: RiemannType;
-export { metadata, itemChannelLink, TimeSeries };
+export const PersistedItem: {
+    new (rawHistoricItem: any): {
+        rawHistoricItem: any;
+        readonly timestamp: time.ZonedDateTime;
+        readonly instant: time.Instant;
+        toString(): string;
+        rawState: any;
+        readonly state: string;
+        readonly numericState: number;
+        readonly quantityState: any;
+    };
+};
+export const PersistedState: {
+    new (rawHistoricState: any): {
+        rawState: any;
+        readonly state: string;
+        readonly numericState: number;
+        readonly quantityState: any;
+        toString(): string;
+    };
+};
+export declare const RiemannType: ItemPersistence.RiemannType;
+export { metadata, itemChannelLink, TimeSeries, ItemPersistence, ItemSemantics };
 //# sourceMappingURL=items.d.ts.map

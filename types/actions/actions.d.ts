@@ -312,9 +312,6 @@ export const Voice: any;
  */
 export let NotificationAction: any;
 import { notificationBuilder } from "./notification-builder";
-declare namespace time {
-    type ZonedDateTime = import('@js-joda/core').ZonedDateTime;
-}
 export declare function get(bindingId: string, thingUid: string): any;
 export declare function thingActions(bindingId: string, thingUid: string): any;
 export { LogAction as Log, ThingsAction as Things, notificationBuilder };

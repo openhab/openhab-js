@@ -1,17 +1,5 @@
 export = TimeSeries;
 /**
- * @typedef { import('@js-joda/core').Instant} time.Instant
- * @private
- */
-/**
- * @typedef { import('@js-joda/core').ZonedDateTime} time.ZonedDateTime
- * @private
- */
-/**
- * @typedef {import('../quantity').Quantity} Quantity
- * @private
- */
-/**
  * A TimeSeries is used to transport a set of states together with their timestamp.
  * It is usually used for persisting historic state or forecasts in a persistence service.
  *
@@ -38,12 +26,12 @@ declare class TimeSeries {
      * Timestamp of the first element in the TimeSeries
      * @type {time.Instant}
      */
-    get begin(): JSJoda.Instant;
+    get begin(): time.Instant;
     /**
      * Timestamp of the last element in the TimeSeries
      * @type {time.Instant}
      */
-    get end(): JSJoda.Instant;
+    get end(): time.Instant;
     /**
      * Number of elements in the TimeSeries
      * @type {number}
@@ -70,13 +58,4 @@ declare class TimeSeries {
     toString(): string;
     #private;
 }
-declare namespace TimeSeries {
-    export { Quantity };
-}
-declare namespace time {
-    type Instant = import('@js-joda/core').Instant;
-    type ZonedDateTime = import('@js-joda/core').ZonedDateTime;
-}
-import time = require("../time");
-type Quantity = import('../quantity').Quantity;
 //# sourceMappingURL=time-series.d.ts.map

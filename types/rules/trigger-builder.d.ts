@@ -1,76 +1,3 @@
-export type Item = {
-    rawItem: HostItem;
-    persistence: import("../items/item-persistence");
-    semantics: import("../items/item-semantics");
-    readonly type: string;
-    readonly groupType: string;
-    readonly name: string;
-    readonly label: string;
-    readonly category: string;
-    readonly state: string;
-    /** @private */
-    readonly numericState: number;
-    readonly quantityState: import("../quantity").Quantity;
-    readonly boolState: boolean;
-    readonly rawState: any;
-    readonly previousState: string;
-    readonly previousNumericState: number;
-    readonly previousQuantityState: import("../quantity").Quantity;
-    readonly previousRawState: any;
-    readonly lastStateUpdateTimestamp: any;
-    readonly lastStateUpdateInstant: any;
-    readonly lastStateChangeTimestamp: any;
-    readonly lastStateChangeInstant: any;
-    readonly members: any[];
-    readonly descendents: any[];
-    readonly isInitialized: boolean;
-    readonly isUninitialized: boolean;
-    getMetadata(namespace?: string): {
-        value: string; /** @private */
-        configuration: any;
-        rawMetadata: any;
-        readonly key: string;
-        toString(): string;
-    } | {
-        namespace: {
-            value: string; /** @private */
-            configuration: any;
-            rawMetadata: any;
-            readonly key: string;
-            toString(): string;
-        };
-    };
-    replaceMetadata(namespace: string, value: string, configuration?: any): {
-        value: string; /** @private */
-        configuration: any;
-        rawMetadata: any;
-        readonly key: string;
-        toString(): string;
-    };
-    removeMetadata(namespace?: string): {
-        value: string; /** @private */
-        configuration: any;
-        rawMetadata: any;
-        readonly key: string;
-        toString(): string;
-    };
-    sendCommand(value: any, expire?: JSJoda.Duration, onExpire?: any): void;
-    sendCommandIfDifferent(value: any): boolean;
-    sendIncreaseCommand(value: any): boolean;
-    sendDecreaseCommand(value: any): boolean;
-    getToggleState(): "OPEN" | "PLAY" | "ON" | "PAUSE" | "CLOSED" | "OFF";
-    sendToggleCommand(): void;
-    postToggleUpdate(): void;
-    postUpdate(value: any): void;
-    readonly groupNames: string[];
-    addGroups(...groupNamesOrItems: any[]): void;
-    removeGroups(...groupNamesOrItems: any[]): void;
-    readonly tags: string[];
-    addTags(...tagNames: string[]): void;
-    removeTags(...tagNames: string[]): void;
-    toString(): any;
-};
-export type RuleCallback = import("./rules").RuleCallback;
 /**
  * The callback function to determine if the condition is met.
  */
@@ -308,14 +235,6 @@ export class SystemTriggerConfig extends TriggerConf {
     level: number;
 }
 /**
- * @typedef { import("../items/items").Item } Item
- * @private
- */
-/**
- * @typedef { import("./rules").RuleCallback } RuleCallback
- * @private
- */
-/**
  * @callback ConditionCallback The callback function to determine if the condition is met.
  * @returns {boolean} true if the condition is met, otherwise false
  */
@@ -361,17 +280,17 @@ export class TriggerBuilder {
     /**
      * Specifies an Item as the source of changes to trigger a rule.
      *
-     * @param {Item|string} itemOrName the {@link Item} or the name of the Item
+     * @param {items.Item|string} itemOrName the {@link items.Item} or the name of the Item
      * @returns {ItemTriggerConfig} the trigger config
      */
-    item(itemOrName: Item | string): ItemTriggerConfig;
+    item(itemOrName: items.Item | string): ItemTriggerConfig;
     /**
      * Specifies a group member as the source of changes to trigger a rule.
      *
-     * @param {Item|string} groupOrName the {@link Item} or the name of the group
+     * @param {items.Item|string} groupOrName the {@link items.Item} or the name of the group
      * @returns {ItemTriggerConfig} the trigger config
      */
-    memberOf(groupOrName: Item | string): ItemTriggerConfig;
+    memberOf(groupOrName: items.Item | string): ItemTriggerConfig;
     /**
      * Specifies a Thing status event as a source for the rule to fire.
      *
@@ -389,10 +308,10 @@ export class TriggerBuilder {
     /**
      * Specifies a DateTime Item whose (optional) date and time schedule the rule to fire.
      *
-     * @param {Item|string} itemOrName the {@link Item} or the name of the Item
+     * @param {items.Item|string} itemOrName the {@link items.Item} or the name of the Item
      * @returns {DateTimeTriggerConfig} the trigger config
      */
-    dateTime(itemOrName: Item | string): DateTimeTriggerConfig;
+    dateTime(itemOrName: items.Item | string): DateTimeTriggerConfig;
 }
 /**
  * {RuleBuilder} RuleBuilder triggers
@@ -411,10 +330,10 @@ declare class TriggerConf {
     /**
      * Move to the rule operations
      *
-     * @param {RuleCallback} [fn] the optional callback function to execute when the rule is run
+     * @param {rules.RuleCallback} [fn] the optional callback function to execute when the rule is run
      * @returns {operations.OperationBuilder}
      */
-    then(fn?: RuleCallback): operations.OperationBuilder;
+    then(fn?: rules.RuleCallback): operations.OperationBuilder;
     /**
      * Move to the rule condition
      *
