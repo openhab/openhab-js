@@ -3,16 +3,6 @@ const operations = require('./operation-builder');
 const conditions = require('./condition-builder');
 
 /**
- * @typedef { import("../items/items").Item } Item
- * @private
- */
-
-/**
- * @typedef { import("./rules").RuleCallback } RuleCallback
- * @private
- */
-
-/**
  * @callback ConditionCallback The callback function to determine if the condition is met.
  * @returns {boolean} true if the condition is met, otherwise false
  */
@@ -85,7 +75,7 @@ class TriggerBuilder {
   /**
    * Specifies an Item as the source of changes to trigger a rule.
    *
-   * @param {Item|string} itemOrName the {@link Item} or the name of the Item
+   * @param {items.Item|string} itemOrName the {@link items.Item} or the name of the Item
    * @returns {ItemTriggerConfig} the trigger config
    */
   item (itemOrName) {
@@ -95,7 +85,7 @@ class TriggerBuilder {
   /**
    * Specifies a group member as the source of changes to trigger a rule.
    *
-   * @param {Item|string} groupOrName the {@link Item} or the name of the group
+   * @param {items.Item|string} groupOrName the {@link items.Item} or the name of the group
    * @returns {ItemTriggerConfig} the trigger config
    */
   memberOf (groupOrName) {
@@ -125,7 +115,7 @@ class TriggerBuilder {
   /**
    * Specifies a DateTime Item whose (optional) date and time schedule the rule to fire.
    *
-   * @param {Item|string} itemOrName the {@link Item} or the name of the Item
+   * @param {items.Item|string} itemOrName the {@link items.Item} or the name of the Item
    * @returns {DateTimeTriggerConfig} the trigger config
    */
   dateTime (itemOrName) {
@@ -155,7 +145,7 @@ class TriggerConf {
   /**
    * Move to the rule operations
    *
-   * @param {RuleCallback} [fn] the optional callback function to execute when the rule is run
+   * @param {rules.RuleCallback} [fn] the optional callback function to execute when the rule is run
    * @returns {operations.OperationBuilder}
    */
   then (fn) {

@@ -17,11 +17,6 @@ const MetadataKey = Java.type('org.openhab.core.items.MetadataKey');
  */
 
 /**
- * @typedef {import('./items').Item} Item
- * @private
- */
-
-/**
  * Class representing openHAB Item metadata.
  *
  * @memberof items.metadata
@@ -115,7 +110,7 @@ function _getSingleItemMetadata (itemName, namespace) {
  *
  * @see items.Item.getMetadata
  * @memberOf items.metadata
- * @param {Item|string} itemOrName {@link Item} or the name of the Item
+ * @param {items.Item|string} itemOrName {@link items.Item} or the name of the Item
  * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is returned, else all metadata is returned
  * @returns {{ namespace: ItemMetadata }|ItemMetadata|null} all metadata as an object with the namespaces as properties OR metadata of a single
  *   namespace or `null` if that namespace doesn't exist; the metadata itself is of type {@link ItemMetadata}
@@ -164,7 +159,7 @@ function _createMetadata (itemName, namespace, value, configuration) {
  * If this is called from UI-based scripts, the metadata is stored to the ManagedMetadataProvider and independent of the script's lifecycle.
  *
  * @memberof items.metadata
- * @param {Item|string} itemOrName {@link Item} or the name of the Item
+ * @param {items.Item|string} itemOrName {@link items.Item} or the name of the Item
  * @param {string} namespace name of the metadata
  * @param {string} value value for this metadata
  * @param {object} [configuration] optional metadata configuration
@@ -195,7 +190,7 @@ function addMetadata (itemOrName, namespace, value, configuration, persist = fal
  *
  * @see items.Item.replaceMetadata
  * @memberof items.metadata
- * @param {Item|string} itemOrName {@link Item} or the name of the Item
+ * @param {items.Item|string} itemOrName {@link items.Item} or the name of the Item
  * @param {string} namespace name of the metadata
  * @param {string} value value for this metadata
  * @param {object} [configuration] optional metadata configuration
@@ -216,7 +211,7 @@ function replaceMetadata (itemOrName, namespace, value, configuration) {
  *
  * @see items.Item.removeMetadata
  * @memberof items.metadata
- * @param {Item|string} itemOrName {@link Item} or the name of the Item
+ * @param {items.Item|string} itemOrName {@link items.Item} or the name of the Item
  * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is removed, else all metadata is removed
  * @returns {ItemMetadata|null} removed metadata OR `null` if the Item has no metadata under the given namespace, or it cannot be removed or all metadata was removed
  */

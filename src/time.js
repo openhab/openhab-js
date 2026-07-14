@@ -5,11 +5,6 @@
  * @namespace time
  */
 
-/**
- * @typedef { import("./items/items").Item } items.Item
- * @private
- */
-
 // reduce timezone file size, see https://github.com/js-joda/js-joda/blob/main/packages/timezone/README.md#reducing-js-joda-timezone-file-size
 require('@js-joda/timezone/dist/js-joda-timezone-10-year-range');
 const time = require('@js-joda/core');

@@ -21,6 +21,7 @@ const { _stateOrNull, _numericStateOrNull, _quantityStateOrNull, _isNullOrUndefi
 const metadata = require('./metadata');
 const itemChannelLink = require('./itemchannellink');
 const ItemPersistence = require('./item-persistence');
+const { PersistedItem, PersistedState } = ItemPersistence;
 const ItemSemantics = require('./item-semantics');
 const TimeSeries = require('./time-series');
 
@@ -47,30 +48,10 @@ const BusEventImplClassName = 'org.openhab.core.automation.module.script.interna
  * @property {string} [group.function] the group function, such as 'EQUALITY' or `AND`
  * @property {string[]} [group.parameters] optional parameters for the group function, e.g. `ON` and `OFF` for the `AND` function
  * @property {string|object} [channels] for single channel link a string or for multiple an object { channeluid: configuration }; configuration is an object
- * @property {*} [metadata] either object `{ namespace: value }` or `{ namespace: `{@link ItemMetadata}` }`
+ * @property {*} [metadata] either object `{ namespace: value }` or `{ namespace: `{@link items.ItemMetadata}` }`
  * @property {string} [format] short form for the stateDescription metadata's pattern configuration
  * @property {string} [unit] short form for the unit metadata's value
  * @property {boolean} [autoupdate] short form for the autoupdate metadata's value
- */
-/**
- * @typedef {import('./metadata').ItemMetadata} ItemMetadata
- * @private
- */
-/**
- * @typedef {import('@js-joda/core').ZonedDateTime} ZonedDateTime
- * @private
- */
-/**
- * @typedef {import('@js-joda/core').Instant} Instant
- * @private
- */
-/**
- * @typedef {import('@js-joda/core').Duration} Duration
- * @private
- */
-/**
- * @typedef {import('../quantity').Quantity} Quantity
- * @private
  */
 
 let eventSource = null;
@@ -338,7 +319,7 @@ class Item {
    *
    * @see items.metadata.getMetadata
    * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is returned, else all metadata is returned
-   * @returns {{ namespace: ItemMetadata }|ItemMetadata|null} all metadata as an object with the namespaces as properties OR metadata of a single namespace or `null` if that namespace doesn't exist; the metadata itself is of type {@link ItemMetadata}
+   * @returns {{ namespace: items.ItemMetadata }|items.ItemMetadata|null} all metadata as an object with the namespaces as properties OR metadata of a single namespace or `null` if that namespace doesn't exist; the metadata itself is of type {@link items.ItemMetadata}
    */
   getMetadata (namespace) {
     return metadata.getMetadata(this.name, namespace);
@@ -353,7 +334,7 @@ class Item {
    * @param {string} namespace name of the metadata
    * @param {string} value value for this metadata
    * @param {object} [configuration] optional metadata configuration
-   * @returns {ItemMetadata|null} old {@link items.metadata.ItemMetadata} or `null` if the Item has no metadata with the given name
+   * @returns {items.ItemMetadata|null} old {@link items.metadata.ItemMetadata} or `null` if the Item has no metadata with the given name
    */
   replaceMetadata (namespace, value, configuration) {
     return metadata.replaceMetadata(this.name, namespace, value, configuration);
@@ -364,7 +345,7 @@ class Item {
    *
    * @see items.metadata.removeMetadata
    * @param {string} [namespace] name of the metadata: if provided, only metadata of this namespace is removed, else all metadata is removed
-   * @returns {ItemMetadata|null} removed {@link items.metadata.ItemMetadata} OR `null` if the Item has no metadata under the given namespace or all metadata was removed
+   * @returns {items.ItemMetadata|null} removed {@link items.metadata.ItemMetadata} OR `null` if the Item has no metadata under the given namespace or all metadata was removed
    */
   removeMetadata (namespace) {
     return metadata.removeMetadata(this.name, namespace);
@@ -381,9 +362,9 @@ class Item {
    * // Turn on the Hallway lights for 5 minutes, then turn them off
    * items.getItem('HallwayLight').sendCommand('ON', time.Duration.ofMinutes(5), 'OFF');
    *
-   * @param {string|number|ZonedDateTime|Instant|Quantity|HostState|null} value the value of the command to send, such as 'ON'
-   * @param {Duration} [expire] optional duration (see {@link https://js-joda.github.io/js-joda/class/packages/core/src/Duration.js~Duration.html JS-Joda: Duration}) after which the command expires and the Item is commanded back to its previous state or `onExpire`
-   * @param {string|number|ZonedDateTime|Instant|Quantity|HostState} [onExpire] the optional value of the command to apply on expire, default is the current state
+   * @param {string|number|time.ZonedDateTime|time.Instant|Quantity|HostState|null} value the value of the command to send, such as 'ON'
+   * @param {time.Duration} [expire] optional duration (see {@link https://js-joda.github.io/js-joda/class/packages/core/src/Duration.js~Duration.html JS-Joda: Duration}) after which the command expires and the Item is commanded back to its previous state or `onExpire`
+   * @param {string|number|time.ZonedDateTime|time.Instant|Quantity|HostState} [onExpire] the optional value of the command to apply on expire, default is the current state
    * @see sendCommandIfDifferent
    * @see postUpdate
    */
@@ -415,7 +396,7 @@ class Item {
   /**
    * Sends a command to the Item, but only if the current state is not what is being sent.
    *
-   * @param {string|number|ZonedDateTime|Instant|Quantity|HostState} value the value of the command to send, such as 'ON'
+   * @param {string|number|time.ZonedDateTime|time.Instant|Quantity|HostState} value the value of the command to send, such as 'ON'
    * @returns {boolean} true if the command was sent, false otherwise
    * @see sendCommand
    */
@@ -561,7 +542,7 @@ class Item {
   /**
    * Posts an update to the Item.
    *
-   * @param {string|number|ZonedDateTime|Instant|Quantity|HostState|null} value the value of the command to send, such as 'ON'
+   * @param {string|number|time.ZonedDateTime|time.Instant|Quantity|HostState|null} value the value of the command to send, such as 'ON'
    * @see postToggleUpdate
    * @see sendCommand
    */
@@ -873,11 +854,12 @@ const itemProperties = {
   Item,
   metadata,
   itemChannelLink,
-  /**
-   * @type {RiemannType}
-   */
   RiemannType: ItemPersistence.RiemannType,
-  TimeSeries
+  TimeSeries,
+  ItemPersistence,
+  ItemSemantics,
+  PersistedItem,
+  PersistedState
 };
 
 /**
