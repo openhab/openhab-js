@@ -1,5 +1,12 @@
 # Changelog
 
+## 5.20.0
+
+This release brings major enhancements to the TypeScript definitions shipped with the library.
+It contains no functional changes.
+
+Also see the [Release Milestone](https://github.com/openhab/openhab-js/milestone/53).
+
 ## 5.19.0
 
 | Type        | Namespace | Description                                         | Reference                                              | Breaking |
