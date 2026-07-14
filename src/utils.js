@@ -11,11 +11,11 @@ const log = require('./log')('utils');
 const { _isZonedDateTime, _isInstant, _isDuration } = require('./helpers');
 const time = require('@js-joda/core');
 
-const JavaSet = Java.type('java.util.Set');
+const JSet = Java.type('java.util.Set');
 const HashSet = Java.type('java.util.HashSet');
-const JavaList = Java.type('java.util.List');
+const JList = Java.type('java.util.List');
 const ArrayList = Java.type('java.util.ArrayList');
-const JavaMap = Java.type('java.util.Map');
+const JMap = Java.type('java.util.Map');
 const LinkedHashMap = Java.type('java.util.LinkedHashMap');
 const LinkedHashSet = Java.type('java.util.LinkedHashSet');
 
@@ -262,7 +262,7 @@ function jsify (val) {
   }
 
   // Convert Java List to JS array
-  if (val instanceof JavaList) {
+  if (val instanceof JList) {
     const arr = [];
     val.forEach((element) => {
       arr.push(jsify(element));
@@ -271,7 +271,7 @@ function jsify (val) {
   }
 
   // Convert Java Set to JS Set
-  if (val instanceof JavaSet) {
+  if (val instanceof JSet) {
     const set = new Set();
     val.forEach((element) => {
       set.add(jsify(element));
@@ -280,7 +280,7 @@ function jsify (val) {
   }
 
   // Convert Java Map to JS object
-  if (val instanceof JavaMap) {
+  if (val instanceof JMap) {
     const obj = {};
     val.forEach((key, value) => {
       obj[key] = jsify(value);
