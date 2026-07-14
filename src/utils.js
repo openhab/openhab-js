@@ -8,11 +8,22 @@
  */
 const OPENHAB_JS_VERSION = require('../package.json').version;
 const log = require('./log')('utils');
+const { _isZonedDateTime, _isInstant, _isDuration } = require('./helpers');
+const time = require('@js-joda/core');
 
+const JSet = Java.type('java.util.Set');
 const HashSet = Java.type('java.util.HashSet');
+const JList = Java.type('java.util.List');
 const ArrayList = Java.type('java.util.ArrayList');
+const JMap = Java.type('java.util.Map');
 const LinkedHashMap = Java.type('java.util.LinkedHashMap');
 const LinkedHashSet = Java.type('java.util.LinkedHashSet');
+
+const ZonedDateTime = Java.type('java.time.ZonedDateTime');
+const Instant = Java.type('java.time.Instant');
+const Duration = Java.type('java.time.Duration');
+const LocalDate = Java.type('java.time.LocalDate');
+const LocalDateTime = Java.type('java.time.LocalDateTime');
 
 /**
  * Utils namespace.
@@ -132,6 +143,7 @@ function javaSetToJsSet (set) {
 /**
  * Recursively convert any value, array or object to use Java types. Functions are not supported.
  *
+ * @memberOf utils
  * @param {*} val the value to convert
  * @returns {*} The value converted to using Java types.
  */
@@ -152,30 +164,30 @@ function javaify (val) {
     return val;
   }
 
-  // Convert js-joda objects
+  // Convert JS-Joda objects
+  if (_isZonedDateTime(val)) {
+    return ZonedDateTime.parse(val.toString());
+  }
+  if (_isInstant(val)) {
+    return Instant.ofEpochMilli(val.toEpochMilli());
+  }
+  if (_isDuration(val)) {
+    return Duration.ofNanos(val.toNanos());
+  }
+
   if (val.constructor && val.constructor.name) {
     const typeName = val.constructor.name;
-
     if (typeName === 'LocalDate') {
-      return Java.type('java.time.LocalDate').parse(val.toString());
-    }
-    if (typeName === 'ZonedDateTime') {
-      return Java.type('java.time.ZonedDateTime').parse(val.toString());
+      return LocalDate.parse(val.toString());
     }
     if (typeName === 'LocalDateTime') {
-      return Java.type('java.time.LocalDateTime').parse(val.toString());
-    }
-    if (typeName === 'Instant') {
-      return Java.type('java.time.Instant').ofEpochMilli(val.toEpochMilli());
-    }
-    if (typeName === 'Duration') {
-      return Java.type('java.time.Duration').ofNanos(val.toNanos());
+      return LocalDateTime.parse(val.toString());
     }
   }
 
   // Convert JavaScript Date
   if (val instanceof Date) {
-    return Java.type('java.time.Instant').ofEpochMilli(val.getTime());
+    return Instant.ofEpochMilli(val.getTime());
   }
 
   // Convert arrays
@@ -211,6 +223,72 @@ function javaify (val) {
     map.put(key, javaify(val[key]));
   }
   return map;
+}
+
+/**
+ * Recursively convert Java Lists, Sets, and Maps and their entries/values to their JS counterparts.
+ * `java.time.*` objects are not automatically converted.
+ *
+ * @memberOf utils
+ * @param {*} val the value to convert
+ * @return {*} The value converted to using JavaScript types.
+ */
+function jsify (val) {
+  if (val === null || val === undefined) {
+    return null;
+  }
+
+  if (!Java.isJavaObject(val)) {
+    return val;
+  }
+
+  if (val instanceof ZonedDateTime) {
+    const epoch = val.toInstant().toEpochMilli();
+    const instant = time.Instant.ofEpochMilli(epoch);
+    const zone = time.ZoneId.of(val.getZone().toString());
+    return time.ZonedDateTime.ofInstant(instant, zone);
+  }
+  if (val instanceof Instant) {
+    return time.Instant.ofEpochMilli(val.toEpochMilli());
+  }
+  if (val instanceof Duration) {
+    return time.Duration.ofNanos(val.toNanos());
+  }
+  if (val instanceof LocalDate) {
+    return time.LocalDate.parse(val.toString());
+  }
+  if (val instanceof LocalDateTime) {
+    return time.LocalDateTime.parse(val.toString());
+  }
+
+  // Convert Java List to JS array
+  if (val instanceof JList) {
+    const arr = [];
+    val.forEach((element) => {
+      arr.push(jsify(element));
+    });
+    return arr;
+  }
+
+  // Convert Java Set to JS Set
+  if (val instanceof JSet) {
+    const set = new Set();
+    val.forEach((element) => {
+      set.add(jsify(element));
+    });
+    return set;
+  }
+
+  // Convert Java Map to JS object
+  if (val instanceof JMap) {
+    const obj = {};
+    val.forEach((key, value) => {
+      obj[key] = jsify(value);
+    });
+    return obj;
+  }
+
+  return val;
 }
 
 /**
@@ -289,6 +367,7 @@ module.exports = {
   javaMapToJsMap,
   javaMapToJsObj,
   javaify,
+  jsify,
   randomUUID,
   dumpObject,
   OPENHAB_JS_VERSION

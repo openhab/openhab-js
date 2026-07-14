@@ -65,10 +65,20 @@ export function javaMapToJsObj(map: JavaMap): any;
 /**
  * Recursively convert any value, array or object to use Java types. Functions are not supported.
  *
+ * @memberOf utils
  * @param {*} val the value to convert
  * @returns {*} The value converted to using Java types.
  */
 export function javaify(val: any): any;
+/**
+ * Recursively convert Java Lists, Sets, and Maps and their entries/values to their JS counterparts.
+ * `java.time.*` objects are not automatically converted.
+ *
+ * @memberOf utils
+ * @param {*} val the value to convert
+ * @return {*} The value converted to using JavaScript types.
+ */
+export function jsify(val: any): any;
 /**
  * Generate a random UUID.
  *
