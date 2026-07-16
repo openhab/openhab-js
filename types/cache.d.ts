@@ -14,7 +14,7 @@ export class JSCache {
      * @param {function} [defaultSupplier] if the specified key is not already associated with a value, this function will return a default value
      * @returns {*|null} the current object for the supplied key, the value returned by defaultSupplier (if provided), or `null`
      */
-    get(key: string, defaultSupplier?: Function): any | null;
+    get(key: string, defaultSupplier?: Function, jsifyResult?: boolean): any | null;
     /**
      * Associates the specified value with the specified key.
      *
@@ -22,14 +22,14 @@ export class JSCache {
      * @param {*} value value to be associated with the specified key
      * @returns {*|null} the previous value associated with the key, or null if there was no mapping for key
      */
-    put(key: string, value: any): any | null;
+    put(key: string, value: any, jsifyResult?: boolean): any | null;
     /**
      * Removes the mapping for a key from this map if it is present.
      *
      * @param {string} key key whose mapping is to be removed from the cache
      * @returns {*|null} the previous value associated with the key or null if there was no mapping for key
      */
-    remove(key: string): any | null;
+    remove(key: string, jsifyResult?: boolean): any | null;
     /**
      * Checks the mapping for a key from this map.
      *

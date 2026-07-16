@@ -70,7 +70,7 @@ const SCRIPT_TYPE = 'application/javascript';
 const GENERATED_RULE_ITEM_TAG = 'GENERATED_RULE_ITEM';
 
 const items = require('../items/items');
-const { randomUUID, jsArrayToJavaSet, javaMapToJsObj, javaify } = require('../utils');
+const { randomUUID, jsArrayToJavaSet, jsify, javaify } = require('../utils');
 const log = require('../log')('rules');
 const { getService } = require('../osgi');
 const triggers = require('../triggers');
@@ -495,7 +495,7 @@ function _collapseInputMap (input) {
  * @returns {EventObject}
  */
 function _getTriggeredData (rawInput, javaEventBackwardCompat = false) {
-  const inputAsJsObj = javaMapToJsObj(rawInput);
+  const inputAsJsObj = jsify(rawInput);
   const input = _collapseInputMap(inputAsJsObj);
 
   const event = input.event;
@@ -505,7 +505,7 @@ function _getTriggeredData (rawInput, javaEventBackwardCompat = false) {
   const data = {};
 
   // Add input to data to pass through any properties not captured below
-  data.raw = inputAsJsObj;
+  data.raw = rawInput;
 
   // Dynamically added properties, depending on their availability
 

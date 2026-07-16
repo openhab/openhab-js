@@ -5,6 +5,7 @@
  */
 
 const { privateCache, sharedCache } = require('@runtime/cache');
+const { javaify, jsify } = require('./utils');
 
 /**
  * The {@link JSCache} can be used by to share information between subsequent runs of the same script or between scripts (depending on implementation).
@@ -31,14 +32,18 @@ class JSCache {
    * @param {function} [defaultSupplier] if the specified key is not already associated with a value, this function will return a default value
    * @returns {*|null} the current object for the supplied key, the value returned by defaultSupplier (if provided), or `null`
    */
-  get (key, defaultSupplier) {
-    if (this.exists(key)) return this.#valueCache.get(key);
+  get (key, defaultSupplier, jsifyResult = true) {
+    const isShared = this.#isSharedCache();
+    if (this.exists(key)) {
+      const result = this.#valueCache.get(key);
+      return isShared && jsifyResult ? jsify(result) : result;
+    }
     // key doesn't exist in cache: invoke supplier if provided
     if (typeof defaultSupplier !== 'function') return null;
     const supplied = defaultSupplier();
     if (supplied === null) return null; // do not store null values in cache
-    this.#valueCache.put(key, supplied);
-    return supplied;
+    this.#valueCache.put(key, isShared ? javaify(supplied) : supplied);
+    return isShared && jsifyResult ? jsify(supplied) : supplied;
   }
 
   /**
@@ -48,12 +53,11 @@ class JSCache {
    * @param {*} value value to be associated with the specified key
    * @returns {*|null} the previous value associated with the key, or null if there was no mapping for key
    */
-  put (key, value) {
+  put (key, value, jsifyResult = true) {
+    const isShared = this.#isSharedCache();
     // see https://www.graalvm.org/latest/reference-manual/js/JavaScriptCompatibility/ for Java. docs
-    if (typeof value === 'object' && Java.isScriptObject(value) && this.#isSharedCache()) {
-      console.warn(`It is not recommended to store the JS object with the key '${key}' in the shared cache, as JS objects must not be accessed from multiple threads. Multi-threaded access to JS objects will lead to script execution failure.`);
-    }
-    return this.#valueCache.put(key, value);
+    const result = this.#valueCache.put(key, isShared ? javaify(value) : value);
+    return isShared && jsifyResult ? jsify(result) : result;
   }
 
   /**
@@ -62,8 +66,8 @@ class JSCache {
    * @param {string} key key whose mapping is to be removed from the cache
    * @returns {*|null} the previous value associated with the key or null if there was no mapping for key
    */
-  remove (key) {
-    return this.#valueCache.remove(key);
+  remove (key, jsifyResult = true) {
+    return this.#isSharedCache() && jsifyResult ? jsify(this.#valueCache.remove(key)) : this.#valueCache.remove(key);
   }
 
   /**
