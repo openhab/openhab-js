@@ -10,11 +10,6 @@ const OPENHAB_JS_VERSION = require('../package.json').version;
 const log = require('./log')('utils');
 const { _isZonedDateTime, _isInstant, _isDuration, _isItem, _isItemChannelLink, _isItemMetadata, _isThing, _isQuantity } = require('./helpers');
 const time = require('@js-joda/core');
-const { Item } = require('./items/items');
-const { ItemChannelLink } = require('./items/itemchannellink');
-const { ItemMetadata } = require('./items/metadata');
-const { Thing } = require('./things');
-const { Quantity } = require('./quantity');
 
 const JSet = Java.type('java.util.Set');
 const HashSet = Java.type('java.util.HashSet');
@@ -268,6 +263,13 @@ function jsify (val) {
   if (!Java.isJavaObject(val)) {
     return val;
   }
+
+  // Note: Inline requires are used here to prevent circular dependencies during startup, as utils.js is imported by these very classes.
+  const { Item } = require('./items/items');
+  const { ItemChannelLink } = require('./items/itemchannellink');
+  const { ItemMetadata } = require('./items/metadata');
+  const { Thing } = require('./things');
+  const { Quantity } = require('./quantity');
 
   if (val instanceof ZonedDateTime) {
     const epoch = val.toInstant().toEpochMilli();
