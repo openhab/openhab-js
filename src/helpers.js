@@ -59,6 +59,51 @@ function _isItem (o) {
 }
 
 /**
+ * Checks whether the given object is an instance of {@link itemchannellink.ItemChannelLink}.
+ *
+ * To be used when instanceof checks don't work because of circular dependencies or webpack compilation.
+ * Checks constructor name or unique property <code>rawItemChannelLink</code>, because constructor name does not work for the webpacked globals injection.
+ *
+ * @param {*} o
+ * @returns {boolean}
+ * @private
+ */
+function _isItemChannelLink (o) {
+  if (typeof o !== 'object' || o === null) return false;
+  return ((o.constructor && o.constructor.name === 'ItemChannelLink') || typeof o.rawItemChannelLink === 'object');
+}
+
+/**
+ * Checks whether the given object is an instance of {@link metadata.ItemMetadata}.
+ *
+ * To be used when instanceof checks don't work because of circular dependencies or webpack compilation.
+ * Checks constructor name or unique property <code>rawMetadata</code>, because constructor name does not work for the webpacked globals injection.
+ *
+ * @param {*} o
+ * @returns {boolean}
+ * @private
+ */
+function _isItemMetadata (o) {
+  if (typeof o !== 'object' || o === null) return false;
+  return ((o.constructor && o.constructor.name === 'ItemMetadata') || typeof o.rawMetadata === 'object');
+}
+
+/**
+ * Checks whether the given object is an instance of {@link things.Thing}.
+ *
+ * To be used when instanceof checks don't work because of circular dependencies or webpack compilation.
+ * Checks constructor name or unique property <code>rawThing</code>, because constructor name does not work for the webpacked globals injection.
+ *
+ * @param {*} o
+ * @returns {boolean}
+ * @private
+ */
+function _isThing (o) {
+  if (typeof o !== 'object' || o === null) return false;
+  return ((o.constructor && o.constructor.name === 'Thing') || typeof o.rawThing === 'object');
+}
+
+/**
  * Checks whether the given object is an instance of {@link Quantity}.
  *
  * To be used when instanceof checks don't work because of circular dependencies or webpack compilation.
@@ -145,6 +190,9 @@ module.exports = {
   _getItemName,
   _toOpenhabPrimitiveType,
   _isItem,
+  _isItemChannelLink,
+  _isItemMetadata,
+  _isThing,
   _isQuantity,
   _isZonedDateTime,
   _isDuration,
