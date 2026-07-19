@@ -8,7 +8,7 @@
  */
 const OPENHAB_JS_VERSION = require('../package.json').version;
 const log = require('./log')('utils');
-const { _isZonedDateTime, _isInstant, _isDuration } = require('./helpers');
+const { _isZonedDateTime, _isInstant, _isDuration, _isItem, _isItemChannelLink, _isItemMetadata, _isThing, _isQuantity } = require('./helpers');
 const time = require('@js-joda/core');
 
 const JSet = Java.type('java.util.Set');
@@ -24,6 +24,11 @@ const Instant = Java.type('java.time.Instant');
 const Duration = Java.type('java.time.Duration');
 const LocalDate = Java.type('java.time.LocalDate');
 const LocalDateTime = Java.type('java.time.LocalDateTime');
+const JavaItem = Java.type('org.openhab.core.items.Item');
+const JavaItemChannelLink = Java.type('org.openhab.core.thing.link.ItemChannelLink');
+const JavaMetadata = Java.type('org.openhab.core.items.Metadata');
+const JavaThing = Java.type('org.openhab.core.thing.Thing');
+const QuantityType = Java.type('org.openhab.core.library.types.QuantityType');
 
 /**
  * Utils namespace.
@@ -185,6 +190,23 @@ function javaify (val) {
     }
   }
 
+  // Convert OH objects
+  if (_isItem(val) && val.rawItem && Java.isJavaObject(val.rawItem)) {
+    return val.rawItem;
+  }
+  if (_isItemChannelLink(val) && val.rawItemChannelLink && Java.isJavaObject(val.rawItemChannelLink)) {
+    return val.rawItemChannelLink;
+  }
+  if (_isItemMetadata(val) && val.rawMetadata && Java.isJavaObject(val.rawMetadata)) {
+    return val.rawMetadata;
+  }
+  if (_isThing(val) && val.rawThing && Java.isJavaObject(val.rawThing)) {
+    return val.rawThing;
+  }
+  if (_isQuantity(val) && val.rawQtyType && Java.isJavaObject(val.rawQtyType)) {
+    return val.rawQtyType;
+  }
+
   // Convert JavaScript Date
   if (val instanceof Date) {
     return Instant.ofEpochMilli(val.getTime());
@@ -242,6 +264,13 @@ function jsify (val) {
     return val;
   }
 
+  // Note: Inline requires are used here to prevent circular dependencies during startup, as utils.js is imported by these very classes.
+  const { Item } = require('./items/items');
+  const { ItemChannelLink } = require('./items/itemchannellink');
+  const { ItemMetadata } = require('./items/metadata');
+  const { Thing } = require('./things');
+  const { Quantity } = require('./quantity');
+
   if (val instanceof ZonedDateTime) {
     const epoch = val.toInstant().toEpochMilli();
     const instant = time.Instant.ofEpochMilli(epoch);
@@ -259,6 +288,22 @@ function jsify (val) {
   }
   if (val instanceof LocalDateTime) {
     return time.LocalDateTime.parse(val.toString());
+  }
+
+  if (val instanceof JavaItem) {
+    return new Item(val);
+  }
+  if (val instanceof JavaItemChannelLink) {
+    return new ItemChannelLink(val);
+  }
+  if (val instanceof JavaMetadata) {
+    return new ItemMetadata(val);
+  }
+  if (val instanceof JavaThing) {
+    return new Thing(val);
+  }
+  if (val instanceof QuantityType) {
+    return new Quantity(val);
   }
 
   // Convert Java List to JS array
