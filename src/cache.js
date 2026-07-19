@@ -30,6 +30,7 @@ class JSCache {
    *
    * @param {string} key the key whose associated value is to be returned
    * @param {function} [defaultSupplier] if the specified key is not already associated with a value, this function will return a default value
+   * @param {boolean} [true] whether or not the result will be automatically converted to JavaScript objects when possible.
    * @returns {*|null} the current object for the supplied key, the value returned by defaultSupplier (if provided), or `null`
    */
   get (key, defaultSupplier, jsifyResult = true) {
@@ -51,11 +52,11 @@ class JSCache {
    *
    * @param {string} key key with which the specified value is to be associated
    * @param {*} value value to be associated with the specified key
+   * @param {boolean} [true] whether or not the result will be automatically converted to JavaScript objects when possible.
    * @returns {*|null} the previous value associated with the key, or null if there was no mapping for key
    */
   put (key, value, jsifyResult = true) {
     const isShared = this.#isSharedCache();
-    // see https://www.graalvm.org/latest/reference-manual/js/JavaScriptCompatibility/ for Java. docs
     const result = this.#valueCache.put(key, isShared ? javaify(value) : value);
     return isShared && jsifyResult ? jsify(result) : result;
   }
@@ -64,6 +65,7 @@ class JSCache {
    * Removes the mapping for a key from this map if it is present.
    *
    * @param {string} key key whose mapping is to be removed from the cache
+   * @param {boolean} [true] whether or not the result will be automatically converted to JavaScript objects when possible.
    * @returns {*|null} the previous value associated with the key or null if there was no mapping for key
    */
   remove (key, jsifyResult = true) {
