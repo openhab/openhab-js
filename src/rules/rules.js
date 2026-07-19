@@ -70,7 +70,7 @@ const SCRIPT_TYPE = 'application/javascript';
 const GENERATED_RULE_ITEM_TAG = 'GENERATED_RULE_ITEM';
 
 const items = require('../items/items');
-const { randomUUID, jsArrayToJavaSet, javaMapToJsObj, jsify, javaify } = require('../utils');
+const { randomUUID, jsArrayToJavaSet, javaMapToJsObj, javaify } = require('../utils');
 const log = require('../log')('rules');
 const { getService } = require('../osgi');
 const triggers = require('../triggers');
@@ -496,7 +496,7 @@ function _collapseInputMap (input) {
  */
 function _getTriggeredData (rawInput, javaEventBackwardCompat = false) {
   const inputAsJsObj = javaMapToJsObj(rawInput);
-  const input = jsify(_collapseInputMap(inputAsJsObj));
+  const input = _collapseInputMap(inputAsJsObj);
 
   const event = input.event;
   /**
