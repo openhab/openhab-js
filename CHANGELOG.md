@@ -1,5 +1,8 @@
 # Changelog
 
+This changelog file has been discontinued – we instead use GitHub's [Releases](https://github.com/openhab/openhab-js/releases) feature.
+Please refer to [Releases](https://github.com/openhab/openhab-js/releases) for changelog.
+
 ## 5.20.0
 
 This release brings major enhancements to the TypeScript definitions shipped with the library.
