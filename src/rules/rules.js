@@ -505,7 +505,7 @@ function _getTriggeredData (rawInput, javaEventBackwardCompat = false) {
   const data = {};
 
   // Add input to data to pass through any properties not captured below
-  data.raw = inputAsJsObj;
+  data.raw = rawInput;
 
   // Dynamically added properties, depending on their availability
 

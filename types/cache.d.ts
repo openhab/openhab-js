@@ -11,25 +11,28 @@ export class JSCache {
      * Returns the value to which the specified key is mapped.
      *
      * @param {string} key the key whose associated value is to be returned
-     * @param {function} [defaultSupplier] if the specified key is not already associated with a value, this function will return a default value
+     * @param {function} [defaultSupplier] if the specified key is not already associated with a value, this function will return a default value. The output of the function will be run through javaify() if the cache is shared, since the shared cache can't contain JavaScript objects.
+     * @param {boolean} [jsifyResult=true] whether or not the result will be automatically converted to JavaScript objects when possible
      * @returns {*|null} the current object for the supplied key, the value returned by defaultSupplier (if provided), or `null`
      */
-    get(key: string, defaultSupplier?: Function): any | null;
+    get(key: string, defaultSupplier?: Function, jsifyResult?: boolean): any | null;
     /**
      * Associates the specified value with the specified key.
      *
      * @param {string} key key with which the specified value is to be associated
-     * @param {*} value value to be associated with the specified key
+     * @param {*} value value to be associated with the specified key. The value will be run through javaify() if the cache is shared, since the shared cache can't contain JavaScript objects.
+     * @param {boolean} [jsifyResult=true] whether or not the result will be automatically converted to JavaScript objects when possible
      * @returns {*|null} the previous value associated with the key, or null if there was no mapping for key
      */
-    put(key: string, value: any): any | null;
+    put(key: string, value: any, jsifyResult?: boolean): any | null;
     /**
      * Removes the mapping for a key from this map if it is present.
      *
      * @param {string} key key whose mapping is to be removed from the cache
+     * @param {boolean} [jsifyResult=true] whether or not the result will be automatically converted to JavaScript objects when possible
      * @returns {*|null} the previous value associated with the key or null if there was no mapping for key
      */
-    remove(key: string): any | null;
+    remove(key: string, jsifyResult?: boolean): any | null;
     /**
      * Checks the mapping for a key from this map.
      *
