@@ -104,7 +104,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="cache.js.html">cache.js</a>, <a href="cache.js.html#line75">line 75</a>
+        <a href="cache.js.html">cache.js</a>, <a href="cache.js.html#line81">line 81</a>
     </li></ul></dd>
     
 
@@ -246,7 +246,7 @@
 
     
 
-    <h4 class="name" id="get"><span class="type-signature"></span>get<span class="signature">(key, defaultSupplier<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {*|null}</span></h4>
+    <h4 class="name" id="get"><span class="type-signature"></span>get<span class="signature">(key, defaultSupplier<span class="signature-attributes">opt</span>, jsifyResult<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {*|null}</span></h4>
 
     
 
@@ -262,7 +262,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="cache.js.html">cache.js</a>, <a href="cache.js.html#line34">line 34</a>
+        <a href="cache.js.html">cache.js</a>, <a href="cache.js.html#line36">line 36</a>
     </li></ul></dd>
     
 
@@ -326,6 +326,8 @@
         
 
         
+        <th>Default</th>
+        
 
         <th class="last">Description</th>
     </tr>
@@ -359,6 +361,10 @@
                 </td>
             
 
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last"><p>the key whose associated value is to be returned</p></td>
@@ -394,8 +400,52 @@
             
 
             
+                <td class="default">
+                
+                </td>
+            
 
-            <td class="description last"><p>if the specified key is not already associated with a value, this function will return a default value</p></td>
+            <td class="description last"><p>if the specified key is not already associated with a value, this function will return a default value. The output of the function will be run through javaify() if the cache is shared, since the shared cache can't contain JavaScript objects.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>jsifyResult</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>true</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>whether or not the result will be automatically converted to JavaScript objects when possible</p></td>
         </tr>
 
     
@@ -451,7 +501,7 @@
 
     
 
-    <h4 class="name" id="put"><span class="type-signature"></span>put<span class="signature">(key, value)</span><span class="type-signature"> &rarr; {*|null}</span></h4>
+    <h4 class="name" id="put"><span class="type-signature"></span>put<span class="signature">(key, value, jsifyResult<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {*|null}</span></h4>
 
     
 
@@ -467,7 +517,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="cache.js.html">cache.js</a>, <a href="cache.js.html#line51">line 51</a>
+        <a href="cache.js.html">cache.js</a>, <a href="cache.js.html#line58">line 58</a>
     </li></ul></dd>
     
 
@@ -527,7 +577,11 @@
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -553,7 +607,19 @@
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last"><p>key with which the specified value is to be associated</p></td>
@@ -577,10 +643,62 @@
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
             
 
-            <td class="description last"><p>value to be associated with the specified key</p></td>
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>value to be associated with the specified key. The value will be run through javaify() if the cache is shared, since the shared cache can't contain JavaScript objects.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>jsifyResult</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>true</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>whether or not the result will be automatically converted to JavaScript objects when possible</p></td>
         </tr>
 
     
@@ -636,7 +754,7 @@
 
     
 
-    <h4 class="name" id="remove"><span class="type-signature"></span>remove<span class="signature">(key)</span><span class="type-signature"> &rarr; {*|null}</span></h4>
+    <h4 class="name" id="remove"><span class="type-signature"></span>remove<span class="signature">(key, jsifyResult<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {*|null}</span></h4>
 
     
 
@@ -652,7 +770,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="cache.js.html">cache.js</a>, <a href="cache.js.html#line65">line 65</a>
+        <a href="cache.js.html">cache.js</a>, <a href="cache.js.html#line71">line 71</a>
     </li></ul></dd>
     
 
@@ -712,7 +830,11 @@
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -738,10 +860,62 @@
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last"><p>key whose mapping is to be removed from the cache</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>jsifyResult</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>true</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>whether or not the result will be automatically converted to JavaScript objects when possible</p></td>
         </tr>
 
     
@@ -812,7 +986,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Tue Jul 14 2026 17:56:58 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Tue Jul 21 2026 21:22:45 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
