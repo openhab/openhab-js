@@ -36,7 +36,8 @@
  * @property {string} eventTopic for all triggers: topic of the triggering event
  * @property {string|null} eventSource for all triggers: source of the triggering event or null if not specified
  * @property {string} module (user-defined or auto-generated) name of trigger
- * @property {*} raw original contents of the event including data passed from a calling rule
+ * @property {JavaMap} raw original contents of the event including data passed from a calling rule
+ * @property {Record<string, unknown>} inputs the same as 'raw' except that it's a JS object instead of a Java Map, and the keys exist without prefix
  * @property {*} payload if provided by event: payload of event in Java data types
  */
 
@@ -496,9 +497,9 @@ function _collapseInputMap (input) {
  */
 function _getTriggeredData (rawInput, javaEventBackwardCompat = false) {
   const inputAsJsObj = javaMapToJsObj(rawInput);
-  const input = _collapseInputMap(inputAsJsObj);
+  const inputs = _collapseInputMap(inputAsJsObj);
 
-  const event = input.event;
+  const event = inputs.event;
   /**
    * @type {EventObject}
    */
@@ -506,22 +507,23 @@ function _getTriggeredData (rawInput, javaEventBackwardCompat = false) {
 
   // Add input to data to pass through any properties not captured below
   data.raw = rawInput;
+  data.inputs = inputs;
 
   // Dynamically added properties, depending on their availability
 
   // Item triggers
-  data.receivedCommand = input.command?.toString();
-  data.oldState = input.oldState?.toString();
-  data.newState = input.newState?.toString();
-  data.receivedState = input.state?.toString();
+  data.receivedCommand = inputs.command?.toString();
+  data.oldState = inputs.oldState?.toString();
+  data.newState = inputs.newState?.toString();
+  data.receivedState = inputs.state?.toString();
 
   // Group Item triggers
-  data.groupName = input.triggeringGroup?.getName().toString();
+  data.groupName = inputs.triggeringGroup?.getName().toString();
 
   // Thing triggers
-  data.oldStatus = input.oldStatus?.toString();
-  data.newStatus = input.newStatus?.toString();
-  data.status = input.status?.toString();
+  data.oldStatus = inputs.oldStatus?.toString();
+  data.newStatus = inputs.newStatus?.toString();
+  data.status = inputs.status?.toString();
 
   // Properties added if event is available
 
@@ -601,7 +603,7 @@ function _getTriggeredData (rawInput, javaEventBackwardCompat = false) {
     }
   }
 
-  data.module = input.module?.toString();
+  data.module = inputs.module?.toString();
 
   // backward compatibility with the pure Java event object
   if (javaEventBackwardCompat) {
