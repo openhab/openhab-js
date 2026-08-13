@@ -12,24 +12,26 @@ export class JSCache {
      *
      * @param {string} key the key whose associated value is to be returned
      * @param {function} [defaultSupplier] if the specified key is not already associated with a value, this function will return a default value. The output of the function will be run through javaify() if the cache is shared, since the shared cache can't contain JavaScript objects.
-     * @param {boolean} [jsifyResult=true] whether or not the result will be automatically converted to JavaScript objects when possible
+     * @param {boolean} [jsifyResult=true] whether or not the result will be automatically converted to JavaScript objects when possible, if the cache is shared
+     * @param {boolean} [javaifyValue=true] whether or not the supplier generated value will be automatically converted to Java objects, if the cache is shared and the entry doesn't exist
      * @returns {*|null} the current object for the supplied key, the value returned by defaultSupplier (if provided), or `null`
      */
-    get(key: string, defaultSupplier?: Function, jsifyResult?: boolean): any | null;
+    get(key: string, defaultSupplier?: Function, jsifyResult?: boolean, javaifyValue?: boolean): any | null;
     /**
      * Associates the specified value with the specified key.
      *
      * @param {string} key key with which the specified value is to be associated
-     * @param {*} value value to be associated with the specified key. The value will be run through javaify() if the cache is shared, since the shared cache can't contain JavaScript objects.
-     * @param {boolean} [jsifyResult=true] whether or not the result will be automatically converted to JavaScript objects when possible
+     * @param {*} value value to be associated with the specified key.
+     * @param {boolean} [javaifyValue=true] whether or not the value will be automatically converted to Java objects if the cache is shared
+     * @param {boolean} [jsifyResult=true] whether or not the result will be automatically converted to JavaScript objects when possible, if the cache is shared
      * @returns {*|null} the previous value associated with the key, or null if there was no mapping for key
      */
-    put(key: string, value: any, jsifyResult?: boolean): any | null;
+    put(key: string, value: any, javaifyValue?: boolean, jsifyResult?: boolean): any | null;
     /**
      * Removes the mapping for a key from this map if it is present.
      *
      * @param {string} key key whose mapping is to be removed from the cache
-     * @param {boolean} [jsifyResult=true] whether or not the result will be automatically converted to JavaScript objects when possible
+     * @param {boolean} [jsifyResult=true] whether or not the result will be automatically converted to JavaScript objects when possible, if the cache is shared
      * @returns {*|null} the previous value associated with the key or null if there was no mapping for key
      */
     remove(key: string, jsifyResult?: boolean): any | null;
