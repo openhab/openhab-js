@@ -30,10 +30,11 @@ class JSCache {
    *
    * @param {string} key the key whose associated value is to be returned
    * @param {function} [defaultSupplier] if the specified key is not already associated with a value, this function will return a default value. The output of the function will be run through javaify() if the cache is shared, since the shared cache can't contain JavaScript objects.
-   * @param {boolean} [jsifyResult=true] whether or not the result will be automatically converted to JavaScript objects when possible
+   * @param {boolean} [jsifyResult=true] whether or not the result will be automatically converted to JavaScript objects when possible, if the cache is shared
+   * @param {boolean} [javaifyValue=true] whether or not the supplier generated value will be automatically converted to Java objects, if the cache is shared and the entry doesn't exist
    * @returns {*|null} the current object for the supplied key, the value returned by defaultSupplier (if provided), or `null`
    */
-  get (key, defaultSupplier, jsifyResult = true) {
+  get (key, defaultSupplier, jsifyResult = true, javaifyValue = true) {
     const isShared = this.#isSharedCache();
     if (this.exists(key)) {
       const result = this.#valueCache.get(key);
@@ -43,7 +44,7 @@ class JSCache {
     if (typeof defaultSupplier !== 'function') return null;
     const supplied = defaultSupplier();
     if (supplied === null) return null; // do not store null values in cache
-    this.#valueCache.put(key, isShared ? javaify(supplied) : supplied);
+    this.#valueCache.put(key, isShared && javaifyValue ? javaify(supplied) : supplied);
     return isShared && jsifyResult ? jsify(supplied) : supplied;
   }
 
@@ -51,13 +52,14 @@ class JSCache {
    * Associates the specified value with the specified key.
    *
    * @param {string} key key with which the specified value is to be associated
-   * @param {*} value value to be associated with the specified key. The value will be run through javaify() if the cache is shared, since the shared cache can't contain JavaScript objects.
-   * @param {boolean} [jsifyResult=true] whether or not the result will be automatically converted to JavaScript objects when possible
+   * @param {*} value value to be associated with the specified key.
+   * @param {boolean} [javaifyValue=true] whether or not the value will be automatically converted to Java objects if the cache is shared
+   * @param {boolean} [jsifyResult=true] whether or not the result will be automatically converted to JavaScript objects when possible, if the cache is shared
    * @returns {*|null} the previous value associated with the key, or null if there was no mapping for key
    */
-  put (key, value, jsifyResult = true) {
+  put (key, value, javaifyValue = true, jsifyResult = true) {
     const isShared = this.#isSharedCache();
-    const result = this.#valueCache.put(key, isShared ? javaify(value) : value);
+    const result = this.#valueCache.put(key, isShared && javaifyValue ? javaify(value) : value);
     return isShared && jsifyResult ? jsify(result) : result;
   }
 
@@ -65,7 +67,7 @@ class JSCache {
    * Removes the mapping for a key from this map if it is present.
    *
    * @param {string} key key whose mapping is to be removed from the cache
-   * @param {boolean} [jsifyResult=true] whether or not the result will be automatically converted to JavaScript objects when possible
+   * @param {boolean} [jsifyResult=true] whether or not the result will be automatically converted to JavaScript objects when possible, if the cache is shared
    * @returns {*|null} the previous value associated with the key or null if there was no mapping for key
    */
   remove (key, jsifyResult = true) {
