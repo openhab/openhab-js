@@ -202,12 +202,6 @@ const HTTP = Java.type('org.openhab.core.model.script.actions.HTTP');
  *
  * The static methods of this class are made available as functions in the scripts. This allows a script to log to the SLF4J-Log.
  *
- * @example
- * Log.logDebug(String loggerName, String format, Object... args)
- * Log.logError(String loggerName, String format, Object... args)
- * Log.logInfo(String loggerName, String format, Object... args)
- * Log.logWarn(String loggerName, String format, Object... args)
- *
  * @deprecated Use {@link https://www.openhab.org/addons/automation/jsscripting/#console <code>console</code>} logging instead.
  * @name Log
  * @memberof actions
@@ -282,18 +276,6 @@ class ScriptExecution {
  *
  * The static methods of this class are made available as functions in the scripts. This allows a script to use Semantics features.
  *
- * @example
- * Semantics.getEquipment(Item item)
- * Semantics.getEquipmentType(Item item)
- * Semantics.getLocation(Item item)
- * Semantics.getLocationType(Item item)
- * Semantics.getPointType(Item item)
- * Semantics.getPropertyType(Item item)
- * Semantics.getSemanticType(Item item)
- * Semantics.isEquipment(Item item)
- * Semantics.isLocation(Item item)
- * Semantics.isPoint(Item item)
- *
  * @deprecated Use {@link items.ItemSemantics} available through the <code>semantics</code> property of {@link items.Item} instead.
  * @name Semantics
  * @memberof actions
@@ -304,10 +286,6 @@ const Semantics = Java.type('org.openhab.core.model.script.actions.Semantics');
  * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/Things.html Things} Actions
  *
  * This class provides static methods that can be used in automation rules for getting thing's status info.
- *
- * @example
- * Things.getActions(String bindingId, String thingUid)
- * Things.getThingStatusInfo(String thingUid)
  *
  * @deprecated Use {@link actions.thingActions} and <code>status</code>, <code>statusInfo</code> of {@link things.Thing} instead.
  * @name Things
