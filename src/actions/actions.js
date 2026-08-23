@@ -48,20 +48,7 @@ actionServices.forEach((a) => {
  * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/audio Audio} Actions
  *
  * The static methods of this class are made available as functions in the scripts. This allows a script to use audio features.
- *
- * @example
- * Audio.decreaseMasterVolume(float percent)
- * Audio.getMasterVolume()
- * Audio.increaseMasterVolume(float percent)
- * Audio.playSound(String filename)
- * Audio.playSound(String sink, String filename)
- * Audio.playSound(String sink, String filename, PercentType volume)
- * Audio.playSound(String filename, PercentType volume)
- * Audio.playStream(String url)
- * Audio.playStream(String sink, String url)
- * Audio.setMasterVolume(float volume)
- * Audio.setMasterVolume(PercentType percent)
- * Audio.decreaseMasterVolume(1.0)
+ * Refer to {@link https://www.openhab.org/docs/configuration/multimedia.html#actions openHAB Docs: Audio Actions} for more information.
  *
  * @name Audio
  * @memberof actions
@@ -72,20 +59,9 @@ const Audio = Java.type('org.openhab.core.model.script.actions.Audio');
  * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/busevent BusEvent} Actions
  *
  * The static methods of this class are made available as functions in the scripts. This gives direct write access to the openHAB event bus from within scripts. Items should not be updated directly (setting the state property), but updates should be sent to the bus, so that all interested bundles are notified.
+ * Refer to {@link https://www.openhab.org/docs/configuration/actions.html#event-bus-actions openHAB Docs: Event Bus Actions} for more information.
  *
  * Instead of using the BusEvent actions, it is recommended to use the `postUpdate` and `sendCommand` methods of {@link items.Item}.
- *
- * @example
- * BusEvent.postUpdate(String itemName, String stateString)
- * BusEvent.postUpdate(Item item, Number state)
- * BusEvent.postUpdate(Item item, String stateAsString)
- * BusEvent.postUpdate(Item item, State state)
- * BusEvent.restoreStates(Map<Item, State> statesMap)
- * BusEvent.sendCommand(String itemName, String commandString)
- * BusEvent.sendCommand(Item item, Number number)
- * BusEvent.sendCommand(Item item, String commandString)
- * BusEvent.sendCommand(Item item, Command command)
- * BusEvent.storeStates(Item... items)
  *
  * @name BusEvent
  * @memberof actions
@@ -96,19 +72,7 @@ const BusEvent = Java.type('org.openhab.core.model.script.actions.BusEvent');
  * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/coreutil CoreUtil} Actions
  *
  * This class provides static methods mapping methods from package {@link https://www.openhab.org/javadoc/latest/org/openhab/core/util/package-summary org.openhab.core.util}.
- *
- * Its functionality includes:
- * @example
- * CoreUtil.hsbToRgb(HSBType hsb) -> int[]
- * CoreUtil.hsbToRgbPercent(HSBType hsb) -> PercentType[]
- * CoreUtil.hsbTosRGB(HSBType hsb) -> int
- * CoreUtil.hsbToRgbw(HSBType hsb) -> int[]
- * CoreUtil.hsbToRgbwPercent(HSBType hsb) -> PercentType[]
- * CoreUtil.rgbToHsb(int[] rgb) -> HSBType
- * CoreUtil.rgbToHsb(PercentType[] rgb) -> HSBType
- * CoreUtil.xyToDuv(double[] xy) -> double
- * CoreUtil.kelvinToXY(double kelvin) -> double[]
- * CoreUtil.xyToKelvin(double[] xy) -> double
+ * Refer to {@link https://www.openhab.org/docs/configuration/actions.html#color-utilities openHAB Docs: Color Utilities} for more information.
  *
  * @name CoreUtil
  * @memberof actions
@@ -119,36 +83,7 @@ const CoreUtil = JavaCoreUtil;
  * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/ephemeris Ephemeris} Actions
  *
  * The static methods of this class are made available as functions in the scripts. This allows a script to use ephemeris features.
- * @example
- * Ephemeris.getBankHolidayName()
- * Ephemeris.getBankHolidayName(int offset)
- * Ephemeris.getBankHolidayName(int offset, String filename)
- * Ephemeris.getBankHolidayName(String filename)
- * Ephemeris.getBankHolidayName(ZonedDateTime day)
- * Ephemeris.getBankHolidayName(ZonedDateTime day, String filename)
- * Ephemeris.getDaysUntil(String searchedHoliday)
- * Ephemeris.getDaysUntil(String searchedHoliday, String filename)
- * Ephemeris.getDaysUntil(ZonedDateTime day, String searchedHoliday)
- * Ephemeris.getDaysUntil(ZonedDateTime day, String searchedHoliday, String filename)
- * Ephemeris.getHolidayDescription(@Nullable String holiday)
- * Ephemeris.getNextBankHoliday()
- * Ephemeris.getNextBankHoliday(int offset)
- * Ephemeris.getNextBankHoliday(int offset, String filename)
- * Ephemeris.getNextBankHoliday(String filename)
- * Ephemeris.getNextBankHoliday(ZonedDateTime day)
- * Ephemeris.getNextBankHoliday(ZonedDateTime day, String filename)
- * Ephemeris.isBankHoliday()
- * Ephemeris.isBankHoliday(int offset)
- * Ephemeris.isBankHoliday(int offset, String filename)
- * Ephemeris.isBankHoliday(String filename)
- * Ephemeris.isBankHoliday(ZonedDateTime day)
- * Ephemeris.isBankHoliday(ZonedDateTime day, String filename)
- * Ephemeris.isInDayset(String daysetName)
- * Ephemeris.isInDayset(String daysetName, int offset)
- * Ephemeris.isInDayset(String daysetName, ZonedDateTime day)
- * Ephemeris.isWeekend()
- * Ephemeris.isWeekend(int offset)
- * Ephemeris.isWeekend(ZonedDateTime day)
+ * Refer to {@link https://www.openhab.org/docs/configuration/actions.html#actions-examples openHAB Docs: Ephemeris Actions} for more information.
  *
  * @name Ephemeris
  * @memberof actions
@@ -158,11 +93,8 @@ const Ephemeris = Java.type('org.openhab.core.model.script.actions.Ephemeris');
 /**
  * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/exec Exec} Actions
  *
- * This class provides static methods that can be used in automation rules for executing commands on command line.
- *
- * @example
- * Exec.executeCommandLine(String... commandLine)
- * Exec.executeCommandLine(Duration timeout, String... commandLine)
+ * This class provides static methods that can be used in automation rules for executing commands on the command line.
+ * Refer to {@link https://www.openhab.org/docs/configuration/actions.html#exec-actions openHAB Docs: Exec Actions} for more information.
  *
  * @name Exec
  * @memberof actions
@@ -172,25 +104,8 @@ const Exec = Java.type('org.openhab.core.model.script.actions.Exec');
 /**
  * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/HTTP.html HTTP} Actions
  *
- * This class provides static methods that can be used in automation rules for sending HTTP requests
- *
- * @example
- * HTTP.sendHttpDeleteRequest(String url)
- * HTTP.sendHttpDeleteRequest(String url, int timeout)
- * HTTP.sendHttpDeleteRequest(String url, Map<String, String> headers, int timeout)
- * HTTP.sendHttpGetRequest(String url)
- * HTTP.sendHttpGetRequest(String url, int timeout)
- * HTTP.sendHttpGetRequest(String url, Map<String, String> headers, int timeout)
- * HTTP.sendHttpPostRequest(String url)
- * HTTP.sendHttpPostRequest(String url, int timeout)
- * HTTP.sendHttpPostRequest(String url, String contentType, String content)
- * HTTP.sendHttpPostRequest(String url, String contentType, String content, int timeout)
- * HTTP.sendHttpPostRequest(String url, String contentType, String content, Map<String, String> headers, int timeout)
- * HTTP.sendHttpPutRequest(String url)
- * HTTP.sendHttpPutRequest(String url, int timeout)
- * HTTP.sendHttpPutRequest(String url, String contentType, String content)
- * HTTP.sendHttpPutRequest(String url, String contentType, String content, int timeout)
- * HTTP.sendHttpPutRequest(String url, String contentType, String content, Map<String, String> headers, int timeout)
+ * This class provides static methods that can be used in automation rules for sending HTTP requests.
+ * Refer to {@link https://www.openhab.org/docs/configuration/actions.html#http-actions openHAB Docs: HTTP Actions} for more information.}
  *
  * @name HTTP
  * @memberof actions
@@ -226,11 +141,6 @@ const Ping = Java.type('org.openhab.core.model.script.actions.Ping');
  *
  * The static methods of this class are made available as functions in the scripts.
  *
- * @example
- * ScriptExecution.callScript(string scriptName)
- * ScriptExecution.createTimer(time.ZonedDateTime instant, function callbackFunction)
- * ScriptExecution.createTimer(string identifier, time.ZonedDateTime instant, function callbackFunction)
- *
  * @memberof actions
  * @hideconstructor
  */
@@ -248,9 +158,19 @@ class ScriptExecution {
    * Schedules a function for later execution.
    *
    * @example
+   * // Minimal example:
+   * actions.ScriptExecution.createTimer(time.toZDT().plusSeconds(10), () => {
+   *   console.log('Hello timer!');
+   * });
+   * // With parameters:
    * actions.ScriptExecution.createTimer(time.toZDT().plusSeconds(10), (foo, bar) => {
-   *   console.log(foo + bar);
-   * }, 'Hello', 'openHAB');
+   *   console.log('foo = ' + foo);
+   *   console.log('bar = ' + bar);
+   * }, 'param1', 'param2');
+   * // With identifier:
+   * actions.ScriptExecution.createTimer('myTimer', time.toZDT().plusSeconds(10), () => {
+   *   console.log('myTimer ran!');
+   * })
    *
    * @param {string} identifier an optional identifier, e.g. used for logging
    * @param {time.ZonedDateTime} zdt the point in time when the callback function should be executed
@@ -298,10 +218,6 @@ const ThingsAction = Java.type('org.openhab.core.model.script.actions.Things');
  *
  * The static methods of this class allow rules to execute transformations using one of the various {@link https://www.openhab.org/addons/#transform data transformation services}.
  *
- * @example
- * actions.Transformation.transform('MAP', 'en.map', 'OPEN'); // returns "open"
- * actions.Transformation.transform('MAP', 'de.map', 'OPEN'); // returns "offen"
- *
  * @memberof actions
  * @hideconstructor
  */
@@ -341,17 +257,7 @@ class Transformation {
  * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/Voice.html Voice} Actions
  *
  * The static methods of this class are made available as functions in the scripts. This allows a script to use voice features.
- *
- * @example
- * Voice.interpret(Object text)
- * Voice.interpret(Object text, String interpreter)
- * Voice.interpret(Object text, String interpreter, String sink)
- * Voice.say(Object text)
- * Voice.say(Object text, String voice)
- * Voice.say(Object text, String voice, String sink)
- * Voice.say(Object text, String voice, String sink, PercentType volume)
- * Voice.say(Object text, String voice, PercentType volume)
- * Voice.say(Object text, PercentType volume)
+ * Refer to {@link https://www.openhab.org/docs/configuration/multimedia.html#actions-3 openHAB Docs: Voice Actions} for more information.
  *
  * @name Voice
  * @memberof actions
