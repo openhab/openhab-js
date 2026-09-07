@@ -88,6 +88,35 @@ class JavaNotificationAction {
   static hideNotificationByTag = jest.fn()
 }
 
+// org.openhab.core.persistence.extensions.PersistenceExtensions
+class JavaPersistenceExtensions {}
+JavaPersistenceExtensions.persist = jest.fn();
+
+// org.openhab.core.types.TimeSeries
+class JavaTimeSeries {
+  constructor (policy) {
+    this.policy = policy;
+    this.states = [];
+  }
+
+  add (timestamp, state) {
+    this.states.push([timestamp, state]);
+  }
+}
+JavaTimeSeries.Policy = { valueOf: jest.fn((policy) => policy) };
+
+// org.openhab.core.types.TypeParser
+class JavaTypeParser {}
+// Mirrors GraalJS host interop: parseState's second parameter is java.lang.String, and a JS number
+// cannot be coerced to it. Throwing here is what makes a regression visible in the tests instead of
+// only at runtime inside openHAB.
+JavaTypeParser.parseState = jest.fn((acceptedDataTypes, stateString) => {
+  if (typeof stateString !== 'string') {
+    throw new TypeError(`Cannot convert '${stateString}'(language: Java, type: java.lang.Double) to Java type 'java.lang.String': Invalid or lossy primitive coercion.`);
+  }
+  return new DecimalType(stateString);
+});
+
 module.exports = {
   Configuration,
   MetadataRegistry,
@@ -98,5 +127,8 @@ module.exports = {
   DecimalType,
   PercentType,
   QuantityType,
-  JavaNotificationAction
+  JavaNotificationAction,
+  JavaPersistenceExtensions,
+  JavaTimeSeries,
+  JavaTypeParser
 };

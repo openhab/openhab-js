@@ -1,4 +1,4 @@
-const { ModuleBuilder, Configuration, QuantityType, JavaScriptExecution, JavaTransformation, JavaNotificationAction } = require('./openhab.mock');
+const { ModuleBuilder, Configuration, QuantityType, JavaScriptExecution, JavaTransformation, JavaNotificationAction, JavaPersistenceExtensions, JavaTimeSeries, JavaTypeParser } = require('./openhab.mock');
 const { Class, String, BigDecimal, ArrayList, HashSet, Hashtable, UUID, FrameworkUtil, LoggerFactory, Instant, ZonedDateTime } = require('./java.mock');
 
 const TYPES = {
@@ -15,6 +15,9 @@ const TYPES = {
   'org.openhab.core.config.core.Configuration': Configuration,
   'org.openhab.core.library.types.QuantityType': QuantityType,
   'org.openhab.core.model.script.actions.ScriptExecution': JavaScriptExecution,
+  'org.openhab.core.persistence.extensions.PersistenceExtensions': JavaPersistenceExtensions,
+  'org.openhab.core.types.TimeSeries': JavaTimeSeries,
+  'org.openhab.core.types.TypeParser': JavaTypeParser,
   'org.openhab.core.transform.actions.Transformation': JavaTransformation,
   'org.openhab.io.openhabcloud.NotificationAction': JavaNotificationAction,
   'org.osgi.framework.FrameworkUtil': FrameworkUtil,
