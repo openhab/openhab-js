@@ -124,17 +124,46 @@ export class ItemTriggerConfig extends TriggerConf {
      */
     changed(): ItemTriggerConfig;
     /**
-     * For timespan
-     * @param {*} timespan
-     * @returns {ItemTriggerConfig}
+     * Requires the Item to stay in the state given by {@link ItemTriggerConfig#to} for the given timespan before the rule fires.
+     *
+     * @param {number|string|time.Duration} timespan the time to wait in milliseconds, as ISO-8601 duration string or as {@link https://js-joda.github.io/js-joda/class/packages/core/src/Duration.js~Duration.html JS-Joda: Duration}
+     * @returns {TimingItemStateOperation} the trigger config
      */
-    for(timespan: any): ItemTriggerConfig;
+    for(timespan: number | string | time.Duration): TimingItemStateOperation;
     /** @private */
     private _complete;
     /** @private */
     private _toOHTriggers;
     /** @private */
     private _executeHook;
+}
+/**
+ * Item based trigger that only fires the rule once the Item has stayed in the target state for a given timespan
+ *
+ * @memberof TriggerBuilder
+ * @extends TriggerConf
+ * @hideconstructor
+ */
+export class TimingItemStateOperation extends TriggerConf {
+    constructor(itemChangedTriggerConfig: any, duration: any);
+    /** @private */
+    private itemChangedTriggerConfig;
+    /** @private */
+    private duration;
+    durationMs: any;
+    /** @private */
+    private _complete;
+    /** @private */
+    private describe;
+    /** @private */
+    private _toOHTriggers;
+    /** @private */
+    private _executeHook;
+    /** @private */
+    private _startWait;
+    currentWait: NodeJS.Timeout | undefined;
+    /** @private */
+    private _cancelWait;
 }
 /**
  * Thing-based trigger
@@ -342,6 +371,7 @@ declare class TriggerConf {
      */
     if(fn?: ConditionCallback): conditions.ConditionBuilder;
 }
+import time = require("@js-joda/core");
 /**
  * Time of day-based trigger
  *

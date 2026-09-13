@@ -1546,7 +1546,7 @@ See [Examples](#rule-builder-examples) for further patterns.
       - `.from(state)`
       - `.fromOn()`
       - `.fromOff()`
-      - `.for(duration)` where duration is in milliseconds
+      - `.for(duration)` where duration is in milliseconds or ISO-8601
   - `.memberOf(groupName)`: Specifies a group Item as the source of changes to trigger the rule.
     - `.receivedCommand()`, `.receivedUpdate()`, `.changed()` allows to define the received command/update, respective new state:
       - `.of(command)`
@@ -1557,7 +1557,7 @@ See [Examples](#rule-builder-examples) for further patterns.
       - `.from(state)`
       - `.fromOn()`
       - `.fromOff()`
-      - `.for(duration)` where duration is in milliseconds
+      - `.for(duration)` where duration is in milliseconds or ISO-8601
   - `.system()`: Specifies a system event as a source for the rule to fire.
     - `.ruleEngineStarted()`
     - `.rulesLoaded()`
