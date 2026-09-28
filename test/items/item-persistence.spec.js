@@ -23,11 +23,7 @@ describe('items/item-persistence.js', () => {
   });
 
   describe('persist', () => {
-    // The Java APIs behind these calls take a State or a java.lang.String, never a number:
-    // TypeParser.parseState(List<Class<? extends State>>, String) and
-    // PersistenceExtensions.persist(Item, ZonedDateTime, State | String). Passing a JS number
-    // through unconverted makes GraalJS throw "Invalid or lossy primitive coercion", even though
-    // the JSDoc for these methods documents number as an accepted state.
+    // Regression tests for https://github.com/openhab/openhab-js/issues/565
     describe('converts numeric states to string', () => {
       it('for a TimeSeries', () => {
         const timeSeries = new TimeSeries('REPLACE');

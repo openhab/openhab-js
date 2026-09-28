@@ -16,26 +16,6 @@ try {
 }
 
 /**
- * Converts a state to the string form the Java persistence APIs require.
- *
- * `PersistenceExtensions.persist` accepts `(Item, ZonedDateTime, State)` or
- * `(Item, ZonedDateTime, String)`, and `TypeParser.parseState` takes a `String`, so a JS number
- * matches none of them — GraalJS refuses to coerce `java.lang.Double` to `java.lang.String`
- * ("Invalid or lossy primitive coercion"). Numbers are explicitly permitted by this class' JSDoc,
- * so they are stringified here and parsed back by `parseState` or the `String` overload.
- *
- * `_toOpenhabPrimitiveType` itself must keep returning numbers untouched: `sendCommand` and
- * `postUpdate` pass its result to APIs that do accept them.
- *
- * @private
- * @param {string|number|time.ZonedDateTime|Quantity|HostState} state
- * @returns {string}
- */
-function _toOpenhabStringType (state) {
-  return String(_toOpenhabPrimitiveType(state));
-}
-
-/**
  * Class representing an instance of {@link https://www.openhab.org/javadoc/latest/org/openhab/core/types/state org.openhab.core.types.State}.
  *
  * @memberof items
@@ -278,10 +258,12 @@ class ItemPersistence {
     if (typeof timestamp !== 'object') throw new TypeError('persist(timestamp, state, serviceId): timestamp must be a ZonedDateTime or Date object!');
     log.debug(`Persisting given state ${state} of Item ${this.rawItem.getName()}${serviceId ? ' to ' + serviceId : ''} ...`);
     if (serviceId) {
-      PersistenceExtensions.persist(this.rawItem, timestamp, _toOpenhabStringType(state), serviceId);
+      // PersistenceExtensions::persist accepts (Item, ZonedDateTime, State) or (Item, ZonedDateTime, String),
+      // so we need to explicitly convert the state to a String. Automatic conversion would be lossy and throws.
+      PersistenceExtensions.persist(this.rawItem, timestamp, String(_toOpenhabPrimitiveType(state)), serviceId);
       return;
     }
-    PersistenceExtensions.persist(this.rawItem, timestamp, _toOpenhabStringType(state));
+    PersistenceExtensions.persist(this.rawItem, timestamp, String(_toOpenhabPrimitiveType(state)));
   }
 
   /**
@@ -296,7 +278,9 @@ class ItemPersistence {
     // Create a Java TimeSeries object from the JS TimeSeries
     const ts = new TimeSeries(TimeSeries.Policy.valueOf(timeSeries.policy));
     timeSeries.states.forEach(([timestamp, state]) => {
-      ts.add(timestamp, TypeParser.parseState(acceptedDataTypes, _toOpenhabStringType(state)));
+      // TypeParser::parseState only accepts (..., String), so we need to explicitly convert the state to a String.
+      // Automatic conversion would be lossy and throws.
+      ts.add(timestamp, TypeParser.parseState(acceptedDataTypes, String(_toOpenhabPrimitiveType(state))));
     });
     // Persist the Java TimeSeries
     if (serviceId) {
