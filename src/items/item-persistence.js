@@ -258,10 +258,12 @@ class ItemPersistence {
     if (typeof timestamp !== 'object') throw new TypeError('persist(timestamp, state, serviceId): timestamp must be a ZonedDateTime or Date object!');
     log.debug(`Persisting given state ${state} of Item ${this.rawItem.getName()}${serviceId ? ' to ' + serviceId : ''} ...`);
     if (serviceId) {
-      PersistenceExtensions.persist(this.rawItem, timestamp, _toOpenhabPrimitiveType(state), serviceId);
+      // PersistenceExtensions::persist accepts (Item, ZonedDateTime, State) or (Item, ZonedDateTime, String),
+      // so we need to explicitly convert the state to a String. Automatic conversion would be lossy and throws.
+      PersistenceExtensions.persist(this.rawItem, timestamp, String(_toOpenhabPrimitiveType(state)), serviceId);
       return;
     }
-    PersistenceExtensions.persist(this.rawItem, timestamp, _toOpenhabPrimitiveType(state));
+    PersistenceExtensions.persist(this.rawItem, timestamp, String(_toOpenhabPrimitiveType(state)));
   }
 
   /**
@@ -276,7 +278,9 @@ class ItemPersistence {
     // Create a Java TimeSeries object from the JS TimeSeries
     const ts = new TimeSeries(TimeSeries.Policy.valueOf(timeSeries.policy));
     timeSeries.states.forEach(([timestamp, state]) => {
-      ts.add(timestamp, TypeParser.parseState(acceptedDataTypes, _toOpenhabPrimitiveType(state)));
+      // TypeParser::parseState only accepts (..., String), so we need to explicitly convert the state to a String.
+      // Automatic conversion would be lossy and throws.
+      ts.add(timestamp, TypeParser.parseState(acceptedDataTypes, String(_toOpenhabPrimitiveType(state))));
     });
     // Persist the Java TimeSeries
     if (serviceId) {

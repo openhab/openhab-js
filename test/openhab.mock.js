@@ -88,6 +88,38 @@ class JavaNotificationAction {
   static hideNotificationByTag = jest.fn()
 }
 
+// org.openhab.core.persistence.extensions.PersistenceExtensions (https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/extensions/persistenceextensions)
+class JavaPersistenceExtensions {
+  static persist = jest.fn();
+}
+
+// org.openhab.core.types.TimeSeries (https://www.openhab.org/javadoc/latest/org/openhab/core/types/timeseries)
+class JavaTimeSeries {
+  constructor (policy) {
+    this.policy = policy;
+    this.states = [];
+  }
+
+  add (timestamp, state) {
+    this.states.push([timestamp, state]);
+  }
+}
+JavaTimeSeries.Policy = {
+  valueOf: jest.fn((policy) => policy)
+};
+
+// org.openhab.core.types.TypeParser (https://www.openhab.org/javadoc/latest/org/openhab/core/types/typeparser)
+class JavaTypeParser {
+  static parseState = jest.fn((acceptedDataTypes, stateString) => {
+    // TypeParser::parseState(String, String) only accepts a stateString, so GraalJS cannot coerce a JS number to a String.
+    // Mirror this behavior here to make a regression visible in the tests instead of only at runtime inside openHAB.
+    if (typeof stateString !== 'string') {
+      throw new TypeError(`Cannot convert '${stateString}'(language: Java, type: java.lang.Double) to Java type 'java.lang.String': Invalid or lossy primitive coercion.`);
+    }
+    return new DecimalType(stateString);
+  });
+}
+
 module.exports = {
   Configuration,
   MetadataRegistry,
@@ -98,5 +130,8 @@ module.exports = {
   DecimalType,
   PercentType,
   QuantityType,
-  JavaNotificationAction
+  JavaNotificationAction,
+  JavaPersistenceExtensions,
+  JavaTimeSeries,
+  JavaTypeParser
 };
