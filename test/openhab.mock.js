@@ -88,11 +88,12 @@ class JavaNotificationAction {
   static hideNotificationByTag = jest.fn()
 }
 
-// org.openhab.core.persistence.extensions.PersistenceExtensions
-class JavaPersistenceExtensions {}
-JavaPersistenceExtensions.persist = jest.fn();
+// org.openhab.core.persistence.extensions.PersistenceExtensions (https://www.openhab.org/javadoc/latest/org/openhab/core/persistence/extensions/persistenceextensions)
+class JavaPersistenceExtensions {
+  static persist = jest.fn();
+}
 
-// org.openhab.core.types.TimeSeries
+// org.openhab.core.types.TimeSeries (https://www.openhab.org/javadoc/latest/org/openhab/core/types/timeseries)
 class JavaTimeSeries {
   constructor (policy) {
     this.policy = policy;
@@ -103,19 +104,21 @@ class JavaTimeSeries {
     this.states.push([timestamp, state]);
   }
 }
-JavaTimeSeries.Policy = { valueOf: jest.fn((policy) => policy) };
+JavaTimeSeries.Policy = {
+  valueOf: jest.fn((policy) => policy)
+};
 
-// org.openhab.core.types.TypeParser
-class JavaTypeParser {}
-// Mirrors GraalJS host interop: parseState's second parameter is java.lang.String, and a JS number
-// cannot be coerced to it. Throwing here is what makes a regression visible in the tests instead of
-// only at runtime inside openHAB.
-JavaTypeParser.parseState = jest.fn((acceptedDataTypes, stateString) => {
-  if (typeof stateString !== 'string') {
-    throw new TypeError(`Cannot convert '${stateString}'(language: Java, type: java.lang.Double) to Java type 'java.lang.String': Invalid or lossy primitive coercion.`);
-  }
-  return new DecimalType(stateString);
-});
+// org.openhab.core.types.TypeParser (https://www.openhab.org/javadoc/latest/org/openhab/core/types/typeparser)
+class JavaTypeParser {
+  static parseState = jest.fn((acceptedDataTypes, stateString) => {
+    // TypeParser::parseState(String, String) only accepts a stateString, so GraalJS cannot coerce a JS number to a String.
+    // Mirror this behavior here to make a regression visible in the tests instead of only at runtime inside openHAB.
+    if (typeof stateString !== 'string') {
+      throw new TypeError(`Cannot convert '${stateString}'(language: Java, type: java.lang.Double) to Java type 'java.lang.String': Invalid or lossy primitive coercion.`);
+    }
+    return new DecimalType(stateString);
+  });
+}
 
 module.exports = {
   Configuration,
