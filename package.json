@@ -37,7 +37,7 @@
         "postbuild": "npm run docs"
     },
     "dependencies": {
-        "@js-joda/core": "^5.6.5",
+        "@js-joda/core": "^6.1.0",
         "@js-joda/timezone": "^2.25.2"
     },
     "devDependencies": {
