@@ -21,7 +21,7 @@ npm run types:test
 
 ## Docs
 
-Docs are automatically build on every push to `main` and deployed to [GitHub Pages](https://openhab.github.io/openhab-js/).
+Docs are automatically build on every push to `main` and deployed to [GitHub Pages](https://openhab.github.io/openhab-js/) on a new release.
 
 ## Webpack Build
 
@@ -30,11 +30,12 @@ The bundled versions of the library are automatically build and included into th
 ## Publish to NPM
 
 We have a GitHub action which will publish this library automatically when a version tag is pushed.
-Use the [npm version](https://docs.npmjs.com/cli/v9/commands/npm-version) command to bump the version, commit and tag:
+Use the [npm version](https://docs.npmjs.com/cli/v12/commands/npm-version) command to bump the version, commit and tag:
 
 ```bash
 npm run build # Perform a local build: Lint, run tests, bundle with webpack, update & test type definitions, build JSDoc
-npm version [major | minor | patch] --no-git-tag-version # Select one of the commands
+npm version [major | minor | patch] # Select one of the commands
 ```
 
-Commit and tag, then push changes and the new tag to the remote.
+Push the commit and version to the remote.
+A GitHub release with a changelog will be created automatically by GitHub Actions after the package has been published to npm.
