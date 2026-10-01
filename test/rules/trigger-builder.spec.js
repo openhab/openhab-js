@@ -1,5 +1,6 @@
-const { ModuleBuilder } = require('../openhab.mock');
+const triggers = require('../../src/triggers');
 
+jest.mock('../../src/triggers');
 jest.mock('../../src/items/items', () => ({}));
 
 const time = require('@js-joda/core');
@@ -42,22 +43,19 @@ describe('ItemTriggerConfig.for(timespan)', () => {
     const triggerBuilder = new TriggerBuilder(createBuilder());
     expect(() => triggerBuilder.item('item1').changed().for(60000))
       .toThrow('Must specify item state value to wait for!');
+  });
+
+  it('throws when used without .changed()', () => {
+    const triggerBuilder = new TriggerBuilder(createBuilder());
     expect(() => triggerBuilder.item('item1').toOn().for(60000))
       .toThrow('.for(..) only available for .changed()');
   });
 
   it.each([['item1', false], ['group1', true]])('creates an unfiltered %s change trigger', (name, isGroup) => {
-    const moduleBuilderSpy = new ModuleBuilder();
-    ModuleBuilder.createTrigger.mockImplementation(() => moduleBuilderSpy);
-    moduleBuilderSpy.build.mockImplementation(() => new Object()); // eslint-disable-line no-new-object
-
     createTimingConf(name, isGroup)._toOHTriggers();
 
-    expect(moduleBuilderSpy.withTypeUID).toHaveBeenCalledWith(isGroup ? 'core.GroupStateChangeTrigger' : 'core.ItemStateChangeTrigger');
-    const config = moduleBuilderSpy.withConfiguration.mock.calls[0][0].config;
-    expect(config.state).toBeUndefined();
-    expect(config.previousState).toBeUndefined();
-    expect(isGroup ? config.groupName : config.itemName).toBe(name);
+    expect(isGroup ? triggers.GroupStateChangeTrigger : triggers.ItemStateChangeTrigger).toHaveBeenCalledWith(name);
+    expect(isGroup ? triggers.ItemStateChangeTrigger : triggers.GroupStateChangeTrigger).not.toHaveBeenCalled();
   });
 
   describe('execute hook', () => {

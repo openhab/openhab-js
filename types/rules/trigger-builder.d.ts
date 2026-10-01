@@ -126,7 +126,7 @@ export class ItemTriggerConfig extends TriggerConf {
     /**
      * Requires the Item to stay in the state given by {@link ItemTriggerConfig#to} for the given timespan before the rule fires.
      *
-     * @param {number|string|time.Duration} timespan the time to wait in milliseconds, as ISO-8601 duration string or as {@link https://js-joda.github.io/js-joda/class/packages/core/src/Duration.js~Duration.html JS-Joda: Duration}
+     * @param {number|string|time.Duration} timespan the time to wait in milliseconds, as ISO-8601 duration string, or as {@link https://js-joda.github.io/js-joda/class/packages/core/src/Duration.js~Duration.html JS-Joda: Duration}
      * @returns {TimingItemStateOperation} the trigger config
      */
     for(timespan: number | string | time.Duration): TimingItemStateOperation;
