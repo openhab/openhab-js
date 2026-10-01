@@ -82,10 +82,12 @@ const ruleManager = getService('org.openhab.core.automation.RuleManager');
 
 /**
  * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/automation/util/rulebuilder org.openhab.core.automation.util.RuleBuilder}
+ * @private
  */
 const RuleBuilder = Java.type('org.openhab.core.automation.util.RuleBuilder');
 /**
  * {@link https://www.openhab.org/javadoc/latest/org/openhab/core/automation/util/actionbuilder org.openhab.core.automation.util.ActionBuilder}
+ * @private
  */
 const ActionBuilder = Java.type('org.openhab.core.automation.util.ActionBuilder');
 const Configuration = Java.type('org.openhab.core.config.core.Configuration');
