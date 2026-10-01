@@ -205,7 +205,8 @@ actions.ScriptExecution.createTimer('myTimer', time.toZDT().plusMinutes(10), () 
     
     <dt class="tag-description">Description:</dt>
     <dd class="tag-description"><ul class="dummy"><li><p><a href="https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/audio">Audio</a> Actions</p>
-<p>The static methods of this class are made available as functions in the scripts. This allows a script to use audio features.</p></li></ul></dd>
+<p>The static methods of this class are made available as functions in the scripts. This allows a script to use audio features.
+Refer to <a href="https://www.openhab.org/docs/configuration/multimedia.html#actions">openHAB Docs: Audio Actions</a> for more information.</p></li></ul></dd>
     
 
     
@@ -252,29 +253,14 @@ actions.ScriptExecution.createTimer('myTimer', time.toZDT().plusMinutes(10), () 
 
 <div class="description usertext">
     <p><a href="https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/audio">Audio</a> Actions</p>
-<p>The static methods of this class are made available as functions in the scripts. This allows a script to use audio features.</p>
+<p>The static methods of this class are made available as functions in the scripts. This allows a script to use audio features.
+Refer to <a href="https://www.openhab.org/docs/configuration/multimedia.html#actions">openHAB Docs: Audio Actions</a> for more information.</p>
 </div>
 
 
 
 
 
-
-
-    <h5 class="h5-examples">Example</h5>
-    
-    <pre class="prettyprint"><code>Audio.decreaseMasterVolume(float percent)
-Audio.getMasterVolume()
-Audio.increaseMasterVolume(float percent)
-Audio.playSound(String filename)
-Audio.playSound(String sink, String filename)
-Audio.playSound(String sink, String filename, PercentType volume)
-Audio.playSound(String filename, PercentType volume)
-Audio.playStream(String url)
-Audio.playStream(String sink, String url)
-Audio.setMasterVolume(float volume)
-Audio.setMasterVolume(PercentType percent)
-Audio.decreaseMasterVolume(1.0)</code></pre>
 
 
 
@@ -290,8 +276,81 @@ Audio.decreaseMasterVolume(1.0)</code></pre>
     
     <dt class="tag-description">Description:</dt>
     <dd class="tag-description"><ul class="dummy"><li><p><a href="https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/busevent">BusEvent</a> Actions</p>
-<p>The static methods of this class are made available as functions in the scripts. This gives direct write access to the openHAB event bus from within scripts. Items should not be updated directly (setting the state property), but updates should be sent to the bus, so that all interested bundles are notified.</p>
+<p>The static methods of this class are made available as functions in the scripts. This gives direct write access to the openHAB event bus from within scripts. Items should not be updated directly (setting the state property), but updates should be sent to the bus, so that all interested bundles are notified.
+Refer to <a href="https://www.openhab.org/docs/configuration/actions.html#event-bus-actions">openHAB Docs: Event Bus Actions</a> for more information.</p>
 <p>Instead of using the BusEvent actions, it is recommended to use the <code>postUpdate</code> and <code>sendCommand</code> methods of <a href="items.Item.html"><code>items.Item</code></a>.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line58">line 58</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p><a href="https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/busevent">BusEvent</a> Actions</p>
+<p>The static methods of this class are made available as functions in the scripts. This gives direct write access to the openHAB event bus from within scripts. Items should not be updated directly (setting the state property), but updates should be sent to the bus, so that all interested bundles are notified.
+Refer to <a href="https://www.openhab.org/docs/configuration/actions.html#event-bus-actions">openHAB Docs: Event Bus Actions</a> for more information.</p>
+<p>Instead of using the BusEvent actions, it is recommended to use the <code>postUpdate</code> and <code>sendCommand</code> methods of <a href="items.Item.html"><code>items.Item</code></a>.</p>
+</div>
+
+
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".CoreUtil"><span class="type-signature type-signature-static">(static) </span>CoreUtil<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p><a href="https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/coreutil">CoreUtil</a> Actions</p>
+<p>This class provides static methods mapping methods from package <a href="https://www.openhab.org/javadoc/latest/org/openhab/core/util/package-summary">org.openhab.core.util</a>.
+Refer to <a href="https://www.openhab.org/docs/configuration/actions.html#color-utilities">openHAB Docs: Color Utilities</a> for more information.</p></li></ul></dd>
     
 
     
@@ -337,114 +396,15 @@ Audio.decreaseMasterVolume(1.0)</code></pre>
 
 
 <div class="description usertext">
-    <p><a href="https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/busevent">BusEvent</a> Actions</p>
-<p>The static methods of this class are made available as functions in the scripts. This gives direct write access to the openHAB event bus from within scripts. Items should not be updated directly (setting the state property), but updates should be sent to the bus, so that all interested bundles are notified.</p>
-<p>Instead of using the BusEvent actions, it is recommended to use the <code>postUpdate</code> and <code>sendCommand</code> methods of <a href="items.Item.html"><code>items.Item</code></a>.</p>
-</div>
-
-
-
-
-
-
-
-    <h5 class="h5-examples">Example</h5>
-    
-    <pre class="prettyprint"><code>BusEvent.postUpdate(String itemName, String stateString)
-BusEvent.postUpdate(Item item, Number state)
-BusEvent.postUpdate(Item item, String stateAsString)
-BusEvent.postUpdate(Item item, State state)
-BusEvent.restoreStates(Map&lt;Item, State> statesMap)
-BusEvent.sendCommand(String itemName, String commandString)
-BusEvent.sendCommand(Item item, Number number)
-BusEvent.sendCommand(Item item, String commandString)
-BusEvent.sendCommand(Item item, Command command)
-BusEvent.storeStates(Item... items)</code></pre>
-
-
-
-        
-            
-<h4 class="name" id=".CoreUtil"><span class="type-signature type-signature-static">(static) </span>CoreUtil<span class="type-signature"></span></h4>
-
-
-
-
-
-<dl class="details">
-    
-    <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p><a href="https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/coreutil">CoreUtil</a> Actions</p>
-<p>This class provides static methods mapping methods from package <a href="https://www.openhab.org/javadoc/latest/org/openhab/core/util/package-summary">org.openhab.core.util</a>.</p>
-<p>Its functionality includes:</p></li></ul></dd>
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line95">line 95</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
     <p><a href="https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/coreutil">CoreUtil</a> Actions</p>
-<p>This class provides static methods mapping methods from package <a href="https://www.openhab.org/javadoc/latest/org/openhab/core/util/package-summary">org.openhab.core.util</a>.</p>
-<p>Its functionality includes:</p>
+<p>This class provides static methods mapping methods from package <a href="https://www.openhab.org/javadoc/latest/org/openhab/core/util/package-summary">org.openhab.core.util</a>.
+Refer to <a href="https://www.openhab.org/docs/configuration/actions.html#color-utilities">openHAB Docs: Color Utilities</a> for more information.</p>
 </div>
 
 
 
 
 
-
-
-    <h5 class="h5-examples">Example</h5>
-    
-    <pre class="prettyprint"><code>CoreUtil.hsbToRgb(HSBType hsb) -> int[]
-CoreUtil.hsbToRgbPercent(HSBType hsb) -> PercentType[]
-CoreUtil.hsbTosRGB(HSBType hsb) -> int
-CoreUtil.hsbToRgbw(HSBType hsb) -> int[]
-CoreUtil.hsbToRgbwPercent(HSBType hsb) -> PercentType[]
-CoreUtil.rgbToHsb(int[] rgb) -> HSBType
-CoreUtil.rgbToHsb(PercentType[] rgb) -> HSBType
-CoreUtil.xyToDuv(double[] xy) -> double
-CoreUtil.kelvinToXY(double kelvin) -> double[]
-CoreUtil.xyToKelvin(double[] xy) -> double</code></pre>
 
 
 
@@ -460,13 +420,14 @@ CoreUtil.xyToKelvin(double[] xy) -> double</code></pre>
     
     <dt class="tag-description">Description:</dt>
     <dd class="tag-description"><ul class="dummy"><li><p><a href="https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/ephemeris">Ephemeris</a> Actions</p>
-<p>The static methods of this class are made available as functions in the scripts. This allows a script to use ephemeris features.</p></li></ul></dd>
+<p>The static methods of this class are made available as functions in the scripts. This allows a script to use ephemeris features.
+Refer to <a href="https://www.openhab.org/docs/configuration/actions.html#actions-examples">openHAB Docs: Ephemeris Actions</a> for more information.</p></li></ul></dd>
     
 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line118">line 118</a>
+        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line82">line 82</a>
     </li></ul></dd>
     
 
@@ -507,46 +468,14 @@ CoreUtil.xyToKelvin(double[] xy) -> double</code></pre>
 
 <div class="description usertext">
     <p><a href="https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/ephemeris">Ephemeris</a> Actions</p>
-<p>The static methods of this class are made available as functions in the scripts. This allows a script to use ephemeris features.</p>
+<p>The static methods of this class are made available as functions in the scripts. This allows a script to use ephemeris features.
+Refer to <a href="https://www.openhab.org/docs/configuration/actions.html#actions-examples">openHAB Docs: Ephemeris Actions</a> for more information.</p>
 </div>
 
 
 
 
 
-
-
-    <h5 class="h5-examples">Example</h5>
-    
-    <pre class="prettyprint"><code>Ephemeris.getBankHolidayName()
-Ephemeris.getBankHolidayName(int offset)
-Ephemeris.getBankHolidayName(int offset, String filename)
-Ephemeris.getBankHolidayName(String filename)
-Ephemeris.getBankHolidayName(ZonedDateTime day)
-Ephemeris.getBankHolidayName(ZonedDateTime day, String filename)
-Ephemeris.getDaysUntil(String searchedHoliday)
-Ephemeris.getDaysUntil(String searchedHoliday, String filename)
-Ephemeris.getDaysUntil(ZonedDateTime day, String searchedHoliday)
-Ephemeris.getDaysUntil(ZonedDateTime day, String searchedHoliday, String filename)
-Ephemeris.getHolidayDescription(@Nullable String holiday)
-Ephemeris.getNextBankHoliday()
-Ephemeris.getNextBankHoliday(int offset)
-Ephemeris.getNextBankHoliday(int offset, String filename)
-Ephemeris.getNextBankHoliday(String filename)
-Ephemeris.getNextBankHoliday(ZonedDateTime day)
-Ephemeris.getNextBankHoliday(ZonedDateTime day, String filename)
-Ephemeris.isBankHoliday()
-Ephemeris.isBankHoliday(int offset)
-Ephemeris.isBankHoliday(int offset, String filename)
-Ephemeris.isBankHoliday(String filename)
-Ephemeris.isBankHoliday(ZonedDateTime day)
-Ephemeris.isBankHoliday(ZonedDateTime day, String filename)
-Ephemeris.isInDayset(String daysetName)
-Ephemeris.isInDayset(String daysetName, int offset)
-Ephemeris.isInDayset(String daysetName, ZonedDateTime day)
-Ephemeris.isWeekend()
-Ephemeris.isWeekend(int offset)
-Ephemeris.isWeekend(ZonedDateTime day)</code></pre>
 
 
 
@@ -562,13 +491,14 @@ Ephemeris.isWeekend(ZonedDateTime day)</code></pre>
     
     <dt class="tag-description">Description:</dt>
     <dd class="tag-description"><ul class="dummy"><li><p><a href="https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/exec">Exec</a> Actions</p>
-<p>This class provides static methods that can be used in automation rules for executing commands on command line.</p></li></ul></dd>
+<p>This class provides static methods that can be used in automation rules for executing commands on the command line.
+Refer to <a href="https://www.openhab.org/docs/configuration/actions.html#exec-actions">openHAB Docs: Exec Actions</a> for more information.</p></li></ul></dd>
     
 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line158">line 158</a>
+        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line93">line 93</a>
     </li></ul></dd>
     
 
@@ -609,19 +539,14 @@ Ephemeris.isWeekend(ZonedDateTime day)</code></pre>
 
 <div class="description usertext">
     <p><a href="https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/exec">Exec</a> Actions</p>
-<p>This class provides static methods that can be used in automation rules for executing commands on command line.</p>
+<p>This class provides static methods that can be used in automation rules for executing commands on the command line.
+Refer to <a href="https://www.openhab.org/docs/configuration/actions.html#exec-actions">openHAB Docs: Exec Actions</a> for more information.</p>
 </div>
 
 
 
 
 
-
-
-    <h5 class="h5-examples">Example</h5>
-    
-    <pre class="prettyprint"><code>Exec.executeCommandLine(String... commandLine)
-Exec.executeCommandLine(Duration timeout, String... commandLine)</code></pre>
 
 
 
@@ -637,13 +562,14 @@ Exec.executeCommandLine(Duration timeout, String... commandLine)</code></pre>
     
     <dt class="tag-description">Description:</dt>
     <dd class="tag-description"><ul class="dummy"><li><p><a href="https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/HTTP.html">HTTP</a> Actions</p>
-<p>This class provides static methods that can be used in automation rules for sending HTTP requests</p></li></ul></dd>
+<p>This class provides static methods that can be used in automation rules for sending HTTP requests.
+Refer to <a href="https://www.openhab.org/docs/configuration/actions.html#http-actions">openHAB Docs: HTTP Actions</a> for more information.}</p></li></ul></dd>
     
 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line172">line 172</a>
+        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line104">line 104</a>
     </li></ul></dd>
     
 
@@ -684,33 +610,14 @@ Exec.executeCommandLine(Duration timeout, String... commandLine)</code></pre>
 
 <div class="description usertext">
     <p><a href="https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/HTTP.html">HTTP</a> Actions</p>
-<p>This class provides static methods that can be used in automation rules for sending HTTP requests</p>
+<p>This class provides static methods that can be used in automation rules for sending HTTP requests.
+Refer to <a href="https://www.openhab.org/docs/configuration/actions.html#http-actions">openHAB Docs: HTTP Actions</a> for more information.}</p>
 </div>
 
 
 
 
 
-
-
-    <h5 class="h5-examples">Example</h5>
-    
-    <pre class="prettyprint"><code>HTTP.sendHttpDeleteRequest(String url)
-HTTP.sendHttpDeleteRequest(String url, int timeout)
-HTTP.sendHttpDeleteRequest(String url, Map&lt;String, String> headers, int timeout)
-HTTP.sendHttpGetRequest(String url)
-HTTP.sendHttpGetRequest(String url, int timeout)
-HTTP.sendHttpGetRequest(String url, Map&lt;String, String> headers, int timeout)
-HTTP.sendHttpPostRequest(String url)
-HTTP.sendHttpPostRequest(String url, int timeout)
-HTTP.sendHttpPostRequest(String url, String contentType, String content)
-HTTP.sendHttpPostRequest(String url, String contentType, String content, int timeout)
-HTTP.sendHttpPostRequest(String url, String contentType, String content, Map&lt;String, String> headers, int timeout)
-HTTP.sendHttpPutRequest(String url)
-HTTP.sendHttpPutRequest(String url, int timeout)
-HTTP.sendHttpPutRequest(String url, String contentType, String content)
-HTTP.sendHttpPutRequest(String url, String contentType, String content, int timeout)
-HTTP.sendHttpPutRequest(String url, String contentType, String content, Map&lt;String, String> headers, int timeout)</code></pre>
 
 
 
@@ -732,7 +639,7 @@ HTTP.sendHttpPutRequest(String url, String contentType, String content, Map&lt;S
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line200">line 200</a>
+        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line115">line 115</a>
     </li></ul></dd>
     
 
@@ -784,14 +691,6 @@ HTTP.sendHttpPutRequest(String url, String contentType, String content, Map&lt;S
 
 
 
-    <h5 class="h5-examples">Example</h5>
-    
-    <pre class="prettyprint"><code>Log.logDebug(String loggerName, String format, Object... args)
-Log.logError(String loggerName, String format, Object... args)
-Log.logInfo(String loggerName, String format, Object... args)
-Log.logWarn(String loggerName, String format, Object... args)</code></pre>
-
-
 
         
             
@@ -813,7 +712,7 @@ See <a href="https://www.openhab.org/docs/configuration/actions.html#cloud-notif
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line383">line 383</a>
+        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line267">line 267</a>
     </li></ul></dd>
     
 
@@ -886,7 +785,7 @@ See <a href="https://www.openhab.org/docs/configuration/actions.html#cloud-notif
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line217">line 217</a>
+        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line126">line 126</a>
     </li></ul></dd>
     
 
@@ -960,7 +859,7 @@ See <a href="https://www.openhab.org/docs/configuration/actions.html#cloud-notif
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line280">line 280</a>
+        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line194">line 194</a>
     </li></ul></dd>
     
 
@@ -1012,20 +911,6 @@ See <a href="https://www.openhab.org/docs/configuration/actions.html#cloud-notif
 
 
 
-    <h5 class="h5-examples">Example</h5>
-    
-    <pre class="prettyprint"><code>Semantics.getEquipment(Item item)
-Semantics.getEquipmentType(Item item)
-Semantics.getLocation(Item item)
-Semantics.getLocationType(Item item)
-Semantics.getPointType(Item item)
-Semantics.getPropertyType(Item item)
-Semantics.getSemanticType(Item item)
-Semantics.isEquipment(Item item)
-Semantics.isLocation(Item item)
-Semantics.isPoint(Item item)</code></pre>
-
-
 
         
             
@@ -1045,7 +930,7 @@ Semantics.isPoint(Item item)</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line303">line 303</a>
+        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line205">line 205</a>
     </li></ul></dd>
     
 
@@ -1097,12 +982,6 @@ Semantics.isPoint(Item item)</code></pre>
 
 
 
-    <h5 class="h5-examples">Example</h5>
-    
-    <pre class="prettyprint"><code>Things.getActions(String bindingId, String thingUid)
-Things.getThingStatusInfo(String thingUid)</code></pre>
-
-
 
         
             
@@ -1116,13 +995,14 @@ Things.getThingStatusInfo(String thingUid)</code></pre>
     
     <dt class="tag-description">Description:</dt>
     <dd class="tag-description"><ul class="dummy"><li><p><a href="https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/Voice.html">Voice</a> Actions</p>
-<p>The static methods of this class are made available as functions in the scripts. This allows a script to use voice features.</p></li></ul></dd>
+<p>The static methods of this class are made available as functions in the scripts. This allows a script to use voice features.
+Refer to <a href="https://www.openhab.org/docs/configuration/multimedia.html#actions-3">openHAB Docs: Voice Actions</a> for more information.</p></li></ul></dd>
     
 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line362">line 362</a>
+        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line256">line 256</a>
     </li></ul></dd>
     
 
@@ -1163,26 +1043,14 @@ Things.getThingStatusInfo(String thingUid)</code></pre>
 
 <div class="description usertext">
     <p><a href="https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/Voice.html">Voice</a> Actions</p>
-<p>The static methods of this class are made available as functions in the scripts. This allows a script to use voice features.</p>
+<p>The static methods of this class are made available as functions in the scripts. This allows a script to use voice features.
+Refer to <a href="https://www.openhab.org/docs/configuration/multimedia.html#actions-3">openHAB Docs: Voice Actions</a> for more information.</p>
 </div>
 
 
 
 
 
-
-
-    <h5 class="h5-examples">Example</h5>
-    
-    <pre class="prettyprint"><code>Voice.interpret(Object text)
-Voice.interpret(Object text, String interpreter)
-Voice.interpret(Object text, String interpreter, String sink)
-Voice.say(Object text)
-Voice.say(Object text, String voice)
-Voice.say(Object text, String voice, String sink)
-Voice.say(Object text, String voice, String sink, PercentType volume)
-Voice.say(Object text, String voice, PercentType volume)
-Voice.say(Object text, PercentType volume)</code></pre>
 
 
 
@@ -1213,7 +1081,7 @@ Voice.say(Object text, PercentType volume)</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line427">line 427</a>
+        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line311">line 311</a>
     </li></ul></dd>
     
 
@@ -1569,7 +1437,7 @@ and log notifications, which are only sent to the notification log and not shown
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line436">line 436</a>
+        <a href="actions_actions.js.html">actions/actions.js</a>, <a href="actions_actions.js.html#line320">line 320</a>
     </li></ul></dd>
     
 
@@ -1750,7 +1618,7 @@ and log notifications, which are only sent to the notification log and not shown
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Tue Jul 21 2026 21:22:45 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Thu Oct 01 2026 10:56:10 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

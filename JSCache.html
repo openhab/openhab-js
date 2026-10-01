@@ -104,7 +104,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="cache.js.html">cache.js</a>, <a href="cache.js.html#line81">line 81</a>
+        <a href="cache.js.html">cache.js</a>, <a href="cache.js.html#line83">line 83</a>
     </li></ul></dd>
     
 
@@ -246,7 +246,7 @@
 
     
 
-    <h4 class="name" id="get"><span class="type-signature"></span>get<span class="signature">(key, defaultSupplier<span class="signature-attributes">opt</span>, jsifyResult<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {*|null}</span></h4>
+    <h4 class="name" id="get"><span class="type-signature"></span>get<span class="signature">(key, defaultSupplier<span class="signature-attributes">opt</span>, jsifyResult<span class="signature-attributes">opt</span>, javaifyValue<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {*|null}</span></h4>
 
     
 
@@ -262,7 +262,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="cache.js.html">cache.js</a>, <a href="cache.js.html#line36">line 36</a>
+        <a href="cache.js.html">cache.js</a>, <a href="cache.js.html#line37">line 37</a>
     </li></ul></dd>
     
 
@@ -445,7 +445,47 @@
                 </td>
             
 
-            <td class="description last"><p>whether or not the result will be automatically converted to JavaScript objects when possible</p></td>
+            <td class="description last"><p>whether or not the result will be automatically converted to JavaScript objects when possible, if the cache is shared</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>javaifyValue</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>true</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>whether or not the supplier generated value will be automatically converted to Java objects, if the cache is shared and the entry doesn't exist</p></td>
         </tr>
 
     
@@ -501,7 +541,7 @@
 
     
 
-    <h4 class="name" id="put"><span class="type-signature"></span>put<span class="signature">(key, value, jsifyResult<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {*|null}</span></h4>
+    <h4 class="name" id="put"><span class="type-signature"></span>put<span class="signature">(key, value, javaifyValue<span class="signature-attributes">opt</span>, jsifyResult<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {*|null}</span></h4>
 
     
 
@@ -517,7 +557,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="cache.js.html">cache.js</a>, <a href="cache.js.html#line58">line 58</a>
+        <a href="cache.js.html">cache.js</a>, <a href="cache.js.html#line60">line 60</a>
     </li></ul></dd>
     
 
@@ -658,7 +698,47 @@
                 </td>
             
 
-            <td class="description last"><p>value to be associated with the specified key. The value will be run through javaify() if the cache is shared, since the shared cache can't contain JavaScript objects.</p></td>
+            <td class="description last"><p>value to be associated with the specified key.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>javaifyValue</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>true</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>whether or not the value will be automatically converted to Java objects if the cache is shared</p></td>
         </tr>
 
     
@@ -698,7 +778,7 @@
                 </td>
             
 
-            <td class="description last"><p>whether or not the result will be automatically converted to JavaScript objects when possible</p></td>
+            <td class="description last"><p>whether or not the result will be automatically converted to JavaScript objects when possible, if the cache is shared</p></td>
         </tr>
 
     
@@ -770,7 +850,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="cache.js.html">cache.js</a>, <a href="cache.js.html#line71">line 71</a>
+        <a href="cache.js.html">cache.js</a>, <a href="cache.js.html#line73">line 73</a>
     </li></ul></dd>
     
 
@@ -915,7 +995,7 @@
                 </td>
             
 
-            <td class="description last"><p>whether or not the result will be automatically converted to JavaScript objects when possible</p></td>
+            <td class="description last"><p>whether or not the result will be automatically converted to JavaScript objects when possible, if the cache is shared</p></td>
         </tr>
 
     
@@ -986,7 +1066,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Tue Jul 21 2026 21:22:45 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Thu Oct 01 2026 10:56:10 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
