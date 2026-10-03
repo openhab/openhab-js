@@ -201,7 +201,11 @@ function replaceMetadata (itemOrName, namespace, value, configuration) {
   const key = new MetadataKey(namespace, itemName);
   const newMetadata = _createMetadata(itemName, namespace, value, configuration);
   let metadata = metadataRegistry.get(key);
-  metadata = (metadata === null) ? metadataRegistry.add(newMetadata) : metadataRegistry.update(newMetadata);
+  if (metadata === null) {
+    metadataRegistry.add(newMetadata);
+    return null;
+  }
+  metadata = metadataRegistry.update(newMetadata);
   if (metadata === null) return null;
   return new ItemMetadata(metadata);
 }

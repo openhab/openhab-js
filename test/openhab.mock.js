@@ -1,4 +1,4 @@
-const { Class, BigDecimal, String } = require('./java.mock');
+const { Class, BigDecimal, HashMap, String, Stream } = require('./java.mock');
 const { Unit } = require('./javax-measure.mock');
 
 // org.openhab.core.automation.util.ModuleBuilder (https://www.openhab.org/javadoc/latest/org/openhab/core/automation/util/modulebuilder)
@@ -22,9 +22,66 @@ class Configuration {
 
 // org.openhab.core.items.MetadataRegistry (https://www.openhab.org/javadoc/latest/org/openhab/core/items/metadataregistry)
 class MetadataRegistry {
-  add () {}
-  get () {}
-  update () {}
+  get = jest.fn()
+  add = jest.fn()
+  addPermanent = jest.fn()
+  update = jest.fn()
+  remove = jest.fn()
+  removeItemMetadata = jest.fn()
+  stream = jest.fn(() => new Stream());
+}
+
+// org.openhab.core.items.MetadataKey (https://www.openhab.org/javadoc/latest/org/openhab/core/items/metadatakey)
+class MetadataKey {
+  constructor (namespace, itemName) {
+    this.namespace = namespace;
+    this.itemName = itemName;
+  }
+
+  getNamespace () {
+    return this.namespace;
+  }
+
+  getItemName () {
+    return new String(this.itemName);
+  }
+
+  toString () {
+    return `${this.namespace}:${this.itemName}`;
+  }
+}
+
+// org.openhab.core.items.Metadata (https://www.openhab.org/javadoc/latest/org/openhab/core/items/metadata)
+class Metadata {
+  constructor (key, value, configuration) {
+    this.key = key;
+    this.value = value;
+    this.configuration = configuration;
+  }
+
+  getUID () {
+    return this.key;
+  }
+
+  getKey () {
+    return this.key;
+  }
+
+  getValue () {
+    return this.value;
+  }
+
+  getConfiguration () {
+    const map = new HashMap();
+    if (this.configuration) {
+      if (this.configuration instanceof Map) {
+        this.configuration.forEach((v, k) => map.set(k, v));
+      } else {
+        Object.keys(this.configuration).forEach(k => map.set(k, this.configuration[k]));
+      }
+    }
+    return map;
+  }
 }
 
 // org.openhab.core.model.script.actions.ScriptExecution (https://www.openhab.org/javadoc/latest/org/openhab/core/model/script/actions/scriptexecution)
@@ -123,6 +180,8 @@ class JavaTypeParser {
 module.exports = {
   Configuration,
   MetadataRegistry,
+  MetadataKey,
+  Metadata,
   ModuleBuilder,
   JavaScriptExecution,
   JavaTransformation,

@@ -1,18 +1,22 @@
-const { ModuleBuilder, Configuration, QuantityType, JavaScriptExecution, JavaTransformation, JavaNotificationAction, JavaPersistenceExtensions, JavaTimeSeries, JavaTypeParser } = require('./openhab.mock');
-const { Class, String, BigDecimal, ArrayList, HashSet, Hashtable, UUID, FrameworkUtil, LoggerFactory, Instant, ZonedDateTime } = require('./java.mock');
+const { ModuleBuilder, Configuration, MetadataKey, Metadata, QuantityType, JavaScriptExecution, JavaTransformation, JavaNotificationAction, JavaPersistenceExtensions, JavaTimeSeries, JavaTypeParser } = require('./openhab.mock');
+const { Class, String, IllegalStateException, BigDecimal, ArrayList, HashMap, HashSet, Hashtable, UUID, FrameworkUtil, LoggerFactory, Instant, ZonedDateTime } = require('./java.mock');
 
 const TYPES = {
   'java.lang.Class': Class,
   'java.lang.String': String,
+  'java.lang.IllegalStateException': IllegalStateException,
   'java.math.BigDecimal': BigDecimal,
   'java.time.Instant': Instant,
   'java.time.ZonedDateTime': ZonedDateTime,
   'java.util.ArrayList': ArrayList,
+  'java.util.HashMap': HashMap,
   'java.util.HashSet': HashSet,
   'java.util.Hashtable': Hashtable,
   'java.util.UUID': UUID,
   'org.openhab.core.automation.util.ModuleBuilder': ModuleBuilder,
   'org.openhab.core.config.core.Configuration': Configuration,
+  'org.openhab.core.items.Metadata': Metadata,
+  'org.openhab.core.items.MetadataKey': MetadataKey,
   'org.openhab.core.library.types.QuantityType': QuantityType,
   'org.openhab.core.model.script.actions.ScriptExecution': JavaScriptExecution,
   'org.openhab.core.persistence.extensions.PersistenceExtensions': JavaPersistenceExtensions,
