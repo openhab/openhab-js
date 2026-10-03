@@ -1,3 +1,4 @@
+const time = require('@js-joda/core'); // standard JS-Joda is enough as we only parse durations
 const triggers = require('../triggers');
 const operations = require('./operation-builder');
 const conditions = require('./condition-builder');
@@ -367,12 +368,13 @@ class ItemTriggerConfig extends TriggerConf {
   }
 
   /**
-   * For timespan
-   * @param {*} timespan
-   * @returns {ItemTriggerConfig}
+   * Requires the Item to stay in the state given by {@link ItemTriggerConfig#to} for the given timespan before the rule fires.
+   *
+   * @param {number|string|time.Duration} timespan the time to wait in milliseconds, as ISO-8601 duration string, or as {@link https://js-joda.github.io/js-joda/class/packages/core/src/Duration.js~Duration.html JS-Joda: Duration}
+   * @returns {TimingItemStateOperation} the trigger config
    */
   for (timespan) {
-    return new operations.TimingItemStateOperation(this, timespan);
+    return this.triggerBuilder._setTrigger(new TimingItemStateOperation(this, timespan));
   }
 
   /** @private */
@@ -453,6 +455,83 @@ class ItemTriggerConfig extends TriggerConf {
       };
     } else {
       return null;
+    }
+  }
+}
+
+/**
+ * Item based trigger that only fires the rule once the Item has stayed in the target state for a given timespan
+ *
+ * @memberof TriggerBuilder
+ * @extends TriggerConf
+ * @hideconstructor
+ */
+class TimingItemStateOperation extends TriggerConf {
+  constructor (itemChangedTriggerConfig, duration) {
+    super(itemChangedTriggerConfig.triggerBuilder);
+    if (itemChangedTriggerConfig.op_type !== 'changed') {
+      throw Error('.for(..) only available for .changed()');
+    }
+    if (typeof itemChangedTriggerConfig.to_value === 'undefined') {
+      throw Error('Must specify item state value to wait for!');
+    }
+
+    /** @private */
+    this.itemChangedTriggerConfig = itemChangedTriggerConfig;
+    /** @private */
+    this.duration = duration;
+    /** @private */
+    if (typeof duration === 'number') {
+      this.durationMs = duration;
+    } else if (typeof duration.toMillis === 'function') {
+      this.durationMs = duration.toMillis();
+    } else {
+      this.durationMs = time.Duration.parse(duration).toMillis();
+    }
+  }
+
+  /** @private */
+  _complete () {
+    return this.itemChangedTriggerConfig._complete();
+  }
+
+  /** @private */
+  describe (compact) {
+    return this.itemChangedTriggerConfig.describe(compact) + ` for ${this.duration}`;
+  }
+
+  /** @private */
+  _toOHTriggers () {
+    // register for all changes as we need to know when the Item changes away from the target state
+    if (this.itemChangedTriggerConfig.type === 'memberOf') {
+      return [triggers.GroupStateChangeTrigger(this.itemChangedTriggerConfig.item_name)];
+    } else {
+      return [triggers.ItemStateChangeTrigger(this.itemChangedTriggerConfig.item_name)];
+    }
+  }
+
+  /** @private */
+  _executeHook () {
+    const triggerConfig = this.itemChangedTriggerConfig;
+    return (next, args) => {
+      if (args.newState === triggerConfig.to_value &&
+          (typeof triggerConfig.from_value === 'undefined' || args.oldState === triggerConfig.from_value)) {
+        this._startWait(() => next(args));
+      } else {
+        this._cancelWait();
+      }
+    };
+  }
+
+  /** @private */
+  _startWait (next) {
+    this.currentWait = setTimeout(next, this.durationMs);
+  }
+
+  /** @private */
+  _cancelWait () {
+    if (this.currentWait) {
+      clearTimeout(this.currentWait);
     }
   }
 }
@@ -686,6 +765,7 @@ module.exports = {
   CronTriggerConfig,
   ChannelTriggerConfig,
   ItemTriggerConfig,
+  TimingItemStateOperation,
   ThingTriggerConfig,
   SystemTriggerConfig,
   TriggerBuilder

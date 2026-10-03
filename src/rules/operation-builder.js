@@ -1,4 +1,3 @@
-const time = require('@js-joda/core'); // standard JS-Joda is enough as we only parse durations
 const items = require('../items/items');
 
 /**
@@ -417,70 +416,8 @@ class ToggleOperation extends OperationConfig {
   }
 }
 
-/**
- * Timing Item state
- *
- * @memberof OperationBuilder
- * @extends OperationConfig
- * @hideconstructor
- */
-class TimingItemStateOperation extends OperationConfig {
-  constructor (operationBuilder, itemChangedTriggerConfig, duration) {
-    super(operationBuilder);
-    if (typeof itemChangedTriggerConfig.to_value === 'undefined') {
-      throw Error('Must specify item state value to wait for!');
-    }
-
-    /** @private */
-    this.item_changed_trigger_config = itemChangedTriggerConfig;
-    /** @private */
-    this.duration_ms = (typeof duration === 'number' ? duration : time.Duration.parse(duration).toMillis());
-
-    /** @private */
-    this._complete = itemChangedTriggerConfig._complete;
-    /** @private */
-    this.describe = () => itemChangedTriggerConfig.describe() + ' for ' + duration;
-  }
-
-  /** @private */
-  _toOHTriggers () {
-    // each time we're triggered, set a callback.
-    // If the item changes to something else, cancel the callback.
-    // If the callback executes, run the operation
-
-    // register for all changes as we need to know when it changes away
-    switch (this.op_type) {
-      case 'changed':
-        return [triggers.ChangedEventTrigger(this.item_name)]; // eslint-disable-line no-undef
-      default:
-        throw Error('Unknown operation type: ' + this.op_type);
-    }
-  }
-
-  /** @private */
-  _executeHook (next) {
-    if (items.get(this.item_changed_trigger_config.item_name).toString() === this.item_changed_trigger_config.to_value) {
-      this._startWait(next);
-    } else {
-      this._cancelWait();
-    }
-  }
-
-  /** @private */
-  _startWait (next) {
-    this.current_wait = setTimeout(next, this.duration_ms);
-  }
-
-  _cancelWait () {
-    if (this.current_wait) {
-      clearTimeout(this.current_wait);
-    }
-  }
-}
-
 module.exports = {
   SendCommandOrUpdateOperation,
-  TimingItemStateOperation,
   ToggleOperation,
   CopyStateOperation,
   OperationBuilder

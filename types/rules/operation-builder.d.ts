@@ -41,32 +41,6 @@ export class SendCommandOrUpdateOperation extends OperationConfig {
     private describe;
 }
 /**
- * Timing Item state
- *
- * @memberof OperationBuilder
- * @extends OperationConfig
- * @hideconstructor
- */
-export class TimingItemStateOperation extends OperationConfig {
-    constructor(operationBuilder: any, itemChangedTriggerConfig: any, duration: any);
-    /** @private */
-    private item_changed_trigger_config;
-    /** @private */
-    private duration_ms;
-    /** @private */
-    private _complete;
-    /** @private */
-    private describe;
-    /** @private */
-    private _toOHTriggers;
-    /** @private */
-    private _executeHook;
-    /** @private */
-    private _startWait;
-    current_wait: NodeJS.Timeout | undefined;
-    _cancelWait(): void;
-}
-/**
  * Toggles the state of an item
  *
  * @memberof OperationBuilder
@@ -274,6 +248,5 @@ declare class OperationConfig {
     build(name?: string, description?: string, tags?: Array<string>, id?: string): void;
 }
 import items = require("../items/items");
-import time = require("@js-joda/core");
 export {};
 //# sourceMappingURL=operation-builder.d.ts.map
