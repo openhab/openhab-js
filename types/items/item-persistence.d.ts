@@ -46,7 +46,7 @@ declare class ItemPersistence {
      */
     persist(serviceId?: string | undefined): void;
     /**
-     * Persists a given state for the item.
+     * Persists a given state at a given time for the item.
      *
      * ```js
      * // Tell persistence to store the state 'ON' at 2021-01-01 00:00:00
@@ -62,7 +62,7 @@ declare class ItemPersistence {
      */
     persist(timestamp: (time.ZonedDateTime | Date), state: string | number | time.ZonedDateTime | Quantity | HostState, serviceId?: string | undefined): void;
     /**
-     * Persists a series of states for the item.
+     * Persists a time series for the item.
      *
      * ```js
      * items.MyItem.persistence.persist(timeSeries);

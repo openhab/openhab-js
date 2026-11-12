@@ -192,7 +192,7 @@ class ItemPersistence {
    * @returns {void}
   */
   /**
-   * Persists a given state for the item.
+   * Persists a given state at a given time for the item.
    *
    * ```js
    * // Tell persistence to store the state 'ON' at 2021-01-01 00:00:00
@@ -207,7 +207,7 @@ class ItemPersistence {
    * @returns {void}
    */
   /**
-   * Persists a series of states for the item.
+   * Persists a time series for the item.
    *
    * ```js
    * items.MyItem.persistence.persist(timeSeries);
