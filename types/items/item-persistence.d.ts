@@ -24,25 +24,15 @@ declare class ItemPersistence {
     constructor(rawItem: any);
     rawItem: any;
     /**
-     * Persists a state of a given Item.
+     * Persists the current item state.
      *
-     * There are six ways to use this method:
      * ```js
-     * // Tell persistence to store the current Item state
      * items.MyItem.persistence.persist();
      * items.MyItem.persistence.persist('influxdb'); // using the InfluxDB persistence service
-     *
-     * // Tell persistence to store the state 'ON' at 2021-01-01 00:00:00
-     * items.MyItem.persistence.persist(time.toZDT('2021-01-01T00:00:00'), 'ON');
-     * items.MyItem.persistence.persist(time.toZDT('2021-01-01T00:00:00'), 'ON', 'influxdb'); // using the InfluxDB persistence service
-     *
-     * // Tell persistence to store a TimeSeries
-     * items.MyItem.persistence.persist(timeSeries);
-     * items.MyItem.persistence.persist(timeSeries, 'influxdb'); // using the InfluxDB persistence service
      * ```
      *
      * **Note:** The persistence service will store the state asynchronously in the background, this method will return immediately.
-     * When storing the current state, this has the side effect, that if the Item state changes shortly the method call, the new state will be persisted.
+     * When storing the current state, this has the side effect, that if the Item state changes shortly after the method call, the new state will be persisted.
      * To work around that side effect, you might add `java.lang.Thread.sleep` to your code:
      * ```js
      * items.MyItem.persistence.persist(); // Tell persistence to store the current Item state
@@ -50,12 +40,41 @@ declare class ItemPersistence {
      * items.MyItem.postUpdate(0); // Now set the Item state to a new value
      * ```
      *
-     * @param {(time.ZonedDateTime | Date)} [timestamp] the date for the item state to be stored
-     * @param {string|number|time.ZonedDateTime|Quantity|HostState} [state] the state to be stored
-     * @param {items.TimeSeries} [timeSeries] optional TimeSeries to be stored
+     * @overload
      * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
+     * @returns {void}
      */
-    persist(timestamp?: (time.ZonedDateTime | Date), state?: string | number | time.ZonedDateTime | Quantity | HostState, timeSeries?: items.TimeSeries, serviceId?: string, ...args: any[]): void;
+    persist(serviceId?: string | undefined): void;
+    /**
+     * Persists a given state at a given time for the item.
+     *
+     * ```js
+     * // Tell persistence to store the state 'ON' at 2021-01-01 00:00:00
+     * items.MyItem.persistence.persist(time.toZDT('2021-01-01T00:00:00'), 'ON');
+     * items.MyItem.persistence.persist(time.toZDT('2021-01-01T00:00:00'), 'ON', 'influxdb'); // using the InfluxDB persistence service
+     * ```
+     *
+     * @overload
+     * @param {(time.ZonedDateTime | Date)} timestamp the date for the item state to be stored
+     * @param {string|number|time.ZonedDateTime|Quantity|HostState} state the state to be stored
+     * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
+     * @returns {void}
+     */
+    persist(timestamp: (time.ZonedDateTime | Date), state: string | number | time.ZonedDateTime | Quantity | HostState, serviceId?: string | undefined): void;
+    /**
+     * Persists a time series for the item.
+     *
+     * ```js
+     * items.MyItem.persistence.persist(timeSeries);
+     * items.MyItem.persistence.persist(timeSeries, 'influxdb'); // using the InfluxDB persistence service
+     * ```
+     *
+     * @overload
+     * @param {items.TimeSeries} timeSeries the TimeSeries to be stored
+     * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
+     * @returns {void}
+     */
+    persist(timeSeries: items.TimeSeries, serviceId?: string | undefined): void;
     /**
      * Retrieves the persisted state for a given Item at a certain point in time.
      *

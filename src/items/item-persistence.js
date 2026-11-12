@@ -171,6 +171,55 @@ class ItemPersistence {
   }
 
   /**
+   * Persists the current item state.
+   *
+   * ```js
+   * items.MyItem.persistence.persist();
+   * items.MyItem.persistence.persist('influxdb'); // using the InfluxDB persistence service
+   * ```
+   *
+   * **Note:** The persistence service will store the state asynchronously in the background, this method will return immediately.
+   * When storing the current state, this has the side effect, that if the Item state changes shortly after the method call, the new state will be persisted.
+   * To work around that side effect, you might add `java.lang.Thread.sleep` to your code:
+   * ```js
+   * items.MyItem.persistence.persist(); // Tell persistence to store the current Item state
+   * java.lang.Thread.sleep(100); // Wait 100 ms to make sure persistence has enough time to store the current Item state
+   * items.MyItem.postUpdate(0); // Now set the Item state to a new value
+   * ```
+   *
+   * @overload
+   * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
+   * @returns {void}
+  */
+  /**
+   * Persists a given state at a given time for the item.
+   *
+   * ```js
+   * // Tell persistence to store the state 'ON' at 2021-01-01 00:00:00
+   * items.MyItem.persistence.persist(time.toZDT('2021-01-01T00:00:00'), 'ON');
+   * items.MyItem.persistence.persist(time.toZDT('2021-01-01T00:00:00'), 'ON', 'influxdb'); // using the InfluxDB persistence service
+   * ```
+   *
+   * @overload
+   * @param {(time.ZonedDateTime | Date)} timestamp the date for the item state to be stored
+   * @param {string|number|time.ZonedDateTime|Quantity|HostState} state the state to be stored
+   * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
+   * @returns {void}
+   */
+  /**
+   * Persists a time series for the item.
+   *
+   * ```js
+   * items.MyItem.persistence.persist(timeSeries);
+   * items.MyItem.persistence.persist(timeSeries, 'influxdb'); // using the InfluxDB persistence service
+   * ```
+   *
+   * @overload
+   * @param {items.TimeSeries} timeSeries the TimeSeries to be stored
+   * @param {string} [serviceId] optional persistence service ID, if omitted, the default persistence service will be used
+   * @returns {void}
+  */
+  /**
    * Persists a state of a given Item.
    *
    * There are six ways to use this method:
@@ -189,7 +238,7 @@ class ItemPersistence {
    * ```
    *
    * **Note:** The persistence service will store the state asynchronously in the background, this method will return immediately.
-   * When storing the current state, this has the side effect, that if the Item state changes shortly the method call, the new state will be persisted.
+   * When storing the current state, this has the side effect, that if the Item state changes shortly after the method call, the new state will be persisted.
    * To work around that side effect, you might add `java.lang.Thread.sleep` to your code:
    * ```js
    * items.MyItem.persistence.persist(); // Tell persistence to store the current Item state
